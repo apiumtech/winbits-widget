@@ -1,4 +1,4 @@
-var Winbits = {};
+var Winbits = { extraScriptLoaded: false };
 
 (function() {
   // Localize jQuery variable
@@ -32,6 +32,7 @@ var Winbits = {};
     // Restore $ and window.jQuery to their previous values and store the
     // new jQuery in our local jQuery variable
     Winbits.jQuery = window.jQuery.noConflict(true);
+    jQuery = Winbits.jQuery;
     // Call our main function
     main();
   }
@@ -39,13 +40,11 @@ var Winbits = {};
   Winbits.winbitsReady = function () {
     // Check for presence of required DOM elements or other JS your widget depends on
     var $widgetContainer = Winbits.jQuery('#winbits-widget');
-    if ($widgetContainer.length > 0) {
+    if (Winbits.extraScriptLoaded && $widgetContainer.length > 0) {
       window.clearInterval(Winbits._readyInterval);
       var $ = Winbits.jQuery;
       /******* Load HTML *******/
-      var jsonpUrl = "http://api.winbits.com/widgets/widgets.js?callback=?&widget=winbits";
-      $.getJSON(jsonpUrl, function(data) {
-        $('#winbits-widget').html(data.html);
+      $('#winbits-widget').load('http://api.winbits.com/widgets/widgets/winbits.html', function() {
         jcf.customForms.replaceAll();
         initTouchNav();
         initCarousel();
@@ -66,9 +65,31 @@ var Winbits = {};
 
   /******** Our main function ********/
   function main() {
+    createExtraScriptTag();
+    var $head = Winbits.jQuery('head');
+    $head.append('<link rel="stylesheet" type="text/css" media="all" href="http://api.winbits.com/widgets/css/fancybox.css"/>');
+    $head.append('<link rel="stylesheet" type="text/css" media="all" href="http://api.winbits.com/widgets/css/all.css"/>');
+    $head.append('<!--[if lt IE 9]><link rel="stylesheet" type="text/css" href="http://api.winbits.com/widgets/css/ie.css" /><![endif]-->');
     Winbits._readyInterval = window.setInterval(function() {
       Winbits.winbitsReady();
     }, 50);
+  }
+
+  function createExtraScriptTag() {
+    var scriptTag = document.createElement('script');
+    scriptTag.setAttribute("type","text/javascript");
+    scriptTag.setAttribute("src", "http://api.winbits.com/widgets/js/jquery.main.js");
+    if (scriptTag.readyState) {
+      scriptTag.onreadystatechange = function () { // For old versions of IE
+        if (this.readyState == 'complete' || this.readyState == 'loaded') {
+          Winbits.extraScriptLoaded = true;
+        }
+      };
+    } else {
+      scriptTag.onload = function() { Winbits.extraScriptLoaded = true; };
+    }
+    // Try to find the head, otherwise default to the documentElement
+    (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(scriptTag);
   }
 
 })(); // We call our anonymous function immediately
