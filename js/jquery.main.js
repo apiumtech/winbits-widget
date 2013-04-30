@@ -1,5 +1,5 @@
 // page init
-jQuery(function(){
+/*jQuery(function(){
 	jcf.customForms.replaceAll();
 	initTouchNav();
 	initCarousel();
@@ -14,7 +14,7 @@ jQuery(function(){
 	initCounter();
 	initSlider();
 	initRadio();
-});
+});*/
 
 // init radio
 function initRadio(){

@@ -37,18 +37,30 @@ var Winbits = {};
   }
 
   Winbits.winbitsReady = function () {
+    console.log('Winbits Ready');
     // Check for presence of required DOM elements or other JS your widget depends on
     var $widgetContainer = Winbits.jQuery('#winbits-widget');
+    console.log($widgetContainer);
     if ($widgetContainer.length > 0) {
       window.clearInterval(Winbits._readyInterval);
       var $ = Winbits.jQuery;
-      /******* Load CSS *******/
-      var css_link = $("<link>", {
-        rel: "stylesheet",
-        type: "text/css",
-        href: "style.css"
+      $widgetContainer.load('html/winbits.html', function() {
+        $('body').append('<script type="text/javascript" src="js/jquery.main.js"></script>');
+         jcf.customForms.replaceAll();
+         initTouchNav();
+         initCarousel();
+         initCycleCarousel();
+         initDropDown();
+         initOpenClose();
+         initLightbox();
+         initPopups();
+         initInputs();
+         initAddClasses();
+         initValidation();
+         initCounter();
+         initSlider();
+         initRadio();
       });
-      css_link.appendTo('head');
 
       /******* Load HTML *******/
       /*var jsonpUrl = "http://al.smeuh.org/cgi-bin/webwidget_tutorial.py?callback=?";
@@ -60,7 +72,10 @@ var Winbits = {};
 
   /******** Our main function ********/
   function main() {
-    Winbits._readyInterval = window.setInterval(Winbits.winbitsReady, 500);
+    console.log('Setting interval');
+    Winbits._readyInterval = window.setInterval(function() {
+      Winbits.winbitsReady();
+    }, 50);
   }
 
 })(); // We call our anonymous function immediately
