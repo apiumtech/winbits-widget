@@ -1,4 +1,7 @@
 var Winbits = { extraScriptLoaded: false };
+Winbits.config = {
+  apiUrl: 'http://api.winbits.com/v1'
+};
 
 (function() {
   // Localize jQuery variable
@@ -59,6 +62,7 @@ var Winbits = { extraScriptLoaded: false };
         initCounter();
         initSlider();
         initRadio();
+        Winbits.init();
       });
     }
   };
@@ -89,7 +93,19 @@ var Winbits = { extraScriptLoaded: false };
       scriptTag.onload = function() { Winbits.extraScriptLoaded = true; };
     }
     // Try to find the head, otherwise default to the documentElement
-    (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(scriptTag);
+    var headTag = (document.getElementsByTagName("head")[0] || document.documentElement)
+    headTag.appendChild(scriptTag);
+    var jqueryFormPluginTag = document.createElement('script');
+    jqueryFormPluginTag.setAttribute("type","text/javascript");
+    jqueryFormPluginTag.setAttribute("src", "http://api.winbits.com/widgets/js/jquery.form.js");
+    // Try to find the head, otherwise default to the documentElement
+    headTag.appendChild(jqueryFormPluginTag);
   }
 
 })(); // We call our anonymous function immediately
+
+Winbits.init = function() {
+  $('#winbits-register-form').ajaxForm(
+
+  );
+}
