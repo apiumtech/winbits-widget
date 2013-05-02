@@ -584,7 +584,18 @@ Winbits.Forms.renderErrors = function ($, form, errors) {
     var fbLoginRedirect = function (response) {
       console.log("en fbLoginRedirect fbLoginRedirect: " );
       if (response.authResponse) {
-        window.location = 'http://localhost/login/facebook';
+        console.log("regreso de facebook")
+        var tokenFabook = response.authResponse.accessToken;
+        console.log("accessToken" + tokenFabook)
+//        window.location = 'http://localhost:8080/affiliation-api/loginFacebookToken';
+        FB.api('/me', function(me){
+          if (me.name) {
+            console.log("email::"+ me.email);
+            console.log("first_name:"+ me.first_name);
+            console.log("last_name:"+ me.last_name);
+          }
+        });
+
       }
     }
 
