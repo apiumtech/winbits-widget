@@ -5,7 +5,9 @@ var Winbits = Winbits || {};
 Winbits.extraScriptLoaded = false;
 Winbits.config = Winbits.config || {
   apiUrl: 'http://api.winbits.com/v1',
-  widgetsUrl: 'http://api.winbits.com/widgets'
+  widgetsUrl: 'http://api.winbits.com/widgets',
+  errorFormClass: 'error-form',
+  errorClass: 'error'
 };
 
 Winbits.$ = function(element) {
@@ -99,14 +101,11 @@ Winbits.expressLogin = function($) {
 };
 
 Winbits.initWidgets = function($) {
-  var $ = Winbits.jQuery;
   $('#winbits-register-form').submit(function(e) {
     e.preventDefault();
     var $form = $(this);
     var formData = { verticalId: 1 };
-    $.each($form.serializeArray(), function(i, f) {
-      formData[f.name] = f.value;
-    });
+    formData = Winbits.Forms.serializeForm($, $form, formData);
     $.ajax(Winbits.config.apiUrl + '/affiliation/register.json', {
       type: 'POST',
       contentType: 'application/json',
@@ -114,7 +113,10 @@ Winbits.initWidgets = function($) {
       data: JSON.stringify(formData),
       context: $form,
       beforeSend: function() {
-        return Winbits.Forms.validateForm(this);
+//        var errors =  Winbits.Forms.validateForm($, this);
+//        Winbits.Forms.renderErrors($, this, errors);
+//        return errors != undefined;
+        return Winbits.validateRegisterForm(this);
       },
       headers: { 'Accept-Language': 'es' },
       success: function(data) {
@@ -135,6 +137,44 @@ Winbits.initWidgets = function($) {
       }
     });
   });
+};
+
+Winbits.validateRegisterForm = function(form) {
+  var valid = true;
+  var $form = Winbits.$(form);
+  $form.removeClass(Winbits.config.errorFormClass);
+  var $email = $form.find('input[name=email]');
+  var email = ($email.val() || '').trim();
+  var $emailHolder = $email.parent();
+  $emailHolder.removeClass(Winbits.config.errorClass);
+  if (email.length === 0 || !Winbits.Validations.emailRegEx.test(email)) {
+    console.log('invalid email');
+    $form.addClass(Winbits.config.errorFormClass);
+    $emailHolder.addClass(Winbits.config.errorClass);
+    valid = false;
+  }
+  var $password = $form.find('input[name=password]');
+  var password = $password.val() || '';
+  var $passwordHolder = $password.parent();
+  $passwordHolder.removeClass(Winbits.config.errorClass);
+  if (password.length === 0) {
+    console.log('invalid password');
+    $form.addClass(Winbits.config.errorFormClass);
+    $passwordHolder.addClass(Winbits.config.errorClass);
+    valid = false;
+  }
+  var $passwordConfirm = $form.find('input[name=passwordConfirm]');
+  var passwordConfirm = $passwordConfirm.val() || '';
+  var $passwordConfirmHolder = $passwordConfirm.parent();
+  $passwordConfirmHolder.removeClass(Winbits.config.errorClass);
+  if (passwordConfirm.length === 0 || password !== passwordConfirm) {
+    console.log('invalid password confirm');
+    $form.addClass(Winbits.config.errorFormClass);
+    $passwordConfirmHolder.addClass(Winbits.config.errorClass);
+    valid = false;
+  }
+
+  return valid;
 };
 
 Winbits.Validations = Winbits.Validations || {};
@@ -166,27 +206,51 @@ Winbits.Validations.validateConfirmField = function(field) {
 };
 
 Winbits.Forms = Winbits.Forms || {};
-Winbits.Forms.validateForm = function(form) {
-  var $ = Winbits.jQuery;
+Winbits.Forms.serializeForm = function($, form, context){
+  var formData = context || {};
+  var $form = Winbits.$(form);
+  $.each($form.serializeArray(), function(i, f) {
+    formData[f.name] = f.value;
+  });
+  return formData;
+};
+
+Winbits.Forms.validateForm = function($, form) {
   var $form = Winbits.$(form);
   var $inputs = $form.find('input');
-  var valid = true;
-  $inputs.filter('.required').each(function(i, e) {
-    valid = Winbits.Validations.validateRequiredField(e);
-    return valid;
+  var errors = {};
+  $inputs.filter('.required').each(function(i, input) {
+    var $input = Winbits.$(input);
+    var name = $input.attr('name'); 
+    errors[name] = errors[name] || [];
+    if (Winbits.Validations.validateRequiredField($input)) {
+      errors[name].push('required');
+    }
   });
 
-  valid && $inputs.filter('.email').each(function(i, e) {
-    valid = Winbits.Validations.validateEmailField(e);
-    return valid;
+  $inputs.filter('.email').each(function(i, input) {
+    var $input = Winbits.$(input);
+    var name = $input.attr('name');
+    errors[name] = errors[name] || [];
+    if (Winbits.Validations.validateRequiredField($input)) {
+      errors[name].push('email');
+    }
   });
 
-  valid && $inputs.filter('[class*=confirm-]', '[class*= confirm-]').each(function(i, e) {
-    valid = Winbits.Validations.validateEmailField(e);
-    return valid;
+  $inputs.filter('[class*=confirm-]', '[class*= confirm-]').each(function(i, input) {
+    var $input = Winbits.$(input);
+    var name = $input.attr('name');
+    errors[name] = errors[name] || [];
+    if (Winbits.Validations.validateRequiredField($input)) {
+      errors[name].push('confirm');
+    }
   });
 
-  return valid;
+  return errors;
+};
+
+Winbits.Forms.renderErrors = function ($, form, errors) {
+
 };
 
 (function() {
