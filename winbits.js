@@ -59,6 +59,7 @@ Winbits.init = function() {
   Winbits.requestTokens($);
   Winbits.initWidgets($);
   Winbits.alertErrors($);
+  Winbits.loginFacebook($);
 };
 
 Winbits.alertErrors = function($) {
@@ -541,6 +542,57 @@ Winbits.Forms.renderErrors = function ($, form, errors) {
       Winbits.winbitsReady();
     }, 50);
   }
+
+  Winbits.loginFacebook = function ($) {
+    // Load the SDK asynchronously
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js";
+      fjs.parentNode.insertBefore(js, fjs);
+
+    }(document, 'script', 'facebook-jssdk'));
+
+
+    /* All Facebook functions should be included
+     in this function, or at least initiated from here */
+    window.fbAsyncInit = function() {
+      FB.init({appId: '417980001600791',
+        status: true,
+        cookie: true,
+        xfbml: true});
+
+      FB.api('/me', function(response) {
+        console.log(response.name);
+      });
+    };
+    (function() {
+      var e = document.createElement('script'); e.async = true;
+      e.src = 'http://connect.facebook.net/en_US/all.js';
+      document.getElementById('fb-root').appendChild(e);
+    }());
+
+
+
+    $(".btn-facebook").click(function () {
+   FB.login(fbLoginRedirect, {scope:'email,user_about_me'});
+      return false;
+    });
+
+
+    var fbLoginRedirect = function (response) {
+      console.log("en fbLoginRedirect fbLoginRedirect: " );
+      if (response.authResponse) {
+        window.location = 'http://localhost/login/facebook';
+      }
+    }
+
+  }
+
+
+
+
 
   function createExtraScriptTag() {
     var scriptTag = document.createElement('script');
