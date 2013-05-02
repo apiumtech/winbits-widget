@@ -5,7 +5,7 @@ var Winbits = Winbits || {};
 Winbits.extraScriptLoaded = false;
 Winbits.config = Winbits.config || {
   apiUrl: 'http://api.winbits.com/v1',
-  widgetsUrl: 'http://api.winbits.com/widgets',
+  baseUrl: 'http://api.winbits.com/widgets',
   errorFormClass: 'error-form',
   errorClass: 'error'
 };
@@ -116,6 +116,7 @@ Winbits.initWidgets = function($) {
 //        var errors =  Winbits.Forms.validateForm($, this);
 //        Winbits.Forms.renderErrors($, this, errors);
 //        return errors != undefined;
+        this.find('.form-errors').children().remove();
         return Winbits.validateRegisterForm(this);
       },
       headers: { 'Accept-Language': 'es' },
@@ -128,9 +129,8 @@ Winbits.initWidgets = function($) {
         }
       },
       error: function(xhr, textStatus, errorThrown) {
-        console.log('Request Error!');
         var error = JSON.parse(xhr.responseText);
-        alert(error.meta.message);
+        Winbits.renderRegisterFormErrors(this, error);
       },
       complete: function() {
         console.log('Request Completed!');
@@ -175,6 +175,13 @@ Winbits.validateRegisterForm = function(form) {
   }
 
   return valid;
+};
+
+Winbits.renderRegisterFormErrors = function(form, error) {
+  var $form = Winbits.$(form);
+  if (error.meta.code === 'AFER001') {
+    $form.find('.form-errors').append('<span class="error-text visible">' + error.meta.message + '</span>');
+  }
 };
 
 Winbits.Validations = Winbits.Validations || {};
@@ -297,7 +304,7 @@ Winbits.Forms.renderErrors = function ($, form, errors) {
       window.clearInterval(Winbits._readyInterval);
       var $ = Winbits.jQuery;
       /******* Load HTML *******/
-      $('#winbits-widget').load(Winbits.config.widgetsUrl + '/widgets/winbits.html', function() {
+      $('#winbits-widget').load(Winbits.config.baseUrl + '/widgets/winbits.html', function() {
         jcf.customForms.replaceAll();
         initTouchNav();
         initCarousel();
@@ -322,9 +329,9 @@ Winbits.Forms.renderErrors = function ($, form, errors) {
     Winbits.jQuery.extend(Winbits.config, Winbits.userConfig || {});
     createExtraScriptTag();
     var $head = Winbits.jQuery('head');
-    $head.append('<link rel="stylesheet" type="text/css" media="all" href="http://api.winbits.com/widgets/css/fancybox.css"/>');
-    $head.append('<link rel="stylesheet" type="text/css" media="all" href="http://api.winbits.com/widgets/css/all.css"/>');
-    $head.append('<!--[if lt IE 9]><link rel="stylesheet" type="text/css" href="http://api.winbits.com/widgets/css/ie.css" /><![endif]-->');
+    $head.append('<link rel="stylesheet" type="text/css" media="all" href="' + Winbits.config.baseUrl + '/css/fancybox.css"/>');
+    $head.append('<link rel="stylesheet" type="text/css" media="all" href="' + Winbits.config.baseUrl + '/css/all.css"/>');
+    $head.append('<!--[if lt IE 9]><link rel="stylesheet" type="text/css" href="' + Winbits.config.baseUrl + '/css/ie.css" /><![endif]-->');
     Winbits._readyInterval = window.setInterval(function() {
       Winbits.winbitsReady();
     }, 50);
