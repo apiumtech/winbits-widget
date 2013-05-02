@@ -30,6 +30,7 @@
       }
       var redirectUrl = params._wb_redirect_url;
       if (redirectUrl) {
+        console.log(['redirectUrl', redirectUrl]);
         window.location = redirectUrl;
       }
     })();
