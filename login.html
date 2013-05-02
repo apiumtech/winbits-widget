@@ -28,7 +28,7 @@
       if (apiToken) {
         setCookie('wb_api_token', apiToken);
       }
-      var redirectUrl = params._redirect_url;
+      var redirectUrl = params._wb_redirect_url;
       if (redirectUrl) {
         window.location.href = redirectUrl;
       }
