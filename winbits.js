@@ -7,7 +7,8 @@ Winbits.config = Winbits.config || {
   apiUrl: 'http://api.winbits.com/v1',
   baseUrl: 'http://api.winbits.com/widgets',
   errorFormClass: 'error-form',
-  errorClass: 'error'
+  errorClass: 'error',
+  verticalId: 1
 };
 
 Winbits.$ = function(element) {
@@ -136,7 +137,7 @@ Winbits.initRegisterWidget = function($) {
   $('#winbits-register-form').submit(function(e) {
     e.preventDefault();
     var $form = $(this);
-    var formData = { verticalId: 1 };
+    var formData = { verticalId: Winbits.config.verticalId };
     formData = Winbits.Forms.serializeForm($, $form, formData);
     $.ajax(Winbits.config.apiUrl + '/affiliation/register.json', {
       type: 'POST',
@@ -226,7 +227,7 @@ Winbits.initLoginWidget = function($) {
   $('#winbits-login-form').submit(function(e) {
     e.preventDefault();
     var $form = $(this);
-    var formData = { verticalId: 1 };
+    var formData = { verticalId: Winbits.config.verticalId };
     formData = Winbits.Forms.serializeForm($, $form, formData);
     $.ajax(Winbits.config.apiUrl + '/affiliation/login.json', {
       type: 'POST',
