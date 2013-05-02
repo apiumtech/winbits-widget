@@ -254,6 +254,7 @@ Winbits.initLoginWidget = function($) {
         console.log('Request Success!');
         console.log(['data', data]);
         Winbits.applyLogin($, data.response);
+        $.fancybox.close();
       },
       error: function(xhr, textStatus, errorThrown) {
         console.log(xhr);
