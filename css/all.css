@@ -2306,3 +2306,7 @@ div.v-carousel div.mask div.v-slide {height: 51px;}
 .visible {
   display: block !important;
 }
+
+.online {
+  display: none;
+}

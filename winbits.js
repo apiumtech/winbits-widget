@@ -14,11 +14,11 @@ Winbits.$ = function(element) {
   return element instanceof Winbits.jQuery ? element : Winbits.jQuery(element);
 };
 
-Winbits.setCookie = function setCookie(c_name,value,exdays) {
+Winbits.setCookie = function setCookie(c_name, value, exdays) {
   exdays = exdays || 7;
   var exdate = new Date();
   exdate.setDate(exdate.getDate() + exdays);
-  var c_value = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toUTCString());
+  var c_value = escape(value) + ((exdays === null) ? "" : "; expires=" + exdate.toUTCString());
   document.cookie=c_name + "=" + c_value;
 };
 
@@ -40,7 +40,18 @@ Winbits.getCookie = function getCookie(c_name) {
     c_value = unescape(c_value.substring(c_start,c_end));
   }
   return c_value;
-}
+};
+
+Winbits.getUrlParams = function() {
+  var vars = [], hash;
+  var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+  for(var i = 0; i < hashes.length; i++) {
+    hash = hashes[i].split('=');
+    vars.push(hash[0]);
+    vars[hash[0]] = hash[1];
+  }
+  return vars;
+};
 
 Winbits.init = function() {
   var $ = Winbits.jQuery;
@@ -75,6 +86,7 @@ Winbits.segregateTokens = function($, tokensDef) {
 };
 
 Winbits.expressLogin = function($) {
+  Winbits.checkRegisterConfirmation($);
   var apiToken = Winbits.getCookie(Winbits.tokensDef.apiToken.cookieName);
   if (apiToken) {
     $.ajax(Winbits.config.apiUrl + '/affiliation/express-login.json', {
@@ -83,11 +95,15 @@ Winbits.expressLogin = function($) {
       dataType: 'json',
       data: JSON.stringify({ apiToken: apiToken }),
       headers: { 'Accept-Language': 'es' },
-      xhrFields: { withCredentials: true },
+//      xhrFields: { withCredentials: true },
       context: $,
+      beforeSend: function(xhr) {
+        xhr.withCredentials = true;
+      },
       success: function(data) {
         console.log('express-login.json Success!');
         console.log(['data', data]);
+        Winbits.applyLogin($, data.response);
       },
       error: function(xhr, textStatus, errorThrown) {
         console.log('express-login.json Error!');
@@ -100,7 +116,23 @@ Winbits.expressLogin = function($) {
   }
 };
 
+Winbits.checkRegisterConfirmation = function($) {
+  var params = Winbits.getUrlParams();
+  console.log(['params', params]);
+  var apiToken = params._wb_api_token;
+  if (apiToken) {
+    console.log(['Setting apiToken', apiToken]);
+    Winbits.setCookie(Winbits.tokensDef.apiToken.cookieName, apiToken);
+  }
+};
+
 Winbits.initWidgets = function($) {
+  Winbits.initRegisterWidget($);
+  Winbits.initLoginWidget($);
+  Winbits.initLogout($);
+};
+
+Winbits.initRegisterWidget = function($) {
   $('#winbits-register-form').submit(function(e) {
     e.preventDefault();
     var $form = $(this);
@@ -188,6 +220,165 @@ Winbits.showRegisterConfirmation = function($) {
   setTimeout(function(){
     $('a[href=#winbits-register-confirm-popup]').click();
   }, 1000);
+};
+
+Winbits.initLoginWidget = function($) {
+  $('#winbits-login-form').submit(function(e) {
+    e.preventDefault();
+    var $form = $(this);
+    var formData = { verticalId: 1 };
+    formData = Winbits.Forms.serializeForm($, $form, formData);
+    $.ajax(Winbits.config.apiUrl + '/affiliation/login.json', {
+      type: 'POST',
+      contentType: 'application/json',
+      dataType: 'json',
+      data: JSON.stringify(formData),
+//      xhrFields: { withCredentials: true },
+      context: $form,
+      beforeSend: function(xhr) {
+        xhr.withCredentials = true;
+        this.find('.form-errors').children().remove();
+        return Winbits.validateLoginForm(this);
+      },
+      headers: { 'Accept-Language': 'es' },
+      success: function(data) {
+        console.log('Request Success!');
+        console.log(['data', data]);
+        Winbits.applyLogin($, data.response);
+      },
+      error: function(xhr, textStatus, errorThrown) {
+        console.log(xhr);
+        var error = JSON.parse(xhr.responseText);
+        Winbits.renderLoginFormErrors(this, error);
+      },
+      complete: function() {
+        console.log('Request Completed!');
+      }
+    });
+  });
+};
+
+Winbits.validateLoginForm = function(form) {
+  var valid = true;
+  var $form = Winbits.$(form);
+  $form.removeClass(Winbits.config.errorFormClass);
+  var $email = $form.find('input[name=email]');
+  var email = ($email.val() || '').trim();
+  var $emailHolder = $email.parent();
+  $emailHolder.removeClass(Winbits.config.errorClass);
+  if (email.length === 0 || !Winbits.Validations.emailRegEx.test(email)) {
+    console.log('invalid email');
+    $form.addClass(Winbits.config.errorFormClass);
+    $emailHolder.addClass(Winbits.config.errorClass);
+    valid = false;
+  }
+  var $password = $form.find('input[name=password]');
+  var password = $password.val() || '';
+  var $passwordHolder = $password.parent();
+  $passwordHolder.removeClass(Winbits.config.errorClass);
+  if (password.length === 0) {
+    console.log('invalid password');
+    $form.addClass(Winbits.config.errorFormClass);
+    $passwordHolder.addClass(Winbits.config.errorClass);
+    valid = false;
+  }
+
+  return valid;
+};
+
+Winbits.renderLoginFormErrors = function(form, error) {
+  var $ = Winbits.jQuery;
+  var $form = Winbits.$(form);
+  if (error.meta.code === 'AFER004') {
+    var $resendConfirmLink = $('<a href="' + error.response.resendConfirmUrl + '">Reenviar correo de confirmaci&oacute;n</a>');
+    $resendConfirmLink.click(function(e) {
+      e.preventDefault();
+      Winbits.resendConfirmLink($, e.target);
+    });
+    var $errorMessageHolder = $('<span class="error-text visible">' + error.meta.message + '. <span class="link-holder"></span></span>');
+    $errorMessageHolder.find('.link-holder').append($resendConfirmLink);
+    $form.find('.form-errors').append($errorMessageHolder);
+  } else {
+    $form.find('.form-errors').append('<span class="error-text visible">' + error.meta.message + '</span>');
+  }
+};
+
+Winbits.resendConfirmLink = function($, link) {
+  var $link = Winbits.$(link);
+  var url = $link.attr('href');
+  $.ajax(url, {
+    dataType: 'json',
+    headers: { 'Accept-Language': 'es' },
+    success: function(data) {
+      console.log('resendConfirm Success!');
+      console.log(['data', data]);
+      Winbits.showRegisterConfirmation($);
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      var error = JSON.parse(xhr.responseText);
+      alert(error.response.message);
+    },
+    complete: function() {
+      console.log('resendConfirm Completed!');
+    }
+  });
+};
+
+Winbits.applyLogin = function($, profile) {
+  Winbits.showCompleteProfileIfRegister($);
+  console.log('Logged In');
+  Winbits.setCookie(Winbits.tokensDef.apiToken.cookieName, profile.apiToken);
+  $('#winbits-login-link').text('Checkout');
+  var $mainLinks = $('#winbits-main-links');
+  $mainLinks.children('.offline').hide();
+  $mainLinks.children('.online').show();
+};
+
+Winbits.showCompleteProfileIfRegister = function($) {
+  var params = Winbits.getUrlParams();
+  var registerConfirmation = params._wb_register_confirm;
+  if (registerConfirmation) {
+    $('a[href=#winbits-complete-profile-popup]').click();
+  }
+};
+
+Winbits.initLogout = function($) {
+  $('#winbits-logout-link').click(function(e) {
+    e.preventDefault();
+    $.ajax(Winbits.config.apiUrl + '/affiliation/logout.json', {
+      type: 'POST',
+      contentType: 'application/json',
+      dataType: 'json',
+      data: JSON.stringify(formData),
+//      xhrFields: { withCredentials: true },
+      beforeSend: function(xhr) {
+        xhr.withCredentials = true;
+      },
+      headers: { 'Accept-Language': 'es' },
+      success: function(data) {
+        console.log('logout.json Success!');
+        console.log(['data', data]);
+        Winbits.applyLogout($);
+      },
+      error: function(xhr, textStatus, errorThrown) {
+        console.log('logout.json Error!');
+        var error = JSON.parse(xhr.responseText);
+        alert(error.meta.message);
+      },
+      complete: function() {
+        console.log('logout.json Completed!');
+      }
+    });
+  });
+};
+
+Winbits.applyLogout = function($) {
+  console.log('Logging out');
+  Winbits.setCookie(Winbits.tokensDef.apiToken.cookieName, '');
+  $('#winbits-login-link').text('Log In');
+  var $mainLinks = $('#winbits-main-links');
+  $mainLinks.children('.offline').show();
+  $mainLinks.children('.online').hide();
 };
 
 Winbits.Validations = Winbits.Validations || {};
@@ -357,7 +548,7 @@ Winbits.Forms.renderErrors = function ($, form, errors) {
       scriptTag.onload = function() { Winbits.extraScriptLoaded = true; };
     }
     // Try to find the head, otherwise default to the documentElement
-    var headTag = (document.getElementsByTagName("head")[0] || document.documentElement)
+    var headTag = (document.getElementsByTagName("head")[0] || document.documentElement);
     headTag.appendChild(scriptTag);
   }
 
