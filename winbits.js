@@ -576,23 +576,17 @@ Winbits.Forms.renderErrors = function ($, form, errors) {
 
 
     $(".btn-facebook").click(function () {
-   FB.login(fbLoginRedirect, {scope:'email,user_about_me'});
+   FB.login(fbLoginRedirect, {scope:'email,user_about_me, user_birthday'});
       return false;
     });
 
 
     var fbLoginRedirect = function (response) {
-      console.log("en fbLoginRedirect fbLoginRedirect: " );
       if (response.authResponse) {
-        console.log("regreso de facebook")
-        var tokenFabook = response.authResponse.accessToken;
-        console.log("accessToken" + tokenFabook)
-//        window.location = 'http://localhost:8080/affiliation-api/loginFacebookToken';
+        var tokenFacebook = response.authResponse.accessToken;
         FB.api('/me', function(me){
           if (me.name) {
-            console.log("email::"+ me.email);
-            console.log("first_name:"+ me.first_name);
-            console.log("last_name:"+ me.last_name);
+            sendWinbitsFacebook(me, tokenFacebook);
           }
         });
 
@@ -601,7 +595,24 @@ Winbits.Forms.renderErrors = function ($, form, errors) {
 
   }
 
+   function sendWinbitsFacebook(me, tokenFacebook){
+     var myBirthdayDate = new Date(me.birthday);
+     var birthday =  myBirthdayDate.getDate()+"/"+ myBirthdayDate.getMonth() + "/"+myBirthdayDate.getFullYear();
+     $.get("http://localhost:8080/affiliation-api/facebook", {
+       name: me.first_name+" "+me.last_name,
+       email: me.email,
+       birthdate : birthday,
+       gender : me.gender,
+       verticalId : 1,
+       locale : me.locale,
+       facebookToken : tokenFacebook
+     })
+     .done(function(data) {
+        alert("Data Loaded: " + data);
+     });
 
+
+   }
 
 
 
