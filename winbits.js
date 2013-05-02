@@ -58,6 +58,14 @@ Winbits.init = function() {
   var $ = Winbits.jQuery;
   Winbits.requestTokens($);
   Winbits.initWidgets($);
+  Winbits.alertErrors($);
+};
+
+Winbits.alertErrors = function($) {
+  var params = Winbits.getUrlParams();
+  if (params._wb_error) {
+    alert(params._wb_error);
+  }
 };
 
 Winbits.requestTokens = function($) {
