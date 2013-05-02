@@ -390,6 +390,22 @@ Winbits.applyLogout = function($) {
   $mainLinks.children('.online').hide();
 };
 
+Winbits.resetLightBoxes = function($, scope) {
+  var $lightbox = $(scope.href);
+  $lightbox.find('form').each(function(i, form) {
+    console.log(['form', form]);
+    var $form = $(form);
+    $form.removeClass(Winbits.config.errorFormClass);
+    $form.find('.form-errors').children().remove();
+    $form.find('input[type=text], input[type=password]').each(function(j, input) {
+      var $input = $(input);
+      $input.parent().removeClass(Winbits.config.errorClass);
+      $input.val('');
+    });
+//    form.reset();
+  });
+};
+
 Winbits.Validations = Winbits.Validations || {};
 Winbits.Validations.emailRegEx = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 Winbits.Validations.validateRequiredField = function(field) {
