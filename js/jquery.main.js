@@ -167,7 +167,10 @@ function initLightbox() {
 						e.preventDefault();
 					});
 				}
-			}
+			},
+      onClosed: function() {
+        Winbits.resetLightBoxes(Winbits.jQuery, this);
+      }
 		});
 	});
 }

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <script type="text/javascript">
+    (function() {
+      var setCookie = function setCookie(c_name, value, exdays) {
+        exdays = exdays || 7;
+        var exdate = new Date();
+        exdate.setDate(exdate.getDate() + exdays);
+        var c_value = escape(value) + ((exdays === null) ? "" : "; path=/; expires=" + exdate.toUTCString());
+        document.cookie=c_name + "=" + c_value;
+      };
+
+      var getUrlParams = function() {
+        var vars = [], hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for(var i = 0; i < hashes.length; i++) {
+          hash = hashes[i].split('=');
+          vars.push(hash[0]);
+          vars[hash[0]] = hash[1];
+        }
+        return vars;
+      };
+
+      var params = getUrlParams();
+      var apiToken = params._wb_api_token;
+      if (apiToken) {
+        setCookie('wb_api_token', apiToken);
+      }
+      var guestToken = params._wb_guest_token;
+      if (guestToken) {
+        setCookie('wb_guest_token', guestToken);
+      }
+      var redirectUrl = params._wb_redirect_url;
+      if (redirectUrl) {
+        window.location = decodeURIComponent(redirectUrl);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+</body>
+</html>

@@ -255,6 +255,7 @@ Winbits.initLoginWidget = function($) {
         console.log('Request Success!');
         console.log(['data', data]);
         Winbits.applyLogin($, data.response);
+        $.fancybox.close();
       },
       error: function(xhr, textStatus, errorThrown) {
         console.log(xhr);
@@ -339,6 +340,7 @@ Winbits.applyLogin = function($, profile) {
   console.log('Logged In');
   Winbits.setCookie(Winbits.tokensDef.apiToken.cookieName, profile.apiToken);
   $('#winbits-login-link').text('Checkout');
+  $('#winbits-bits-balance').text(profile.bitsBalance);
   var $mainLinks = $('#winbits-main-links');
   $mainLinks.children('.offline').hide();
   $mainLinks.children('.online').show();
@@ -388,6 +390,22 @@ Winbits.applyLogout = function($) {
   var $mainLinks = $('#winbits-main-links');
   $mainLinks.children('.offline').show();
   $mainLinks.children('.online').hide();
+};
+
+Winbits.resetLightBoxes = function($, scope) {
+  var $lightbox = $(scope.href);
+  $lightbox.find('form').each(function(i, form) {
+    console.log(['form', form]);
+    var $form = $(form);
+    $form.removeClass(Winbits.config.errorFormClass);
+    $form.find('.form-errors').children().remove();
+    $form.find('input[type=text], input[type=password]').each(function(j, input) {
+      var $input = $(input);
+      $input.parent().removeClass(Winbits.config.errorClass);
+      $input.val('');
+    });
+//    form.reset();
+  });
 };
 
 Winbits.Validations = Winbits.Validations || {};
