@@ -28,6 +28,10 @@
       if (apiToken) {
         setCookie('wb_api_token', apiToken);
       }
+      var guestToken = params._wb_guest_token;
+      if (guestToken) {
+        setCookie('wb_guest_token', guestToken);
+      }
       var redirectUrl = params._wb_redirect_url;
       if (redirectUrl) {
         window.location = decodeURIComponent(redirectUrl);
