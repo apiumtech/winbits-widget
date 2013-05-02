@@ -123,9 +123,8 @@ Winbits.initWidgets = function($) {
       success: function(data) {
         console.log('Request Success!');
         console.log(['data', data]);
-        if (data.response.active) {
-          // Transition to new state;
-          alert('Must show register message');
+        if (!data.response.active) {
+          Winbits.showRegisterConfirmation($);
         }
       },
       error: function(xhr, textStatus, errorThrown) {
@@ -182,6 +181,13 @@ Winbits.renderRegisterFormErrors = function(form, error) {
   if (error.meta.code === 'AFER001') {
     $form.find('.form-errors').append('<span class="error-text visible">' + error.meta.message + '</span>');
   }
+};
+
+Winbits.showRegisterConfirmation = function($) {
+  $.fancybox.close();
+  setTimeout(function(){
+    $('a[href=#winbits-register-confirm-popup]').click();
+  }, 1000);
 };
 
 Winbits.Validations = Winbits.Validations || {};
@@ -340,7 +346,7 @@ Winbits.Forms.renderErrors = function ($, form, errors) {
   function createExtraScriptTag() {
     var scriptTag = document.createElement('script');
     scriptTag.setAttribute("type","text/javascript");
-    scriptTag.setAttribute("src", "http://api.winbits.com/widgets/js/jquery.main.js");
+    scriptTag.setAttribute("src", Winbits.config.baseUrl + "/js/jquery.main.js");
     if (scriptTag.readyState) {
       scriptTag.onreadystatechange = function () { // For old versions of IE
         if (this.readyState == 'complete' || this.readyState == 'loaded') {
