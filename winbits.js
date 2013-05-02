@@ -349,7 +349,6 @@ Winbits.initLogout = function($) {
       type: 'POST',
       contentType: 'application/json',
       dataType: 'json',
-      data: JSON.stringify(formData),
 //      xhrFields: { withCredentials: true },
       beforeSend: function(xhr) {
         xhr.withCredentials = true;
