@@ -44,6 +44,10 @@ Winbits.getCookie = function getCookie(c_name) {
   return c_value;
 };
 
+Winbits.deleteCookie = function(name) {
+  document.cookie=c_name + '=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT';
+};
+
 Winbits.getUrlParams = function() {
   var vars = [], hash;
   var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
@@ -386,15 +390,11 @@ Winbits.initLogout = function($) {
       type: 'POST',
       contentType: 'application/json',
       dataType: 'json',
-//      xhrFields: { withCredentials: true },
-      beforeSend: function(xhr) {
-        xhr.withCredentials = true;
-      },
+      xhrFields: { withCredentials: true },
       headers: { 'Accept-Language': 'es' },
       success: function(data) {
         console.log('logout.json Success!');
-        console.log(['data', data]);
-        Winbits.applyLogout($);
+        Winbits.applyLogout($, data.response);
       },
       error: function(xhr, textStatus, errorThrown) {
         console.log('logout.json Error!');
@@ -408,9 +408,9 @@ Winbits.initLogout = function($) {
   });
 };
 
-Winbits.applyLogout = function($) {
-  console.log('Logging out');
+Winbits.applyLogout = function($, logoutData) {
   Winbits.setCookie(Winbits.tokensDef.apiToken.cookieName, '');
+  Winbits.createFrame($, logoutData.logoutRedirectUrl);
   $('#winbits-login-link').text('Log In');
   var $mainLinks = $('#winbits-main-links');
   $mainLinks.children('.offline').show();
