@@ -73,10 +73,7 @@ Winbits.requestTokens = function($) {
   $.ajax(Winbits.config.apiUrl + '/affiliation/tokens.json', {
     dataType: 'json',
     context: $,
-//    xhrFields: { withCredentials: true },
-    beforeSend: function(xhr) {
-      xhr.withCredentials = true;
-    },
+    xhrFields: { withCredentials: true },
     success: function(data) {
       console.log('tokens.json Success!');
       console.log(['data', data]);
@@ -97,6 +94,7 @@ Winbits.segregateTokens = function($, tokensDef) {
   Winbits.setCookie(guestTokenDef.cookieName, guestTokenDef.value || '', guestTokenDef.expireDays);
   var apiTokenDef = tokensDef.apiToken;
   Winbits.setCookie(apiTokenDef.cookieName, apiTokenDef.value || '', apiTokenDef.expireDays);
+
   Winbits.tokensDef = tokensDef;
 };
 
@@ -137,11 +135,8 @@ Winbits.expressLogin = function($) {
       dataType: 'json',
       data: JSON.stringify({ apiToken: apiToken }),
       headers: { 'Accept-Language': 'es' },
-//      xhrFields: { withCredentials: true },
+      xhrFields: { withCredentials: true },
       context: $,
-      beforeSend: function(xhr) {
-        xhr.withCredentials = true;
-      },
       success: function(data) {
         console.log('express-login.json Success!');
         console.log(['data', data]);
@@ -187,9 +182,6 @@ Winbits.initRegisterWidget = function($) {
       data: JSON.stringify(formData),
       context: $form,
       beforeSend: function() {
-//        var errors =  Winbits.Forms.validateForm($, this);
-//        Winbits.Forms.renderErrors($, this, errors);
-//        return errors != undefined;
         this.find('.form-errors').children().remove();
         return Winbits.validateRegisterForm(this);
       },
@@ -275,10 +267,9 @@ Winbits.initLoginWidget = function($) {
       contentType: 'application/json',
       dataType: 'json',
       data: JSON.stringify(formData),
-//      xhrFields: { withCredentials: true },
+      xhrFields: { withCredentials: true },
       context: $form,
       beforeSend: function(xhr) {
-        xhr.withCredentials = true;
         this.find('.form-errors').children().remove();
         return Winbits.validateLoginForm(this);
       },
