@@ -6,6 +6,7 @@ Winbits.extraScriptLoaded = false;
 Winbits.config = Winbits.config || {
   apiUrl: 'http://api.winbits.com/v1',
   baseUrl: 'http://api.winbits.com/widgets',
+  loginRedirectUrl: 'http://api.winbits.com/widgets/login.html',
   errorFormClass: 'error-form',
   errorClass: 'error',
   verticalId: 1
@@ -19,7 +20,7 @@ Winbits.setCookie = function setCookie(c_name, value, exdays) {
   exdays = exdays || 7;
   var exdate = new Date();
   exdate.setDate(exdate.getDate() + exdays);
-  var c_value = escape(value) + ((exdays === null) ? "" : "; expires=" + exdate.toUTCString());
+  var c_value = escape(value) + ((exdays === null) ? "" : "; path=/; expires=" + exdate.toUTCString());
   document.cookie=c_name + "=" + c_value;
 };
 
@@ -72,6 +73,10 @@ Winbits.requestTokens = function($) {
   $.ajax(Winbits.config.apiUrl + '/affiliation/tokens.json', {
     dataType: 'json',
     context: $,
+//    xhrFields: { withCredentials: true },
+    beforeSend: function(xhr) {
+      xhr.withCredentials = true;
+    },
     success: function(data) {
       console.log('tokens.json Success!');
       console.log(['data', data]);
@@ -87,11 +92,39 @@ Winbits.requestTokens = function($) {
 };
 
 Winbits.segregateTokens = function($, tokensDef) {
+  Winbits.storeTokens($, tokensDef);
   var guestTokenDef = tokensDef.guestToken;
   Winbits.setCookie(guestTokenDef.cookieName, guestTokenDef.value || '', guestTokenDef.expireDays);
   var apiTokenDef = tokensDef.apiToken;
   Winbits.setCookie(apiTokenDef.cookieName, apiTokenDef.value || '', apiTokenDef.expireDays);
   Winbits.tokensDef = tokensDef;
+};
+
+Winbits.storeTokens = function($, tokensDef) {
+  var tokens = [];
+  var guestToken = tokensDef.guestToken;
+  if (guestToken.value) {
+    tokens.push(['_wb_guest_token', guestToken.value].join('='));
+  }
+  var apiToken = tokensDef.apiToken;
+  if (apiToken.value) {
+    tokens.push(['_wb_api_token', apiToken.value].join('='));
+  }
+
+  if (tokens.length > 0) {
+    var tokensQueryString = tokens.join('&');
+    var storeCookiesUrl = Winbits.config.loginRedirectUrl + '?' + tokensQueryString;
+    Winbits.createFrame($, storeCookiesUrl);
+  }
+};
+
+Winbits.createFrame = function($, frameSrc) {
+  var $iframe = $('<iframe></iframe>');
+  $iframe.appendTo('#winbits-iframe-holder');
+  $iframe.attr('src', frameSrc);
+  $iframe.load(function(e) {
+    $(e.target).remove();
+  });
 };
 
 Winbits.expressLogin = function($) {
@@ -337,6 +370,8 @@ Winbits.resendConfirmLink = function($, link) {
 Winbits.applyLogin = function($, profile) {
   Winbits.showCompleteProfileIfRegister($);
   console.log('Logged In');
+  Winbits.tokensDef.apiToken.value = profile.apiToken;
+  Winbits.storeTokens($, Winbits.tokensDef);
   Winbits.setCookie(Winbits.tokensDef.apiToken.cookieName, profile.apiToken);
   $('#winbits-login-link').text('Checkout');
   $('#winbits-bits-balance').text(profile.bitsBalance);
