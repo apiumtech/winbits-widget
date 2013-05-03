@@ -570,10 +570,19 @@ Winbits.Forms.renderErrors = function ($, form, errors) {
         xfbml: true});
 
       FB.api('/me', function(response) {
-        console.log(response.name);
+        console.log("me1:" + response.name);
       });
       FB.getLoginStatus( function(response) {
-        console.log(response);
+        console.log("estado de conexion a FB : " + response.status);
+        console.log("estado de conexion a FB2 : " + response.authResponse);
+        console.log("estado de conexion a FB3 : " + response.authResponse.userID);
+        console.log("estado de conexion a FB4 : " + response.name);
+
+        FB.api('/me', function(response) {
+          console.log("me2:" + response.name);
+          console.log("me2E:" + response.email);
+        });
+
       }, true);
 
 
