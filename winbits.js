@@ -59,8 +59,7 @@ Winbits.init = function() {
   Winbits.requestTokens($);
   Winbits.initWidgets($);
   Winbits.alertErrors($);
-  Winbits.loadFacebook($);
-  Winbits.checkIdLogedFacebook($);
+  Winbits.loadFacebook();
   Winbits.loginFacebook($);
 };
 
@@ -563,21 +562,7 @@ Winbits.Forms.renderErrors = function ($, form, errors) {
     }, 50);
   }
 
-  Winbits.loadFacebook = function ($) {
-    console.log("loadFacebook");
-    // Load the SDK asynchronously
-    (function(d, s, id){
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_US/all.js";
-      fjs.parentNode.insertBefore(js, fjs);
-
-    }(document, 'script', 'facebook-jssdk'));
-
-
-    /* All Facebook functions should be included
-     in this function, or at least initiated from here */
+  Winbits.loadFacebook = function () {
     window.fbAsyncInit = function() {
       FB.init({appId: '417980001600791',
         status: true,
@@ -587,6 +572,12 @@ Winbits.Forms.renderErrors = function ($, form, errors) {
       FB.api('/me', function(response) {
         console.log(response.name);
       });
+      FB.getLoginStatus( function(response) {
+        console.log(response);
+      }, true);
+
+
+
     };
     (function() {
       var e = document.createElement('script'); e.async = true;
@@ -598,21 +589,11 @@ Winbits.Forms.renderErrors = function ($, form, errors) {
   }
 
 
-
-
-  Winbits.checkIdLogedFacebook = function ($) {
-    console.log("Checando si previamente estaba logeado en facebook");
-
-  }
-
   Winbits.loginFacebook = function ($) {
-
-
-
     $(".btn-facebook").click(function () {
-   FB.login(fbLoginRedirect, {scope:'email,user_about_me, user_birthday'});
-      return false;
-    });
+    FB.login(fbLoginRedirect, {scope:'email,user_about_me, user_birthday'});
+    return false;
+   });
 
 
     var fbLoginRedirect = function (response) {
