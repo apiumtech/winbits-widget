@@ -608,7 +608,9 @@ Winbits.Forms.renderErrors = function ($, form, errors) {
     var fbLoginRedirect = function (response) {
       if (response.authResponse) {
         var tokenFacebook = response.authResponse.accessToken;
+
         FB.api('/me', function(me){
+
           if (me.name) {
             sendWinbitsFacebook(me, tokenFacebook);
           }
@@ -632,7 +634,8 @@ Winbits.Forms.renderErrors = function ($, form, errors) {
        facebookToken : tokenFacebook
      })
      .done(function(data) {
-        alert("Data Loaded: " + data);
+           $.fancybox.close();
+//        alert("Data Loaded: " + data);
      });
 
 
