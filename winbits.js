@@ -64,6 +64,10 @@ Winbits.init = function() {
   Winbits.requestTokens($);
   Winbits.initWidgets($);
   Winbits.alertErrors($);
+  $('form.lightbox-message-form').submit(function(e) {
+    e.preventDefault();
+    $.fancybox.close();
+  });
 };
 
 Winbits.alertErrors = function($) {
