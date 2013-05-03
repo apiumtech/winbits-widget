@@ -59,6 +59,8 @@ Winbits.init = function() {
   Winbits.requestTokens($);
   Winbits.initWidgets($);
   Winbits.alertErrors($);
+  Winbits.loadFacebook($);
+  Winbits.checkIdLogedFacebook($);
   Winbits.loginFacebook($);
 };
 
@@ -561,7 +563,8 @@ Winbits.Forms.renderErrors = function ($, form, errors) {
     }, 50);
   }
 
-  Winbits.loginFacebook = function ($) {
+  Winbits.loadFacebook = function ($) {
+    console.log("loadFacebook");
     // Load the SDK asynchronously
     (function(d, s, id){
       var js, fjs = d.getElementsByTagName(s)[0];
@@ -590,6 +593,19 @@ Winbits.Forms.renderErrors = function ($, form, errors) {
       e.src = 'http://connect.facebook.net/en_US/all.js';
       document.getElementById('fb-root').appendChild(e);
     }());
+
+
+  }
+
+
+
+
+  Winbits.checkIdLogedFacebook = function ($) {
+    console.log("Checando si previamente estaba logeado en facebook");
+
+  }
+
+  Winbits.loginFacebook = function ($) {
 
 
 
