@@ -45,7 +45,7 @@ Winbits.getCookie = function getCookie(c_name) {
 };
 
 Winbits.deleteCookie = function(name) {
-  document.cookie=c_name + '=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT';
+  document.cookie=name + '=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT';
 };
 
 Winbits.getUrlParams = function() {
@@ -409,7 +409,7 @@ Winbits.initLogout = function($) {
 };
 
 Winbits.applyLogout = function($, logoutData) {
-  Winbits.setCookie(Winbits.tokensDef.apiToken.cookieName, '');
+  Winbits.deleteCookie(Winbits.tokensDef.apiToken.cookieName);
   Winbits.createFrame($, logoutData.logoutRedirectUrl);
   $('#winbits-login-link').text('Log In');
   var $mainLinks = $('#winbits-main-links');
