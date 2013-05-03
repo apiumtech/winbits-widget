@@ -374,6 +374,7 @@ Winbits.applyLogin = function($, profile) {
   Winbits.setCookie(Winbits.tokensDef.apiToken.cookieName, profile.apiToken);
   $('#winbits-login-link').text('Checkout');
   $('#winbits-bits-balance').text(profile.bitsBalance);
+  $('#winbits-email').text(profile.email);
   var $mainLinks = $('#winbits-main-links');
   $mainLinks.children('.offline').hide();
   $mainLinks.children('.online').show();
