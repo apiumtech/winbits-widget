@@ -68,6 +68,8 @@ Winbits.init = function() {
     e.preventDefault();
     $.fancybox.close();
   });
+  Winbits.loadFacebook();
+  Winbits.loginFacebook($);
 };
 
 Winbits.alertErrors = function($) {
@@ -102,7 +104,6 @@ Winbits.segregateTokens = function($, tokensDef) {
   Winbits.setCookie(guestTokenDef.cookieName, guestTokenDef.value || '', guestTokenDef.expireDays);
   var apiTokenDef = tokensDef.apiToken;
   Winbits.setCookie(apiTokenDef.cookieName, apiTokenDef.value || '', apiTokenDef.expireDays);
-
   Winbits.tokensDef = tokensDef;
 };
 
@@ -590,6 +591,87 @@ Winbits.Forms.renderErrors = function ($, form, errors) {
       Winbits.winbitsReady();
     }, 50);
   }
+
+  Winbits.loadFacebook = function () {
+    window.fbAsyncInit = function() {
+      FB.init({appId: '417980001600791',
+        status: true,
+        cookie: true,
+        xfbml: true});
+
+      FB.api('/me', function(response) {
+        console.log("me1:" + response.name);
+      });
+      FB.getLoginStatus( function(response) {
+        console.log("estado de conexion a FB : " + response.status);
+        console.log("estado de conexion a FB2 : " + response.authResponse);
+        console.log("estado de conexion a FB3 : " + response.authResponse.userID);
+        console.log("estado de conexion a FB4 : " + response.name);
+
+        FB.api('/me', function(response) {
+          console.log("me2:" + response.name);
+          console.log("me2E:" + response.email);
+        });
+
+      }, true);
+
+
+
+    };
+    (function() {
+      var e = document.createElement('script'); e.async = true;
+      e.src = 'http://connect.facebook.net/en_US/all.js';
+      document.getElementById('fb-root').appendChild(e);
+    }());
+
+
+  }
+
+
+  Winbits.loginFacebook = function ($) {
+    $(".btn-facebook").click(function () {
+    FB.login(fbLoginRedirect, {scope:'email,user_about_me, user_birthday'});
+    return false;
+   });
+
+
+    var fbLoginRedirect = function (response) {
+      if (response.authResponse) {
+        var tokenFacebook = response.authResponse.accessToken;
+
+        FB.api('/me', function(me){
+
+          if (me.name) {
+            sendWinbitsFacebook(me, tokenFacebook);
+          }
+        });
+
+      }
+    }
+
+  }
+
+   function sendWinbitsFacebook(me, tokenFacebook){
+     var myBirthdayDate = new Date(me.birthday);
+     var birthday =  myBirthdayDate.getDate()+"/"+ myBirthdayDate.getMonth() + "/"+myBirthdayDate.getFullYear();
+     $.get("http://localhost:8080/affiliation-api/facebook", {
+       name: me.first_name+" "+me.last_name,
+       email: me.email,
+       birthdate : birthday,
+       gender : me.gender,
+       verticalId : 1,
+       locale : me.locale,
+       facebookToken : tokenFacebook
+     })
+     .done(function(data) {
+           $.fancybox.close();
+//        alert("Data Loaded: " + data);
+     });
+
+
+   }
+
+
 
   function createExtraScriptTag() {
     var scriptTag = document.createElement('script');
