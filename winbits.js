@@ -494,6 +494,9 @@ Winbits.applyLogout = function ($, logoutData) {
   var $mainLinks = $('#winbits-main-links');
   $mainLinks.children('.offline').show();
   $mainLinks.children('.online').hide();
+  FB.logout(function(response) {
+    console.log(['Facebook logout', response]);
+  });
 };
 
 Winbits.resetLightBoxes = function ($, scope) {
