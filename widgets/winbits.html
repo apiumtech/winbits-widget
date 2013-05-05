@@ -161,16 +161,16 @@
         <div class="lightbox-aside">
           <span class="text">COMPLETA TU REGISTRO Y GANA BITS!</span>
           <p>Si completas tu registro con nosotros, obtendrás $50 bits que podras utilizar desde tu primera compra.</p>
-          <form action="#">
+          <form id="complete-profile-form" action="#">
             <fieldset>
-              <input type="text" value="Nombre" />
-              <input type="text" value="Apellido" />
+              <input name="firstName" type="text" value="Nombre" />
+              <input name="lastName" type="text" value="Apellido" />
               <div class="row">
                 <label for="field-011">Cumpleaños</label>
                 <div class="a-right">
-                  <input type="text" value="dd" class="short-field" id="field-011" />
-                  <input type="text" value="mm" class="short-field" />
-                  <input type="text" value="aa" class="short-field" />
+                  <input name="birthday.day" type="text" value="dd" class="short-field" id="field-011" />
+                  <input name="birthday.month" type="text" value="mm" class="short-field" />
+                  <input name="birthday.year" type="text" value="aa" class="short-field" />
                 </div>
               </div>
               <div class="row">
@@ -178,21 +178,21 @@
                 <div class="a-right radios">
                   <div class="radio-hold">
                     <input type="radio" name="genero" value="H" />
-                    <a href="#" class="radio-item">H</a>
+                    <a href="#" class="radio-item gender-male">H</a>
                   </div>
                   <div class="radio-hold">
                     <input type="radio" name="genero" value="M" />
-                    <a href="#" class="radio-item">M</a>
+                    <a href="#" class="radio-item gender-female">M</a>
                   </div>
                 </div>
               </div>
               <input type="text" value="Zip Code" />
               <div class="row">
-                <select>
+                <select name="zipCode">
                   <option value="Localidad ">Localidad </option>
                 </select>
               </div>
-              <input type="text" value="Teléfono" />
+              <input name="telephone" type="text" value="Teléfono" />
               <input type="submit" value="Guardar" />
               <p>Si así lo deseas, puedes completar tu registro despues haciendo click en lasección de MI CUENTA. <br /> <a href="#">Llenalo despues</a>.</p>
             </fieldset>
