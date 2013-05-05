@@ -203,8 +203,6 @@ Winbits.expressFacebookLogin = function ($) {
           },
           error: function (xhr, textStatus, errorThrown) {
             console.log('express-facebook-login.json Error!');
-            var error = JSON.parse(xhr.responseText);
-            alert(error.meta.message);
           }
         });
       }
