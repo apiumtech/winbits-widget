@@ -10,7 +10,7 @@
         <p>UNA SOLA CUENTA, UN SOLO CHEK OUTt, <br />Y EN TODOS GANAS WINBITS.</p>
         <div class="blocks">
           <div class="block">
-            <img src="images/ico-01.png" width="34" height="35" alt="image description" />
+            <img src="http://api.winbits.com/widgets/images/ico-01.png" width="34" height="35" alt="image description" />
             <span>COMPRA <br /> Y GANA WINBITS</span>
           </div>
           <div class="block block-02">
@@ -21,7 +21,7 @@
             <span>COMPARTE <br />Y GANA WINBITS</span>
           </div>
           <div class="block">
-            <img src="images/ico-02.png" width="58" height="35" alt="image description" />
+            <img src="http://api.winbits.com/widgets/images/ico-02.png" width="58" height="35" alt="image description" />
             <span>USA TUS WINBITS COMO <br />DINERO ELECTRÓNICO</span>
           </div>
         </div>
@@ -43,8 +43,8 @@
       <form action="#" class="lang-form">
         <fieldset>
           <select class="lang-select">
-            <option title="images/ico-usa.png" value="u.s.a.">u.s.a.</option>
-            <option title="images/ico-mex.png" value="mex">mex</option>
+            <option title="http://api.winbits.com/widgets/images/ico-usa.png" value="u.s.a.">u.s.a.</option>
+            <option title="http://api.winbits.com/widgets/images/ico-mex.png" value="mex">mex</option>
           </select>
         </fieldset>
       </form>
@@ -60,6 +60,7 @@
       <div class="login-block">
         <ul id="winbits-main-links">
           <li class="offline"><a href="#">Ver video</a></li>
+          <li id="winbits-email" class="online"></li>
           <li class="online"><span id="winbits-bits-balance"></span> bits</li>
           <li class="offline"><a href="#winbits-register-popup" class="lightbox-link">Registrate</a></li>
           <li class="online"><a id="winbits-logout-link" href="#">Logout</a></li>
@@ -147,7 +148,7 @@
   <div id="winbits-register-confirm-popup" class="lightbox lightbox-02">
     <div class="lightbox-content">
       <span class="text">Gracias por registrarte con nosotros. <br /> Un mensaje de confimación ha sido enviado <br /> a tu cuenta de correo.</span>
-      <form action="#">
+      <form class="lightbox-message-form" action="#">
         <fieldset>
           <input type="submit" value="Continuar" />
         </fieldset>
@@ -160,16 +161,16 @@
         <div class="lightbox-aside">
           <span class="text">COMPLETA TU REGISTRO Y GANA BITS!</span>
           <p>Si completas tu registro con nosotros, obtendrás $50 bits que podras utilizar desde tu primera compra.</p>
-          <form action="#">
+          <form id="complete-profile-form" action="#">
             <fieldset>
-              <input type="text" value="Nombre" />
-              <input type="text" value="Apellido" />
+              <input name="firstName" type="text" value="Nombre" />
+              <input name="lastName" type="text" value="Apellido" />
               <div class="row">
                 <label for="field-011">Cumpleaños</label>
                 <div class="a-right">
-                  <input type="text" value="dd" class="short-field" id="field-011" />
-                  <input type="text" value="mm" class="short-field" />
-                  <input type="text" value="aa" class="short-field" />
+                  <input name="birthday.day" type="text" value="dd" class="short-field" id="field-011" />
+                  <input name="birthday.month" type="text" value="mm" class="short-field" />
+                  <input name="birthday.year" type="text" value="aa" class="short-field" />
                 </div>
               </div>
               <div class="row">
@@ -177,21 +178,21 @@
                 <div class="a-right radios">
                   <div class="radio-hold">
                     <input type="radio" name="genero" value="H" />
-                    <a href="#" class="radio-item">H</a>
+                    <a href="#" class="radio-item gender-male">H</a>
                   </div>
                   <div class="radio-hold">
                     <input type="radio" name="genero" value="M" />
-                    <a href="#" class="radio-item">M</a>
+                    <a href="#" class="radio-item gender-female">M</a>
                   </div>
                 </div>
               </div>
               <input type="text" value="Zip Code" />
               <div class="row">
-                <select>
+                <select name="zipCode">
                   <option value="Localidad ">Localidad </option>
                 </select>
               </div>
-              <input type="text" value="Teléfono" />
+              <input name="telephone" type="text" value="Teléfono" />
               <input type="submit" value="Guardar" />
               <p>Si así lo deseas, puedes completar tu registro despues haciendo click en lasección de MI CUENTA. <br /> <a href="#">Llenalo despues</a>.</p>
             </fieldset>
@@ -210,3 +211,5 @@
     </div>
   </div>
 </div>
+
+<div id="winbits-iframe-holder" style="display: none;"></div>

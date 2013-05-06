@@ -4,15 +4,11 @@
   <title></title>
   <script type="text/javascript">
     (function() {
-      var setCookie = function setCookie(c_name, value, exdays) {
-        exdays = exdays || 7;
-        var exdate = new Date();
-        exdate.setDate(exdate.getDate() + exdays);
-        var c_value = escape(value) + ((exdays === null) ? "" : "; path=/; expires=" + exdate.toUTCString());
-        document.cookie=c_name + "=" + c_value;
+      var deleteCookie = function setCookie(c_name) {
+        document.cookie=c_name + '=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT';
       };
 
-      setCookie('wb_api_token', '', -1);
+      deleteCookie('wb_api_token');
     })();
   </script>
 </head>
