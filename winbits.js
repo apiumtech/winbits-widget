@@ -8,7 +8,9 @@ Winbits.config = Winbits.config || {
   baseUrl: 'http://api.winbits.com/widgets',
   errorFormClass: 'error-form',
   errorClass: 'error',
-  verticalId: 1
+  verticalId: 1,
+  appId:  '486640894740634'
+
 };
 
 Winbits.$ = function(element) {
@@ -562,12 +564,29 @@ Winbits.Forms.renderErrors = function ($, form, errors) {
     }, 50);
   }
 
+  function connect() {
+    console.log("Conectando con facebook");
+            top.location.href = 'https://www.facebook.com/dialog/oauth?client_id='+Winbits.config.appId+'&redirect_uri=http://some.com&scope=publish_stream'
+        }
+
+
   Winbits.loadFacebook = function () {
+    console.log("cargando facebook desde : " + window.location.host);
+    console.log("cargando facebook id : " + Winbits.config.appId);
+    console.log("Base URL : " + Winbits.config.baseUrl);
+    if(Winbits.config.baseUrl!="api.winbits.com"){
+      console.log("la url es diferente a la configurada para login");
+
+    }
+
+
     window.fbAsyncInit = function() {
-      FB.init({appId: '417980001600791',
+      FB.init({appId: Winbits.config.appId,
         status: true,
         cookie: true,
-        xfbml: true});
+        xfbml: true, 
+        oauth  : true
+      });
 
       FB.api('/me', function(response) {
         console.log("me1:" + response.name);
