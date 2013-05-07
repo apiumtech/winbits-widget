@@ -591,11 +591,11 @@ Winbits.Forms.renderErrors = function ($, form, errors) {
 };
 
 Winbits.loadFacebook = function () {
- /* window.fbAsyncInit = function () {
+  window.fbAsyncInit = function () {
     FB.init({appId: '486640894740634', status: true, cookie: true, xfbml: true});
     console.log('FB.init called.');
     Winbits.facebookLoaded = true;
-  };*/
+  };
   (function () {
     var e = document.createElement('script');
     e.async = true;
@@ -608,7 +608,7 @@ Winbits.loginFacebookHandler = function (response) {
   console.log("Se dio click");
   console.log(['FB.login respose', response]);
   if (response.authResponse) {
-    FB.api('/me', function (me) {
+     FB.api('/me', function (me) {
       console.log(['FB.me respose', me]);
       if (me.email) {
         Winbits.loginFacebook(me);
@@ -664,7 +664,7 @@ Winbits.loginFacebook = function(me) {
   Winbits.jQuery;
 
   // Async load facebook
-  Winbits.loadFacebook();
+//  Winbits.loadFacebook();
 
   /******** Load jQuery if not present *********/
   if (window.jQuery === undefined || window.jQuery.fn.jquery !== '1.8.3') {
