@@ -13,13 +13,59 @@
 
   </script>
   <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
-  <script type="text/javascript" src="js/porthole.js"></script>
+  <!--<script type="text/javascript" src="js/porthole.js"></script>
+  <script type="text/javascript">
+    var guestDomain = 'localhost';
+    window.onload=function(){
+
+      function onMessage1(messageEvent) {
+        Porthole.trace("onMessage1");
+        if (messageEvent.origin == "http://" + guestDomain) {
+          if (messageEvent.data["color"]) {
+            document.body.bgColor = messageEvent.data["color"];
+          }
+          if (messageEvent.data["expanded"]) {
+            el = document.getElementById('guestFrame1');
+            el.setAttribute('height', "250px");
+          } else {
+            el = document.getElementById('guestFrame1');
+            el.setAttribute('height', "150px");
+          }
+        }
+      }
+
+      Porthole.trace("onload");
+      // Create a proxy window to send to and receive message from the guest iframe
+//      windowProxy1 = new Porthole.WindowProxy('http://' + guestDomain + '/proxy.html', 'guestFrame1');
+      windowProxy1 = new Porthole.WindowProxy('http://' + guestDomain + '/framefb.html', 'guestFrame1');
+      windowProxy1.addEventListener(onMessage1);
+      windowProxy1.post({'color':'red'})
+    };
+  </script>-->
+  <script type="text/javascript">
+    function receiveInfoFromIFrame(data){
+      console.log("in receiveInfoFromIFrame")
+      console.log("data : " + data)
+
+    }
+    function checkIframe() {
+console.log("Documento listo demoDev");
+      var iFrameValue = $('#iframe').get(0).contentWindow.myLocalVariable;
+      console.log("valor : " + iFrameValue) ;
+    }
+    window.setTimeout(checkIframe, 5000);
+
+//    var iFrameValue = $('#iframe').get(0).contentWindow.myLocalVariable;
+    </script>
+
   <script type="text/javascript" src="winbits.js"></script>
+
 </head>
 <body>
 <div id="winbits-widget"></div>
 <div id="fb-root"></div>
-<iframe src ="framefb.html" style="visibility:hidden;display:none" >
+<!--<iframe id="guestFrame" name="guestFrame" src ="framefb.html" style="visibility:hidden;display:none" >-->
+<iframe id="iframe" name="iframe" src ="framefb.html"  >
   <p>Your browser does not support iframes.</p>
 </iframe>
 </body>

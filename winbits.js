@@ -183,7 +183,7 @@ Winbits.checkRegisterConfirmation = function ($) {
 };
 
 Winbits.expressFacebookLogin = function ($) {
-  Winbits.waitForFacebook(function($) {
+ /* Winbits.waitForFacebook(function($) {
     console.log('About to call FB.getLoginStatus.');
     FB.getLoginStatus(function(response) {
       console.log(['FB.getLoginStatus', response]);
@@ -207,7 +207,7 @@ Winbits.expressFacebookLogin = function ($) {
         });
       }
     }, true);
-  }, $);
+  }, $);*/
 };
 
 Winbits.initWidgets = function ($) {

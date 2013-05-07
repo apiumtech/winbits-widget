@@ -1,0 +1,93 @@
+<html>
+<head>
+  <!--<script type="text/javascript" src="js/porthole.js"></script>
+  <script type="text/javascript">
+    window.onload=function(){
+      console.log("Cargando de lado de frame");
+      Porthole.WindowProxyDispatcher.start();
+    };
+  </script>
+-->
+
+
+  <script type="text/javascript">
+
+    var myLocalVariable = "hello";
+
+    function myLocalFunction () {
+      return "hello";
+    }
+
+  </script>
+
+</head>
+<body>
+<div id="fb-root"></div>
+<!-- <script src="http://connect.facebook.net/en_US/all.js"></script>  -->
+<script type="text/javascript">
+  window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '417980001600791', // App ID
+    status     : true, // check login status
+    cookie     : true, // enable cookies to allow the server to access the session
+    xfbml      : true,  // parse XFBML
+    oauth  : true
+  });
+
+  // Here we subscribe to the auth.authResponseChange JavaScript event. This event is fired
+  // for any auth related change, such as login, logout or session refresh. This means that
+  // whenever someone who was previously logged out tries to log in again, the correct case below 
+  // will be handled. 
+  /*FB.Event.subscribe('auth.authResponseChange', function(response) {
+    // Here we specify what we do with the response anytime this event occurs. 
+    if (response.status === 'connected') {
+      console.log("Estdo conectado");
+      testAPI();
+    } else if (response.status === 'not_authorized') {
+      console.log("Estado No autorizado");
+      FB.login();
+    } else {
+      console.log("Estado Sin logear");
+      FB.login();
+    }
+  });*/
+    FB.login(function(response) {
+      console.log('Calling facebook from frame');
+      parent.receiveInfoFromIFrame("variablea");
+//      top
+    }, {scope: 'email,user_about_me,user_birthday'});
+  };
+
+  // Load the SDK asynchronously
+  
+  (function(d){
+   var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+   if (d.getElementById(id)) {return;}
+   js = d.createElement('script'); js.id = id; js.async = true;
+   js.src = "//connect.facebook.net/en_US/all.js";
+   ref.parentNode.insertBefore(js, ref);
+  }(document));
+
+
+  function testAPI() {
+    console.log('Checando informacion.... ');
+    FB.api('/me', function(response) {
+      console.log('Nombre, ' + response.name + '.');
+    }); 
+  }
+
+function estadoFacebook() {
+    console.log('Iniciando check status.');
+    FB.getLoginStatus(function(response) {
+      //console.log(['FB.getLoginStatus', response]);
+      //FB.login(Winbits.loginFacebookHandler, {scope: 'email,user_about_me,user_birthday'});
+      if (response.status == 'connected') {
+        console.log("estado conectado");
+      }
+    }, true);
+};
+
+</script>
+<!--<fb:login-button show-faces="true" width="200" max-rows="1">hhhhhhhhhhh</fb:login-button>-->
+</body>
+</html>
