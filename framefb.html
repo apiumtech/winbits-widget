@@ -90,7 +90,20 @@ function estadoFacebook() {
     }, true);
 };
 
+
+  function login(){
+    console.log("se hizo click en el boton de Login de FB") ;
+    FB.login(function(response){
+      if(response.authResponse){
+        $('#javascriptData').prepend("<p>Usuario Conectado: "+response.authResponse.userID+"</p>");
+      }else{
+        $('#javascriptData').prepend("<p>Usuario no conectado.</p>");
+      }
+    });
+  }
+
 </script>
 <!--<fb:login-button show-faces="true" width="200" max-rows="1">hhhhhhhhhhh</fb:login-button>-->
+<a id="botonLogin" href="#" onClick="login();">Accede</a>
 </body>
 </html>

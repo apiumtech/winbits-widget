@@ -51,6 +51,7 @@
     function checkIframe() {
 console.log("Documento listo demoDev");
       var iFrameValue = $('#iframe').get(0).contentWindow.myLocalVariable;
+      $('#iframe').get(0).contentWindow.botonLogin.click();
       console.log("valor : " + iFrameValue) ;
     }
     window.setTimeout(checkIframe, 5000);
