@@ -455,6 +455,7 @@ Winbits.showCompleteProfile = function ($, profile) {
 
 Winbits.initFacebookWidgets = function($) {
   $(".btn-facebook").click(function () {
+    console.log("click a boton de facebok");
     FB.login(Winbits.loginFacebookHandler, {scope: 'email,user_about_me,user_birthday'});
     return false;
   });
@@ -590,11 +591,11 @@ Winbits.Forms.renderErrors = function ($, form, errors) {
 };
 
 Winbits.loadFacebook = function () {
-  window.fbAsyncInit = function () {
-    FB.init({appId: '417980001600791', status: true, cookie: true, xfbml: true});
+ /* window.fbAsyncInit = function () {
+    FB.init({appId: '486640894740634', status: true, cookie: true, xfbml: true});
     console.log('FB.init called.');
     Winbits.facebookLoaded = true;
-  };
+  };*/
   (function () {
     var e = document.createElement('script');
     e.async = true;
@@ -604,6 +605,7 @@ Winbits.loadFacebook = function () {
 };
 
 Winbits.loginFacebookHandler = function (response) {
+  console.log("Se dio click");
   console.log(['FB.login respose', response]);
   if (response.authResponse) {
     FB.api('/me', function (me) {
