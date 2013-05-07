@@ -456,7 +456,7 @@ Winbits.showCompleteProfile = function ($, profile) {
 Winbits.initFacebookWidgets = function($) {
   $(".btn-facebook").click(function () {
     console.log("click a boton de facebok");
-    FB.login(Winbits.loginFacebookHandler, {scope: 'email,user_about_me,user_birthday'});
+  //  FB.login(Winbits.loginFacebookHandler, {scope: 'email,user_about_me,user_birthday'});
     return false;
   });
 };
