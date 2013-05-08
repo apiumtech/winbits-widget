@@ -14,6 +14,7 @@
   <script type="text/javascript" src="../../js/porthole.min.js"></script>
   <script type="text/javascript">
     (function() {
+      console.log("cargando framefb.html");
       window.fbAsyncInit = function () {
         FB.init({appId: '486640894740634', status: true, cookie: true, xfbml: true, oauth  : true });
         console.log('FB.init called.');
@@ -52,23 +53,18 @@
         login: function() {
           console.log("*********Haciendo login a Facebook-Feed")
           document.getElementById('fbl').click();
-        //  var contenido =document.getElementById('fbl').innerHTML;
-        //  document.getElementById('fbl').click();
-     //  console.log("lengitud : " +   document.getElementsByName("fbl").length);
-        //  top.location.href = "https://www.facebook.com/dialog/oauth?client_id=486640894740634&redirect_uri=http://api.winbits.com/widgets/demo.html";
-        /*  var propiedades={
-            method: 'oauth',
-            scope: 'email,user_birthday'
 
-          };
-          FB.ui(propiedades, function(response){
-            console.log("FB respondio : " + response);
-          });*/
-        /*  FB.login(function(response) {
-            windowProxy.post({action: 'login', params: [response]});
-          }, {scope: 'email,user_about_me,user_birthday'});*/
         },
         me: function() {
+          console.log("En ME")
+          FB.api('/me', function(response){
+            console.log("respondio informacion");
+            console.log("-"+response.id+", "+response.name, +", "+ response.email);
+            windowProxy.post({action: 'me', params: [response]});
+
+            		});
+
+
 
         }
       };
@@ -76,6 +72,9 @@
     function sendLoginFB (){
       console.log("en sendLoginFB");
       FB.login(function(response) {
+      console.log("response : " + response)
+      console.log("response : " + response.authResponse)
+
         windowProxy.post({action: 'login', params: [response]});
       }, {scope: 'email,user_about_me,user_birthday'});
 

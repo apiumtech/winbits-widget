@@ -14,17 +14,27 @@
   <script type="text/javascript">
     var windowProxy;
     window.onload=function(){
+      console.log("Cargando handlers en demo-dev");
       Winbits.Handlers = Winbits.Handlers || {};
       Winbits.Handlers.loginHandler = function (response) {
         console.log(['Handling login', this]);
         console.log(['Handling login', response]);
         if (response.authResponse) {
           console.log('Facebook login success!');
+          console.log("consultado info del usuario")
+          windowProxy.post({'action':'me'});
         } else {
           console.log('Facebook login failed!');
         }
       };
-      Winbits.Handlers.meHandler = function () {
+      Winbits.Handlers.meHandler = function (response) {
+        console.log("en meHandler");
+        console.log(['FB.me respose', response]);
+        console.log(['FB.me respose', response.email]);
+        if (response.email) {
+          Winbits.loginFacebook(response);
+        }
+
 
       };
     };
