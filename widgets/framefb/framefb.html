@@ -1,16 +1,24 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">-->
+<!doctype html>
+<!--<html xmlns:fb="http://www.facebook.com/2008/fbml">-->
+
+<html xmlns:fb="http://ogp.me/ns/fb#">
+
 <head>
+  <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=980" />
   <title>Vertical</title>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
   <script type="text/javascript" src="../../js/porthole.min.js"></script>
   <script type="text/javascript">
     (function() {
       window.fbAsyncInit = function () {
-        FB.init({appId: '486640894740634', status: true, cookie: true, xfbml: true});
+        FB.init({appId: '486640894740634', status: true, cookie: true, xfbml: true, oauth  : true });
         console.log('FB.init called.');
-        Winbits.facebookLoaded = true;
+//        Winbits.facebookLoaded = true;
+
       };
       (function () {
         var e = document.createElement('script');
@@ -19,8 +27,9 @@
         (document.getElementsByTagName('head')[0] || document.documentElement).appendChild(e);
       }());
 
-      var windowProxy;
       window.onload=function(){
+
+
         // Create a proxy window to send to and receive
         // messages from the iFrame
         windowProxy = new Porthole.WindowProxy(
@@ -41,17 +50,42 @@
 
       var Facebook = {
         login: function() {
-          FB.login(function(response) {
+          console.log("*********Haciendo login a Facebook-Feed")
+          document.getElementById('fbl').click();
+        //  var contenido =document.getElementById('fbl').innerHTML;
+        //  document.getElementById('fbl').click();
+     //  console.log("lengitud : " +   document.getElementsByName("fbl").length);
+        //  top.location.href = "https://www.facebook.com/dialog/oauth?client_id=486640894740634&redirect_uri=http://api.winbits.com/widgets/demo.html";
+        /*  var propiedades={
+            method: 'oauth',
+            scope: 'email,user_birthday'
+
+          };
+          FB.ui(propiedades, function(response){
+            console.log("FB respondio : " + response);
+          });*/
+        /*  FB.login(function(response) {
             windowProxy.post({action: 'login', params: [response]});
-          }, {scope: 'email,user_about_me,user_birthday'});
+          }, {scope: 'email,user_about_me,user_birthday'});*/
         },
         me: function() {
 
         }
       };
     })();
+    function sendLoginFB (){
+      console.log("en sendLoginFB");
+      FB.login(function(response) {
+        windowProxy.post({action: 'login', params: [response]});
+      }, {scope: 'email,user_about_me,user_birthday'});
+
+    }
   </script>
 </head>
 <body>
+<div id="fb-root">
+  <button id="facebook-btn" onclick="sendLoginFB()" style="background-color: #000088;color: #ffffff;">Login Facebook</button>
+  <!--<fb:login-button show-faces="true" width="149" max-rows="1" id="fbl" name="fbl">Login con Facebook</fb:login-button>-->
+</div>
 </body>
 </html>

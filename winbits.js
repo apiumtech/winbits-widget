@@ -723,6 +723,23 @@ Winbits.loginFacebook = function(me) {
         initSlider();
         initRadio();
         Winbits.init();
+        // Create a proxy window to send to and receive
+        // messages from the iFrame
+        window.windowProxy = new Porthole.WindowProxy(
+            'http://api.winbits.com/widgets/framefb/proxy.html', 'winbits-frame');
+
+        // Register an event handler to receive messages;
+        window.windowProxy.addEventListener(function (messageEvent) {
+          console.log(['Message from Winbits', messageEvent]);
+          var data = messageEvent.data;
+          var handlerFn = Winbits.Handlers[data.action + 'Handler'];
+          console.log(['Handler', handlerFn]);
+          if (handlerFn) {
+            handlerFn.apply(this, data.params);
+          } else {
+            console.log('Invalid action from Winbits');
+          }
+        });
       });
     }
   };

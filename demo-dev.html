@@ -14,24 +14,6 @@
   <script type="text/javascript">
     var windowProxy;
     window.onload=function(){
-      // Create a proxy window to send to and receive
-      // messages from the iFrame
-      windowProxy = new Porthole.WindowProxy(
-          'http://api.winbits.com/widgets/framefb/proxy.html', 'winbits-frame');
-
-      // Register an event handler to receive messages;
-      windowProxy.addEventListener(function (messageEvent) {
-        console.log(['Message from Winbits', messageEvent]);
-        var data = messageEvent.data;
-        var handlerFn = Winbits.Handlers[data.action + 'Handler'];
-        console.log(['Handler', handlerFn]);
-        if (handlerFn) {
-          handlerFn.apply(this, data.params);
-        } else {
-          console.log('Invalid action from Winbits');
-        }
-      });
-
       Winbits.Handlers = Winbits.Handlers || {};
       Winbits.Handlers.loginHandler = function (response) {
         console.log(['Handling login', this]);
@@ -50,7 +32,6 @@
 </head>
 <body>
 <div id="winbits-widget"></div>
-<iframe name="winbits-frame" src ="http://api.winbits.com/widgets/framefb/framefb.html" style="display:none;" >
-</iframe>
+<!--<iframe name="winbits-frame" src ="http://api.winbits.com/widgets/framefb/framefb.html" style="display:none;" >-->
 </body>
 </html>
