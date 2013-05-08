@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=980" />
+  <title>Vertical</title>
+  <script type="text/javascript" src="../../js/porthole.min.js"></script>
+  <script type="text/javascript">
+    (function() {
+      window.fbAsyncInit = function () {
+        FB.init({appId: '486640894740634', status: true, cookie: true, xfbml: true});
+        console.log('FB.init called.');
+        Winbits.facebookLoaded = true;
+      };
+      (function () {
+        var e = document.createElement('script');
+        e.async = true;
+        e.src = 'http://connect.facebook.net/en_US/all.js';
+        (document.getElementsByTagName('head')[0] || document.documentElement).appendChild(e);
+      }());
+
+      var windowProxy;
+      window.onload=function(){
+        // Create a proxy window to send to and receive
+        // messages from the iFrame
+        windowProxy = new Porthole.WindowProxy(
+            'http://www.looq.com/proxy.html');
+
+        // Register an event handler to receive messages;
+        windowProxy.addEventListener(function (messageEvent) {
+          console.log(['Message from LOOQ', messageEvent]);
+          var data = messageEvent.data;
+          var actionFn = Facebook[data.action];
+          if (actionFn) {
+            actionFn.apply(data.params);
+          } else {
+            console.log('Invalid action from Winbits');
+          }
+        });
+      };
+
+      var Facebook = {
+        login: function() {
+          FB.login(function(response) {
+            windowProxy.post({action: 'login', params: [response]});
+          }, {scope: 'email,user_about_me,user_birthday'});
+        },
+        me: function() {
+
+        }
+      };
+    })();
+  </script>
+</head>
+<body>
+</body>
+</html>

@@ -455,7 +455,8 @@ Winbits.showCompleteProfile = function ($, profile) {
 
 Winbits.initFacebookWidgets = function($) {
   $(".btn-facebook").click(function () {
-    console.log("click a boton de facebok");
+    console.log("click a boton de facebok1");
+    windowProxy.post({'action':'login'});
   //  FB.login(Winbits.loginFacebookHandler, {scope: 'email,user_about_me,user_birthday'});
     return false;
   });
@@ -664,7 +665,7 @@ Winbits.loginFacebook = function(me) {
   Winbits.jQuery;
 
   // Async load facebook
-//  Winbits.loadFacebook();
+ // Winbits.loadFacebook();
 
   /******** Load jQuery if not present *********/
   if (window.jQuery === undefined || window.jQuery.fn.jquery !== '1.8.3') {

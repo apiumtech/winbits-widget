@@ -4,10 +4,24 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=980" />
 	<title>Winbits</title>
-  <script type="text/javascript"> var Winbits = { userConfig: { verticalId: 1 } }; </script>
-  <script type="text/javascript" src="http://api.winbits.com/widgets/winbits.js"></script>
-</head>
+  <script type="text/javascript" src="js/porthole.min.js"></script>
+<script type="text/javascript">
+  var windowProxy;
+  window.onload=function(){
+    // Create a proxy window to send to and receive
+    // messages from the iFrame
+    windowProxy = new Porthole.WindowProxy(
+        'http://juan-solo/widgets/framefb/proxy.html', 'guestFrame');
+
+    // Register an event handler to receive messages;
+    windowProxy.addEventListener(function (messageEvent) {
+      console.log(["Message Event", messageEvent]);
+    });
+  };
+</script>
 <body>
 <div id="winbits-widget"></div>
+<iframe id="guestFrame" name="guestFrame" src="http://juan-solo/">
+</iframe>
 </body>
 </html>
