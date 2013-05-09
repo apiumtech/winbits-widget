@@ -29,10 +29,26 @@
       window.onload=function(){
 
 
+        //Obteniendo el parametro de la url
+        var getUrlParams = function() {
+          console.log("en params:" + window.location.href);
+          var vars = [], hash;
+          var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+          for(var i = 0; i < hashes.length; i++) {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+          }
+          return vars;
+        };
+        var params = getUrlParams();
+        var origin = params.origin;
+
         // Create a proxy window to send to and receive
         // messages from the iFrame
         windowProxy = new Porthole.WindowProxy(
-            'http://www.looq.com/proxy.html');
+            origin);
+//            'http://www.looq.com/proxy.html');
 
         // Register an event handler to receive messages;
         windowProxy.addEventListener(function (messageEvent) {

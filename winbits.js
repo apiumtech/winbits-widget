@@ -10,7 +10,8 @@ Winbits.config = Winbits.config || {
   loginRedirectUrl: 'http://api.winbits.com/widgets/login.html',
   errorFormClass: 'error-form',
   errorClass: 'error',
-  verticalId: 1
+  verticalId: 1,
+  verticalURLProxy : "-"
 };
 
 Winbits.$ = function (element) {
@@ -709,6 +710,13 @@ Winbits.loginFacebook = function(me) {
       var $ = Winbits.jQuery;
       /******* Load HTML *******/
       $('#winbits-widget').load(Winbits.config.baseUrl + '/widgets/winbits.html', function () {
+        console.log("vertical url : " + Winbits.config.verticalURLProxy);
+        console.log("src de frame1 : " + $('#winbits-frame').attr("src"));
+        var urlSrc=$('#winbits-frame').attr("src")+"?origin=" + Winbits.config.verticalURLProxy ;
+        console.log("urlSrc : " + urlSrc);
+        $('#winbits-frame').attr("src", urlSrc);
+        console.log("src de frame2 : " + $('#winbits-frame').attr("src"));
+
         jcf.customForms.replaceAll();
         initTouchNav();
         initCarousel();
