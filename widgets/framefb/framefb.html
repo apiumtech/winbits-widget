@@ -10,16 +10,14 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=980" />
   <title>Vertical</title>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
   <script type="text/javascript" src="../../js/porthole.min.js"></script>
   <script type="text/javascript">
+
+
+
     (function() {
-      console.log("cargando framefb.html");
       window.fbAsyncInit = function () {
         FB.init({appId: '486640894740634', status: true, cookie: true, xfbml: true, oauth  : true });
-        console.log('FB.init called.');
-//        Winbits.facebookLoaded = true;
-
       };
       (function () {
         var e = document.createElement('script');
@@ -51,30 +49,18 @@
 
       var Facebook = {
         login: function() {
-          console.log("*********Haciendo login a Facebook-Feed")
           document.getElementById('fbl').click();
 
         },
         me: function() {
-          console.log("En ME")
           FB.api('/me', function(response){
-            console.log("respondio informacion");
-            console.log("-"+response.id+", "+response.name, +", "+ response.email);
             windowProxy.post({action: 'me', params: [response]});
-
-            		});
-
-
-
+          });
         }
       };
     })();
     function sendLoginFB (){
-      console.log("en sendLoginFB");
       FB.login(function(response) {
-      console.log("response : " + response)
-      console.log("response : " + response.authResponse)
-
         windowProxy.post({action: 'login', params: [response]});
       }, {scope: 'email,user_about_me,user_birthday'});
 
@@ -84,7 +70,6 @@
 <body>
 <div id="fb-root">
   <button id="facebook-btn" onclick="sendLoginFB()" style="background-color: #000088;color: #ffffff;">Login Facebook</button>
-  <!--<fb:login-button show-faces="true" width="149" max-rows="1" id="fbl" name="fbl">Login con Facebook</fb:login-button>-->
 </div>
 </body>
 </html>
