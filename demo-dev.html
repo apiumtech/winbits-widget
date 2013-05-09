@@ -19,6 +19,7 @@
       Winbits.Handlers.loginHandler = function (response) {
         console.log(['Handling login', this]);
         console.log(['Handling login', response]);
+        console.log(['response.status', response.status]);
         if (response.authResponse) {
           console.log('Facebook login success!');
           console.log("consultado info del usuario")

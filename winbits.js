@@ -636,6 +636,7 @@ Winbits.loginFacebook = function(me) {
     facebookToken: me.id
   };
   $.fancybox.close();
+  console.log("Enviando info al back");
   $.ajax(Winbits.config.apiUrl + '/affiliation/facebook', {
     type: 'POST',
     contentType: 'application/json',
