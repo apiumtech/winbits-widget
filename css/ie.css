@@ -1,0 +1,8 @@
+*+html .media-holder .text-container{
+	margin-top: expression(this.parentNode.offsetHeight > this.offsetHeight ? ((this.parentNode.offsetHeight-this.offsetHeight)/2 + "px") : "0");
+	display:block;
+}
+*+html .media-holder .text-holder{display:block;}
+*+html .text-list li .text-holder{
+	margin-top: expression(this.parentNode.offsetHeight > this.offsetHeight ? ((this.parentNode.offsetHeight-this.offsetHeight)/2 + "px") : "0");
+}
