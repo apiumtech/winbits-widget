@@ -10,7 +10,8 @@ Winbits.config = Winbits.config || {
   loginRedirectUrl: 'http://api.winbits.com/widgets/login.html',
   errorFormClass: 'error-form',
   errorClass: 'error',
-  verticalId: 1
+  verticalId: 1,
+  verticalURLProxy : "-"
 };
 
 Winbits.$ = function (element) {
@@ -183,7 +184,7 @@ Winbits.checkRegisterConfirmation = function ($) {
 };
 
 Winbits.expressFacebookLogin = function ($) {
-  Winbits.waitForFacebook(function($) {
+ /* Winbits.waitForFacebook(function($) {
     console.log('About to call FB.getLoginStatus.');
     FB.getLoginStatus(function(response) {
       console.log(['FB.getLoginStatus', response]);
@@ -207,7 +208,7 @@ Winbits.expressFacebookLogin = function ($) {
         });
       }
     }, true);
-  }, $);
+  }, $);*/
 };
 
 Winbits.initWidgets = function ($) {
@@ -455,7 +456,9 @@ Winbits.showCompleteProfile = function ($, profile) {
 
 Winbits.initFacebookWidgets = function($) {
   $(".btn-facebook").click(function () {
-    FB.login(Winbits.loginFacebookHandler, {scope: 'email,user_about_me,user_birthday'});
+    console.log("click a boton de facebok1");
+    windowProxy.post({'action':'login'});
+  //  FB.login(Winbits.loginFacebookHandler, {scope: 'email,user_about_me,user_birthday'});
     return false;
   });
 };
@@ -591,7 +594,7 @@ Winbits.Forms.renderErrors = function ($, form, errors) {
 
 Winbits.loadFacebook = function () {
   window.fbAsyncInit = function () {
-    FB.init({appId: '417980001600791', status: true, cookie: true, xfbml: true});
+    FB.init({appId: '486640894740634', status: true, cookie: true, xfbml: true});
     console.log('FB.init called.');
     Winbits.facebookLoaded = true;
   };
@@ -604,9 +607,10 @@ Winbits.loadFacebook = function () {
 };
 
 Winbits.loginFacebookHandler = function (response) {
+  console.log("Se dio click");
   console.log(['FB.login respose', response]);
   if (response.authResponse) {
-    FB.api('/me', function (me) {
+     FB.api('/me', function (me) {
       console.log(['FB.me respose', me]);
       if (me.email) {
         Winbits.loginFacebook(me);
@@ -633,6 +637,7 @@ Winbits.loginFacebook = function(me) {
     facebookToken: me.id
   };
   $.fancybox.close();
+  console.log("Enviando info al back");
   $.ajax(Winbits.config.apiUrl + '/affiliation/facebook', {
     type: 'POST',
     contentType: 'application/json',
@@ -662,7 +667,7 @@ Winbits.loginFacebook = function(me) {
   Winbits.jQuery;
 
   // Async load facebook
-  Winbits.loadFacebook();
+ // Winbits.loadFacebook();
 
   /******** Load jQuery if not present *********/
   if (window.jQuery === undefined || window.jQuery.fn.jquery !== '1.8.3') {
@@ -705,6 +710,13 @@ Winbits.loginFacebook = function(me) {
       var $ = Winbits.jQuery;
       /******* Load HTML *******/
       $('#winbits-widget').load(Winbits.config.baseUrl + '/widgets/winbits.html', function () {
+        console.log("vertical url : " + Winbits.config.verticalURLProxy);
+        console.log("src de frame1 : " + $('#winbits-frame').attr("src"));
+        var urlSrc=$('#winbits-frame').attr("src")+"?origin=" + Winbits.config.verticalURLProxy ;
+        console.log("urlSrc : " + urlSrc);
+        $('#winbits-frame').attr("src", urlSrc);
+        console.log("src de frame2 : " + $('#winbits-frame').attr("src"));
+
         jcf.customForms.replaceAll();
         initTouchNav();
         initCarousel();
@@ -720,6 +732,23 @@ Winbits.loginFacebook = function(me) {
         initSlider();
         initRadio();
         Winbits.init();
+        // Create a proxy window to send to and receive
+        // messages from the iFrame
+        window.windowProxy = new Porthole.WindowProxy(
+            'http://api.winbits.com/widgets/framefb/proxy.html', 'winbits-frame');
+
+        // Register an event handler to receive messages;
+        window.windowProxy.addEventListener(function (messageEvent) {
+          console.log(['Message from Winbits', messageEvent]);
+          var data = messageEvent.data;
+          var handlerFn = Winbits.Handlers[data.action + 'Handler'];
+          console.log(['Handler', handlerFn]);
+          if (handlerFn) {
+            handlerFn.apply(this, data.params);
+          } else {
+            console.log('Invalid action from Winbits');
+          }
+        });
       });
     }
   };

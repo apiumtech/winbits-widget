@@ -3,16 +3,39 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=980" />
-	<title>Winbits</title>
+	<title>Winbits Vertical</title>
+  <script type="text/javascript" src="js/porthole.min.js"></script>
   <script type="text/javascript">
     var Winbits = { userConfig: {
-      baseUrl: '.'
+      baseUrl: '.',
+      verticalURLProxy : 'http://www.looq.com/proxy.html'
     } };
   </script>
-  <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
   <script type="text/javascript" src="winbits.js"></script>
+  <script type="text/javascript">
+    var windowProxy;
+    window.onload=function(){
+      Winbits.Handlers = Winbits.Handlers || {};
+      Winbits.Handlers.loginHandler = function (response) {
+        console.log(["demo-dev.html:response", response])
+        if (response.authResponse) {
+          windowProxy.post({'action':'me'});
+        } else {
+          console.log('Facebook login failed!');
+        }
+      };
+      Winbits.Handlers.meHandler = function (response) {
+        if (response.email) {
+          Winbits.loginFacebook(response);
+        }
+
+
+      };
+    };
+  </script>
 </head>
 <body>
 <div id="winbits-widget"></div>
+<!--<iframe name="winbits-frame" src ="http://api.winbits.com/widgets/framefb/framefb.html" style="display:none;" >-->
 </body>
 </html>
