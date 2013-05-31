@@ -730,6 +730,10 @@ Winbits.Handlers = {
     }
   };
 
+  Winbits.addToCart = function(skuProfileId, quantity, bits) {
+    console.log(['Added to cart', skuProfileId, quantity]);
+  };
+
   /******** Our main function ********/
   function main() {
     Winbits.jQuery.extend(Winbits.config, Winbits.userConfig || {});
