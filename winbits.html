@@ -8,7 +8,40 @@
   <title>Winbits</title>
   <script type="text/javascript" src="https://raw.github.com/ternarylabs/porthole/master/src/porthole.min.js"></script>
   <script type="text/javascript">
+    var Winbits = {};
     (function() {
+      Winbits.setCookie = function setCookie(c_name, value, exdays) {
+        exdays = exdays || 7;
+        var exdate = new Date();
+        exdate.setDate(exdate.getDate() + exdays);
+        var c_value = escape(value) + ((exdays === null) ? "" : "; path=/; expires=" + exdate.toUTCString());
+        document.cookie = c_name + "=" + c_value;
+      };
+
+      Winbits.getCookie = function getCookie(c_name) {
+        var c_value = document.cookie;
+        var c_start = c_value.indexOf(" " + c_name + "=");
+        if (c_start == -1) {
+          c_start = c_value.indexOf(c_name + "=");
+        }
+        if (c_start == -1) {
+          c_value = null;
+        }
+        else {
+          c_start = c_value.indexOf("=", c_start) + 1;
+          var c_end = c_value.indexOf(";", c_start);
+          if (c_end == -1) {
+            c_end = c_value.length;
+          }
+          c_value = unescape(c_value.substring(c_start, c_end));
+        }
+        return c_value;
+      };
+
+      Winbits.deleteCookie = function (name) {
+        document.cookie = name + '=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT';
+      };
+
       window.onload=function(){
         //Obteniendo el parametro de la url
         var getUrlParams = function() {
@@ -30,8 +63,9 @@
 
         // Register an event handler to receive messages;
         windowProxy.addEventListener(function (messageEvent) {
+          console.log(['Received message from vertical', messageEvent]);
           var data = messageEvent.data;
-          var actionFn = Facebook[data.action];
+          var actionFn = Actions[data.action];
           if (actionFn) {
             actionFn.apply(data.params);
           } else {
@@ -40,7 +74,24 @@
         });
       };
 
-      var Facebook = {
+      var Actions = {
+        getTokens: function() {
+          var tokens = {};
+          var apiToken = Winbits.getCookie('_wb_api_token');
+          if (apiToken) {
+            tokens.apiToken = { cookieName: '_wb_api_token', value: apiToken, expireDays: 7 };
+          }
+          var vcartToken = Winbits.getCookie('_wb_vcart_token');
+          if (!vcartToken) {
+            vcartToken = '[]';
+            Winbits.setCookie('_wb_vcart_token', vcartToken, 7);
+          }
+          tokens.vcartToken = { cookieName: '_wb_vcart_token', value: vcartToken, expireDays: 7 };
+          windowProxy.post({action: 'getTokens', params: [tokens]});
+        },
+        saveTokens: function(tokens) {
+
+        },
         login: function() {
           document.getElementById('fbl').click();
 

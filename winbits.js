@@ -76,17 +76,20 @@ Winbits.waitForFacebook = function(f, $) {
 Winbits.init = function () {
   var $ = Winbits.jQuery;
   Winbits.requestTokens($);
-  Winbits.initWidgets($);
+  /*Winbits.initWidgets($);
   Winbits.alertErrors($);
   $('form.lightbox-message-form').submit(function (e) {
     e.preventDefault();
     $.fancybox.close();
-  });
+  });*/
 };
 
 Winbits.initProxy = function($) {
   var iframeSrc = Winbits.config.baseUrl +'/winbits.html?origin=' + Winbits.config.proxyUrl;
-  Winbits.$widgetContainer.find('#iframe-container').append('<iframe id="winbits-iframe" name="winbits-iframe" src="' + iframeSrc +'"></iframe>');
+  var $iframe = $('<iframe id="winbits-iframe" name="winbits-iframe" src="' + iframeSrc +'"></iframe>').on('load', function() {
+    Winbits.init();
+  });
+  Winbits.$widgetContainer.find('#iframe-container').append($iframe);
 
   // Create a proxy window to send to and receive
   // messages from the iFrame
@@ -113,49 +116,16 @@ Winbits.alertErrors = function ($) {
 };
 
 Winbits.requestTokens = function ($) {
-  $.ajax(Winbits.config.apiUrl + '/affiliation/tokens.json', {
-    dataType: 'json',
-    context: $,
-    xhrFields: { withCredentials: true },
-    success: function (data) {
-      console.log('tokens.json Success!');
-      console.log(['data', data]);
-      Winbits.segregateTokens(this, data.response);
-      Winbits.expressLogin(this);
-    },
-    error: function (xhr, textStatus, errorThrown) {
-      console.log('tokens.json Error!');
-      var error = JSON.parse(xhr.responseText);
-      alert(error.meta.message);
-    }
-  });
+  console.log('Requesting tokens');
+  Winbits.proxy.post({ action: 'getTokens' });
 };
 
 Winbits.segregateTokens = function ($, tokensDef) {
-  Winbits.storeTokens($, tokensDef);
-  var guestTokenDef = tokensDef.guestToken;
-  Winbits.setCookie(guestTokenDef.cookieName, guestTokenDef.value || '', guestTokenDef.expireDays);
+  var vcartTokenDef = tokensDef.vcartToken;
+  Winbits.setCookie(vcartTokenDef.cookieName, vcartTokenDef.value || '', vcartTokenDef.expireDays);
   var apiTokenDef = tokensDef.apiToken;
   Winbits.setCookie(apiTokenDef.cookieName, apiTokenDef.value || '', apiTokenDef.expireDays);
   Winbits.tokensDef = tokensDef;
-};
-
-Winbits.storeTokens = function ($, tokensDef) {
-  var tokens = [];
-  var guestToken = tokensDef.guestToken;
-  if (guestToken.value) {
-    tokens.push(['_wb_guest_token', guestToken.value].join('='));
-  }
-  var apiToken = tokensDef.apiToken;
-  if (apiToken.value) {
-    tokens.push(['_wb_api_token', apiToken.value].join('='));
-  }
-
-  if (tokens.length > 0) {
-    var tokensQueryString = tokens.join('&');
-    var storeCookiesUrl = Winbits.config.loginRedirectUrl + '?' + tokensQueryString;
-    Winbits.createFrame($, storeCookiesUrl);
-  }
 };
 
 Winbits.createFrame = function ($, frameSrc) {
@@ -685,6 +655,10 @@ Winbits.loginFacebook = function(me) {
 };
 
 Winbits.Handlers = {
+  getTokensHandler: function(tokensDef) {
+    Winbits.segregateTokens(Winbits.jQuery, tokensDef);
+//    Winbits.expressLogin(Winbits.jQuery);
+  },
   loginHandler: function (response) {
     console.log(["demo-dev.html:response", response])
     if (response.authResponse) {
@@ -751,8 +725,7 @@ Winbits.Handlers = {
       Winbits.$widgetContainer = $widgetContainer.first();
       Winbits.$widgetContainer.load(Winbits.config.baseUrl + '/widget.html', function () {
         Winbits.$widgetContainer.append('<script type="text/javascript" src="' + Winbits.config.baseUrl  + '/include/js/script.js"></script>" ');
-        Winbits.initProxy();
-//        Winbits.init();
+        Winbits.initProxy($);
       });
     }
   };
