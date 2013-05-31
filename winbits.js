@@ -304,18 +304,15 @@ Winbits.initLightbox = function($) {
     overlayOpacity: 0.9,
     overlayColor: '#333',
     padding: 0,
+    type: 'inline',
     onComplete: function() {
-      console.log(['href', this.href]);
       var $holder = $(this.href).find('.facebook-btn-holder');
-      console.log(['Holder', $holder]);
       if ($holder.length > 0) {
         $('#winbits-iframe').appendTo($holder);
       }
     },
-    onClosed: function() {
-      console.log(['href', this.href]);
+    onCleanup: function() {
       var $holder = Winbits.$widgetContainer.find('#iframe-holder');
-      console.log(['Holder', $holder]);
       $('#winbits-iframe').appendTo($holder);
     }
   });

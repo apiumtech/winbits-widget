@@ -2814,3 +2814,7 @@ main {
   min-width: 330px;
   width: 330px;
 }
+
+a.fancybox {
+  color: inherit;
+}
