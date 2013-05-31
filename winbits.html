@@ -9,10 +9,6 @@
   <script type="text/javascript" src="https://raw.github.com/ternarylabs/porthole/master/src/porthole.min.js"></script>
   <script type="text/javascript">
     (function() {
-      window.fbAsyncInit = function () {
-        FB.init({appId: '486640894740634', status: true, cookie: true, xfbml: true, oauth  : true });
-      };
-
       window.onload=function(){
         //Obteniendo el parametro de la url
         var getUrlParams = function() {
@@ -54,6 +50,10 @@
             windowProxy.post({action: 'me', params: [response]});
           });
         }
+      };
+
+      window.fbAsyncInit = function () {
+        FB.init({appId: '486640894740634', status: true, cookie: true, xfbml: true, oauth  : true });
       };
 
       var e = document.createElement('script');

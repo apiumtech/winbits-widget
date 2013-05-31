@@ -11,7 +11,7 @@ Winbits.config = Winbits.config || {
   errorFormClass: 'error-form',
   errorClass: 'error',
   verticalId: 1,
-  verticalURLProxy : "-",
+  proxyUrl : "-",
   winbitsDivId: 'winbits-widget'
 };
 
@@ -81,6 +81,27 @@ Winbits.init = function () {
   $('form.lightbox-message-form').submit(function (e) {
     e.preventDefault();
     $.fancybox.close();
+  });
+};
+
+Winbits.initProxy = function($) {
+  var iframeSrc = Winbits.config.baseUrl +'/winbits.html?origin=' + Winbits.config.proxyUrl;
+  Winbits.$widgetContainer.find('#iframe-container').append('<iframe id="winbits-iframe" name="winbits-iframe" src="' + iframeSrc +'"></iframe>');
+
+  // Create a proxy window to send to and receive
+  // messages from the iFrame
+  Winbits.proxy = new Porthole.WindowProxy(Winbits.config.baseUrl + '/proxy.html', 'winbits-iframe');
+
+  // Register an event handler to receive messages;
+  Winbits.proxy.addEventListener(function (messageEvent) {
+    console.log(['Message from Winbits', messageEvent]);
+    var data = messageEvent.data;
+    var handlerFn = Winbits.Handlers[data.action + 'Handler'];
+    if (handlerFn) {
+      handlerFn.apply(this, data.params);
+    } else {
+      console.log('Invalid action from Winbits');
+    }
   });
 };
 
@@ -663,6 +684,22 @@ Winbits.loginFacebook = function(me) {
   });
 };
 
+Winbits.Handlers = {
+  loginHandler: function (response) {
+    console.log(["demo-dev.html:response", response])
+    if (response.authResponse) {
+      windowProxy.post({'action':'me'});
+    } else {
+      console.log('Facebook login failed!');
+    }
+  },
+  meHandler: function (response) {
+    if (response.email) {
+      Winbits.loginFacebook(response);
+    }
+  }
+};
+
 (function () {
   // Localize jQuery variable
   Winbits.jQuery;
@@ -705,32 +742,16 @@ Winbits.loginFacebook = function(me) {
 
   Winbits.winbitsReady = function () {
     // Check for presence of required DOM elements or other JS your widget depends on
-    var $widgetContainer = Winbits.jQuery('#' + winbitsDivId);
-    if (Winbits.requiredScriptsCount === Winbits.loadedScriptsCount && $widgetContainer.length > 0) {
+    var $widgetContainer = Winbits.jQuery('#' + Winbits.config.winbitsDivId);
+    if ((Winbits._readyRetries >= 5 || Winbits.loadedScriptsCount >= Winbits.requiredScriptsCount) && $widgetContainer.length > 0) {
       window.clearInterval(Winbits._readyInterval);
       var $ = Winbits.jQuery;
       /******* Load HTML *******/
-      $('#winbits-widget').load(Winbits.config.baseUrl + '/widget.html', function () {
-        var urlSrc=$('#winbits-frame').attr("src")+"?origin=" + Winbits.config.verticalURLProxy ;
-        $('#winbits-frame').attr("src", urlSrc);
-        Winbits.init();
-        // Create a proxy window to send to and receive
-        // messages from the iFrame
-        window.windowProxy = new Porthole.WindowProxy(
-            'http://api.winbits.com/widgets/framefb/proxy.html', 'winbits-frame');
-
-        // Register an event handler to receive messages;
-        window.windowProxy.addEventListener(function (messageEvent) {
-          console.log(['Message from Winbits', messageEvent]);
-          var data = messageEvent.data;
-          var handlerFn = Winbits.Handlers[data.action + 'Handler'];
-          console.log(['Handler', handlerFn]);
-          if (handlerFn) {
-            handlerFn.apply(this, data.params);
-          } else {
-            console.log('Invalid action from Winbits');
-          }
-        });
+      Winbits.$widgetContainer = $widgetContainer.first();
+      Winbits.$widgetContainer.load(Winbits.config.baseUrl + '/widget.html', function () {
+        Winbits.$widgetContainer.append('<script type="text/javascript" src="' + Winbits.config.baseUrl  + '/include/js/script.js"></script>" ');
+        Winbits.initProxy();
+//        Winbits.init();
       });
     }
   };
@@ -738,36 +759,38 @@ Winbits.loginFacebook = function(me) {
   /******** Our main function ********/
   function main() {
     Winbits.jQuery.extend(Winbits.config, Winbits.userConfig || {});
-    createExtraScriptTag();
     var $head = Winbits.jQuery('head');
     var styles = [Winbits.config.baseUrl + '/include/css/style.css'];
     loadStylesInto(styles, $head);
     var scripts = [
-      Winbits.config.baseUrl + "js/porthole.min.js",
-      Winbits.config.baseUrl + "include/js/libs/modernizr-2.6.2.js",
-      Winbits.config.baseUrl + "include/js/libs/jquery-1.8.3.min.js",
-      Winbits.config.baseUrl + "include/js/libs/jquery.browser.min.js",
-      Winbits.config.baseUrl + "include/js/libs/jQueryUI1.9.2/jquery-ui-1.9.2.js",
-      Winbits.config.baseUrl + "include/js/libs/Highslide/highslide.js",
-      Winbits.config.baseUrl + "include/js/libs/jquery.validate.min.js"
+      Winbits.config.baseUrl + "/js/porthole.min.js",
+      Winbits.config.baseUrl + "/include/js/libs/modernizr-2.6.2.js",
+      Winbits.config.baseUrl + "/include/js/libs/jquery-1.8.3.min.js",
+      Winbits.config.baseUrl + "/include/js/libs/jquery.browser.min.js",
+      Winbits.config.baseUrl + "/include/js/libs/jQueryUI1.9.2/jquery-ui-1.9.2.js",
+      Winbits.config.baseUrl + "/include/js/libs/Highslide/highslide.js",
+      Winbits.config.baseUrl + "/include/js/libs/jquery.validate.min.js"
     ];
     Winbits.requiredScriptsCount = scripts.length;
-    loadScriptsInto(scripts, e);
+    Winbits.loadedScriptsCount = 0;
+    loadScriptsInto(scripts, $head);
+    Winbits._readyRetries = 0;
     Winbits._readyInterval = window.setInterval(function () {
+      Winbits._readyRetries = Winbits._readyRetries + 1;
       Winbits.winbitsReady();
     }, 50);
   };
 
   function loadStylesInto(styles, e) {
     var $into = Winbits.$(e);
-    $.each(styles, function(i, style) {
-      $head.append('<link rel="stylesheet" type="text/css" media="all" href="' + style + '"/>');
+    Winbits.jQuery.each(styles, function(i, style) {
+      $into.append('<link rel="stylesheet" type="text/css" media="all" href="' + style + '"/>');
     });
   };
 
   function loadScriptsInto(scripts, e) {
     var $into = Winbits.$(e);
-    $.each(scripts, function(i, script) {
+    Winbits.jQuery.each(scripts, function(i, script) {
       var scriptTag = document.createElement('script');
       scriptTag.setAttribute("type", "text/javascript");
       scriptTag.setAttribute("src", script);
