@@ -1,0 +1,35 @@
+// ACORDEÓN
+// --------------------------------------------------
+.accordion (@backgroundTitle: lighten(@black, 80%),
+			@borderTitle: 1px solid lighten(@black, 60%),
+			@colorTitle: @blue, 
+			@fontSizeTitle: 1.21em,
+			@lineHeightTitle: 1.71em,
+			@marginTitle: 1px 0,
+			@paddingTitle: 0 35px,
+			@colorHoverTitle: darken(@blue, 10%),
+			@backgroundHoverTitle: lighten(@black, 70%),
+			@backgroundContainer: lighten(@black, 90%),
+			@paddingContainer: 1em){  // Contenedor padre
+	clear: both;
+	margin-bottom: @baseLineHeight;
+	.accordionTitle { //Título del acordeón
+		background: @backgroundTitle;
+		border: @borderTitle;
+		color: @colorTitle;
+		cursor: pointer;
+		display: block;
+		font-size: @fontSizeTitle; //17px por default;
+		line-height: @lineHeightTitle; // 24px por default;
+		margin: @marginTitle;
+		padding: @paddingTitle;
+		&:hover {
+			background: @backgroundHoverTitle;
+			color: @colorHoverTitle;
+		}
+	}
+	.accordionContainer { // Contenedor de cada acordeón
+		background: @backgroundContainer;
+		padding: @paddingContainer;
+	}
+}

@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- <noscript>
+            <meta http-equiv="Refresh" content="0;URL="include/disabledJavaScript.html"> 
+        </noscript> -->
+        <title>Winbits</title>
+        <link rel="shortcut icon" href="images/favicon.ico" type="image/vnd.microsoft.icon">
+        <link rel="icon" href="images/favicon.ico" type="image/vnd.microsoft.icon">
+        <link rel="stylesheet" href="include/css/style.css">
+        <link rel="author" href="humans.txt">
+        <script src="include/js/libs/modernizr-2.6.2.js"></script>
+        <script src="include/js/libs/jquery-1.8.3.min.js"></script>
+        <script src="include/js/libs/jquery.browser.min.js"></script>
+        <script src="include/js/libs/jQueryUI1.9.2/jquery-ui-1.9.2.js"></script>
+        <script src="include/js/libs/Highslide/highslide.js"></script>
+        <script src="include/js/libs/jquery.validate.min.js"></script>
+    </head>
+    <body>
+        <header>
+            <div class="widgetWinbitsHeader">
+                 <div class="knowmoreFolder">
+                    <div class="wrapper">
+                        <div class="knowMoreMax">
+                            <a href="#" class="icon winbits22px">Logo Winbits</a>
+                            <p>UNA SOLA CUENTA, UN SOLO CHECK OUT, <br>Y EN TODOS GANAS WINBITS.</p>
+                            <ul>
+                                <li>
+                                    <span class="icon shopCar">Shop Car</span>
+                                    <p>COMPRA<br>Y GANA WINBITS</p>
+                                </li>
+                                <li>
+                                    <a href="#" target="_blank" class="icon twitter">Twitter</a>
+                                    <a href="#" target="_blank" class="icon facebook">Facebook</a>
+                                    <p>COMPARTE<br>Y GANA WINBITS</p>
+                                </li>
+                                <li>
+                                    <span class="icon winbitsEqualToMoney">Winbits = Money</span><br>
+                                    <p>USA TUS WINBITS COMO<br>DINERO ELECTRÓNICO</p>
+                                </li>
+                            </ul>
+                            <fieldset>
+                                <label>INSCRIBETE AHORA</label>
+                                <input type="text" placeholder="Email" class="emailJoinNow">
+                                <span class="btn btnSmall" onclick="return hs.htmlExpand(this, { allowWidthReduction: true, objectType: 'iframe', src:'register01.html', width: 520}, { sendEmail: $('.emailJoinNow').val()});">Join Now</span>
+                            </fieldset>
+                            <span class="icon closeFolder openClose"></span>
+                        </div>
+                        <div class="knowMoreMin">
+                            <p>Compra en nuestro sitio y gana! <a href="#">Conoce mas.</a>
+                            <span class="icon openFolder openClose"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mainHeader">
+                    <div class="wrapper">
+                        <div class="language">
+                            <span><a href="#" class="icon winbits23px">Logo Winbits</a></span>
+                            <select class="select">
+                                <option data-icon="icon usa" value="usa">u.s.a.</option>
+                                <option data-icon="icon mex" value="mex">mex</option>
+                            </select>
+                        </div>
+                        <nav>
+                            <ul>
+                                <li><a href="#" class="icon verticalItem vertical0">Vertical 0</a></li>
+                                <li><a href="#" class="icon verticalItem vertical1 current">Vertical 1</a></li>
+                                <li><a href="#" class="icon verticalItem vertical2">Vertical 2</a></li>
+                                <li><a href="#" class="icon verticalItem vertical3">Vertical 3</a></li>
+                                <li><a href="#" class="icon verticalItem vertical4">Vertical 4</a></li>
+                            </ul>
+                        </nav>
+                        <div class="miCuenta">
+                            <ul>
+                                <li>
+                                    <span class="spanDropMenu link">Mi Cuenta<span class="icon trigger triggerMiCuenta"></span></span>
+                                    <div class="dropMenu miCuentaDiv">
+                                        <span class="icon triangle"></span>
+                                        <div class="wrapper">
+                                            <div class="colum myProfile">
+                                                <h2>MI PERFIL</h2>
+                                                <div class="miPerfil">
+                                                    <h3>Raúl Sotomayor</h3>
+                                                    <p><a href="mailto:rulas1785@gmail.com">rulas1785@gmail.com</a></p>
+                                                    <p>age 27</p>
+                                                    <address>
+                                                        <span>Col. Villa Verdun</span>
+                                                        <span>C.P.  01810</span>
+                                                        <span>tel. 55 6350279</span>
+                                                    </address>
+                                                    <ul>
+                                                        <li><a href="#" class="changePassBtn"><span class="icon changePasword"></span>Cambiar Password</a></li>
+                                                        <li><a href="#"><span class="icon creditCard"></span>Editar Tarjetas de Crédito</a></li>
+                                                        <li><a href="#"><span class="icon facebookCircle"></span>Liga tu cuenta de Facebook</a></li>
+                                                        <li><a href="#"><span class="icon twitterCircle"></span>Liga tu cuenta de Twitter</a></li>
+                                                    </ul>
+                                                    <input class="btn editBtn" value="Editar">
+                                                </div>
+                                                <div class="editMiPerfil">
+                                                    <fieldset>
+                                                        <input type="text" placeholder="Nombre" value="Raúl">
+                                                        <input type="text" placeholder="Apellido" value="Sotomayor">
+                                                        <input type="text" placeholder="Correo Electrónico" value="rulas@hotmail" email="true">
+                                                        <div class="fieldsetDiv divBirthday">
+                                                            <label>Cumpleaños</label>
+                                                            <input type="text" placeholder="dd" maxlength="2" digits="true">
+                                                            <input type="text" placeholder="mm" maxlength="2" digits="true">
+                                                            <input type="text" placeholder="aa" maxlength="2" digits="true">
+                                                        </div>
+                                                        <div class="fieldsetDiv divGender">
+                                                            <label>Género</label>
+                                                            <input type="radio" name="radioGender" value="H">
+                                                            <input type="radio" name="radioGender" value="M">
+                                                        </div>
+                                                        <input type="text" placeholder="Zip Code">
+                                                        <select class="select" data-clase="selectRegister">
+                                                            <option>Localidad</option>
+                                                            <option>México, D.F.</option>
+                                                            <option>Guadalajara</option>
+                                                            <option>Monterrey</option>
+                                                        </select>
+                                                        <input type="text" placeholder="Teléfono">
+                                                        <div class="errorDiv"><p></p></div>
+                                                    </fieldset>
+                                                    <input class="btn editBtn" value="Guardar">
+                                                </div>
+                                                <div class="changePassDiv">
+                                                    <fieldset>
+                                                        <input type="password" placeholder="Password Actual" class="required">
+                                                        <input type="password" placeholder="Nuevo Password" id="newPassword" class="required">
+                                                        <input type="password" placeholder="Confirmar Nuevo Password" class="required" equalTo="newPassword">
+                                                        <div class="errorDiv"><p></p></div>
+                                                    </fieldset>
+                                                    <input type="submit" class="btn editBtn" value="Guardar">
+                                                </div>
+                                            </div>
+                                            <div class="colum myAddress">
+                                                <h2>DIRECCIÓN DE ENVIO</h2>
+                                                <div class="miDireccion">
+                                                    <h3>Raúl Sotomayor</h3>
+                                                    <address>
+                                                        <span>Marsella 7,</span>
+                                                        <span>Col. Villa Verdun</span>
+                                                        <span>Del. Alvaro Obregón,</span>
+                                                        <span>C.P.  01810</span>
+                                                        <span>tel. 55 6350279</span>
+                                                    </address>
+                                                    <ul>
+                                                        <li><a href="#" class="changeAddressBtn"><em class="icon changeAdress"></em> Cambiar Dirección</a></li>
+                                                    </ul>
+                                                    <input class="btn editBtn" value="Editar">
+                                                </div>
+                                                <div class="editMiDireccion">
+                                                    <fieldset>
+                                                        <input type="text" placeholder="Nombre">
+                                                        <input type="text" placeholder="Apellido">
+                                                        <select class="select" data-clase="selectRegister">
+                                                            <option>Pais</option>
+                                                            <option>México</option>
+                                                            <option>USA</option>
+                                                            <option>Colombia</option>
+                                                        </select>
+                                                        <input type="text" placeholder="Calle" class="inputMedium">
+                                                        <input type="text" placeholder="#" digits="true" class="inputSmall">
+                                                        <input type="text" placeholder="Colonia">
+                                                        <input type="text" placeholder="Delegación">
+                                                        <input type="text" placeholder="Código Postal">
+                                                        <input type="text" placeholder="Teléfono">
+                                                        <div class="errorDiv"><p></p></div>
+                                                    </fieldset>
+                                                    <input class="btn editBtn" value="Guardar">
+                                                </div>  
+                                            </div> 
+                                            <div class="colum mySuscription">
+                                                <h2>SUSCRIPCIÓN</h2>
+                                                <div class="miSuscripcion">
+                                                    <h3>Esta cuenta está suscrita los siguientes sitios:</h3>
+                                                    <ul>
+                                                        <li>Looq <a href="#" class="editLink">edit</a></li>
+                                                        <li>Travel <a href="#" class="editLink">edit</a></li>
+                                                    </ul>
+                                                    <h3>Recibes un correo:</h3>
+                                                    <ul>
+                                                        <li>Todos los días <a href="#">edit</a></li>
+                                                    </ul>
+                                                    <h3>Favoritos:</h3>
+                                                    <ul>
+                                                        <li>Marcas 0 <a href="#">view detail</a></li>
+                                                    </ul>
+                                                     <input class="btn editBtn" value="Editar">
+                                                </div>
+                                                <div class="editSuscription">
+                                                    <h3>¿De cuál de nuestros sitios te gustaría recibir información?</h3>
+                                                    <fieldset>
+                                                        <input type="checkbox" value="Looq" class="checkbox" checked="checked">
+                                                        <label class="checkboxLabel">Looq</label>
+                                                        <input type="checkbox" value="Clickonero" class="checkbox">
+                                                        <label class="checkboxLabel">Clickonero</label>
+                                                        <input type="checkbox" value="MiPlan" class="checkbox">
+                                                        <label class="checkboxLabel">Mi Plan</label>
+                                                        <input type="checkbox" value="Travel" class="checkbox">
+                                                        <label class="checkboxLabel">Travel</label>
+                                                    </fieldset>
+                                                    <input class="btn editBtn" value="Guardar">
+                                                </div> 
+                                            </div>
+                                            <div class="colum historyColumn">
+                                                <h2>HISTORIAL DE TU CUENTA</h2>
+                                                <h3>Historial de Compras</h3>
+                                                <p>Entrega Pendiente <span>0</span></p>
+                                                <a href="#">Ver Historial de Compras completo</a>
+                                                <h3>Tus Bits</h3>
+                                                <p>Tienes <span>0</span> Bits</p>
+                                                <a href="#">Ver Historial de Bits completo</a>
+                                                <h3>Invitaciones</h3>
+                                                <p>Amigos <span>0</span></p>
+                                                <a href="#">Ver Historial de Amigos completo</a>
+                                                <h3>Wish List</h3>
+                                                <p>Tienes <span>0</span> Productos</p>
+                                                <a href="#">Ver Whish List completa</a>
+                                            </div>
+                                            <div class="logOut">
+                                                <input type="submit" class="btn" value="Log Out">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="bits">6575<span class="icon bit12px"></span></li>
+                                <li>
+                                    <span class="spanDropMenu">2 <span class="icon shopCarMin"></span></span>
+                                    <div class="dropMenu miCarritoDiv">
+                                        <span class="icon triangle"></span>
+                                        <div class="wrapper">
+                                            <div class="carContenido">
+                                                <div class="carritoDivLeft">
+                                                    <div class="carritoContainer" data-content="carritoContent">
+                                                        <div class="carritoContent">
+                                                            <ul>
+                                                                <li>
+                                                                    <a href="#"><img src="images/assets/jeans-tiny.jpg" alt="Denim look Leggings"></a>
+                                                                    <p class="descriptionItem">Denim look Leggings</p>
+                                                                    <label>Cantidad</label>
+                                                                    <input type="text" value="1" class="inputStepper">
+                                                                    <p class="priceItem">$350.00</p>
+                                                                    <span class="verticalName">Producto de <em>LOOQ</em></span>
+                                                                    <span class="deleteItem"><a href="#">eliminar</a></span>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#"><img src="images/assets/jeans-tiny.jpg" alt="Denim look Leggings"></a>
+                                                                    <p class="descriptionItem">Denim look Leggings</p>
+                                                                    <label>Cantidad</label>
+                                                                    <input type="text" value="1" class="inputStepper">
+                                                                    <p class="priceItem">$350.00</p>
+                                                                    <span class="verticalName">Producto de <em>LOOQ</em></span>
+                                                                    <span class="deleteItem"><a href="#">eliminar</a></span>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#"><img src="images/assets/jeans-tiny.jpg" alt="Denim look Leggings"></a>
+                                                                    <p class="descriptionItem">Denim look Leggings</p>
+                                                                    <label>Cantidad</label>
+                                                                    <input type="text" value="1" class="inputStepper">
+                                                                    <p class="priceItem">$350.00</p>
+                                                                    <span class="verticalName">Producto de <em>LOOQ</em></span>
+                                                                    <span class="deleteItem"><a href="#">eliminar</a></span>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#"><img src="images/assets/jeans-tiny.jpg" alt="Denim look Leggings"></a>
+                                                                    <p class="descriptionItem">Denim look Leggings</p>
+                                                                    <label>Cantidad</label>
+                                                                    <input type="text" value="1" class="inputStepper">
+                                                                    <p class="priceItem">$350.00</p>
+                                                                    <span class="verticalName">Producto de <em>LOOQ</em></span>
+                                                                    <span class="deleteItem"><a href="#">eliminar</a></span>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#"><img src="images/assets/jeans-tiny.jpg" alt="Denim look Leggings"></a>
+                                                                    <p class="descriptionItem">Denim look Leggings</p>
+                                                                    <label>Cantidad</label>
+                                                                    <input type="text" value="1" class="inputStepper">
+                                                                    <p class="priceItem">$350.00</p>
+                                                                    <span class="verticalName">Producto de <em>LOOQ</em></span>
+                                                                    <span class="deleteItem"><a href="#">eliminar</a></span>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#"><img src="images/assets/jeans-tiny.jpg" alt="Denim look Leggings"></a>
+                                                                    <p class="descriptionItem">Denim look Leggings</p>
+                                                                    <label>Cantidad</label>
+                                                                    <input type="text" value="1" class="inputStepper">
+                                                                    <p class="priceItem">$350.00</p>
+                                                                    <span class="verticalName">Producto de <em>LOOQ</em></span>
+                                                                    <span class="deleteItem"><a href="#">eliminar</a></span>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#"><img src="images/assets/jeans-tiny.jpg" alt="Denim look Leggings"></a>
+                                                                    <p class="descriptionItem">Denim look Leggings</p>
+                                                                    <label>Cantidad</label>
+                                                                    <input type="text" value="1" class="inputStepper">
+                                                                    <p class="priceItem">$350.00</p>
+                                                                    <span class="verticalName">Producto de <em>LOOQ</em></span>
+                                                                    <span class="deleteItem"><a href="#">eliminar</a></span>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#"><img src="images/assets/jeans-tiny.jpg" alt="Denim look Leggings"></a>
+                                                                    <p class="descriptionItem">Denim look Leggings</p>
+                                                                    <label>Cantidad</label>
+                                                                    <input type="text" value="1" class="inputStepper">
+                                                                    <p class="priceItem">$350.00</p>
+                                                                    <span class="verticalName">Producto de <em>LOOQ</em></span>
+                                                                    <span class="deleteItem"><a href="#">eliminar</a></span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="carritoDivRight">
+                                                    <h3>ENVIO</h3>
+                                                    <span class="freeShipping">GRATIS</span>
+                                                    <h3>TOTAL</h3>
+                                                    <span class="totalCar">$1,240</span>
+                                                    <div class="winSave">
+                                                        <span>WIN</span>
+                                                        <label>100</label>
+                                                        <em class="icon winbits10px"></em> 
+                                                        <span>save</span>
+                                                        <label>40%</label>
+                                                    </div>
+                                                    <input type="text" value="300" data-min="0" data-max="599" data-step="2" class="slideInput">
+                                                     <span class="legendCarrito">Usa tus bits como dinero en esta compra <a href="#">learn more</a></span>
+                                                    <a href="#" class="continueShoping">CONTINUE SHOPING</a>
+                                                    <input type="submit" class="btn" value="Check Out">
+                                                    <h3>NOTA</h3>
+                                                    <ul>
+                                                        <li>Esta compra NO esta disponible para meses sin intereses.</li>
+                                                        <li>Esta compra NO esta disponible para pago en OXXO.</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li><input type="submit" class="btn btnTopNav" value="Check Out"></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="widgetWinbitsMain">
+            <div class="wrapper">
+                <h2>DIRECCIÓN DE ENVÍO</h2>
+                <div class="shippingAddresses">
+                    <ul>
+                        <li class="shippingItem">
+                            <div class="shippingMenu">
+                                <a href="#">edit</a>
+                                <span class="icon closeButton">cerrar</span>
+                            </div>
+                            <h3>DIRECCIÓN 1</h3>
+                            <address>
+                                <span>Raúl Sotomayor,</span>
+                                <span>Marsella 7, Villa,</span>
+                                <span>Avaro Obregón, 01810</span>
+                            </address>
+                            <span class="note send">Tu paquete será enviado a esta dirección</span>
+                            <span class="note hover">Da click aqui para establecer como dirección principal</span>
+                            <input type="radio" name="shippingRadio" class="shippingRadio">
+                        </li>
+                        <li class="shippingItem shippingSelected">
+                            <div class="shippingMenu">
+                                <a href="#">edit</a>
+                                <span class="icon closeButton">cerrar</span>
+                            </div>
+                            <h3>DIRECCIÓN 2</h3>
+                            <address>
+                                <span>Raúl Sotomayor,</span>
+                                <span>Marsella 7, Villa,</span>
+                                <span>Avaro Obregón, 01810</span>
+                            </address>
+                            <span class="note send">Tu paquete será enviado a esta dirección</span>
+                            <span class="note hover">Da click aqui para establecer como dirección principal</span>
+                            <input type="radio" name="shippingRadio" class="shippingRadio" checked="checked">
+                        </li>
+                        <li class="shippingItem">
+                            <div class="shippingMenu">
+                                <a href="#">edit</a>
+                                <span class="icon closeButton">cerrar</span>
+                            </div>
+                            <h3>DIRECCIÓN 3</h3>
+                            <address>
+                                <span>Raúl Sotomayor,</span>
+                                <span>Marsella 7, Villa,</span>
+                                <span>Avaro Obregón, 01810</span>
+                            </address>
+                            <span class="note send">Tu paquete será enviado a esta dirección</span>
+                            <span class="note hover">Da click aqui para establecer como dirección principal</span>
+                            <input type="radio" name="shippingRadio" class="shippingRadio">
+                        </li>
+                        <li class="shippingItem">
+                            <div class="shippingMenu">
+                                <a href="#">edit</a>
+                                <span class="icon closeButton">cerrar</span>
+                            </div>
+                            <h3>DIRECCIÓN 4</h3>
+                            <address>
+                                <span>Raúl Sotomayor,</span>
+                                <span>Marsella 7, Villa,</span>
+                                <span>Avaro Obregón, 01810</span>
+                            </address>
+                            <span class="note send">Tu paquete será enviado a esta dirección</span>
+                            <span class="note hover">Da click aqui para establecer como dirección principal</span>
+                            <input type="radio" name="shippingRadio" class="shippingRadio">
+                        </li>
+                        <li class="shippingItem">
+                            <div class="shippingMenu">
+                                <a href="#">edit</a>
+                                <span class="icon closeButton">cerrar</span>
+                            </div>
+                            <h3>DIRECCIÓN 5</h3>
+                            <address>
+                                <span>Raúl Sotomayor,</span>
+                                <span>Marsella 7, Villa,</span>
+                                <span>Avaro Obregón, 01810</span>
+                            </address>
+                            <span class="note send">Tu paquete será enviado a esta dirección</span>
+                            <span class="note hover">Da click aqui para establecer como dirección principal</span>
+                            <input type="radio" name="shippingRadio" class="shippingRadio">
+                        </li>
+                        <li class="shippingAdd">
+                            <h3>AGREGAR DIRECCIÓN +</h3>
+                            <span>Da click para agregar</span>
+                        </li>
+                    </ul>
+                    <input type="submit" class="btn btnTerminar" value="Terminar">
+                </div>
+                <div class="shippingNewAddress">
+                    <fieldset>
+                        <div class="column">
+                            <h3>NOMBRE</h3>
+                            <input type="text" placeholder="Nombre">
+                            <input type="text" placeholder="Apellido">
+                        </div>
+                        <div class="column">
+                            <h3>DIRECCIÓN</h3>
+                            <select class="select" data-clase="selectRegister">
+                                <option>País</option>
+                                <option>México</option>
+                                <option>USA</option>
+                                <option>Puerto Rico</option>
+                            </select>
+                            <input type="text" placeholder="Calle" class="inputMedium">
+                            <input type="text" placeholder="##" class="inputSmall">
+                            <input type="text" placeholder="Delegación" />
+                            <input type="text" placeholder="Ciudad" />
+                            <input type="text" placeholder="Codigo Postal" />
+                            <input type="text" placeholder="Teléfono" />
+                        </div>
+                        <div class="column columnLarge">
+                            <h3>OPCIONES</h3>
+                            <input type="checkbox" class="checkbox">
+                            <label class="checkboxLabel">Hacer esta mi dirección principal</label>
+                            <p class="note">Winbits giuarda tu dirección para que puedas utilizarlas siempre que las necesites y tus compras sean mucho más fáciles.</p>
+                            <div class="submitButton">
+                                <span class="btn btnCancel">Cancelar</span>
+                                <input type="submit" value="Continuar" class="btn">
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <div class="widgetWinbitsFooter">
+                <div class="wrapper">
+                    <div class="logo">
+                        <a href="#" class="icon winbits19px">Logo Winbits</a>
+                    </div>
+                    <nav>
+                        <ul>
+                            <li><a href="#">Welcome</a></li>
+                            <li><a href="#">My account</a></li>
+                            <li><a href="#">Need Help?</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">International</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="#">Welcome</a></li>
+                            <li><a href="#">My account</a></li>
+                            <li><a href="#">Need Help?</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">International</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="#">Welcome</a></li>
+                            <li><a href="#">My account</a></li>
+                            <li><a href="#">Need Help?</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">International</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="#">Welcome</a></li>
+                            <li><a href="#">My account</a></li>
+                            <li><a href="#">Need Help?</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">International</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </footer>
+        <script src="include/js/script.js"></script>
+    </body>
+</html>

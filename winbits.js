@@ -5,12 +5,14 @@ var Winbits = Winbits || {};
 Winbits.extraScriptLoaded = false;
 Winbits.facebookLoaded = false;
 Winbits.config = Winbits.config || {
-  apiUrl: 'http://api.winbits.com/v1',
+  apiUrl: 'http://apiqa.winbits.com/v1',
   baseUrl: 'http://api.winbits.com/widgets',
-  loginRedirectUrl: 'http://api.winbits.com/widgets/login.html',
+  loginRedirectUrl: 'http://api.winbits.com/widgets/ilogin.html',
   errorFormClass: 'error-form',
   errorClass: 'error',
-  verticalId: 1
+  verticalId: 1,
+  proxyUrl : "-",
+  winbitsDivId: 'winbits-widget'
 };
 
 Winbits.$ = function (element) {
@@ -74,11 +76,35 @@ Winbits.waitForFacebook = function(f, $) {
 Winbits.init = function () {
   var $ = Winbits.jQuery;
   Winbits.requestTokens($);
-  Winbits.initWidgets($);
+  /*Winbits.initWidgets($);
   Winbits.alertErrors($);
   $('form.lightbox-message-form').submit(function (e) {
     e.preventDefault();
     $.fancybox.close();
+  });*/
+};
+
+Winbits.initProxy = function($) {
+  var iframeSrc = Winbits.config.baseUrl +'/winbits.html?origin=' + Winbits.config.proxyUrl;
+  var $iframe = $('<iframe id="winbits-iframe" name="winbits-iframe" src="' + iframeSrc +'"></iframe>').on('load', function() {
+    Winbits.init();
+  });
+  Winbits.$widgetContainer.find('#iframe-container').append($iframe);
+
+  // Create a proxy window to send to and receive
+  // messages from the iFrame
+  Winbits.proxy = new Porthole.WindowProxy(Winbits.config.baseUrl + '/proxy.html', 'winbits-iframe');
+
+  // Register an event handler to receive messages;
+  Winbits.proxy.addEventListener(function (messageEvent) {
+    console.log(['Message from Winbits', messageEvent]);
+    var data = messageEvent.data;
+    var handlerFn = Winbits.Handlers[data.action + 'Handler'];
+    if (handlerFn) {
+      handlerFn.apply(this, data.params);
+    } else {
+      console.log('Invalid action from Winbits');
+    }
   });
 };
 
@@ -90,49 +116,19 @@ Winbits.alertErrors = function ($) {
 };
 
 Winbits.requestTokens = function ($) {
-  $.ajax(Winbits.config.apiUrl + '/affiliation/tokens.json', {
-    dataType: 'json',
-    context: $,
-    xhrFields: { withCredentials: true },
-    success: function (data) {
-      console.log('tokens.json Success!');
-      console.log(['data', data]);
-      Winbits.segregateTokens(this, data.response);
-      Winbits.expressLogin(this);
-    },
-    error: function (xhr, textStatus, errorThrown) {
-      console.log('tokens.json Error!');
-      var error = JSON.parse(xhr.responseText);
-      alert(error.meta.message);
-    }
-  });
+  console.log('Requesting tokens');
+  Winbits.proxy.post({ action: 'getTokens' });
 };
 
 Winbits.segregateTokens = function ($, tokensDef) {
-  Winbits.storeTokens($, tokensDef);
-  var guestTokenDef = tokensDef.guestToken;
-  Winbits.setCookie(guestTokenDef.cookieName, guestTokenDef.value || '', guestTokenDef.expireDays);
+  console.log(['tokensDef', tokensDef]);
+  var vcartTokenDef = tokensDef.vcartToken;
+  Winbits.setCookie(vcartTokenDef.cookieName, vcartTokenDef.value || '', vcartTokenDef.expireDays);
   var apiTokenDef = tokensDef.apiToken;
-  Winbits.setCookie(apiTokenDef.cookieName, apiTokenDef.value || '', apiTokenDef.expireDays);
+  if (apiTokenDef) {
+    Winbits.setCookie(apiTokenDef.cookieName, apiTokenDef.value || '', apiTokenDef.expireDays);
+  }
   Winbits.tokensDef = tokensDef;
-};
-
-Winbits.storeTokens = function ($, tokensDef) {
-  var tokens = [];
-  var guestToken = tokensDef.guestToken;
-  if (guestToken.value) {
-    tokens.push(['_wb_guest_token', guestToken.value].join('='));
-  }
-  var apiToken = tokensDef.apiToken;
-  if (apiToken.value) {
-    tokens.push(['_wb_api_token', apiToken.value].join('='));
-  }
-
-  if (tokens.length > 0) {
-    var tokensQueryString = tokens.join('&');
-    var storeCookiesUrl = Winbits.config.loginRedirectUrl + '?' + tokensQueryString;
-    Winbits.createFrame($, storeCookiesUrl);
-  }
 };
 
 Winbits.createFrame = function ($, frameSrc) {
@@ -146,7 +142,10 @@ Winbits.createFrame = function ($, frameSrc) {
 
 Winbits.expressLogin = function ($) {
   Winbits.checkRegisterConfirmation($);
-  var apiToken = Winbits.getCookie(Winbits.tokensDef.apiToken.cookieName);
+  var apiToken
+  if (Winbits.tokensDef.apiToken) {
+    Winbits.getCookie(Winbits.tokensDef.apiToken.cookieName);
+  }
   if (apiToken) {
     $.ajax(Winbits.config.apiUrl + '/affiliation/express-login.json', {
       type: 'POST',
@@ -174,40 +173,15 @@ Winbits.expressLogin = function ($) {
 
 Winbits.checkRegisterConfirmation = function ($) {
   var params = Winbits.getUrlParams();
-  console.log(['params', params]);
   var apiToken = params._wb_api_token;
   if (apiToken) {
-    console.log(['Setting apiToken', apiToken]);
     Winbits.setCookie(Winbits.tokensDef.apiToken.cookieName, apiToken);
+    Winbits.proxy.post({ action: 'saveApiToken', params: [apiToken] });
   }
 };
 
 Winbits.expressFacebookLogin = function ($) {
-  Winbits.waitForFacebook(function($) {
-    console.log('About to call FB.getLoginStatus.');
-    FB.getLoginStatus(function(response) {
-      console.log(['FB.getLoginStatus', response]);
-      if (response.status == 'connected') {
-      $.ajax(Winbits.config.apiUrl + '/affiliation/express-facebook-login.json', {
-          type: 'POST',
-          contentType: 'application/json',
-          dataType: 'json',
-          data: JSON.stringify({ facebookId: response.authResponse.userID }),
-          headers: { 'Accept-Language': 'es' },
-          xhrFields: { withCredentials: true },
-          context: $,
-          success: function (data) {
-            console.log('express-facebook-login.json Success!');
-            console.log(['data', data]);
-            Winbits.applyLogin($, data.response);
-          },
-          error: function (xhr, textStatus, errorThrown) {
-            console.log('express-facebook-login.json Error!');
-          }
-        });
-      }
-    }, true);
-  }, $);
+  Winbits.proxy.post({ action: 'facebookStatus' });
 };
 
 Winbits.initWidgets = function ($) {
@@ -455,7 +429,9 @@ Winbits.showCompleteProfile = function ($, profile) {
 
 Winbits.initFacebookWidgets = function($) {
   $(".btn-facebook").click(function () {
-    FB.login(Winbits.loginFacebookHandler, {scope: 'email,user_about_me,user_birthday'});
+    console.log("click a boton de facebok1");
+    windowProxy.post({'action':'login'});
+    //  FB.login(Winbits.loginFacebookHandler, {scope: 'email,user_about_me,user_birthday'});
     return false;
   });
 };
@@ -591,7 +567,7 @@ Winbits.Forms.renderErrors = function ($, form, errors) {
 
 Winbits.loadFacebook = function () {
   window.fbAsyncInit = function () {
-    FB.init({appId: '417980001600791', status: true, cookie: true, xfbml: true});
+    FB.init({appId: '486640894740634', status: true, cookie: true, xfbml: true});
     console.log('FB.init called.');
     Winbits.facebookLoaded = true;
   };
@@ -604,6 +580,7 @@ Winbits.loadFacebook = function () {
 };
 
 Winbits.loginFacebookHandler = function (response) {
+  console.log("Se dio click");
   console.log(['FB.login respose', response]);
   if (response.authResponse) {
     FB.api('/me', function (me) {
@@ -633,6 +610,7 @@ Winbits.loginFacebook = function(me) {
     facebookToken: me.id
   };
   $.fancybox.close();
+  console.log("Enviando info al back");
   $.ajax(Winbits.config.apiUrl + '/affiliation/facebook', {
     type: 'POST',
     contentType: 'application/json',
@@ -657,12 +635,54 @@ Winbits.loginFacebook = function(me) {
   });
 };
 
+Winbits.Handlers = {
+  getTokensHandler: function(tokensDef) {
+    Winbits.segregateTokens(Winbits.jQuery, tokensDef);
+    Winbits.expressLogin(Winbits.jQuery);
+  },
+  facebookStatusHandler: function(response) {
+    console.log(['Facebook status', response]);
+    if (response.status == 'connected') {
+      $.ajax(Winbits.config.apiUrl + '/affiliation/express-facebook-login.json', {
+        type: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify({ facebookId: response.authResponse.userID }),
+        headers: { 'Accept-Language': 'es' },
+        xhrFields: { withCredentials: true },
+        context: $,
+        success: function (data) {
+          console.log('express-facebook-login.json Success!');
+          console.log(['data', data]);
+          Winbits.applyLogin($, data.response);
+        },
+        error: function (xhr, textStatus, errorThrown) {
+          console.log('express-facebook-login.json Error!');
+        }
+      });
+    }
+  },
+  loginHandler: function (response) {
+    console.log(["demo-dev.html:response", response])
+    if (response.authResponse) {
+      windowProxy.post({'action':'me'});
+    } else {
+      console.log('Facebook login failed!');
+    }
+  },
+  meHandler: function (response) {
+    if (response.email) {
+      Winbits.loginFacebook(response);
+    }
+  }
+};
+
 (function () {
   // Localize jQuery variable
   Winbits.jQuery;
 
   // Async load facebook
-  Winbits.loadFacebook();
+  // Winbits.loadFacebook();
 
   /******** Load jQuery if not present *********/
   if (window.jQuery === undefined || window.jQuery.fn.jquery !== '1.8.3') {
@@ -699,62 +719,74 @@ Winbits.loginFacebook = function(me) {
 
   Winbits.winbitsReady = function () {
     // Check for presence of required DOM elements or other JS your widget depends on
-    var $widgetContainer = Winbits.jQuery('#winbits-widget');
-    if (Winbits.extraScriptLoaded && $widgetContainer.length > 0) {
+    var $widgetContainer = Winbits.jQuery('#' + Winbits.config.winbitsDivId);
+    if ($widgetContainer.length > 0) {
       window.clearInterval(Winbits._readyInterval);
       var $ = Winbits.jQuery;
       /******* Load HTML *******/
-      $('#winbits-widget').load(Winbits.config.baseUrl + '/widgets/winbits.html', function () {
-        jcf.customForms.replaceAll();
-        initTouchNav();
-        initCarousel();
-        initCycleCarousel();
-        initDropDown();
-        initOpenClose();
-        initLightbox();
-        initPopups();
-        initInputs();
-        initAddClasses();
-        initValidation();
-        initCounter();
-        initSlider();
-        initRadio();
-        Winbits.init();
+      Winbits.$widgetContainer = $widgetContainer.first();
+      Winbits.$widgetContainer.load(Winbits.config.baseUrl + '/widget.html', function () {
+        Winbits.$widgetContainer.append('<script type="text/javascript" src="' + Winbits.config.baseUrl  + '/include/js/script.js"></script>" ');
+        Winbits.initProxy($);
       });
     }
+  };
+
+  Winbits.addToCart = function(skuProfileId, quantity, bits) {
+    console.log(['Added to cart', skuProfileId, quantity]);
   };
 
   /******** Our main function ********/
   function main() {
     Winbits.jQuery.extend(Winbits.config, Winbits.userConfig || {});
-    createExtraScriptTag();
     var $head = Winbits.jQuery('head');
-    $head.append('<link rel="stylesheet" type="text/css" media="all" href="' + Winbits.config.baseUrl + '/css/fancybox.css"/>');
-    $head.append('<link rel="stylesheet" type="text/css" media="all" href="' + Winbits.config.baseUrl + '/css/all.css"/>');
-    $head.append('<!--[if lt IE 9]><link rel="stylesheet" type="text/css" href="' + Winbits.config.baseUrl + '/css/ie.css" /><![endif]-->');
+    var styles = [Winbits.config.baseUrl + '/include/css/style.css'];
+    /*loadStylesInto(styles, $head);
+     var scripts = [
+     Winbits.config.baseUrl + "/js/porthole.min.js",
+     Winbits.config.baseUrl + "/include/js/libs/modernizr-2.6.2.js",
+     Winbits.config.baseUrl + "/include/js/libs/jquery-1.8.3.min.js",
+     Winbits.config.baseUrl + "/include/js/libs/jquery.browser.min.js",
+     Winbits.config.baseUrl + "/include/js/libs/jQueryUI1.9.2/jquery-ui-1.9.2.js",
+     Winbits.config.baseUrl + "/include/js/libs/Highslide/highslide.js",
+     Winbits.config.baseUrl + "/include/js/libs/jquery.validate.min.js"
+     ];
+     Winbits.requiredScriptsCount = scripts.length;
+     Winbits.loadedScriptsCount = 0;
+     loadScriptsInto(scripts, $head);
+     Winbits._readyRetries = 0;*/
     Winbits._readyInterval = window.setInterval(function () {
+//      Winbits._readyRetries = Winbits._readyRetries + 1;
       Winbits.winbitsReady();
     }, 50);
   };
 
-  function createExtraScriptTag() {
-    var scriptTag = document.createElement('script');
-    scriptTag.setAttribute("type", "text/javascript");
-    scriptTag.setAttribute("src", Winbits.config.baseUrl + "/js/jquery.main.js");
-    if (scriptTag.readyState) {
-      scriptTag.onreadystatechange = function () { // For old versions of IE
-        if (this.readyState == 'complete' || this.readyState == 'loaded') {
-          Winbits.extraScriptLoaded = true;
-        }
-      };
-    } else {
-      scriptTag.onload = function () {
-        Winbits.extraScriptLoaded = true;
-      };
-    }
-    // Try to find the head, otherwise default to the documentElement
-    var headTag = (document.getElementsByTagName("head")[0] || document.documentElement);
-    headTag.appendChild(scriptTag);
-  }
+  function loadStylesInto(styles, e) {
+    var $into = Winbits.$(e);
+    Winbits.jQuery.each(styles, function(i, style) {
+      $into.append('<link rel="stylesheet" type="text/css" media="all" href="' + style + '"/>');
+    });
+  };
+
+  function loadScriptsInto(scripts, e) {
+    var $into = Winbits.$(e);
+    Winbits.jQuery.each(scripts, function(i, script) {
+      var scriptTag = document.createElement('script');
+      scriptTag.setAttribute("type", "text/javascript");
+      scriptTag.setAttribute("src", script);
+      if (scriptTag.readyState) {
+        scriptTag.onreadystatechange = function () { // For old versions of IE
+          if (this.readyState == 'complete' || this.readyState == 'loaded') {
+            Winbits.loadedScriptsCount = Winbits.loadedScriptsCount + 1;
+          }
+        };
+      } else {
+        scriptTag.onload = function () {
+          Winbits.loadedScriptsCount = Winbits.loadedScriptsCount + 1;
+        };
+      }
+      $into.append(scriptTag);
+    });
+  };
 
 })(); // We call our anonymous function immediately

@@ -1,0 +1,136 @@
+<!doctype html>
+
+<html xmlns:fb="http://ogp.me/ns/fb#">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=980" />
+  <title>Winbits</title>
+  <script type="text/javascript" src="https://raw.github.com/ternarylabs/porthole/master/src/porthole.min.js"></script>
+  <script type="text/javascript">
+    var Winbits = {};
+    (function() {
+      Winbits.setCookie = function setCookie(c_name, value, exdays) {
+        exdays = exdays || 7;
+        var exdate = new Date();
+        exdate.setDate(exdate.getDate() + exdays);
+        var c_value = escape(value) + ((exdays === null) ? "" : "; path=/; expires=" + exdate.toUTCString());
+        document.cookie = c_name + "=" + c_value;
+      };
+
+      Winbits.getCookie = function getCookie(c_name) {
+        var c_value = document.cookie;
+        var c_start = c_value.indexOf(" " + c_name + "=");
+        if (c_start == -1) {
+          c_start = c_value.indexOf(c_name + "=");
+        }
+        if (c_start == -1) {
+          c_value = null;
+        }
+        else {
+          c_start = c_value.indexOf("=", c_start) + 1;
+          var c_end = c_value.indexOf(";", c_start);
+          if (c_end == -1) {
+            c_end = c_value.length;
+          }
+          c_value = unescape(c_value.substring(c_start, c_end));
+        }
+        return c_value;
+      };
+
+      Winbits.deleteCookie = function (name) {
+        document.cookie = name + '=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT';
+      };
+
+      window.onload=function(){
+        //Obteniendo el parametro de la url
+        var getUrlParams = function() {
+          var vars = [], hash;
+          var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+          for(var i = 0; i < hashes.length; i++) {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+          }
+          return vars;
+        };
+        var params = getUrlParams();
+        var origin = params.origin;
+
+        // Create a proxy window to send to and receive
+        // messages from the iFrame
+        windowProxy = new Porthole.WindowProxy(origin);
+
+        // Register an event handler to receive messages;
+        windowProxy.addEventListener(function (messageEvent) {
+          console.log(['Received message from vertical', messageEvent]);
+          var data = messageEvent.data;
+          var actionFn = Actions[data.action];
+          if (actionFn) {
+            actionFn.apply(data.params);
+          } else {
+            alert('Invalid action from Winbits');
+          }
+        });
+      };
+
+      var Actions = {
+        getTokens: function() {
+          var tokens = {};
+          var apiToken = Winbits.getCookie('_wb_api_token');
+          if (apiToken) {
+            tokens.apiToken = { cookieName: '_wb_api_token', value: apiToken, expireDays: 7 };
+          }
+          var vcartToken = Winbits.getCookie('_wb_vcart_token');
+          if (!vcartToken) {
+            vcartToken = '[]';
+            Winbits.setCookie('_wb_vcart_token', vcartToken, 7);
+          }
+          tokens.vcartToken = { cookieName: '_wb_vcart_token', value: vcartToken, expireDays: 7 };
+          windowProxy.post({action: 'getTokens', params: [tokens]});
+        },
+        saveApiToken: function(apiToken) {
+          Winbits.setCookie('_wb_api_token', apiToken, 7);
+        },
+        facebookStatus: function() {
+          console.log('About to call FB.getLoginStatus.');
+          FB.getLoginStatus(function(response) {
+            console.log(['FB.getLoginStatus', response]);
+            windowProxy.post({action: 'facebookStatus', params: [response]});
+           }, true);
+        },
+        facebookLogin: function() {
+          document.getElementById('fbl').click();
+
+        },
+        me: function() {
+          FB.api('/me', function(response){
+            windowProxy.post({action: 'me', params: [response]});
+          });
+        }
+      };
+
+      window.fbAsyncInit = function () {
+        FB.init({appId: '486640894740634', status: true, cookie: true, xfbml: true, oauth  : true });
+      };
+
+      var e = document.createElement('script');
+      e.async = true;
+      e.src = 'http://connect.facebook.net/en_US/all.js';
+      (document.getElementsByTagName('head')[0] || document.documentElement).appendChild(e);
+    })();
+
+    function sendLoginFB (){
+      FB.login(function(response) {
+        windowProxy.post({action: 'login', params: [response]});
+      }, {scope: 'email,user_about_me,user_birthday'});
+
+    };
+  </script>
+</head>
+<body>
+<div id="fb-root">
+  <button id="facebook-btn" onclick="sendLoginFB()" style="background-color: #000088;color: #ffffff;">Login Facebook</button>
+</div>
+</body>
+</html>
