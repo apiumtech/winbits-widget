@@ -985,7 +985,7 @@ input[type="submit"].btn.btn-mini {
 
   *zoom: 1;
   background-color: transparent;
-  background-image: url("http://api.winbits.com/widgets/images/misc/icons.png");
+  background-image: url("../../images/misc/icons.png");
   background-repeat: no-repeat;
   background-position: 0 0;
   line-height: 60px;
@@ -1094,7 +1094,7 @@ input[type="submit"].btn.btn-mini {
 
   *zoom: 1;
   background-color: transparent;
-  background-image: url("http://api.winbits.com/widgets/images/misc/icons.png");
+  background-image: url("../../images/misc/icons.png");
   background-repeat: no-repeat;
   background-position: 0 -122px;
   line-height: 126px;
@@ -1108,7 +1108,7 @@ input[type="submit"].btn.btn-mini {
   display: block;
 }
 .actualiza .close:hover {
-  background: url("http://api.winbits.com/widgets/images/misc/icons.png");
+  background: url("../../images/misc/icons.png");
   background-position: 0 -122px;
 }
 .actualiza .vermenos {
@@ -1141,7 +1141,7 @@ input[type="submit"].btn.btn-mini {
 
   *zoom: 1;
   background-color: transparent;
-  background-image: url("http://api.winbits.com/widgets/images/misc/icons.png");
+  background-image: url("../../images/misc/icons.png");
   background-repeat: no-repeat;
   background-position: 0 0;
   line-height: 60px;
@@ -1722,7 +1722,7 @@ input[type="submit"].btn.btn-mini {
 
   *zoom: 1;
   background-color: transparent;
-  background-image: url("http://api.winbits.com/widgets/images/misc/icons.png");
+  background-image: url("../../images/misc/icons.png");
   background-repeat: no-repeat;
   background-position: -80px -140px;
   line-height: 120px;
@@ -1762,7 +1762,7 @@ input[type="submit"].btn.btn-mini {
 
   *zoom: 1;
   background-color: transparent;
-  background-image: url("http://api.winbits.com/widgets/images/misc/icons.png");
+  background-image: url("../../images/misc/icons.png");
   background-repeat: no-repeat;
   background-position: -30px -140px;
   line-height: 30px;
@@ -2301,7 +2301,7 @@ input[type="submit"].btn.btn-mini {
   font-weight: normal;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivRight li {
-  background: url("http://api.winbits.com/widgets/images/misc/line.gif") no-repeat 0 5px;
+  background: url("../../images/misc/line.gif") no-repeat 0 5px;
   font-size: 10px;
   padding-left: 10px;
 }

@@ -22,7 +22,7 @@
       <fieldset>
         <label>INSCRIBETE AHORA</label>
         <input type="text" placeholder="Email" class="emailJoinNow">
-        <span class="btn btnSmall" onclick="return hs.htmlExpand(this, { allowWidthReduction: true, objectType: 'iframe', src:'register01.html', width: 520}, { sendEmail: $('.emailJoinNow').val()});">Join Now</span>
+        <span class="btn btnSmall" onclick="return hs.htmlExpand(this, { contentId:'register-layer'}, { sendEmail: $('.emailJoinNow').val()});">Join Now</span>
       </fieldset>
       <span class="icon closeFolder openClose"></span>
     </div>
@@ -52,9 +52,9 @@
 </nav>
 <div class="login">
   <ul>
-    <li class="link" onclick="return hs.htmlExpand(this, { allowWidthReduction: true, objectType: 'iframe', src:'completaRegistro.html', width: 520});">Ver video</li>
-    <li class="link" onclick="return hs.htmlExpand(this, { objectType: 'iframe', src:'register01.html', width: 520});">Registrate</li>
-    <li class="btn btnTopNav" onclick="return hs.htmlExpand(this, { allowWidthReduction: true, objectType: 'iframe', src:'login.html', width: 330});">Log in</li>
+    <li class="link" onclick="return hs.htmlExpand(this, { contentId:'complete-register-layer' });">Ver video</li>
+    <li class="link" onclick="return hs.htmlExpand(this, { contentId:'register-layer' });">Registrate</li>
+    <li class="btn btnTopNav" onclick="return hs.htmlExpand(this, { contentId: 'login-layer' });">Log in</li>
   </ul>
 </div>
 <div class="miCuenta" style="display: none;">
@@ -330,5 +330,102 @@
 </div>
 </div>
 </div>
+</div>
+<div id="layers-container" style="display: none;">
+  <div id="login-layer" class="bodyModal">
+    <form id="form1" accept-charset="utf-8" action="#" method="post">
+      <div class="mainModal login">
+        <div class="contentModal">
+          <fieldset>
+            <h1>Bienvenido a <small><span class="icon winbits23px">Winbits</span></small></h1>
+            <input type="text" placeholder="Email" class="required" email="true">
+            <input type="password" placeholder="Password" class="required">
+            <input type="checkbox" value="rememberMe" name="rememberMe" class="checkbox">
+            <label class="checkboxLabel">Recuérdame</label>
+            <div class="errorDiv"><p></p></div>
+            <input type="submit" class="btn" value="Log in">
+            <p class="forgotRegister">¿Olvidaste tu password? <a href="#">haz click aquí</a></p>
+            <p class="forgotRegister">¿No estas registrado? <a href="#">haz click aquí</a></p>
+          </fieldset>
+        </div>
+        <footer class="widgetWinbitsFooter">
+          <a href="#" class="btnFacebook"><span class="icon facebookWhite"></span>Log in with Facebook</a>
+        </footer>
+      </div>
+    </form>
+  </div>
+  <div id="register-layer" class="bodyModal">
+    <form id="form1" accept-charset="utf-8" action="#" method="post">
+      <div class="mainModal registro01">
+        <div class="contentModal">
+          <fieldset class="leftModal">
+            <h2>Para crear una cuenta con nosotros, proporciónanos los siguientes datos:</h2>
+            <input type="text" placeholder="Email" class="required" id="emailRegister" email="true">
+            <input type="password" placeholder="Password" class="required" id="password">
+            <input type="password" placeholder="Comprobar Password" class="required" equalTo="#password">
+            <div class="errorDiv"><p></p></div>
+            <p>¿Ya tienes una cuenta? <a href="#">haz click aquí</a></p>
+            <p class="terminosCondiciones">Al hacer click en "Registrate" aceptas nuestros <a href="#">Términos y Condiciones</a> y nuestro <a href="#">Aviso de Privacidad.</a></p>
+            <input type="submit" class="btn" value="Registrate">
+          </fieldset>
+          <aside class="asideModal">
+            <span class="icon winbits23px">Winbits</span>
+            <p>UNA SOLA CUENTA, UN SOLO CHECK IN, <br>Y EN TODAS GANAS WINBITS</p>
+            <ul>
+              <li class="icon clickoneroLogo">ClicOnero</li>
+              <li class="icon looqLogo">ClicOnero</li>
+            </ul>
+          </aside>
+        </div>
+        <footer class="widgetWinbitsFooter">
+          <a href="#" class="btnFacebook"><span class="icon facebookWhite"></span>Log in with Facebook</a>
+        </footer>
+      </div>
+    </form>
+  </div>
+  <div id="complete-register-layer" class="bodyModal">
+    <form id="form1" accept-charset="utf-8" action="register01.html" method="post">
+      <div class="mainModal completaRegistro">
+        <div class="contentModal">
+          <fieldset class="leftModal">
+            <h1>COMPLETA TU REGISTRO Y GANA BITS!</h1>
+            <h3>Si completas tu registro con nosotros, obtendrás $50 bits que podras utilizar desde tu primera compra.</h3>
+            <input type="text" placeholder="Nombre">
+            <input type="text" placeholder="Apellido">
+            <div class="fieldsetDiv divBirthday">
+              <label>Cumpleaños</label>
+              <input type="text" placeholder="dd" maxlength="2" digits="true">
+              <input type="text" placeholder="mm" maxlength="2" digits="true">
+              <input type="text" placeholder="aa" maxlength="2" digits="true">
+            </div>
+            <div class="fieldsetDiv divGender">
+              <label>Género</label>
+              <input type="radio" name="radioGender" value="H">
+              <input type="radio" name="radioGender" value="M">
+            </div>
+            <input type="text" placeholder="Zip Code">
+            <select class="select" data-clase="selectRegister">
+              <option>Localidad</option>
+              <option>México, D.F.</option>
+              <option>Guadalajara</option>
+              <option>Monterrey</option>
+            </select>
+            <input type="text" placeholder="Teléfono">
+            <div class="errorDiv"><p></p></div>
+            <input type="submit" class="btn btnGuardar" value="Guardar">
+            <p>Si así lo deseas, puedes completar tu registro después haciendo click en la sección de MI CUENTA. <a href="#" onclick="return hs.close(this)">Llenalo despues.</a></p>
+          </fieldset>
+          <aside class="asideModal">
+            <span class="icon winbits23px">Winbits</span>
+            <p>UNA SOLA CUENTA, UN SOLO CHECK IN, <br>Y EN TODAS GANAS WINBITS</p>
+            <ul>
+              <li class="icon clickoneroLogo">ClicOnero</li>
+              <li class="icon looqLogo">ClicOnero</li>
+            </ul>
+          </aside>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
 <div id="iframe-container" style="display: none;"></div>
