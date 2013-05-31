@@ -7,7 +7,7 @@ Winbits.facebookLoaded = false;
 Winbits.config = Winbits.config || {
   apiUrl: 'http://api.winbits.com/v1',
   baseUrl: 'http://api.winbits.com/widgets',
-  loginRedirectUrl: 'http://api.winbits.com/widgets/login.html',
+  loginRedirectUrl: 'http://api.winbits.com/widgets/ilogin.html',
   errorFormClass: 'error-form',
   errorClass: 'error',
   verticalId: 1,
