@@ -89,10 +89,17 @@
           tokens.vcartToken = { cookieName: '_wb_vcart_token', value: vcartToken, expireDays: 7 };
           windowProxy.post({action: 'getTokens', params: [tokens]});
         },
-        saveTokens: function(tokens) {
-
+        saveApiToken: function(apiToken) {
+          Winbits.setCookie('_wb_api_token', apiToken, 7);
         },
-        login: function() {
+        facebookStatus: function() {
+          console.log('About to call FB.getLoginStatus.');
+          FB.getLoginStatus(function(response) {
+            console.log(['FB.getLoginStatus', response]);
+            windowProxy.post({action: 'facebookStatus', params: [response]});
+           }, true);
+        },
+        facebookLogin: function() {
           document.getElementById('fbl').click();
 
         },

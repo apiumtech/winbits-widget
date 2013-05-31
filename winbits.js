@@ -121,10 +121,13 @@ Winbits.requestTokens = function ($) {
 };
 
 Winbits.segregateTokens = function ($, tokensDef) {
+  console.log(['tokensDef', tokensDef]);
   var vcartTokenDef = tokensDef.vcartToken;
   Winbits.setCookie(vcartTokenDef.cookieName, vcartTokenDef.value || '', vcartTokenDef.expireDays);
   var apiTokenDef = tokensDef.apiToken;
-  Winbits.setCookie(apiTokenDef.cookieName, apiTokenDef.value || '', apiTokenDef.expireDays);
+  if (apiTokenDef) {
+    Winbits.setCookie(apiTokenDef.cookieName, apiTokenDef.value || '', apiTokenDef.expireDays);
+  }
   Winbits.tokensDef = tokensDef;
 };
 
@@ -139,7 +142,10 @@ Winbits.createFrame = function ($, frameSrc) {
 
 Winbits.expressLogin = function ($) {
   Winbits.checkRegisterConfirmation($);
-  var apiToken = Winbits.getCookie(Winbits.tokensDef.apiToken.cookieName);
+  var apiToken
+  if (Winbits.tokensDef.apiToken) {
+    Winbits.getCookie(Winbits.tokensDef.apiToken.cookieName);
+  }
   if (apiToken) {
     $.ajax(Winbits.config.apiUrl + '/affiliation/express-login.json', {
       type: 'POST',
@@ -167,40 +173,15 @@ Winbits.expressLogin = function ($) {
 
 Winbits.checkRegisterConfirmation = function ($) {
   var params = Winbits.getUrlParams();
-  console.log(['params', params]);
   var apiToken = params._wb_api_token;
   if (apiToken) {
-    console.log(['Setting apiToken', apiToken]);
     Winbits.setCookie(Winbits.tokensDef.apiToken.cookieName, apiToken);
+    Winbits.proxy.post({ action: 'saveApiToken', params: [apiToken] });
   }
 };
 
 Winbits.expressFacebookLogin = function ($) {
-  /* Winbits.waitForFacebook(function($) {
-   console.log('About to call FB.getLoginStatus.');
-   FB.getLoginStatus(function(response) {
-   console.log(['FB.getLoginStatus', response]);
-   if (response.status == 'connected') {
-   $.ajax(Winbits.config.apiUrl + '/affiliation/express-facebook-login.json', {
-   type: 'POST',
-   contentType: 'application/json',
-   dataType: 'json',
-   data: JSON.stringify({ facebookId: response.authResponse.userID }),
-   headers: { 'Accept-Language': 'es' },
-   xhrFields: { withCredentials: true },
-   context: $,
-   success: function (data) {
-   console.log('express-facebook-login.json Success!');
-   console.log(['data', data]);
-   Winbits.applyLogin($, data.response);
-   },
-   error: function (xhr, textStatus, errorThrown) {
-   console.log('express-facebook-login.json Error!');
-   }
-   });
-   }
-   }, true);
-   }, $);*/
+  Winbits.proxy.post({ action: 'facebookStatus' });
 };
 
 Winbits.initWidgets = function ($) {
@@ -657,7 +638,29 @@ Winbits.loginFacebook = function(me) {
 Winbits.Handlers = {
   getTokensHandler: function(tokensDef) {
     Winbits.segregateTokens(Winbits.jQuery, tokensDef);
-//    Winbits.expressLogin(Winbits.jQuery);
+    Winbits.expressLogin(Winbits.jQuery);
+  },
+  facebookStatusHandler: function(response) {
+    console.log(['Facebook status', response]);
+    if (response.status == 'connected') {
+      $.ajax(Winbits.config.apiUrl + '/affiliation/express-facebook-login.json', {
+        type: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify({ facebookId: response.authResponse.userID }),
+        headers: { 'Accept-Language': 'es' },
+        xhrFields: { withCredentials: true },
+        context: $,
+        success: function (data) {
+          console.log('express-facebook-login.json Success!');
+          console.log(['data', data]);
+          Winbits.applyLogin($, data.response);
+        },
+        error: function (xhr, textStatus, errorThrown) {
+          console.log('express-facebook-login.json Error!');
+        }
+      });
+    }
   },
   loginHandler: function (response) {
     console.log(["demo-dev.html:response", response])
@@ -717,7 +720,6 @@ Winbits.Handlers = {
   Winbits.winbitsReady = function () {
     // Check for presence of required DOM elements or other JS your widget depends on
     var $widgetContainer = Winbits.jQuery('#' + Winbits.config.winbitsDivId);
-//    if ((Winbits._readyRetries >= 5 || Winbits.loadedScriptsCount >= Winbits.requiredScriptsCount) && $widgetContainer.length > 0) {
     if ($widgetContainer.length > 0) {
       window.clearInterval(Winbits._readyInterval);
       var $ = Winbits.jQuery;
