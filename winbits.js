@@ -5,13 +5,14 @@ var Winbits = Winbits || {};
 Winbits.extraScriptLoaded = false;
 Winbits.facebookLoaded = false;
 Winbits.config = Winbits.config || {
-  apiUrl: 'http://api.winbits.com/v1',
+  apiUrl: 'http://apiqa.winbits.com/v1',
   baseUrl: 'http://api.winbits.com/widgets',
   loginRedirectUrl: 'http://api.winbits.com/widgets/ilogin.html',
   errorFormClass: 'error-form',
   errorClass: 'error',
   verticalId: 1,
-  verticalURLProxy : "-"
+  verticalURLProxy : "-",
+  winbitsDivId: 'winbits-widget'
 };
 
 Winbits.$ = function (element) {
@@ -704,33 +705,14 @@ Winbits.loginFacebook = function(me) {
 
   Winbits.winbitsReady = function () {
     // Check for presence of required DOM elements or other JS your widget depends on
-    var $widgetContainer = Winbits.jQuery('#winbits-widget');
-    if (Winbits.extraScriptLoaded && $widgetContainer.length > 0) {
+    var $widgetContainer = Winbits.jQuery('#' + winbitsDivId);
+    if (Winbits.requiredScriptsCount === Winbits.loadedScriptsCount && $widgetContainer.length > 0) {
       window.clearInterval(Winbits._readyInterval);
       var $ = Winbits.jQuery;
       /******* Load HTML *******/
-      $('#winbits-widget').load(Winbits.config.baseUrl + '/widgets/winbits.html', function () {
-        console.log("vertical url : " + Winbits.config.verticalURLProxy);
-        console.log("src de frame1 : " + $('#winbits-frame').attr("src"));
+      $('#winbits-widget').load(Winbits.config.baseUrl + '/widget.html', function () {
         var urlSrc=$('#winbits-frame').attr("src")+"?origin=" + Winbits.config.verticalURLProxy ;
-        console.log("urlSrc : " + urlSrc);
         $('#winbits-frame').attr("src", urlSrc);
-        console.log("src de frame2 : " + $('#winbits-frame').attr("src"));
-
-        jcf.customForms.replaceAll();
-        initTouchNav();
-        initCarousel();
-        initCycleCarousel();
-        initDropDown();
-        initOpenClose();
-        initLightbox();
-        initPopups();
-        initInputs();
-        initAddClasses();
-        initValidation();
-        initCounter();
-        initSlider();
-        initRadio();
         Winbits.init();
         // Create a proxy window to send to and receive
         // messages from the iFrame
@@ -758,32 +740,50 @@ Winbits.loginFacebook = function(me) {
     Winbits.jQuery.extend(Winbits.config, Winbits.userConfig || {});
     createExtraScriptTag();
     var $head = Winbits.jQuery('head');
-    $head.append('<link rel="stylesheet" type="text/css" media="all" href="' + Winbits.config.baseUrl + '/css/fancybox.css"/>');
-    $head.append('<link rel="stylesheet" type="text/css" media="all" href="' + Winbits.config.baseUrl + '/css/all.css"/>');
-    $head.append('<!--[if lt IE 9]><link rel="stylesheet" type="text/css" href="' + Winbits.config.baseUrl + '/css/ie.css" /><![endif]-->');
+    var styles = [Winbits.config.baseUrl + '/include/css/style.css'];
+    loadStylesInto(styles, $head);
+    var scripts = [
+      Winbits.config.baseUrl + "js/porthole.min.js",
+      Winbits.config.baseUrl + "include/js/libs/modernizr-2.6.2.js",
+      Winbits.config.baseUrl + "include/js/libs/jquery-1.8.3.min.js",
+      Winbits.config.baseUrl + "include/js/libs/jquery.browser.min.js",
+      Winbits.config.baseUrl + "include/js/libs/jQueryUI1.9.2/jquery-ui-1.9.2.js",
+      Winbits.config.baseUrl + "include/js/libs/Highslide/highslide.js",
+      Winbits.config.baseUrl + "include/js/libs/jquery.validate.min.js"
+    ];
+    Winbits.requiredScriptsCount = scripts.length;
+    loadScriptsInto(scripts, e);
     Winbits._readyInterval = window.setInterval(function () {
       Winbits.winbitsReady();
     }, 50);
   };
 
-  function createExtraScriptTag() {
-    var scriptTag = document.createElement('script');
-    scriptTag.setAttribute("type", "text/javascript");
-    scriptTag.setAttribute("src", Winbits.config.baseUrl + "/js/jquery.main.js");
-    if (scriptTag.readyState) {
-      scriptTag.onreadystatechange = function () { // For old versions of IE
-        if (this.readyState == 'complete' || this.readyState == 'loaded') {
-          Winbits.extraScriptLoaded = true;
-        }
-      };
-    } else {
-      scriptTag.onload = function () {
-        Winbits.extraScriptLoaded = true;
-      };
-    }
-    // Try to find the head, otherwise default to the documentElement
-    var headTag = (document.getElementsByTagName("head")[0] || document.documentElement);
-    headTag.appendChild(scriptTag);
-  }
+  function loadStylesInto(styles, e) {
+    var $into = Winbits.$(e);
+    $.each(styles, function(i, style) {
+      $head.append('<link rel="stylesheet" type="text/css" media="all" href="' + style + '"/>');
+    });
+  };
+
+  function loadScriptsInto(scripts, e) {
+    var $into = Winbits.$(e);
+    $.each(scripts, function(i, script) {
+      var scriptTag = document.createElement('script');
+      scriptTag.setAttribute("type", "text/javascript");
+      scriptTag.setAttribute("src", script);
+      if (scriptTag.readyState) {
+        scriptTag.onreadystatechange = function () { // For old versions of IE
+          if (this.readyState == 'complete' || this.readyState == 'loaded') {
+            Winbits.loadedScriptsCount = Winbits.loadedScriptsCount + 1;
+          }
+        };
+      } else {
+        scriptTag.onload = function () {
+          Winbits.loadedScriptsCount = Winbits.loadedScriptsCount + 1;
+        };
+      }
+      $into.append(scriptTag);
+    });
+  };
 
 })(); // We call our anonymous function immediately
