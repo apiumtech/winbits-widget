@@ -6,6 +6,66 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=980" />
   <title>Winbits</title>
+  <style type="text/css">
+    .icon {
+      background-color: transparent;
+      background-image: url("images/misc/icons.png");
+      background-position: 0 0;
+      background-repeat: no-repeat;
+      display: inline-block;
+      height: 20px;
+      line-height: 60px;
+      margin: 0;
+      overflow: hidden;
+      text-indent: 60px;
+      vertical-align: middle;
+      width: 20px;
+    }
+
+    .facebookWhite {
+      background-position: -20px -120px;
+    }
+
+    .btnFacebook .icon {
+      margin-right: 5px;
+    }
+
+    a {
+      color: #275D93;
+      text-decoration: none;
+      transition: all 0.3s ease 0s;
+    }
+
+    .btnFacebook {
+      color: #FFFFFF !important;
+      border: medium none;
+      outline: medium none;
+      font-family: Verdana, Helvetica;
+      background: #667cbc;
+      font-size: 11px;
+      padding: 5px 20px;
+      display: inline-block;
+      vertical-align: middle;
+      width: auto;
+      *display: inline;
+      /* IE7 inline-block hack */
+
+      *zoom: 1;
+      -webkit-transition: 0.3s;
+      -khtml-transition: 0.3s;
+      -moz-transition: 0.3s;
+      -ms-transition: 0.3s;
+      -o-transition: 0.3s;
+      transition: 0.3s;
+    }
+    .btnFacebook:hover {
+      background: #788bc4;
+      text-decoration: none;
+    }
+    .btnFacebook .icon {
+      margin-right: 5px;
+    }
+  </style>
   <script type="text/javascript" src="https://raw.github.com/ternarylabs/porthole/master/src/porthole.min.js"></script>
   <script type="text/javascript">
     var Winbits = {};
@@ -128,9 +188,9 @@
     };
   </script>
 </head>
-<body>
-<div id="fb-root">
-  <button id="facebook-btn" onclick="sendLoginFB()" style="background-color: #000088;color: #ffffff;">Login Facebook</button>
+<body style="margin: 0px;background: none repeat scroll 0 0 #454545;">
+<div id="fb-root" style="text-align: center;">
+  <a class="btnFacebook" href="#"><span class="icon facebookWhite"></span>Log in with Facebook</a>
 </div>
 </body>
 </html>

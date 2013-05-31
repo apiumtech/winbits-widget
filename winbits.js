@@ -76,8 +76,8 @@ Winbits.waitForFacebook = function(f, $) {
 Winbits.init = function () {
   var $ = Winbits.jQuery;
   Winbits.requestTokens($);
-  /*Winbits.initWidgets($);
-  Winbits.alertErrors($);
+  Winbits.initWidgets($);
+  /*Winbits.alertErrors($);
   $('form.lightbox-message-form').submit(function (e) {
     e.preventDefault();
     $.fancybox.close();
@@ -86,10 +86,11 @@ Winbits.init = function () {
 
 Winbits.initProxy = function($) {
   var iframeSrc = Winbits.config.baseUrl +'/winbits.html?origin=' + Winbits.config.proxyUrl;
-  var $iframe = $('<iframe id="winbits-iframe" name="winbits-iframe" src="' + iframeSrc +'"></iframe>').on('load', function() {
+  var iframeStyle = 'width:100%;border: 0px;overflow: hidden;';
+  var $iframe = $('<iframe id="winbits-iframe" name="winbits-iframe" height="30" style="' + iframeStyle + '" src="' + iframeSrc +'"></iframe>').on('load', function() {
     Winbits.init();
   });
-  Winbits.$widgetContainer.find('#iframe-container').append($iframe);
+  Winbits.$widgetContainer.find('#iframe-holder').append($iframe);
 
   // Create a proxy window to send to and receive
   // messages from the iFrame
@@ -185,10 +186,30 @@ Winbits.expressFacebookLogin = function ($) {
 };
 
 Winbits.initWidgets = function ($) {
+  Winbits.initLightbox($);
   Winbits.initRegisterWidget($);
   Winbits.initLoginWidget($);
   Winbits.initFacebookWidgets($);
   Winbits.initLogout($);
+};
+
+Winbits.initLightbox = function($) {
+  hs.dimmingDuration = 0;
+  hs.Expander.prototype.onInit = function(sender) {
+    console.log(sender.contentId);
+    var $holder = $('#' + sender.contentId).find('.facebook-btn-holder');
+    if ($holder.length > 0) {
+      console.log('Placing on fbh');
+      $('#winbits-iframe').appendTo($holder);
+    }
+  };
+
+  hs.Expander.prototype.onBeforeClose = function(sender) {
+    console.log(sender.contentId);
+    var $holder = Winbits.$widgetContainer.find('#iframe-holder');
+    console.log(['Returning to $holder', $holder]);
+    $('#winbits-iframe').appendTo($holder);
+  };
 };
 
 Winbits.initRegisterWidget = function ($) {
