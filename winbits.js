@@ -88,7 +88,10 @@ Winbits.initProxy = function($) {
   var iframeSrc = Winbits.config.baseUrl +'/winbits.html?origin=' + Winbits.config.proxyUrl;
   var iframeStyle = 'width:100%;border: 0px;overflow: hidden;';
   var $iframe = $('<iframe id="winbits-iframe" name="winbits-iframe" height="30" style="' + iframeStyle + '" src="' + iframeSrc +'"></iframe>').on('load', function() {
-    Winbits.init();
+    if (!Winbits.initialized) {
+      Winbits.initialized = true;
+      Winbits.init();
+    }
   });
   Winbits.$widgetContainer.find('#iframe-holder').append($iframe);
 
@@ -187,29 +190,135 @@ Winbits.expressFacebookLogin = function ($) {
 
 Winbits.initWidgets = function ($) {
   Winbits.initLightbox($);
+  Winbits.initControls($);
   Winbits.initRegisterWidget($);
   Winbits.initLoginWidget($);
-  Winbits.initFacebookWidgets($);
-  Winbits.initLogout($);
+//  Winbits.initLogout($);
+};
+
+Winbits.initControls = function($) {
+  changeShippingAddress({
+    obj: '.shippingAddresses',
+    objetivo: '.shippingItem',
+    activo: 'shippingSelected',
+    inputradio: '.shippingRadio'
+  });
+  customCheckbox('.checkbox');
+  customRadio('.divGender');
+  customSelect ('.select');
+  customSlider('.slideInput');
+  customStepper('.inputStepper');
+  dropMenu({
+    obj: '.miCuentaDiv',
+    clase: '.dropMenu',
+    trigger: '.triggerMiCuenta',
+    other: '.miCarritoDiv'
+  });
+  dropMenu({
+    obj: '.miCarritoDiv',
+    clase: '.dropMenu',
+    trigger: '.shopCarMin',
+    other: '.miCuentaDiv'
+  });
+  openFolder({
+    obj: '.knowMoreMin',
+    trigger: '.knowMoreMin .openClose',
+    objetivo: '.knowMoreMax'
+  });
+  openFolder({
+    obj: '.knowMoreMax',
+    trigger: '.knowMoreMax .openClose',
+    objetivo: '.knowMoreMin'
+  });
+  openFolder({
+    obj: '.myProfile .miPerfil',
+    trigger:  '.myProfile .miPerfil .editBtn',
+    objetivo: '.myProfile .editMiPerfil'
+  });
+  openFolder({
+    obj: '.myProfile .editMiPerfil',
+    trigger: '.myProfile .editMiPerfil .editBtn',
+    objetivo: '.myProfile .miPerfil'
+  });
+  openFolder({
+    obj: '.myProfile .miPerfil',
+    trigger: '.myProfile .miPerfil .changePassBtn',
+    objetivo: '.myProfile .changePassDiv'
+  });
+  openFolder({
+    obj: '.myProfile .changePassDiv',
+    trigger: '.myProfile .changePassDiv .editBtn',
+    objetivo: '.myProfile .miPerfil'
+  });
+  openFolder({
+    obj: '.myAddress .miDireccion',
+    trigger: '.myAddress .miDireccion .editBtn, .myAddress .miDireccion .changeAddressBtn',
+    objetivo: '.myAddress .editMiDireccion'
+  });
+  openFolder({
+    obj: '.myAddress .editMiDireccion',
+    trigger: '.myAddress .editMiDireccion .editBtn',
+    objetivo: '.myAddress .miDireccion'
+  });
+  openFolder({
+    obj: '.mySuscription .miSuscripcion',
+    trigger: '.mySuscription .miSuscripcion .editBtn, .mySuscription .miSuscripcion .editLink',
+    objetivo: '.mySuscription .editSuscription'
+  });
+  openFolder({
+    obj: '.mySuscription .editSuscription',
+    trigger: '.mySuscription .editSuscription .editBtn',
+    objetivo: '.mySuscription .miSuscripcion'
+  });
+  openFolder({
+    obj: '.shippingAddresses',
+    trigger: '.shippingAdd',
+    objetivo: '.shippingNewAddress'
+  });
+  openFolder({
+    obj: '.shippingNewAddress',
+    trigger: '.submitButton .btnCancel',
+    objetivo: '.shippingAddresses'
+  });
+  placeholder('input[type="text"], input[type="password"]');
+  sendEmail('.btnSmall');
+  validar({
+    container: '.bodyModal',
+    form: '.bodyModal form',
+    errorClass: 'errorInputError',
+    errorElement: 'span',
+    errorLabel: '.errorDiv p',
+    classSuccess: 'errorInputOK'
+  });
+  verticalCarousel('.carritoDivLeft .carritoContainer');
+
+  console.log('Winibits Initialized');
 };
 
 Winbits.initLightbox = function($) {
-  hs.dimmingDuration = 0;
-  hs.Expander.prototype.onInit = function(sender) {
-    console.log(sender.contentId);
-    var $holder = $('#' + sender.contentId).find('.facebook-btn-holder');
-    if ($holder.length > 0) {
-      console.log('Placing on fbh');
+  Winbits.$widgetContainer.find('a.fancybox').fancybox({
+    overlayShow: true,
+    hideOnOverlayClick: true,
+    enableEscapeButton: true,
+    showCloseButton: true,
+    overlayOpacity: 0.9,
+    overlayColor: '#333',
+    padding: 0,
+    onComplete: function() {
+      console.log(['href', this.href]);
+      var $holder = $(this.href).find('.facebook-btn-holder');
+      console.log(['Holder', $holder]);
+      if ($holder.length > 0) {
+        $('#winbits-iframe').appendTo($holder);
+      }
+    },
+    onClosed: function() {
+      console.log(['href', this.href]);
+      var $holder = Winbits.$widgetContainer.find('#iframe-holder');
+      console.log(['Holder', $holder]);
       $('#winbits-iframe').appendTo($holder);
     }
-  };
-
-  hs.Expander.prototype.onBeforeClose = function(sender) {
-    console.log(sender.contentId);
-    var $holder = Winbits.$widgetContainer.find('#iframe-holder');
-    console.log(['Returning to $holder', $holder]);
-    $('#winbits-iframe').appendTo($holder);
-  };
+  });
 };
 
 Winbits.initRegisterWidget = function ($) {
@@ -224,10 +333,10 @@ Winbits.initRegisterWidget = function ($) {
       dataType: 'json',
       data: JSON.stringify(formData),
       context: $form,
-      beforeSend: function () {
-        this.find('.form-errors').children().remove();
-        return Winbits.validateRegisterForm(this);
-      },
+//      beforeSend: function () {
+//        this.find('.form-errors').children().remove();
+//        return Winbits.validateRegisterForm(this);
+//      },
       headers: { 'Accept-Language': 'es' },
       success: function (data) {
         console.log('Request Success!');
@@ -446,15 +555,6 @@ Winbits.showCompleteProfile = function ($, profile) {
   $.fancybox.close();
   Winbits.loadProfile($, profile);
   $('a[href=#winbits-complete-profile-popup]').click();
-};
-
-Winbits.initFacebookWidgets = function($) {
-  $(".btn-facebook").click(function () {
-    console.log("click a boton de facebok1");
-    windowProxy.post({'action':'login'});
-    //  FB.login(Winbits.loginFacebookHandler, {scope: 'email,user_about_me,user_birthday'});
-    return false;
-  });
 };
 
 Winbits.initLogout = function ($) {
@@ -683,17 +783,18 @@ Winbits.Handlers = {
       });
     }
   },
-  loginHandler: function (response) {
-    console.log(["demo-dev.html:response", response])
+  facebookLoginHandler: function (response) {
     if (response.authResponse) {
-      windowProxy.post({'action':'me'});
+      windowProxy.post({'action':'facebookMe'});
     } else {
       console.log('Facebook login failed!');
     }
   },
-  meHandler: function (response) {
+  facebookMeHandler: function (response) {
+    console.log(response);
     if (response.email) {
-      Winbits.loginFacebook(response);
+      console.log('Trying to log with facebook');
+//      Winbits.loginFacebook(response);
     }
   }
 };

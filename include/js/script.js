@@ -7,7 +7,7 @@ function customCheckbox(obj){
 		$(obj).each(function(){
 			var $this = $(this),
 				$clase;
-			if($this.prop('checked')){
+        if($this.prop('checked')){
 				$clase = 'selectCheckbox';
 			} else {
 				$clase = 'unselectCheckbox';
@@ -287,13 +287,13 @@ function placeholder (obj, textarea){
 function sendEmail(obj){
 	if($(obj).length){
 		$(obj).click(function(){
-			hs.Expander.prototype.onAfterExpand = function(){
-				$('iframe').contents().find('#emailRegister').val(this.custom.sendEmail);
-				var exp = window.hs.getExpander();
-				if(exp) {
-					exp.reflow();
-				}
-            };
+//			hs.Expander.prototype.onAfterExpand = function(sender){
+//				$('#' + sender.contentId).find('#emailRegister').val(this.custom.sendEmail);
+//				var exp = window.hs.getExpander();
+//				if(exp) {
+//					exp.reflow();
+//				}
+//            };
 		});
 	}
 }
@@ -324,7 +324,9 @@ jQuery.extend(jQuery.validator.messages, {
 
 function validar (obj) {
 	if($(obj.container).length) {
-		$(obj.form).validate({
+    var $form = $(obj.form);
+    console.log(['Validar form', $form]);
+		$form.validate({
 			errorClass: obj.errorClass,
 			errorElement: obj.errorElement,
 			errorLabelContainer: obj.errorLabel,
@@ -350,10 +352,10 @@ function validar (obj) {
 	}
 }
 function recarga(){
-	var exp = window.parent.hs.getExpander();
-    if(exp) {
-		exp.reflow();
-    }
+//	var exp = hs.getExpander();
+//    if(exp) {
+//		exp.reflow();
+//    }
 }
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -449,99 +451,3 @@ function uncheck(obj) {
 		$(this).attr('checked', false);
 	});
 }
-$(document).ready(function(){
-	changeShippingAddress({
-		obj: '.shippingAddresses',
-		objetivo: '.shippingItem',
-		activo: 'shippingSelected',
-		inputradio: '.shippingRadio'
-	});
-	customCheckbox('.checkbox');
-	customRadio('.divGender');
-	customSelect ('.select');
-	customSlider('.slideInput');
-	customStepper('.inputStepper');
-	dropMenu({
-		obj: '.miCuentaDiv',
-		clase: '.dropMenu',
-		trigger: '.triggerMiCuenta',
-		other: '.miCarritoDiv'
-	});
-	dropMenu({
-		obj: '.miCarritoDiv',
-		clase: '.dropMenu',
-		trigger: '.shopCarMin',
-		other: '.miCuentaDiv'
-	});
-	openFolder({
-		obj: '.knowMoreMin',
-		trigger: '.knowMoreMin .openClose',
-		objetivo: '.knowMoreMax'
-	});
-	openFolder({
-		obj: '.knowMoreMax',
-		trigger: '.knowMoreMax .openClose',
-		objetivo: '.knowMoreMin'
-	});
-	openFolder({
-		obj: '.myProfile .miPerfil',
-		trigger:  '.myProfile .miPerfil .editBtn',
-		objetivo: '.myProfile .editMiPerfil'
-	});
-	openFolder({
-		obj: '.myProfile .editMiPerfil',
-		trigger: '.myProfile .editMiPerfil .editBtn',
-		objetivo: '.myProfile .miPerfil'
-	});
-	openFolder({
-		obj: '.myProfile .miPerfil',
-		trigger: '.myProfile .miPerfil .changePassBtn',
-		objetivo: '.myProfile .changePassDiv'
-	});
-	openFolder({
-		obj: '.myProfile .changePassDiv',
-		trigger: '.myProfile .changePassDiv .editBtn',
-		objetivo: '.myProfile .miPerfil'
-	});
-	openFolder({
-		obj: '.myAddress .miDireccion',
-		trigger: '.myAddress .miDireccion .editBtn, .myAddress .miDireccion .changeAddressBtn',
-		objetivo: '.myAddress .editMiDireccion'
-	});
-	openFolder({
-		obj: '.myAddress .editMiDireccion',
-		trigger: '.myAddress .editMiDireccion .editBtn',
-		objetivo: '.myAddress .miDireccion'
-	});
-	openFolder({
-		obj: '.mySuscription .miSuscripcion',
-		trigger: '.mySuscription .miSuscripcion .editBtn, .mySuscription .miSuscripcion .editLink',
-		objetivo: '.mySuscription .editSuscription'
-	});
-	openFolder({
-		obj: '.mySuscription .editSuscription',
-		trigger: '.mySuscription .editSuscription .editBtn',
-		objetivo: '.mySuscription .miSuscripcion'
-	});
-	openFolder({
-		obj: '.shippingAddresses',
-		trigger: '.shippingAdd',
-		objetivo: '.shippingNewAddress'
-	});
-	openFolder({
-		obj: '.shippingNewAddress',
-		trigger: '.submitButton .btnCancel',
-		objetivo: '.shippingAddresses'
-	});
-	placeholder('input[type="text"], input[type="password"]');
-	sendEmail('.btnSmall');
-	validar({
-		container: '.bodyModal',
-		form: '.bodyModal form',
-		errorClass: 'errorInputError',
-		errorElement: 'span',
-		errorLabel: '.errorDiv p',
-		classSuccess: 'errorInputOK'
-   });
-	verticalCarousel('.carritoDivLeft .carritoContainer');
-});

@@ -22,7 +22,9 @@
       <fieldset>
         <label>INSCRIBETE AHORA</label>
         <input type="text" placeholder="Email" class="emailJoinNow">
-        <span class="btn btnSmall" onclick="return hs.htmlExpand(this, { contentId:'register-layer'}, { sendEmail: $('.emailJoinNow').val()});">Join Now</span>
+        <a href="#register-lightbox" class="fancybox">
+          <span class="btn btnSmall">Join Now</span>
+        </a>
       </fieldset>
       <span class="icon closeFolder openClose"></span>
     </div>
@@ -52,9 +54,13 @@
 </nav>
 <div class="login">
   <ul>
-    <li class="link" onclick="return hs.htmlExpand(this, { contentId:'complete-register-layer' });">Ver video</li>
-    <li class="link" onclick="return hs.htmlExpand(this, { contentId:'register-layer' });">Registrate</li>
-    <li class="btn btnTopNav" onclick="return hs.htmlExpand(this, { contentId: 'login-layer' });">Log in</li>
+    <li class="link">Ver video</li>
+    <li class="link">
+      <a href="#register-layer" class="fancybox">Registrate</a>
+    </li>
+    <li class="btn btnTopNav">
+      <a href="#login-layer" class="fancybox">Log in</a>
+    </li>
   </ul>
 </div>
 <div class="miCuenta" style="display: none;">
@@ -333,7 +339,7 @@
 </div>
 <div id="layers-container" style="display: none;">
   <div id="login-layer" class="bodyModal">
-    <form id="form1" accept-charset="utf-8" action="#" method="post">
+    <form id="login-form" accept-charset="utf-8" action="#" method="post" style="margin: 0;">
       <div class="mainModal login">
         <div class="contentModal">
           <fieldset>
@@ -355,7 +361,7 @@
     </form>
   </div>
   <div id="register-layer" class="bodyModal">
-    <form id="form1" accept-charset="utf-8" action="#" method="post">
+    <form id="winbits-register-form" accept-charset="utf-8" action="#" method="post" style="margin: 0;">
       <div class="mainModal registro01">
         <div class="contentModal">
           <fieldset class="leftModal">
@@ -384,7 +390,7 @@
     </form>
   </div>
   <div id="complete-register-layer" class="bodyModal">
-    <form id="form1" accept-charset="utf-8" action="register01.html" method="post">
+    <form id="complete-register-form" accept-charset="utf-8" action="#" method="post" style="margin: 0;">
       <div class="mainModal completaRegistro">
         <div class="contentModal">
           <fieldset class="leftModal">

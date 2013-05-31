@@ -160,12 +160,11 @@
            }, true);
         },
         facebookLogin: function() {
-          document.getElementById('fbl').click();
-
+          document.getElementById('facebook-btn').click();
         },
-        me: function() {
+        facebookMe: function() {
           FB.api('/me', function(response){
-            windowProxy.post({action: 'me', params: [response]});
+            windowProxy.post({action: 'facebookMe', params: [response]});
           });
         }
       };
@@ -182,15 +181,14 @@
 
     function sendLoginFB (){
       FB.login(function(response) {
-        windowProxy.post({action: 'login', params: [response]});
+        windowProxy.post({action: 'facebookLogin', params: [response]});
       }, {scope: 'email,user_about_me,user_birthday'});
-
     };
   </script>
 </head>
 <body style="margin: 0px;background: none repeat scroll 0 0 #454545;">
 <div id="fb-root" style="text-align: center;">
-  <a class="btnFacebook" href="#"><span class="icon facebookWhite"></span>Log in with Facebook</a>
+  <a id="facebook-btn" class="btnFacebook" href="#" onclick="sendLoginFB()"><span class="icon facebookWhite"></span>Log in with Facebook</a>
 </div>
 </body>
 </html>
