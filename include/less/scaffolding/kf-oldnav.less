@@ -1,0 +1,52 @@
+.actualiza {
+	background: lighten(@yellow, 30%);
+	font-size: 12px;
+	height: 50px;
+	overflow: hidden;
+	padding: 0 10px;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: 999999;
+	.box-shadow(0 0 10px @black);
+	a {
+		color: @blue;
+		text-decoration: underline;
+		&:hover{
+			color: @red;
+		}
+	}
+	p {
+		margin: 5px 0;
+	}
+	nav {
+		float: right;
+		margin-right: 10px;
+		margin-left: 40px;
+		a {
+			background: @blue;
+			color: @white;
+			font-weight: bold;
+			margin-top: 10px;
+			padding: 5px 10px;
+			text-decoration: none;
+			.inline-block;
+			&:hover{
+				background: darken(@blue, 15%);
+				color: @white;
+			}
+		}
+	}
+	.close {
+		padding: 0;
+		.size-icon (@iconBackground, 42px, 41px, 0 -122px);
+		margin: -5px 0 0 25px;
+		&:hover {
+			background: @iconBackground;
+			background-position: 0 -122px;
+		}
+	}
+	.vermenos {
+		display: none;
+	}
+}

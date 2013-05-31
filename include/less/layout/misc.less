@@ -1,0 +1,295 @@
+// Varios
+.btnSmall {
+	background: @yellow;
+	color: @black;
+	font-family: 'HelveticaNeueBold';
+	font-size: 10px;
+	.border-radius(3px);
+	.transition(.5s);
+	&:hover {
+		color: @white;
+		background: @green;
+	}
+}
+.btnCancel {
+	background: @red;
+	&:hover {
+		color: @white;
+	}
+}
+.btnGuardar {
+	margin: 10px 0;
+}
+.btnTerminar {
+	padding: 15px 48px !important;
+}
+.btnTopNav {
+	padding: 15px 35px !important;
+}
+.fieldsetDiv {
+	label {
+		color: lighten(@black, 71%);
+		margin-left: 2px;
+		.inline-block(88px);
+	}
+	input[type="text"]{
+		margin-left: 4px;
+		text-align: center;
+		width: 22px !important;
+	}
+}
+.divCheckbox {
+	text-align: left;
+	.inline-block;
+	input {
+		position: absolute;
+		visibility: hidden;
+	}
+	.labelCheckbox {
+		font-size: 10px;
+		line-height: 20px;
+	}
+}
+.divRadio {
+	.inline-block;
+	input {
+		visibility: hidden;
+		position: absolute;
+	}
+	.spanRadio {
+		background: @white;
+		border: @inputBorder;
+		color: @placeholderText;
+		cursor: pointer;
+		margin-left: 4px;
+		padding: 5px;
+		text-align: center;
+		.inline-block(22px);
+		&:hover{
+			border-color: @grey;
+		}
+	}
+	.spanSelected {
+		background: @grey;
+		color: @white;
+		&:hover{
+			border: @inputBorder;
+		}
+	}
+}
+.errorInputError {
+	border: 1px solid @red !important;
+}
+.errorDiv {
+	.errorInputError {
+		display: block;
+		color: @red;
+		border: none !important;
+		margin: 5px;
+	}
+	.errorInputOK {
+		display: none !important;
+	}
+}
+.closeButton {
+	position: relative;
+	top: 10px;
+	left: -10px;
+	.iconButton;
+}
+.highslide-wrapper, .highslide-outline {
+   background: none !important;
+   
+}
+.highslide-html {
+	background: none !important;
+	overflow: hidden;
+	.margin-padding;
+	iframe {
+		overflow: hidden;
+		.margin-padding;
+		html {
+			overflow: hidden;
+			.margin-padding;
+		}
+	}
+}
+.highslide-wrapper, .highslide-html, .highslide-html-content, .highslide-body {
+	overflow: hidden !important;
+}
+.highslide-wrapper .highslide-html-content {
+    width: auto;
+}
+.link {
+	color: @black;
+	cursor: pointer;
+	text-decoration: underline;
+	&:hover {
+		color: lighten(@black, 72%);
+	}
+}
+.selectContainer {
+	position: relative;
+	.inline-block;
+	.margin-padding;
+	.selectContent {
+	}
+	.selectTrigger {
+		.user-select(none);
+	}
+	.selectOptions {
+		display: none;
+		position: absolute;
+		.margin-padding;
+		li {
+			background: @white;
+			cursor: pointer;
+			display: block;
+			.margin-padding;
+			padding: 2px;
+			&:hover{
+				background: lighten(@black, 30%);
+				color: @white;
+			}
+		}
+		.selectedOpt{
+			background: @grey;
+			color: @white;
+		}
+	}
+	.selectHidden {
+		left: -99999px;
+		position: absolute;
+		//visibility:hidden;
+	}
+}
+.selectRegister {
+	position: relative;
+	.selectContent {
+		background: @white;
+		border: @inputBorder;
+		margin: 2px 0;
+		color: @placeholderText;
+		padding: 5px 20px 5px 5px;
+		.font('HelveticaNeueRoman');
+		.inline-block(171px);
+		&:hover {
+			border-color: @grey;
+		}
+	}
+	.selectActive {
+		color: @grey;
+	}
+	.selectTrigger {
+		background-position: -40px -140px;
+		position: absolute;
+		right: 10px;
+		top: 10px;
+	}
+	.selectOptions {
+		background: @white;
+		border: @inputBorder;
+		margin: -3px 0 0 1px;
+		width: 195px;
+		z-index: 4;
+		.box-shadow(0 3px 5px rgba(0,0,0,0.5));
+		li {
+			color: @placeholderText;
+
+		}
+	}
+}
+.slider {
+	position: relative;
+	span {
+		font-size: 9px;
+		position: absolute;
+	}
+	.text-value {
+		top: 25px;
+	}
+	.min-val {
+		left: -5px;
+	}
+	.max-val {
+		right: -20px;
+	}
+	.slider-holder {
+		border: none;
+		.size-icon (@iconBackground, 40px, 155px, -80px -140px);
+		overflow: initial;
+		.ui-slider-handle {
+			background: none;
+			border: none;
+			line-height: normal;
+			margin-left: -5px;
+			text-indent: 0;
+			top: 15px;
+			.transition(none);
+			&:focus {
+				outline: none;
+			}
+			.bit {
+				.size-icon (@iconBackground, 10px, 10px, -30px -140px);
+				cursor: pointer;
+				position: absolute;
+				top: 0;
+			}
+			.amount {
+				margin: -10px 0 0 -5px;
+				em {
+					font-style: normal;
+				}
+			}
+		}
+		.ui-widget-header {
+			background: none;
+			border: none;
+		}
+	}
+	.slideInput {
+		position: absolute;
+		visibility: hidden;
+	}
+}
+.stepper {
+	margin: 0 5px;
+	position: relative;
+	.inline-block;
+	input[type="text"]{
+		color: lighten(@black, 50%);
+		font-size: 10px;
+		height: 12px;
+		line-height: 12px;
+		padding: 1px 6px 1px 1px;
+		text-align: center;
+		width: 16px;
+	}
+	.icon {
+		position: absolute;
+		right: 3px;
+	}
+	.plus {
+		top: 3px;
+	}
+	.minus{
+		bottom: 3px;
+	}	
+}
+.submitButton {
+	text-align: center;
+}
+.tooltip {
+	background: @tooltipBackgroundIE;
+	background: @tooltipBackground;
+	color: @tooltipColor;
+	font-size: @tooltipFontSize;
+	line-height: @tooltipLineHeight;
+	padding: @tooltipPadding;
+	position: absolute;
+	z-index: @tooltipZIndex;
+	.border-radius(@tooltipBorderRadius);
+}
+.ui-datepicker-trigger {
+	cursor:	pointer;
+}

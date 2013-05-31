@@ -1,0 +1,128 @@
+.gridView {
+	background: @gridBackground;
+	border: @gridBorder;
+	clear: @gridClear;
+	margin: @gridMargin;
+	overflow: @gridOverflow;
+	padding: @gridPadding;
+	table {
+		background: @tableBg;
+		width: @tableWidth;
+		a {
+			color: @tableLinkColor;
+		}
+		caption {
+			background: @captionBackground;
+			color: @captionColor;
+			border-bottom: @captionBorder;
+			font-size: @captionFontSize;
+			margin: @captionMargin;
+			padding: @captionPadding;
+			text-align: @captionAlign;
+		}
+		td, th {
+			background: @tdBg;
+			color: @tdColor;
+			border: @tdBorder;
+			border-style: inset;
+			font-size: @cellFontSize;
+			padding: @cellPadding;
+			text-align: @cellAlign;
+			vertical-align: @cellVerticalAlign;
+		}
+		th {
+			background: @thBg;
+			border: @thBorder;
+			color: @thColor;
+			padding: @thPadding;
+			a {
+				color: @thColor;	
+				&:hover {
+					color: @thLinkColor;
+				}
+				&:visited {
+					color: @thLinkVisitedColor;
+				}
+			}
+		}
+		tr:nth-child(odd) {
+			td {
+				background: @tdAlternateBg;
+			}
+		}
+		.options {
+			white-space: nowrap;
+		}
+		.empty {
+			border: @emptyBorder;
+			clear: @emptyClear;
+			color: @emptyColor;
+			font-size: @emptyFontSize;
+			padding: @emptyPadding;
+			text-align: @emptyAlign;
+			p {
+				margin: @emptyPMargin;
+			}
+		}
+		.pager {	
+			td {
+				border: @pagerTdBorder;
+				padding: @pagerTdPadding; 
+			}
+			table {
+				margin: auto;
+				width: auto;
+				td {
+					border: @pagerTdTdBorder;
+					font-size: @pagerTdFontSize;
+					font-weight: @pagerTdFontWeight;
+					padding: @pagerTdTdPadding;
+					span {
+						display: @pagerSpanDisplay;
+						background: @pagerSpanBackground;
+						padding: @pagerSpanPadding;
+					}
+					a {
+						display: @pagerLinkDisplay;
+						padding: @pagerLinkPadding;
+						text-decoration: @pagerLinkTextDecoration;
+						&:hover {
+							background: @pagerHoverBackground;
+						}
+					}
+				}
+			}
+		}
+		.leftTD {
+			text-align: left;
+		}
+	}
+	#paging-table {
+		.page-far-left, .page-left, .page-right, .page-far-right{
+			.inline-block;
+			.size-hide (@backgroundPaging, @heightPaging, @widthPaging);
+			&:hover {
+				.opacity(50);
+			}
+		} 
+		.page-far-left {
+			background-position: @pageFarLeft;
+		}
+		.page-left {
+			background-position: @pageLeft;
+		}
+		.page-right {
+			background-position: @pageRight;
+		}
+		.page-far-right {
+			background-position: @pageFarRight;
+		}
+		#page-info {
+			.inline-block;
+		}
+	}
+	.add {
+		margin: @addMargin;
+		position: @addPosition;
+	}
+}

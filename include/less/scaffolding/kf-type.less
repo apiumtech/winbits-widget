@@ -1,0 +1,198 @@
+// BODY TEXT
+// ---------
+
+p {
+  margin: @pMargin;
+  small {
+    font-size: @pSmallFontSize;
+    color: @pSmallColor;
+  }
+}
+
+// HEADINGS
+// --------
+
+h1, h2, h3, h4, h5, h6 {
+  color: @headingsColor;
+  font-family: @headingsFontFamily;
+  font-weight: @headingsFontWeight;
+  margin: 0;
+  line-height: normal;
+  text-rendering: optimizelegibility; // Fix the character spacing for headings
+  small {
+    font-weight: normal;
+    color: @textColor;
+  }
+}
+h1 {
+  font-size: @h1FontSize;
+  small {
+    font-size: @h1SmallFontSize;
+  }
+}
+h2 {
+  font-size: @h2FontSize;
+  small {
+    font-size: @h2SmallFontSize;
+  }
+}
+h3 {
+  font-size: @h3FontSize;
+  small {
+    font-size: @h3SmallFontSize;
+  }
+}
+h4 {
+  font-size: @h3FontSize;
+  small {
+    font-size: @h4SmallFontSize;
+  }
+}
+h5 {
+  font-size: @h5FontSize;
+}
+h6 {
+  font-size: @h6FontSize;
+}
+
+// LISTS
+// -----
+
+// Unordered and Ordered lists
+ul, ol {
+  padding: @listPadding;
+  margin: @listMargin;
+}
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+  margin-bottom: @listListMarginBottom;
+}
+ul {
+  list-style: @ulListStyle;
+}
+ol {
+  list-style: @olListStyle;
+}
+li {
+  padding: @liPadding;
+}
+ul.unstyled,
+ol.unstyled {
+  margin-left: 0;
+  list-style: none;
+}
+
+// Description Lists
+dl {
+  margin-bottom: @dlMarginBottom;
+}
+dt,
+dd {
+  line-height: @baseLineHeight;
+}
+dt {
+  font-weight: bold;
+  line-height: @dtLineHeightFix; // fix jank Helvetica Neue font bug
+}
+dd {
+  margin-left: @ddMarginLeft;
+}
+// Horizontal layout (like forms)
+.dl-horizontal {
+  dt {
+    float: left;
+    width: @dtHorizontalWidth;
+    clear: left;
+    text-align: right;
+    .text-overflow();
+  }
+  dd {
+    margin-left: @ddHorizontalMarginLeft;
+  }
+}
+// MISC
+// ----
+
+// Horizontal rules
+hr {
+  margin: @hrMargin;
+  border: 0;
+  border-top: 1px solid @hrBorder;
+  border-bottom: 1px solid @white;
+}
+
+// Emphasis
+strong, b, th, caption {
+  font-family: @boldFontFamily;
+  font-weight: @boldFontWeight;
+  font-style: @boldFontStyle;
+}
+em, i {
+  font-family: @italicFontFamily;
+  font-weight: @italicFontWeight;
+  font-style: @italicFontStyle;
+}
+
+// Abbreviations and acronyms
+abbr[title] {
+  cursor: help;
+  border-bottom: @abbrBorderBottom;
+}
+abbr.initialism {
+  font-size: 90%;
+  text-transform: uppercase;
+}
+// Blockquotes
+blockquote {
+  padding: @blockquotePadding;
+  margin: @blockquoteMargin;
+  border-left: @blockquoteBorderLeft;
+  p {
+    margin-bottom: @blockquotePmarginBottom;
+    #font > .shorthand(@blockquotePShorthand);
+  }
+  small {
+    display: block;
+    color: @blockquoteSmallColor;
+    &:before {
+      content: '\2014 \00A0';
+    }
+  }
+
+  // Float right with text-align: right
+  &.pullRight {
+    float: right;
+    padding-right: @blockquotePullRightPaddingRight;
+    padding-left: 0;
+    border-right: @blockquotePullRightBorderRight;
+    border-left: 0;
+    p,
+    small {
+      text-align: right;
+    }
+  }
+}
+// Quotes
+q:before,
+q:after,
+blockquote:before,
+blockquote:after {
+  content: "";
+}
+
+// Addresses
+address {
+  display: block;
+  margin: @addressMargin;
+  font-style: normal;
+}
+
+// Misc
+small {
+  font-size: 100%;
+}
+cite {
+  font-style: normal;
+}
