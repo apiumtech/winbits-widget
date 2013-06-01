@@ -145,6 +145,7 @@ Winbits.createFrame = function ($, frameSrc) {
 Winbits.expressLogin = function ($) {
   Winbits.checkRegisterConfirmation($);
   var apiToken = Winbits.getCookie(Winbits.tokensDef.apiToken.cookieName);
+  console.log(['API Token', apiToken]);
   if (apiToken) {
     $.ajax(Winbits.config.apiUrl + '/affiliation/express-login.json', {
       type: 'POST',
@@ -174,7 +175,7 @@ Winbits.checkRegisterConfirmation = function ($) {
   var params = Winbits.getUrlParams();
   var apiToken = params._wb_api_token;
   if (apiToken) {
-    console.log('API token found as parameter, saving...');
+    console.log(['API token found as parameter, saving...', apiToken]);
     Winbits.saveApiToken(apiToken);
   }
 };
@@ -182,6 +183,7 @@ Winbits.checkRegisterConfirmation = function ($) {
 Winbits.saveApiToken = function(apiToken) {
   Winbits.tokensDef.apiToken.value = apiToken;
   Winbits.setCookie(Winbits.tokensDef.apiToken.cookieName, apiToken, 7);
+  console.log(['About to save API Token on Winbits', apiToken]);
   Winbits.proxy.post({ action: 'saveApiToken', params: [apiToken] });
 };
 
@@ -193,7 +195,9 @@ Winbits.initWidgets = function ($) {
   Winbits.initLightbox($);
   Winbits.initControls($);
   Winbits.initRegisterWidget($);
+  Winbits.initCompleteRegisterWidget($);
   Winbits.initLoginWidget($);
+  Winbits.initMyAccountWidget($);
 //  Winbits.initLogout($);
 };
 
@@ -375,7 +379,62 @@ Winbits.showRegisterConfirmation = function ($) {
   }, 1000);
 };
 
-Winbits.loadProfile = function($, profile) {
+Winbits.initCompleteRegisterWidget = function ($) {
+  $('#complete-register-form').submit(function (e) {
+    e.preventDefault();
+    var $form = $(this);
+    $form.validate({
+      rules: {
+        birthdate: {
+          dateISO: true
+        }
+      }
+    });
+    var day = $form.find('#day-input').val();
+    var month = $form.find('#month-input').val();
+    var year = $form.find('#year-input').val();
+    if (day || month || year) {
+      $form.find('[name=birthdate]').val((year > 13 ? '19' : '20') + year + '-' + month + '-' + day);
+    }
+    var formData = { verticalId: Winbits.config.verticalId };
+    formData = Winbits.Forms.serializeForm($, $form, formData);
+    if (formData.location === $form.find('[name=location]').attr('placeholder')) {
+      delete formData.location
+    }
+    if (formData.gender) {
+      formData.gender = formData.gender === 'H' ? 'male' : 'female'
+    }
+    $.ajax(Winbits.config.apiUrl + '/affiliation/profile.json', {
+      type: 'PUT',
+      contentType: 'application/json',
+      dataType: 'json',
+      data: JSON.stringify(formData),
+      context: $form,
+      beforeSend: function () {
+        return Winbits.validateForm(this);
+      },
+      headers: { 'Accept-Language': 'es', 'WB-Api-Token': Winbits.getCookie(Winbits.tokensDef.apiToken.cookieName) },
+      success: function (data) {
+        console.log(['Profile updated', data.response]);
+        Winbits.loadUserProfile($, data.response);
+        $.fancybox.close();
+      },
+      error: function (xhr, textStatus, errorThrown) {
+        var error = JSON.parse(xhr.responseText);
+        alert('Error while updating profile');
+      },
+      complete: function () {
+        console.log('Request Completed!');
+      }
+    });
+  });
+};
+
+Winbits.loadUserProfile = function($, profile) {
+  console.log(['Loading user profile', profile]);
+};
+
+Winbits.loadCompleteRegisterForm = function($, profile) {
   console.log(['Loading profile', profile]);
   if (profile) {
     var $profileForm = $('form#complete-profile-form');
@@ -396,11 +455,12 @@ Winbits.loadProfile = function($, profile) {
 };
 
 Winbits.initLoginWidget = function ($) {
-  $('#winbits-login-form').submit(function (e) {
+  $('#login-form').submit(function (e) {
     e.preventDefault();
     var $form = $(this);
     var formData = { verticalId: Winbits.config.verticalId };
     formData = Winbits.Forms.serializeForm($, $form, formData);
+    console.log(['Login Data', formData]);
     $.ajax(Winbits.config.apiUrl + '/affiliation/login.json', {
       type: 'POST',
       contentType: 'application/json',
@@ -408,9 +468,8 @@ Winbits.initLoginWidget = function ($) {
       data: JSON.stringify(formData),
       xhrFields: { withCredentials: true },
       context: $form,
-      beforeSend: function (xhr) {
-        this.find('.form-errors').children().remove();
-        return Winbits.validateLoginForm(this);
+      beforeSend: function () {
+        return Winbits.validateForm(this);
       },
       headers: { 'Accept-Language': 'es' },
       success: function (data) {
@@ -431,32 +490,57 @@ Winbits.initLoginWidget = function ($) {
   });
 };
 
-Winbits.validateLoginForm = function (form) {
-  var valid = true;
-  var $form = Winbits.$(form);
-  $form.removeClass(Winbits.config.errorFormClass);
-  var $email = $form.find('input[name=email]');
-  var email = ($email.val() || '').trim();
-  var $emailHolder = $email.parent();
-  $emailHolder.removeClass(Winbits.config.errorClass);
-  if (email.length === 0 || !Winbits.Validations.emailRegEx.test(email)) {
-    console.log('invalid email');
-    $form.addClass(Winbits.config.errorFormClass);
-    $emailHolder.addClass(Winbits.config.errorClass);
-    valid = false;
-  }
-  var $password = $form.find('input[name=password]');
-  var password = $password.val() || '';
-  var $passwordHolder = $password.parent();
-  $passwordHolder.removeClass(Winbits.config.errorClass);
-  if (password.length === 0) {
-    console.log('invalid password');
-    $form.addClass(Winbits.config.errorFormClass);
-    $passwordHolder.addClass(Winbits.config.errorClass);
-    valid = false;
-  }
-
-  return valid;
+Winbits.initMyAccountWidget = function($) {
+  $('#update-profile-form').submit(function (e) {
+    e.preventDefault();
+    var $form = $(this);
+    $form.validate({
+      rules: {
+        birthdate: {
+          dateISO: true
+        }
+      }
+    });
+    var day = $form.find('.day-input').val();
+    var month = $form.find('.month-input').val();
+    var year = $form.find('.year-input').val();
+    if (day || month || year) {
+      $form.find('[name=birthdate]').val((year > 13 ? '19' : '20') + year + '-' + month + '-' + day);
+    }
+    var formData = { verticalId: Winbits.config.verticalId };
+    formData = Winbits.Forms.serializeForm($, $form, formData);
+    if (formData.location === $form.find('[name=location]').attr('placeholder')) {
+      delete formData.location
+    }
+    if (formData.gender) {
+      formData.gender = formData.gender === 'H' ? 'male' : 'female'
+    }
+    $.ajax(Winbits.config.apiUrl + '/affiliation/profile.json', {
+      type: 'PUT',
+      contentType: 'application/json',
+      dataType: 'json',
+      data: JSON.stringify(formData),
+      context: $form,
+      beforeSend: function () {
+        return Winbits.validateForm(this);
+      },
+      headers: { 'Accept-Language': 'es', 'WB-Api-Token': Winbits.getCookie(Winbits.tokensDef.apiToken.cookieName) },
+      success: function (data) {
+        console.log(['Profile updated', data.response]);
+        var $myAccountPanel = this.closest('.myProfile');
+        Winbits.loadUserProfile($, profile);
+        $myAccountPanel.find('.editMiPerfil').hide();
+        $myAccountPanel.find('.miPerfil').show();
+      },
+      error: function (xhr, textStatus, errorThrown) {
+        var error = JSON.parse(xhr.responseText);
+        alert('Error while updating profile');
+      },
+      complete: function () {
+        console.log('Request Completed!');
+      }
+    });
+  });
 };
 
 Winbits.renderLoginFormErrors = function (form, error) {
@@ -468,11 +552,15 @@ Winbits.renderLoginFormErrors = function (form, error) {
       e.preventDefault();
       Winbits.resendConfirmLink($, e.target);
     });
-    var $errorMessageHolder = $('<span class="error-text visible">' + error.meta.message + '. <span class="link-holder"></span></span>');
+    var $errorMessageHolder = $('<p>' + error.meta.message + '. <span class="link-holder"></span></p>');
     $errorMessageHolder.find('.link-holder').append($resendConfirmLink);
-    $form.find('.form-errors').append($errorMessageHolder);
+    var message = error.message || error.meta.message;
+    var $errors = $form.find('.errors');
+    $errors.children().remove();
+    $errors.append($errorMessageHolder);
   } else {
-    $form.find('.form-errors').append('<span class="error-text visible">' + error.meta.message + '</span>');
+    var message = error.message || error.meta.message;
+    $form.find('.errors').html('<p>' + message + '</p>');
   }
 };
 
@@ -498,24 +586,25 @@ Winbits.resendConfirmLink = function ($, link) {
 };
 
 Winbits.applyLogin = function ($, profile) {
-  Winbits.showCompleteProfileIfRegister($);
+  Winbits.checkCompleteRegistration($);
   console.log('Logged In');
   Winbits.saveApiToken(profile.apiToken);
   Winbits.$widgetContainer.find('div.login').hide();
   Winbits.$widgetContainer.find('div.miCuenta').show();
+  Winbits.loadUserProfile($, profile);
 };
 
-Winbits.showCompleteProfileIfRegister = function ($) {
+Winbits.checkCompleteRegistration = function ($) {
   var params = Winbits.getUrlParams();
   var registerConfirmation = params._wb_register_confirm;
   if (registerConfirmation) {
-    Winbits.showCompleteProfile($);
+    Winbits.showCompleteRegistrationLayer($);
   }
 };
 
-Winbits.showCompleteProfile = function ($, profile) {
+Winbits.showCompleteRegistrationLayer = function ($, profile) {
   $.fancybox.close();
-  Winbits.loadProfile($, profile);
+  Winbits.loadCompleteRegisterForm($, profile);
   $('a[href=#complete-register-layer]').click();
 };
 
@@ -706,7 +795,7 @@ Winbits.loginFacebook = function(me) {
       Winbits.applyLogin($, data.response);
       if (201 == data.meta.status) {
         console.log('Facebook registered');
-        Winbits.showCompleteProfile($, data.response.profile);
+        Winbits.showCompleteRegistrationLayer($, data.response.profile);
       }
     },
     error: function (xhr, textStatus, errorThrown) {

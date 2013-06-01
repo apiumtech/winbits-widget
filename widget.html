@@ -73,13 +73,13 @@
       <div class="colum myProfile">
         <h2>MI PERFIL</h2>
         <div class="miPerfil">
-          <h3>Raúl Sotomayor</h3>
-          <p><a href="mailto:rulas1785@gmail.com">rulas1785@gmail.com</a></p>
-          <p>age 27</p>
+          <h3 class="profile-full-name">Raúl Sotomayor</h3>
+          <p><a  class="profile-email" href="#">rulas1785@gmail.com</a></p>
+          <p class="profile-age"></p>
           <address>
-            <span>Col. Villa Verdun</span>
-            <span>C.P.  01810</span>
-            <span>tel. 55 6350279</span>
+            <span class="profile-location"></span>
+            <span class="profile-zip-code"></span>
+            <span class="profile-phone"></span>
           </address>
           <ul>
             <li><a href="#" class="changePassBtn"><span class="icon changePasword"></span>Cambiar Password</a></li>
@@ -90,32 +90,34 @@
           <input class="btn editBtn" value="Editar">
         </div>
         <div class="editMiPerfil">
+          <form id="update-profile-form">
           <fieldset>
-            <input type="text" placeholder="Nombre" value="Raúl">
-            <input type="text" placeholder="Apellido" value="Sotomayor">
-            <input type="text" placeholder="Correo Electrónico" value="rulas@hotmail" email="true">
+            <input type="text" placeholder="Nombre" name="name">
+            <input type="text" placeholder="Apellido" name="lastName">
+            <!--<input type="text" placeholder="Correo Electrónico" value="rulas@hotmail" email="true">-->
             <div class="fieldsetDiv divBirthday">
               <label>Cumpleaños</label>
-              <input type="text" placeholder="dd" maxlength="2" digits="true">
-              <input type="text" placeholder="mm" maxlength="2" digits="true">
-              <input type="text" placeholder="aa" maxlength="2" digits="true">
+              <input type="text" placeholder="dd" maxlength="2" digits="true" class="day-input">
+              <input type="text" placeholder="mm" maxlength="2" digits="true" class="month-input">
+              <input type="text" placeholder="aa" maxlength="2" digits="true" class="year-input">
             </div>
             <div class="fieldsetDiv divGender">
               <label>Género</label>
-              <input type="radio" name="radioGender" value="H">
-              <input type="radio" name="radioGender" value="M">
+              <input type="radio" name="gender" value="H">
+              <input type="radio" name="gender" value="M">
             </div>
-            <input type="text" placeholder="Zip Code">
-            <select class="select" data-clase="selectRegister">
+            <input type="text" placeholder="Zip Code" name="zipCode">
+            <select class="select" data-clase="selectRegister" name="location">
               <option>Localidad</option>
               <option>México, D.F.</option>
               <option>Guadalajara</option>
               <option>Monterrey</option>
             </select>
-            <input type="text" placeholder="Teléfono">
+            <input type="text" placeholder="Teléfono" name="phone">
             <div class="errorDiv"><p></p></div>
           </fieldset>
           <input class="btn editBtn" value="Guardar">
+          </form>
         </div>
         <div class="changePassDiv">
           <fieldset>
@@ -344,11 +346,11 @@
         <div class="contentModal">
           <fieldset>
             <h1>Bienvenido a <small><span class="icon winbits23px">Winbits</span></small></h1>
-            <input type="text" placeholder="Email" class="required" email="true">
-            <input type="password" placeholder="Password" class="required">
+            <input type="text" placeholder="Email" class="required" email="true" name="email">
+            <input type="password" placeholder="Password" class="required" name="password">
             <input type="checkbox" value="rememberMe" name="rememberMe" class="checkbox">
             <label class="checkboxLabel">Recuérdame</label>
-            <div class="errorDiv"><p></p></div>
+            <div class="errors"></div>
             <input type="submit" class="btn" value="Log in">
             <p class="forgotRegister">¿Olvidaste tu password? <a href="#">haz click aquí</a></p>
             <p class="forgotRegister">¿No estas registrado? <a href="#">haz click aquí</a></p>
@@ -403,27 +405,28 @@
           <fieldset class="leftModal">
             <h1>COMPLETA TU REGISTRO Y GANA BITS!</h1>
             <h3>Si completas tu registro con nosotros, obtendrás $50 bits que podras utilizar desde tu primera compra.</h3>
-            <input type="text" placeholder="Nombre">
-            <input type="text" placeholder="Apellido">
+            <input type="text" placeholder="Nombre" name="name">
+            <input type="text" placeholder="Apellido" name="lastName">
             <div class="fieldsetDiv divBirthday">
               <label>Cumpleaños</label>
-              <input type="text" placeholder="dd" maxlength="2" digits="true">
-              <input type="text" placeholder="mm" maxlength="2" digits="true">
-              <input type="text" placeholder="aa" maxlength="2" digits="true">
+              <input type="text" placeholder="dd" maxlength="2" digits="true" class="day-input">
+              <input type="text" placeholder="mm" maxlength="2" digits="true" class="month-input">
+              <input type="text" placeholder="aa" maxlength="2" digits="true" class="year-input">
+              <input type="hidden" name="birthdate">
             </div>
             <div class="fieldsetDiv divGender">
               <label>Género</label>
-              <input type="radio" name="radioGender" value="H">
-              <input type="radio" name="radioGender" value="M">
+              <input type="radio" name="gender" value="H">
+              <input type="radio" name="gender" value="M">
             </div>
-            <input type="text" placeholder="Zip Code">
-            <select class="select" data-clase="selectRegister">
+            <input type="text" placeholder="Zip Code" name="zipCode">
+            <select class="select" data-clase="selectRegister" name="location" placeholder="Localidad">
               <option>Localidad</option>
               <option>México, D.F.</option>
               <option>Guadalajara</option>
               <option>Monterrey</option>
             </select>
-            <input type="text" placeholder="Teléfono">
+            <input type="text" placeholder="Teléfono" name="phone">
             <div class="errorDiv"><p></p></div>
             <input type="submit" class="btn btnGuardar" value="Guardar">
             <p>Si así lo deseas, puedes completar tu registro después haciendo click en la sección de MI CUENTA. <a href="#" onclick="return hs.close(this)">Llenalo despues.</a></p>

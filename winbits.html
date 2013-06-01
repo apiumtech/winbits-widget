@@ -127,7 +127,7 @@
           var data = messageEvent.data;
           var actionFn = Actions[data.action];
           if (actionFn) {
-            actionFn.apply(data.params);
+            actionFn.apply(this, data.params);
           } else {
             alert('Invalid action from Winbits');
           }
@@ -150,6 +150,7 @@
           windowProxy.post({action: 'getTokens', params: [tokens]});
         },
         saveApiToken: function(apiToken) {
+          console.log(['API Token from vertical', apiToken]);
           Winbits.setCookie('_wb_api_token', apiToken, 7);
         },
         facebookStatus: function() {
