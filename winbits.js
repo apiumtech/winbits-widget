@@ -283,16 +283,7 @@ Winbits.initControls = function($) {
     trigger: '.submitButton .btnCancel',
     objetivo: '.shippingAddresses'
   });
-//  placeholder('input[type="text"], input[type="password"]');
   sendEmail('.btnSmall');
-//  validar({
-//    container: '.bodyModal',
-//    form: '.bodyModal form',
-//    errorClass: 'errorInputError',
-//    errorElement: 'span',
-//    errorLabel: '.errorDiv p',
-//    classSuccess: 'errorInputOK'
-//  });
   verticalCarousel('.carritoDivLeft .carritoContainer');
   console.log('Winibits Initialized');
 };
@@ -818,7 +809,7 @@ Winbits.Handlers = {
       /******* Load HTML *******/
       Winbits.$widgetContainer = $widgetContainer.first();
       Winbits.$widgetContainer.load(Winbits.config.baseUrl + '/widget.html', function () {
-        Winbits.$widgetContainer.append('<script type="text/javascript" src="' + Winbits.config.baseUrl  + '/include/js/script.js"></script>" ');
+        Winbits.$widgetContainer.append('<script type="text/javascript" src="' + Winbits.config.baseUrl  + '/include/js/extra.js"></script>" ');
         Winbits.initProxy($);
       });
     }
