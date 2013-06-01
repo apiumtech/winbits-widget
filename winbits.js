@@ -1,7 +1,7 @@
 var console = window.console || {};
 console.log = console.log || function () {};
 
-var Winbits = Winbits || {};
+var Winbits = {};
 Winbits.extraScriptLoaded = false;
 Winbits.facebookLoaded = false;
 Winbits.config = Winbits.config || {
@@ -14,6 +14,7 @@ Winbits.config = Winbits.config || {
   proxyUrl : "-",
   winbitsDivId: 'winbits-widget'
 };
+Winbits.Flags = { loggedIn: false, fbConnect: false };
 
 Winbits.$ = function (element) {
   return element instanceof Winbits.jQuery ? element : Winbits.jQuery(element);
@@ -600,6 +601,7 @@ Winbits.resendConfirmLink = function ($, link) {
 };
 
 Winbits.applyLogin = function ($, profile) {
+  Winbits.Flags.loggedIn = true;
   Winbits.checkCompleteRegistration($);
   console.log('Logged In');
   Winbits.saveApiToken(profile.apiToken);
@@ -648,11 +650,13 @@ Winbits.initLogout = function ($) {
 };
 
 Winbits.applyLogout = function ($, logoutData) {
-  Winbits.proxy.post({ action: 'logout' });
+  Winbits.proxy.post({ action: 'logout', params: Winbits.Flags.fbConnect });
   Winbits.deleteCookie(Winbits.tokensDef.apiToken.cookieName);
   Winbits.$widgetContainer.find('div.miCuenta').hide();
   Winbits.$widgetContainer.find('div.login').show();
   Winbits.resetMyAccountPanel($);
+  Winbits.Flags.loggedIn = false;
+  Winbits.Flags.fbConnect = false;
 };
 
 Winbits.resetMyAccountPanel = function($) {
@@ -827,6 +831,7 @@ Winbits.Handlers = {
   facebookStatusHandler: function(response) {
     console.log(['Facebook status', response]);
     if (response.status == 'connected') {
+      Winbits.Flags.fbConnect = true;
       $.ajax(Winbits.config.apiUrl + '/affiliation/express-facebook-login.json', {
         type: 'POST',
         contentType: 'application/json',
@@ -921,6 +926,7 @@ Winbits.Handlers = {
 
   Winbits.addToCart = function(skuProfileId, quantity, bits) {
     console.log(['Added to cart', skuProfileId, quantity]);
+//    if ()
   };
 
   /******** Our main function ********/
