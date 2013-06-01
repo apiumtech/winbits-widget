@@ -167,11 +167,10 @@
             windowProxy.post({action: 'facebookStatus', params: [response]});
            }, true);
         },
-        facebookLogin: function() {
-          document.getElementById('facebook-btn').click();
-        },
         facebookMe: function() {
+          console.log('Winbits: Requesting me profile...');
           FB.api('/me', function(response){
+            console.log(['Facebook me response', response]);
             windowProxy.post({action: 'facebookMe', params: [response]});
           });
         }

@@ -188,6 +188,7 @@ Winbits.saveApiToken = function(apiToken) {
 };
 
 Winbits.expressFacebookLogin = function ($) {
+  console.log('Trying to login with facebook');
   Winbits.proxy.post({ action: 'facebookStatus' });
 };
 
@@ -432,6 +433,19 @@ Winbits.initCompleteRegisterWidget = function ($) {
 
 Winbits.loadUserProfile = function($, profile) {
   console.log(['Loading user profile', profile]);
+  var me = profile.profile;
+  var $myProfilePanel = Winbits.$widgetContainer.find('.miPerfil');
+  $myProfilePanel.find('.profile-full-name').text((me.name || '') + ' ' + (me.lastName || ''));
+  $myProfilePanel.find('.profile-email').text(profile.email).attr('href', 'mailto:' + profile.email);
+  $myProfilePanel.find('.profile-age').text(me.birthdate || '');
+  $myProfilePanel.find('.profile-location').text(me.location ? 'Col.' + me.location : '');
+  $myProfilePanel.find('.profile-zip-code').text(me.zipCode ? 'CP.' + me.zipCode : '');
+  $myProfilePanel.find('.profile-phone').text(me.phone ? 'Tel.' + me.phone : '');
+  //$myProfilePanel.find('.profile-').text();
+
+  if (profile.mainShippingAddress) {
+    var $myAddressPanel = Winbits.$widgetContainer.find('.miDireccion');
+  }
 };
 
 Winbits.loadCompleteRegisterForm = function($, profile) {
@@ -833,14 +847,16 @@ Winbits.Handlers = {
     }
   },
   facebookLoginHandler: function (response) {
+    console.log(['Facebook Login', response]);
     if (response.authResponse) {
-      windowProxy.post({'action':'facebookMe'});
+      console.log('Requesting facebook profile...');
+      Winbits.proxy.post({ action: 'facebookMe' });
     } else {
       console.log('Facebook login failed!');
     }
   },
   facebookMeHandler: function (response) {
-    console.log(response);
+    console.log(['Response from winbits-facebook me', response]);
     if (response.email) {
       console.log('Trying to log with facebook');
 //      Winbits.loginFacebook(response);
