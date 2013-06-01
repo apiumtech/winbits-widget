@@ -322,15 +322,19 @@ jQuery.extend(jQuery.validator.messages, {
   min: jQuery.validator.format("Escribe un valor mayor o igual a {0}.")
 });
 
+//jQuery.validator.addMethod("placeholder", function(value, element) {
+//  return value!=$(element).attr("placeholder");
+//}, jQuery.validator.messages.required);
+
 function validar (obj) {
 	if($(obj.container).length) {
-    var $form = $(obj.form);
-    console.log(['Validar form', $form]);
-		$form.validate({
+    var $forms = $(obj.form);
+		$forms.validate({
 			errorClass: obj.errorClass,
 			errorElement: obj.errorElement,
 			errorLabelContainer: obj.errorLabel,
 			showErrors: function (errorMap, errorList){
+        console.log('Showing errors');
 				var err = this.numberOfInvalids();
 				if (err) {
 					$(obj.label).html('Verifique el(los) <strong>'+ err +'</strong> error(es):');
@@ -348,7 +352,6 @@ function validar (obj) {
 			},
 			validClass: obj.classSuccess
 		});
-		
 	}
 }
 function recarga(){

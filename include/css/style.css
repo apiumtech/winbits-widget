@@ -2818,3 +2818,12 @@ main {
 a.fancybox {
   color: inherit;
 }
+
+label.error {
+  color: #dd092c;
+  font-size: 0.8em;
+}
+
+input.error {
+  border: 1px solid #dd092c !important;
+}

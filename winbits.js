@@ -197,6 +197,8 @@ Winbits.initWidgets = function ($) {
 };
 
 Winbits.initControls = function($) {
+  Winbits.$widgetContainer.find(":input[placeholder]").placeholder();
+  Winbits.$widgetContainer.find('form').validate();
   changeShippingAddress({
     obj: '.shippingAddresses',
     objetivo: '.shippingItem',
@@ -280,18 +282,17 @@ Winbits.initControls = function($) {
     trigger: '.submitButton .btnCancel',
     objetivo: '.shippingAddresses'
   });
-  placeholder('input[type="text"], input[type="password"]');
+//  placeholder('input[type="text"], input[type="password"]');
   sendEmail('.btnSmall');
-  validar({
-    container: '.bodyModal',
-    form: '.bodyModal form',
-    errorClass: 'errorInputError',
-    errorElement: 'span',
-    errorLabel: '.errorDiv p',
-    classSuccess: 'errorInputOK'
-  });
+//  validar({
+//    container: '.bodyModal',
+//    form: '.bodyModal form',
+//    errorClass: 'errorInputError',
+//    errorElement: 'span',
+//    errorLabel: '.errorDiv p',
+//    classSuccess: 'errorInputOK'
+//  });
   verticalCarousel('.carritoDivLeft .carritoContainer');
-
   console.log('Winibits Initialized');
 };
 
@@ -306,12 +307,18 @@ Winbits.initLightbox = function($) {
     padding: 0,
     type: 'inline',
     onComplete: function() {
-      var $holder = $(this.href).find('.facebook-btn-holder');
+      var $layer = $(this.href);
+      $layer.find('form').first().find('input.default').focus();
+      var $holder = $layer.find('.facebook-btn-holder');
       if ($holder.length > 0) {
         $('#winbits-iframe').appendTo($holder);
       }
     },
     onCleanup: function() {
+      $(this.href).find('form').each(function(i, form) {
+        $(form).validate().resetForm();
+        form.reset();
+      });
       var $holder = Winbits.$widgetContainer.find('#iframe-holder');
       $('#winbits-iframe').appendTo($holder);
     }
@@ -330,10 +337,9 @@ Winbits.initRegisterWidget = function ($) {
       dataType: 'json',
       data: JSON.stringify(formData),
       context: $form,
-//      beforeSend: function () {
-//        this.find('.form-errors').children().remove();
-//        return Winbits.validateRegisterForm(this);
-//      },
+      beforeSend: function () {
+        return this.valid();
+      },
       headers: { 'Accept-Language': 'es' },
       success: function (data) {
         console.log('Request Success!');
