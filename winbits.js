@@ -198,7 +198,7 @@ Winbits.initWidgets = function ($) {
   Winbits.initCompleteRegisterWidget($);
   Winbits.initLoginWidget($);
   Winbits.initMyAccountWidget($);
-//  Winbits.initLogout($);
+  Winbits.initLogout($);
 };
 
 Winbits.initControls = function($) {
@@ -634,15 +634,14 @@ Winbits.initLogout = function ($) {
 };
 
 Winbits.applyLogout = function ($, logoutData) {
+  Winbits.proxy.post({ action: 'logout' });
   Winbits.deleteCookie(Winbits.tokensDef.apiToken.cookieName);
-  Winbits.createFrame($, logoutData.logoutRedirectUrl);
-  $('#winbits-login-link').text('Log In');
-  var $mainLinks = $('#winbits-main-links');
-  $mainLinks.children('.offline').show();
-  $mainLinks.children('.online').hide();
-  FB.logout(function(response) {
-    console.log(['Facebook logout', response]);
-  });
+  Winbits.$widgetContainer.find('div.miCuenta').hide();
+  Winbits.$widgetContainer.find('div.login').show();
+  Winbits.resetMyAccountPanel($);
+};
+
+Winbits.resetMyAccountPanel = function($) {
 };
 
 Winbits.resetLightBoxes = function ($, scope) {

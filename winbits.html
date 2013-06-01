@@ -153,6 +153,13 @@
           console.log(['API Token from vertical', apiToken]);
           Winbits.setCookie('_wb_api_token', apiToken, 7);
         },
+        logout: function(apiToken) {
+          console.log(['API Token from vertical', apiToken]);
+          Winbits.deleteCookie('_wb_api_token');
+          FB.logout(function(response) {
+            console.log(['Facebook logout', response]);
+          });
+        },
         facebookStatus: function() {
           console.log('About to call FB.getLoginStatus.');
           FB.getLoginStatus(function(response) {
