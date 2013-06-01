@@ -77,11 +77,7 @@ Winbits.init = function () {
   var $ = Winbits.jQuery;
   Winbits.requestTokens($);
   Winbits.initWidgets($);
-  /*Winbits.alertErrors($);
-  $('form.lightbox-message-form').submit(function (e) {
-    e.preventDefault();
-    $.fancybox.close();
-  });*/
+  Winbits.alertErrors($);
 };
 
 Winbits.initProxy = function($) {
