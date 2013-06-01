@@ -369,7 +369,7 @@
             <input type="text" placeholder="Email" class="required default" id="email" name="email" email="true">
             <input type="password" placeholder="Password" class="required" id="password" name="password">
             <input type="password" placeholder="Comprobar Password" class="required" equalTo="#password">
-            <div class="errorDiv"><p></p></div>
+            <div class="errors"></div>
             <p>¿Ya tienes una cuenta? <a href="#">haz click aquí</a></p>
             <p class="terminosCondiciones">Al hacer click en "Registrate" aceptas nuestros <a href="#">Términos y Condiciones</a> y nuestro <a href="#">Aviso de Privacidad.</a></p>
             <input type="submit" class="btn" value="Registrate">
@@ -388,6 +388,13 @@
         </footer>
       </div>
     </form>
+  </div>
+  <div id="register-confirm-layer" class="mainModal gracias bodyModal">
+    <div class="contentModal">
+      <p>Gracias por registrarte con nosotros.</p>
+      <p>Un mensaje de confimación ha sido enviado a tu cuenta de correo.</p>
+      <input type="button" value="Continuar" class="btn" onclick="return $.fancybox.close();">
+    </div>
   </div>
   <div id="complete-register-layer" class="bodyModal">
     <form id="complete-register-form" accept-charset="utf-8" action="#" method="post" style="margin: 0;">
@@ -435,3 +442,6 @@
   </div>
 </div>
 <div id="iframe-holder" style="display: none;"></div>
+<div id="hidden-stuff-holder" style="display: none;">
+  <a href="#register-confirm-layer" class="fancybox" />
+</div>

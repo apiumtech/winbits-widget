@@ -316,7 +316,9 @@ Winbits.initLightbox = function($) {
     },
     onCleanup: function() {
       $(this.href).find('form').each(function(i, form) {
-        $(form).validate().resetForm();
+        var $form = $(form);
+        $form.find('.errors').html('');
+        $form.validate().resetForm();
         form.reset();
       });
       var $holder = Winbits.$widgetContainer.find('#iframe-holder');
@@ -338,12 +340,13 @@ Winbits.initRegisterWidget = function ($) {
       data: JSON.stringify(formData),
       context: $form,
       beforeSend: function () {
-        return this.valid();
+        return Winbits.validateForm(this);
       },
       headers: { 'Accept-Language': 'es' },
       success: function (data) {
         console.log('Request Success!');
         console.log(['data', data]);
+        $.fancybox.close();
         if (!data.response.active) {
           Winbits.showRegisterConfirmation($);
         }
@@ -359,54 +362,22 @@ Winbits.initRegisterWidget = function ($) {
   });
 };
 
-Winbits.validateRegisterForm = function (form) {
-  var valid = true;
+Winbits.validateForm = function(form) {
   var $form = Winbits.$(form);
-  $form.removeClass(Winbits.config.errorFormClass);
-  var $email = $form.find('input[name=email]');
-  var email = ($email.val() || '').trim();
-  var $emailHolder = $email.parent();
-  $emailHolder.removeClass(Winbits.config.errorClass);
-  if (email.length === 0 || !Winbits.Validations.emailRegEx.test(email)) {
-    console.log('invalid email');
-    $form.addClass(Winbits.config.errorFormClass);
-    $emailHolder.addClass(Winbits.config.errorClass);
-    valid = false;
-  }
-  var $password = $form.find('input[name=password]');
-  var password = $password.val() || '';
-  var $passwordHolder = $password.parent();
-  $passwordHolder.removeClass(Winbits.config.errorClass);
-  if (password.length === 0) {
-    console.log('invalid password');
-    $form.addClass(Winbits.config.errorFormClass);
-    $passwordHolder.addClass(Winbits.config.errorClass);
-    valid = false;
-  }
-  var $passwordConfirm = $form.find('input[name=passwordConfirm]');
-  var passwordConfirm = $passwordConfirm.val() || '';
-  var $passwordConfirmHolder = $passwordConfirm.parent();
-  $passwordConfirmHolder.removeClass(Winbits.config.errorClass);
-  if (passwordConfirm.length === 0 || password !== passwordConfirm) {
-    console.log('invalid password confirm');
-    $form.addClass(Winbits.config.errorFormClass);
-    $passwordConfirmHolder.addClass(Winbits.config.errorClass);
-    valid = false;
-  }
-
-  return valid;
+  $form.find('.errors').html('');
+  return $form.valid();
 };
 
 Winbits.renderRegisterFormErrors = function (form, error) {
   var $form = Winbits.$(form);
   if (error.meta.code === 'AFER001') {
-    $form.find('.form-errors').append('<span class="error-text visible">' + error.meta.message + '</span>');
+    $form.find('.errors').html('<p>' + error.meta.message + '</p>');
   }
 };
 
-Winbits.showRegisterConfirmation = function ($, profile) {
+Winbits.showRegisterConfirmation = function ($) {
   setTimeout(function () {
-    $('a[href=#winbits-register-confirm-popup]').click();
+    $('a[href=#register-confirm-layer]').click();
   }, 1000);
 };
 

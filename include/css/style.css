@@ -2827,3 +2827,7 @@ label.error {
 input.error {
   border: 1px solid #dd092c !important;
 }
+
+.errors {
+  color: #dd092c;
+}
