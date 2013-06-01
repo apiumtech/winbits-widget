@@ -131,6 +131,8 @@ Winbits.segregateTokens = function ($, tokensDef) {
   var apiTokenDef = tokensDef.apiToken;
   if (apiTokenDef) {
     Winbits.setCookie(apiTokenDef.cookieName, apiTokenDef.value || '', apiTokenDef.expireDays);
+  } else {
+    tokensDef.apiToken = {cookieName: '_wb_api_token', expireDays: 7}
   }
   Winbits.tokensDef = tokensDef;
 };
@@ -146,10 +148,7 @@ Winbits.createFrame = function ($, frameSrc) {
 
 Winbits.expressLogin = function ($) {
   Winbits.checkRegisterConfirmation($);
-  var apiToken
-  if (Winbits.tokensDef.apiToken) {
-    Winbits.getCookie(Winbits.tokensDef.apiToken.cookieName);
-  }
+  var apiToken = Winbits.getCookie(Winbits.tokensDef.apiToken.cookieName);
   if (apiToken) {
     $.ajax(Winbits.config.apiUrl + '/affiliation/express-login.json', {
       type: 'POST',
@@ -179,9 +178,15 @@ Winbits.checkRegisterConfirmation = function ($) {
   var params = Winbits.getUrlParams();
   var apiToken = params._wb_api_token;
   if (apiToken) {
-    Winbits.setCookie(Winbits.tokensDef.apiToken.cookieName, apiToken);
-    Winbits.proxy.post({ action: 'saveApiToken', params: [apiToken] });
+    console.log('API token found as parameter, saving...');
+    Winbits.saveApiToken(apiToken);
   }
+};
+
+Winbits.saveApiToken = function(apiToken) {
+  Winbits.tokensDef.apiToken.value = apiToken;
+  Winbits.setCookie(Winbits.tokensDef.apiToken.cookieName, apiToken, 7);
+  Winbits.proxy.post({ action: 'saveApiToken', params: [apiToken] });
 };
 
 Winbits.expressFacebookLogin = function ($) {
@@ -370,8 +375,10 @@ Winbits.validateForm = function(form) {
 
 Winbits.renderRegisterFormErrors = function (form, error) {
   var $form = Winbits.$(form);
-  if (error.meta.code === 'AFER001') {
-    $form.find('.errors').html('<p>' + error.meta.message + '</p>');
+  var code = error.code || error.meta.code;
+  if (code === 'AFER001') {
+    var message = error.message || error.meta.message;
+    $form.find('.errors').html('<p>' + message + '</p>');
   }
 };
 
@@ -506,15 +513,9 @@ Winbits.resendConfirmLink = function ($, link) {
 Winbits.applyLogin = function ($, profile) {
   Winbits.showCompleteProfileIfRegister($);
   console.log('Logged In');
-  Winbits.tokensDef.apiToken.value = profile.apiToken;
-  Winbits.storeTokens($, Winbits.tokensDef);
-  Winbits.setCookie(Winbits.tokensDef.apiToken.cookieName, profile.apiToken);
-  $('#winbits-login-link').text('Checkout');
-  $('#winbits-bits-balance').text(profile.bitsBalance);
-  $('#winbits-email').text(profile.email);
-  var $mainLinks = $('#winbits-main-links');
-  $mainLinks.children('.offline').hide();
-  $mainLinks.children('.online').show();
+  Winbits.saveApiToken(profile.apiToken);
+  Winbits.$widgetContainer.find('div.login').hide();
+  Winbits.$widgetContainer.find('div.miCuenta').show();
 };
 
 Winbits.showCompleteProfileIfRegister = function ($) {
@@ -528,7 +529,7 @@ Winbits.showCompleteProfileIfRegister = function ($) {
 Winbits.showCompleteProfile = function ($, profile) {
   $.fancybox.close();
   Winbits.loadProfile($, profile);
-  $('a[href=#winbits-complete-profile-popup]').click();
+  $('a[href=#complete-register-layer]').click();
 };
 
 Winbits.initLogout = function ($) {
@@ -675,7 +676,6 @@ Winbits.loadFacebook = function () {
 };
 
 Winbits.loginFacebookHandler = function (response) {
-  console.log("Se dio click");
   console.log(['FB.login respose', response]);
   if (response.authResponse) {
     FB.api('/me', function (me) {
