@@ -2814,3 +2814,20 @@ main {
   min-width: 330px;
   width: 330px;
 }
+
+a.fancybox {
+  color: inherit;
+}
+
+label.error {
+  color: #dd092c;
+  font-size: 0.8em;
+}
+
+input.error {
+  border: 1px solid #dd092c !important;
+}
+
+.errors {
+  color: #dd092c;
+}
