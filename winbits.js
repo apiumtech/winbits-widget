@@ -127,9 +127,10 @@ Winbits.segregateTokens = function ($, tokensDef) {
   Winbits.setCookie(vcartTokenDef.cookieName, vcartTokenDef.value || '', vcartTokenDef.expireDays);
   var apiTokenDef = tokensDef.apiToken;
   if (apiTokenDef) {
-    Winbits.setCookie(apiTokenDef.cookieName, apiTokenDef.value || '', apiTokenDef.expireDays);
+    Winbits.setCookie(apiTokenDef.cookieName, apiTokenDef.value, apiTokenDef.expireDays);
   } else {
-    tokensDef.apiToken = {cookieName: '_wb_api_token', expireDays: 7}
+    tokensDef.apiToken = {cookieName: '_wb_api_token', expireDays: 7};
+    Winbits.setCookie(apiTokenDef.cookieName, '', apiTokenDef.expireDays);
   }
   Winbits.tokensDef = tokensDef;
 };
@@ -676,6 +677,12 @@ Winbits.applyLogout = function ($, logoutData) {
   Winbits.resetMyAccountPanel($);
   Winbits.Flags.loggedIn = false;
   Winbits.Flags.fbConnect = false;
+  if (Winbits.tokensDef.apiToken) {
+    delete Winbits.tokensDef.apiToken.value;
+  }
+  if (Winbits.tokensDef.vcartToken) {
+    delete Winbits.tokensDef.vcartToken.value;
+  }
 };
 
 Winbits.resetMyAccountPanel = function($) {

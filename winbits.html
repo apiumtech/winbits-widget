@@ -147,6 +147,7 @@
             Winbits.setCookie('_wb_vcart_token', vcartToken, 7);
           }
           tokens.vcartToken = { cookieName: '_wb_vcart_token', value: vcartToken, expireDays: 7 };
+          console.log(['W: The tokens', tokens]);
           windowProxy.post({action: 'getTokens', params: [tokens]});
         },
         saveApiToken: function(apiToken) {
