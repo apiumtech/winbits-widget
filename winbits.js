@@ -919,6 +919,7 @@ Winbits.EventHandlers = {
 };
 
 Winbits.addToCart = function(cartItem) {
+  console.log(['Vertical request to add item to cart', cartItem]);
   if (!cartItem) {
     alert('Please specify a cart item object: {id: 1, quantity: 1}');
   }
