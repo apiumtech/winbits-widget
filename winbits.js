@@ -869,14 +869,14 @@ Winbits.addToUserCart = function(id, quantity, bits) {
 };
 
 Winbits.refreshCart = function($, cart) {
-  console.log('Refreshing cart...');
+  console.log(['Refreshing cart...', cart]);
   var $cartHolder = Winbits.$widgetContainer.find('.cart-holder');
+  $cartHolder.find('.cart-items-count').text(cart.itemsCount);
   var $cartInfo = $cartHolder.find('.cart-info');
   $cartInfo.find('.cart-shipping-total').text(cart.shippingTotal || 'GRATIS');
   var cartTotal = cart.itemsTotal + cart.shippingTotal - cart.bitsTotal;
   $cartInfo.find('.cart-total').text('$' + cartTotal);
   $cartInfo.find('.cart-bits-total').text(cart.bitsTotal);
-  $cartInfo.find('.cart-items-count').text(cart.itemsCount);
   var cartSaving = 0;
   $cartInfo.find('.cart-saving').text(cartSaving + '%');
   var $cartDetailsList = $cartHolder.find('.cart-details-list').html('');
@@ -899,12 +899,11 @@ Winbits.addCartDetailInto = function($, cartDetail, cartDetailsList) {
       '</li>');
   $cartDetail.attr('data-id', cartDetail.skuProfile.id);
   $cartDetail.find('.cart-detail-thumb').attr('src', cartDetail.skuProfile.item.thumbnail).attr('alt', '[thumbnail]');
-  $cartDetail.find('.cart-detail-name').text(cartDetail.skuProfile.name);
+  $cartDetail.find('.cart-detail-name').text(cartDetail.skuProfile.item.name);
   customStepper($cartDetail.find('.cart-detail-quantity').val(cartDetail.quantity));
   $cartDetail.find('.cart-detail-price').text('$' + cartDetail.skuProfile.price);
   $cartDetail.find('.cart-detail-vertical').text(cartDetail.skuProfile.item.vertical.name);
   $cartDetail.find('.cart-detail-delete-link').click(Winbits.EventHandlers.clickDeleteCartDetailLink);
-
   $cartDetail.appendTo($cartDetailsList);
 };
 
