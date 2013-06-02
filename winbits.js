@@ -836,10 +836,11 @@ Winbits.addToCart = function(cartItem) {
       Winbits.addToVirtualCart(cartItem.id, cartItem.quantity);
     }
   } else {
+    var qty = $cartDetail.find('.cart-detail-quantity').val() + cartItem.quantity;
     if (Winbits.Flags.loggedIn) {
-      Winbits.updateUserCartDetail($cartDetail, cartItem.quantity, cartItem.bits);
+      Winbits.updateUserCartDetail($cartDetail, qty, cartItem.bits);
     } else {
-      Winbits.updateVirtualCartDetail($cartDetail, cartItem.quantity);
+      Winbits.updateVirtualCartDetail($cartDetail, qty);
     }
   }
 };
@@ -900,11 +901,27 @@ Winbits.addCartDetailInto = function($, cartDetail, cartDetailsList) {
   $cartDetail.attr('data-id', cartDetail.skuProfile.id);
   $cartDetail.find('.cart-detail-thumb').attr('src', cartDetail.skuProfile.item.thumbnail).attr('alt', '[thumbnail]');
   $cartDetail.find('.cart-detail-name').text(cartDetail.skuProfile.item.name);
-  customStepper($cartDetail.find('.cart-detail-quantity').val(cartDetail.quantity));
+  customStepper($cartDetail.find('.cart-detail-quantity').val(cartDetail.quantity)).on('step', function(e, previous) {
+    var $cartDetailStepper = $(this);
+    var val = $cartDetailStepper.val();
+    if (previous != val) {
+      console.log(['previous', 'current', previous, val]);
+      Winbits.updateCartDetail($cartDetailStepper.closest('li'), val);
+    }
+  });
   $cartDetail.find('.cart-detail-price').text('$' + cartDetail.skuProfile.price);
   $cartDetail.find('.cart-detail-vertical').text(cartDetail.skuProfile.item.vertical.name);
   $cartDetail.find('.cart-detail-delete-link').click(Winbits.EventHandlers.clickDeleteCartDetailLink);
   $cartDetail.appendTo($cartDetailsList);
+};
+
+Winbits.updateCartDetail = function(cartDetail, quantity, bits) {
+  var $cartDetail = Winbits.$(cartDetail);
+  if (Winbits.Flags.loggedIn) {
+    Winbits.updateUserCartDetail($cartDetail, quantity, bits);
+  } else {
+    Winbits.updateVirtualCartDetail($cartDetail, quantity);
+  }
 };
 
 Winbits.updateUserCartDetail = function(cartDetail, quantity, bits) {

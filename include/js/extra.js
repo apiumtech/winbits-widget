@@ -141,8 +141,9 @@ function customSlider(obj){
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 function customStepper (obj) {
-	if($(obj).length){
-		$(obj).each(function(){
+  var $obj = $(obj);
+	if($obj.length){
+		$obj.each(function(){
 			$(this).wrap('<div class="stepper"/>');
 			var $this = $(this).parent();
 			$this.append('<span class="icon plus"/><span class="icon minus"/>');
@@ -159,7 +160,7 @@ function customStepper (obj) {
 						$newVal = 1;
 					}
 				}
-				$button.parent().find("input").val($newVal);
+				$button.parent().find("input").val($newVal).trigger('step', $oldValue);
 			});
 			$this.find('input').keydown(function (e) {
 				var keyCode = e.keyCode || e.which,
@@ -175,11 +176,13 @@ function customStepper (obj) {
 					break;
 				}
 				if($newVal >= 1) {
-					$(this).val($newVal);
+					$(this).val($newVal).trigger('step', $oldValue);
 				}
 			});
 		});
 	}
+
+  return obj;
 }
 
 // +++++++++++++++++++++++++++++++++++
