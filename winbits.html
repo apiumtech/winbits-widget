@@ -160,6 +160,7 @@
         logout: function(facebookLogout) {
           console.log('Winbits: Logging out...');
           Winbits.deleteCookie('_wb_api_token');
+          Winbits.setCookie('_wb_vcart_token', '[]', 7);
           if (facebookLogout) {
             console.log('Winbits: Facebook logging out...');
             FB.logout(function(response) {

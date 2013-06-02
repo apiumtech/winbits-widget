@@ -486,7 +486,35 @@ Winbits.loadUserProfile = function($, profile) {
 };
 
 Winbits.restoreCart = function($) {
-  Winbits.loadUserCart($);
+  var vCart = Winbits.getCookie(Winbits.vcartTokenName);
+  if (vCart && false) {
+    Winbits.transferVirtualCart($, vCart);
+  } else {
+    Winbits.loadUserCart($);
+  }
+};
+
+Winbits.transferVirtualCart = function($, virtualCart) {
+  var formData = { virtualCartData: JSON.parse(virtualCart) };
+  $.ajax(Winbits.config.apiUrl + '/orders/assign-virtual-cart.json', {
+    type: 'POST',
+    dataType: 'json',
+    data: JSON.stringify(formData),
+    headers: { 'Accept-Language': 'es', 'WB-Api-Token': Winbits.getCookie(Winbits.apiTokenName) },
+    success: function (data) {
+      console.log(['V: User cart', data.response]);
+      Winbits.setCookie(Winbits.vcartTokenName, '[]', 7);
+      Winbits.proxy.post({ action: 'storeVirtualCart', params: ['[]'] });
+      Winbits.refreshCart($, data.response);
+    },
+    error: function (xhr, textStatus, errorThrown) {
+      var error = JSON.parse(xhr.responseText);
+      alert(error.message);
+    },
+    complete: function () {
+      console.log('Request Completed!');
+    }
+  });
 };
 
 Winbits.loadUserCart= function($) {
@@ -780,7 +808,7 @@ Winbits.loginFacebookHandler = function (response) {
 Winbits.loginFacebook = function(me) {
   var $ = Winbits.jQuery;
   var myBirthdayDate = new Date(me.birthday);
-  var birthday = myBirthdayDate.getDate() + "/" + myBirthdayDate.getMonth() + "/" + myBirthdayDate.getFullYear();
+  var birthday = myBirthdayDate.getFullYear() + "-" + myBirthdayDate.getMonth() + "-" + myBirthdayDate.getDate();
   var payLoad = {
     name: me.first_name,
     lastName: me.last_name,
@@ -861,7 +889,7 @@ Winbits.Handlers = {
     console.log(['Response from winbits-facebook me', response]);
     if (response.email) {
       console.log('Trying to log with facebook');
-//      Winbits.loginFacebook(response);
+      Winbits.loginFacebook(response);
     }
   }
 };
@@ -951,7 +979,7 @@ Winbits.refreshCart = function($, cart) {
   var cartSaving = 0;
   $cartInfo.find('.cart-saving').text(cartSaving + '%');
   var $cartDetailsList = $cartHolder.find('.cart-details-list').html('');
-  $.each(cart.cartDetails, function(i, cartDetail) {
+  $.each(cart.cartDetails || [], function(i, cartDetail) {
     Winbits.addCartDetailInto($, cartDetail, $cartDetailsList);
   });
 };
@@ -1055,7 +1083,7 @@ Winbits.addToVirtualCart = function(id, quantity) {
     contentType: 'application/json',
     dataType: 'json',
     data: JSON.stringify(formData),
-    headers: { 'Accept-Language': 'es', 'wb-vcart': Winbits.getCookie('_wb_vcart_token') },
+    headers: { 'Accept-Language': 'es', 'wb-vcart': Winbits.getCookie(Winbits.vcartTokenName) },
     success: function (data) {
       console.log(['V: Virtual cart', data.response]);
       Winbits.storeVirtualCart($, data.response);
@@ -1084,7 +1112,7 @@ Winbits.updateVirtualCartDetail = function(cartDetail, quantity) {
     contentType: 'application/json',
     dataType: 'json',
     data: JSON.stringify(formData),
-    headers: { 'Accept-Language': 'es', 'wb-vcart': Winbits.getCookie('_wb_vcart_token') },
+    headers: { 'Accept-Language': 'es', 'wb-vcart': Winbits.getCookie(Winbits.vcartTokenName) },
     success: function (data) {
       console.log(['V: Virtual cart', data.response]);
       Winbits.storeVirtualCart($, data.response);
@@ -1108,8 +1136,7 @@ Winbits.deleteVirtualCartDetail = function(cartDetail) {
   $.ajax(Winbits.config.apiUrl + '/orders/virtual-cart-items/' + id + '.json', {
     type: 'DELETE',
     dataType: 'json',
-    data: JSON.stringify(formData),
-    headers: { 'Accept-Language': 'es', 'wb-vcart': Winbits.getCookie('_wb_vcart_token') },
+    headers: { 'Accept-Language': 'es', 'wb-vcart': Winbits.getCookie(Winbits.vcartTokenName) },
     success: function (data) {
       console.log(['V: User cart', data.response]);
       Winbits.storeVirtualCart($, data.response);
