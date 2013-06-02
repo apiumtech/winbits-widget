@@ -192,8 +192,14 @@ function customStepper (obj) {
 function dropMenu(options){
 	if($(options.obj).length){
 		$(options.trigger).click(function(){
-			$(options.other).slideUp();
-			$(options.obj).slideDown();
+      var $trigger = $(this);
+      var $targetDropDown = $trigger.closest('.drop-down-holder').find('.dropMenu');
+      if ($targetDropDown.is(':visible')) {
+        $targetDropDown.slideUp();
+      } else {
+        Winbits.$widgetContainer.find('.dropMenu').slideUp();
+        $targetDropDown.slideDown();
+      }
 		});
 		$(options.obj).each(function(){
 			$(this).bind({
@@ -365,10 +371,12 @@ function recarga(){
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 function verticalCarousel(obj){
-	if($(obj).length){
-		$(obj).each(function(){
-			if($(obj).parent().parent().parent().parent().css('display') === 'none'){
-				$(obj).parent().parent().parent().parent().show();
+  var $obj = $(obj);
+	if($obj.length){
+    $obj.each(function(i, obj2){
+      var $obj2 = $(obj2);
+			if($obj2.parent().parent().parent().parent().css('display') === 'none'){
+//        $obj2.parent().parent().parent().parent().show();
 			}
 			var $this = $(this),
 				$content = $this.find('.'+$this.data('content')),
@@ -417,7 +425,7 @@ function verticalCarousel(obj){
 						});
 					}
 				});
-				$(obj).parent().parent().parent().parent().hide();
+				$obj2.parent().parent().parent().parent().hide();
 			}
 		});
 	}
