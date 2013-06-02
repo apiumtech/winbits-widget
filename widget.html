@@ -126,8 +126,8 @@
         <div class="editMiPerfil">
           <form id="update-profile-form">
           <fieldset>
-            <input type="text" placeholder="Nombre" name="name">
-            <input type="text" placeholder="Apellido" name="lastName">
+            <input type="text" placeholder="Nombre" name="name" maxlength="75">
+            <input type="text" placeholder="Apellido" name="lastName" maxlength="75">
             <!--<input type="text" placeholder="Correo Electrónico" value="rulas@hotmail" email="true">-->
             <div class="fieldsetDiv divBirthday">
               <label>Cumpleaños</label>
@@ -147,7 +147,7 @@
               <option>Guadalajara</option>
               <option>Monterrey</option>
             </select>
-            <input type="text" placeholder="Teléfono" name="phone">
+            <input type="text" placeholder="Teléfono" name="phone" maxlength="15">
             <div class="errorDiv"><p></p></div>
           </fieldset>
           <input class="btn editBtn" value="Guardar">
@@ -194,7 +194,7 @@
             <input type="text" placeholder="Colonia" name="location">
             <input type="text" placeholder="Delegación" name="county">
             <input type="text" placeholder="Código Postal" name="zipCode">
-            <input type="text" placeholder="Teléfono" name="phone">
+            <input type="text" placeholder="Teléfono" name="phone" maxlength="15">
             <div class="errors"></div>
           </fieldset>
           <input class="btn editBtn" value="Guardar">
@@ -229,7 +229,7 @@
         <p>Entrega Pendiente <span>0</span></p>
         <a href="#">Ver Historial de Compras completo</a>
         <h3>Tus Bits</h3>
-        <p>Tienes <span>0</span> Bits</p>
+        <p>Tienes <span class="wb-user-bits-balance reseteable" data-reset-text="0">0</span> Bits</p>
         <a href="#">Ver Historial de Bits completo</a>
         <h3>Invitaciones</h3>
         <p>Amigos <span>0</span></p>
@@ -378,7 +378,7 @@
               <option>Guadalajara</option>
               <option>Monterrey</option>
             </select>
-            <input type="text" placeholder="Teléfono" name="phone">
+            <input type="text" placeholder="Teléfono" name="phone" maxlength="15">
             <div class="errorDiv"><p></p></div>
             <input type="submit" class="btn btnGuardar" value="Guardar">
             <p>Si así lo deseas, puedes completar tu registro después haciendo click en la sección de MI CUENTA. <a href="#" onclick="return hs.close(this)">Llenalo despues.</a></p>
