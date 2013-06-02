@@ -154,6 +154,9 @@
           console.log(['API Token from vertical', apiToken]);
           Winbits.setCookie('_wb_api_token', apiToken, 7);
         },
+        storeVirtualCart: function(vCart) {
+          Winbits.setCookie('_wb_vcart_token', vCart, 7);
+        },
         logout: function(facebookLogout) {
           console.log('Winbits: Logging out...');
           Winbits.deleteCookie('_wb_api_token');

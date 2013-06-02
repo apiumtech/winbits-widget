@@ -131,7 +131,7 @@ Winbits.segregateTokens = function ($, tokensDef) {
   if (apiTokenDef) {
     Winbits.setCookie(apiTokenDef.cookieName, apiTokenDef.value, apiTokenDef.expireDays);
   } else {
-    Winbits.deleteCookie(apiTokenDef.cookieName);
+    Winbits.deleteCookie(Winbits.apiTokenName);
   }
 };
 
@@ -507,6 +507,24 @@ Winbits.loadUserCart= function($) {
   });
 };
 
+Winbits.loadVirtualCart = function($) {
+  $.ajax(Winbits.config.apiUrl + '/orders/virtual-cart-items.json', {
+    dataType: 'json',
+    headers: { 'Accept-Language': 'es', 'wb-vcart': Winbits.getCookie(Winbits.vcartTokenName) },
+    success: function (data) {
+      console.log(['V: User cart', data.response]);
+      Winbits.refreshCart($, data.response);
+    },
+    error: function (xhr, textStatus, errorThrown) {
+      var error = JSON.parse(xhr.responseText);
+      alert(error.message);
+    },
+    complete: function () {
+      console.log('Request Completed!');
+    }
+  });
+};
+
 Winbits.loadCompleteRegisterForm = function($, profile) {
   console.log(['Loading profile', profile]);
   if (profile) {
@@ -826,6 +844,8 @@ Winbits.Handlers = {
           console.log('express-facebook-login.json Error!');
         }
       });
+    } else {
+      Winbits.loadVirtualCart(Winbits.jQuery);
     }
   },
   facebookLoginHandler: function (response) {
@@ -905,13 +925,27 @@ Winbits.addToUserCart = function(id, quantity, bits) {
   });
 };
 
+Winbits.storeVirtualCart = function($, cart) {
+  console.log(['Storing virtual cart...', cart]);
+  var vCart = [];
+  $.each(cart.cartDetails, function(i, cartDetail) {
+    var vCartDetail = {};
+    vCartDetail[cartDetail.skuProfile.id] = cartDetail.quantity;
+    vCart.push(vCartDetail);
+  });
+  var vCartToken = JSON.stringify(vCart);
+  console.log(['vCartToken', vCartToken]);
+  Winbits.setCookie(Winbits.vcartTokenName, vCartToken, 7);
+  Winbits.proxy.post({ action: 'storeVirtualCart', params: [vCartToken] });
+};
+
 Winbits.refreshCart = function($, cart) {
   console.log(['Refreshing cart...', cart]);
   var $cartHolder = Winbits.$widgetContainer.find('.cart-holder:visible');
   $cartHolder.find('.cart-items-count').text(cart.itemsCount);
   var $cartInfo = $cartHolder.find('.cart-info');
   $cartInfo.find('.cart-shipping-total').text(cart.shippingTotal || 'GRATIS');
-  var cartTotal = cart.itemsTotal + cart.shippingTotal - cart.bitsTotal;
+  var cartTotal = cart.itemsTotal + cart.shippingTotal - (cart.bitsTotal || 0);
   $cartInfo.find('.cart-total').text('$' + cartTotal);
   $cartInfo.find('.cart-bits-total').text(cart.bitsTotal);
   var cartSaving = 0;
@@ -1024,11 +1058,12 @@ Winbits.addToVirtualCart = function(id, quantity) {
     headers: { 'Accept-Language': 'es', 'wb-vcart': Winbits.getCookie('_wb_vcart_token') },
     success: function (data) {
       console.log(['V: Virtual cart', data.response]);
+      Winbits.storeVirtualCart($, data.response);
       Winbits.refreshCart($, data.response);
     },
     error: function (xhr, textStatus, errorThrown) {
       var error = JSON.parse(xhr.responseText);
-      alert(error.meta.message);
+      console.log(error.meta.message);
     },
     complete: function () {
       console.log('Request Completed!');
@@ -1052,11 +1087,12 @@ Winbits.updateVirtualCartDetail = function(cartDetail, quantity) {
     headers: { 'Accept-Language': 'es', 'wb-vcart': Winbits.getCookie('_wb_vcart_token') },
     success: function (data) {
       console.log(['V: Virtual cart', data.response]);
+      Winbits.storeVirtualCart($, data.response);
       Winbits.refreshCart($, data.response);
     },
     error: function (xhr, textStatus, errorThrown) {
       var error = JSON.parse(xhr.responseText);
-      alert(error.meta.message);
+      console.log(error.meta.message);
     },
     complete: function () {
       console.log('Request Completed!');
@@ -1076,11 +1112,12 @@ Winbits.deleteVirtualCartDetail = function(cartDetail) {
     headers: { 'Accept-Language': 'es', 'wb-vcart': Winbits.getCookie('_wb_vcart_token') },
     success: function (data) {
       console.log(['V: User cart', data.response]);
+      Winbits.storeVirtualCart($, data.response);
       Winbits.refreshCart($, data.response);
     },
     error: function (xhr, textStatus, errorThrown) {
       var error = JSON.parse(xhr.responseText);
-      alert(error.meta.message);
+      console.log(error.meta.message);
     },
     complete: function () {
       console.log('Request Completed!');
