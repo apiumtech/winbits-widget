@@ -955,7 +955,7 @@ Winbits.addToUserCart = function(id, quantity, bits) {
     headers: { 'Accept-Language': 'es', 'WB-Api-Token': Winbits.getCookie(Winbits.apiTokenName) },
     success: function (data) {
       console.log(['V: User cart', data.response]);
-      Winbits.refreshCart($, data.response);
+      Winbits.refreshCart($, data.response, true);
     },
     error: function (xhr, textStatus, errorThrown) {
       var error = JSON.parse(xhr.responseText);
@@ -981,7 +981,7 @@ Winbits.storeVirtualCart = function($, cart) {
   Winbits.proxy.post({ action: 'storeVirtualCart', params: [vCartToken] });
 };
 
-Winbits.refreshCart = function($, cart) {
+Winbits.refreshCart = function($, cart, showCart) {
   console.log(['Refreshing cart...', cart]);
   var $cartHolder = Winbits.$widgetContainer.find('.cart-holder:visible');
   $cartHolder.find('.cart-items-count').text(cart.itemsCount || 0);
@@ -996,6 +996,9 @@ Winbits.refreshCart = function($, cart) {
   $.each(cart.cartDetails || [], function(i, cartDetail) {
     Winbits.addCartDetailInto($, cartDetail, $cartDetailsList);
   });
+  if (showCart && !$cartHolder.find('.dropMenu').is(':visible')) {
+    $cartHolder.find('.shopCarMin').trigger('click');
+  }
 };
 
 Winbits.addCartDetailInto = function($, cartDetail, cartDetailsList) {
@@ -1053,7 +1056,7 @@ Winbits.updateUserCartDetail = function(cartDetail, quantity, bits) {
     headers: { 'Accept-Language': 'es', 'WB-Api-Token': Winbits.getCookie(Winbits.apiTokenName) },
     success: function (data) {
       console.log(['V: User cart', data.response]);
-      Winbits.refreshCart($, data.response);
+      Winbits.refreshCart($, data.response, true);
     },
     error: function (xhr, textStatus, errorThrown) {
       var error = JSON.parse(xhr.responseText);
@@ -1101,7 +1104,7 @@ Winbits.addToVirtualCart = function(id, quantity) {
     success: function (data) {
       console.log(['V: Virtual cart', data.response]);
       Winbits.storeVirtualCart($, data.response);
-      Winbits.refreshCart($, data.response);
+      Winbits.refreshCart($, data.response, true);
     },
     error: function (xhr, textStatus, errorThrown) {
       var error = JSON.parse(xhr.responseText);
@@ -1130,7 +1133,7 @@ Winbits.updateVirtualCartDetail = function(cartDetail, quantity) {
     success: function (data) {
       console.log(['V: Virtual cart', data.response]);
       Winbits.storeVirtualCart($, data.response);
-      Winbits.refreshCart($, data.response);
+      Winbits.refreshCart($, data.response, true);
     },
     error: function (xhr, textStatus, errorThrown) {
       var error = JSON.parse(xhr.responseText);
