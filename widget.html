@@ -52,14 +52,15 @@
     <li><a href="#" class="icon verticalItem vertical4">Vertical 4</a></li>
   </ul>
 </nav>
-<div class="login">
+<div class="login miCuenta">
   <ul>
     <li class="link">Ver video</li>
     <li class="link">
       <a href="#register-layer" class="fancybox">Registrate</a>
     </li>
-    <!--li>
-      <span class="spanDropMenu">2 <span class="icon shopCarMin"></span></span>
+    <li class="cart-placeholder">
+      <div class="cart-holder">
+      <span class="spanDropMenu"><span class="cart-items-count">0</span><span class="icon shopCarMin"></span></span>
       <div class="dropMenu miCarritoDiv">
         <span class="icon triangle"></span>
         <div class="wrapper">
@@ -67,101 +68,21 @@
             <div class="carritoDivLeft">
               <div class="carritoContainer" data-content="carritoContent">
                 <div class="carritoContent">
-                  <ul>
-                    <li>
-                      <a href="#"><img src="//api.winbits.com/widgets/images/assets/jeans-tiny.jpg" alt="Denim look Leggings"></a>
-                      <p class="descriptionItem">Denim look Leggings</p>
-                      <label>Cantidad</label>
-                      <input type="text" value="1" class="inputStepper">
-                      <p class="priceItem">$350.00</p>
-                      <span class="verticalName">Producto de <em>LOOQ</em></span>
-                      <span class="deleteItem"><a href="#">eliminar</a></span>
-                    </li>
-                    <li>
-                      <a href="#"><img src="//api.winbits.com/widgets/images/assets/jeans-tiny.jpg" alt="Denim look Leggings"></a>
-                      <p class="descriptionItem">Denim look Leggings</p>
-                      <label>Cantidad</label>
-                      <input type="text" value="1" class="inputStepper">
-                      <p class="priceItem">$350.00</p>
-                      <span class="verticalName">Producto de <em>LOOQ</em></span>
-                      <span class="deleteItem"><a href="#">eliminar</a></span>
-                    </li>
-                    <li>
-                      <a href="#"><img src="//api.winbits.com/widgets/images/assets/jeans-tiny.jpg" alt="Denim look Leggings"></a>
-                      <p class="descriptionItem">Denim look Leggings</p>
-                      <label>Cantidad</label>
-                      <input type="text" value="1" class="inputStepper">
-                      <p class="priceItem">$350.00</p>
-                      <span class="verticalName">Producto de <em>LOOQ</em></span>
-                      <span class="deleteItem"><a href="#">eliminar</a></span>
-                    </li>
-                    <li>
-                      <a href="#"><img src="//api.winbits.com/widgets/images/assets/jeans-tiny.jpg" alt="Denim look Leggings"></a>
-                      <p class="descriptionItem">Denim look Leggings</p>
-                      <label>Cantidad</label>
-                      <input type="text" value="1" class="inputStepper">
-                      <p class="priceItem">$350.00</p>
-                      <span class="verticalName">Producto de <em>LOOQ</em></span>
-                      <span class="deleteItem"><a href="#">eliminar</a></span>
-                    </li>
-                    <li>
-                      <a href="#"><img src="//api.winbits.com/widgets/images/assets/jeans-tiny.jpg" alt="Denim look Leggings"></a>
-                      <p class="descriptionItem">Denim look Leggings</p>
-                      <label>Cantidad</label>
-                      <input type="text" value="1" class="inputStepper">
-                      <p class="priceItem">$350.00</p>
-                      <span class="verticalName">Producto de <em>LOOQ</em></span>
-                      <span class="deleteItem"><a href="#">eliminar</a></span>
-                    </li>
-                    <li>
-                      <a href="#"><img src="//api.winbits.com/widgets/images/assets/jeans-tiny.jpg" alt="Denim look Leggings"></a>
-                      <p class="descriptionItem">Denim look Leggings</p>
-                      <label>Cantidad</label>
-                      <input type="text" value="1" class="inputStepper">
-                      <p class="priceItem">$350.00</p>
-                      <span class="verticalName">Producto de <em>LOOQ</em></span>
-                      <span class="deleteItem"><a href="#">eliminar</a></span>
-                    </li>
-                    <li>
-                      <a href="#"><img src="//api.winbits.com/widgets/images/assets/jeans-tiny.jpg" alt="Denim look Leggings"></a>
-                      <p class="descriptionItem">Denim look Leggings</p>
-                      <label>Cantidad</label>
-                      <input type="text" value="1" class="inputStepper">
-                      <p class="priceItem">$350.00</p>
-                      <span class="verticalName">Producto de <em>LOOQ</em></span>
-                      <span class="deleteItem"><a href="#">eliminar</a></span>
-                    </li>
-                    <li>
-                      <a href="#"><img src="//api.winbits.com/widgets/images/assets/jeans-tiny.jpg" alt="Denim look Leggings"></a>
-                      <p class="descriptionItem">Denim look Leggings</p>
-                      <label>Cantidad</label>
-                      <input type="text" value="1" class="inputStepper">
-                      <p class="priceItem">$350.00</p>
-                      <span class="verticalName">Producto de <em>LOOQ</em></span>
-                      <span class="deleteItem"><a href="#">eliminar</a></span>
-                    </li>
+                  <ul class="cart-details-list">
                   </ul>
                 </div>
               </div>
             </div>
-            <div class="carritoDivRight">
+            <div class="carritoDivRight cart-info">
               <h3>ENVIO</h3>
-              <span class="freeShipping">GRATIS</span>
+              <span class="freeShipping cart-shipping-total">GRATIS</span>
               <h3>TOTAL</h3>
-              <span class="totalCar">$1,240</span>
-              <div class="winSave">
-                <span>WIN</span>
-                <label>100</label>
-                <em class="icon winbits10px"></em>
-                <span>save</span>
-                <label>40%</label>
-              </div>
-              <input type="text" value="300" data-min="0" data-max="599" data-step="2" class="slideInput">
+              <span class="totalCar cart-total">$0</span>
               <span class="legendCarrito">Usa tus bits como dinero en esta compra <a href="#">learn more</a></span>
               <a href="#" class="continueShoping">CONTINUE SHOPING</a>
               <input type="submit" class="btn" value="Check Out">
               <h3>NOTA</h3>
-              <ul>
+              <ul class="payment-methods-list">
                 <li>Esta compra NO esta disponible para meses sin intereses.</li>
                 <li>Esta compra NO esta disponible para pago en OXXO.</li>
               </ul>
@@ -169,13 +90,14 @@
           </div>
         </div>
       </div>
-    </li-->
+      </div>
+    </li>
     <li class="btn btnTopNav">
-      <a href="#login-layer" class="fancybox">Log in</a>
+      <a href="#login-layer" class="fancybox wb-login-btn" style="color: #ffffff;text-decoration: none;">Log in</a>
     </li>
   </ul>
 </div>
-<div class="miCuenta" style="display: none;">
+<div class="miCuenta miCuentaPanel" style="display: none;">
 <ul>
 <li>
   <span class="spanDropMenu link">Mi Cuenta<span class="icon trigger triggerMiCuenta"></span></span>
@@ -324,53 +246,44 @@
 </li>
 <li class="bits"><span class="wb-user-bits-balance">0</span><span class="icon bit12px"></span></li>
 <li class="cart-holder">
-  <span class="spanDropMenu"><span class="cart-items-count">0</span><span class="icon shopCarMin"></span></span>
-  <div class="dropMenu miCarritoDiv">
-    <span class="icon triangle"></span>
-    <div class="wrapper">
-      <div class="carContenido">
-        <div class="carritoDivLeft">
-          <div class="carritoContainer" data-content="carritoContent">
-            <div class="carritoContent">
-              <ul class="cart-details-list">
-                <!--<li>-->
-                  <!--<a href="#"><img src="//api.winbits.com/widgets/images/assets/jeans-tiny.jpg" alt="Denim look Leggings"></a>-->
-                  <!--<p class="descriptionItem">Denim look Leggings</p>-->
-                  <!--<label>Cantidad</label>-->
-                  <!--<input type="text" value="1" class="inputStepper">-->
-                  <!--<p class="priceItem">$350.00</p>-->
-                  <!--<span class="verticalName">Producto de <em>LOOQ</em></span>-->
-                  <!--<span class="deleteItem"><a href="#">eliminar</a></span>-->
-                <!--</li>-->
-              </ul>
+    <span class="spanDropMenu"><span class="cart-items-count">0</span><span class="icon shopCarMin"></span></span>
+    <div class="dropMenu miCarritoDiv">
+      <span class="icon triangle"></span>
+      <div class="wrapper">
+        <div class="carContenido">
+          <div class="carritoDivLeft">
+            <div class="carritoContainer" data-content="carritoContent">
+              <div class="carritoContent">
+                <ul class="cart-details-list">
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="carritoDivRight cart-info">
-          <h3>ENVIO</h3>
-          <span class="freeShipping cart-shipping-total">GRATIS</span>
-          <h3>TOTAL</h3>
-          <span class="totalCar cart-total">$0</span>
-          <div class="winSave">
-            <span>WIN</span>
-            <label class="cart-bits-total">0</label>
-            <em class="icon winbits10px"></em>
-            <span>save</span>
-            <label class="cart-saving">0%</label>
+          <div class="carritoDivRight cart-info">
+            <h3>ENVIO</h3>
+            <span class="freeShipping cart-shipping-total">GRATIS</span>
+            <h3>TOTAL</h3>
+            <span class="totalCar cart-total">$0</span>
+            <div class="winSave wb-bits-control">
+              <span>WIN</span>
+              <label class="cart-bits-total">0</label>
+              <em class="icon winbits10px"></em>
+              <span>save</span>
+              <label class="cart-saving">0%</label>
+            </div>
+            <input id="wb-cart-bits-slider" type="text" value="0" data-min="0" data-max="100" data-step="1" class="slideInput wb-bits-control">
+            <span class="legendCarrito">Usa tus bits como dinero en esta compra <a href="#">learn more</a></span>
+            <a href="#" class="continueShoping">CONTINUE SHOPING</a>
+            <input type="submit" class="btn" value="Check Out">
+            <h3>NOTA</h3>
+            <ul class="payment-methods-list">
+              <li>Esta compra NO esta disponible para meses sin intereses.</li>
+              <li>Esta compra NO esta disponible para pago en OXXO.</li>
+            </ul>
           </div>
-          <input id="wb-cart-bits-slider" type="text" value="0" data-min="0" data-max="100" data-step="1" class="slideInput">
-          <span class="legendCarrito">Usa tus bits como dinero en esta compra <a href="#">learn more</a></span>
-          <a href="#" class="continueShoping">CONTINUE SHOPING</a>
-          <input type="submit" class="btn" value="Check Out">
-          <h3>NOTA</h3>
-          <ul class="payment-methods-list">
-            <li>Esta compra NO esta disponible para meses sin intereses.</li>
-            <li>Esta compra NO esta disponible para pago en OXXO.</li>
-          </ul>
         </div>
       </div>
     </div>
-  </div>
 </li>
 <li><input type="submit" class="btn btnTopNav" value="Check Out"></li>
 </ul>

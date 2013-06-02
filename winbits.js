@@ -485,6 +485,10 @@ Winbits.loadUserProfile = function($, profile) {
   }
 };
 
+Winbits.restoreCart = function($) {
+  Winbits.loadUserCart($);
+};
+
 Winbits.loadUserCart= function($) {
   $.ajax(Winbits.config.apiUrl + '/orders/cart-items.json', {
     dataType: 'json',
@@ -659,10 +663,10 @@ Winbits.applyLogin = function ($, profile) {
   Winbits.checkCompleteRegistration($);
   console.log('Logged In');
   Winbits.saveApiToken(profile.apiToken);
+  Winbits.restoreCart($);
   Winbits.$widgetContainer.find('div.login').hide();
-  Winbits.$widgetContainer.find('div.miCuenta').show();
+  Winbits.$widgetContainer.find('div.miCuentaPanel').show();
   Winbits.loadUserProfile($, profile);
-  Winbits.loadUserCart($);
 };
 
 Winbits.checkCompleteRegistration = function ($) {
@@ -707,7 +711,7 @@ Winbits.initLogout = function ($) {
 Winbits.applyLogout = function ($, logoutData) {
   Winbits.proxy.post({ action: 'logout', params: [Winbits.Flags.fbConnect] });
   Winbits.deleteCookie(Winbits.apiTokenName);
-  Winbits.$widgetContainer.find('div.miCuenta').hide();
+  Winbits.$widgetContainer.find('div.miCuentaPanel').hide();
   Winbits.$widgetContainer.find('div.login').show();
   Winbits.resetMyAccountPanel($);
   Winbits.Flags.loggedIn = false;
@@ -903,7 +907,7 @@ Winbits.addToUserCart = function(id, quantity, bits) {
 
 Winbits.refreshCart = function($, cart) {
   console.log(['Refreshing cart...', cart]);
-  var $cartHolder = Winbits.$widgetContainer.find('.cart-holder');
+  var $cartHolder = Winbits.$widgetContainer.find('.cart-holder:visible');
   $cartHolder.find('.cart-items-count').text(cart.itemsCount);
   var $cartInfo = $cartHolder.find('.cart-info');
   $cartInfo.find('.cart-shipping-total').text(cart.shippingTotal || 'GRATIS');
