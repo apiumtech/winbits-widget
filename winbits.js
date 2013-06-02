@@ -758,14 +758,26 @@ Winbits.initLogout = function ($) {
 Winbits.applyLogout = function ($, logoutData) {
   Winbits.proxy.post({ action: 'logout', params: [Winbits.Flags.fbConnect] });
   Winbits.deleteCookie(Winbits.apiTokenName);
-  Winbits.$widgetContainer.find('div.miCuentaPanel').hide();
-  Winbits.$widgetContainer.find('div.login').show();
-  Winbits.resetMyAccountPanel($);
+  Winbits.resetWidget($);
   Winbits.Flags.loggedIn = false;
   Winbits.Flags.fbConnect = false;
 };
 
-Winbits.resetMyAccountPanel = function($) {
+Winbits.resetWidget = function($) {
+  Winbits.$widgetContainer.find('div.miCuentaPanel').hide();
+  Winbits.$widgetContainer.find('div.login').show();
+  var $reseteables = Winbits.$widgetContainer.find('.reseteable').each(function(i, reseteable) {
+    var $reseteable = $(reseteable);
+    if ($reseteable.is('[data-reset-val]')) {
+      $reseteable.val($reseteable.attr('data-reset-val'));
+    } else if ($reseteable.is('[data-reset-text]')) {
+      $reseteable.text($reseteable.attr('data-reset-text'));
+    } else if ($reseteable.is('[data-reset-unload]')) {
+      $reseteable.html('');
+    } else {
+      $reseteable.val('');
+    }
+  });
 };
 
 Winbits.Forms = Winbits.Forms || {};
