@@ -650,7 +650,7 @@ Winbits.initLogout = function ($) {
 };
 
 Winbits.applyLogout = function ($, logoutData) {
-  Winbits.proxy.post({ action: 'logout', params: Winbits.Flags.fbConnect });
+  Winbits.proxy.post({ action: 'logout', params: [Winbits.Flags.fbConnect] });
   Winbits.deleteCookie(Winbits.tokensDef.apiToken.cookieName);
   Winbits.$widgetContainer.find('div.miCuenta').hide();
   Winbits.$widgetContainer.find('div.login').show();
@@ -676,82 +676,6 @@ Winbits.resetLightBoxes = function ($, scope) {
     });
 //    form.reset();
   });
-};
-
-Winbits.Validations = Winbits.Validations || {};
-Winbits.Validations.emailRegEx = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-Winbits.Validations.validateRequiredField = function (field) {
-  var $ = Winbits.jQuery;
-  var $field = Winbits.$(field);
-  var fieldValue = $field.val() || '';
-  return fieldValue.length > 0;
-};
-Winbits.Validations.validateEmailField = function (field) {
-  var $ = Winbits.jQuery;
-  var $field = Winbits.$(field);
-  var fieldValue = $field.val() || '';
-  return Winbits.Validations.emailRegEx.test(fieldValue);
-};
-Winbits.Validations.validateConfirmField = function (field) {
-  var $ = Winbits.jQuery;
-  var $field = Winbits.$(field);
-  var targetField;
-  $.each($field.attr('class').split(/\s+/), function (i, className) {
-    if (className.indexOf('confirm-') === 0) {
-      targetField = className.substring(8);
-      return false;
-    }
-  });
-  var $fieldToConfirm = $field.closest('form').find('input[name=' + targetField + ']');
-  return $field.val() === $fieldToConfirm.val();
-};
-
-Winbits.Forms = Winbits.Forms || {};
-Winbits.Forms.serializeForm = function ($, form, context) {
-  var formData = context || {};
-  var $form = Winbits.$(form);
-  $.each($form.serializeArray(), function (i, f) {
-    formData[f.name] = f.value;
-  });
-  return formData;
-};
-
-Winbits.Forms.validateForm = function ($, form) {
-  var $form = Winbits.$(form);
-  var $inputs = $form.find('input');
-  var errors = {};
-  $inputs.filter('.required').each(function (i, input) {
-    var $input = Winbits.$(input);
-    var name = $input.attr('name');
-    errors[name] = errors[name] || [];
-    if (Winbits.Validations.validateRequiredField($input)) {
-      errors[name].push('required');
-    }
-  });
-
-  $inputs.filter('.email').each(function (i, input) {
-    var $input = Winbits.$(input);
-    var name = $input.attr('name');
-    errors[name] = errors[name] || [];
-    if (Winbits.Validations.validateRequiredField($input)) {
-      errors[name].push('email');
-    }
-  });
-
-  $inputs.filter('[class*=confirm-]', '[class*= confirm-]').each(function (i, input) {
-    var $input = Winbits.$(input);
-    var name = $input.attr('name');
-    errors[name] = errors[name] || [];
-    if (Winbits.Validations.validateRequiredField($input)) {
-      errors[name].push('confirm');
-    }
-  });
-
-  return errors;
-};
-
-Winbits.Forms.renderErrors = function ($, form, errors) {
-
 };
 
 Winbits.loadFacebook = function () {
@@ -869,6 +793,185 @@ Winbits.Handlers = {
   }
 };
 
+Winbits.EventHandlers = {
+  clickDeleteCartDetailLink: function(e) {
+    var $cartDetail = Winbits.jQuery(e.target).closest('li');
+    console.log(['Deleting cart detail...', $cartDetail.attr('data-id')]);
+  }
+};
+
+Winbits.addToCart = function(cartItem) {
+  if (!cartItem) {
+    alert('Please specify a cart item object: {id: 1, quantity: 1}');
+  }
+  if (!cartItem.id) {
+    alert('Id required! Please specify a cart item object: {id: 1, quantity: 1}');
+  }
+  if (!cartItem.quantity || cartItem.quantity < 1) {
+    console.log('Setting default quantity (1)...')
+    cartItem.quantity = 1;
+  }
+  var $cartDetail = Winbits.$widgetContainer.find('.cart-details-list').children('[data-id=' + cartItem.id + ']');
+  if ($cartDetail.length === 0) {
+    if (Winbits.Flags.loggedIn) {
+      Winbits.addToUserCart(cartItem.id, cartItem.quantity, cartItem.bits);
+    } else {
+      Winbits.addToVirtualCart(cartItem.id, cartItem.quantity);
+    }
+  } else {
+    if (Winbits.Flags.loggedIn) {
+      Winbits.updateUserCartDetail($cartDetail, cartItem.quantity, cartItem.bits);
+    } else {
+      Winbits.updateVirtualCartDetail($cartDetail, cartItem.quantity);
+    }
+  }
+};
+
+Winbits.addToUserCart = function(id, quantity, bits) {
+  console.log('Adding to user cart...');
+  var $ = Winbits.jQuery;
+  var formData = {skuProfileId: id, quantity: quantity, bits: bits};
+  $.ajax(Winbits.config.apiUrl + '/orders/cart-items.json', {
+    type: 'POST',
+    contentType: 'application/json',
+    dataType: 'json',
+    data: JSON.stringify(formData),
+    headers: { 'Accept-Language': 'es', 'WB-Api-Token': Winbits.getCookie(Winbits.tokensDef.apiToken.cookieName) },
+    success: function (data) {
+      console.log(['V: User cart', data.response]);
+      Winbits.refreshCart($, data.response);
+    },
+    error: function (xhr, textStatus, errorThrown) {
+      var error = JSON.parse(xhr.responseText);
+      alert(error.message);
+    },
+    complete: function () {
+      console.log('Request Completed!');
+    }
+  });
+};
+
+Winbits.refreshCart = function($, cart) {
+  console.log('Refreshing cart...');
+  var $cartHolder = Winbits.$widgetContainer.find('.cart-holder');
+  var $cartInfo = $cartHolder.find('.cart-info');
+  $cartInfo.find('.cart-shipping-total').text(cart.shippingTotal || 'GRATIS');
+  var cartTotal = cart.itemsTotal + cart.shippingTotal - cart.bitsTotal;
+  $cartInfo.find('.cart-total').text('$' + cartTotal);
+  $cartInfo.find('.cart-bits-total').text(cart.bitsTotal);
+  $cartInfo.find('.cart-items-count').text(cart.itemsCount);
+  var cartSaving = 0;
+  $cartInfo.find('.cart-saving').text(cartSaving + '%');
+  var $cartDetailsList = $cartHolder.find('.cart-details-list').html('');
+  $.each(cart.cartDetails, function(i, cartDetail) {
+    Winbits.addCartDetailInto($, cartDetail, $cartDetailsList);
+  });
+};
+
+Winbits.addCartDetailInto = function($, cartDetail, cartDetailsList) {
+  console.log(['Adding cart detail...', cartDetail]);
+  var $cartDetailsList = Winbits.$(cartDetailsList);
+  var $cartDetail = $('<li>' +
+      '<a href="#"><img class="cart-detail-thumb"></a>' +
+      '<p class="descriptionItem cart-detail-name"></p>' +
+      '<label>Cantidad</label>' +
+      '<input type="text" class="inputStepper cart-detail-quantity">' +
+      '<p class="priceItem cart-detail-price"></p>' +
+      '<span class="verticalName">Producto de <em class="cart-detail-vertical"></em></span>' +
+      '<span class="deleteItem"><a href="#" class="cart-detail-delete-link">eliminar</a></span>' +
+      '</li>');
+  $cartDetail.attr('data-id', cartDetail.skuProfile.id);
+  $cartDetail.find('.cart-detail-thumb').attr('src', cartDetail.skuProfile.item.thumbnail).attr('alt', '[thumbnail]');
+  $cartDetail.find('.cart-detail-name').text(cartDetail.skuProfile.name);
+  customStepper($cartDetail.find('.cart-detail-quantity').val(cartDetail.quantity));
+  $cartDetail.find('.cart-detail-price').text('$' + cartDetail.skuProfile.price);
+  $cartDetail.find('.cart-detail-vertical').text(cartDetail.skuProfile.item.vertical.name);
+  $cartDetail.find('.cart-detail-delete-link').click(Winbits.EventHandlers.clickDeleteCartDetailLink);
+
+  $cartDetail.appendTo($cartDetailsList);
+};
+
+Winbits.updateUserCartDetail = function(cartDetail, quantity, bits) {
+  console.log(['Updating cart detail...', cartDetail]);
+  var $cartDetail = Winbits.$(cartDetail);
+  var $ = Winbits.jQuery;
+  var formData = {
+    quantity: $cartDetail.find('.cart-detail-quantity').val() + quantity,
+    bits: bits || 0
+  };
+  var id = $cartDetail.attr('data-id');
+  $.ajax(Winbits.config.apiUrl + '/orders/cart-items/' + id + '.json', {
+    type: 'PUT',
+    contentType: 'application/json',
+    dataType: 'json',
+    data: JSON.stringify(formData),
+    headers: { 'Accept-Language': 'es', 'WB-Api-Token': Winbits.getCookie(Winbits.tokensDef.apiToken.cookieName) },
+    success: function (data) {
+      console.log(['V: User cart', data.response]);
+      Winbits.refreshCart($, data.response);
+    },
+    error: function (xhr, textStatus, errorThrown) {
+      var error = JSON.parse(xhr.responseText);
+      alert(error.message);
+    },
+    complete: function () {
+      console.log('Request Completed!');
+    }
+  });
+};
+
+Winbits.addToVirtualCart = function(id, quantity) {
+  console.log('Adding to virtual cart...');
+  var $ = Winbits.jQuery;
+  var formData = {skuProfileId: id, quantity: quantity, bits: 0};
+  $.ajax(Winbits.config.apiUrl + '/orders/virtual-cart-items.json', {
+    type: 'POST',
+    contentType: 'application/json',
+    dataType: 'json',
+    data: JSON.stringify(formData),
+    headers: { 'Accept-Language': 'es', 'wb-vcart': Winbits.getCookie('_wb_vcart_token') },
+    success: function (data) {
+      console.log(['V: Virtual cart', data.response]);
+      Winbits.refreshCart($, data.response);
+    },
+    error: function (xhr, textStatus, errorThrown) {
+      var error = JSON.parse(xhr.responseText);
+      alert('Errors while trying to add element to virtual cart!');
+    },
+    complete: function () {
+      console.log('Request Completed!');
+    }
+  });
+};
+
+Winbits.updateVirtualCartDetail = function(cartDetail, quantity) {
+  console.log(['Updating cart detail...', cartDetail]);
+  var $cartDetail = Winbits.$(cartDetail);
+  var $ = Winbits.jQuery;
+  var formData = {
+    quantity: $cartDetail.find('.cart-detail-quantity').val()
+  };
+  var id = $cartDetail.attr('data-id');
+  $.ajax(Winbits.config.apiUrl + '/orders/virtual-cart-items/' + id + '.json', {
+    type: 'PUT',
+    contentType: 'application/json',
+    dataType: 'json',
+    data: JSON.stringify(formData),
+    headers: { 'Accept-Language': 'es' },
+    success: function (data) {
+      console.log(['V: Virtual cart', data.response]);
+      Winbits.refreshCart($, data.response);
+    },
+    error: function (xhr, textStatus, errorThrown) {
+      var error = JSON.parse(xhr.responseText);
+      alert(error.message);
+    },
+    complete: function () {
+      console.log('Request Completed!');
+    }
+  });
+};
+
 (function () {
   // Localize jQuery variable
   Winbits.jQuery;
@@ -922,11 +1025,6 @@ Winbits.Handlers = {
         Winbits.initProxy($);
       });
     }
-  };
-
-  Winbits.addToCart = function(skuProfileId, quantity, bits) {
-    console.log(['Added to cart', skuProfileId, quantity]);
-//    if ()
   };
 
   /******** Our main function ********/
