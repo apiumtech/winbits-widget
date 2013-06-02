@@ -487,7 +487,7 @@ Winbits.loadUserProfile = function($, profile) {
 
 Winbits.restoreCart = function($) {
   var vCart = Winbits.getCookie(Winbits.vcartTokenName);
-  if (vCart && false) {
+  if (vCart != '[]') {
     Winbits.transferVirtualCart($, vCart);
   } else {
     Winbits.loadUserCart($);
@@ -498,6 +498,7 @@ Winbits.transferVirtualCart = function($, virtualCart) {
   var formData = { virtualCartData: JSON.parse(virtualCart) };
   $.ajax(Winbits.config.apiUrl + '/orders/assign-virtual-cart.json', {
     type: 'POST',
+    contentType: 'application/json',
     dataType: 'json',
     data: JSON.stringify(formData),
     headers: { 'Accept-Language': 'es', 'WB-Api-Token': Winbits.getCookie(Winbits.apiTokenName) },
@@ -970,12 +971,12 @@ Winbits.storeVirtualCart = function($, cart) {
 Winbits.refreshCart = function($, cart) {
   console.log(['Refreshing cart...', cart]);
   var $cartHolder = Winbits.$widgetContainer.find('.cart-holder:visible');
-  $cartHolder.find('.cart-items-count').text(cart.itemsCount);
+  $cartHolder.find('.cart-items-count').text(cart.itemsCount || 0);
   var $cartInfo = $cartHolder.find('.cart-info');
   $cartInfo.find('.cart-shipping-total').text(cart.shippingTotal || 'GRATIS');
-  var cartTotal = cart.itemsTotal + cart.shippingTotal - (cart.bitsTotal || 0);
+  var cartTotal = (cart.itemsTotal || 0) + (cart.shippingTotal || 0) - (cart.bitsTotal || 0);
   $cartInfo.find('.cart-total').text('$' + cartTotal);
-  $cartInfo.find('.cart-bits-total').text(cart.bitsTotal);
+  $cartInfo.find('.cart-bits-total').text(cart.bitsTotal || 0);
   var cartSaving = 0;
   $cartInfo.find('.cart-saving').text(cartSaving + '%');
   var $cartDetailsList = $cartHolder.find('.cart-details-list').html('');
