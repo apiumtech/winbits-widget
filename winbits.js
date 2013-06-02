@@ -396,7 +396,7 @@ Winbits.initCompleteRegisterWidget = function ($) {
     var formData = { verticalId: Winbits.config.verticalId };
     formData = Winbits.Forms.serializeForm($, $form, formData);
     if (formData.location === $form.find('[name=location]').attr('placeholder')) {
-      delete formData.location
+      delete formData.location;
     }
     if (formData.gender) {
       formData.gender = formData.gender === 'H' ? 'male' : 'female'
@@ -557,19 +557,20 @@ Winbits.loadVirtualCart = function($) {
 Winbits.loadCompleteRegisterForm = function($, profile) {
   console.log(['Loading profile', profile]);
   if (profile) {
-    var $profileForm = $('form#complete-profile-form');
-    $profileForm.find('input[name=firstName]').val(profile.name);
+    var $profileForm = Winbits.$widgetContainer.find('form#complete-register-form');
+    $profileForm.find('input[name=name]').val(profile.name);
     $profileForm.find('input[name=lastName]').val(profile.lastName);
     if (profile.birthdate) {
       var birthday = profile.birthdate.split('-');
       var year = birthday[0];
       year = year.length > 2 ? year.substr(2) : year;
-      $profileForm.find('input[name="birthday.day"]').val(birthday[2]);
-      $profileForm.find('input[name="birthday.month"]').val(birthday[1]);
-      $profileForm.find('input[name="birthday.year"]').val(year);
+      $profileForm.find('input.day-input').val(birthday[2]);
+      $profileForm.find('input.month-input').val(birthday[1]);
+      $profileForm.find('input.year-input').val(year);
+      $profileForm.find('input[name=birthdate]').val(profile.birthdate);
     }
     if (profile.gender) {
-      $profileForm.find('a.radio-item.gender-' + profile.gender).addClass('selected');
+      $profileForm.find('input[name=gender].' + profile.gender).attr('checked', 'checked').next().addClass('spanSelected');
     }
   }
 };
@@ -821,7 +822,7 @@ Winbits.loginFacebookHandler = function (response) {
 Winbits.loginFacebook = function(me) {
   var $ = Winbits.jQuery;
   var myBirthdayDate = new Date(me.birthday);
-  var birthday = myBirthdayDate.getFullYear() + "-" + myBirthdayDate.getMonth() + "-" + myBirthdayDate.getDate();
+  var birthday = myBirthdayDate.getFullYear() + "-" + (myBirthdayDate.getMonth() + 1) + "-" + myBirthdayDate.getDate();
   var payLoad = {
     name: me.first_name,
     lastName: me.last_name,
@@ -1005,7 +1006,7 @@ Winbits.addCartDetailInto = function($, cartDetail, cartDetailsList) {
   console.log(['Adding cart detail...', cartDetail]);
   var $cartDetailsList = Winbits.$(cartDetailsList);
   var $cartDetail = $('<li>' +
-      '<a href="#"><img class="cart-detail-thumb"></a>' +
+      '<a href="#"><img class="cart-detail-thumb" width="35" height="45"></a>' +
       '<p class="descriptionItem cart-detail-name"></p>' +
       '<label>Cantidad</label>' +
       '<input type="text" class="inputStepper cart-detail-quantity">' +
