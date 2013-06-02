@@ -86,7 +86,7 @@ Winbits.init = function () {
 Winbits.initProxy = function($) {
   var iframeSrc = Winbits.config.baseUrl +'/winbits.html?origin=' + Winbits.config.proxyUrl;
   var iframeStyle = 'width:100%;border: 0px;overflow: hidden;';
-  var $iframe = $('<iframe id="winbits-iframe" name="winbits-iframe" src="' + iframeSrc +'"></iframe>').on('load', function() {
+  var $iframe = $('<iframe id="winbits-iframe" name="winbits-iframe" height="30" style="' + iframeStyle + '" src="' + iframeSrc +'"></iframe>').on('load', function() {
     if (!Winbits.initialized) {
       Winbits.initialized = true;
       Winbits.init();
@@ -94,26 +94,12 @@ Winbits.initProxy = function($) {
   });
   Winbits.$widgetContainer.find('#winbits-iframe-holder').append($iframe);
 
-  var $fbIFrame = $('<iframe id="winbits-fb-iframe" name="winbits-fb-iframe" height="30" style="' + iframeStyle + '" src="' + iframeSrc +'"></iframe>');
-  Winbits.$widgetContainer.find('#winbits-fb-iframe-holder').append($fbIFrame);
-
   // Create a proxy window to send to and receive
   // messages from the iFrame
   Winbits.proxy = new Porthole.WindowProxy(Winbits.config.baseUrl + '/proxy.html', 'winbits-iframe');
-  Winbits.fbProxy = new Porthole.WindowProxy(Winbits.config.baseUrl + '/proxy.html', 'winbits-fb-iframe');
 
   // Register an event handler to receive messages;
   Winbits.proxy.addEventListener(function (messageEvent) {
-    console.log(['Message from Winbits', messageEvent]);
-    var data = messageEvent.data;
-    var handlerFn = Winbits.Handlers[data.action + 'Handler'];
-    if (handlerFn) {
-      handlerFn.apply(this, data.params);
-    } else {
-      console.log('Invalid action from Winbits');
-    }
-  });
-  Winbits.fbProxy.addEventListener(function (messageEvent) {
     console.log(['Message from Winbits', messageEvent]);
     var data = messageEvent.data;
     var handlerFn = Winbits.Handlers[data.action + 'Handler'];
@@ -232,7 +218,7 @@ Winbits.createFrame = function ($, frameSrc) {
 
 Winbits.expressFacebookLogin = function ($) {
   console.log('Trying to login with facebook');
-  Winbits.fbProxy.post({ action: 'facebookStatus' });
+  Winbits.proxy.post({ action: 'facebookStatus' });
 };
 
 Winbits.initWidgets = function ($) {
@@ -351,8 +337,10 @@ Winbits.initLightbox = function($) {
       $layer.find('form').first().find('input.default').focus();
       var $fbHolder = $layer.find('.facebook-btn-holder');
       if ($fbHolder.length > 0) {
-        var $fbIFrameHolder = Winbits.$widgetContainer.find('#winbits-fb-iframe-holder');
-        $fbIFrameHolder.offset($fbHolder.offset()).height($fbHolder.height()).width($fbHolder.width()).css('z-index', 10000);
+        var $fbIFrameHolder = Winbits.$widgetContainer.find('#winbits-iframe-holder');
+        var offset = $fbHolder.offset();
+        offset.top = offset.top + 20;
+        $fbIFrameHolder.offset(offset).height($fbHolder.height()).width($fbHolder.width()).css('z-index', 10000);
       }
     },
     onCleanup: function() {
@@ -362,7 +350,7 @@ Winbits.initLightbox = function($) {
         $form.validate().resetForm();
         form.reset();
       });
-      var $fbIFrameHolder = Winbits.$widgetContainer.find('#winbits-fb-iframe-holder');
+      var $fbIFrameHolder = Winbits.$widgetContainer.find('#winbits-iframe-holder');
       $fbIFrameHolder.offset({top: -1000});
     }
   });
@@ -712,7 +700,7 @@ Winbits.initLogout = function ($) {
 };
 
 Winbits.applyLogout = function ($, logoutData) {
-  Winbits.fbProxy.post({ action: 'logout', params: [Winbits.Flags.fbConnect] });
+  Winbits.proxy.post({ action: 'logout', params: [Winbits.Flags.fbConnect] });
   Winbits.deleteCookie(Winbits.apiTokenName);
   Winbits.$widgetContainer.find('div.miCuenta').hide();
   Winbits.$widgetContainer.find('div.login').show();
@@ -835,7 +823,7 @@ Winbits.Handlers = {
     console.log(['Facebook Login', response]);
     if (response.authResponse) {
       console.log('Requesting facebook profile...');
-      Winbits.fbProxy.post({ action: 'facebookMe' });
+      Winbits.proxy.post({ action: 'facebookMe' });
     } else {
       console.log('Facebook login failed!');
     }

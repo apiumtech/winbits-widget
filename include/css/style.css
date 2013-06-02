@@ -2831,3 +2831,7 @@ input.error {
 .errors {
   color: #dd092c;
 }
+
+.widgetWinbitsFooter.facebook-btn-holder {
+  padding: 35px 0;
+}
