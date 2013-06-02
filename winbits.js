@@ -14,6 +14,8 @@ Winbits.config = Winbits.config || {
   proxyUrl : "-",
   winbitsDivId: 'winbits-widget'
 };
+Winbits.apiTokenName = '_wb_api_token';
+Winbits.vcartTokenName = '_wb_vcart_token';
 Winbits.Flags = { loggedIn: false, fbConnect: false };
 
 Winbits.$ = function (element) {
@@ -84,20 +86,34 @@ Winbits.init = function () {
 Winbits.initProxy = function($) {
   var iframeSrc = Winbits.config.baseUrl +'/winbits.html?origin=' + Winbits.config.proxyUrl;
   var iframeStyle = 'width:100%;border: 0px;overflow: hidden;';
-  var $iframe = $('<iframe id="winbits-iframe" name="winbits-iframe" height="30" style="' + iframeStyle + '" src="' + iframeSrc +'"></iframe>').on('load', function() {
+  var $iframe = $('<iframe id="winbits-iframe" name="winbits-iframe" src="' + iframeSrc +'"></iframe>').on('load', function() {
     if (!Winbits.initialized) {
       Winbits.initialized = true;
       Winbits.init();
     }
   });
-  Winbits.$widgetContainer.find('#iframe-holder').append($iframe);
+  Winbits.$widgetContainer.find('#winbits-iframe-holder').append($iframe);
+
+  var $fbIFrame = $('<iframe id="winbits-fb-iframe" name="winbits-fb-iframe" height="30" style="' + iframeStyle + '" src="' + iframeSrc +'"></iframe>');
+  Winbits.$widgetContainer.find('#winbits-fb-iframe-holder').append($fbIFrame);
 
   // Create a proxy window to send to and receive
   // messages from the iFrame
   Winbits.proxy = new Porthole.WindowProxy(Winbits.config.baseUrl + '/proxy.html', 'winbits-iframe');
+  Winbits.fbProxy = new Porthole.WindowProxy(Winbits.config.baseUrl + '/proxy.html', 'winbits-fb-iframe');
 
   // Register an event handler to receive messages;
   Winbits.proxy.addEventListener(function (messageEvent) {
+    console.log(['Message from Winbits', messageEvent]);
+    var data = messageEvent.data;
+    var handlerFn = Winbits.Handlers[data.action + 'Handler'];
+    if (handlerFn) {
+      handlerFn.apply(this, data.params);
+    } else {
+      console.log('Invalid action from Winbits');
+    }
+  });
+  Winbits.fbProxy.addEventListener(function (messageEvent) {
     console.log(['Message from Winbits', messageEvent]);
     var data = messageEvent.data;
     var handlerFn = Winbits.Handlers[data.action + 'Handler'];
@@ -124,15 +140,13 @@ Winbits.requestTokens = function ($) {
 Winbits.segregateTokens = function ($, tokensDef) {
   console.log(['tokensDef', tokensDef]);
   var vcartTokenDef = tokensDef.vcartToken;
-  Winbits.setCookie(vcartTokenDef.cookieName, vcartTokenDef.value || '', vcartTokenDef.expireDays);
+  Winbits.setCookie(vcartTokenDef.cookieName, vcartTokenDef.value, vcartTokenDef.expireDays);
   var apiTokenDef = tokensDef.apiToken;
   if (apiTokenDef) {
     Winbits.setCookie(apiTokenDef.cookieName, apiTokenDef.value, apiTokenDef.expireDays);
   } else {
-    tokensDef.apiToken = {cookieName: '_wb_api_token', expireDays: 7};
-    Winbits.setCookie(apiTokenDef.cookieName, '', apiTokenDef.expireDays);
+    Winbits.deleteCookie(apiTokenDef.cookieName);
   }
-  Winbits.tokensDef = tokensDef;
 };
 
 Winbits.createFrame = function ($, frameSrc) {
@@ -146,7 +160,7 @@ Winbits.createFrame = function ($, frameSrc) {
 
 Winbits.expressLogin = function ($) {
   Winbits.checkRegisterConfirmation($);
-  var apiToken = Winbits.getCookie(Winbits.tokensDef.apiToken.cookieName);
+  var apiToken = Winbits.getCookie(Winbits.apiTokenName);
   console.log(['API Token', apiToken]);
   if (apiToken) {
     $.ajax(Winbits.config.apiUrl + '/affiliation/express-login.json', {
@@ -183,15 +197,42 @@ Winbits.checkRegisterConfirmation = function ($) {
 };
 
 Winbits.saveApiToken = function(apiToken) {
-  Winbits.tokensDef.apiToken.value = apiToken;
-  Winbits.setCookie(Winbits.tokensDef.apiToken.cookieName, apiToken, 7);
+  Winbits.setCookie(Winbits.apiTokenName, apiToken, 7);
   console.log(['About to save API Token on Winbits', apiToken]);
   Winbits.proxy.post({ action: 'saveApiToken', params: [apiToken] });
+//  Winbits.storeTokens(Winbits.jQuery);
+};
+
+Winbits.storeTokens = function ($) {
+  var tokens = [];
+  var guestToken = Winbits.getCookie(Winbits.vcartTokenName);
+  if (guestToken) {
+    tokens.push(['_wb_guest_token', guestToken].join('='));
+  }
+  var apiToken = Winbits.getCookie(Winbits.apiTokenName);;
+  if (apiToken) {
+    tokens.push(['_wb_api_token', apiToken].join('='));
+  }
+
+  if (tokens.length > 0) {
+    var tokensQueryString = tokens.join('&');
+    var storeCookiesUrl = Winbits.config.loginRedirectUrl + '?' + tokensQueryString;
+    Winbits.createFrame($, storeCookiesUrl);
+  }
+};
+
+Winbits.createFrame = function ($, frameSrc) {
+  var $iframe = $('<iframe></iframe>');
+  $iframe.appendTo('#winbits-iframe-holder');
+  $iframe.attr('src', frameSrc);
+  $iframe.load(function (e) {
+    $(e.target).remove();
+  });
 };
 
 Winbits.expressFacebookLogin = function ($) {
   console.log('Trying to login with facebook');
-  Winbits.proxy.post({ action: 'facebookStatus' });
+  Winbits.fbProxy.post({ action: 'facebookStatus' });
 };
 
 Winbits.initWidgets = function ($) {
@@ -308,9 +349,10 @@ Winbits.initLightbox = function($) {
     onComplete: function() {
       var $layer = $(this.href);
       $layer.find('form').first().find('input.default').focus();
-      var $holder = $layer.find('.facebook-btn-holder');
-      if ($holder.length > 0) {
-        $('#winbits-iframe').appendTo($holder);
+      var $fbHolder = $layer.find('.facebook-btn-holder');
+      if ($fbHolder.length > 0) {
+        var $fbIFrameHolder = Winbits.$widgetContainer.find('#winbits-fb-iframe-holder');
+        $fbIFrameHolder.offset($fbHolder.offset()).height($fbHolder.height()).width($fbHolder.width()).css('z-index', 10000);
       }
     },
     onCleanup: function() {
@@ -320,8 +362,8 @@ Winbits.initLightbox = function($) {
         $form.validate().resetForm();
         form.reset();
       });
-      var $holder = Winbits.$widgetContainer.find('#iframe-holder');
-      $('#winbits-iframe').appendTo($holder);
+      var $fbIFrameHolder = Winbits.$widgetContainer.find('#winbits-fb-iframe-holder');
+      $fbIFrameHolder.offset({top: -1000});
     }
   });
 };
@@ -416,7 +458,7 @@ Winbits.initCompleteRegisterWidget = function ($) {
       beforeSend: function () {
         return Winbits.validateForm(this);
       },
-      headers: { 'Accept-Language': 'es', 'WB-Api-Token': Winbits.getCookie(Winbits.tokensDef.apiToken.cookieName) },
+      headers: { 'Accept-Language': 'es', 'WB-Api-Token': Winbits.getCookie(Winbits.apiTokenName) },
       success: function (data) {
         console.log(['Profile updated', data.response]);
         Winbits.loadUserProfile($, data.response);
@@ -453,7 +495,7 @@ Winbits.loadUserProfile = function($, profile) {
 Winbits.loadUserCart= function($) {
   $.ajax(Winbits.config.apiUrl + '/orders/cart-items.json', {
     dataType: 'json',
-    headers: { 'Accept-Language': 'es', 'WB-Api-Token': Winbits.getCookie(Winbits.tokensDef.apiToken.cookieName) },
+    headers: { 'Accept-Language': 'es', 'WB-Api-Token': Winbits.getCookie(Winbits.apiTokenName) },
     success: function (data) {
       console.log(['V: User cart', data.response]);
       Winbits.refreshCart($, data.response);
@@ -558,7 +600,7 @@ Winbits.initMyAccountWidget = function($) {
       beforeSend: function () {
         return Winbits.validateForm(this);
       },
-      headers: { 'Accept-Language': 'es', 'WB-Api-Token': Winbits.getCookie(Winbits.tokensDef.apiToken.cookieName) },
+      headers: { 'Accept-Language': 'es', 'WB-Api-Token': Winbits.getCookie(Winbits.apiTokenName) },
       success: function (data) {
         console.log(['Profile updated', data.response]);
         var $myAccountPanel = this.closest('.myProfile');
@@ -670,19 +712,13 @@ Winbits.initLogout = function ($) {
 };
 
 Winbits.applyLogout = function ($, logoutData) {
-  Winbits.proxy.post({ action: 'logout', params: [Winbits.Flags.fbConnect] });
-  Winbits.deleteCookie(Winbits.tokensDef.apiToken.cookieName);
+  Winbits.fbProxy.post({ action: 'logout', params: [Winbits.Flags.fbConnect] });
+  Winbits.deleteCookie(Winbits.apiTokenName);
   Winbits.$widgetContainer.find('div.miCuenta').hide();
   Winbits.$widgetContainer.find('div.login').show();
   Winbits.resetMyAccountPanel($);
   Winbits.Flags.loggedIn = false;
   Winbits.Flags.fbConnect = false;
-  if (Winbits.tokensDef.apiToken) {
-    delete Winbits.tokensDef.apiToken.value;
-  }
-  if (Winbits.tokensDef.vcartToken) {
-    delete Winbits.tokensDef.vcartToken.value;
-  }
 };
 
 Winbits.resetMyAccountPanel = function($) {
@@ -799,7 +835,7 @@ Winbits.Handlers = {
     console.log(['Facebook Login', response]);
     if (response.authResponse) {
       console.log('Requesting facebook profile...');
-      Winbits.proxy.post({ action: 'facebookMe' });
+      Winbits.fbProxy.post({ action: 'facebookMe' });
     } else {
       console.log('Facebook login failed!');
     }
@@ -857,7 +893,7 @@ Winbits.addToUserCart = function(id, quantity, bits) {
     contentType: 'application/json',
     dataType: 'json',
     data: JSON.stringify(formData),
-    headers: { 'Accept-Language': 'es', 'WB-Api-Token': Winbits.getCookie(Winbits.tokensDef.apiToken.cookieName) },
+    headers: { 'Accept-Language': 'es', 'WB-Api-Token': Winbits.getCookie(Winbits.apiTokenName) },
     success: function (data) {
       console.log(['V: User cart', data.response]);
       Winbits.refreshCart($, data.response);
@@ -941,7 +977,7 @@ Winbits.updateUserCartDetail = function(cartDetail, quantity, bits) {
     contentType: 'application/json',
     dataType: 'json',
     data: JSON.stringify(formData),
-    headers: { 'Accept-Language': 'es', 'WB-Api-Token': Winbits.getCookie(Winbits.tokensDef.apiToken.cookieName) },
+    headers: { 'Accept-Language': 'es', 'WB-Api-Token': Winbits.getCookie(Winbits.apiTokenName) },
     success: function (data) {
       console.log(['V: User cart', data.response]);
       Winbits.refreshCart($, data.response);
@@ -964,7 +1000,7 @@ Winbits.deleteUserCartDetail = function(cartDetail) {
   $.ajax(Winbits.config.apiUrl + '/orders/cart-items/' + id + '.json', {
     type: 'DELETE',
     dataType: 'json',
-    headers: { 'Accept-Language': 'es', 'WB-Api-Token': Winbits.getCookie(Winbits.tokensDef.apiToken.cookieName) },
+    headers: { 'Accept-Language': 'es', 'WB-Api-Token': Winbits.getCookie(Winbits.apiTokenName) },
     success: function (data) {
       console.log(['V: User cart', data.response]);
       Winbits.refreshCart($, data.response);
