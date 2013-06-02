@@ -809,7 +809,11 @@ Winbits.Handlers = {
 Winbits.EventHandlers = {
   clickDeleteCartDetailLink: function(e) {
     var $cartDetail = Winbits.jQuery(e.target).closest('li');
-    console.log(['Deleting cart detail...', $cartDetail.attr('data-id')]);
+    if (Winbits.Flags.loggedIn) {
+      Winbits.deleteUserCartDetail($cartDetail);
+    } else {
+      Winbits.deleteVirtualCartDetail($cartDetail);
+    }
   }
 };
 
@@ -933,6 +937,29 @@ Winbits.updateUserCartDetail = function(cartDetail, quantity, bits) {
   });
 };
 
+Winbits.deleteUserCartDetail = function(cartDetail) {
+  console.log(['Deleting user cart detail...', cartDetail]);
+  var $ = Winbits.jQuery;
+  var $cartDetail = Winbits.$(cartDetail);
+  var id = $cartDetail.attr('data-id');
+  $.ajax(Winbits.config.apiUrl + '/orders/cart-items/' + id + '.json', {
+    type: 'DELETE',
+    dataType: 'json',
+    headers: { 'Accept-Language': 'es', 'WB-Api-Token': Winbits.getCookie(Winbits.tokensDef.apiToken.cookieName) },
+    success: function (data) {
+      console.log(['V: User cart', data.response]);
+      Winbits.refreshCart($, data.response);
+    },
+    error: function (xhr, textStatus, errorThrown) {
+      var error = JSON.parse(xhr.responseText);
+      alert(error.message);
+    },
+    complete: function () {
+      console.log('Request Completed!');
+    }
+  });
+};
+
 Winbits.addToVirtualCart = function(id, quantity) {
   console.log('Adding to virtual cart...');
   var $ = Winbits.jQuery;
@@ -970,9 +997,33 @@ Winbits.updateVirtualCartDetail = function(cartDetail, quantity) {
     contentType: 'application/json',
     dataType: 'json',
     data: JSON.stringify(formData),
-    headers: { 'Accept-Language': 'es' },
+    headers: { 'Accept-Language': 'es', 'wb-vcart': Winbits.getCookie('_wb_vcart_token') },
     success: function (data) {
       console.log(['V: Virtual cart', data.response]);
+      Winbits.refreshCart($, data.response);
+    },
+    error: function (xhr, textStatus, errorThrown) {
+      var error = JSON.parse(xhr.responseText);
+      alert(error.message);
+    },
+    complete: function () {
+      console.log('Request Completed!');
+    }
+  });
+};
+
+Winbits.deleteVirtualCartDetail = function(cartDetail) {
+  console.log(['Deleting virtual cart detail...', cartDetail]);
+  var $ = Winbits.jQuery;
+  var $cartDetail = Winbits.$(cartDetail);
+  var id = $cartDetail.attr('data-id');
+  $.ajax(Winbits.config.apiUrl + '/orders/virtual-cart-items/' + id + '.json', {
+    type: 'DELETE',
+    dataType: 'json',
+    data: JSON.stringify(formData),
+    headers: { 'Accept-Language': 'es', 'wb-vcart': Winbits.getCookie('_wb_vcart_token') },
+    success: function (data) {
+      console.log(['V: User cart', data.response]);
       Winbits.refreshCart($, data.response);
     },
     error: function (xhr, textStatus, errorThrown) {
