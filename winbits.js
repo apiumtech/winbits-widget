@@ -836,12 +836,8 @@ Winbits.addToCart = function(cartItem) {
       Winbits.addToVirtualCart(cartItem.id, cartItem.quantity);
     }
   } else {
-    var qty = $cartDetail.find('.cart-detail-quantity').val() + cartItem.quantity;
-    if (Winbits.Flags.loggedIn) {
-      Winbits.updateUserCartDetail($cartDetail, qty, cartItem.bits);
-    } else {
-      Winbits.updateVirtualCartDetail($cartDetail, qty);
-    }
+    var qty = cartItem.quantity + parseInt($cartDetail.find('.cart-detail-quantity').val());
+    Winbits.updateCartDetail($cartDetail, qty, cartItem.bits);
   }
 };
 
@@ -861,7 +857,7 @@ Winbits.addToUserCart = function(id, quantity, bits) {
     },
     error: function (xhr, textStatus, errorThrown) {
       var error = JSON.parse(xhr.responseText);
-      alert(error.message);
+      alert(error.meta.message);
     },
     complete: function () {
       console.log('Request Completed!');
@@ -903,7 +899,7 @@ Winbits.addCartDetailInto = function($, cartDetail, cartDetailsList) {
   $cartDetail.find('.cart-detail-name').text(cartDetail.skuProfile.item.name);
   customStepper($cartDetail.find('.cart-detail-quantity').val(cartDetail.quantity)).on('step', function(e, previous) {
     var $cartDetailStepper = $(this);
-    var val = $cartDetailStepper.val();
+    var val = parseInt($cartDetailStepper.val());
     if (previous != val) {
       console.log(['previous', 'current', previous, val]);
       Winbits.updateCartDetail($cartDetailStepper.closest('li'), val);
@@ -929,7 +925,7 @@ Winbits.updateUserCartDetail = function(cartDetail, quantity, bits) {
   var $cartDetail = Winbits.$(cartDetail);
   var $ = Winbits.jQuery;
   var formData = {
-    quantity: $cartDetail.find('.cart-detail-quantity').val() + quantity,
+    quantity: quantity,
     bits: bits || 0
   };
   var id = $cartDetail.attr('data-id');
@@ -945,7 +941,7 @@ Winbits.updateUserCartDetail = function(cartDetail, quantity, bits) {
     },
     error: function (xhr, textStatus, errorThrown) {
       var error = JSON.parse(xhr.responseText);
-      alert(error.message);
+      alert(error.meta.message);
     },
     complete: function () {
       console.log('Request Completed!');
@@ -968,7 +964,7 @@ Winbits.deleteUserCartDetail = function(cartDetail) {
     },
     error: function (xhr, textStatus, errorThrown) {
       var error = JSON.parse(xhr.responseText);
-      alert(error.message);
+      alert(error.meta.message);
     },
     complete: function () {
       console.log('Request Completed!');
@@ -992,7 +988,7 @@ Winbits.addToVirtualCart = function(id, quantity) {
     },
     error: function (xhr, textStatus, errorThrown) {
       var error = JSON.parse(xhr.responseText);
-      alert('Errors while trying to add element to virtual cart!');
+      alert(error.meta.message);
     },
     complete: function () {
       console.log('Request Completed!');
@@ -1005,7 +1001,7 @@ Winbits.updateVirtualCartDetail = function(cartDetail, quantity) {
   var $cartDetail = Winbits.$(cartDetail);
   var $ = Winbits.jQuery;
   var formData = {
-    quantity: $cartDetail.find('.cart-detail-quantity').val()
+    quantity: quantity
   };
   var id = $cartDetail.attr('data-id');
   $.ajax(Winbits.config.apiUrl + '/orders/virtual-cart-items/' + id + '.json', {
@@ -1020,7 +1016,7 @@ Winbits.updateVirtualCartDetail = function(cartDetail, quantity) {
     },
     error: function (xhr, textStatus, errorThrown) {
       var error = JSON.parse(xhr.responseText);
-      alert(error.message);
+      alert(error.meta.message);
     },
     complete: function () {
       console.log('Request Completed!');
@@ -1044,7 +1040,7 @@ Winbits.deleteVirtualCartDetail = function(cartDetail) {
     },
     error: function (xhr, textStatus, errorThrown) {
       var error = JSON.parse(xhr.responseText);
-      alert(error.message);
+      alert(error.meta.message);
     },
     complete: function () {
       console.log('Request Completed!');
