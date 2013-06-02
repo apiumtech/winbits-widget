@@ -1009,6 +1009,7 @@ Winbits.addCartDetailInto = function($, cartDetail, cartDetailsList) {
       '<p class="descriptionItem cart-detail-name"></p>' +
       '<label>Cantidad</label>' +
       '<input type="text" class="inputStepper cart-detail-quantity">' +
+      '<p class="priceItem cart-detail-attr""></p>' +
       '<p class="priceItem cart-detail-price"></p>' +
       '<span class="verticalName">Producto de <em class="cart-detail-vertical"></em></span>' +
       '<span class="deleteItem"><a href="#" class="cart-detail-delete-link">eliminar</a></span>' +
@@ -1024,6 +1025,10 @@ Winbits.addCartDetailInto = function($, cartDetail, cartDetailsList) {
       Winbits.updateCartDetail($cartDetailStepper.closest('li'), val);
     }
   });
+  var attr = cartDetail.skuProfile.attributes[0];
+  if (attr) {
+    $cartDetail.find('.cart-detail-attr').text(attr.label + ': ' + attr.value);
+  }
   $cartDetail.find('.cart-detail-price').text('$' + cartDetail.skuProfile.price);
   $cartDetail.find('.cart-detail-vertical').text(cartDetail.skuProfile.item.vertical.name);
   $cartDetail.find('.cart-detail-delete-link').click(Winbits.EventHandlers.clickDeleteCartDetailLink);
@@ -1045,7 +1050,7 @@ Winbits.updateUserCartDetail = function(cartDetail, quantity, bits) {
   var $ = Winbits.jQuery;
   var formData = {
     quantity: quantity,
-    bits: bits || 0
+      bits: bits || 0
   };
   var id = $cartDetail.attr('data-id');
   $.ajax(Winbits.config.apiUrl + '/orders/cart-items/' + id + '.json', {
