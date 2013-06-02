@@ -135,15 +135,6 @@ Winbits.segregateTokens = function ($, tokensDef) {
   }
 };
 
-Winbits.createFrame = function ($, frameSrc) {
-  var $iframe = $('<iframe></iframe>');
-  $iframe.appendTo('#winbits-iframe-holder');
-  $iframe.attr('src', frameSrc);
-  $iframe.load(function (e) {
-    $(e.target).remove();
-  });
-};
-
 Winbits.expressLogin = function ($) {
   Winbits.checkRegisterConfirmation($);
   var apiToken = Winbits.getCookie(Winbits.apiTokenName);
@@ -187,33 +178,6 @@ Winbits.saveApiToken = function(apiToken) {
   console.log(['About to save API Token on Winbits', apiToken]);
   Winbits.proxy.post({ action: 'saveApiToken', params: [apiToken] });
 //  Winbits.storeTokens(Winbits.jQuery);
-};
-
-Winbits.storeTokens = function ($) {
-  var tokens = [];
-  var guestToken = Winbits.getCookie(Winbits.vcartTokenName);
-  if (guestToken) {
-    tokens.push(['_wb_guest_token', guestToken].join('='));
-  }
-  var apiToken = Winbits.getCookie(Winbits.apiTokenName);;
-  if (apiToken) {
-    tokens.push(['_wb_api_token', apiToken].join('='));
-  }
-
-  if (tokens.length > 0) {
-    var tokensQueryString = tokens.join('&');
-    var storeCookiesUrl = Winbits.config.loginRedirectUrl + '?' + tokensQueryString;
-    Winbits.createFrame($, storeCookiesUrl);
-  }
-};
-
-Winbits.createFrame = function ($, frameSrc) {
-  var $iframe = $('<iframe></iframe>');
-  $iframe.appendTo('#winbits-iframe-holder');
-  $iframe.attr('src', frameSrc);
-  $iframe.load(function (e) {
-    $(e.target).remove();
-  });
 };
 
 Winbits.expressFacebookLogin = function ($) {
@@ -466,17 +430,58 @@ Winbits.initCompleteRegisterWidget = function ($) {
 Winbits.loadUserProfile = function($, profile) {
   console.log(['Loading user profile', profile]);
   var me = profile.profile;
+  Winbits.$widgetContainer.find('.wb-user-bits-balance').text(me.bitsBalance);
   var $myProfilePanel = Winbits.$widgetContainer.find('.miPerfil');
+  var $myProfileForm = Winbits.$widgetContainer.find('.editMiPerfil');
   $myProfilePanel.find('.profile-full-name').text((me.name || '') + ' ' + (me.lastName || ''));
+  $myProfileForm.find('[name=name]').val(me.name);
+  $myProfileForm.find('[name=lastName]').val(me.lastName);
   $myProfilePanel.find('.profile-email').text(profile.email).attr('href', 'mailto:' + profile.email);
-  $myProfilePanel.find('.profile-age').text(me.birthdate || '');
+  if (me.birthdate) {
+    $myProfilePanel.find('.profile-age').text(me.birthdate);
+    $myProfileForm.find('.day-input').val(me.birthdate.substr(8, 2));
+    $myProfileForm.find('.month-input').val(me.birthdate.substr(5, 2));
+    $myProfileForm.find('.year-input').val(me.birthdate.substr(2, 2));
+  }
+  if (me.gender) {
+    $myProfileForm.find('[name=gender].' + me.gender).attr('checked', 'checked');
+  }
   $myProfilePanel.find('.profile-location').text(me.location ? 'Col.' + me.location : '');
   $myProfilePanel.find('.profile-zip-code').text(me.zipCode ? 'CP.' + me.zipCode : '');
+  $myProfileForm.find('[name=zipCode]').val(me.zipCode);
   $myProfilePanel.find('.profile-phone').text(me.phone ? 'Tel.' + me.phone : '');
-  //$myProfilePanel.find('.profile-').text();
+  $myProfileForm.find('[name=phone]').val(me.phone);
 
-  if (profile.mainShippingAddress) {
+  var address = profile.mainShippingAddress;
+  if (address) {
     var $myAddressPanel = Winbits.$widgetContainer.find('.miDireccion');
+    $myAddressPanel.find('.address-street').text(address.street ? 'Col.' + address.street : '');
+    $myAddressPanel.find('.address-location').text(address.location ? 'Col.' + address.location : '');
+    $myAddressPanel.find('.address-state').text(address.zipCodeInfo.state ? 'Del.' + address.zipCodeInfo.state : '');
+    $myAddressPanel.find('.address-zip-code').text(address.zipCodeInfo.zipCode ? 'CP.' + address.zipCodeInfo.zipCode : '');
+    $myAddressPanel.find('.address-phone').text(address.phone ? 'Tel.' + address.phone : '');
+  }
+
+  var subscriptions = profile.subscriptions;
+  if (subscriptions) {
+    var $mySubscriptionsPanel = Winbits.$widgetContainer.find('.miSuscripcion');
+    var $subscriptionsList = $mySubscriptionsPanel.find('.wb-subscriptions-list');
+    var $subscriptionsChecklist = Winbits.$widgetContainer.find('.wb-subscriptions-checklist');
+    $.each(subscriptions, function(i, subscription) {
+      if (subscription.active) {
+        $('<li>' + subscription.name + '<a href="#" class="editLink">edit</a></li>').appendTo($subscriptionsList);
+      }
+      var $verticalCheck = $('<input type="checkbox" class="checkbox"><label class="checkboxLabel"></label>');
+      var $checkbox = $($verticalCheck[0]);
+      $checkbox.attr('value', subscription.id);
+      if (subscription.active) {
+        $checkbox.attr('checked', 'checked');
+      }
+      $($verticalCheck[1]).text(subscription.name);
+      $subscriptionsChecklist.append($verticalCheck);
+      customCheckbox($checkbox);
+    });
+//    $mySubscriptionsPanel.find('.subscriptions-periodicity').text();
   }
 };
 

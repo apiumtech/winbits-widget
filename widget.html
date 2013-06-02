@@ -215,8 +215,8 @@
             </div>
             <div class="fieldsetDiv divGender">
               <label>Género</label>
-              <input type="radio" name="gender" value="H">
-              <input type="radio" name="gender" value="M">
+              <input type="radio" name="gender" value="H" class="male">
+              <input type="radio" name="gender" value="M" class="female">
             </div>
             <input type="text" placeholder="Zip Code" name="zipCode">
             <select class="select" data-clase="selectRegister" name="location">
@@ -244,13 +244,13 @@
       <div class="colum myAddress">
         <h2>DIRECCIÓN DE ENVIO</h2>
         <div class="miDireccion">
-          <h3>Raúl Sotomayor</h3>
+          <h3 class="address-contact-name"></h3>
           <address>
-            <span>Marsella 7,</span>
-            <span>Col. Villa Verdun</span>
-            <span>Del. Alvaro Obregón,</span>
-            <span>C.P.  01810</span>
-            <span>tel. 55 6350279</span>
+            <span class="address-street"></span>
+            <span class="address-location"></span>
+            <span class="address-state"></span>
+            <span class="address-zip-code"></span>
+            <span class="address-phone"></span>
           </address>
           <ul>
             <li><a href="#" class="changeAddressBtn"><em class="icon changeAdress"></em> Cambiar Dirección</a></li>
@@ -259,21 +259,21 @@
         </div>
         <div class="editMiDireccion">
           <fieldset>
-            <input type="text" placeholder="Nombre">
-            <input type="text" placeholder="Apellido">
-            <select class="select" data-clase="selectRegister">
+            <input type="text" placeholder="Nombre" name="name">
+            <input type="text" placeholder="Apellido" name="lastName">
+            <select class="select" data-clase="selectRegister" name="country">
               <option>Pais</option>
               <option>México</option>
               <option>USA</option>
               <option>Colombia</option>
             </select>
-            <input type="text" placeholder="Calle" class="inputMedium">
-            <input type="text" placeholder="#" digits="true" class="inputSmall">
-            <input type="text" placeholder="Colonia">
-            <input type="text" placeholder="Delegación">
-            <input type="text" placeholder="Código Postal">
-            <input type="text" placeholder="Teléfono">
-            <div class="errorDiv"><p></p></div>
+            <input type="text" placeholder="Calle" class="inputMedium" name="street">
+            <input type="text" placeholder="#" digits="true" class="inputSmall" name="externalNumber">
+            <input type="text" placeholder="Colonia" name="location">
+            <input type="text" placeholder="Delegación" name="county">
+            <input type="text" placeholder="Código Postal" name="zipCode">
+            <input type="text" placeholder="Teléfono" name="phone">
+            <div class="errors"></div>
           </fieldset>
           <input class="btn editBtn" value="Guardar">
         </div>
@@ -281,32 +281,22 @@
       <div class="colum mySuscription">
         <h2>SUSCRIPCIÓN</h2>
         <div class="miSuscripcion">
-          <h3>Esta cuenta está suscrita los siguientes sitios:</h3>
-          <ul>
-            <li>Looq <a href="#" class="editLink">edit</a></li>
-            <li>Travel <a href="#" class="editLink">edit</a></li>
+          <h3>Esta cuenta está suscrita a los siguientes sitios:</h3>
+          <ul class="wb-subscriptions-list">
           </ul>
           <h3>Recibes un correo:</h3>
           <ul>
-            <li>Todos los días <a href="#">edit</a></li>
+            <li><span class="subscriptions-periodicity">Todos los días</span> <a href="#">edit</a></li>
           </ul>
           <h3>Favoritos:</h3>
           <ul>
-            <li>Marcas 0 <a href="#">view detail</a></li>
+            <!--<li>Marcas 0 <a href="#">view detail</a></li>-->
           </ul>
           <input class="btn editBtn" value="Editar">
         </div>
         <div class="editSuscription">
           <h3>¿De cuál de nuestros sitios te gustaría recibir información?</h3>
-          <fieldset>
-            <input type="checkbox" value="Looq" class="checkbox" checked="checked">
-            <label class="checkboxLabel">Looq</label>
-            <input type="checkbox" value="Clickonero" class="checkbox">
-            <label class="checkboxLabel">Clickonero</label>
-            <input type="checkbox" value="MiPlan" class="checkbox">
-            <label class="checkboxLabel">Mi Plan</label>
-            <input type="checkbox" value="Travel" class="checkbox">
-            <label class="checkboxLabel">Travel</label>
+          <fieldset class="wb-subscriptions-checklist">
           </fieldset>
           <input class="btn editBtn" value="Guardar">
         </div>
@@ -332,7 +322,7 @@
     </div>
   </div>
 </li>
-<li class="bits">6575<span class="icon bit12px"></span></li>
+<li class="bits"><span class="wb-user-bits-balance">0</span><span class="icon bit12px"></span></li>
 <li class="cart-holder">
   <span class="spanDropMenu"><span class="cart-items-count">0</span><span class="icon shopCarMin"></span></span>
   <div class="dropMenu miCarritoDiv">
