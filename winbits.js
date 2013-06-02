@@ -957,7 +957,7 @@ Winbits.addToUserCart = function(id, quantity, bits) {
 Winbits.storeVirtualCart = function($, cart) {
   console.log(['Storing virtual cart...', cart]);
   var vCart = [];
-  $.each(cart.cartDetails, function(i, cartDetail) {
+  $.each(cart.cartDetails || [], function(i, cartDetail) {
     var vCartDetail = {};
     vCartDetail[cartDetail.skuProfile.id] = cartDetail.quantity;
     vCart.push(vCartDetail);
