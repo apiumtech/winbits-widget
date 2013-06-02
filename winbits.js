@@ -449,6 +449,24 @@ Winbits.loadUserProfile = function($, profile) {
   }
 };
 
+Winbits.loadUserCart= function($) {
+  $.ajax(Winbits.config.apiUrl + '/orders/cart-items.json', {
+    dataType: 'json',
+    headers: { 'Accept-Language': 'es', 'WB-Api-Token': Winbits.getCookie(Winbits.tokensDef.apiToken.cookieName) },
+    success: function (data) {
+      console.log(['V: User cart', data.response]);
+      Winbits.refreshCart($, data.response);
+    },
+    error: function (xhr, textStatus, errorThrown) {
+      var error = JSON.parse(xhr.responseText);
+      alert(error.message);
+    },
+    complete: function () {
+      console.log('Request Completed!');
+    }
+  });
+};
+
 Winbits.loadCompleteRegisterForm = function($, profile) {
   console.log(['Loading profile', profile]);
   if (profile) {
@@ -608,6 +626,7 @@ Winbits.applyLogin = function ($, profile) {
   Winbits.$widgetContainer.find('div.login').hide();
   Winbits.$widgetContainer.find('div.miCuenta').show();
   Winbits.loadUserProfile($, profile);
+  Winbits.loadUserCart($);
 };
 
 Winbits.checkCompleteRegistration = function ($) {
@@ -662,20 +681,14 @@ Winbits.applyLogout = function ($, logoutData) {
 Winbits.resetMyAccountPanel = function($) {
 };
 
-Winbits.resetLightBoxes = function ($, scope) {
-  var $lightbox = $(scope.href);
-  $lightbox.find('form').each(function (i, form) {
-    console.log(['form', form]);
-    var $form = $(form);
-    $form.removeClass(Winbits.config.errorFormClass);
-    $form.find('.form-errors').children().remove();
-    $form.find('input[type=text], input[type=password]').each(function (j, input) {
-      var $input = $(input);
-      $input.parent().removeClass(Winbits.config.errorClass);
-      $input.val('');
-    });
-//    form.reset();
+Winbits.Forms = Winbits.Forms || {};
+Winbits.Forms.serializeForm = function ($, form, context) {
+  var formData = context || {};
+  var $form = Winbits.$(form);
+  $.each($form.serializeArray(), function (i, f) {
+    formData[f.name] = f.value;
   });
+  return formData;
 };
 
 Winbits.loadFacebook = function () {
