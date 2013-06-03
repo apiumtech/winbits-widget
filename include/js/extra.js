@@ -228,7 +228,6 @@ function dropMenu(options){
 function openFolder(options){
 	if($(options.obj).length){
 		$(options.trigger).click(function(){
-      console.log("Opening folder");
 			$(options.obj).slideUp();
 			$(options.objetivo).slideDown();
 		});

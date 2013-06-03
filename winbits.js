@@ -78,6 +78,7 @@ Winbits.waitForFacebook = function(f, $) {
 
 Winbits.init = function () {
   var $ = Winbits.jQuery;
+  $('.wb-vertical-' + Winbits.config.verticalId).addClass('current');
   Winbits.requestTokens($);
   Winbits.initWidgets($);
   Winbits.alertErrors($);
