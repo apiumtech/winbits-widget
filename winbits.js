@@ -929,7 +929,7 @@ Winbits.addToCart = function(cartItem) {
   if (!cartItem.id) {
     alert('Id required! Please specify a cart item object: {id: 1, quantity: 1}');
   }
-  cartItem.id = parseInt(cartItem);
+  cartItem.id = parseInt(cartItem.id);
   if (!cartItem.quantity || cartItem.quantity < 1) {
     console.log('Setting default quantity (1)...')
     cartItem.quantity = 1;
