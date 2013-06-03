@@ -931,7 +931,7 @@ Winbits.addToCart = function(cartItem) {
     console.log('Setting default quantity (1)...')
     cartItem.quantity = 1;
   }
-  var $cartDetail = Winbits.$widgetContainer.find('.cart-details-list').children('[data-id=' + cartItem.id + ']');
+  var $cartDetail = Winbits.$widgetContainer.find('.cart-details-list:visible').children('[data-id=' + cartItem.id + ']');
   if ($cartDetail.length === 0) {
     if (Winbits.Flags.loggedIn) {
       Winbits.addToUserCart(cartItem.id, cartItem.quantity, cartItem.bits);
