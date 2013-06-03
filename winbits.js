@@ -1,7 +1,7 @@
 var console = window.console || {};
 console.log = console.log || function () {};
 
-var Winbits = {};
+var Winbits = Winbits || {};
 Winbits.extraScriptLoaded = false;
 Winbits.facebookLoaded = false;
 Winbits.config = Winbits.config || {
