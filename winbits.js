@@ -929,10 +929,12 @@ Winbits.addToCart = function(cartItem) {
   if (!cartItem.id) {
     alert('Id required! Please specify a cart item object: {id: 1, quantity: 1}');
   }
+  cartItem.id = parseInt(cartItem);
   if (!cartItem.quantity || cartItem.quantity < 1) {
     console.log('Setting default quantity (1)...')
     cartItem.quantity = 1;
   }
+  cartItem.quantity = parseInt(cartItem.quantity);
   var $cartDetail = Winbits.$widgetContainer.find('.cart-holder:visible .cart-details-list').children('[data-id=' + cartItem.id + ']');
   if ($cartDetail.length === 0) {
     if (Winbits.Flags.loggedIn) {
