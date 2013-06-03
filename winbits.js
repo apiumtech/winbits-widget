@@ -577,7 +577,7 @@ Winbits.loadCompleteRegisterForm = function($, profile) {
 };
 
 Winbits.initLoginWidget = function ($) {
-  $('#login-form').submit(function (e) {
+  Winbits.$widgetContainer.find('#login-form').submit(function (e) {
     e.preventDefault();
     var $form = $(this);
     var formData = { verticalId: Winbits.config.verticalId };
