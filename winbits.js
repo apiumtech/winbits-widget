@@ -198,6 +198,12 @@ Winbits.initWidgets = function ($) {
 Winbits.initControls = function($) {
   Winbits.$widgetContainer.find(":input[placeholder]").placeholder();
   Winbits.$widgetContainer.find('form').validate();
+//  var $form = Winbits.$widgetContainer.find('#wb-change-password-form');
+//  $form.find('.editBtn').click(function(e) {
+//    if (!Winbits.$widgetContainer.find('#wb-change-password-form').valid()) {
+//      e.stopImmediatePropagation();
+//    };
+//  });
   changeShippingAddress({
     obj: '.shippingAddresses',
     objetivo: '.shippingItem',
@@ -664,6 +670,36 @@ Winbits.initMyAccountWidget = function($) {
       }
     });
   });
+  Winbits.$widgetContainer.find('#wb-change-password-form').submit(function(e) {
+    e.preventDefault();
+    var $form = $(this);
+    var formData = { verticalId: Winbits.config.verticalId };
+    formData = Winbits.Forms.serializeForm($, $form, formData);
+    $.ajax(Winbits.config.apiUrl + '/affiliation/change-password.json', {
+      type: 'PUT',
+      contentType: 'application/json',
+      dataType: 'json',
+      data: JSON.stringify(formData),
+      context: $form,
+      beforeSend: function () {
+        return Winbits.validateForm(this);
+      },
+      headers: { 'Accept-Language': 'es', 'WB-Api-Token': Winbits.getCookie(Winbits.apiTokenName) },
+      success: function (data) {
+        console.log(['Password change', data.response]);
+        this.find('.editBtn').click();
+        this.validate().resetForm();
+        this.get(0).reset();
+      },
+      error: function (xhr, textStatus, errorThrown) {
+        var error = JSON.parse(xhr.responseText);
+        this.find('.errors').append('<p>El password ingresado no es el actual</p>');
+      },
+      complete: function () {
+        console.log('Request Completed!');
+      }
+    });
+  }).validate();
 };
 
 Winbits.renderLoginFormErrors = function (form, error) {

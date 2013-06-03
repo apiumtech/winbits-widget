@@ -2822,6 +2822,7 @@ a.fancybox {
 label.error {
   color: #dd092c;
   font-size: 0.8em;
+  width: 100% !important;
 }
 
 input.error {
@@ -2834,4 +2835,14 @@ input.error {
 
 .widgetWinbitsFooter.facebook-btn-holder {
   padding: 35px 0;
+}
+
+.wb-edit-btn {
+  bottom: 10px;
+  font-size: 10px;
+  position: absolute;
+  width: 80px;
+  font-family: 'HelveticaNeueBold', Arial;
+  font-style: normal;
+  font-weight: normal;
 }

@@ -155,13 +155,16 @@
           </form>
         </div>
         <div class="changePassDiv">
+          <form id="wb-change-password-form">
           <fieldset>
-            <input type="password" placeholder="Password Actual" class="required">
-            <input type="password" placeholder="Nuevo Password" id="newPassword" class="required">
-            <input type="password" placeholder="Confirmar Nuevo Password" class="required" equalTo="newPassword">
-            <div class="errorDiv"><p></p></div>
+            <input type="password" placeholder="Password Actual" name="password" class="reseteable">
+            <input type="password" placeholder="Nuevo Password" id="newPassword" class="required reseteable" name="newPassword">
+            <input type="password" placeholder="Confirmar Nuevo Password" class="required reseteable" equalTo="#newPassword" name="passwordConfirm">
+            <div class="errors"></div>
           </fieldset>
-          <input type="submit" class="btn editBtn" value="Guardar">
+            <input type="submit" class="btn wb-edit-btn" value="Guardar">
+            <input type="button" class="btn editBtn" style="display: none;">
+          </form>
         </div>
       </div>
       <div class="colum myAddress">
