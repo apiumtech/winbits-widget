@@ -134,6 +134,7 @@
               <input type="text" placeholder="dd" maxlength="2" digits="true" class="day-input">
               <input type="text" placeholder="mm" maxlength="2" digits="true" class="month-input">
               <input type="text" placeholder="aa" maxlength="2" digits="true" class="year-input">
+              <input type="hidden" name="birthdate">
             </div>
             <div class="fieldsetDiv divGender">
               <label>Género</label>
@@ -141,7 +142,7 @@
               <input type="radio" name="gender" value="M" class="female">
             </div>
             <input type="text" placeholder="Zip Code" name="zipCode">
-            <select class="select" data-clase="selectRegister" name="location">
+            <select class="select" data-clase="selectRegister" name="location" placeholder="Localidad">
               <option>Localidad</option>
               <option>México, D.F.</option>
               <option>Guadalajara</option>
@@ -150,7 +151,7 @@
             <input type="text" placeholder="Teléfono" name="phone" maxlength="15">
             <div class="errorDiv"><p></p></div>
           </fieldset>
-          <input class="btn editBtn" value="Guardar">
+          <input class="btn editBtn" type="submit" value="Guardar">
           </form>
         </div>
         <div class="changePassDiv">

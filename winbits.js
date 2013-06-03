@@ -387,11 +387,12 @@ Winbits.initCompleteRegisterWidget = function ($) {
         }
       }
     });
-    var day = $form.find('#day-input').val();
-    var month = $form.find('#month-input').val();
-    var year = $form.find('#year-input').val();
-    if (day || month || year) {
-      $form.find('[name=birthdate]').val((year > 13 ? '19' : '20') + year + '-' + month + '-' + day);
+    var day = $form.find('.day-input').val();
+    var month = $form.find('.month-input').val();
+    var year = $form.find('.year-input').val();
+    if (day && month && year) {
+      year = (year > 13 ? '19' : '20') + year;
+      $form.find('[name=birthdate]').val(year + '-' + month + '-' + day);
     }
     var formData = { verticalId: Winbits.config.verticalId };
     formData = Winbits.Forms.serializeForm($, $form, formData);
@@ -444,7 +445,7 @@ Winbits.loadUserProfile = function($, profile) {
     $myProfileForm.find('.year-input').val(me.birthdate.substr(2, 2));
   }
   if (me.gender) {
-    $myProfileForm.find('[name=gender].' + me.gender).attr('checked', 'checked');
+    $myProfileForm.find('[name=gender].' + me.gender).attr('checked', 'checked').next().addClass('spanSelected');
   }
   $myProfilePanel.find('.profile-location').text(me.location ? 'Col.' + me.location : '');
   $myProfilePanel.find('.profile-zip-code').text(me.zipCode ? 'CP.' + me.zipCode : '');
@@ -612,7 +613,7 @@ Winbits.initLoginWidget = function ($) {
 };
 
 Winbits.initMyAccountWidget = function($) {
-  $('#update-profile-form').submit(function (e) {
+  Winbits.$widgetContainer.find('#update-profile-form').submit(function (e) {
     e.preventDefault();
     var $form = $(this);
     $form.validate({
@@ -625,8 +626,9 @@ Winbits.initMyAccountWidget = function($) {
     var day = $form.find('.day-input').val();
     var month = $form.find('.month-input').val();
     var year = $form.find('.year-input').val();
-    if (day || month || year) {
-      $form.find('[name=birthdate]').val((year > 13 ? '19' : '20') + year + '-' + month + '-' + day);
+    if (day && month && year) {
+      year = (year > 13 ? '19' : '20') + year;
+      $form.find('[name=birthdate]').val(year + '-' + month + '-' + day);
     }
     var formData = { verticalId: Winbits.config.verticalId };
     formData = Winbits.Forms.serializeForm($, $form, formData);
@@ -649,7 +651,7 @@ Winbits.initMyAccountWidget = function($) {
       success: function (data) {
         console.log(['Profile updated', data.response]);
         var $myAccountPanel = this.closest('.myProfile');
-        Winbits.loadUserProfile($, profile);
+        Winbits.loadUserProfile($, data.response);
         $myAccountPanel.find('.editMiPerfil').hide();
         $myAccountPanel.find('.miPerfil').show();
       },
