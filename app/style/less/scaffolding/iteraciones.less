@@ -14,3 +14,9 @@
 	}
 	.iIcons(@width, @item, @index - 1, @top, @height);
 }
+.iWidth(@item, @index) when (@index >= 0){
+	(~".@{item}@{index}") {
+		width: ~"@{index}%";
+	}
+	.iWidth(@item, @index - 5);
+}

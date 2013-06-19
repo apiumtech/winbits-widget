@@ -15,6 +15,9 @@
 				text-decoration: none;
 			}
 		}
+		.wrapper {
+			width: 960px;
+		}
 		.openFolder, .closeFolder {
 			cursor: pointer;
 			&:hover {
@@ -66,6 +69,9 @@
 	.mainHeader {
 		background: lighten(@black, 97%);
 		position: relative;
+		.wrapper {
+			width: 960px;
+		}
 		.language {
 			margin: 5px 0 10px 0;
 			.selectContainer {
@@ -240,7 +246,7 @@
 				}
 				.triangle {
 					left: 50%;
-					margin: -19px 0 0 145px;
+					margin: -19px 0 0 175px;
 					position: absolute;
 				}
 				.mySuscription {
@@ -272,7 +278,7 @@
 				width: 100%;
 				.triangle {
 					left: 50%;
-					margin: -19px 0 0 276px;
+					margin: -19px 0 0 300px;
 					position: absolute;
 				}
 				.wrapper {
@@ -412,5 +418,32 @@
 				}
 			}
 		}
+	}
+}
+#winbits-iframe-holder {
+	height: 30px;
+	left: 50%;
+	overflow: hidden;
+	position: absolute;
+	top: 50%;
+	z-index: 10000;
+	iframe {
+		border: none;
+		height: 30px;
+		overflow: hidden;
+		width: 100%;
+	}
+	&.iframe-login {
+		margin-left: -165px;
+		margin-top: 128px;
+		width: 330px;
+	}
+	&.iframe-register {
+		margin-left: -261px;
+		margin-top: 195px;
+		width: 520px;
+	}
+	&.hideFrame {
+		display: none;
 	}
 }

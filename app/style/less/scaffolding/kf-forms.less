@@ -75,13 +75,11 @@ fieldset {
 		padding: @fieldsetPPadding;
 	}
 }
-input.placeholder {
-	color: @placeholderText;
-}
-::-webkit-input-placeholder {
-   color: @placeholderText;
-}
 
-:-moz-placeholder {  
+::-webkit-input-placeholder,
+:-moz-placeholder,
+::-moz-placeholder,
+:-ms-input-placeholder,
+input.placeholder {
    color: @placeholderText;
 }

@@ -11,6 +11,12 @@
 		background: @green;
 	}
 }
+.btnBackToSite {
+	font-size: 18px;
+	float: right;
+	margin: 15px 10px 15px 0;
+	padding: 15px 40px;
+}
 .btnCancel {
 	background: @red;
 	&:hover {
@@ -20,7 +26,7 @@
 .btnGuardar {
 	margin: 10px 0;
 }
-.btnTerminar {
+.btnCheckout {
 	padding: 15px 48px !important;
 }
 .btnTopNav {
@@ -32,7 +38,7 @@
 		margin-left: 2px;
 		.inline-block(88px);
 	}
-	input[type="text"]{
+	input[type="text"], input[type="password"]{
 		margin-left: 4px;
 		text-align: center;
 		width: 22px !important;
@@ -128,11 +134,15 @@
 		color: lighten(@black, 72%);
 	}
 }
+.login .passwordHide {
+	margin-left: 5px !important;
+}
 .selectContainer {
 	position: relative;
 	.inline-block;
 	.margin-padding;
-	.selectContent {
+	input.selectContent {
+		color: @inputTextColor; 
 	}
 	.selectTrigger {
 		.user-select(none);
@@ -140,6 +150,7 @@
 	.selectOptions {
 		display: none;
 		position: absolute;
+		z-index: 10;
 		.margin-padding;
 		li {
 			background: @white;
@@ -292,4 +303,8 @@
 }
 .ui-datepicker-trigger {
 	cursor:	pointer;
+}
+.elipse {
+	word-wrap: normal;
+	.text-overflow;
 }

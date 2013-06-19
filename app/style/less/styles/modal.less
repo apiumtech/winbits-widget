@@ -4,6 +4,9 @@
 	overflow: hidden;
 	height: auto;
 }
+.widgetWinbitsModal {
+	overflow: hidden !important;
+}
 .mainModal {
 	background: lighten(@black, 97%);
 	padding: 0;
@@ -52,7 +55,6 @@
 			margin: 3px 0;
 			padding: 5px;
 			width: 186px;
-			
 		}
 		p {
 			font-size: 10px;
@@ -82,7 +84,9 @@
 		.inline-block(200px, top);
 		text-align: center;
 		li {
+			display: block;
 			padding: 0;
+			margin: 10px auto;
 		}
 		ul {
 			.margin-padding;

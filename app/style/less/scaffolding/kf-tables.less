@@ -1,128 +1,75 @@
-.gridView {
-	background: @gridBackground;
-	border: @gridBorder;
-	clear: @gridClear;
-	margin: @gridMargin;
-	overflow: @gridOverflow;
-	padding: @gridPadding;
+.widgetWinbitsMain .dataTable {
 	table {
-		background: @tableBg;
-		width: @tableWidth;
+		background: @white;
+		width: 100%;
 		a {
-			color: @tableLinkColor;
-		}
-		caption {
-			background: @captionBackground;
-			color: @captionColor;
-			border-bottom: @captionBorder;
-			font-size: @captionFontSize;
-			margin: @captionMargin;
-			padding: @captionPadding;
-			text-align: @captionAlign;
+			color: @blueLink2;
+			text-decoration: underline;
+			&:hover {
+				color: @grey;
+			}
 		}
 		td, th {
-			background: @tdBg;
-			color: @tdColor;
-			border: @tdBorder;
-			border-style: inset;
-			font-size: @cellFontSize;
-			padding: @cellPadding;
-			text-align: @cellAlign;
-			vertical-align: @cellVerticalAlign;
+			font-size: 14px;
+			padding: 7px;
+			text-align: left;
+			vertical-align: top;
+			img {
+				margin: 0;
+			}
+			strong {
+				display: block;
+			}
 		}
 		th {
-			background: @thBg;
-			border: @thBorder;
-			color: @thColor;
-			padding: @thPadding;
-			a {
-				color: @thColor;	
-				&:hover {
-					color: @thLinkColor;
-				}
-				&:visited {
-					color: @thLinkVisitedColor;
-				}
+			&:first-child{
+				padding-left: 40px;
 			}
 		}
-		tr:nth-child(odd) {
+		.iWidth(width, 100);
+		.firstItemOrder {
 			td {
-				background: @tdAlternateBg;
-			}
-		}
-		.options {
-			white-space: nowrap;
-		}
-		.empty {
-			border: @emptyBorder;
-			clear: @emptyClear;
-			color: @emptyColor;
-			font-size: @emptyFontSize;
-			padding: @emptyPadding;
-			text-align: @emptyAlign;
-			p {
-				margin: @emptyPMargin;
-			}
-		}
-		.pager {	
-			td {
-				border: @pagerTdBorder;
-				padding: @pagerTdPadding; 
-			}
-			table {
-				margin: auto;
-				width: auto;
-				td {
-					border: @pagerTdTdBorder;
-					font-size: @pagerTdFontSize;
-					font-weight: @pagerTdFontWeight;
-					padding: @pagerTdTdPadding;
-					span {
-						display: @pagerSpanDisplay;
-						background: @pagerSpanBackground;
-						padding: @pagerSpanPadding;
-					}
-					a {
-						display: @pagerLinkDisplay;
-						padding: @pagerLinkPadding;
-						text-decoration: @pagerLinkTextDecoration;
-						&:hover {
-							background: @pagerHoverBackground;
-						}
-					}
+				border-top: 1px solid lighten(@black, 89%);
+				padding-top: 20px;
+				&:first-child{
+					padding-left: 40px;
 				}
 			}
 		}
-		.leftTD {
-			text-align: left;
+		.lastItemOrder {
+			td {
+				padding-bottom: 20px;
+			}
+		}
+		.singleItemOrder {
+			td {
+				border-top: 1px solid lighten(@black, 89%);
+				padding: 20px 7px;
+				&:first-child{
+					padding-left: 40px;
+				}
+			}
 		}
 	}
-	#paging-table {
-		.page-far-left, .page-left, .page-right, .page-far-right{
-			.inline-block;
-			.size-hide (@backgroundPaging, @heightPaging, @widthPaging);
-			&:hover {
-				.opacity(50);
+	&.totalBitsTable {
+		margin-bottom: 30px !important;
+		td {
+			border-bottom: 1px solid lighten(@black, 89%);
+			.font('OmnesMedium');
+		}
+		.minusBits {
+			color: @red;
+		}
+		.totalBits {
+			td {
+				border-top: 1px solid lighten(@black, 89%);
+				padding-top: 30px;
+				&:first-child {
+					border-bottom: none;
+					padding-left: 40px;
+					width: 260px;
+				}
 			}
-		} 
-		.page-far-left {
-			background-position: @pageFarLeft;
 		}
-		.page-left {
-			background-position: @pageLeft;
-		}
-		.page-right {
-			background-position: @pageRight;
-		}
-		.page-far-right {
-			background-position: @pageFarRight;
-		}
-		#page-info {
-			.inline-block;
-		}
-	}
-	.add {
-		margin: @addMargin;
-		position: @addPosition;
 	}
 }
