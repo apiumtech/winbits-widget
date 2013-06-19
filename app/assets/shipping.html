@@ -17,7 +17,6 @@
         <script src="include/js/libs/jquery-1.8.3.min.js"></script>
         <script src="include/js/libs/jquery.browser.min.js"></script>
         <script src="include/js/libs/jQueryUI1.9.2/jquery-ui-1.9.2.js"></script>
-        <script src="include/js/libs/Highslide/highslide.js"></script>
         <script src="include/js/libs/jquery.validate.min.js"></script>
     </head>
     <body>
@@ -39,14 +38,14 @@
                                     <p>COMPARTE<br>Y GANA WINBITS</p>
                                 </li>
                                 <li>
-                                    <span class="icon winbitsEqualToMoney">Winbits = Money</span><br>
+                                    <span class="icon winbitsEqualToMoney">Winbits = Money</span>
                                     <p>USA TUS WINBITS COMO<br>DINERO ELECTRÓNICO</p>
                                 </li>
                             </ul>
                             <fieldset>
                                 <label>INSCRIBETE AHORA</label>
                                 <input type="text" placeholder="Email" class="emailJoinNow">
-                                <span class="btn btnSmall" onclick="return hs.htmlExpand(this, { allowWidthReduction: true, objectType: 'iframe', src:'register01.html', width: 520}, { sendEmail: $('.emailJoinNow').val()});">Join Now</span>
+                                <span class="btn btnSmall">Join Now</span>
                             </fieldset>
                             <span class="icon closeFolder openClose"></span>
                         </div>
@@ -98,7 +97,7 @@
                                                         <li><a href="#"><span class="icon facebookCircle"></span>Liga tu cuenta de Facebook</a></li>
                                                         <li><a href="#"><span class="icon twitterCircle"></span>Liga tu cuenta de Twitter</a></li>
                                                     </ul>
-                                                    <input class="btn editBtn" value="Editar">
+                                                    <input type="submit" class="btn editBtn" value="Editar">
                                                 </div>
                                                 <div class="editMiPerfil">
                                                     <fieldset>
@@ -117,7 +116,7 @@
                                                             <input type="radio" name="radioGender" value="M">
                                                         </div>
                                                         <input type="text" placeholder="Zip Code">
-                                                        <select class="select" data-clase="selectRegister">
+                                                        <select class="select" data-clase="selectRegister" data-inputselect="true">
                                                             <option>Localidad</option>
                                                             <option>México, D.F.</option>
                                                             <option>Guadalajara</option>
@@ -126,7 +125,7 @@
                                                         <input type="text" placeholder="Teléfono">
                                                         <div class="errorDiv"><p></p></div>
                                                     </fieldset>
-                                                    <input class="btn editBtn" value="Guardar">
+                                                    <input type="submit" class="btn editBtn" value="Guardar">
                                                 </div>
                                                 <div class="changePassDiv">
                                                     <fieldset>
@@ -152,7 +151,7 @@
                                                     <ul>
                                                         <li><a href="#" class="changeAddressBtn"><em class="icon changeAdress"></em> Cambiar Dirección</a></li>
                                                     </ul>
-                                                    <input class="btn editBtn" value="Editar">
+                                                    <input type="submit" class="btn editBtn" value="Editar">
                                                 </div>
                                                 <div class="editMiDireccion">
                                                     <fieldset>
@@ -166,13 +165,23 @@
                                                         </select>
                                                         <input type="text" placeholder="Calle" class="inputMedium">
                                                         <input type="text" placeholder="#" digits="true" class="inputSmall">
-                                                        <input type="text" placeholder="Colonia">
-                                                        <input type="text" placeholder="Delegación">
+                                                        <select class="select" data-clase="selectRegister" data-inputselect="true">
+                                                            <option>Colonia</option>
+                                                            <option>Anahuac</option>
+                                                            <option>Roma</option>
+                                                            <option>Lomas de Chapultepec</option>
+                                                        </select>
+                                                        <select class="select" data-clase="selectRegister" data-inputselect="true">
+                                                            <option>Delegación</option>
+                                                            <option>Cuauhtémoc</option>
+                                                            <option>Benito Juárez</option>
+                                                            <option>Venustiano Carranza</option>
+                                                        </select>
                                                         <input type="text" placeholder="Código Postal">
                                                         <input type="text" placeholder="Teléfono">
                                                         <div class="errorDiv"><p></p></div>
                                                     </fieldset>
-                                                    <input class="btn editBtn" value="Guardar">
+                                                    <input type="submit" class="btn editBtn" value="Guardar">
                                                 </div>  
                                             </div> 
                                             <div class="colum mySuscription">
@@ -191,7 +200,7 @@
                                                     <ul>
                                                         <li>Marcas 0 <a href="#">view detail</a></li>
                                                     </ul>
-                                                     <input class="btn editBtn" value="Editar">
+                                                     <input type="submit" class="btn editBtn" value="Editar">
                                                 </div>
                                                 <div class="editSuscription">
                                                     <h3>¿De cuál de nuestros sitios te gustaría recibir información?</h3>
@@ -205,7 +214,7 @@
                                                         <input type="checkbox" value="Travel" class="checkbox">
                                                         <label class="checkboxLabel">Travel</label>
                                                     </fieldset>
-                                                    <input class="btn editBtn" value="Guardar">
+                                                    <input type="submit" class="btn editBtn" value="Guardar">
                                                 </div> 
                                             </div>
                                             <div class="colum historyColumn">
@@ -350,125 +359,136 @@
             </div>
         </header>
         <main class="widgetWinbitsMain">
-            <div class="wrapper">
-                <h2>DIRECCIÓN DE ENVÍO</h2>
-                <div class="shippingAddresses">
-                    <ul>
-                        <li class="shippingItem">
-                            <div class="shippingMenu">
-                                <a href="#">edit</a>
-                                <span class="icon closeButton">cerrar</span>
-                            </div>
-                            <h3>DIRECCIÓN 1</h3>
-                            <address>
-                                <span>Raúl Sotomayor,</span>
-                                <span>Marsella 7, Villa,</span>
-                                <span>Avaro Obregón, 01810</span>
-                            </address>
-                            <span class="note send">Tu paquete será enviado a esta dirección</span>
-                            <span class="note hover">Da click aqui para establecer como dirección principal</span>
-                            <input type="radio" name="shippingRadio" class="shippingRadio">
-                        </li>
-                        <li class="shippingItem shippingSelected">
-                            <div class="shippingMenu">
-                                <a href="#">edit</a>
-                                <span class="icon closeButton">cerrar</span>
-                            </div>
-                            <h3>DIRECCIÓN 2</h3>
-                            <address>
-                                <span>Raúl Sotomayor,</span>
-                                <span>Marsella 7, Villa,</span>
-                                <span>Avaro Obregón, 01810</span>
-                            </address>
-                            <span class="note send">Tu paquete será enviado a esta dirección</span>
-                            <span class="note hover">Da click aqui para establecer como dirección principal</span>
-                            <input type="radio" name="shippingRadio" class="shippingRadio" checked="checked">
-                        </li>
-                        <li class="shippingItem">
-                            <div class="shippingMenu">
-                                <a href="#">edit</a>
-                                <span class="icon closeButton">cerrar</span>
-                            </div>
-                            <h3>DIRECCIÓN 3</h3>
-                            <address>
-                                <span>Raúl Sotomayor,</span>
-                                <span>Marsella 7, Villa,</span>
-                                <span>Avaro Obregón, 01810</span>
-                            </address>
-                            <span class="note send">Tu paquete será enviado a esta dirección</span>
-                            <span class="note hover">Da click aqui para establecer como dirección principal</span>
-                            <input type="radio" name="shippingRadio" class="shippingRadio">
-                        </li>
-                        <li class="shippingItem">
-                            <div class="shippingMenu">
-                                <a href="#">edit</a>
-                                <span class="icon closeButton">cerrar</span>
-                            </div>
-                            <h3>DIRECCIÓN 4</h3>
-                            <address>
-                                <span>Raúl Sotomayor,</span>
-                                <span>Marsella 7, Villa,</span>
-                                <span>Avaro Obregón, 01810</span>
-                            </address>
-                            <span class="note send">Tu paquete será enviado a esta dirección</span>
-                            <span class="note hover">Da click aqui para establecer como dirección principal</span>
-                            <input type="radio" name="shippingRadio" class="shippingRadio">
-                        </li>
-                        <li class="shippingItem">
-                            <div class="shippingMenu">
-                                <a href="#">edit</a>
-                                <span class="icon closeButton">cerrar</span>
-                            </div>
-                            <h3>DIRECCIÓN 5</h3>
-                            <address>
-                                <span>Raúl Sotomayor,</span>
-                                <span>Marsella 7, Villa,</span>
-                                <span>Avaro Obregón, 01810</span>
-                            </address>
-                            <span class="note send">Tu paquete será enviado a esta dirección</span>
-                            <span class="note hover">Da click aqui para establecer como dirección principal</span>
-                            <input type="radio" name="shippingRadio" class="shippingRadio">
-                        </li>
-                        <li class="shippingAdd">
-                            <h3>AGREGAR DIRECCIÓN +</h3>
-                            <span>Da click para agregar</span>
-                        </li>
-                    </ul>
-                    <input type="submit" class="btn btnTerminar" value="Terminar">
-                </div>
-                <div class="shippingNewAddress">
-                    <fieldset>
-                        <div class="column">
-                            <h3>NOMBRE</h3>
-                            <input type="text" placeholder="Nombre">
-                            <input type="text" placeholder="Apellido">
+            <div class="wrapper checkoutWinbits">
+                <div class="checkoutMain">
+                     <div class="checkoutShipping">
+                        <h2>DIRECCIÓN DE ENVIO</h2>
+                        <div class="shippingAddresses">
+                            <ul>
+                                <li class="shippingItem">
+                                    <div class="shippingMenu">
+                                        <a href="#">edit</a>
+                                        <span class="icon closeButton">cerrar</span>
+                                    </div>
+                                    <h3>DIRECCIÓN 1</h3>
+                                    <address>
+                                        <span>Raúl Sotomayor,</span>
+                                        <span>Marsella 7, Villa,</span>
+                                        <span>Avaro Obregón, 01810</span>
+                                    </address>
+                                    <span class="note send">Tu paquete será enviado a esta dirección</span>
+                                    <span class="note hover">Da click aqui para establecer como dirección principal</span>
+                                    <input type="radio" name="shippingRadio" class="shippingRadio">
+                                </li>
+                                <li class="shippingItem shippingSelected">
+                                    <div class="shippingMenu">
+                                        <a href="#">edit</a>
+                                        <span class="icon closeButton">cerrar</span>
+                                    </div>
+                                    <h3>DIRECCIÓN 2</h3>
+                                    <address>
+                                        <span>Raúl Sotomayor,</span>
+                                        <span>Marsella 7, Villa,</span>
+                                        <span>Avaro Obregón, 01810</span>
+                                    </address>
+                                    <span class="note send">Tu paquete será enviado a esta dirección</span>
+                                    <span class="note hover">Da click aqui para establecer como dirección principal</span>
+                                    <input type="radio" name="shippingRadio" class="shippingRadio" checked="checked">
+                                </li>
+                                <li class="shippingItem">
+                                    <div class="shippingMenu">
+                                        <a href="#">edit</a>
+                                        <span class="icon closeButton">cerrar</span>
+                                    </div>
+                                    <h3>DIRECCIÓN 3</h3>
+                                    <address>
+                                        <span>Raúl Sotomayor,</span>
+                                        <span>Marsella 7, Villa,</span>
+                                        <span>Avaro Obregón, 01810</span>
+                                    </address>
+                                    <span class="note send">Tu paquete será enviado a esta dirección</span>
+                                    <span class="note hover">Da click aqui para establecer como dirección principal</span>
+                                    <input type="radio" name="shippingRadio" class="shippingRadio">
+                                </li>
+                                <li class="shippingItem">
+                                    <div class="shippingMenu">
+                                        <a href="#">edit</a>
+                                        <span class="icon closeButton">cerrar</span>
+                                    </div>
+                                    <h3>DIRECCIÓN 4</h3>
+                                    <address>
+                                        <span>Raúl Sotomayor,</span>
+                                        <span>Marsella 7, Villa,</span>
+                                        <span>Avaro Obregón, 01810</span>
+                                    </address>
+                                    <span class="note send">Tu paquete será enviado a esta dirección</span>
+                                    <span class="note hover">Da click aqui para establecer como dirección principal</span>
+                                    <input type="radio" name="shippingRadio" class="shippingRadio">
+                                </li>
+                                <li class="shippingItem">
+                                    <div class="shippingMenu">
+                                        <a href="#">edit</a>
+                                        <span class="icon closeButton">cerrar</span>
+                                    </div>
+                                    <h3>DIRECCIÓN 5</h3>
+                                    <address>
+                                        <span>Raúl Sotomayor,</span>
+                                        <span>Marsella 7, Villa,</span>
+                                        <span>Avaro Obregón, 01810</span>
+                                    </address>
+                                    <span class="note send">Tu paquete será enviado a esta dirección</span>
+                                    <span class="note hover">Da click aqui para establecer como dirección principal</span>
+                                    <input type="radio" name="shippingRadio" class="shippingRadio">
+                                </li>
+                                <li class="shippingAdd">
+                                    <h3>AGREGAR DIRECCIÓN +</h3>
+                                    <span>Da click para agregar</span>
+                                </li>
+                            </ul>
+                            <input type="submit" class="btn btnCheckout" value="Terminar">
                         </div>
-                        <div class="column">
-                            <h3>DIRECCIÓN</h3>
-                            <select class="select" data-clase="selectRegister">
-                                <option>País</option>
-                                <option>México</option>
-                                <option>USA</option>
-                                <option>Puerto Rico</option>
-                            </select>
-                            <input type="text" placeholder="Calle" class="inputMedium">
-                            <input type="text" placeholder="##" class="inputSmall">
-                            <input type="text" placeholder="Delegación" />
-                            <input type="text" placeholder="Ciudad" />
-                            <input type="text" placeholder="Codigo Postal" />
-                            <input type="text" placeholder="Teléfono" />
+                        <div class="shippingNewAddress">
+                            <fieldset>
+                                <div class="column">
+                                    <h3>NOMBRE</h3>
+                                    <input type="text" placeholder="Nombre">
+                                    <input type="text" placeholder="Apellido">
+                                </div>
+                                <div class="column">
+                                    <h3>DIRECCIÓN</h3>
+                                    <select class="select" data-clase="selectRegister">
+                                        <option>País</option>
+                                        <option>México</option>
+                                        <option>USA</option>
+                                        <option>Puerto Rico</option>
+                                    </select>
+                                    <input type="text" placeholder="Calle" class="inputMedium">
+                                    <input type="text" placeholder="##" class="inputSmall">
+                                    <select class="select" data-clase="selectRegister" data-inputselect="true">
+                                        <option>Colonia</option>
+                                        <option>Anahuac</option>
+                                        <option>Roma</option>
+                                        <option>Lomas de Chapultepec</option>
+                                    </select>
+                                    <input type="text" placeholder="Ciudad" />
+                                    <input type="text" placeholder="Codigo Postal" />
+                                    <input type="text" placeholder="Teléfono" />
+                                </div>
+                                <div class="column columnLarge">
+                                    <h3>OPCIONES</h3>
+                                    <input type="checkbox" class="checkbox">
+                                    <label class="checkboxLabel">Guardar esta dirección</label>
+                                    <input type="checkbox" class="checkbox">
+                                    <label class="checkboxLabel">Hacer esta mi dirección principal</label>
+                                    <p class="note">Winbits puede salvar tu dirección para que en tu próxima visita tus compras sean más faciles de realizar.</p>
+                                    <div class="submitButton">
+                                        <span class="btn btnCancel">Cancelar</span>
+                                        <input type="submit" value="Continuar" class="btn">
+                                    </div>
+                                </div>
+                            </fieldset>
                         </div>
-                        <div class="column columnLarge">
-                            <h3>OPCIONES</h3>
-                            <input type="checkbox" class="checkbox">
-                            <label class="checkboxLabel">Hacer esta mi dirección principal</label>
-                            <p class="note">Winbits giuarda tu dirección para que puedas utilizarlas siempre que las necesites y tus compras sean mucho más fáciles.</p>
-                            <div class="submitButton">
-                                <span class="btn btnCancel">Cancelar</span>
-                                <input type="submit" value="Continuar" class="btn">
-                            </div>
-                        </div>
-                    </fieldset>
+                    </div>
                 </div>
             </div>
         </main>

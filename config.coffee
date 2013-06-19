@@ -11,10 +11,8 @@ exports.config =
         # Files in `vendor` directories are compiled before other files
         # even if they aren't specified in order.before.
         before: [
-          'vendor/scripts/console-polyfill.js',
-          'vendor/scripts/jquery-1.9.1.js',
-          'vendor/scripts/lodash-1.2.0.js',
-          'vendor/scripts/backbone-1.0.0.js'
+          'vendor/scripts/modernizr-2.6.2.js',
+          'vendor/scripts/jquery-1.8.3.js'
         ]
         after: [
           'test/vendor/scripts/test-helper.js'

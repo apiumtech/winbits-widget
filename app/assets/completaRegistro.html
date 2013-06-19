@@ -17,37 +17,36 @@
         <script src="include/js/libs/jquery-1.8.3.min.js"></script>
         <script src="include/js/libs/jquery.browser.min.js"></script>
         <script src="include/js/libs/jQueryUI1.9.2/jquery-ui-1.9.2.js"></script>
-        <script src="include/js/libs/Highslide/highslide.js"></script>
         <script src="include/js/libs/jquery.validate.min.js"></script>
     </head>
     <body class="bodyModal">
-        <form id="form1" accept-charset="utf-8" action="register01.html" method="post">
+        <form id="bodyModal" accept-charset="utf-8" action="#" method="post">
         <div class="mainModal completaRegistro">
             <div class="contentModal">
                 <fieldset class="leftModal">
                     <h1>COMPLETA TU REGISTRO Y GANA BITS!</h1>
                     <h3>Si completas tu registro con nosotros, obtendrás $50 bits que podras utilizar desde tu primera compra.</h3>
-                    <input type="text" placeholder="Nombre">
-                    <input type="text" placeholder="Apellido">
+                    <input type="text" class="required" placeholder="Nombre" name="winbitsBodyModalName" id="winbitsBodyModalName">
+                    <input type="text" class="required" placeholder="Apellido" name="winbitsBodyModalLastName" id="winbitsBodyModalLastName">
                     <div class="fieldsetDiv divBirthday">
                         <label>Cumpleaños</label>
-                        <input type="text" placeholder="dd" maxlength="2" digits="true">
-                        <input type="text" placeholder="mm" maxlength="2" digits="true">
-                        <input type="text" placeholder="aa" maxlength="2" digits="true">
+                        <input type="text" placeholder="dd" maxlength="2" class="required digits" name="winbitsBodyModalDD" id="winbitsBodyModalDD">
+                        <input type="text" placeholder="mm" maxlength="2" class="required digits" name="winbitsBodyModalMM" id="winbitsBodyModalMM">
+                        <input type="text" placeholder="aa" maxlength="2" class="required digits" name="winbitsBodyModalAA" id="winbitsBodyModalAA">
                     </div>
                     <div class="fieldsetDiv divGender">
                         <label>Género</label>
-                        <input type="radio" name="radioGender" value="H">
-                        <input type="radio" name="radioGender" value="M">
+                        <input type="radio" value="H" name="winbitsBodyModalGender" id="winbitsBodyModalH">
+                        <input type="radio" value="M"  name="winbitsBodyModalGender" id="winbitsBodyModalM">
                     </div>
                     <input type="text" placeholder="Zip Code">
-                    <select class="select" data-clase="selectRegister">
+                    <select class="select" data-clase="selectRegister" data-inputselect="true" name="winbitsBodyModalLocalidad" id="winbitsBodyModalLocalidad">
                         <option>Localidad</option>
                         <option>México, D.F.</option>
                         <option>Guadalajara</option>
                         <option>Monterrey</option>
                     </select>
-                    <input type="text" placeholder="Teléfono">
+                    <input type="text" placeholder="Teléfono" name="winbitsBodyModalTel" id="winbitsBodyModalTel">
                     <div class="errorDiv"><p></p></div>
                     <input type="submit" class="btn btnGuardar" value="Guardar">
                     <p>Si así lo deseas, puedes completar tu registro después haciendo click en la sección de MI CUENTA. <a href="#" onclick="return hs.close(this)">Llenalo despues.</a></p>

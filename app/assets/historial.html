@@ -20,14 +20,6 @@
         <script src="include/js/libs/jquery.validate.min.js"></script>
     </head>
     <body>
-        <div id="winbits-widget">
-            <div id="winbits-iframe-holder" class="iframe-login hideFrame">
-                <iframe src="http://api.winbits.com/widgets/winbits.html?origin=http://looq.dreamcode.com.mx/content/proxy.html" name="winbits-iframe" frameborder="0" border="0"></iframe>
-            </div>
-            <div id="winbits-iframe-holder" class="iframe-register">
-                <iframe src="http://api.winbits.com/widgets/winbits.html?origin=http://looq.dreamcode.com.mx/content/proxy.html" name="winbits-iframe" frameborder="0" border="0"></iframe>
-            </div>
-        </div>
         <header>
             <div class="widgetWinbitsHeader">
                  <div class="knowmoreFolder">
@@ -374,9 +366,167 @@
                 </div>
             </div>
         </header>
-        <main>
-            <div class="wrapper">
-                <img src="images/looq_home_980.jpg" alt="">
+        <main class="widgetWinbitsMain">
+            <div class="wrapper historical">
+                <input type="submit" value="Back to site" class="btn btnBackToSite">
+                <div class="accordeonWinbits">
+                    <h2>Historial de Compras<span class="icon plusIcon">+</span></h2>
+                    <div class="accordeonContent">
+                        <div class="accordeonSelectDiv">
+                            <select class="select" data-clase="selectRegister">
+                                <option>Estatus</option>
+                                <option>Item 1</option>
+                                <option>Item 2</option>
+                                <option>Item 3</option>
+                                <option>Item 4</option>
+                            </select>
+                            <select class="select" data-clase="selectRegister">
+                                <option>Ordenar por...</option>
+                                <option>Item 1</option>
+                                <option>Item 2</option>
+                                <option>Item 3</option>
+                                <option>Item 4</option>
+                            </select>
+                        </div>
+                        <div class="dataTable">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="width25">DESCRIPCIÓN</th>
+                                        <th class="width10">PHOTO</th>
+                                        <th class="width30">DESCRIPCIÓN DEL PRODUCTO</th>
+                                        <th class="width5">CANT.</th>
+                                        <th class="widht10">ESTATUS</th>
+                                        <th class="width10"># DE RASTREO</th>
+                                        <th class="width10">SITE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="firstItemOrder">
+                                        <td rowspan="2">
+                                            <p>Orden: 1210291633--1595</p>
+                                            <p>Fecha de compra: 29/10/2012</p>
+                                            <p>Total: $1,349 </p>
+                                        </td>
+                                        <td>
+                                            <img src="images/assets/blackDress-small.jpg" width="62" height="79" alt="LACE OFF THE SHOULDER DRESS" />
+                                        </td>
+                                        <td>
+                                            <strong>LACE OFF THE SHOULDER DRESS</strong>
+                                            <strong>Pull &amp; Bear</strong>
+                                            <p>color: black</p>
+                                            <p>size: small </p>
+                                        </td>
+                                        <td>1</td>
+                                        <td>Delivered</td>
+                                        <td><a href="#">121029163</a></td>
+                                        <td><a href="#" class="icon looqLogoSmall">looq</a></td>
+                                    </tr>
+                                    <tr class="lastItemOrder">
+                                        <td>
+                                            <img src="images/assets/blackDress-small.jpg" width="62" height="79" alt="LACE OFF THE SHOULDER DRESS" />
+                                        </td>
+                                        <td>
+                                            <strong>LACE OFF THE SHOULDER DRESS</strong>
+                                            <strong>Pull &amp; Bear</strong>
+                                            <p>color: black</p>
+                                            <p>size: small </p>
+                                        </td>
+                                        <td>2</td>
+                                        <td>
+                                            <p>1 Delivered</p>
+                                            <p>1 Pending</p>
+                                        </td>
+                                        <td>
+                                            <p><a href="#">121029163</a></p>
+                                            <p><a href="#">121029163</a></p>
+                                        </td>
+                                        <td><a href="#" class="icon clickoneroLogoSmall">clickonero</a></td>
+                                    </tr>
+                                    <tr class="singleItemOrder">
+                                        <td>
+                                            <p>Orden: 1210291633--1595</p>
+                                            <p>Fecha de compra: 29/10/2012</p>
+                                            <p>Total: $1,349 </p>
+                                        </td>
+                                        <td>
+                                            <img src="images/assets/blackDress-small.jpg" width="62" height="79" alt="LACE OFF THE SHOULDER DRESS" />
+                                        </td>
+                                        <td>
+                                            <strong>LACE OFF THE SHOULDER DRESS</strong>
+                                            <strong>Pull &amp; Bear</strong>
+                                            <p>color: black</p>
+                                            <p>size: small </p>
+                                        </td>
+                                        <td>1</td>
+                                        <td>Delivered</td>
+                                        <td><a href="#">121029163</a></td>
+                                        <td><a href="#" class="icon clickoneroLogoSmall">clickonero</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <h2>Historial de Bits<span class="icon plusIcon">+</span></h2>
+                    <div class="accordeonContent">
+                        <div class="accordeonSelectDiv">
+                            <select class="select" data-clase="selectRegister">
+                                <option>Ordenar por...</option>
+                                <option>Item 1</option>
+                                <option>Item 2</option>
+                                <option>Item 3</option>
+                                <option>Item 4</option>
+                            </select>
+                        </div>
+                        <div class="dataTable totalBitsTable">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>TOTAL</th>
+                                        <th>BITS</th>
+                                        <th>FECHA</th>
+                                        <th>VENCIMIENTO</th>
+                                        <th>CONCEPTO</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="totalBits">
+                                        <td rowspan="5">$4,280 Bits</td>
+                                        <td>$280 </td>
+                                        <td>29/10/2012</td>
+                                        <td>29/10/2013</td>
+                                        <td>Compra de producto</td>
+                                    </tr>
+                                    <tr>
+                                        <td>$280 </td>
+                                        <td>29/10/2012</td>
+                                        <td>29/10/2013</td>
+                                        <td>Facebook share</td>
+                                    </tr>
+                                    <tr>
+                                        <td>$280 </td>
+                                        <td>29/10/2012</td>
+                                        <td>29/10/2013</td>
+                                        <td>Registro completado</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="minusBits">-$280</td>
+                                        <td>29/10/2012</td>
+                                        <td>-</td>
+                                        <td>Orden: 1210291633--1595 /td>
+                                    </tr>
+                                    <tr>
+                                        <td>$280 </td>
+                                        <td>29/10/2012</td>
+                                        <td>29/10/2013</td>
+                                        <td>Registro completado</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>       
+                </div>
+                <input type="submit" value="Back to site" class="btn btnBackToSite">
             </div>
         </main>
         <footer>
