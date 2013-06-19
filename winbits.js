@@ -6,8 +6,8 @@ Winbits.extraScriptLoaded = false;
 Winbits.facebookLoaded = false;
 Winbits.config = Winbits.config || {
   apiUrl: 'http://apiqa.winbits.com/v1',
-  baseUrl: 'http://api.winbits.com/widgets',
-  loginRedirectUrl: 'http://api.winbits.com/widgets/ilogin.html',
+  baseUrl: 'http://widgets.winbits.com/qa',
+  loginRedirectUrl: 'http://widgets.winbits.com/qa/ilogin.html',
   errorFormClass: 'error-form',
   errorClass: 'error',
   verticalId: 1,
