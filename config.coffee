@@ -5,7 +5,6 @@ exports.config =
       joinTo:
         'scripts/app.js': /^app/
         'scripts/vendor.js': /^vendor/
-        'scripts/porthole.js': /^vendor\/porthole.min.js
         'test/scripts/test.js': /^test[\\/](?!vendor)/
         'test/scripts/test-vendor.js': /^test[\\/](?=vendor)/
       order:
