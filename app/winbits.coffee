@@ -3,15 +3,8 @@
 Winbits = Winbits or {}
 Winbits.extraScriptLoaded = false
 Winbits.facebookLoaded = false
-Winbits.config = Winbits.config or
-  apiUrl: "http://apiqa.winbits.com/v1"
-  baseUrl: "http://widgets.winbits.com/qa"
-  loginRedirectUrl: "http://widgets.winbits.com/qa/ilogin.html"
-  errorFormClass: "error-form"
-  errorClass: "error"
-  verticalId: 1
-  proxyUrl: "-"
-  winbitsDivId: "winbits-widget"
+Winbits.config =  require('./config')
+console.log Winbits.config
 
 Winbits.apiTokenName = "_wb_api_token"
 Winbits.vcartTokenName = "_wb_vcart_token"
