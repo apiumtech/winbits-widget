@@ -3,19 +3,21 @@ exports.config =
   files:
     javascripts:
       joinTo:
-        'javascripts/app.js': /^app/
-        'javascripts/vendor.js': /^vendor/
-        'test/javascripts/test.js': /^test[\\/](?!vendor)/
-        'test/javascripts/test-vendor.js': /^test[\\/](?=vendor)/
+        'scripts/app.js': /^app/
+        'scripts/vendor.js': /^vendor/
+        'scripts/porthole.js': /^vendor\/porthole.min.js
+        'test/scripts/test.js': /^test[\\/](?!vendor)/
+        'test/scripts/test-vendor.js': /^test[\\/](?=vendor)/
       order:
         # Files in `vendor` directories are compiled before other files
         # even if they aren't specified in order.before.
         before: [
           'vendor/scripts/modernizr-2.6.2.js',
-          'vendor/scripts/jquery-1.8.3.js'
+          'vendor/scripts/jquery-1.8.3.min.js'
         ]
         after: [
-          'test/vendor/scripts/test-helper.js'
+          'vendor/highslide/highslide.config.js',
+          'vendor/scripts/script.js'
         ]
 
     stylesheets:
@@ -28,8 +30,7 @@ exports.config =
         before: ['app/styles/style.less']
 
     templates:
-      joinTo: 'javascripts/app.js'
-
+      joinTo: 'scripts/app.js'
   plugins:
     less:
       dumpLineNumbers: 'comments'

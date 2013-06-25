@@ -5,7 +5,7 @@ hs.align = 'center';
 hs.allowHeightReduction = false;
 hs.blockRightClick = true;
 hs.dimmingOpacity = 0.77;
-hs.graphicsDir = 'include/js/libs/highslide/graphics/';
+hs.graphicsDir = 'http://widgets.winbits.com/qa/scripts/highslide/graphics/';
 // Spanish language strings
 hs.lang = {
     cssDirection: 'ltr',

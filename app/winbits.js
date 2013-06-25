@@ -1,5 +1,5 @@
-var console = window.console || {};
-console.log = console.log || function () {};
+//var console = window.console || {};
+//console.log = console.log || function () {};
 
 var Winbits = Winbits || {};
 Winbits.extraScriptLoaded = false;
@@ -77,6 +77,8 @@ Winbits.waitForFacebook = function(f, $) {
 };
 
 Winbits.init = function () {
+
+  console.log("was here");
   var $ = Winbits.jQuery;
   $('.wb-vertical-' + Winbits.config.verticalId).addClass('current');
   Winbits.requestTokens($);
@@ -407,7 +409,7 @@ Winbits.initCompleteRegisterWidget = function ($) {
       delete formData.location;
     }
     if (formData.gender) {
-      formData.gender = formData.gender === 'H' ? 'male' : 'female'
+      formData.gender = formData.gender === 'H' ? 'male' : 'female';
     }
     $.ajax(Winbits.config.apiUrl + '/affiliation/profile.json', {
       type: 'PUT',
@@ -640,10 +642,10 @@ Winbits.initMyAccountWidget = function($) {
     var formData = { verticalId: Winbits.config.verticalId };
     formData = Winbits.Forms.serializeForm($, $form, formData);
     if (formData.location === $form.find('[name=location]').attr('placeholder')) {
-      delete formData.location
+      delete formData.location;
     }
     if (formData.gender) {
-      formData.gender = formData.gender === 'H' ? 'male' : 'female'
+      formData.gender = formData.gender === 'H' ? 'male' : 'female';
     }
     $.ajax(Winbits.config.apiUrl + '/affiliation/profile.json', {
       type: 'PUT',
@@ -1216,8 +1218,11 @@ Winbits.deleteVirtualCartDetail = function(cartDetail) {
   });
 };
 
+  console.log("---------->");
 (function () {
   // Localize jQuery variable
+  //
+  console.log("---------->>>>>");
   Winbits.jQuery;
 
   // Async load facebook
@@ -1265,7 +1270,7 @@ Winbits.deleteVirtualCartDetail = function(cartDetail) {
       /******* Load HTML *******/
       Winbits.$widgetContainer = $widgetContainer.first();
       Winbits.$widgetContainer.load(Winbits.config.baseUrl + '/widget.html', function () {
-        Winbits.$widgetContainer.append('<script type="text/javascript" src="' + Winbits.config.baseUrl  + '/include/js/extra.js"></script>" ');
+        //Winbits.$widgetContainer.append('<script type="text/javascript" src="' + Winbits.config.baseUrl  + '/include/js/extra.js"></script>" ');
         Winbits.initProxy($);
       });
     }
