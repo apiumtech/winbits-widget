@@ -1,0 +1,61 @@
+<h2>MI PERFIL</h2>
+<div class="miPerfil">
+  <h3 class="profile-full-name">{{name}} {{lastName}}</h3>
+  <p><a  class="profile-email" href="#">{{email}}</a></p>
+  <p class="profile-age"></p>
+  <address>
+    <span class="profile-location">{{location}}</span>
+    <span class="profile-zip-code">{{zipCode}}</span>
+    <span class="profile-phone">{{phone}}</span>
+  </address>
+  <ul>
+    <li><a href="#" class="changePassBtn"><span class="icon changePasword"></span>Cambiar Password</a></li>
+    <li><a href="#"><span class="icon creditCard"></span>Editar Tarjetas de Crédito</a></li>
+    <li><a href="#"><span class="icon facebookCircle"></span>Liga tu cuenta de Facebook</a></li>
+    <li><a href="#"><span class="icon twitterCircle"></span>Liga tu cuenta de Twitter</a></li>
+  </ul>
+  <input class="btn editBtn" id="editBtnProfile" value="Editar">
+</div>
+<div class="editMiPerfil">
+  <form id="update-profile-form">
+  <fieldset>
+    <input type="text" placeholder="Nombre"  required name="name" maxlength="75" value="{{name}}">
+    <input type="text" placeholder="Apellido" required name="lastName" maxlength="75" value="{{lastName}}">
+    <!--<input type="text" placeholder="Correo Electrónico" value="rulas@hotmail" email="true">-->
+    <div class="fieldsetDiv divBirthday">
+      <label>Cumpleaños</label>
+      <input type="text" placeholder="dd" maxlength="2" digits="true" name="day-input" value="{{substr birthdate start=8 length=2}}">
+      <input type="text" placeholder="mm" maxlength="2" digits="true" name="month-input" value="{{substr birthdate start=5 length=2}}">
+      <input type="text" placeholder="aa" maxlength="2" required digits="true" name="year-input" value="{{substr birthdate start=2 length=2}}">
+      <input type="hidden" name="birthdate" value="{{birthdate}}">
+    </div>
+    <div class="fieldsetDiv divGender">
+      <label>Género</label>
+      <input type="radio" name="gender" value="H" class="male">
+      <input type="radio" name="gender" value="M" class="female">
+    </div>
+    <input type="text" placeholder="Zip Code" required name="zipCode" value="{{zipCode}}">
+    <select class="select" data-clase="selectRegister" name="location" placeholder="Localidad">
+      <option>Localidad</option>
+      <option>México, D.F.</option>
+      <option>Guadalajara</option>
+      <option>Monterrey</option>
+    </select>
+    <input type="text" placeholder="Teléfono" name="phone" maxlength="15" value="{{phone}}">
+    <div class="errorDiv"><p></p></div>
+  </fieldset>
+  <input class="btn editBtn" id="updateBtnProfile" type="button" value="Guardar">
+  </form>
+</div>
+<div class="changePassDiv">
+  <form id="wb-change-password-form">
+  <fieldset>
+    <input type="password" placeholder="Password Actual" name="password" class="reseteable">
+    <input type="password" placeholder="Nuevo Password" id="newPassword" class="required reseteable" name="newPassword">
+    <input type="password" placeholder="Confirmar Nuevo Password" class="required reseteable" equalTo="#newPassword" name="passwordConfirm">
+    <div class="errors"></div>
+  </fieldset>
+    <input type="submit" class="btn wb-edit-btn" value="Guardar">
+    <input type="button" class="btn editBtn" style="display: none;">
+  </form>
+</div>

@@ -1,0 +1,35 @@
+<h2>DIRECCIÓN DE ENVIO</h2>
+<div class="miDireccion">
+  <h3 class="address-contact-name"></h3>
+  <address>
+    <span class="address-street"></span>
+    <span class="address-location"></span>
+    <span class="address-state"></span>
+    <span class="address-zip-code"></span>
+    <span class="address-phone"></span>
+  </address>
+  <ul>
+    <li><a href="#" class="changeAddressBtn"><em class="icon changeAdress"></em> Cambiar Dirección</a></li>
+  </ul>
+  <input class="btn editBtn" value="Editar">
+</div>
+<div class="editMiDireccion">
+  <fieldset>
+    <input type="text" placeholder="Nombre" name="name">
+    <input type="text" placeholder="Apellido" name="lastName">
+    <select class="select" data-clase="selectRegister" name="country">
+      <option>Pais</option>
+      <option>México</option>
+      <option>USA</option>
+      <option>Colombia</option>
+    </select>
+    <input type="text" placeholder="Calle" class="inputMedium" name="street">
+    <input type="text" placeholder="#" digits="true" class="inputSmall" name="externalNumber">
+    <input type="text" placeholder="Colonia" name="location">
+    <input type="text" placeholder="Delegación" name="county">
+    <input type="text" placeholder="Código Postal" name="zipCode">
+    <input type="text" placeholder="Teléfono" name="phone" maxlength="15">
+    <div class="errors"></div>
+  </fieldset>
+  <input class="btn editBtn" value="Guardar">
+</div>
