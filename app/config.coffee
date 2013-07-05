@@ -1,7 +1,4 @@
-module.exports = (app) ->
-
-  console.log app
-  config = config or
+module.exports =
     apiUrl: "http://apiqa.winbits.com/v1"
     baseUrl: "http://widgets.winbits.com/qa"
     loginRedirectUrl: "http://widgets.winbits.com/qa/ilogin.html"
@@ -10,5 +7,6 @@ module.exports = (app) ->
     verticalId: 1
     proxyUrl: "-"
     winbitsDivId: "winbits-widget"
+    apiTokenName : '_wb_api_token'
+    vcartTokenName :'_wb_vcart_token'
 
-  app.config = config

@@ -1,44 +1,42 @@
-Winbits = Winbits or {}
-Winbits.extraScriptLoaded = false
-Winbits.facebookLoaded = false
-console.log Winbits.config
+HomeController = require 'controllers/home-controller'
+ChaplinMediator = require 'chaplin/mediator'
+LoginUtil = require 'lib/loginUtil'
+ProxyHandlers = require 'lib/proxyHandlers'
 
-Winbits.apiTokenName = "_wb_api_token"
-Winbits.vcartTokenName = "_wb_vcart_token"
-Winbits.Flags =
-  loggedIn: false
-  fbConnect: false
+#routes = require 'routes'
+#_ = require 'underscore'
+#console.log _
 
-Winbits.jQuery
-require('./config')(Winbits)
-require('./initProxy')(Winbits)
-main = ->
-  Winbits.jQuery.extend Winbits.config, Winbits.userConfig or {}
-  #$head = Winbits.jQuery("head")
-  #styles = [Winbits.config.baseUrl + "/include/css/style.css"]
+# The application object.
+module.exports = class Application
+  # Set your application name here so the document title is set to
+  # “Controller title – Site title” (see Chaplin.Layout#adjustTitle)
+  #title: 'Brunch example application'
 
-  Winbits._readyInterval = window.setInterval(->
+  initialize: ->
+    @initControllers()
 
-      #      Winbits._readyRetries = Winbits._readyRetries + 1;
-      winbitsReady()
-    , 50)
+    # Mediator is a global message broker which implements pub / sub pattern.
+    @initMediator()
 
+    Object.freeze? this
 
-winbitsReady = ->
-  $widgetContainer = Winbits.jQuery("#" + Winbits.config.winbitsDivId)
-  if $widgetContainer.length > 0
-    window.clearInterval Winbits._readyInterval
-    $ = Winbits.jQuery
-    Winbits.$widgetContainer = $widgetContainer.first()
-    Winbits.$widgetContainer.load Winbits.config.baseUrl + "/widget.html", ->
-      Winbits.initProxy $
+  # Create additional mediator properties.
+  initMediator: ->
+    # Add additional application-specific properties and methods
+    # e.g. Chaplin.mediator.prop = null
 
-Application = initialize: ->
-  #Object.freeze this  if typeof Object.freeze is "function"
-  console.log "initialize yeah"
-  Winbits.jQuery = window.jQuery
-  main()
+    # Seal the mediator.
+    ChaplinMediator.flags = {}
+    ChaplinMediator.proxy = {}
+    ChaplinMediator.seal()
 
-
-
-module.exports = Application
+    @loginUtil = new LoginUtil()
+    @proxyHandlers = new ProxyHandlers()
+  initControllers: ->
+    # These controllers are active during the whole application runtime.
+    console.log ":)"
+    console.log HomeController
+    @homeController = new HomeController()
+    console.log @homeController
+    @homeController.index()

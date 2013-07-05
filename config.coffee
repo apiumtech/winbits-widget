@@ -3,33 +3,30 @@ exports.config =
   files:
     javascripts:
       joinTo:
-        'scripts/app.js': /^app/
-        'scripts/vendor.js': /^vendor/
-        'test/scripts/test.js': /^test[\\/](?!vendor)/
-        'test/scripts/test-vendor.js': /^test[\\/](?=vendor)/
+        'javascripts/app.js': /^app/
+        'javascripts/vendor.js': /^vendor/
+        'test/javascripts/test.js': /^test[\\/](?!vendor)/
+        'test/javascripts/test-vendor.js': /^test[\\/](?=vendor)/
       order:
         # Files in `vendor` directories are compiled before other files
         # even if they aren't specified in order.before.
         before: [
-          'vendor/scripts/modernizr-2.6.2.js',
-          'vendor/scripts/jquery-1.8.3.min.js'
+          'vendor/scripts/console-polyfill.js',
+          'vendor/scripts/jquery-1.9.1.js',
+          'vendor/scripts/lodash-1.2.0.js',
+          'vendor/scripts/backbone-1.0.0.js'
         ]
         after: [
-          'vendor/highslide/highslide.config.js',
-          'vendor/scripts/script.js'
+          'test/vendor/scripts/test-helper.js'
         ]
 
     stylesheets:
-      defaultExtension: 'less'
       joinTo:
         'stylesheets/app.css': /^(app|vendor)/
         'test/stylesheets/test.css': /^test/
       order:
-        #after: ['vendor/styles/helpers.css']
-        before: ['app/styles/style.less']
+        after: ['vendor/styles/helpers.css']
 
     templates:
-      joinTo: 'scripts/app.js'
-  plugins:
-    less:
-      dumpLineNumbers: 'comments'
+      joinTo: 'javascripts/app.js'
+

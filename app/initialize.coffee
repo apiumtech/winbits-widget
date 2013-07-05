@@ -1,5 +1,7 @@
-application = require("application")
+Application = require 'application'
 
-(->
-  application.initialize()
-)()
+console.log $
+# Initialize the application on DOM ready event.
+$ ->
+  (new Application).initialize()
+
