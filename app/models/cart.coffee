@@ -116,24 +116,23 @@ module.exports = class Cart extends ChaplinModel
 
   addToUserCart : (id, quantity, bits) ->
     console.log "Adding to user cart..."
-    $ = app.jQuery
     formData =
       skuProfileId: id
       quantity: quantity
       bits: bits
 
-    $.ajax app.config.apiUrl + "/orders/cart-items.json",
+    $.ajax config.apiUrl + "/orders/cart-items.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify(formData)
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token": app.getCookie(app.apiTokenName)
+        "WB-Api-Token": util.getCookie(config.apiTokenName)
 
       success: (data) ->
         console.log ["V: User cart", data.response]
-        app.refreshCart $, data.response, true
+        #app.refreshCart $, data.response, true
 
       error: (xhr, textStatus, errorThrown) ->
         error = JSON.parse(xhr.responseText)
