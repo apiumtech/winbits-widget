@@ -4,7 +4,11 @@
     <div class="carritoDivLeft">
       <div class="carritoContainer" data-content="carritoContent">
         <div class="carritoContent">
-          <ul class="cart-details-list reseteable" data-reset-unload="">
+          <ul class="cart-details-list reseteable" id="detail-cart" data-reset-unload="">
+        {{#each cartDetails}}
+        <li>this should be and item</li>
+        {{> cartDetail}}
+        {{/each}}
           </ul>
         </div>
       </div>
