@@ -70,11 +70,6 @@ module.exports = class CartView extends View
   attach: ()->
     super
     console.log "CartView#attach"
-    util.customStepper(@$el.find(".cart-detail-quantity")).on "step", (e, previous) ->
-      $cartDetailStepper = $(this)
-      val = parseInt($cartDetailStepper.val())
-      unless previous is val
-        console.log ["previous", "current", previous, val]
-        @model.updateCartDetail $cartDetailStepper.closest("li"), val
+    util.customStepper(@$el.find(".cart-detail-quantity")).on "step", @stepQuantity
 
 
