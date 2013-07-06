@@ -13,14 +13,13 @@ module.exports = class LoginUtil
     console.log "LoginUtil#constructor"
 
   initialize: ->
-    console.log @subscribeEvent
     @subscribeEvent 'expressLogin', @expressLogin
     @subscribeEvent 'applyLogin', @applyLogin
     @subscribeEvent 'initLogout', @initLogout
 
   expressLogin : () ->
     #Winbits.checkRegisterConfirmation $
-    console.log "expressLogin"
+    console.log "LoginUtil#expressLogin"
     apiToken = util.getCookie(config.apiTokenName)
     console.log ["API Token", apiToken]
     that = @
@@ -55,14 +54,13 @@ module.exports = class LoginUtil
     mediator.proxy.post action: "facebookStatus"
 
   applyLogin : (profile) ->
+    console.log "LoginUtil#applyLogin"
     mediator.flags.loggedIn = true
     #Winbits.checkCompleteRegistration $
-    console.log "Logged In"
     token.saveApiToken profile.apiToken
     #Winbits.restoreCart $
-    #console.log profile.mainShippingAddress
     @publishEvent "showHeaderLogin"
-    @publishEvent "fetchCart"
+    @publishEvent "restoreCart"
     @publishEvent "setProfile", profile.profile
     #Winbits.$widgetContainer.find("div.login").hide()
     #Winbits.$widgetContainer.find("div.miCuentaPanel").show()

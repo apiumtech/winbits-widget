@@ -26,11 +26,14 @@ module.exports = class HomeController extends ChaplinController
       console.log "addressChanged"
     @addressView = new AddressView(model: @address)
     @profileView = new ProfileView(model: @profile )
-    @cartView = new CartView()
+    @cartView = new CartView(model:@cart)
     @profile.on "change", ->
       console.log "profileChanged"
       that.profileView.render()
     @cart.on "change", ->
       console.log "cartChanged"
       that.cartView.render()
+    that = @
+    Window.Winbits.addToCart = (item)->
+      that.cartView.addToCart(item)
     #@view.render()

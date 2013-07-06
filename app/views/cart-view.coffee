@@ -1,27 +1,33 @@
 template = require 'views/templates/cart'
 View = require 'views/base/view'
+util = require 'lib/util'
+config = require 'config'
+mediator = require 'chaplin/mediator'
 
-module.exports = class LoginView extends View
+module.exports = class CartView extends View
   autoRender: yes
   #className: 'home-page'
   container: '#cart-container'
   template: template
 
   render: ->
-    console.log "(>_<)"
+    console.log "(>_<>_>)"
     super
   initialize: () ->
     super
-    Window.Winbits.addToCart = @addToCart
+    console.log "CartView#initialize"
     @subscribeEvent 'restoreCart', @restoreCart
+    @subscribeEvent 'addToCart', @addToCart
 
 
   restoreCart: ()->
-    vCart = util.getCookie(conf.vcartTokenName)
+    console.log ["CartView#restoreCart"]
+    vCart = util.getCookie(config.vcartTokenName)
+    console.log vCart
     unless vCart is "[]"
       @model.transferVirtualCart vCart
     else
-      @model.loadUserCart
+      @model.loadUserCart()
 
   addToCart : (cartItem)->
     console.log ["Vertical request to add item to cart", cartItem]
@@ -32,6 +38,7 @@ module.exports = class LoginView extends View
       console.log "Setting default quantity (1)..."
       cartItem.quantity = 1
     cartItem.quantity = parseInt(cartItem.quantity)
+    console.log @
     $cartDetail = @$el.find(".cart-holder:visible .cart-details-list").children("[data-id=" + cartItem.id + "]")
     id = $cartDetail.attr("data-id")
     if $cartDetail.length is 0

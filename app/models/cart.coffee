@@ -1,4 +1,5 @@
 ChaplinModel = require 'chaplin/models/model'
+util = require 'lib/util'
 config = require 'config'
 module.exports = class Cart extends ChaplinModel
 
@@ -8,12 +9,13 @@ module.exports = class Cart extends ChaplinModel
     #@subscribeEvent 'fetchCart', @fetch
 
   parse: (response) ->
+    console.log "Cart#parse"
     response.response
 
   loadVirtualCart: ()->
     console.log "Loading virtual cart"
     @url = config.apiUrl + "/orders/virtual-cart-items.json"
-    @model.sync 'read', @model,
+    @sync 'read', @,
       error: ->
         console.log "error",
       headers:{ 'Accept-Language': 'es', 'wb-cart': util.getCookie(config.vcartTokenName) }
@@ -24,7 +26,7 @@ module.exports = class Cart extends ChaplinModel
   transferVirtualCart: ()->
     console.log ["transferVirtualCart"]
     @url = config.apiUrl + "/orders/assign-virtual-cart.json"
-    @model.sync 'create', @model,
+    @sync 'create', @,
       error: ->
         console.log "error",
       headers:{ 'Accept-Language': 'es', 'wb-cart': util.getCookie(config.vcartTokenName) }
@@ -92,7 +94,7 @@ module.exports = class Cart extends ChaplinModel
   deleteVirtualCartDetail: ()->
     console.log ["deleteVirtualCartDetail"]
     @url = config.apiUrl + "/orders/virtual-cart-items/" + @model.id + ".json"
-    @model.sync 'delete', @model,
+    @ 'delete', @,
       error: ->
         console.log "error",
       headers:{ 'Accept-Language': 'es', 'wb-cart': util.getCookie(config.vcartTokenName) }
@@ -102,7 +104,8 @@ module.exports = class Cart extends ChaplinModel
   loadUserCart: ()->
     console.log ["loadUserCart"]
     @url = config.apiUrl + "/orders/cart-items.json"
-    @model.sync 'read', @model,
+    console.log @
+    @fetch
       error: ->
         console.log "error",
       headers:{ 'Accept-Language': 'es', 'wb-cart': util.getCookie(config.vcartTokenName) }
