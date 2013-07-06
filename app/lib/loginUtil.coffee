@@ -60,8 +60,9 @@ module.exports = class LoginUtil
     console.log "Logged In"
     token.saveApiToken profile.apiToken
     #Winbits.restoreCart $
-    console.log profile.mainShippingAddress
+    #console.log profile.mainShippingAddress
     @publishEvent "showHeaderLogin"
+    @publishEvent "fetchCart"
     @publishEvent "setProfile", profile.profile
     #Winbits.$widgetContainer.find("div.login").hide()
     #Winbits.$widgetContainer.find("div.miCuentaPanel").show()

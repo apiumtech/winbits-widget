@@ -14,6 +14,7 @@ module.exports = class Application
   #title: 'Brunch example application'
 
   initialize: ->
+    Window.Winbits = {}
     @initControllers()
 
     # Mediator is a global message broker which implements pub / sub pattern.
@@ -35,8 +36,5 @@ module.exports = class Application
     @proxyHandlers = new ProxyHandlers()
   initControllers: ->
     # These controllers are active during the whole application runtime.
-    console.log ":)"
-    console.log HomeController
     @homeController = new HomeController()
-    console.log @homeController
     @homeController.index()

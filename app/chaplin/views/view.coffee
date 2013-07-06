@@ -160,9 +160,6 @@ module.exports = class View extends Backbone.View
     list = _.map eventName.split(' '), (event) => "#{event}.delegate#{@cid}"
     events = list.join(' ')
     bound = _.bind handler, this
-    console.log "selector --> " + selector
-    console.log @$el
-    console.log "selector --> "
     @$el.on events, (selector or null), bound
 
     # Return the bound handler.
