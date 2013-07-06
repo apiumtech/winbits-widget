@@ -36,4 +36,4 @@ module.exports = class HomeController extends ChaplinController
     that = @
     Window.Winbits.addToCart = (item)->
       that.cartView.addToCart(item)
-    #@view.render()
+      @cartView.render()

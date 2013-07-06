@@ -6,6 +6,7 @@
 
 # Map helpers
 # -----------
+cartDetail = require 'views/templates/cartDetail'
 
 # Make 'with' behave a little more mustachey.
 Handlebars.registerHelper 'with', (context, options) ->
@@ -135,7 +136,7 @@ Handlebars.registerHelper "sliceBlock", (context, block) ->
   ret
 
 #******************************
-#Custom
+#Custom Helper
 #******************************
 # Comparison Helper for handlebars.js
 # Pass in two values that you want and specify what the operator should be
@@ -182,3 +183,8 @@ Handlebars.registerHelper "substr", (context, options) ->
     new Handlebars.SafeString(theString)
   else
     ""
+#******************************
+#Custom partial
+#******************************
+Handlebars.registerPartial("cartDetail",cartDetail )
+
