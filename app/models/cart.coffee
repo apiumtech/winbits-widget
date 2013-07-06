@@ -108,7 +108,7 @@ module.exports = class Cart extends ChaplinModel
     @fetch
       error: ->
         console.log "error",
-      headers:{ 'Accept-Language': 'es', 'wb-cart': util.getCookie(config.vcartTokenName) }
+      headers:{ 'Accept-Language': 'es', "WB-Api-Token": util.getCookie(config.apiTokenName)},
       success: ->
         console.log "success loadUserCart"
         #that.$el.find(".myPerfil").slideDown()
