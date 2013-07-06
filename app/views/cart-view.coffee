@@ -18,6 +18,7 @@ module.exports = class CartView extends View
     console.log "CartView#initialize"
     @subscribeEvent 'restoreCart', @restoreCart
     @subscribeEvent 'addToCart', @addToCart
+    @delegate 'click', '.cart-detail-detail-link', @deleteItem
 
 
   restoreCart: ()->
@@ -49,3 +50,31 @@ module.exports = class CartView extends View
     else
       qty = cartItem.quantity + parseInt($cartDetail.find(".cart-detail-quantity").val())
       @model.updateCartDetail id, qty, cartItem.bits
+
+
+  clickDeleteCartDetailLink: (e) ->
+    e.stopPropagation()
+    $cartDetail = $(e.target).closest("li")
+    if mediator.flags.loggedIn
+      @model.deleteUserCartDetail $cartDetail
+    else
+      @model.deleteVirtualCartDetail $cartDetail
+
+  stepQuantity: (e, previous) ->
+    $cartDetailStepper = $(this)
+    val = parseInt($cartDetailStepper.val())
+    unless previous is val
+      console.log ["previous", "current", previous, val]
+      @model.updateCartDetail $cartDetailStepper.closest("li"), val
+
+  attach: ()->
+    super
+    console.log "CartView#attach"
+    util.customStepper(@$el.find(".cart-detail-quantity")).on "step", (e, previous) ->
+      $cartDetailStepper = $(this)
+      val = parseInt($cartDetailStepper.val())
+      unless previous is val
+        console.log ["previous", "current", previous, val]
+        @model.updateCartDetail $cartDetailStepper.closest("li"), val
+
+

@@ -91,5 +91,44 @@ util.dropMenu = (options) ->
           $(document).click ->
             $(options.obj).slideUp()
             $(document).unbind "click"
+  # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    #      CUSTOMSTEPPER: Sumar y restar valores del stepper
+    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+util.customStepper = (obj) ->
+  $obj = $(obj)
+  if $obj.length
+    $obj.each ->
+      $(this).wrap "<div class=\"stepper\"/>"
+      $this = $(this).parent()
+      $this.append "<span class=\"icon plus\"/><span class=\"icon minus\"/>"
+      $this.find(".icon").click ->
+        $newVal = undefined
+        $button = $(this)
+        $oldValue = parseInt($button.parent().find("input").val(), 10)
+        if $button.hasClass("plus")
+          $newVal = $oldValue + 1
+        else if $button.hasClass("minus")
+          if $oldValue >= 2
+            $newVal = $oldValue - 1
+          else
+            $newVal = 1
+        $button.parent().find("input").val($newVal).trigger "step", $oldValue
+
+      $this.find("input").keydown (e) ->
+        keyCode = e.keyCode or e.which
+        arrow =
+          up: 38
+          down: 40
+
+        $newVal = undefined
+        $oldValue = parseInt($(this).val(), 10)
+        switch keyCode
+          when arrow.up
+            $newVal = $oldValue + 1
+          when arrow.down
+            $newVal = $oldValue - 1
+        $(this).val($newVal).trigger "step", $oldValue  if $newVal >= 1
+  obj
+
 
 module.exports =  util

@@ -55,17 +55,19 @@ module.exports = class LoginUtil
 
   applyLogin : (profile) ->
     console.log "LoginUtil#applyLogin"
-    mediator.flags.loggedIn = true
-    #Winbits.checkCompleteRegistration $
-    token.saveApiToken profile.apiToken
-    #Winbits.restoreCart $
-    @publishEvent "showHeaderLogin"
-    @publishEvent "restoreCart"
-    @publishEvent "setProfile", profile.profile
-    #Winbits.$widgetContainer.find("div.login").hide()
-    #Winbits.$widgetContainer.find("div.miCuentaPanel").show()
-    #Winbits.loadUserProfile $, profile
-    #
+    if profile.apiToken
+      mediator.flags.loggedIn = true
+      #Winbits.checkCompleteRegistration $
+
+      token.saveApiToken profile.apiToken
+      #Winbits.restoreCart $
+      @publishEvent "showHeaderLogin"
+      @publishEvent "restoreCart"
+      @publishEvent "setProfile", profile.profile
+      #Winbits.$widgetContainer.find("div.login").hide()
+      #Winbits.$widgetContainer.find("div.miCuentaPanel").show()
+      #Winbits.loadUserProfile $, profile
+      #
   initLogout : () ->
     that = this
     console.log "initLogout"
