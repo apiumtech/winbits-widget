@@ -33,7 +33,5 @@ module.exports = class HomeController extends ChaplinController
     @cart.on "change", ->
       console.log "cartChanged"
       that.cartView.render()
-    that = @
     Window.Winbits.addToCart = (item)->
       that.cartView.addToCart(item)
-      @cartView.render()

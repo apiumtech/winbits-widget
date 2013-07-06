@@ -18,7 +18,7 @@ module.exports = class CartView extends View
     console.log "CartView#initialize"
     @subscribeEvent 'restoreCart', @restoreCart
     @subscribeEvent 'addToCart', @addToCart
-    @delegate 'click', '.cart-detail-detail-link', @deleteItem
+    @delegate 'click', '.cart-detail-detail-link', @clickDeleteCartDetailLink
 
 
   restoreCart: ()->
@@ -54,6 +54,7 @@ module.exports = class CartView extends View
 
   clickDeleteCartDetailLink: (e) ->
     e.stopPropagation()
+    console.log ["deleting Item from cart"]
     $cartDetail = $(e.target).closest("li")
     if mediator.flags.loggedIn
       @model.deleteUserCartDetail $cartDetail
