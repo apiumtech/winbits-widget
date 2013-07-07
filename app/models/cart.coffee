@@ -91,16 +91,30 @@ module.exports = class Cart extends ChaplinModel
     else
       @updateVirtualCartDetail id, quantity
 
-  deleteVirtualCartDetail: ()->
+  deleteVirtualCartDetail: (id)->
     console.log ["deleteVirtualCartDetail"]
-    @url = config.apiUrl + "/orders/virtual-cart-items/" + @model.id + ".json"
-    @ 'delete', @,
+    @url = config.apiUrl + "/orders/virtual-cart-items/" + id + ".json"
+    @sync 'delete', @,
       error: ->
         console.log "error",
       headers:{ 'Accept-Language': 'es', 'wb-cart': util.getCookie(config.vcartTokenName) }
       success: ->
         console.log "success loadUserCart"
 
+  deleteUserCartDetail : (id) ->
+    that = @
+    @url = config.apiUrl + "/orders/cart-items/" + id + ".json"
+    @sync 'delete', @,
+      headers:{ 'Accept-Language': 'es', "WB-Api-Token": util.getCookie(config.apiTokenName) }
+      success: (data) ->
+        console.log ["V: User cart", data.response]
+        that.set data.response
+      error: (xhr, textStatus, errorThrown) ->
+        error = JSON.parse(xhr.responseText)
+        alert error.meta.message
+
+      complete: ->
+        console.log "Request Completed!"
   loadUserCart: ()->
     console.log ["loadUserCart"]
     @url = config.apiUrl + "/orders/cart-items.json"
@@ -120,7 +134,7 @@ module.exports = class Cart extends ChaplinModel
       skuProfileId: id
       quantity: quantity
       bits: bits
-
+    that = this
     $.ajax config.apiUrl + "/orders/cart-items.json",
       type: "POST"
       contentType: "application/json"
@@ -132,6 +146,7 @@ module.exports = class Cart extends ChaplinModel
 
       success: (data) ->
         console.log ["V: User cart", data.response]
+        that.set data.response
         #app.refreshCart $, data.response, true
 
       error: (xhr, textStatus, errorThrown) ->

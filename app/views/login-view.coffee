@@ -60,15 +60,3 @@ module.exports = class LoginView extends View
       complete: ->
         console.log "Request Completed!"
 
-  applyLogin: ($, profile) ->
-    console.log "applyLogin"
-    mediator.flags.loggedIn = true
-    console.log mediator
-    #app.checkCompleteRegistration $
-    console.log "Logged In"
-    token.saveApiToken profile.apiToken
-    #app.restoreCart $
-    #app.$widgetContainer.find("div.login").hide()
-    #app.$widgetContainer.find("div.miCuentaPanel").show()
-    app.loadUserProfile $, profile
-

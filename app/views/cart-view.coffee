@@ -9,6 +9,7 @@ module.exports = class CartView extends View
   #className: 'home-page'
   container: '#cart-container'
   template: template
+  id: "cart-view"
 
   render: ->
     console.log "(>_<>_>)"
@@ -17,8 +18,8 @@ module.exports = class CartView extends View
     super
     console.log "CartView#initialize"
     @subscribeEvent 'restoreCart', @restoreCart
+    @delegate 'click', '.cart-detail-delete-link', @clickDeleteCartDetailLink
     @subscribeEvent 'addToCart', @addToCart
-    @delegate 'click', '.cart-detail-detail-link', @clickDeleteCartDetailLink
 
 
   restoreCart: ()->
@@ -56,10 +57,12 @@ module.exports = class CartView extends View
     e.stopPropagation()
     console.log ["deleting Item from cart"]
     $cartDetail = $(e.target).closest("li")
+    console.log $cartDetail
+    id = $cartDetail.attr("data-id")
     if mediator.flags.loggedIn
-      @model.deleteUserCartDetail $cartDetail
+      @model.deleteUserCartDetail id
     else
-      @model.deleteVirtualCartDetail $cartDetail
+      @model.deleteVirtualCartDetail id
 
   stepQuantity: (e, previous) ->
     $cartDetailStepper = $(this)
@@ -72,5 +75,7 @@ module.exports = class CartView extends View
     super
     console.log "CartView#attach"
     util.customStepper(@$el.find(".cart-detail-quantity")).on "step", @stepQuantity
+    #console.log @$el
+    #console.log @$el.find(".cart-detail-delete-link")
 
 
