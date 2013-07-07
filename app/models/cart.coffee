@@ -34,23 +34,23 @@ module.exports = class Cart extends ChaplinModel
         console.log "success transferVirtualCart"
 
   updateUserCartDetail : (id, quantity, bits) ->
-    console.log ["Updating cart detail...", cartDetail]
-    $ = app.jQuery
+    console.log ["Updating cart detail..."]
     formData =
       quantity: quantity
       bits: bits or 0
-
-    $.ajax app.config.apiUrl + "/orders/cart-items/" + id + ".json",
+    that = @
+    $.ajax config.apiUrl + "/orders/cart-items/" + id + ".json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify(formData)
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token": util.getCookie(conf.apiTokenName)
+        "WB-Api-Token": util.getCookie(config.apiTokenName)
 
       success: (data) ->
         console.log ["V: User cart", data.response]
+        that.set data.response
 
       error: (xhr, textStatus, errorThrown) ->
         error = JSON.parse(xhr.responseText)
@@ -84,12 +84,6 @@ module.exports = class Cart extends ChaplinModel
       complete: ->
         console.log "Request Completed!"
 
-  updateCartDetail : (id, quantity, bits) ->
-    console.log ["updateCartDetail"]
-    if mediator.flags.loggedIn
-      @updateUserCartDetail id, quantity, bits
-    else
-      @updateVirtualCartDetail id, quantity
 
   deleteVirtualCartDetail: (id)->
     console.log ["deleteVirtualCartDetail"]

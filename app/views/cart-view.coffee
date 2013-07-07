@@ -64,18 +64,25 @@ module.exports = class CartView extends View
     else
       @model.deleteVirtualCartDetail id
 
-  stepQuantity: (e, previous) ->
-    $cartDetailStepper = $(this)
-    val = parseInt($cartDetailStepper.val())
-    unless previous is val
-      console.log ["previous", "current", previous, val]
-      @model.updateCartDetail $cartDetailStepper.closest("li"), val
 
   attach: ()->
     super
     console.log "CartView#attach"
-    util.customStepper(@$el.find(".cart-detail-quantity")).on "step", @stepQuantity
+    that = @
+    util.customStepper(@$el.find(".cart-detail-quantity")).on "step", (e, previous) ->
+      $cartDetailStepper = $(this)
+      val = parseInt($cartDetailStepper.val())
+      unless previous is val
+        console.log ["previous", "current", previous, val]
+        id = $cartDetailStepper.closest("li").attr("data-id")
+        that.updateCartDetail id, val
     #console.log @$el
     #console.log @$el.find(".cart-detail-delete-link")
 
+  updateCartDetail : (id, quantity, bits) ->
+    console.log ["updateCartDetail"]
+    if mediator.flags.loggedIn
+      @model.updateUserCartDetail id, quantity, bits
+    else
+      @model.updateVirtualCartDetail id, quantity
 
