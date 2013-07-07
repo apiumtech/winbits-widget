@@ -10,24 +10,24 @@ module.exports = class WidgetSiteView extends View
   #regions:
   #'#header-container': 'header'
   #'#page-container': 'main'
+  id: "widgetSiteView"
   template: template
   proxyInit: null
 
   initialize: ->
     super
     @delegate 'click', '#btn-login', @showLoginLayer
-    @delegate 'click', '#winbits-logout-link', @logout
     @subscribeEvent 'showHeaderLogin', @showHeaderLogin
-
+    @subscribeEvent 'showHeaderLogout', @showHeaderLogout
 
   attach: ->
     super
     console.log "WidgetSiteView#attach"
     @proxyInit = new ProxyInit()
-    console.log  $(@.el).find("#winbits-logout-link")
-    $(@.el).find("#winbits-logout-link").click ->
-      console.log "click logout"
-    #@delegate 'click', '#winbits-logout-link', @logout
+    that = this
+    @$el.find("#winbits-logout-link").on("click",  (e)->
+      that.logout(e)
+    )
 
     util.dropMenu
       obj: ".miCuentaDiv"
@@ -74,17 +74,20 @@ module.exports = class WidgetSiteView extends View
 
 
   showHeaderLogin: () ->
-    console.log "WidgetSiteView#showLoginLayer"
-    #console.log @el
-    #console.log @.el
-    $(@.el).find("#headerLogin").show()
-    $(@.el).find("#headerNotLogin").hide()
+    console.log "WidgetSiteView#showHeaderLogin"
+    @$el.find("#headerLogin").show()
+    @$el.find("#headerNotLogin").hide()
+
+  showHeaderLogout: () ->
+    console.log "WidgetSiteView#showHeaderLogout"
+    @$el.find("#headerLogin").hide()
+    @$el.find("#headerNotLogin").show()
 
   logout: (e) ->
     e.preventDefault()
     e.stopPropagation()
     console.log "logout"
-    @publishEvent initLogout
+    @publishEvent "initLogout"
 
 
 

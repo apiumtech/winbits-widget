@@ -101,6 +101,7 @@ module.exports = class LoginUtil
       params: [mediator.flags.fbConnect]
 
     util.deleteCookie config.apiTokenName
-    #Winbits.resetWidget $
+    #Winbits.resetWidget
+    @publishEvent "showHeaderLogout"
     mediator.flags.loggedIn = false
     mediator.flags.fbConnect = false
