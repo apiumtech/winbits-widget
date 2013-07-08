@@ -32,13 +32,13 @@ task("build", function() {
 });
 
 
-desc("switch config posible args: dev, dev-py, dev-build, qa, prod, field ");
+desc("switch config posible args: dev, qa, staging, prod ");
 task("switch-config", function() {
   var env, envJson, execFile, fileContents, file_list, schema;
   jake.rmRf(".tmp/");
   env = arguments[0];
   console.log("switching config ... to " + env);
-  fileContents = fs.readFileSync("config.js", "utf8");
+  fileContents = fs.readFileSync("deploy/enviroments.js", "utf8");
   schema = JSON.parse(fileContents);
   envJson = _.find(schema.enviroments, function(envc) {
     return envc.name === env;
@@ -46,7 +46,7 @@ task("switch-config", function() {
   console.log(envJson);
   file_list = "";
   execFile = require("child_process").execFile;
-  return execFile("find", ["resources/", "-name", "*.hbs"], function(err, stdout, stderr) {
+  return execFile("find", ["deploy/resources/", "-name", "*.hbs"], function(err, stdout, stderr) {
     file_list = "" + stdout.split("\n");
     return _.each(file_list.split(","), function(file) {
       if (file !== "") {
@@ -82,7 +82,7 @@ cpTemplates = function() {
   var cmds;
   cmds = ["cp -rf .tmp/resources/* app"];
   return jake.exec(cmds, (function() {
-    console.log("resources populated and moved to -> /app);
+    console.log("resources populated and moved to -> /app");
     return complete();
   }), {
     stdout: true
