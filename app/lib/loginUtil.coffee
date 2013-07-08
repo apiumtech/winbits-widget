@@ -64,6 +64,7 @@ module.exports = class LoginUtil
       @publishEvent "showHeaderLogin"
       @publishEvent "restoreCart"
       @publishEvent "setProfile", profile.profile
+      @publishEvent "setSubscription", subscriptions:profile.subscriptions
       #Winbits.$widgetContainer.find("div.login").hide()
       #Winbits.$widgetContainer.find("div.miCuentaPanel").show()
       #Winbits.loadUserProfile $, profile

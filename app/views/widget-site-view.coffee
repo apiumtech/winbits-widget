@@ -17,9 +17,57 @@ module.exports = class WidgetSiteView extends View
   initialize: ->
     super
     @delegate 'click', '#btn-login', @showLoginLayer
+    @delegate 'click', 'i.close-icon', @closeLoginPanel
     @subscribeEvent 'showHeaderLogin', @showHeaderLogin
     @subscribeEvent 'showHeaderLogout', @showHeaderLogout
     @subscribeEvent 'resetComponents', @resetComponents
+    @subscribeEvent 'updateCartCounter', @updateCartCounter
+
+  updateCartCounter: (count)->
+    console.log ["WidgetSiteView#updateCartCounter " + count]
+    @$el.find(".cart-items-count").html(count)
+
+  showLoginLayer: (e)->
+    e.preventDefault()
+    console.log "WidgetSiteView#showLoginLayer"
+    #console.log $("#login-layer")
+    maxHeight = $(window).height() - 200
+    $("#login-modal .modal-body").css("max-height", maxHeight)
+    $("#login-modal").modal( 'show' ).css {
+      'background-color': 'transparent',
+      float: 'left',
+      width: '330px',
+      'margin-left': -> -( $( this ).width() / 2 )
+      top: '50%',
+      'max-height': maxHeight,
+      'margin-top': -> -(  $( this ).height() / 2 )
+    }
+
+  closeLoginPanel: (event) ->
+    event?.preventDefault()
+    event?.stopPropagation()
+    $('.modal').modal 'hide'
+
+
+  showHeaderLogin: () ->
+    console.log "WidgetSiteView#showHeaderLogin"
+    @$el.find("#headerLogin").show()
+    @$el.find("#headerNotLogin").hide()
+
+  showHeaderLogout: () ->
+    console.log "WidgetSiteView#showHeaderLogout"
+    @$el.find("#headerLogin").hide()
+    @$el.find("#headerNotLogin").show()
+
+  resetComponents: () ->
+    console.log "WidgetSiteView#resetComponents"
+    util.resetComponents(@$el)
+
+  logout: (e) ->
+    e.preventDefault()
+    e.stopPropagation()
+    console.log "logout"
+    @publishEvent "initLogout"
 
   attach: ->
     super
@@ -52,48 +100,5 @@ module.exports = class WidgetSiteView extends View
       obj: ".knowMoreMax"
       trigger: ".knowMoreMax .openClose"
       objetivo: ".knowMoreMin"
-
-
-
-  showLoginLayer: (e)->
-    e.preventDefault()
-    console.log "WidgetSiteView#showLoginLayer"
-    #console.log $("#login-layer")
-
-
-    maxHeight = $(window).height() - 200
-    $("#login-modal .modal-body").css("max-height", maxHeight)
-    $("#login-modal").modal( 'show' ).css {
-      'background-color': 'transparent',
-      float: 'left',
-      width: '330px',
-      'margin-left': -> -( $( this ).width() / 2 )
-      top: '50%',
-      'max-height': maxHeight,
-      'margin-top': -> -(  $( this ).height() / 2 )
-    }
-
-
-  showHeaderLogin: () ->
-    console.log "WidgetSiteView#showHeaderLogin"
-    @$el.find("#headerLogin").show()
-    @$el.find("#headerNotLogin").hide()
-
-  showHeaderLogout: () ->
-    console.log "WidgetSiteView#showHeaderLogout"
-    @$el.find("#headerLogin").hide()
-    @$el.find("#headerNotLogin").show()
-
-  resetComponents: () ->
-    console.log "WidgetSiteView#resetComponents"
-    util.resetComponents(@$el)
-
-  logout: (e) ->
-    e.preventDefault()
-    e.stopPropagation()
-    console.log "logout"
-    @publishEvent "initLogout"
-
-
 
 

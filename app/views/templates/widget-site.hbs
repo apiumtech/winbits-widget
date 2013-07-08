@@ -86,28 +86,7 @@
                   <div class="colum myAddress" id="headerAddress">
                   </div>
                   {{!wrapper}}
-                  <div class="colum mySuscription">
-                    <h2>SUSCRIPCIÓN</h2>
-                    <div class="miSuscripcion">
-                      <h3>Esta cuenta está suscrita a los siguientes sitios:</h3>
-                      <ul class="wb-subscriptions-list">
-                      </ul>
-                      <h3>Recibes un correo:</h3>
-                      <ul>
-                        <li><span class="subscriptions-periodicity">Todos los días</span> <a href="#">edit</a></li>
-                      </ul>
-                      <h3>Favoritos:</h3>
-                      <ul>
-                        <!--<li>Marcas 0 <a href="#">view detail</a></li>-->
-                      </ul>
-                      <input class="btn editBtn" value="Editar">
-                    </div>
-                    <div class="editSuscription">
-                      <h3>¿De cuál de nuestros sitios te gustaría recibir información?</h3>
-                      <fieldset class="wb-subscriptions-checklist">
-                      </fieldset>
-                      <input class="btn editBtn" value="Guardar">
-                    </div>
+                  <div class="colum mySuscription" id="subscription">
                   </div>
                   <div class="colum historyColumn">
                     <h2>HISTORIAL DE TU CUENTA</h2>
@@ -143,7 +122,8 @@
   </div>
   </div>
   <div id="layers-container" style="display: none;"></div>
-    <div id='login-modal' class="modal hide fade">
+  <div id='login-modal' class="modal hide fade">
+      <i class="close-icon" id="close-login"></i>
       <div class="modal-body" id="login-modal-body" style="padding:0px"></div>
     </div>
   {{!<div id="winbits-iframe-holder" style="position: fixed; top: -1000px;"></div>}}
