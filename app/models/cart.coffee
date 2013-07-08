@@ -1,11 +1,12 @@
 ChaplinModel = require 'chaplin/models/model'
 util = require 'lib/util'
 config = require 'config'
+mediator = require 'chaplin/mediator'
 module.exports = class Cart extends ChaplinModel
 
   initialize: (attributes, option) ->
     super
-    #@subscribeEvent 'setCart', @set
+    @subscribeEvent 'loadVirtualCart', @loadVirtualCart
     #@subscribeEvent 'fetchCart', @fetch
 
   parse: (response) ->
@@ -15,23 +16,43 @@ module.exports = class Cart extends ChaplinModel
   loadVirtualCart: ()->
     console.log "Loading virtual cart"
     @url = config.apiUrl + "/orders/virtual-cart-items.json"
-    @sync 'read', @,
+    that = @
+    @fetch
       error: ->
         console.log "error",
-      headers:{ 'Accept-Language': 'es', 'wb-cart': util.getCookie(config.vcartTokenName) }
+      headers:{ 'Accept-Language': 'es', 'wb-vcart': util.getCookie(config.vcartTokenName)}
+      #headers:{ 'Accept-Language': 'es', "WB-Api-Token": util.getCookie(config.apiTokenName)}
       success: ->
         console.log "success load Virtual cart"
 
 
-  transferVirtualCart: ()->
+  transferVirtualCart: (virtualCart)->
     console.log ["transferVirtualCart"]
-    @url = config.apiUrl + "/orders/assign-virtual-cart.json"
-    @sync 'create', @,
-      error: ->
-        console.log "error",
-      headers:{ 'Accept-Language': 'es', 'wb-cart': util.getCookie(config.vcartTokenName) }
-      success: ->
-        console.log "success transferVirtualCart"
+    that = @
+    formData = virtualCartData: JSON.parse(virtualCart)
+    $.ajax config.apiUrl + "/orders/assign-virtual-cart.json",
+      type: "POST"
+      contentType: "application/json"
+      dataType: "json"
+      data: JSON.stringify(formData)
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+
+      success: (data) ->
+        console.log ["V: User cart", data.response]
+        util.setCookie config.vcartTokenName, '[]', 7
+        that.set data.response
+        mediator.proxy.post
+          action: "storeVirtualCart"
+          params: ['[]']
+
+      error: (xhr, textStatus, errorThrown) ->
+        error = JSON.parse(xhr.responseText)
+        alert error.message
+
+      complete: ->
+        console.log "Request Completed!"
 
   updateUserCartDetail : (id, quantity, bits) ->
     console.log ["Updating cart detail..."]
@@ -60,11 +81,11 @@ module.exports = class Cart extends ChaplinModel
         console.log "Request Completed!"
 
   updateVirtualCartDetail: (id, quantity)->
-    console.log ["Updating cart detail...", cartDetail]
-    @url = config.apiUrl + "/orders/virtual-cart-items/" + @model.id + ".json"
+    console.log ["Updating cart detail..."]
+    @url = config.apiUrl + "/orders/virtual-cart-items/" + id + ".json"
     formData = quantity: quantity
-    id = $cartDetail.attr("data-id")
-    $.ajax app.config.apiUrl + "/orders/virtual-cart-items/" + id + ".json",
+    that = @
+    $.ajax config.apiUrl + "/orders/virtual-cart-items/" + id + ".json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
@@ -75,6 +96,8 @@ module.exports = class Cart extends ChaplinModel
 
       success: (data) ->
         console.log ["V: Virtual cart", data.response]
+        that.storeVirtualCart data.response
+        that.set data.response
 
 
       error: (xhr, textStatus, errorThrown) ->
@@ -87,13 +110,16 @@ module.exports = class Cart extends ChaplinModel
 
   deleteVirtualCartDetail: (id)->
     console.log ["deleteVirtualCartDetail"]
+    that = @
     @url = config.apiUrl + "/orders/virtual-cart-items/" + id + ".json"
     @sync 'delete', @,
       error: ->
         console.log "error",
-      headers:{ 'Accept-Language': 'es', 'wb-cart': util.getCookie(config.vcartTokenName) }
-      success: ->
-        console.log "success loadUserCart"
+      headers:{ 'Accept-Language': 'es', 'wb-vcart': util.getCookie(config.vcartTokenName) }
+      success: (data)->
+        console.log "success deleteVirtaulCart"
+        that.storeVirtualCart data.response
+        that.set data.response
 
   deleteUserCartDetail : (id) ->
     that = @
@@ -109,6 +135,7 @@ module.exports = class Cart extends ChaplinModel
 
       complete: ->
         console.log "Request Completed!"
+
   loadUserCart: ()->
     console.log ["loadUserCart"]
     @url = config.apiUrl + "/orders/cart-items.json"
@@ -152,25 +179,24 @@ module.exports = class Cart extends ChaplinModel
 
   addToVirtualCart : (id, quantity) ->
     console.log "Adding to virtual cart..."
-    $ = app.jQuery
     formData =
       skuProfileId: id
       quantity: quantity
       bits: 0
-
-    $.ajax app.config.apiUrl + "/orders/virtual-cart-items.json",
+    that = this
+    $.ajax config.apiUrl + "/orders/virtual-cart-items.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify(formData)
       headers:
         "Accept-Language": "es"
-        "wb-vcart": app.getCookie(app.vcartTokenName)
+        "wb-vcart": util.getCookie(config.vcartTokenName)
 
       success: (data) ->
         console.log ["V: Virtual cart", data.response]
-        app.storeVirtualCart $, data.response
-        app.refreshCart $, data.response, true
+        that.storeVirtualCart data.response
+        that.set data.response
 
       error: (xhr, textStatus, errorThrown) ->
         error = JSON.parse(xhr.responseText)
@@ -178,3 +204,19 @@ module.exports = class Cart extends ChaplinModel
 
       complete: ->
         console.log "Request Completed!"
+
+  storeVirtualCart : (cart) ->
+    console.log ["Storing virtual cart...", cart]
+    vCart = []
+    $.each cart.cartDetails or [], (i, cartDetail) ->
+      vCartDetail = {}
+      vCartDetail[cartDetail.skuProfile.id] = cartDetail.quantity
+      vCart.push vCartDetail
+
+    vCartToken = JSON.stringify(vCart)
+    console.log ["vCartToken", vCartToken]
+    util.setCookie config.vcartTokenName, vCartToken, 7
+    mediator.proxy.post
+      action: "storeVirtualCart"
+      params: [vCartToken]
+

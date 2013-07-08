@@ -19,6 +19,7 @@ module.exports = class WidgetSiteView extends View
     @delegate 'click', '#btn-login', @showLoginLayer
     @subscribeEvent 'showHeaderLogin', @showHeaderLogin
     @subscribeEvent 'showHeaderLogout', @showHeaderLogout
+    @subscribeEvent 'resetComponents', @resetComponents
 
   attach: ->
     super
@@ -82,6 +83,10 @@ module.exports = class WidgetSiteView extends View
     console.log "WidgetSiteView#showHeaderLogout"
     @$el.find("#headerLogin").hide()
     @$el.find("#headerNotLogin").show()
+
+  resetComponents: () ->
+    console.log "WidgetSiteView#resetComponents"
+    util.resetComponents(@$el)
 
   logout: (e) ->
     e.preventDefault()

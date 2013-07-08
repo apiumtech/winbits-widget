@@ -130,5 +130,17 @@ util.customStepper = (obj) ->
         $(this).val($newVal).trigger "step", $oldValue  if $newVal >= 1
   obj
 
+util.resetComponents = ($selector)->
+  $selector.find(".reseteable").each((i, reseteable) ->
+      $reseteable = $(reseteable)
+      if $reseteable.is("[data-reset-val]")
+        $reseteable.val $reseteable.attr("data-reset-val")
+      else if $reseteable.is("[data-reset-text]")
+        $reseteable.text $reseteable.attr("data-reset-text")
+      else if $reseteable.is("[data-reset-unload]")
+        $reseteable.html ""
+      else
+        $reseteable.val ""
+    )
 
 module.exports =  util

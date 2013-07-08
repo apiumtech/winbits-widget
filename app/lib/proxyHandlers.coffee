@@ -52,7 +52,8 @@ module.exports = class ProxyHandlers
           console.log "express-facebook-login.json Error!"
 
     else
-      app.loadVirtualCart app.jQuery
+      console.log "calling loadVirtualCart"
+      @publishEvent "loadVirtualCart"
 
   facebookLoginHandler: (response) ->
     console.log ["Facebook Login", response]
