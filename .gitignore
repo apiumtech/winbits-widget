@@ -17,3 +17,5 @@ public/
 node_modules/.bin/
 node_modules/
 widgets.iml
+.tmp/resources
+.tmp
