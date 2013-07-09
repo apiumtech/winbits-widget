@@ -1,0 +1,38 @@
+<span class="icon triangle"></span>
+<div class="wrapper">
+  <div class="carContenido">
+    <div class="carritoDivLeft">
+      <div class="carritoContainer" data-content="carritoContent">
+        <div class="carritoContent">
+          <ul class="cart-details-list reseteable" id="detail-cart" data-reset-unload="">
+          {{#each cartDetails}}
+          {{> cartDetail}}
+          {{/each}}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="carritoDivRight cart-info">
+      <h3>ENVIO</h3>
+      <span class="freeShipping cart-shipping-total reseteable" data-reset-text="GRATIS">GRATIS</span>
+      <h3>TOTAL</h3>
+      <span class="totalCar cart-total reseteable" data-reset-text="$0">${{itemsTotal}}</span>
+      <div class="winSave wb-bits-control">
+        <span>WIN</span>
+        <label class="cart-bits-total reseteable" data-reset-text="0">${{bitsTotal}}</label>
+        <em class="icon winbits10px"></em>
+        <span>save</span>
+        <label class="cart-saving reseteable" data-reset-text="0%">0%</label>
+      </div>
+      <input id="wb-cart-bits-slider reseteable" data-reset-val="0" type="text" value="0" data-min="0" data-max="100" data-step="1" class="slideInput wb-bits-control">
+      <span class="legendCarrito">Usa tus bits como dinero en esta compra <a href="#">learn more</a></span>
+      <a href="#" class="continueShoping">CONTINUE SHOPING</a>
+      <input type="submit" class="btn" value="Check Out">
+      <h3>NOTA</h3>
+      <ul class="payment-methods-list">
+        <li>Esta compra NO esta disponible para meses sin intereses. Borrar</li>
+        <li>Esta compra NO esta disponible para pago en OXXO.</li>
+      </ul>
+    </div>
+  </div>
+</div>

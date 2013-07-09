@@ -1,0 +1,75 @@
+.widgetWinbitsMain .dataTable {
+	table {
+		background: @white;
+		width: 100%;
+		a {
+			color: @blueLink2;
+			text-decoration: underline;
+			&:hover {
+				color: @grey;
+			}
+		}
+		td, th {
+			font-size: 14px;
+			padding: 7px;
+			text-align: left;
+			vertical-align: top;
+			img {
+				margin: 0;
+			}
+			strong {
+				display: block;
+			}
+		}
+		th {
+			&:first-child{
+				padding-left: 40px;
+			}
+		}
+		.iWidth(width, 100);
+		.firstItemOrder {
+			td {
+				border-top: 1px solid lighten(@black, 89%);
+				padding-top: 20px;
+				&:first-child{
+					padding-left: 40px;
+				}
+			}
+		}
+		.lastItemOrder {
+			td {
+				padding-bottom: 20px;
+			}
+		}
+		.singleItemOrder {
+			td {
+				border-top: 1px solid lighten(@black, 89%);
+				padding: 20px 7px;
+				&:first-child{
+					padding-left: 40px;
+				}
+			}
+		}
+	}
+	&.totalBitsTable {
+		margin-bottom: 30px !important;
+		td {
+			border-bottom: 1px solid lighten(@black, 89%);
+			.font('OmnesMedium');
+		}
+		.minusBits {
+			color: @red;
+		}
+		.totalBits {
+			td {
+				border-top: 1px solid lighten(@black, 89%);
+				padding-top: 30px;
+				&:first-child {
+					border-bottom: none;
+					padding-left: 40px;
+					width: 260px;
+				}
+			}
+		}
+	}
+}

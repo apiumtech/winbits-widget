@@ -1,0 +1,37 @@
+<h2>SUSCRIPCIÓN</h2>
+{{debug}}
+<div class="miSuscripcion">
+  <h3>Esta cuenta está suscrita a los siguientes sitios:</h3>
+  <ul class="wb-subscriptions-list">
+    {{#each subscriptions}}
+      {{#if active}}
+        <li>
+          {{name}}
+        <a class="editLink" href="#">edit</a>
+      </li>
+      {{/if}}
+    {{/each}}
+  </ul>
+  <h3>Recibes un correo:</h3>
+  <ul>
+    <li><span class="subscriptions-periodicity">Todos los días</span> <a href="#">edit</a></li>
+  </ul>
+  <h3>Favoritos:</h3>
+  <ul>
+    <!--<li>Marcas 0 <a href="#">view detail</a></li>-->
+  </ul>
+  <input class="btn editBtn" id="editBtnSubscription" value="Editar">
+</div>
+<div class="editSuscription">
+  <h3>¿De cuál de nuestros sitios te gustaría recibir información?</h3>
+  <fieldset class="wb-subscriptions-checklist">
+    {{#each subscriptions}}
+    <div class="divCheckbox">
+      <span class="icon spanCheckbox {{#if active}}selectCheckbox{{else}}unselectCheckbox{{/if}}"></span>
+      <input type="checkbox" id="{{id}}" name="{{name}}" {{#if active}}checked="checked"{{/if}} class="checkbox" value="{{name}}">
+      <label class="checkboxLabel" for="{{name}}">{{name}}</label>
+    </div>
+    {{/each}}
+  </fieldset>
+  <input class="btn editBtn"  value="Guardar">
+</div>

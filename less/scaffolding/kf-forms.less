@@ -1,0 +1,85 @@
+form {
+  margin: @formMargin;
+}
+input, textarea, select, label, button {
+	color: @inputTextColor;
+	font-family: @inputFontFamily;
+	font-size: @inputFontSize;
+	font-weight: @inputFontWeight;
+	line-height: @inputLineHeight;
+}
+label {
+	color: lighten(@black, 71%);
+	font-family: @baseFontFamily;
+}
+
+input[type="text"],
+input[type="password"],
+textarea,
+select,
+.inputButton {
+	background: @inputBackground;
+	border: @inputBorder;
+	padding: @inputPadding;
+	.border-radius(@inputBorderRadius);
+	.box-shadow(@inputBoxShadow);
+	.transition(.3s);
+	&:hover{
+		border-color: @grey;
+	}
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+.inputButton:focus {
+	border-color: @grey;
+  /*.box-shadow(@inputBoxShadowFocus);*/
+  outline: 0;
+  outline: thin dotted \9; /* IE6-9 */
+}
+
+input[type="file"]:focus,
+input[type="radio"]:focus,
+input[type="checkbox"]:focus,
+select:focus {
+  .box-shadow(none);
+  .tab-focus();
+}
+
+fieldset {
+	border: @fieldsetBorder;
+	margin: @fieldsetMargin;
+	padding: @fieldsetPadding;
+	legend {
+		background: @legendBackground;
+		display: @legendDisplay;
+		font-family: @legendFontFamily;
+		font-size: @legendFontSize;
+		font-weight: @legendFontWeight;
+		color: @legendColor;
+		margin: @legendMargin;
+		padding: @legendPadding;
+		width: @legendWidth;
+	}
+	.smallInput {
+		width: @smallInputWidth;
+	}
+	.tinyInput {
+		width: @tinyInputWidth;
+	}
+	p {
+		clear: @fieldsetPClear;
+		overflow: @fieldsetPOverflow;
+		margin: @fieldsetPMargin;
+		padding: @fieldsetPPadding;
+	}
+}
+
+::-webkit-input-placeholder,
+:-moz-placeholder,
+::-moz-placeholder,
+:-ms-input-placeholder,
+input.placeholder {
+   color: @placeholderText;
+}

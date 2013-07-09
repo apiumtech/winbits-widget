@@ -1,0 +1,10 @@
+<li data-id="{{skuProfile.id}}">
+  <a href="#"><img class="cart-detail-thumb" src="{{skuProfile.item.thumbnail}}"></a>
+  <p class="descriptionItem cart-detail-name">{{skuProfile.item.name}}</p>
+  <label>Cantidad</label>
+  <input type="text" class="inputStepper cart-detail-quantity" value="{{quantity}}">
+  <p class="priceItem cart-detail-price">{{skuProfile.item.vertical.name}}</p>
+  <span class="verticalName">Producto de <em class="cart-detail-vertical">{{skuProfile.item.vertical.name}}</em></span>
+  <span class="deleteItem"><a href="#" class="cart-detail-delete-link">eliminar</a></span>
+</li>
+
