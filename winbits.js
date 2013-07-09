@@ -199,97 +199,7 @@ Winbits.initWidgets = function ($) {
 Winbits.initControls = function($) {
   Winbits.$widgetContainer.find(":input[placeholder]").placeholder();
   Winbits.$widgetContainer.find('form').validate();
-//  var $form = Winbits.$widgetContainer.find('#wb-change-password-form');
-//  $form.find('.editBtn').click(function(e) {
-//    if (!Winbits.$widgetContainer.find('#wb-change-password-form').valid()) {
-//      e.stopImmediatePropagation();
-//    };
-//  });
-  changeShippingAddress({
-    obj: '.shippingAddresses',
-    objetivo: '.shippingItem',
-    activo: 'shippingSelected',
-    inputradio: '.shippingRadio'
-  });
-  customCheckbox('.checkbox');
-  customRadio('.divGender');
-  customSelect ('.select');
-  customSlider('.slideInput');
-  customStepper('.inputStepper');
-  dropMenu({
-    obj: '.miCuentaDiv',
-    clase: '.dropMenu',
-    trigger: '.triggerMiCuenta',
-    other: '.miCarritoDiv'
-  });
-  dropMenu({
-    obj: '.miCarritoDiv',
-    clase: '.dropMenu',
-    trigger: '.shopCarMin',
-    other: '.miCuentaDiv'
-  });
-  openFolder({
-    obj: '.knowMoreMin',
-    trigger: '.knowMoreMin .openClose',
-    objetivo: '.knowMoreMax'
-  });
-  openFolder({
-    obj: '.knowMoreMax',
-    trigger: '.knowMoreMax .openClose',
-    objetivo: '.knowMoreMin'
-  });
-  openFolder({
-    obj: '.myProfile .miPerfil',
-    trigger:  '.myProfile .miPerfil .editBtn',
-    objetivo: '.myProfile .editMiPerfil'
-  });
-  openFolder({
-    obj: '.myProfile .editMiPerfil',
-    trigger: '.myProfile .editMiPerfil .editBtn',
-    objetivo: '.myProfile .miPerfil'
-  });
-  openFolder({
-    obj: '.myProfile .miPerfil',
-    trigger: '.myProfile .miPerfil .changePassBtn',
-    objetivo: '.myProfile .changePassDiv'
-  });
-  openFolder({
-    obj: '.myProfile .changePassDiv',
-    trigger: '.myProfile .changePassDiv .editBtn',
-    objetivo: '.myProfile .miPerfil'
-  });
-  openFolder({
-    obj: '.myAddress .miDireccion',
-    trigger: '.myAddress .miDireccion .editBtn, .myAddress .miDireccion .changeAddressBtn',
-    objetivo: '.myAddress .editMiDireccion'
-  });
-  openFolder({
-    obj: '.myAddress .editMiDireccion',
-    trigger: '.myAddress .editMiDireccion .editBtn',
-    objetivo: '.myAddress .miDireccion'
-  });
-  openFolder({
-    obj: '.mySuscription .miSuscripcion',
-    trigger: '.mySuscription .miSuscripcion .editBtn, .mySuscription .miSuscripcion .editLink',
-    objetivo: '.mySuscription .editSuscription'
-  });
-  openFolder({
-    obj: '.mySuscription .editSuscription',
-    trigger: '.mySuscription .editSuscription .editBtn',
-    objetivo: '.mySuscription .miSuscripcion'
-  });
-  openFolder({
-    obj: '.shippingAddresses',
-    trigger: '.shippingAdd',
-    objetivo: '.shippingNewAddress'
-  });
-  openFolder({
-    obj: '.shippingNewAddress',
-    trigger: '.submitButton .btnCancel',
-    objetivo: '.shippingAddresses'
-  });
-  sendEmail('.btnSmall');
-  verticalCarousel('.carritoDivLeft .carritoContainer');
+  WinbitsControls.init();
   console.log('Winibits Initialized');
 };
 
@@ -487,7 +397,7 @@ Winbits.loadUserProfile = function($, profile) {
       }
       $($verticalCheck[1]).text(subscription.name);
       $subscriptionsChecklist.append($verticalCheck);
-      customCheckbox($checkbox);
+      WinbitsControls.customCheckbox($checkbox);
     });
 //    $mySubscriptionsPanel.find('.subscriptions-periodicity').text();
   }
@@ -1059,7 +969,7 @@ Winbits.addCartDetailInto = function($, cartDetail, cartDetailsList) {
   $cartDetail.attr('data-id', cartDetail.skuProfile.id);
   $cartDetail.find('.cart-detail-thumb').attr('src', cartDetail.skuProfile.item.thumbnail).attr('alt', '[thumbnail]');
   $cartDetail.find('.cart-detail-name').text(cartDetail.skuProfile.item.name);
-  customStepper($cartDetail.find('.cart-detail-quantity').val(cartDetail.quantity)).on('step', function(e, previous) {
+  WinbitsControls.customStepper($cartDetail.find('.cart-detail-quantity').val(cartDetail.quantity)).on('step', function(e, previous) {
     var $cartDetailStepper = $(this);
     var val = parseInt($cartDetailStepper.val());
     if (previous != val) {
