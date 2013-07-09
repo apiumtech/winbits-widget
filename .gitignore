@@ -19,3 +19,4 @@ node_modules/
 widgets.iml
 .tmp/resources
 .tmp
+app/config.coffee

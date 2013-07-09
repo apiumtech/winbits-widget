@@ -1,7 +1,7 @@
 module.exports =
-    apiUrl: "https://api.winbits.com/v1"
-    baseUrl: "http://widgets.winbits.com/prod"
-    loginRedirectUrl: "http://widgets/winbits.com/prod/ilogin.html"
+    apiUrl: "https://apiqa.winbits.com/v1"
+    baseUrl: "http://widgets.winbits.com/qa"
+    loginRedirectUrl: "http://widgets/winbits.com/qa/ilogin.html"
     errorFormClass: "error-form"
     errorClass: "error"
     verticalId: 1
