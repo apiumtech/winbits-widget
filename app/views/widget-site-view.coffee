@@ -17,7 +17,7 @@ module.exports = class WidgetSiteView extends View
   initialize: ->
     super
     @delegate 'click', '#btn-login', @showLoginLayer
-    @delegate 'click', '.close-icon', @closeModal
+    @delegate 'click', '.close-modal', @closeModal
     @delegate 'click', 'i.close-icon', @closeModal
     @delegate 'click', '#registerLink', @viewRegister
     @delegate 'click', '#viewVideoLink', @viewVideo
@@ -85,15 +85,14 @@ module.exports = class WidgetSiteView extends View
     $('.modal').modal 'hide'
 
   showConfirmation: () ->
-    e.preventDefault()
     console.log "WidgetSiteView#showConfirmation"
     #console.log $("#login-layer")
     maxHeight = $(window).height() - 200
-    $("#register-confirmation-modal .modal-body").css("max-height", maxHeight)
-    $("#register-confirmation-modal").modal( 'show' ).css {
+    $("#register-confirm-modal .modal-body").css("max-height", maxHeight)
+    $("#register-confirm-modal").modal( 'show' ).css {
       'background-color': 'transparent',
       float: 'left',
-      width: '330px',
+      width: '625px',
       'margin-left': -> -( $( this ).width() / 2 )
       top: '50%',
       'max-height': maxHeight,

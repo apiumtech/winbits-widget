@@ -47,7 +47,7 @@ module.exports = class RegisterView extends View
         console.log "Request Success!"
         console.log ["data", data]
         $('.modal').modal 'hide'
-        @publishEvent "showConfirmation"
+        that.publishEvent "showConfirmation"
 
 
       error: (xhr, textStatus, errorThrown) ->
