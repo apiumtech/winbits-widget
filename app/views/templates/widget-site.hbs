@@ -54,9 +54,9 @@
       </nav>
         <div class="login miCuenta" id="headerNotLogin" style="display:block">
           <ul>
-            <li class="link">Ver video</li>
+            <li class="link" id="viewVideoLink">Ver video</li>
             <li class="link">
-              <a href="#register-layer" id="registerLink" class="fancybox">Registrate</a>
+              <a href="#register-layer" id="registerLink">Registrate</a>
             </li>
             <li class="cart-placeholder">
                 <span class="spanDropMenu"><span class="cart-items-count reseteable" data-reset-text="0">0</span><span class="icon shopCarMin"></span></span>
@@ -125,7 +125,18 @@
   <div id='login-modal' class="modal hide fade">
       <i class="close-icon" id="close-login"></i>
       <div class="modal-body" id="login-modal-body" style="padding:0px"></div>
-    </div>
+  </div>
+  <div id='view-video-modal' class="modal hide fade">
+      <i class="close-icon" id="close-login"></i>
+      <div class="modal-body" style="padding:0px">
+        <iframe width="560" height="315" src="//www.youtube.com/embed/CTJvLVprGpU" frameborder="0" allowfullscreen></iframe>
+      </div>
+  </div>
+  <div id='register-modal' class="modal hide fade">
+      <i class="close-icon" id="close-login"></i>
+      <div class="modal-body" id="register-modal-body" height="315" style="padding:0px">
+      </div>
+  </div>
   {{!<div id="winbits-iframe-holder" style="position: fixed; top: -1000px;"></div>}}
   <div id="winbits-iframe-holder" style="position: fixed;left:-3px"></div>
   <div id="hidden-stuff-holder" style="display: none;">

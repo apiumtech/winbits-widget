@@ -18,6 +18,8 @@ module.exports = class WidgetSiteView extends View
     super
     @delegate 'click', '#btn-login', @showLoginLayer
     @delegate 'click', 'i.close-icon', @closeLoginPanel
+    @delegate 'click', '#registerLink', @viewRegister
+    @delegate 'click', '#viewVideoLink', @viewVideo
     @subscribeEvent 'showHeaderLogin', @showHeaderLogin
     @subscribeEvent 'showHeaderLogout', @showHeaderLogout
     @subscribeEvent 'resetComponents', @resetComponents
@@ -37,6 +39,38 @@ module.exports = class WidgetSiteView extends View
       'background-color': 'transparent',
       float: 'left',
       width: '330px',
+      'margin-left': -> -( $( this ).width() / 2 )
+      top: '50%',
+      'max-height': maxHeight,
+      'margin-top': -> -(  $( this ).height() / 2 )
+    }
+
+  viewRegister: (e)->
+    e.preventDefault()
+    console.log "WidgetSiteView#viewRegister"
+    #console.log $("#login-layer")
+    maxHeight = $(window).height() - 200
+    $("#login-modal .modal-body").css("max-height", maxHeight)
+    $("#login-modal").modal( 'show' ).css {
+      'background-color': 'transparent',
+      float: 'left',
+      width: '330px',
+      'margin-left': -> -( $( this ).width() / 2 )
+      top: '50%',
+      'max-height': maxHeight,
+      'margin-top': -> -(  $( this ).height() / 2 )
+    }
+
+  viewVideo: (e)->
+    e.preventDefault()
+    console.log "WidgetSiteView#viewVideo"
+    #console.log $("#login-layer")
+    maxHeight = $(window).height() - 200
+    $("#view-video-modal .modal-body").css("max-height", maxHeight)
+    $("#view-video-modal").modal( 'show' ).css {
+      'background-color': 'transparent',
+      float: 'left',
+      width: '560px',
       'margin-left': -> -( $( this ).width() / 2 )
       top: '50%',
       'max-height': maxHeight,
