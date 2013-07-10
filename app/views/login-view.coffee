@@ -15,7 +15,6 @@ module.exports = class LoginView extends View
     console.log "(>_<)"
     super
 
-
   initialize: ->
     super
     @delegate 'click', '#form-login-btn', @doLogin
@@ -59,4 +58,22 @@ module.exports = class LoginView extends View
 
       complete: ->
         console.log "Request Completed!"
+
+#todo put this on template
+  renderLoginFormErrors : (form, error) ->
+    if error.meta.code is "AFER004"
+      $resendConfirmLink = $("<a href=\"" + error.response.resendConfirmUrl + "\">Reenviar correo de confirmaci&oacute;n</a>")
+      $resendConfirmLink.click (e) ->
+        e.preventDefault()
+        Winbits.resendConfirmLink $, e.target
+
+      $errorMessageHolder = $("<p>" + error.meta.message + ". <span class=\"link-holder\"></span></p>")
+      $errorMessageHolder.find(".link-holder").append $resendConfirmLink
+      message = error.message or error.meta.message
+      $errors = $form.find(".errors")
+      $errors.children().remove()
+      $errors.append $errorMessageHolder
+    else
+      message = error.message or error.meta.message
+      $form.find(".errors").html "<p>" + message + "</p>"
 

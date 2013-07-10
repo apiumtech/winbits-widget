@@ -6,6 +6,7 @@ CartView = require 'views/cart-view'
 WidgetSiteView = require 'views/widget-site-view'
 SubscriptionView = require 'views/subscription-view'
 Subscription = require "models/subscription"
+RegisterView = require "views/register-view"
 Address = require "models/address"
 Profile = require "models/profile"
 Cart = require "models/cart"
@@ -30,6 +31,7 @@ module.exports = class HomeController extends ChaplinController
     @addressView = new AddressView(model: @address)
     @profileView = new ProfileView(model: @profile )
     @cartView = new CartView(model:@cart)
+    @registerView = new RegisterView()
     @profile.on "change", ->
       console.log "profileChanged"
       that.profileView.render()

@@ -17,13 +17,15 @@ module.exports = class WidgetSiteView extends View
   initialize: ->
     super
     @delegate 'click', '#btn-login', @showLoginLayer
-    @delegate 'click', 'i.close-icon', @closeLoginPanel
+    @delegate 'click', '.close-icon', @closeModal
+    @delegate 'click', 'i.close-icon', @closeModal
     @delegate 'click', '#registerLink', @viewRegister
     @delegate 'click', '#viewVideoLink', @viewVideo
     @subscribeEvent 'showHeaderLogin', @showHeaderLogin
     @subscribeEvent 'showHeaderLogout', @showHeaderLogout
     @subscribeEvent 'resetComponents', @resetComponents
     @subscribeEvent 'updateCartCounter', @updateCartCounter
+    @subscribeEvent 'showConfirmation', @showConfirmation
 
   updateCartCounter: (count)->
     console.log ["WidgetSiteView#updateCartCounter " + count]
@@ -50,11 +52,11 @@ module.exports = class WidgetSiteView extends View
     console.log "WidgetSiteView#viewRegister"
     #console.log $("#login-layer")
     maxHeight = $(window).height() - 200
-    $("#login-modal .modal-body").css("max-height", maxHeight)
-    $("#login-modal").modal( 'show' ).css {
+    $("#register-modal .modal-body").css("max-height", maxHeight)
+    $("#register-modal").modal( 'show' ).css {
       'background-color': 'transparent',
       float: 'left',
-      width: '330px',
+      width: '534px',
       'margin-left': -> -( $( this ).width() / 2 )
       top: '50%',
       'max-height': maxHeight,
@@ -77,11 +79,26 @@ module.exports = class WidgetSiteView extends View
       'margin-top': -> -(  $( this ).height() / 2 )
     }
 
-  closeLoginPanel: (event) ->
+  closeModal: (event) ->
     event?.preventDefault()
     event?.stopPropagation()
     $('.modal').modal 'hide'
 
+  showConfirmation: () ->
+    e.preventDefault()
+    console.log "WidgetSiteView#showConfirmation"
+    #console.log $("#login-layer")
+    maxHeight = $(window).height() - 200
+    $("#register-confirmation-modal .modal-body").css("max-height", maxHeight)
+    $("#register-confirmation-modal").modal( 'show' ).css {
+      'background-color': 'transparent',
+      float: 'left',
+      width: '330px',
+      'margin-left': -> -( $( this ).width() / 2 )
+      top: '50%',
+      'max-height': maxHeight,
+      'margin-top': -> -(  $( this ).height() / 2 )
+    }
 
   showHeaderLogin: () ->
     console.log "WidgetSiteView#showHeaderLogin"
