@@ -25,7 +25,7 @@ module.exports = class LoginView extends View
     console.log "Do Login:"
     $form = $(e.currentTarget).parents("form")
     formData = verticalId: config.verticalId
-    formData = util.Forms.serializeForm($, $form, formData)
+    formData = util.Forms.serializeForm($form, formData)
     console.log ["Login Data", formData]
     that = @
     $.ajax config.apiUrl + "/affiliation/login.json",

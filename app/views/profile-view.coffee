@@ -46,7 +46,7 @@ module.exports = class ProfileView extends View
     if $form.valid()
       data: JSON.stringify(formData)
       formData = { verticalId: config.verticalId }
-      formData = util.Forms.serializeForm($, $form, formData)
+      formData = util.Forms.serializeForm($form, formData)
       console.log formData
       @model.set formData
       @model.sync 'update', @model,
@@ -77,4 +77,5 @@ module.exports = class ProfileView extends View
       obj: ".myProfile .changePassDiv"
       trigger: ".myProfile .changePassDiv"
       objetivo: ".myProfile .miPerfil"
+
 

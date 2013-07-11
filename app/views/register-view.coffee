@@ -27,7 +27,7 @@ module.exports = class RegisterView extends View
     console.log $form
     that = @
     formData = verticalId: config.verticalId
-    formData = util.Forms.serializeForm($, $form, formData)
+    formData = util.Forms.serializeForm($form, formData)
     console.log ["Register Data", formData]
     $.ajax config.apiUrl + "/affiliation/register.json",
       type: "POST"
@@ -71,7 +71,7 @@ module.exports = class RegisterView extends View
     year = $form.find("#year-input").val()
     $form.find("[name=birthdate]").val ((if year > 13 then "19" else "20")) + year + "-" + month + "-" + day  if day or month or year
     formData = verticalId: config.verticalId
-    formData = util.Forms.serializeForm($, $form, formData)
+    formData = util.Forms.serializeForm($form, formData)
     delete formData.location  if formData.location is $form.find("[name=location]").attr("placeholder")
     formData.gender = (if formData.gender is "H" then "male" else "female")  if formData.gender
     $.ajax config.apiUrl + "/affiliation/profile.json",

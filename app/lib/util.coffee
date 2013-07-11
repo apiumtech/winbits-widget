@@ -50,9 +50,8 @@ util.alertErrors = ($) ->
 
 
 util.Forms = util.Forms or {}
-util.Forms.serializeForm = ($, form, context) ->
+util.Forms.serializeForm = ($form, context) ->
   formData = context or {}
-  $form = $(form)
   $.each $form.serializeArray(), (i, f) ->
     formData[f.name] = f.value
 
@@ -142,5 +141,30 @@ util.resetComponents = ($selector)->
       else
         $reseteable.val ""
     )
+
+
+# +++++++++++++++++++++++++++++++++++++++++
+#      CUSTOMCHECKBOX: Cambiar checkbox
+# +++++++++++++++++++++++++++++++++++++++++
+util.customCheckbox = (obj) ->
+  if $(obj).length
+    $(obj).each ->
+      $this = $(this)
+      $clase = undefined
+      if $this.prop("checked")
+        $clase = "selectCheckbox"
+      else
+        $clase = "unselectCheckbox"
+      $(this).next().andSelf().wrapAll "<div class=\"divCheckbox\"/>"
+      $this.parent().prepend "<span class=\"icon spanCheckbox " + $clase + "\"/>"
+      $this.parent().find(".spanCheckbox").click ->
+        if $this.attr("checked")
+          $(this).removeClass "selectCheckbox"
+          $(this).addClass "unselectCheckbox"
+          $this.attr "checked", false
+        else
+          $(this).removeClass "unselectCheckbox"
+          $(this).addClass "selectCheckbox"
+          $this.attr "checked", true
 
 module.exports =  util

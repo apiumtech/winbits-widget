@@ -25,13 +25,14 @@
 <div class="editSuscription">
   <h3>¿De cuál de nuestros sitios te gustaría recibir información?</h3>
   <fieldset class="wb-subscriptions-checklist">
+    <form id='formUpdateSubscription'>
     {{#each subscriptions}}
     <div class="divCheckbox">
-      <span class="icon spanCheckbox {{#if active}}selectCheckbox{{else}}unselectCheckbox{{/if}}"></span>
-      <input type="checkbox" id="{{id}}" name="{{name}}" {{#if active}}checked="checked"{{/if}} class="checkbox" value="{{name}}">
+      <input type="checkbox" name="{{name}}" id="{{id}}-chk" {{#if active}}checked="checked"{{/if}} class="checkbox" value="{{id}}">
       <label class="checkboxLabel" for="{{name}}">{{name}}</label>
     </div>
     {{/each}}
+  </form>
   </fieldset>
-  <input class="btn editBtn"  value="Guardar">
+  <input class="btn editBtn" id="saveBntSubscription" value="Guardar">
 </div>
