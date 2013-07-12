@@ -14,7 +14,7 @@
       "name": "ci",
       "desc": "ci enviroment",
       "config": {
-        "apiUrl": "http://apiqa.winbits.com/v1",
+        "apiUrl": "http://staging.winbits.com/v1",
         "baseUrl": "http://widgets.winbits.com/ci",
         "loginRedirectUrl": "http://widgets.winbits.com/ci/ilogin.html"
       }
