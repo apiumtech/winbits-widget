@@ -11,6 +11,15 @@
       }
     },
     {
+      "name": "ci",
+      "desc": "ci enviroment",
+      "config": {
+        "apiUrl": "http://apiqa.winbits.com/v1",
+        "baseUrl": "http://widgets.winbits.com/ci",
+        "loginRedirectUrl": "http://widgets.winbits.com/ci/ilogin.html"
+      }
+    },
+    {
       "name": "qa",
       "desc": "qa enviroment",
       "config": {
