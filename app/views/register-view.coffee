@@ -1,4 +1,4 @@
-template = require 'views/templates/register'
+template = require 'views/templates/widget/register'
 View = require 'views/base/view'
 config = require 'config'
 util = require 'lib/util'

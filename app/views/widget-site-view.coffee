@@ -1,6 +1,7 @@
 View = require 'views/base/view'
-template = require 'views/templates/widget-site'
+template = require 'views/templates/widget/widget-site'
 util = require 'lib/util'
+config = require 'config'
 ProxyInit = require 'lib/proxyInit'
 
 # Site view is a top-level view which is bound to body.
@@ -157,5 +158,7 @@ module.exports = class WidgetSiteView extends View
     console.log "WidgetSiteView#postCheckout"
     $chkForm = @$el.find("#chk-form")
     console.log $chkForm
-    $chkForm.attr("action", config.baseUrl + "checkout.php")
+    $verticalId = $chkForm.find("#verticalId").val(config.verticalId)
+    $chkForm.attr("action", config.baseUrl + "/checkout.php")
+    $chkForm.submit()
 

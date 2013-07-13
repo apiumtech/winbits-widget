@@ -6,7 +6,7 @@
 
 # Map helpers
 # -----------
-cartDetail = require 'views/templates/cartDetail'
+cartDetail = require 'views/templates/widget/cartDetail'
 
 # Make 'with' behave a little more mustachey.
 Handlebars.registerHelper 'with', (context, options) ->
