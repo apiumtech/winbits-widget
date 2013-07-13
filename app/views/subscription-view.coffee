@@ -16,10 +16,16 @@ module.exports = class SubscriptionView extends View
     super
     @delegate 'click', '#editBtnSubscription', @editSubscription
     @delegate 'click', '#saveBntSubscription', @saveSubscription
+    @delegate 'click', '#cancelEditSubscription', @cancelEditSubscription
 
   editSubscription: (e)->
     @$el.find(".miSuscripcion").slideUp()
     @$el.find(".editSuscription").slideDown()
+
+  cancelEditSubscription: (e)->
+    e.preventDefault()
+    @$el.find(".miSuscripcion").slideDown()
+    @$el.find(".editSuscription").slideUp()
 
   cancelEditSubscription: (e)->
     e.preventDefault()
@@ -58,8 +64,9 @@ module.exports = class SubscriptionView extends View
         "WB-Api-Token": util.getCookie(config.apiTokenName)
 
       success: (data) ->
-        console.log ["Subscription updated", data.response]
-        that.publishEvent 'setSubscription', data.response
+        console.log ["Subscription updated1", data.response]
+        console.log subscriptions:data.response
+        that.publishEvent 'setSubscription', {subscriptions:data.response}
 
       error: (xhr, textStatus, errorThrown) ->
         error = JSON.parse(xhr.responseText)

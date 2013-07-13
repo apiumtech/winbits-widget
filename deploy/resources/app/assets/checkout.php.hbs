@@ -13,18 +13,21 @@
   <link rel="icon" href="images/favicon.ico" type="image/vnd.microsoft.icon">
   <link rel="author" href="humans.txt">
   <title>Looq</title>
-  <link rel="stylesheet" href="http://widgets.winbits.com/qa/stylesheets/app.css">
-  <script src="http://widgets.winbits.com/qa/javascripts/vendor.js"></script>
-  <script type="text/javascript"> var Winbits = { userConfig: { verticalId: 2, proxyUrl: 'http://www.looq.com/proxy.html' } }; </script>
-  <script src="http://widgets.winbits.com/qa/javascripts/app.js"></script>
+  <link rel="stylesheet" href="{{baseUrl}}/stylesheets/app.css">
+  <script src="{{baseUrl}}/javascripts/vendor.js"></script>
+  <script type="text/javascript">
+    var Winbits = { userConfig: { verticalId: 2, proxyUrl: 'http://www.looq.com/proxy.html' } };
+    window.some_variable = '<?=json_decode($_POST)?>';
+  </script>
+  <script src="{{baseUrl}}/javascripts/app.js"></script>
   <script>require('initialize');</script>
 </head>
 <body>
 <header>
   <div id="winbits-widget"></div>
 </header>
-<main style="background-color:yellow">
-<div>www.looq.com</div>
+<main style="background-color:blue">
+<div>checkout</div>
 </main>
 </body>
 </html>

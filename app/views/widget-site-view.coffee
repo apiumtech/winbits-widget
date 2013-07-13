@@ -26,6 +26,7 @@ module.exports = class WidgetSiteView extends View
     @subscribeEvent 'resetComponents', @resetComponents
     @subscribeEvent 'updateCartCounter', @updateCartCounter
     @subscribeEvent 'showConfirmation', @showConfirmation
+    @subscribeEvent 'postCheckout', @postCheckout
 
   updateCartCounter: (count)->
     console.log ["WidgetSiteView#updateCartCounter " + count]
@@ -151,4 +152,10 @@ module.exports = class WidgetSiteView extends View
       trigger: ".knowMoreMax .openClose"
       objetivo: ".knowMoreMin"
 
+  postCheckout: (e)->
+    e.preventDefault()
+    console.log "WidgetSiteView#postCheckout"
+    $chkForm = @$el.find("#chk-form")
+    console.log $chkForm
+    $chkForm.attr("action", config.baseUrl + "checkout.php")
 
