@@ -43,5 +43,5 @@ module.exports = class HomeController extends ChaplinController
       console.log "subscriptionChanged"
       that.subscriptionView.render()
     #Exporting fucntion
-    Window.Winbits.addToCart = (item)->
+    window.Winbits.addToCart = (item)->
       that.cartView.addToCart(item)
