@@ -21,12 +21,12 @@ module.exports = class WidgetSiteView extends View
     @delegate 'click', 'i.close-icon', @closeModal
     @delegate 'click', '#registerLink', @viewRegister
     @delegate 'click', '#viewVideoLink', @viewVideo
+    @delegate 'click', '#postCheckout', @postCheckout
     @subscribeEvent 'showHeaderLogin', @showHeaderLogin
     @subscribeEvent 'showHeaderLogout', @showHeaderLogout
     @subscribeEvent 'resetComponents', @resetComponents
     @subscribeEvent 'updateCartCounter', @updateCartCounter
     @subscribeEvent 'showConfirmation', @showConfirmation
-    @subscribeEvent 'postCheckout', @postCheckout
 
   updateCartCounter: (count)->
     console.log ["WidgetSiteView#updateCartCounter " + count]
