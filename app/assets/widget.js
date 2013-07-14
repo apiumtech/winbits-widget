@@ -1,29 +1,35 @@
 (function(){
+var JavaScript = {
+  load: function(src, callback) {
+    var script = document.createElement('script'),
+        loaded;
+    script.setAttribute('src', src);
+    if (callback) {
+      script.onreadystatechange = script.onload = function() {
+        if (!loaded) {
+          callback();
+        }
+        loaded = true;
+      };
+    }
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+};
 var head= document.getElementsByTagName('head')[0];
-
-
 var css= document.createElement('link');
- css.setAttribute("rel", "stylesheet");
- css.setAttribute("type", "text/css");
- css.setAttribute("href", "http://widgets.winbits.com/qa/stylesheets/app.css");
- head.appendChild(css);
+css.setAttribute("rel", "stylesheet");
+css.setAttribute("type", "text/css");
+css.setAttribute("href", "http://widgets.winbits.com/qa/stylesheets/app.css");
+head.appendChild(css);
 
-var vendor= document.createElement('script');
- vendor.type= 'text/javascript';
- vendor.src= 'http://widgets.winbits.com/qa/javascripts/vendor.js';
- head.appendChild(vendor);
+JavaScript.load('http://widgets.winbits.com/qa/javascripts/vendor.js', function() {
+});
 
-var app= document.createElement('script');
- app.type= 'text/javascript';
- app.src= 'http://widgets.winbits.com/qa/javascripts/app.js';
- head.appendChild(app);
+JavaScript.load('http://widgets.winbits.com/qa/javascripts/app.js', function() {
+  require('initialize');
+});
 
- app.onreadystatechange= function () {
- if (this.readyState == 'complete'){
-  console.log("weeeeee");
-        require('initialize')
-   }
- }
+
 
 })();
 
