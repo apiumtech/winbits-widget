@@ -22,12 +22,19 @@ css.setAttribute("type", "text/css");
 css.setAttribute("href", "http://widgets.winbits.com/qa/stylesheets/app.css");
 head.appendChild(css);
 
-JavaScript.load('http://widgets.winbits.com/qa/javascripts/vendor.js', function() {
+JavaScript.load('//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js', function() {
+  window.w$ = $.noConflict(true);
+  JavaScript.load('http://widgets.winbits.com/qa/javascripts/vendor.js', function() {
+  });
+  console.log(window.w$);
+  window.w$(document).ready(function($) {
+  // We can use jQuery 1.4.2 herea
+  console.log("----->>>");
+    });
 });
 
-JavaScript.load('http://widgets.winbits.com/qa/javascripts/app.js', function() {
-  require('initialize');
-});
+//JavaScript.load('http://widgets.winbits.com/qa/javascripts/app.js', function() {
+//});
 
 
 

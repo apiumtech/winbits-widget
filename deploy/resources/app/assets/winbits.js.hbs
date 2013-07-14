@@ -22,12 +22,19 @@ css.setAttribute("type", "text/css");
 css.setAttribute("href", "{{baseUrl}}/stylesheets/app.css");
 head.appendChild(css);
 
-JavaScript.load('{{baseUrl}}/javascripts/vendor.js', function() {
+JavaScript.load('//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js', function() {
+  window.w$ = $.noConflict(true);
+  JavaScript.load('{{baseUrl}}/javascripts/vendor.js', function() {
+  });
+  console.log(window.w$);
+  window.w$(document).ready(function($) {
+  // We can use jQuery 1.4.2 herea
+  console.log("----->>>");
+    });
 });
 
-JavaScript.load('{{baseUrl}}/javascripts/app.js', function() {
-  require('initialize');
-});
+//JavaScript.load('{{baseUrl}}/javascripts/app.js', function() {
+//});
 
 
 

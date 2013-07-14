@@ -1,4 +1,5 @@
 HomeController = require 'controllers/home-controller'
+ChkController = require 'controllers/checkout-controller'
 ChaplinMediator = require 'chaplin/mediator'
 LoginUtil = require 'lib/loginUtil'
 ProxyHandlers = require 'lib/proxyHandlers'
@@ -14,14 +15,16 @@ module.exports = class Application
   # “Controller title – Site title” (see Chaplin.Layout#adjustTitle)
   #title: 'Brunch example application'
 
-  initialize: ->
+  initialize: (checkout)->
     console.log config
     console.log window.Winbits
-    $.extend config, Winbits.userConfig or {}
-    console.log config
-    window.Winbits = {}
-    @initControllers()
-
+    if not checkout
+      $.extend config, Winbits.userConfig or {}
+      console.log config
+      window.Winbits = {}
+      @initHomeControllers()
+    else
+      @initChkControllers()
 
 
     # Mediator is a global message broker which implements pub / sub pattern.
@@ -41,7 +44,13 @@ module.exports = class Application
 
     @loginUtil = new LoginUtil()
     @proxyHandlers = new ProxyHandlers()
-  initControllers: ->
+
+  initHomeControllers: ->
     # These controllers are active during the whole application runtime.
     @homeController = new HomeController()
     @homeController.index()
+
+  initChkControllers: ->
+    # These controllers are active during the whole application runtime.
+    @chkController = new ChkController()
+    @chkController.index()
