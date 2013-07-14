@@ -2,6 +2,7 @@ HomeController = require 'controllers/home-controller'
 ChaplinMediator = require 'chaplin/mediator'
 LoginUtil = require 'lib/loginUtil'
 ProxyHandlers = require 'lib/proxyHandlers'
+config = require 'config'
 
 #routes = require 'routes'
 #_ = require 'underscore'
@@ -14,8 +15,14 @@ module.exports = class Application
   #title: 'Brunch example application'
 
   initialize: ->
-    Window.Winbits = {}
+    console.log config
+    console.log window.Winbits
+    $.extend config, Winbits.userConfig or {}
+    console.log config
+    window.Winbits = {}
     @initControllers()
+
+
 
     # Mediator is a global message broker which implements pub / sub pattern.
     @initMediator()
