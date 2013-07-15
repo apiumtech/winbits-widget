@@ -16,11 +16,11 @@ module.exports = class Application
   #title: 'Brunch example application'
 
   initialize: (checkout)->
-    console.log config
-    console.log window.Winbits
+    #console.log config
+    #console.log window.Winbits
+
     if not checkout
-      $.extend config, Winbits.userConfig or {}
-      console.log config
+      w$.extend config, Winbits.userConfig or {}
       window.Winbits = {}
       @initHomeControllers()
     else
@@ -42,11 +42,11 @@ module.exports = class Application
     ChaplinMediator.proxy = {}
     ChaplinMediator.seal()
 
-    @loginUtil = new LoginUtil()
-    @proxyHandlers = new ProxyHandlers()
 
   initHomeControllers: ->
     # These controllers are active during the whole application runtime.
+    @loginUtil = new LoginUtil()
+    @proxyHandlers = new ProxyHandlers()
     @homeController = new HomeController()
     @homeController.index()
 

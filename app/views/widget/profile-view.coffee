@@ -13,6 +13,7 @@ module.exports = class ProfileView extends View
 
   render: ->
     console.log "(:})"
+    console.log @$
     super
 
 
@@ -46,7 +47,7 @@ module.exports = class ProfileView extends View
     if $form.valid()
       data: JSON.stringify(formData)
       formData = { verticalId: config.verticalId }
-      formData = util.Forms.serializeForm($form, formData)
+      formData = util.serializeForm($form, formData)
       console.log formData
       @model.set formData
       @model.sync 'update', @model,
@@ -68,12 +69,12 @@ module.exports = class ProfileView extends View
       birthdate:
         dateISO: true
 
-    util.openFolder
+    util.openFolder Backbone.$,
       obj: ".myProfile .miPerfil"
       trigger: ".myProfile .miPerfil .changePassBtn"
       objetivo: ".myProfile .changePassDiv"
 
-    util.openFolder
+    util.openFolder Backbone.$,
       obj: ".myProfile .changePassDiv"
       trigger: ".myProfile .changePassDiv"
       objetivo: ".myProfile .miPerfil"

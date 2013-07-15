@@ -70,7 +70,7 @@ module.exports = class CartView extends View
     console.log "CartView#attach"
     that = @
     @publishEvent "updateCartCounter", @model.get("itemsCount")
-    util.customStepper(@$el.find(".cart-detail-quantity")).on "step", (e, previous) ->
+    util.customStepper(Backbone.$, @$el.find(".cart-detail-quantity")).on "step", (e, previous) ->
       $cartDetailStepper = $(this)
       val = parseInt($cartDetailStepper.val())
       unless previous is val

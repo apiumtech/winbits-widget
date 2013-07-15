@@ -36,8 +36,9 @@ module.exports = class SubscriptionView extends View
   saveSubscription: (e)->
     console.log "SubscriptionView#saveSubscription"
     sbs = []
+    that = @
     @$el.find(".checkbox").each ->
-      $this = $(this)
+      $this = that.$(this)
       active = $this.attr("checked")
       if active is "checked"
         active = true
@@ -53,7 +54,7 @@ module.exports = class SubscriptionView extends View
 
     console.log sbs
     that = @
-    $.ajax config.apiUrl + "/affiliation/updateSubscriptions.json",
+    Backbone.$.ajax config.apiUrl + "/affiliation/updateSubscriptions.json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
@@ -78,4 +79,4 @@ module.exports = class SubscriptionView extends View
   attach: ()->
     super
     console.log ":o"
-    util.customCheckbox(@$el.find(".checkbox"))
+    util.customCheckbox(Backbone.$, @$el.find(".checkbox"))

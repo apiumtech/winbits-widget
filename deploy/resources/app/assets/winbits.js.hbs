@@ -25,17 +25,17 @@ head.appendChild(css);
 JavaScript.load('//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js', function() {
   window.w$ = $.noConflict(true);
   JavaScript.load('{{baseUrl}}/javascripts/vendor.js', function() {
+  Backbone.$ = window.w$;
   });
-  console.log(window.w$);
-  window.w$(document).ready(function($) {
-  // We can use jQuery 1.4.2 herea
-  console.log("----->>>");
-    });
+  JavaScript.load('{{baseUrl}}/javascripts/app.js', function() {
+    window.w$(document).ready(function($) {
+    var Application = require('application');
+    console.log(require);
+    console.log(Application);
+      (new Application).initialize();
+     });
+  });
 });
-
-//JavaScript.load('{{baseUrl}}/javascripts/app.js', function() {
-//});
-
 
 
 })();

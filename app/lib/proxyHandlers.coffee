@@ -31,7 +31,7 @@ module.exports = class ProxyHandlers
     console.log ["Facebook status", response]
     if response.status is "connected"
       mediator.Flags.fbConnect = true
-      $.ajax config.apiUrl + "/affiliation/express-facebook-login.json",
+      Backbone.$.ajax config.apiUrl + "/affiliation/express-facebook-login.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"

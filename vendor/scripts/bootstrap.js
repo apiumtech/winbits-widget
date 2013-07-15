@@ -19,9 +19,6 @@
 
 
 !function ($) {
-  console.log("-----><<<");
-  console.log($);
-  console.log(window);
 
   "use strict"; // jshint ;_;
 

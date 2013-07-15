@@ -23,12 +23,12 @@ module.exports = class LoginView extends View
     e.preventDefault()
     e.stopPropagation()
     console.log "Do Login:"
-    $form = $(e.currentTarget).parents("form")
+    $form = @$(e.currentTarget).parents("form")
     formData = verticalId: config.verticalId
-    formData = util.Forms.serializeForm($form, formData)
+    formData = util.serializeForm($form, formData)
     console.log ["Login Data", formData]
     that = @
-    $.ajax config.apiUrl + "/affiliation/login.json",
+    Backbone.$.ajax config.apiUrl + "/affiliation/login.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -48,7 +48,7 @@ module.exports = class LoginView extends View
         that.publishEvent "applyLogin", data.response
         #$.fancybox.close()
         #@loginModalPanel.fadeOut()
-        $('.modal').modal 'hide'
+        that.$('.modal').modal 'hide'
 
 
       error: (xhr, textStatus, errorThrown) ->
@@ -62,12 +62,12 @@ module.exports = class LoginView extends View
 #todo put this on template
   renderLoginFormErrors : (form, error) ->
     if error.meta.code is "AFER004"
-      $resendConfirmLink = $("<a href=\"" + error.response.resendConfirmUrl + "\">Reenviar correo de confirmaci&oacute;n</a>")
+      $resendConfirmLink = @$("<a href=\"" + error.response.resendConfirmUrl + "\">Reenviar correo de confirmaci&oacute;n</a>")
       $resendConfirmLink.click (e) ->
         e.preventDefault()
         Winbits.resendConfirmLink $, e.target
 
-      $errorMessageHolder = $("<p>" + error.meta.message + ". <span class=\"link-holder\"></span></p>")
+      $errorMessageHolder = @$("<p>" + error.meta.message + ". <span class=\"link-holder\"></span></p>")
       $errorMessageHolder.find(".link-holder").append $resendConfirmLink
       message = error.message or error.meta.message
       $errors = $form.find(".errors")

@@ -37,16 +37,16 @@ module.exports = class WidgetSiteView extends View
     e.preventDefault()
     console.log "WidgetSiteView#showLoginLayer"
     #console.log $("#login-layer")
-    maxHeight = $(window).height() - 200
-    $("#login-modal .modal-body").css("max-height", maxHeight)
-    $("#login-modal").modal( 'show' ).css {
+    maxHeight = Backbone.$(window).height() - 200
+    Backbone.$("#login-modal .modal-body").css("max-height", maxHeight)
+    Backbone.$("#login-modal").modal( 'show' ).css {
       'background-color': 'transparent',
       float: 'left',
       width: '330px',
-      'margin-left': -> -( $( this ).width() / 2 )
+      'margin-left': -> -( Backbone.$( this ).width() / 2 )
       top: '50%',
       'max-height': maxHeight,
-      'margin-top': -> -(  $( this ).height() / 2 )
+      'margin-top': -> -(  Backbone.$( this ).height() / 2 )
     }
 
   viewRegister: (e)->
@@ -84,21 +84,21 @@ module.exports = class WidgetSiteView extends View
   closeModal: (event) ->
     event?.preventDefault()
     event?.stopPropagation()
-    $('.modal').modal 'hide'
+    @$('.modal').modal 'hide'
 
   showConfirmation: () ->
     console.log "WidgetSiteView#showConfirmation"
     #console.log $("#login-layer")
-    maxHeight = $(window).height() - 200
-    $("#register-confirm-modal .modal-body").css("max-height", maxHeight)
-    $("#register-confirm-modal").modal( 'show' ).css {
+    maxHeight = Backbone.$(window).height() - 200
+    Backbone.$("#register-confirm-modal .modal-body").css("max-height", maxHeight)
+    Backbone.$("#register-confirm-modal").modal( 'show' ).css {
       'background-color': 'transparent',
       float: 'left',
       width: '625px',
-      'margin-left': -> -( $( this ).width() / 2 )
+      'margin-left': -> -( Backbone.$( this ).width() / 2 )
       top: '50%',
       'max-height': maxHeight,
-      'margin-top': -> -(  $( this ).height() / 2 )
+      'margin-top': -> -(  Backbone.$( this ).height() / 2 )
     }
 
   showHeaderLogin: () ->
@@ -130,25 +130,25 @@ module.exports = class WidgetSiteView extends View
       that.logout(e)
     )
 
-    util.dropMenu
+    util.dropMenu Backbone.$,
       obj: ".miCuentaDiv"
       clase: ".dropMenu"
       trigger: ".triggerMiCuenta"
       other: ".miCarritoDiv"
 
-    util.dropMenu
+    util.dropMenu Backbone.$,
       obj: ".miCarritoDiv"
       clase: ".dropMenu"
       trigger: ".shopCarMin"
       other: ".miCuentaDiv"
 
 
-    util.openFolder
+    util.openFolder Backbone.$,
       obj: ".knowMoreMin"
       trigger: ".knowMoreMin .openClose"
       objetivo: ".knowMoreMax"
 
-    util.openFolder
+    util.openFolder Backbone.$,
       obj: ".knowMoreMax"
       trigger: ".knowMoreMax .openClose"
       objetivo: ".knowMoreMin"

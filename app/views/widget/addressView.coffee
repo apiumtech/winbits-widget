@@ -10,16 +10,17 @@ module.exports = class AddressView extends View
 
   render: ->
     console.log "ಠ_ಠ"
+    console.log @$
     super
 
   attach: ->
     super
-    util.openFolder
+    util.openFolder Backbone.$,
       obj: ".myAddress .miDireccion"
       trigger: ".myAddress .miDireccion .editBtn, .myAddress .miDireccion .changeAddressBtn"
       objetivo: ".myAddress .editMiDireccion"
 
-    util.openFolder
+    util.openFolder Backbone.$,
       obj: ".myAddress .editMiDireccion"
       trigger: ".myAddress .editMiDireccion .editBtn"
       objetivo: ".myAddress .miDireccion"

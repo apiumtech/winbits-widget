@@ -18,13 +18,13 @@ module.exports = class LoginUtil
     @subscribeEvent 'initLogout', @initLogout
 
   expressLogin : () ->
-    #Winbits.checkRegisterConfirmation $
+    #Winbits.checkRegisterConfirmation Backbone.$
     console.log "LoginUtil#expressLogin"
     apiToken = util.getCookie(config.apiTokenName)
     console.log ["API Token", apiToken]
     that = @
     if apiToken
-      $.ajax config.apiUrl + "/affiliation/express-login.json",
+      Backbone.$.ajax config.apiUrl + "/affiliation/express-login.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
@@ -35,7 +35,7 @@ module.exports = class LoginUtil
         xhrFields:
           withCredentials: true
 
-        context: $
+        context: Backbone.$
         success: (data) ->
           console.log "express-login.json Success!"
           console.log ["data", data]
@@ -47,7 +47,7 @@ module.exports = class LoginUtil
           alert error.meta.message
 
     else
-      @expressFacebookLogin $
+      @expressFacebookLogin Backbone.$
 
   expressFacebookLogin : ($) ->
     console.log "Trying to login with facebook"
@@ -72,7 +72,7 @@ module.exports = class LoginUtil
   initLogout : () ->
     that = this
     console.log "initLogout"
-    $.ajax config.apiUrl + "/affiliation/logout.json",
+    Backbone.$.ajax config.apiUrl + "/affiliation/logout.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -84,7 +84,7 @@ module.exports = class LoginUtil
 
       success: (data) ->
         console.log "logout.json Success!"
-        that.applyLogout $, data.response
+        that.applyLogout Backbone.$, data.response
 
       error: (xhr, textStatus, errorThrown) ->
         console.log "logout.json Error!"
@@ -102,7 +102,7 @@ module.exports = class LoginUtil
       params: [mediator.flags.fbConnect]
 
     util.deleteCookie config.apiTokenName
-    @publishEvent "resetComponents"
+    @publishEvent "resetComponents", $
     @publishEvent "showHeaderLogout"
     mediator.flags.loggedIn = false
     mediator.flags.fbConnect = false

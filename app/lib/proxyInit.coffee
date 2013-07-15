@@ -11,13 +11,13 @@ module.exports = class ProxyInit
   constructor: () ->
     #@.initialize.apply this, arguments
     console.log "ProxyInit#constructor"
-    $widgetContainer = $('#' + config.winbitsDivId)
+    $widgetContainer = Backbone.$('#' + config.winbitsDivId)
 
 
     iframeSrc = config.baseUrl + "/winbits.html?origin=" + config.proxyUrl
     iframeStyle = "width:100%;border: 0px;overflow: hidden;"
     that = this
-    $iframe = $("<iframe id=\"winbits-iframe\" name=\"winbits-iframe\" height=\"30\" style=\"" + iframeStyle + "\" src=\"" + iframeSrc + "\"></iframe>").on("load", ->
+    $iframe = Backbone.$("<iframe id=\"winbits-iframe\" name=\"winbits-iframe\" height=\"30\" style=\"" + iframeStyle + "\" src=\"" + iframeSrc + "\"></iframe>").on("load", ->
       console.log "iframeLoaded"
       mediator.proxy = new Porthole.WindowProxy(config.baseUrl + "/proxy.html", "winbits-iframe")
       console.log mediator.proxy

@@ -30,7 +30,7 @@ module.exports = class Cart extends ChaplinModel
     console.log ["transferVirtualCart"]
     that = @
     formData = virtualCartData: JSON.parse(virtualCart)
-    $.ajax config.apiUrl + "/orders/assign-virtual-cart.json",
+    Backbone.$.ajax config.apiUrl + "/orders/assign-virtual-cart.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -60,7 +60,7 @@ module.exports = class Cart extends ChaplinModel
       quantity: quantity
       bits: bits or 0
     that = @
-    $.ajax config.apiUrl + "/orders/cart-items/" + id + ".json",
+    Backbone.$.ajax config.apiUrl + "/orders/cart-items/" + id + ".json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
@@ -85,7 +85,7 @@ module.exports = class Cart extends ChaplinModel
     @url = config.apiUrl + "/orders/virtual-cart-items/" + id + ".json"
     formData = quantity: quantity
     that = @
-    $.ajax config.apiUrl + "/orders/virtual-cart-items/" + id + ".json",
+    Backbone.$.ajax config.apiUrl + "/orders/virtual-cart-items/" + id + ".json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
@@ -156,7 +156,7 @@ module.exports = class Cart extends ChaplinModel
       quantity: quantity
       bits: bits
     that = this
-    $.ajax config.apiUrl + "/orders/cart-items.json",
+    Backbone.$.ajax config.apiUrl + "/orders/cart-items.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -184,7 +184,7 @@ module.exports = class Cart extends ChaplinModel
       quantity: quantity
       bits: 0
     that = this
-    $.ajax config.apiUrl + "/orders/virtual-cart-items.json",
+    Backbone.$.ajax config.apiUrl + "/orders/virtual-cart-items.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -208,7 +208,7 @@ module.exports = class Cart extends ChaplinModel
   storeVirtualCart : (cart) ->
     console.log ["Storing virtual cart...", cart]
     vCart = []
-    $.each cart.cartDetails or [], (i, cartDetail) ->
+    Backbone.$.each cart.cartDetails or [], (i, cartDetail) ->
       vCartDetail = {}
       vCartDetail[cartDetail.skuProfile.id] = cartDetail.quantity
       vCart.push vCartDetail
