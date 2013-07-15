@@ -79,4 +79,4 @@ module.exports = class SubscriptionView extends View
   attach: ()->
     super
     console.log ":o"
-    util.customCheckbox(Backbone.$, @$el.find(".checkbox"))
+    util.customCheckbox(@$el.find(".checkbox"))

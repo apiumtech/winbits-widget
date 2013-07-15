@@ -116,7 +116,7 @@ module.exports = class WidgetSiteView extends View
 
   resetComponents: () ->
     console.log "WidgetSiteView#resetComponents"
-    util.resetComponents(@$el)
+    util.resetComponents()
 
   logout: (e) ->
     e.preventDefault()
@@ -146,25 +146,25 @@ module.exports = class WidgetSiteView extends View
       console.log "close"
       that.$("#winbits-iframe-holder").offset top: -1000
 
-    util.dropMenu Backbone.$,
+    util.dropMenu
       obj: ".miCuentaDiv"
       clase: ".dropMenu"
       trigger: ".triggerMiCuenta"
       other: ".miCarritoDiv"
 
-    util.dropMenu Backbone.$,
+    util.dropMenu
       obj: ".miCarritoDiv"
       clase: ".dropMenu"
       trigger: ".shopCarMin"
       other: ".miCuentaDiv"
 
 
-    util.openFolder Backbone.$,
+    util.openFolder
       obj: ".knowMoreMin"
       trigger: ".knowMoreMin .openClose"
       objetivo: ".knowMoreMax"
 
-    util.openFolder Backbone.$,
+    util.openFolder
       obj: ".knowMoreMax"
       trigger: ".knowMoreMax .openClose"
       objetivo: ".knowMoreMin"

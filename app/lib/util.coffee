@@ -1,7 +1,7 @@
 module.exports =
     #app.$ = (element) ->
       #(if element instanceof app.jQuery then element else app.jQuery(element))
-
+  $ : window.w$
   setCookie : setCookie = (c_name, value, exdays) ->
     exdays = exdays or 7
     exdate = new Date()
@@ -57,48 +57,51 @@ module.exports =
     formData
 
 
-  openFolder : ($, options) ->
-    if $(options.obj).length
-      $(options.trigger).click ->
-        $(options.obj).slideUp()
-        $(options.objetivo).slideDown()
+  openFolder : (options) ->
+    if @$(options.obj).length
+      that = @
+      @$(options.trigger).click ->
+        that.$(options.obj).slideUp()
+        that.$(options.objetivo).slideDown()
 
-  dropMenu : ($, options) ->
-    if $(options.obj).length
+  dropMenu : (options) ->
+    if @$(options.obj).length
       #console.log ":P ---->"
       #console.log $(options.trigger)
-      $(options.trigger).click ->
+      that = @
+      @$(options.trigger).click ->
         #console.log "fat ---->"
         #console.log $(options.other)
-        $(options.other).slideUp()
-        $(options.obj).slideDown()
+        that.$(options.other).slideUp()
+        that.$(options.obj).slideDown()
 
-      $(options.obj).each ->
+      @$(options.obj).each ->
         #console.log $(this)
-        $(this).bind
+        that.$(this).bind
           click: (e) ->
             e.stopPropagation()
 
           mouseenter: ->
-            $(this).slideDown()
+           that.$(this).slideDown()
 
           mouseleave: ->
-            $(document).click ->
-              $(options.obj).slideUp()
-              $(document).unbind "click"
+            that.$(document).click ->
+              that.$(options.obj).slideUp()
+              that.$(document).unbind "click"
     # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       #      CUSTOMSTEPPER: Sumar y restar valores del stepper
       # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  customStepper : ($, obj) ->
-    $obj = $(obj)
+  customStepper : (obj) ->
+    $obj = @$(obj)
+    that = @
     if $obj.length
       $obj.each ->
-        $(this).wrap "<div class=\"stepper\"/>"
-        $this = $(this).parent()
+        that.$(this).wrap "<div class=\"stepper\"/>"
+        $this = that.$(this).parent()
         $this.append "<span class=\"icon plus\"/><span class=\"icon minus\"/>"
         $this.find(".icon").click ->
           $newVal = undefined
-          $button = $(this)
+          $button = that.$(this)
           $oldValue = parseInt($button.parent().find("input").val(), 10)
           if $button.hasClass("plus")
             $newVal = $oldValue + 1
@@ -122,11 +125,11 @@ module.exports =
               $newVal = $oldValue + 1
             when arrow.down
               $newVal = $oldValue - 1
-          $(this).val($newVal).trigger "step", $oldValue  if $newVal >= 1
+          that.$(this).val($newVal).trigger "step", $oldValue  if $newVal >= 1
     obj
 
-  resetComponents  : ($)->
-    $.find(".reseteable").each((i, reseteable) ->
+  resetComponents  : ()->
+    @$.find(".reseteable").each((i, reseteable) ->
         $reseteable = $(reseteable)
         if $reseteable.is("[data-reset-val]")
           $reseteable.val $reseteable.attr("data-reset-val")
@@ -142,23 +145,77 @@ module.exports =
   # +++++++++++++++++++++++++++++++++++++++++
   #      CUSTOMCHECKBOX: Cambiar checkbox
   # +++++++++++++++++++++++++++++++++++++++++
-  customCheckbox : ($, obj) ->
-    if $(obj).length
-      $(obj).each ->
-        $this = $(this)
+  customCheckbox : (obj) ->
+    if @$(obj).length
+      that = @
+      @$(obj).each ->
+        $this = that.$(this)
         $clase = undefined
         if $this.prop("checked")
           $clase = "selectCheckbox"
         else
           $clase = "unselectCheckbox"
-        $(this).next().andSelf().wrapAll "<div class=\"divCheckbox\"/>"
+        that.$(this).next().andSelf().wrapAll "<div class=\"divCheckbox\"/>"
         $this.parent().prepend "<span class=\"icon spanCheckbox " + $clase + "\"/>"
         $this.parent().find(".spanCheckbox").click ->
           if $this.attr("checked")
-            $(this).removeClass "selectCheckbox"
-            $(this).addClass "unselectCheckbox"
+            that.$(this).removeClass "selectCheckbox"
+            that.$(this).addClass "unselectCheckbox"
             $this.attr "checked", false
           else
-            $(this).removeClass "unselectCheckbox"
-            $(this).addClass "selectCheckbox"
+            that.$(this).removeClass "unselectCheckbox"
+            that.$(this).addClass "selectCheckbox"
             $this.attr "checked", true
+
+
+  # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  #      CUSTOMRADIO: Cambiar radio buttons por input text para el género
+  # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  customRadio: (obj) ->
+    console.log @$
+    if @$(obj).length
+      $(obj).find("input[type=\"radio\"]").each ->
+        $this = $(this)
+        $this.wrap "<div class=\"divRadio\"/>"
+        $this.parent().append "<span class=\"spanRadio\">" + $(this).val() + "</span>"
+        $this.parent().find(".spanRadio").click ->
+          if $this.prop("checked")
+            unchecRadio obj
+          else
+            unchecRadio obj
+            $this.attr "checked", true
+            $(this).addClass "spanSelected"
+
+
+
+  uncheckRadio: (obj) ->
+    $radio = $(obj).find("input[type=\"radio\"]")
+    $radio.each ->
+      $(this).attr "checked", false
+      $(this).parent().find(".spanRadio").removeClass "spanSelected"
+
+
+ # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  #      CUSTOMSLIDER: Deslizar el rango para cambiar valor de bits
+  # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  customSlider: (obj) ->
+    console.log "=====>>>>>>>"
+    console.log @$(obj)
+    if @$(obj).length
+      that = @
+      @$(obj).each ->
+        $this = that.$(this)
+        $this.wrap "<div class=\"slider\"><div class=\"slider-holder\"/>"
+        $this.parent().append "<a href=\"#\" class=\"ui-slider-handle\"><span class=\"bit\"></span><span class=\"amount\">$<em>" + $this.val() + "</em></span></a>"
+        $this.parent().parent().append "<span class=\"text-value min-val\">" + $this.data("min") + "</span><span class=\"text-value max-val\">" + $this.data("max") + "</span>"
+        $this.parent().parent().find(".slider-holder").slider
+          range: "min"
+          value: +$this.val()
+          min: +$this.data("min")
+          max: +$this.data("max")
+          slide: (event, ui) ->
+            $this.val ui.value
+            $this.parent().find(".amount em").text ui.value
+
+          step: $this.data("step")
+

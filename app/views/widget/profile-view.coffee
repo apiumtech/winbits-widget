@@ -68,14 +68,16 @@ module.exports = class ProfileView extends View
       birthdate:
         dateISO: true
 
-    util.openFolder Backbone.$,
+    util.openFolder
       obj: ".myProfile .miPerfil"
       trigger: ".myProfile .miPerfil .changePassBtn"
       objetivo: ".myProfile .changePassDiv"
 
-    util.openFolder Backbone.$,
+    util.openFolder
       obj: ".myProfile .changePassDiv"
       trigger: ".myProfile .changePassDiv"
       objetivo: ".myProfile .miPerfil"
+
+    util.customRadio(@$(".customRadio"))
 
 
