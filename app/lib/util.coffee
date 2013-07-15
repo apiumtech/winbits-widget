@@ -125,8 +125,8 @@ module.exports =
           $(this).val($newVal).trigger "step", $oldValue  if $newVal >= 1
     obj
 
-  resetComponents  : ($, $selector)->
-    $selector.find(".reseteable").each((i, reseteable) ->
+  resetComponents  : ($)->
+    $.find(".reseteable").each((i, reseteable) ->
         $reseteable = $(reseteable)
         if $reseteable.is("[data-reset-val]")
           $reseteable.val $reseteable.attr("data-reset-val")

@@ -49,6 +49,9 @@ module.exports = class WidgetSiteView extends View
       'margin-top': -> -(  Backbone.$( this ).height() / 2 )
     }
 
+    that=@
+
+
   viewRegister: (e)->
     e.preventDefault()
     console.log "WidgetSiteView#viewRegister"
@@ -129,6 +132,19 @@ module.exports = class WidgetSiteView extends View
     @$el.find("#winbits-logout-link").on("click",  (e)->
       that.logout(e)
     )
+    that = @
+    @$("#login-modal").on "shown", ->
+      console.log ">>>>>>>>>>>>>?"
+      $fbHolder = that.$(".facebook-btn-holder:visible")
+      $fbIFrameHolder = that.$("#winbits-iframe-holder")
+      $vmodal = that.$(".modal:visible")
+      offset = $vmodal.offset()
+      offset.top = offset.top + ($vmodal.find(".mainModal").height() - 35)
+      $fbIFrameHolder.offset(offset).height(35).width($fbHolder.width()).css "z-index", 10000
+
+    @$("#login-modal").on "hide", ->
+      console.log "close"
+      that.$("#winbits-iframe-holder").offset top: -1000
 
     util.dropMenu Backbone.$,
       obj: ".miCuentaDiv"

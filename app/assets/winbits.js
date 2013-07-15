@@ -30,13 +30,9 @@ JavaScript.load('//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js', f
   JavaScript.load('http://widgets.winbits.com/qa/javascripts/app.js', function() {
     window.w$(document).ready(function($) {
     var Application = require('application');
-    console.log(require);
-    console.log(Application);
       (new Application).initialize();
      });
   });
 });
-
-
 })();
 

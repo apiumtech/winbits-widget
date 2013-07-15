@@ -102,7 +102,7 @@ module.exports = class LoginUtil
       params: [mediator.flags.fbConnect]
 
     util.deleteCookie config.apiTokenName
-    @publishEvent "resetComponents", $
+    @publishEvent "resetComponents", Backbone.$
     @publishEvent "showHeaderLogout"
     mediator.flags.loggedIn = false
     mediator.flags.fbConnect = false

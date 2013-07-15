@@ -13,7 +13,6 @@ module.exports = class ProfileView extends View
 
   render: ->
     console.log "(:})"
-    console.log @$
     super
 
 
