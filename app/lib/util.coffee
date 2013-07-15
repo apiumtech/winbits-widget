@@ -181,19 +181,20 @@ module.exports =
         $this.parent().append "<span class=\"spanRadio\">" + that.$(this).val() + "</span>"
         $this.parent().find(".spanRadio").click ->
           if $this.prop("checked")
-            unchecRadio obj
+            that.uncheckRadio obj
           else
-            unchecRadio obj
+            that.uncheckRadio obj
             $this.attr "checked", true
             that.$(this).addClass "spanSelected"
 
 
 
   uncheckRadio: (obj) ->
-    $radio = $(obj).find("input[type=\"radio\"]")
+    that=@
+    $radio = @$(obj).find("input[type=\"radio\"]")
     $radio.each ->
-      $(this).attr "checked", false
-      $(this).parent().find(".spanRadio").removeClass "spanSelected"
+      that.$(this).attr "checked", false
+      that.$(this).parent().find(".spanRadio").removeClass "spanSelected"
 
 
  # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
