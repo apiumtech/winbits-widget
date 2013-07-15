@@ -173,18 +173,19 @@ module.exports =
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   customRadio: (obj) ->
     console.log @$
+    that = @
     if @$(obj).length
-      $(obj).find("input[type=\"radio\"]").each ->
-        $this = $(this)
+      @$(obj).find("input[type=\"radio\"]").each ->
+        $this = that.$(this)
         $this.wrap "<div class=\"divRadio\"/>"
-        $this.parent().append "<span class=\"spanRadio\">" + $(this).val() + "</span>"
+        $this.parent().append "<span class=\"spanRadio\">" + that.$(this).val() + "</span>"
         $this.parent().find(".spanRadio").click ->
           if $this.prop("checked")
             unchecRadio obj
           else
             unchecRadio obj
             $this.attr "checked", true
-            $(this).addClass "spanSelected"
+            that.$(this).addClass "spanSelected"
 
 
 

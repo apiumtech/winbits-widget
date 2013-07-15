@@ -78,6 +78,6 @@ module.exports = class ProfileView extends View
       trigger: ".myProfile .changePassDiv"
       objetivo: ".myProfile .miPerfil"
 
-    util.customRadio(@$(".customRadio"))
+    util.customRadio(".divGender")
 
 
