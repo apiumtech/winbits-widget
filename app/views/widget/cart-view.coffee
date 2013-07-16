@@ -56,7 +56,7 @@ module.exports = class CartView extends View
   clickDeleteCartDetailLink: (e) ->
     e.stopPropagation()
     console.log ["deleting Item from cart"]
-    $cartDetail = $(e.target).closest("li")
+    $cartDetail = @$(e.target).closest("li")
     console.log $cartDetail
     id = $cartDetail.attr("data-id")
     if mediator.flags.loggedIn

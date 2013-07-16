@@ -2,6 +2,7 @@ template = require 'views/templates/widget/profile'
 View = require 'views/base/view'
 config = require 'config'
 util = require 'lib/util'
+zipCode = require 'lib/zipCode'
 token = require 'lib/token'
 mediator = require 'chaplin/mediator'
 
@@ -20,6 +21,8 @@ module.exports = class ProfileView extends View
     super
     @delegate 'click', '#updateBtnProfile', @saveProfile
     @delegate 'click', '#editBtnProfile', @editProfile
+    @delegate 'keyup', '.zipCode', @findZipcode
+
 
   editProfile: (e)->
     console.log "---->"
@@ -78,6 +81,17 @@ module.exports = class ProfileView extends View
       trigger: ".myProfile .changePassDiv"
       objetivo: ".myProfile .miPerfil"
 
+    util.customSelect('.select')
     util.customRadio(".divGender")
 
+    #@$(".zipCode").on "keyup", ->
+      #console.log "---- - - - - - >"
+
+
+  findZipcode: (event)->
+    event.preventDefault()
+    console.log "find zipCode"
+    currentTarget = @$(event.currentTarget)
+    $slt = @$("#zipCodeInfo")
+    zipCode(Backbone.$).find currentTarget.val(), $slt
 

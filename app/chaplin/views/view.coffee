@@ -5,6 +5,8 @@ Backbone = require 'backbone'
 utils = require 'chaplin/lib/utils'
 EventBroker = require 'chaplin/lib/event_broker'
 
+'use strict'
+
 # Shortcut to access the DOM manipulation library.
 $ = Backbone.$
 
@@ -48,8 +50,8 @@ module.exports = class View extends Backbone.View
   #
   # This functions close to the declarative events hash; use as follows:
   # regions:
-  #   '.class': 'region'
-  #   '#id': 'region'
+  #   'region1': '.class'
+  #   'region2': '#id'
   regions: null
 
   # Region application is the reverse; you're specifying that this view
@@ -160,13 +162,6 @@ module.exports = class View extends Backbone.View
     list = _.map eventName.split(' '), (event) => "#{event}.delegate#{@cid}"
     events = list.join(' ')
     bound = _.bind handler, this
-    #console.log "------>>>>>>"
-    #console.log events
-    #console.log "------>>>>>>"
-    #console.log selector
-    #console.log @el
-    #console.log @$el.html()
-    #console.log @$el.find(selector)
     @$el.on events, (selector or null), bound
 
     # Return the bound handler.
@@ -258,7 +253,7 @@ module.exports = class View extends Backbone.View
   # -----------------
 
   # Functionally register a single region.
-  registerRegion: (selector, name) ->
+  registerRegion: (name, selector) ->
     @publishEvent '!region:register', this, name, selector
 
   # Functionally unregister a single region by name.
@@ -433,3 +428,4 @@ module.exports = class View extends Backbone.View
 
     # You’re frozen when your heart’s not open.
     Object.freeze? this
+

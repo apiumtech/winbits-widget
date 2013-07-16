@@ -66,12 +66,8 @@ module.exports =
 
   dropMenu : (options) ->
     if @$(options.obj).length
-      #console.log ":P ---->"
-      #console.log $(options.trigger)
       that = @
       @$(options.trigger).click ->
-        #console.log "fat ---->"
-        #console.log $(options.other)
         that.$(options.other).slideUp()
         that.$(options.obj).slideDown()
 
@@ -201,8 +197,6 @@ module.exports =
   #      CUSTOMSLIDER: Deslizar el rango para cambiar valor de bits
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   customSlider: (obj) ->
-    console.log "=====>>>>>>>"
-    console.log @$(obj)
     if @$(obj).length
       that = @
       @$(obj).each ->
@@ -220,4 +214,62 @@ module.exports =
             $this.parent().find(".amount em").text ui.value
 
           step: $this.data("step")
+
+
+
+  # +++++++++++++++++++++++++++++++++++++++++++
+  #      CUSTOMSELECT: Customizar el select
+  # +++++++++++++++++++++++++++++++++++++++++++
+  customSelect: (obj) ->
+    $ = @$
+    if $(obj).length
+      $(obj).each ->
+        $this = $(this)
+        numberOfOptions = $(this).children("option").length
+        selectContent = undefined
+        $this.addClass "selectHidden"
+        $this.wrap "<div class=\"selectContainer\"/>"
+        $this.parent().addClass $this.data("clase")  if $this.data("clase")
+        if $this.data("inputselect")
+          selectContent = "<input type=\"text\" class=\"selectContent\">"
+        else
+          selectContent = "<span class=\"selectContent\"/>"
+        $this.after selectContent + "<span class=\"icon selectTrigger\"/>"
+        $styledSelect = $this.next(".selectContent")
+        if $this.data("inputselect")
+          $styledSelect.attr("placeholder", $this.children("option").eq(0).text()).addClass $this.children("option").eq(0).data("icon")
+        else
+          $styledSelect.text($this.children("option").eq(0).text()).addClass $this.children("option").eq(0).data("icon")
+        $list = $("<ul />",
+          class: "selectOptions"
+        ).insertAfter($this.parent().find("span.selectTrigger"))
+        i = 0
+
+        while i < numberOfOptions
+          $("<li />",
+            text: $this.children("option").eq(i).text()
+            rel: $this.children("option").eq(i).val()
+            "data-class": $this.children("option").eq(i).data("icon")
+          ).appendTo $list
+          i++
+        $listItems = $list.children("li")
+        $this.parent().find("span.selectTrigger").click (e) ->
+          e.stopPropagation()
+          $("div.styledSelect.active").each ->
+            $(this).removeClass("active").next("ul.selectOptions").hide()
+
+          $(this).toggleClass("active").next("ul.selectOptions").toggle()
+
+        $listItems.click (e) ->
+          e.stopPropagation()
+          if $this.data("inputselect")
+            $styledSelect.val($(this).text()).removeClass("active").removeClass().addClass "selectActive selectContent " + $(this).data("class")
+          else
+            $styledSelect.text($(this).text()).removeClass("active").removeClass().addClass "selectActive selectContent " + $(this).data("class")
+          $this.val $(this).attr("rel")
+          $list.hide()
+
+        $(document).click ->
+          $styledSelect.removeClass "active"
+          $list.hide()
 

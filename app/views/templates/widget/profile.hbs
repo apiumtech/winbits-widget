@@ -34,12 +34,9 @@
       <input type="radio" name="gender" value="H" class="male">
       <input type="radio" name="gender" value="M" class="female">
     </div>
-    <input type="text" placeholder="Zip Code" required name="zipCode" value="{{zipCode}}">
-    <select class="select" data-clase="selectRegister" name="location" placeholder="Localidad">
-      <option>Localidad</option>
-      <option>México, D.F.</option>
-      <option>Guadalajara</option>
-      <option>Monterrey</option>
+    <input type="text" placeholder="Zip Code" id="zipCode" required name="zipCode" class="zipCode" value="{{zipCode}}">
+    <select class="select" id="zipCodeInfo" data-clase="selectRegister" name="location" placeholder="Localidad">
+      <option>Localidad:</option>
     </select>
     <input type="text" placeholder="Teléfono" name="phone" maxlength="15" value="{{phone}}">
     <div class="errorDiv"><p></p></div>
