@@ -72,4 +72,81 @@
 			}
 		}
 	}
+	.column1 {
+		width: 80px;
+	}
+	.column2 {
+		width: 280px;
+	}
+	.column3, .column4, .column6 {
+		width: 140px;
+	}
+	.column5 {
+		width: 80px;
+	}
+	.column7 {
+		width: 50px;
+	}
+}
+.widgetWinbitsMain .resumeCheckoutTable {
+	background: lighten(@black, 97%);
+	table {
+		background: none;
+		margin: 20px 0;
+	}
+	td {
+		font-size: 13px;
+		.font('OmnesMedium');
+	}
+	.column2 {
+		span {
+			display: block;
+			.font('OmnesRegular');
+		}
+	}
+	.column5 {
+		.stepper {
+			input[type="text"]{
+				color: lighten(@black, 22%);
+				font-size: 11px;
+				padding: 5px 10px;
+			}
+			.icon {
+				right: -12px;
+				.size (10px, 10px);
+			}
+			.plus {
+				background-position: -50px -140px;
+				top: 2px;
+			}
+			.minus {
+				background-position: -60px -140px;
+			}
+		}
+	}
+	.column7 {
+		text-align: right;
+	}
+	.productUnavailable {
+		background: @redUnavailable;
+		color: @white;
+		font-size: 13px;
+		margin: 0 10px;
+		padding: 5px;
+		width: 270px;
+		p {
+			margin: 0;
+		}
+	}
+}
+.widgetWinbitsMain .titleTable {
+	table {
+		margin: 20px 0 10px;
+	}
+	th {
+		font-size: 12px !important;
+		&:first-child {
+			padding-left: 7px !important;
+		}
+	}
 }

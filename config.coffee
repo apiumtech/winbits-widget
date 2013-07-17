@@ -22,7 +22,8 @@ exports.config =
 
     stylesheets:
       joinTo:
-        'stylesheets/app.css': /^(app|vendor)/
+        'stylesheets/app.css': /^(app\/styles\/app|vendor)/
+        'stylesheets/checkout.css': /^(app\/styles\/checkout|vendor)/
         'test/stylesheets/test.css': /^test/
       order:
         after: ['vendor/styles/helpers.css']
