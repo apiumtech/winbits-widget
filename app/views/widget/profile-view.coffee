@@ -81,7 +81,7 @@ module.exports = class ProfileView extends View
       trigger: ".myProfile .changePassDiv"
       objetivo: ".myProfile .miPerfil"
 
-    util.customSelect('.select')
+    util.customSelect(@$('.select'))
     util.customRadio(".divGender")
 
     #@$(".zipCode").on "keyup", ->

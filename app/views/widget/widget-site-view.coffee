@@ -38,8 +38,8 @@ module.exports = class WidgetSiteView extends View
     console.log "WidgetSiteView#showLoginLayer"
     #console.log $("#login-layer")
     maxHeight = Backbone.$(window).height() - 200
-    Backbone.$("#login-modal .modal-body").css("max-height", maxHeight)
-    Backbone.$("#login-modal").modal( 'show' ).css {
+    @$("#login-modal .modal-body").css("max-height", maxHeight)
+    @$("#login-modal").modal( 'show' ).css {
       'background-color': 'transparent',
       float: 'left',
       width: '330px',
@@ -56,32 +56,34 @@ module.exports = class WidgetSiteView extends View
     e.preventDefault()
     console.log "WidgetSiteView#viewRegister"
     #console.log $("#login-layer")
-    maxHeight = $(window).height() - 200
-    $("#register-modal .modal-body").css("max-height", maxHeight)
-    $("#register-modal").modal( 'show' ).css {
+    maxHeight = @$(window).height() - 200
+    that = @
+    @$("#register-modal .modal-body").css("max-height", maxHeight)
+    @$("#register-modal").modal( 'show' ).css {
       'background-color': 'transparent',
       float: 'left',
       width: '534px',
-      'margin-left': -> -( $( this ).width() / 2 )
+      'margin-left': -> -( that.$( this ).width() / 2 )
       top: '50%',
       'max-height': maxHeight,
-      'margin-top': -> -(  $( this ).height() / 2 )
+      'margin-top': -> -(  that.$( this ).height() / 2 )
     }
 
   viewVideo: (e)->
     e.preventDefault()
     console.log "WidgetSiteView#viewVideo"
     #console.log $("#login-layer")
-    maxHeight = $(window).height() - 200
-    $("#view-video-modal .modal-body").css("max-height", maxHeight)
-    $("#view-video-modal").modal( 'show' ).css {
+    maxHeight = @$(window).height() - 200
+    that = @
+    @$("#view-video-modal .modal-body").css("max-height", maxHeight)
+    @$("#view-video-modal").modal( 'show' ).css {
       'background-color': 'transparent',
       float: 'left',
       width: '560px',
-      'margin-left': -> -( $( this ).width() / 2 )
+      'margin-left': -> -( that.$( this ).width() / 2 )
       top: '50%',
       'max-height': maxHeight,
-      'margin-top': -> -(  $( this ).height() / 2 )
+      'margin-top': -> -(  that.$( this ).height() / 2 )
     }
 
   closeModal: (event) ->

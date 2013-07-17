@@ -10,18 +10,24 @@ module.exports = class AddressView extends View
 
   render: ->
     console.log "ಠ_ಠ"
-    console.log @$
     super
+
+  initialize: ->
+    super
+    @delegate 'click', '#updateBtnAdress', @saveDireccion
+    @delegate 'click', '#editBtnAddress', @editAddress
+
+
+  editAddress: (e)->
+    console.log "---->"
+    @$el.find(".miDireccion").slideUp()
+    @$el.find(".editMiDireccion").slideDown()
+
+  saveDireccion: (e)->
+    e.preventDefault()
+    e.stopPropagation()
+    console.log "ProfileView#saveProfile"
 
   attach: ->
     super
-    util.openFolder Backbone.$,
-      obj: ".myAddress .miDireccion"
-      trigger: ".myAddress .miDireccion .editBtn, .myAddress .miDireccion .changeAddressBtn"
-      objetivo: ".myAddress .editMiDireccion"
-
-    util.openFolder Backbone.$,
-      obj: ".myAddress .editMiDireccion"
-      trigger: ".myAddress .editMiDireccion .editBtn"
-      objetivo: ".myAddress .miDireccion"
 
