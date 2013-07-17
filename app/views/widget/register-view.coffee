@@ -89,7 +89,7 @@ module.exports = class RegisterView extends View
 
       success: (data) ->
         console.log ["Profile updated", data.response]
-        $('.modal').modal 'hide'
+        Backbone.$('.modal').modal 'hide'
         @publishEvent "setProfile", data.response
 
       error: (xhr, textStatus, errorThrown) ->
