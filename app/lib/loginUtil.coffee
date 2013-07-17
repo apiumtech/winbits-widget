@@ -146,7 +146,7 @@ module.exports = class LoginUtil
         that.applyLogin $, data.response
         if 201 is data.meta.status
           console.log "Facebook registered"
-          that.publishEvent "showCompletaRegister" data.response.profile
+          that.publishEvent "showCompletaRegister", data.response.profile
 
       error: (xhr, textStatus, errorThrown) ->
         console.log "facebook.json error!"
