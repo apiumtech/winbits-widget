@@ -48,7 +48,7 @@ module.exports = class LoginView extends View
         that.publishEvent "applyLogin", data.response
         #$.fancybox.close()
         #@loginModalPanel.fadeOut()
-        that.$('.modal').modal 'hide'
+        Backbone.$('.modal').modal 'hide'
 
 
       error: (xhr, textStatus, errorThrown) ->

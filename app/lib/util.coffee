@@ -125,8 +125,10 @@ module.exports =
     obj
 
   resetComponents  : ()->
-    @$.find(".reseteable").each((i, reseteable) ->
-        $reseteable = $(reseteable)
+    $elements =  @$.find(".reseteable")
+    that = @
+    that.$($elements).each((i, reseteable) ->
+        $reseteable = that.$(reseteable)
         if $reseteable.is("[data-reset-val]")
           $reseteable.val $reseteable.attr("data-reset-val")
         else if $reseteable.is("[data-reset-text]")

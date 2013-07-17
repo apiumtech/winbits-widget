@@ -84,7 +84,7 @@ module.exports = class LoginUtil
 
       success: (data) ->
         console.log "logout.json Success!"
-        that.applyLogout Backbone.$, data.response
+        that.applyLogout data.response
 
       error: (xhr, textStatus, errorThrown) ->
         console.log "logout.json Error!"
@@ -96,13 +96,13 @@ module.exports = class LoginUtil
 
 
 
-  applyLogout : ($, logoutData) ->
+  applyLogout : (logoutData) ->
     mediator.proxy.post
       action: "logout"
       params: [mediator.flags.fbConnect]
 
     util.deleteCookie config.apiTokenName
-    @publishEvent "resetComponents", Backbone.$
+    @publishEvent "resetComponents"
     @publishEvent "showHeaderLogout"
     mediator.flags.loggedIn = false
     mediator.flags.fbConnect = false
