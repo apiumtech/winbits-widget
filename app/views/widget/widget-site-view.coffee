@@ -62,7 +62,7 @@ module.exports = class WidgetSiteView extends View
     @$("#register-modal").modal( 'show' ).css {
       'background-color': 'transparent',
       float: 'left',
-      width: '534px',
+      width: '520px',
       'margin-left': -> -( that.$( this ).width() / 2 )
       top: '50%',
       'max-height': maxHeight,
