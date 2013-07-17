@@ -5,7 +5,7 @@
       "name": "dev",
       "desc": "dev enviroment",
       "config": {
-        "apiUrl": "http://apiqa.winbits.com/v1",
+        "apiUrl": "http://staging.winbits.com/v1",
         "baseUrl": "http://widgets.winbits.com/qa",
         "loginRedirectUrl": "http://widgets.winbits.com/qa/ilogin.html"
       }

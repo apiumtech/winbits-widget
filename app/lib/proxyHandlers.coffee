@@ -29,24 +29,27 @@ module.exports = class ProxyHandlers
 
   facebookStatusHandler: (response) ->
     console.log ["Facebook status", response]
-    if response.status is "connected"
-      mediator.Flags.fbConnect = true
+
+    if response[0].status is "connected"
+
+
+      mediator.flags.fbConnect = true
       Backbone.$.ajax config.apiUrl + "/affiliation/express-facebook-login.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
-        data: JSON.stringify(facebookId: response.authResponse.userID)
+        data: JSON.stringify(facebookId: response[0].authResponse.userID)
         headers:
           "Accept-Language": "es"
 
         xhrFields:
           withCredentials: true
 
-        context: $
+        context: Backbone.$
         success: (data) ->
           console.log "express-facebook-login.json Success!"
           console.log ["data", data]
-          app.applyLogin $, data.response
+          #app.applyLogin $, data.response
 
         error: (xhr, textStatus, errorThrown) ->
           console.log "express-facebook-login.json Error!"
@@ -57,15 +60,15 @@ module.exports = class ProxyHandlers
 
   facebookLoginHandler: (response) ->
     console.log ["Facebook Login", response]
-    if response.authResponse
+    if response[0].authResponse
       console.log "Requesting facebook profile..."
-      app.proxy.post action: "facebookMe"
+      mediator.proxy.post action: "facebookMe"
     else
       console.log "Facebook login failed!"
 
   facebookMeHandler: (response) ->
     console.log ["Response from winbits-facebook me", response]
-    if response.email
+    if response[0].email
       console.log "Trying to log with facebook"
-      app.loginFacebook response
+      mediator.loginFacebook response
 
