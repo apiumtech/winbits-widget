@@ -16,6 +16,7 @@ module.exports = class LoginUtil
     @subscribeEvent 'expressLogin', @expressLogin
     @subscribeEvent 'applyLogin', @applyLogin
     @subscribeEvent 'initLogout', @initLogout
+    @subscribeEvent 'loginFacebook', @loginFacebook
 
   expressLogin : () ->
     #Winbits.checkRegisterConfirmation Backbone.$
@@ -106,3 +107,48 @@ module.exports = class LoginUtil
     @publishEvent "showHeaderLogout"
     mediator.flags.loggedIn = false
     mediator.flags.fbConnect = false
+
+
+
+
+  loginFacebook : (me) ->
+    $ = Backbone.$
+    that = @
+    myBirthdayDate = new Date(me.birthday)
+    birthday = myBirthdayDate.getFullYear() + "-" + myBirthdayDate.getMonth() + "-" + myBirthdayDate.getDate()
+    payLoad =
+      name: me.first_name
+      lastName: me.last_name
+      email: me.email
+      birthdate: birthday
+      gender: me.gender
+      verticalId: Winbits.config.verticalId
+      locale: me.locale
+      facebookId: me.id
+      facebookToken: me.id
+
+    #$.fancybox.close()
+    console.log "Enviando info al back"
+    $.ajax Winbits.config.apiUrl + "/affiliation/facebook",
+      type: "POST"
+      contentType: "application/json"
+      dataType: "json"
+      data: JSON.stringify(payLoad)
+      xhrFields:
+        withCredentials: true
+
+      headers:
+        "Accept-Language": "es"
+
+      success: (data) ->
+        console.log "facebook.json success!"
+        console.log ["data", data]
+        that.applyLogin $, data.response
+        if 201 is data.meta.status
+          console.log "Facebook registered"
+          that.publishEvent "showCompletaRegister" data.response.profile
+
+      error: (xhr, textStatus, errorThrown) ->
+        console.log "facebook.json error!"
+        error = JSON.parse(xhr.responseText)
+        alert error.meta.message

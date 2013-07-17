@@ -15,10 +15,18 @@ module.exports = class RegisterView extends View
   initialize: ->
     super
     @delegate "click", "#registerStep1", @registerStep1
+    @publishEvent "showCompletaRegister", @showCompletaRegister
 
   attach: ()->
     super
     @$el.find("#winbits-register-form").valid()
+
+  showCompletaRegister: ()->
+    @publishEvent 'showConfirmation'
+    @$el.find("winbits-register-form").hide()
+    @$el.find("complete-register-layer").show()
+
+
 
   registerStep1: (e)->
     e.preventDefault()
