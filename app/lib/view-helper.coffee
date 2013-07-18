@@ -184,11 +184,19 @@ Handlebars.registerHelper "substr", (context, options) ->
   else
     ""
 
-Handlebars.registerHelper "shippingText", (shippingTotal) ->
-  if shippingTotal then '$' + shippingTotal else 'GRATIS'
+Handlebars.registerHelper "cartShipping", (total, shippingTotal, bitsTotal) ->
+  if shippingTotal
+    cartShipping = Math.min(shippingTotal, total - bitsTotal)
+    '$' + cartShipping
+  else
+    'GRATIS'
 
-Handlebars.registerHelper "savingFor", (total, bitsTotal) ->
-  bitsTotal * 100 / total
+Handlebars.registerHelper "cartTotal", (total, bitsTotal) ->
+  cartTotal = total - bitsTotal
+  if cartTotal then cartTotal else 'GRATIS'
+
+Handlebars.registerHelper "cartSaving", (total, bitsTotal) ->
+  if total then Math.round(bitsTotal * 100 / total) else 0
 
 Handlebars.registerHelper "cartDetailTotal", (unitPrice, quantity) ->
   unitPrice * quantity
