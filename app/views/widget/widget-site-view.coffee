@@ -23,6 +23,8 @@ module.exports = class WidgetSiteView extends View
     @delegate 'click', '#registerLink', @viewRegister
     @delegate 'click', '#viewVideoLink', @viewVideo
     @delegate 'click', '#postCheckout', @postCheckout
+    @delegate 'shown', '#login-modal', @placeFacebookFrame
+    @delegate 'shown', '#register-modal', @placeFacebookFrame
     @subscribeEvent 'showHeaderLogin', @showHeaderLogin
     @subscribeEvent 'showHeaderLogout', @showHeaderLogout
     @subscribeEvent 'resetComponents', @resetComponents
@@ -135,16 +137,11 @@ module.exports = class WidgetSiteView extends View
       that.logout(e)
     )
     that = @
-    @$("#login-modal").on "shown", ->
-      console.log ">>>>>>>>>>>>>?"
-      $fbHolder = that.$(".facebook-btn-holder:visible")
-      $fbIFrameHolder = that.$("#winbits-iframe-holder")
-      $vmodal = that.$(".modal:visible")
-      offset = $vmodal.offset()
-      offset.top = offset.top + ($vmodal.find(".mainModal").height() - 35)
-      $fbIFrameHolder.offset(offset).height(35).width($fbHolder.width()).css "z-index", 10000
+#    TODO: Ask why this does not work
+#    @$("#login-modal").on "shown", ->
+#      placeFacebookFrame()
 
-    @$("#login-modal").on "hide", ->
+    @$("#login-modal, #register-modal").on "hide", ->
       console.log "close"
       that.$("#winbits-iframe-holder").offset top: -1000
 
@@ -180,3 +177,12 @@ module.exports = class WidgetSiteView extends View
     $chkForm.attr("action", config.baseUrl + "/checkout.php")
     $chkForm.submit()
 
+  placeFacebookFrame: (e) ->
+    $fbHolder = @$el.find(".facebook-btn-holder:visible")
+    $fbLink = $fbHolder.find(".btnFacebook")
+    $fbIFrameHolder = @$el.find("#winbits-iframe-holder")
+    offset = $fbHolder.delay(250).offset()
+    setTimeout () ->
+      offset.top = $fbLink.offset().top
+      $fbIFrameHolder.offset(offset).height(35).width($fbHolder.width()).css "z-index", 10000
+    , 750
