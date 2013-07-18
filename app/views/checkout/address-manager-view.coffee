@@ -14,6 +14,39 @@ module.exports = class CheckoutSiteView extends View
 
   initialize: ->
     super
+    @delegate "click" , "#aNewAddress", @newAddress
+    @delegate "click" , "#btnCancel", @cancelEdit
+    @delegate "click" , "#btnSubmit", @addressSubmit
+
+  newAddress: (e)->
+    e.preventDefault()
+    @$(".shippingAddresses").hide()
+    @$(".shippingNewAddress").show()
+
+  cancelEdit: (e)->
+    e.preventDefault()
+    @$(".shippingAddresses").show()
+    @$(".shippingNewAddress").hide()
+
+  addressSubmit: (e)->
+    e.preventDefault()
+    console.log "AddressSubmit"
+    $form = @$el.find("#shippingNewAddress")
+    console.log $form.valid()
+    if $form.valid()
+      data: JSON.stringify(formData)
+      formData = { verticalId: config.verticalId }
+      formData = util.serializeForm($form, formData)
+      console.log formData
+      @model.set formData
+      @model.sync 'update', @model,
+        error: ->
+          console.log "error",
+        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
+        success: ->
+          console.log "success"
+          #that.$el.find(".myPerfil").slideDown()
+
   attach: ->
     super
     console.log "CheckoutSiteView#attach"
