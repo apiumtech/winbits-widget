@@ -183,6 +183,16 @@ Handlebars.registerHelper "substr", (context, options) ->
     new Handlebars.SafeString(theString)
   else
     ""
+
+Handlebars.registerHelper "shippingText", (shippingTotal) ->
+  if shippingTotal then '$' + shippingTotal else 'GRATIS'
+
+Handlebars.registerHelper "savingFor", (total, bitsTotal) ->
+  bitsTotal * 100 / total
+
+Handlebars.registerHelper "cartDetailTotal", (unitPrice, quantity) ->
+  unitPrice * quantity
+
 #******************************
 #Custom partial
 #******************************
