@@ -67,8 +67,12 @@ module.exports = class ProxyHandlers
       console.log "Facebook login failed!"
 
   facebookMeHandler: (response) ->
-    console.log ["Response from winbits-facebook me", response]
+    console.log ["Response from winbits-facebook me", response[0].email]
+    that = @
+    Backbone.$('.modal').modal 'hide'
     if response[0].email
       console.log "Trying to log with facebook"
-      mediator.loginFacebook response
+      that.publishEvent("setRegisterFb", response[0])
+      that.publishEvent "showCompletaRegister",  response[0]
+      console.log "Trying to log with facebook3"
 

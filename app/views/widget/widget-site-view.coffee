@@ -28,6 +28,7 @@ module.exports = class WidgetSiteView extends View
     @subscribeEvent 'resetComponents', @resetComponents
     @subscribeEvent 'updateCartCounter', @updateCartCounter
     @subscribeEvent 'showConfirmation', @showConfirmation
+    @subscribeEvent 'showRegister', @viewRegister
 
   updateCartCounter: (count)->
     console.log ["WidgetSiteView#updateCartCounter " + count]
@@ -53,7 +54,7 @@ module.exports = class WidgetSiteView extends View
 
 
   viewRegister: (e)->
-    e.preventDefault()
+    #e.preventDefault()
     console.log "WidgetSiteView#viewRegister"
     #console.log $("#login-layer")
     maxHeight = @$(window).height() - 200
