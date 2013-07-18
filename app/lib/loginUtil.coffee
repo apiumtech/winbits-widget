@@ -130,7 +130,10 @@ module.exports = class LoginUtil
       verticalId: config.verticalId
       locale: me.locale
       facebookId: me.id
+      #providerUserId: me.id
       facebookToken: me.id
+      #profileUrl: me.
+      #imageUrl: me.
 
     #$.fancybox.close()
     console.log "Enviando info al back"
