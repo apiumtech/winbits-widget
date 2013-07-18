@@ -119,7 +119,7 @@ module.exports = class Cart extends ChaplinModel
       success: (data)->
         console.log "success deleteVirtaulCart"
         that.storeVirtualCart data.response
-        that.set data.response
+        that.set that.completeCartModel(data.response)
 
   deleteUserCartDetail : (id) ->
     that = @
@@ -221,7 +221,9 @@ module.exports = class Cart extends ChaplinModel
       params: [vCartToken]
 
   completeCartModel: (model) ->
-    model.total = model.itemsTotal + model.shippingTotal
-    model.maxBits = model.total
-    model.bitsTotal = model.bitsTotal || 0
+    total = model.itemsTotal + model.shippingTotal
+    model.total = total
+    model.maxBits = total
+    bitsTotal = model.bitsTotal || @get('bitsTotal') || 0
+    model.bitsTotal = Math.min(bitsTotal, model.total)
     model
