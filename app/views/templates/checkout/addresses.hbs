@@ -87,34 +87,41 @@
     <fieldset>
       <div class="column">
         <h3>NOMBRE</h3>
-        <input type="text" class="required" placeholder="Nombre" name="winbitsShippingName" id="winbitsShippingName">
-        <input type="text" class="required" placeholder="Apellido" name="winbitsShippingLastname" id="winbitsShippingLastname">
+        <input type="text" class="required" placeholder="Nombre" name="name" id="winbitsShippingName">
+        <input type="text" class="required" placeholder="Apellido" name="lastname" id="winbitsShippingLastname">
+        {{!<input type="text" class="required" placeholder="Nombre Contacto" name="contacName" id="winbitsShippingLastname">}}
       </div>
       <div class="column">
         <h3>DIRECCIÓN</h3>
-        <select class="select" data-clase="selectRegister" name="winbitsShippingCountry" id="winbitsShippingCountry">
+        <select class="select" data-clase="selectRegister" name="country" id="winbitsShippingCountry">
           <option>País</option>
-          <option>México</option>
-          <option>USA</option>
-          <option>Puerto Rico</option>
+          <option value=1>México</option>
+          <option value=2>USA</option>
+          <option value=3>Puerto Rico</option>
         </select>
-        <input type="text" placeholder="Calle" class="inputMedium required" name="winbitsShippingStreet" id="winbitsShippingStreet">
-        <input type="text" placeholder="##" class="inputSmall required" name="winbitsShippingNumber" id="winbitsShippingNumber">
+        <input type="text" placeholder="Calle" class="inputMedium required" name="street" id="winbitsShippingStreet">
+        <input type="text" placeholder="##" class="inputSmall required" name="externalNumber" id="winbitsShippingNumber">
+        <input type="text" placeholder="##" class="inputSmall required" name="internalNumber" id="winbitsShippingNumber">
         <select class="select" data-clase="selectRegister" data-inputselect="true">
           <option>Colonia</option>
           <option>Anahuac</option>
           <option>Roma</option>
           <option>Lomas de Chapultepec</option>
         </select>
-        <input type="text" placeholder="Ciudad" name="winbitsShippingCity" id="winbitsShippingCity">
-        <input type="text" placeholder="Codigo Postal" name="winbitsShippingCP" id="winbitsShippingCP">
-        <input type="text" placeholder="Teléfono" name="winbitsShippingTel" id="winbitsShippingTel">
+        <input type="text" placeholder="Locacion" name="location" id="winbitsShippingCity">
+        <input type="text" placeholder="Indicaciones" name="indications" id="winbitsShippingCity">
+        <input type="text" placeholder="Entre que calles" name="betweenStreets" id="winbitsShippingCity">
+        <input type="text" placeholder="Nombre contacto" name="contactName" id="winbitsShippingCity">
+        <input type="text" placeholder="Ciudad" name="city" id="winbitsShippingCity">
+        <input type="text" placeholder="Codigo Postal" name="zipCode" id="winbitsShippingCP">
+        <input type="text" placeholder="Teléfono" name="phone" id="winbitsShippingTel">
+        <input type="text" placeholder="Teléfono contacto" name="contactPhone" id="winbitsShippingTel">
       </div>
       <div class="column columnLarge">
         <h3>OPCIONES</h3>
         <input type="checkbox" class="checkbox" name="winbitsShippingSave" id="winbitsShippingSave">
         <label for="winbitsShippingSave" class="checkboxLabel">Guardar esta dirección</label>
-        <input type="checkbox" class="checkbox" name="winbitsShippingPrincipal" id="winbitsShippingPrincipal">
+        <input type="checkbox" class="checkbox" name="principal" id="winbitsShippingPrincipal">
         <label for="winbitsShippingPrincipal" class="checkboxLabel">Hacer esta mi dirección principal</label>
         <p class="note">Winbits puede salvar tu dirección para que en tu próxima visita tus compras sean más faciles de realizar.</p>
         <div class="errorDiv"><p></p></div>

@@ -35,11 +35,16 @@ module.exports = class CheckoutSiteView extends View
     console.log $form.valid()
     if $form.valid()
       data: JSON.stringify(formData)
-      formData = { verticalId: config.verticalId }
-      formData = util.serializeForm($form, formData)
+      formData = util.serializeForm($form)
+      formData.country  = {"id": formData.country}
+      formData.zipCodeInfo  = {"id": '4000'}
+      if formData.principal
+        formData.principal  = true
+      else
+        formData.principal = false
       console.log formData
       @model.set formData
-      @model.sync 'update', @model,
+      @model.sync 'create', @model,
         error: ->
           console.log "error",
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
