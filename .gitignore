@@ -27,3 +27,4 @@ node_modules/handlebars-brunch
 node_modules/javascript-brunch
 node_modules/stylus-brunch
 node_modules/uglify-js-brunch
+app/config.coffee
