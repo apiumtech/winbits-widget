@@ -23,7 +23,7 @@ module.exports = class WidgetSiteView extends View
     @delegate 'click', '#registerLink', @viewRegister
     @delegate 'click', '#viewVideoLink', @viewVideo
     @delegate 'click', '#postCheckout', @postCheckout
-    @delegate 'shown', '#login-modal', @placeFacebookFrame
+    #@delegate 'shown', '#login-modal', @placeFacebookFrame
     @delegate 'shown', '#register-modal', @placeFacebookFrame
     @subscribeEvent 'showHeaderLogin', @showHeaderLogin
     @subscribeEvent 'showHeaderLogout', @showHeaderLogout
@@ -138,8 +138,8 @@ module.exports = class WidgetSiteView extends View
     )
     that = @
 #    TODO: Ask why this does not work
-#    @$("#login-modal").on "shown", ->
-#      placeFacebookFrame()
+    @$("#login-modal").on "shown", ->
+      that.placeFacebookFrame()
 
     @$("#login-modal, #register-modal").on "hide", ->
       console.log "close"
@@ -171,11 +171,33 @@ module.exports = class WidgetSiteView extends View
   postCheckout: (e)->
     e.preventDefault()
     console.log "WidgetSiteView#postCheckout"
-    $chkForm = @$el.find("#chk-form")
-    console.log $chkForm
-    $verticalId = $chkForm.find("#verticalId").val(config.verticalId)
-    $chkForm.attr("action", config.baseUrl + "/checkout.php")
-    $chkForm.submit()
+    Backbone.$.ajax config.apiUrl + "/orders/checkout",
+      type: "POST"
+      contentType: "application/json"
+      dataType: "json"
+      context: @
+      headers:
+        "Accept-Language": "es",
+        "WB-Api-Token": util.getCookie(config.apiTokenName)
+      success: (data) ->
+        console.log "Checkout Success!"
+        console.log ["data", data]
+        $chkForm = @$el.find("#chk-form")
+        console.log $chkForm
+        $token = $chkForm.find("#token")
+        $order_data = $chkForm.find("#order_data")
+        $token.val(util.getCookie(config.apiTokenName))
+        $order_data.val(data)
+        $chkForm.attr("action", config.baseUrl + "/checkout.php")
+        $chkForm.submit()
+        $token.val('')
+        $order_data.val('')
+      error: (xhr, textStatus, errorThrown) ->
+        console.log xhr
+        error = JSON.parse(xhr.responseText)
+
+      complete: ->
+        console.log "Request Completed!"
 
   placeFacebookFrame: (e) ->
     $fbHolder = @$el.find(".facebook-btn-holder:visible")
