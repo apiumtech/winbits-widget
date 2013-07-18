@@ -11,7 +11,9 @@ module.exports = class Cart extends ChaplinModel
 
   parse: (response) ->
     console.log "Cart#parse"
-    response.response
+    response.maxBits = response.itemsTotal + response.shippingTotal
+    console.log response
+    response
 
   loadVirtualCart: ()->
     console.log "Loading virtual cart"
@@ -167,7 +169,7 @@ module.exports = class Cart extends ChaplinModel
 
       success: (data) ->
         console.log ["V: User cart", data.response]
-        that.set data.response
+        that.set that.parse(data.response)
         #app.refreshCart $, data.response, true
 
       error: (xhr, textStatus, errorThrown) ->
@@ -196,7 +198,7 @@ module.exports = class Cart extends ChaplinModel
       success: (data) ->
         console.log ["V: Virtual cart", data.response]
         that.storeVirtualCart data.response
-        that.set data.response
+        that.set that.parse(data.response)
 
       error: (xhr, textStatus, errorThrown) ->
         error = JSON.parse(xhr.responseText)
