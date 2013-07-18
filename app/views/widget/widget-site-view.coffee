@@ -188,11 +188,9 @@ module.exports = class WidgetSiteView extends View
         $token = $chkForm.find("#token")
         $order_data = $chkForm.find("#order_data")
         $token.val(util.getCookie(config.apiTokenName))
-        $order_data.val(data)
+        $order_data.val(JSON.stringify(data.response))
         $chkForm.attr("action", config.baseUrl + "/checkout.php")
         $chkForm.submit()
-        $token.val('')
-        $order_data.val('')
       error: (xhr, textStatus, errorThrown) ->
         console.log xhr
         error = JSON.parse(xhr.responseText)
