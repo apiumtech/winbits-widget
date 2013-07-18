@@ -56,6 +56,8 @@ module.exports = class LoginUtil
 
   applyLogin : (profile) ->
     console.log "LoginUtil#applyLogin"
+    console.log profile
+    console.log "LoginUtil#applyLogin"
     if profile.apiToken
       mediator.flags.loggedIn = true
       #Winbits.checkCompleteRegistration $
@@ -66,6 +68,8 @@ module.exports = class LoginUtil
       @publishEvent "restoreCart"
       @publishEvent "setProfile", profile.profile
       @publishEvent "setSubscription", subscriptions:profile.subscriptions
+
+
       #Winbits.$widgetContainer.find("div.login").hide()
       #Winbits.$widgetContainer.find("div.miCuentaPanel").show()
       #Winbits.loadUserProfile $, profile
@@ -112,6 +116,7 @@ module.exports = class LoginUtil
 
 
   loginFacebook : (me) ->
+    console.log "was here"
     $ = Backbone.$
     that = @
     myBirthdayDate = new Date(me.birthday)
@@ -122,14 +127,14 @@ module.exports = class LoginUtil
       email: me.email
       birthdate: birthday
       gender: me.gender
-      verticalId: Winbits.config.verticalId
+      verticalId: config.verticalId
       locale: me.locale
       facebookId: me.id
       facebookToken: me.id
 
     #$.fancybox.close()
     console.log "Enviando info al back"
-    $.ajax Winbits.config.apiUrl + "/affiliation/facebook",
+    $.ajax config.apiUrl + "/affiliation/facebook",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -143,10 +148,12 @@ module.exports = class LoginUtil
       success: (data) ->
         console.log "facebook.json success!"
         console.log ["data", data]
-        that.applyLogin $, data.response
+        that.applyLogin data.response
         if 201 is data.meta.status
           console.log "Facebook registered"
+          that.publishEvent("setRegisterFb", data.response.profile)
           that.publishEvent "showCompletaRegister", data.response.profile
+
 
       error: (xhr, textStatus, errorThrown) ->
         console.log "facebook.json error!"
