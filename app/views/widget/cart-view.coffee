@@ -41,16 +41,15 @@ module.exports = class CartView extends View
       cartItem.quantity = 1
     cartItem.quantity = parseInt(cartItem.quantity)
     console.log @
-    $cartDetail = @$el.find(".cart-holder:visible .cart-details-list").children("[data-id=" + cartItem.id + "]")
-    id = $cartDetail.attr("data-id")
-    if $cartDetail.length is 0
+    cartDetail = @model.findCartDetail(cartItem.id)
+    if not cartDetail
       if mediator.flags.loggedIn
         @model.addToUserCart cartItem.id, cartItem.quantity, cartItem.bits
       else
         @model.addToVirtualCart cartItem.id, cartItem.quantity
     else
-      qty = cartItem.quantity + parseInt($cartDetail.find(".cart-detail-quantity").val())
-      @model.updateCartDetail id, qty, cartItem.bits
+      qty = cartItem.quantity + cartDetail.quantity
+      @updateCartDetail cartItem.id, qty, cartItem.bits
 
 
   clickDeleteCartDetailLink: (e) ->

@@ -97,7 +97,7 @@ module.exports = class Cart extends ChaplinModel
       success: (data) ->
         console.log ["V: Virtual cart", data.response]
         that.storeVirtualCart data.response
-        that.set data.response
+        that.set that.completeCartModel(data.response)
 
 
       error: (xhr, textStatus, errorThrown) ->
@@ -227,3 +227,13 @@ module.exports = class Cart extends ChaplinModel
     bitsTotal = model.bitsTotal || @get('bitsTotal') || 0
     model.bitsTotal = Math.min(bitsTotal, model.total)
     model
+
+  findCartDetail: (id) ->
+    cartDetails = @get('cartDetails') || []
+    cartDetail = undefined
+    w$.each cartDetails, (index, detail) ->
+      if detail.skuProfile.id is id
+        cartDetail = detail
+        return false
+    console.log ['CART DETAIL', cartDetail]
+    cartDetail
