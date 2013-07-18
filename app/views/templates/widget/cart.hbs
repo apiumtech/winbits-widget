@@ -15,7 +15,13 @@
     </div>
     <div class="carritoDivRight cart-info">
       <h3>ENVIO</h3>
-      <span class="freeShipping cart-shipping-total reseteable" data-reset-text="GRATIS">GRATIS</span>
+      <span class="freeShipping cart-shipping-total reseteable" data-reset-text="GRATIS">
+        {{#if shippingTotal}}
+          {{shippingTotal}}
+        {{else}}
+          GRATIS
+        {{/if}}
+      </span>
       <h3>TOTAL</h3>
       <span class="totalCar cart-total reseteable" data-reset-text="$0">${{itemsTotal}}</span>
       <div class="winSave wb-bits-control">
