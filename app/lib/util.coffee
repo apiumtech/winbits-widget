@@ -199,14 +199,16 @@ module.exports =
   #      CUSTOMSLIDER: Deslizar el rango para cambiar valor de bits
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   customSlider: (obj) ->
-    if @$(obj).length
+    $slider = undefined
+    $obj = @$(obj)
+    if $obj.length
       that = @
-      @$(obj).each ->
+      $obj.each ->
         $this = that.$(this)
         $this.wrap "<div class=\"slider\"><div class=\"slider-holder\"/>"
         $this.parent().append "<a href=\"#\" class=\"ui-slider-handle\"><span class=\"bit\"></span><span class=\"amount\">$<em>" + $this.val() + "</em></span></a>"
         $this.parent().parent().append "<span class=\"text-value min-val\">" + $this.data("min") + "</span><span class=\"text-value max-val\">" + $this.data("max") + "</span>"
-        $this.parent().parent().find(".slider-holder").slider
+        $slider = $this.parent().parent().find(".slider-holder").slider
           range: "min"
           value: +$this.val()
           min: +$this.data("min")
@@ -216,6 +218,7 @@ module.exports =
             $this.parent().find(".amount em").text ui.value
 
           step: $this.data("step")
+    $slider
 
 
 

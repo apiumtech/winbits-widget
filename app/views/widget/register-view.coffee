@@ -15,16 +15,19 @@ module.exports = class RegisterView extends View
   initialize: ->
     super
     @delegate "click", "#registerStep1", @registerStep1
-    @publishEvent "showCompletaRegister", @showCompletaRegister
+    @delegate "click", "#registerStep2", @registerStep2
+
+    @subscribeEvent "showCompletaRegister", @showCompletaRegister
 
   attach: ()->
     super
     @$el.find("#winbits-register-form").valid()
 
-  showCompletaRegister: ()->
-    @publishEvent 'showConfirmation'
-    @$el.find("winbits-register-form").hide()
-    @$el.find("complete-register-layer").show()
+  showCompletaRegister: (algo)->
+    console.log("En completa registro")
+    @publishEvent 'showRegister'
+    @$el.find("#winbits-register-form").hide()
+    @$el.find("#complete-register-layer").show()
 
 
 
@@ -69,7 +72,7 @@ module.exports = class RegisterView extends View
   registerStep2: (e)->
     e.preventDefault()
 
-    $form =  @$el.find("complete-register-form")
+    $form =  @$el.find("#complete-register-form")
     $form.validate rules:
       birthdate:
         dateISO: true

@@ -10,6 +10,7 @@ RegisterView = require "views/widget/register-view"
 Address = require "models/address"
 Profile = require "models/profile"
 Cart = require "models/cart"
+RegisterFb = require "models/registerfb"
 
 module.exports = class HomeController extends ChaplinController
 
@@ -26,12 +27,13 @@ module.exports = class HomeController extends ChaplinController
     @profile = new Profile
     @cart = new Cart
     @subscription = new Subscription
+    @registerfb = new RegisterFb
     @address.on "change", ->
       console.log "addressChanged"
     @addressView = new AddressView(model: @address)
     @profileView = new ProfileView(model: @profile )
     @cartView = new CartView(model:@cart)
-    @registerView = new RegisterView()
+    @registerView = new RegisterView(model: @registerfb)
     @profile.on "change", ->
       console.log "profileChanged"
       that.profileView.render()
@@ -42,6 +44,8 @@ module.exports = class HomeController extends ChaplinController
     @subscription.on "change", ->
       console.log "subscriptionChanged"
       that.subscriptionView.render()
+    @registerfb.on "change", ->
+      that.registerView.render()
     #Exporting fucntion
     window.Winbits.addToCart = (item)->
       that.cartView.addToCart(item)
