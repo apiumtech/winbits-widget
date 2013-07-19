@@ -29,5 +29,13 @@ module.exports = ($)->
     element.unwrap()
     element.parent().find(".selectContent").remove()
     element.parent().find(".selectTrigger").remove()
+    element.parent().find(".selectOptions").remove()
+
+    values = new Array()
+    for response in data.response
+      values.push "<option value='#{response.id}'>#{response.locationName}</value>"
+    
+    ($ '#zipCodeInfo').append(values)
+
     util.customSelect(element)
 
