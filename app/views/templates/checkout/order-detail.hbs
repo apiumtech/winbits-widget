@@ -1,0 +1,26 @@
+<h2>TU ORDEN <span class="timeCheckout"><em class="icon timer"></em>29:30</span></h2>
+<ul>
+  {{#each details}}
+  <li>
+    <a href="#"><img src="winbitsInclude/images/assets/blackDress-tiny.jpg" width="28" height="36" alt="LACE OFF THE SHOULDER DRESS"></a>
+    <p>{{name}}
+      <span>({{quantity}})  {{mainAttribute}}</span>
+    </p>
+  </li>
+  {{/each}}
+</ul>
+<div class="checkoutSubtotal">
+  <span>SUBTOTAL</span>
+  <span>${{total}}</span>
+  <span>ENVIO</span>
+  <span>${{shippingTotal}}</span>
+  <span>GANAS</span>
+  <span><span class="icon winbits10px"></span>{{bitsTotal}}</span>
+</div>
+<input type="text" value="300" data-min="0" data-max="599" data-step="2" class="slideInput">
+<span class="legendCarrito">Usa tus bits como dinero en esta compra <a href="#">learn more</a></span>
+<div class="checkoutTotal">
+  <span class="checkoutTitle">TOTAL</span>
+  <span class="checkoutDetail">${{total}}
+    <span class="note">Ahorro de $1,200.00</span></span>
+</div>
