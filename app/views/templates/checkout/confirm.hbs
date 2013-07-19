@@ -1,0 +1,27 @@
+<div class="checkoutResumen">
+    <h3>ENTREGA</h3>
+    <p>Fecha estimada de entrega:<span>July 29 - Aug 9</span></p>
+</div>
+<div class="checkoutResumen">
+    <h3>ORDEN DE COMPRA</h3>
+    <p>Tu orden de compra se enviará a la siguiente dirección:<span>rulas1785@gmail.com</span</p>
+      <p>Descarga tu ficha de pago aqui:<a target="blank" href="{{paymentCapture.downloadUrl}}">
+          {{paymets.0.paymentCapture.downloadUrl}}
+      </a>
+    </p>
+</div>
+<div class="checkoutButton">
+    <input type="submit" class="btn btnCheckout" value="Terminar">
+  </div>
+
+
+{{#compare confirm.methodIdentifier "input"}}
+<form id="paypalForm" action="{{confirm.url}}">
+  <input type="hidden" name="useraction" value="{{confirm.params.useraction}}">
+  <input type="hidden" name="cmd" value="{{confirm.params.cmd}}">
+  <input type="hidden" name="token" value="{{confirm.params.token}}">
+  <input type="hidden" name="success" value="{{confirm.params.ack}}">
+</form>
+{{/compare}}
+
+
