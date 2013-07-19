@@ -57,7 +57,7 @@ module.exports = class RegisterView extends View
       success: (data) ->
         console.log "Request Success!"
         console.log ["data", data]
-        $('.modal').modal 'hide'
+        w$('.modal').modal 'hide'
         that.publishEvent "showConfirmation"
 
 
