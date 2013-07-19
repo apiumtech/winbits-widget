@@ -2,6 +2,7 @@ View = require 'views/base/view'
 template = require 'views/templates/checkout/payment-methods'
 util = require 'lib/util'
 config = require 'config'
+mediator = require 'chaplin/mediator'
 
 # Site view is a top-level view which is bound to body.
 module.exports = class PaymentView extends View
@@ -31,14 +32,17 @@ module.exports = class PaymentView extends View
   submitOrder: (e)->
     e.preventDefault()
     console.log "submit order"
+    that = @
     $currentTarget = @$(e.currentTarget)
     paymentMethod =  $currentTarget.attr("id").split("-")[1]
-    console.log idPayment
+    console.log paymentMethod
     mediator.post_checkout.paymentMethod = paymentMethod
 
     formData = mediator.post_checkout
+    formData.vertical = window.verticalId
+    console.log formData
 
-    Backbone.$.ajax config.apiUrl + "/order/payment.json",
+    Backbone.$.ajax config.apiUrl + "/orders/payment.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -47,6 +51,8 @@ module.exports = class PaymentView extends View
       headers:{ 'Accept-Language': 'es', 'WB-Api-Token': window.token }
       success: (data) ->
         console.log ["data", data]
+        that.publishEvent "setConfirm", data.response.payments[0]
+        that.publishEvent "showStep", ".checkoutSummaryContainer"
 
 
       error: (xhr, textStatus, errorThrown) ->
