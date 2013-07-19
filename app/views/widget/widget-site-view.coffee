@@ -172,6 +172,8 @@ module.exports = class WidgetSiteView extends View
       trigger: ".knowMoreMax .openClose"
       objetivo: ".knowMoreMin"
 
+    @$el.find('.wb-vertical-' + config.verticalId).addClass('current');
+
   postCheckout: (e)->
     e.preventDefault()
     console.log "WidgetSiteView#postCheckout"

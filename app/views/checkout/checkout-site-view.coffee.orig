@@ -17,16 +17,18 @@ module.exports = class CheckoutSiteView extends View
     @subscribeEvent "showStep", @showStep
     @subscribeEvent "hideAddress", @hideAddress
 
-
   showStep: (selector)->
     console.log @$(".chk-step")
     @$(".chk-step").hide()
     @$(selector).show()
+
+<<<<<<< HEAD
   hideAddress: ()->
     @$(".checkoutShipping").hide()
     @$("#circuledNumber2").html("1")
     @$("#circuledNumber3").html("2")
 
+=======
   attach: () ->
     super
     @startCounter()
@@ -53,3 +55,4 @@ module.exports = class CheckoutSiteView extends View
 
   formatTime: (time) ->
     ('0' + time).slice(-2)
+>>>>>>> 8cb139cd421a38fbd07a63a4e5dc2a1bdcbcd26b
