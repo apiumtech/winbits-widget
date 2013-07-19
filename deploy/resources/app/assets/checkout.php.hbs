@@ -2,6 +2,7 @@
 $token = $_POST['token'];
 $order_data = $_POST['order_data'];
 $bits_balance = $_POST['bits_balance'];
+$verticalId = $_POST['vertical_id'];
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -29,6 +30,7 @@ $bits_balance = $_POST['bits_balance'];
     window.order_data='<?echo stripslashes($order_data)?>';
     window.token= '<?echo $token?>';
     window.bits_balance = '<?echo $bits_balance?>';
+    window.verticalId = '<?echo $verticalId?>';
   </script>
   <script src="{{baseUrl}}/javascripts/app.js"></script>
   <script>

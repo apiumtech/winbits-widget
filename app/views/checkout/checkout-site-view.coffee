@@ -15,10 +15,16 @@ module.exports = class CheckoutSiteView extends View
   initialize: ->
     super
     @subscribeEvent "showStep", @showStep
+    @subscribeEvent "hideAddress", @hideAddress
 
 
   showStep: (selector)->
     console.log @$(".chk-step")
     @$(".chk-step").hide()
     @$(selector).show()
+
+  hideAddress: ()->
+    @$(".checkoutShipping").hide()
+    @$("#circuledNumber2").html("1")
+    @$("#circuledNumber3").html("2")
 
