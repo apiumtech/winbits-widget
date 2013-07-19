@@ -16,3 +16,10 @@ module.exports = class OrderDetailView extends View
     super
   attach: ->
     super
+    that = @
+    util.customSlider(".slideInput").on 'slidechange', (e, ui) ->
+#      TODO: Create view OrderInfo and maintain slider out of that view
+      that.updateOrderBits ui.value
+
+  updateOrderBits: (bits) ->
+    console.log ['Updating order bits']
