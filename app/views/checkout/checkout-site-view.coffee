@@ -1,4 +1,4 @@
-sView = require 'views/base/view'
+View = require 'views/base/view'
 template = require 'views/templates/checkout/checkout-site'
 util = require 'lib/util'
 config = require 'config'
