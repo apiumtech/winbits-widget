@@ -79,7 +79,9 @@ module.exports = class CartView extends View
         that.updateCartDetail id, val
         #console.log @$el
     #console.log @$el.find(".cart-detail-delete-link")
-    util.customSlider(".slideInput")
+    util.customSlider(".slideInput").on 'slidechange', (e, ui) ->
+#      TODO: Create view CartInfo and maintain slider out of that view
+      that.model.set 'bitsTotal', ui.value
 
   updateCartDetail : (id, quantity, bits) ->
     console.log ["updateCartDetail"]
@@ -87,4 +89,3 @@ module.exports = class CartView extends View
       @model.updateUserCartDetail id, quantity, bits
     else
       @model.updateVirtualCartDetail id, quantity
-

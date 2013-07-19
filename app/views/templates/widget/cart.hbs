@@ -16,22 +16,18 @@
     <div class="carritoDivRight cart-info">
       <h3>ENVIO</h3>
       <span class="freeShipping cart-shipping-total reseteable" data-reset-text="GRATIS">
-        {{#if shippingTotal}}
-          {{shippingTotal}}
-        {{else}}
-          GRATIS
-        {{/if}}
+        {{cartShipping total shippingTotal bitsTotal}}
       </span>
       <h3>TOTAL</h3>
-      <span class="totalCar cart-total reseteable" data-reset-text="$0">${{itemsTotal}}</span>
+      <span class="totalCar cart-total reseteable" data-reset-text="$0">{{cartTotal total bitsTotal}}</span>
       <div class="winSave wb-bits-control">
         <span>WIN</span>
         <label class="cart-bits-total reseteable" data-reset-text="0">${{bitsTotal}}</label>
         <em class="icon winbits10px"></em>
         <span>save</span>
-        <label class="cart-saving reseteable" data-reset-text="0%">0%</label>
+        <label class="cart-saving reseteable" data-reset-text="0%">{{cartSaving total bitsTotal}}%</label>
       </div>
-      <input id="wb-cart-bits-slider reseteable" data-reset-val="0" type="text" value="{{value}}" data-min="0" data-max="{{maxBits}}" data-step="1" class="slideInput wb-bits-control">
+      <input id="wb-cart-bits-slider reseteable" data-reset-val="0" type="text" value="{{bitsTotal}}" data-min="0" data-max="{{maxBits}}" data-step="1" class="slideInput wb-bits-control">
       <span class="legendCarrito">Usa tus bits como dinero en esta compra <a href="#">learn more</a></span>
       <a href="#" class="continueShoping">CONTINUE SHOPING</a>
       <input type="submit" class="btn" value="Check Out">
