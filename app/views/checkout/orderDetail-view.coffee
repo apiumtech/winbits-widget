@@ -22,4 +22,4 @@ module.exports = class OrderDetailView extends View
       that.updateOrderBits ui.value
 
   updateOrderBits: (bits) ->
-    console.log ['Updating order bits']
+    @model.updateOrderBits(bits)
