@@ -231,6 +231,7 @@ module.exports = class Cart extends ChaplinModel
       bitsTotal = Math.min(bitsTotal, model.total)
       model.maxBits = total
     model.bitsTotal = bitsTotal
+    @publishEvent('cartBitsUpdated', model)
     model
 
   findCartDetail: (id) ->
@@ -256,6 +257,7 @@ module.exports = class Cart extends ChaplinModel
       success: (data) ->
         console.log ["Success: Update cart bits", data.response]
         @set 'bitsTotal', data.response.bitsTotal
+        @publishEvent('cartBitsUpdated', data.response)
 
       error: (xhr, textStatus, errorThrown) ->
         error = JSON.parse(xhr.responseText)

@@ -3,6 +3,7 @@ template = require 'views/templates/widget/widget-site'
 util = require 'lib/util'
 config = require 'config'
 ProxyInit = require 'lib/proxyInit'
+mediator = require 'chaplin/mediator'
 
 # Site view is a top-level view which is bound to body.
 module.exports = class WidgetSiteView extends View
@@ -31,7 +32,8 @@ module.exports = class WidgetSiteView extends View
     @subscribeEvent 'updateCartCounter', @updateCartCounter
     @subscribeEvent 'showConfirmation', @showConfirmation
     @subscribeEvent 'showRegister', @viewRegister
-    @subscribeEvent 'applyLogin', @updateBitsBalance
+    @subscribeEvent 'applyLogin', @updateBitsBalanceWithProfile
+    @subscribeEvent 'cartBitsUpdated', @updateBitsBalanceWithCart
 
   updateCartCounter: (count)->
     console.log ["WidgetSiteView#updateCartCounter " + count]
@@ -209,5 +211,11 @@ module.exports = class WidgetSiteView extends View
       $fbIFrameHolder.offset(offset).height(35).width($fbHolder.width()).css "z-index", 10000
     , 750
 
-  updateBitsBalance: (profile) ->
-    @$el.find('.wb-user-bits-balance').text profile.bitsBalance
+  updateBitsBalanceWithProfile: (profile) ->
+    @updateBitsBalance profile.bitsBalance
+
+  updateBitsBalance: (bitsBalance) ->
+    @$el.find('.wb-user-bits-balance').text bitsBalance
+
+  updateBitsBalanceWithCart: (cart) ->
+    @updateBitsBalance mediator.profile.bitsBalance - cart.bitsTotal
