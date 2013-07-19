@@ -2,6 +2,7 @@ View = require 'views/base/view'
 template = require 'views/templates/checkout/addresses'
 util = require 'lib/util'
 config = require 'config'
+mediator = require 'chaplin/mediator'
 
 # Site view is a top-level view which is bound to body.
 module.exports = class CheckoutSiteView extends View
@@ -19,11 +20,27 @@ module.exports = class CheckoutSiteView extends View
     @delegate "click" , "#btnSubmit", @addressSubmit
     @delegate "click" , "#btnUpdate", @addressUpdate
     @delegate "click" , ".edit-address", @editAddress
+    @delegate "click" , "#btnContinuar", @addressContinuar
+    @delegate "click" , ".shippingItem", @selectShipping
+
+  selectShipping: (e)->
+    $currentTarget = @$(e.currentTarget)
+    console.log $currentTarget.attr("id")
+    id =  $currentTarget.attr("id").split("-")[1]
+    @$(".shippingItem").removeClass("shippingSelected")
+    $currentTarget.addClass("shippingSelected")
+    mediator.post_checkout.shippingAddress = id
+
+
+
+  addressContinuar: (e)->
+    if mediator.post_checkout.shippingAddress
+      @publishEvent "showStep", ".checkoutPaymentContainer"
+
 
   editAddress: (e)->
     e.principal
     $currentTarget = @$(e.currentTarget)
-    console.log $currentTarget.attr("id")
     id =  $currentTarget.attr("id").split("-")[1]
     console.log id
     $editAddress = @$("#shippingEditAddress-" + id)
@@ -79,7 +96,8 @@ module.exports = class CheckoutSiteView extends View
         formData.principal = false
       console.log formData
       @model.set formData
-      @model.sync 'create', @model,
+      @model.sync 'update', @model,
+        url: config.apiUrl + "/affiliation/shipping-addresses/" + formData.id,
         error: ->
           console.log "error",
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
