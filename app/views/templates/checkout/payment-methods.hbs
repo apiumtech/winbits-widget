@@ -1,3 +1,4 @@
+{{debug}}
 <div class="checkoutPaymentCreditcard">
   <p class="information">Por favor, escoge una de tus tarjetas de crédito. </p>
   <div class="creditcards">
@@ -92,30 +93,45 @@
   </div>
   <p class="information">O, escoge un método de pago. </p>
   <ul class="paymentMethod">
+    {{#methods}}
+      {{#compare identifier "webpay.cc"}}
     <li class="debitCreditCard">
       <span class="paymentIcon debitCard"></span>
       <p>TARJETA DE DEBITO</p>
     </li>
-    <li class="debitCreditCard">
+      {{/compare}}
+
+      {{#compare identifier "webpay.cc"}}
+      <li class="debitCreditCard li-method" id="li-{{replace identifier searchValue='.' replaceValue='_'}}">
       <span class="paymentIcon creditCard"></span>
       <p>TARJETA DE CRÉDITO</p>
     </li>
-    <li class="debitCreditCard">
+      {{/compare}}
+      {{#compare identifier "webpay.ccmsi"}}
+    <li class="debitCreditCard li-method" id="li-{{replace identifier searchValue='.' replaceValue='_'}}">
       <span class="paymentIcon amex"></span>
       <p>MESES SIN INTERESES</p>
     </li>
-    <li class="cashDeposit">
+      {{/compare}}
+      {{#compare identifier "cybersource.ccm"}}
+    <li class="cashDeposit li-method" id="li-{{replace identifier searchValue='.' replaceValue='_'}}">
       <span class="paymentIcon cash"></span>
       <p>DEPÓSITO EN EFECTIVO</p>
     </li>
-    <li class="paypalPay">
+    {{/compare}}
+      {{#compare identifier "paypal.latam"}}
+    <li class="paypalPay li-method" id="li-{{replace identifier searchValue='.' replaceValue='_'}}">
       <span class="paymentIcon paypal"></span>
       <p>PAGO VÍA PAYPAL</p>
     </li>
-    <li class="oxxoPay">
+    {{/compare}}
+      {{#compare identifier "oxxo.bc"}}
+    <li class="oxxoPay li-method" id="li-{{replace identifier searchValue='.' replaceValue='_'}}">
       <span class="paymentIcon oxxo"></span>
       <p>PAGO VÍA OXXO</p>
     </li>
+    {{/compare}}
+    {{/methods}}
   </ul>
   <input type="submit" class="btn btnCheckout" value="Continuar">
 </div>
@@ -186,14 +202,16 @@
         <div class="errorDiv"><p></p></div>
         <div class="submitButton">
           <span class="btn btnCancel">Cancelar</span>
-          <input type="submit" value="Pagar" class="btn">
+          <input type="submit" class="submitOrder" id="submit-{{id}}" value="Pagar" class="btn">
         </div>
       </div>
     </fieldset>
   </form>
 
 </div>
-<div class="checkoutPaymentCash">
+    {{#methods}}
+      {{#compare identifier "cybersource.cc"}}
+      <div class="checkoutPaymentCash method-payment" id="method-{{replace identifier searchValue='.' replaceValue='_'}}">
   <ul>
     <li>
       <span class="cashIcon cashEmail"></span>
@@ -208,15 +226,19 @@
       <p>Sube tu comprobante a ClickOnero en la sección de "Historial de Compra", ubicado en Mi Cuenta.</p>
     </li>
   </ul>
-  <a href="#" class="btn">Pedir mi número de referencia</a>
+  <a href="#" class="btn submitOrder" id="submit-{{id}}">Pedir mi número de referencia</a>
   <a href="#" class="linkBack"><em class="icon backBtn"></em> Regresar</a>
 </div>
-<div class="checkoutPaymentPayPal">
+      {{/compare}}
+      {{#compare identifier "paypal.latam"}}
+      <div class="checkoutPaymentPayPal method-payment" id="method-{{replace identifier searchValue='.' replaceValue='_'}}">
   <p>Paga de forma rapida y segura con tu cuenta de PayPal</p>
-  <a href="#"><span class="icon paypalLogo">Pay Pal</span></a>
+  <a href="#" class="submitOrder" id="submit-{{id}}"><span class="icon paypalLogo">Pay Pal</span></a>
   <a href="#" class="linkBack"><em class="icon backBtn"></em> Regresar</a>
 </div>
-<div class="checkoutPaymentOxxo">
+  {{/compare}}
+      {{#compare identifier "oxxo.bc"}}
+      <div class="checkoutPaymentOxxo method-payment" id="method-{{replace identifier searchValue='.' replaceValue='_'}}">
   <ul>
     <li>
       <span class="cashIcon oxxoEmail"></span>
@@ -236,6 +258,8 @@
     </li>
   </ul>
   <input type="submit" value="Continuar" class="btn">
-  <a href="#" class="linkBack"><em class="icon backBtn"></em> Regresar</a>
+  <a href="#" class="linkBack" ><em class="icon backBtn"></em> Regresar</a>
 </div>
+{{/compare}}
+{{/methods}}
 

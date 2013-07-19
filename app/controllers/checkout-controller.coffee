@@ -33,7 +33,7 @@ module.exports = class CheckoutController extends ChaplinController
       console.log "Order Details Changed"
       that.orderDetailView.render()
 
-    @payments.set @order_data.paymentMethods
+    @payments.set methods:@order_data.paymentMethods
 
     @orderDetailView.render()
     @paymentView.render()
