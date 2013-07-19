@@ -50,6 +50,7 @@ module.exports = class CartView extends View
     else
       qty = cartItem.quantity + cartDetail.quantity
       @updateCartDetail cartItem.id, qty, cartItem.bits
+    @$el.closest('.miCarritoDiv').slideDown()
 
 
   clickDeleteCartDetailLink: (e) ->
