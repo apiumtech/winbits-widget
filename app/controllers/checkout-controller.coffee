@@ -28,9 +28,10 @@ module.exports = class CheckoutController extends ChaplinController
     @order_data = JSON.parse(window.order_data)
     console.log @order_data
 
-    console.log ['Bits Balance', window.bits_balance]
-    @orderDetails.set @orderDetails.completeOrderModel @order_data, parseInt(window.bits_balance)
-
+    @orderDetails.set @orderDetails.completeOrderModel @order_data, parseFloat(window.bits_balance)
+    @orderDetails.on "change", ->
+      console.log "Order Details Changed"
+      that.orderDetailView.render()
 
     @payments.set @order_data.paymentMethods
 
