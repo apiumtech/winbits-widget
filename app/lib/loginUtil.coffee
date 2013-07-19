@@ -40,7 +40,7 @@ module.exports = class LoginUtil
         success: (data) ->
           console.log "express-login.json Success!"
           console.log ["data", data]
-          that.applyLogin data.response
+          that.publishEvent 'applyLogin', data.response
 
         error: (xhr, textStatus, errorThrown) ->
           console.log "express-login.json Error!"
@@ -60,7 +60,7 @@ module.exports = class LoginUtil
     console.log "LoginUtil#applyLogin"
     if profile.apiToken
       mediator.flags.loggedIn = true
-      #Winbits.checkCompleteRegistration $
+      mediator.profile.bitsBalance = profile.bitsBalance
 
       token.saveApiToken profile.apiToken
       #Winbits.restoreCart $
@@ -68,7 +68,6 @@ module.exports = class LoginUtil
       @publishEvent "restoreCart"
       @publishEvent "setProfile", profile.profile
       @publishEvent "setSubscription", subscriptions:profile.subscriptions
-
 
       #Winbits.$widgetContainer.find("div.login").hide()
       #Winbits.$widgetContainer.find("div.miCuentaPanel").show()
@@ -151,7 +150,7 @@ module.exports = class LoginUtil
       success: (data) ->
         console.log "facebook.json success!"
         console.log ["data", data]
-        that.applyLogin data.response
+        that.publishEvent 'applyLogin', data.response.profile
         if 201 is data.meta.status
           console.log "Facebook registered"
           that.publishEvent("setRegisterFb", data.response.profile)

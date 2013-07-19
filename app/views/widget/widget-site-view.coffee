@@ -31,6 +31,7 @@ module.exports = class WidgetSiteView extends View
     @subscribeEvent 'updateCartCounter', @updateCartCounter
     @subscribeEvent 'showConfirmation', @showConfirmation
     @subscribeEvent 'showRegister', @viewRegister
+    @subscribeEvent 'applyLogin', @updateBitsBalance
 
   updateCartCounter: (count)->
     console.log ["WidgetSiteView#updateCartCounter " + count]
@@ -209,3 +210,6 @@ module.exports = class WidgetSiteView extends View
       offset.top = $fbLink.offset().top
       $fbIFrameHolder.offset(offset).height(35).width($fbHolder.width()).css "z-index", 10000
     , 750
+
+  updateBitsBalance: (profile) ->
+    @$el.find('.wb-user-bits-balance').text profile.bitsBalance

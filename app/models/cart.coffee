@@ -223,9 +223,14 @@ module.exports = class Cart extends ChaplinModel
   completeCartModel: (model) ->
     total = model.itemsTotal + model.shippingTotal
     model.total = total
-    model.maxBits = total
-    bitsTotal = model.bitsTotal || @get('bitsTotal') || 0
-    model.bitsTotal = Math.min(bitsTotal, model.total)
+    bitsTotal = @get('bitsTotal') || 0
+    if mediator.flags.loggedIn
+      bitsTotal = model.bitsTotal
+      model.maxBits = Math.min(mediator.profile.bitsBalance, total)
+    else
+      bitsTotal = Math.min(bitsTotal, model.total)
+      model.maxBits = total
+    model.bitsTotal = bitsTotal
     model
 
   findCartDetail: (id) ->
@@ -235,5 +240,4 @@ module.exports = class Cart extends ChaplinModel
       if detail.skuProfile.id is id
         cartDetail = detail
         return false
-    console.log ['CART DETAIL', cartDetail]
     cartDetail

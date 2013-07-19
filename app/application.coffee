@@ -40,6 +40,7 @@ module.exports = class Application
     # Seal the mediator.
     ChaplinMediator.flags = {}
     ChaplinMediator.proxy = {}
+    ChaplinMediator.profile = {}
     ChaplinMediator.seal()
 
 
