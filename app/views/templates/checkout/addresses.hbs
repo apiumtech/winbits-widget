@@ -23,7 +23,7 @@
       <span id="aNewAddress">Da click para agregar</span>
     </li>
   </ul>
-  <input type="submit" class="btn btnCheckout" value="Continuar">
+  <input type="button"  id="btnContinuar" class="btn btnCheckout" value="Continuar">
 </div>
 <div class="">
       {{#each addresses}}
@@ -38,6 +38,7 @@
       <div class="column">
         <h3>DIRECCIÓN</h3>
         <input type="hidden" value="1" name="country">
+        <input type="hidden" value="{{id}}" name="id">
         <input type="text" placeholder="Calle" class="inputMedium required" name="street" value="{{street}}" id="">
         <input type="text" placeholder="##" class="inputSmall required" name="externalNumber" value="{{externalNumber}}" id="">
         <input type="text" placeholder="##" class="inputSmall required" name="internalNumber" value="{{internalNumber}}" id="">
@@ -80,6 +81,7 @@
       </div>
       <div class="column">
         <h3>DIRECCIÓN</h3>
+        <input type="hidden" value="1" name="country">
         <select class="select" data-clase="selectRegister" name="country" id="winbitsShippingCountry">
           <option>País</option>
           <option value=1>México</option>

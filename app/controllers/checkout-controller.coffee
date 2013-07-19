@@ -6,6 +6,7 @@ AddressCK = require "models/checkout/addressCK"
 OrderDetails = require "models/checkout/orderDetails"
 OrderDetailView = require "views/checkout/orderDetail-view"
 Payments = require "models/checkout/payments"
+mediator = require 'chaplin/mediator'
 config = require 'config'
 util = require 'lib/util'
 
@@ -29,6 +30,7 @@ module.exports = class CheckoutController extends ChaplinController
 
     @orderDetails.set {details:@order_data.orderDetails, bitsTotal: @order_data.bitsTotal, shippingTotal: @order_data.shippingTotal, total: @order_data.total}
 
+
     @payments.set @order_data.paymentMethods
 
     @orderDetailView.render()
@@ -36,6 +38,8 @@ module.exports = class CheckoutController extends ChaplinController
 
     @addressCK.on "change", ->
       console.log "address change"
+      if mediator.post_checkout
+        mediator.post_checkout.order = that.order_data.id
       that.addressManagerView.render()
 
     @orderDetails.on "change", ->
