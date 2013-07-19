@@ -31,7 +31,7 @@ module.exports = class CheckoutController extends ChaplinController
     @orderDetails.set {details:@order_data.orderDetails, bitsTotal: @order_data.bitsTotal, shippingTotal: @order_data.shippingTotal, total: @order_data.total}
 
 
-    @payments.set @order_data.paymentMethods
+    @payments.set methods:@order_data.paymentMethods
 
     @orderDetailView.render()
     @paymentView.render()

@@ -184,6 +184,12 @@ Handlebars.registerHelper "substr", (context, options) ->
   else
     ""
 
+Handlebars.registerHelper "replace", (context, options) ->
+  if context
+    theString = context.replace(options.hash.searchValue, options.hash.replaceValue)
+    new Handlebars.SafeString(theString)
+  else
+    ""
 Handlebars.registerHelper "cartShipping", (total, shippingTotal, bitsTotal) ->
   if shippingTotal and total > bitsTotal
     '$' + shippingTotal

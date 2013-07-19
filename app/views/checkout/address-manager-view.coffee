@@ -32,8 +32,8 @@ module.exports = class CheckoutSiteView extends View
     mediator.post_checkout.shippingAddress = id
 
 
-
   addressContinuar: (e)->
+    console.log "continuar"
     if mediator.post_checkout.shippingAddress
       @publishEvent "showStep", ".checkoutPaymentContainer"
 

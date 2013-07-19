@@ -1,8 +1,7 @@
-{{debug}}
 <div class="shippingAddresses">
   <ul>
       {{#each addresses}}
-      <li class="shippingItem">
+      <li class="shippingItem" id="shippingItem-{{id}}">
         <div class="shippingMenu">
           <a href="#" class="edit-address" id="editAddress-{{id}}">edit</a>
           <span class="icon closeButton delete-address" id="deleteAddress-{{id}}">cerrar</span>
