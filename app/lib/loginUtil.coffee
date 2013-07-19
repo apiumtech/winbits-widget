@@ -116,11 +116,14 @@ module.exports = class LoginUtil
 
 
   loginFacebook : (me) ->
-    console.log "was here"
     $ = Backbone.$
     that = @
     myBirthdayDate = new Date(me.birthday)
     birthday = myBirthdayDate.getFullYear() + "-" + myBirthdayDate.getMonth() + "-" + myBirthdayDate.getDate()
+    accessToken = mediator.facebook.accessToken
+    profileUrl = "http://facebook.com/profile.php?id=" + me.id
+    imageUrl = "http://graph.facebook.com/" + me.id + "/picture"
+
     payLoad =
       name: me.first_name
       lastName: me.last_name
@@ -129,14 +132,12 @@ module.exports = class LoginUtil
       gender: me.gender
       verticalId: config.verticalId
       locale: me.locale
-      facebookId: me.id
-      #providerUserId: me.id
-      facebookToken: me.id
-      #profileUrl: me.
-      #imageUrl: me.
+      providerUserId: me.id
+      facebookToken: accessToken
+      profileUrl: profileUrl
+      imageUrl: imageUrl
 
     #$.fancybox.close()
-    console.log "Enviando info al back"
     $.ajax config.apiUrl + "/affiliation/facebook",
       type: "POST"
       contentType: "application/json"
@@ -150,10 +151,9 @@ module.exports = class LoginUtil
 
       success: (data) ->
         console.log "facebook.json success!"
-        console.log ["data", data]
-        that.applyLogin data.response
+        that.publishEvent "applyLogin", data.response.profile
         if 201 is data.meta.status
-          console.log "Facebook registered"
+          console.log ["Facebook registered", data.response.profile]
           that.publishEvent("setRegisterFb", data.response.profile)
           that.publishEvent "showCompletaRegister", data.response.profile
 
