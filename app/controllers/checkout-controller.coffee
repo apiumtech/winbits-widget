@@ -3,6 +3,11 @@ CheckoutSiteView = require 'views/checkout/checkout-site-view'
 AddressManagerView = require "views/checkout/address-manager-view"
 PaymentView = require "views/checkout/payment-view"
 AddressCK = require "models/checkout/addressCK"
+OrderDetails = require "models/checkout/orderDetails"
+OrderDetailView = require "views/checkout/orderDetail-view"
+Payments = require "models/checkout/payments"
+config = require 'config'
+util = require 'lib/util'
 
 module.exports = class CheckoutController extends ChaplinController
 
@@ -11,10 +16,34 @@ module.exports = class CheckoutController extends ChaplinController
     @checkoutSiteView = new CheckoutSiteView()
 
   index: ->
-    console.log ":-01"
-    @checkoutSiteView.render()
+    console.log ":-02"
+    that=this
     @addressCK = new AddressCK
+    @orderDetails = new OrderDetails
+    @payments = new Payments
     @addressManagerView = new AddressManagerView({model: @addressCK})
-    @paymentView = new PaymentView()
+    @paymentView = new PaymentView({model: @payments})
+    @orderDetailView = new OrderDetailView({model: @orderDetails})
+    @order_data = JSON.parse(window.order_data)
+    console.log @order_data
 
-    @publishEvent "showStep", ".shippingAddressesContainer"
+    @orderDetails.set {details:@order_data.orderDetails, bitsTotal: @order_data.bitsTotal, shippingTotal: @order_data.shippingTotal, total: @order_data.total}
+
+    @payments.set @order_data.paymentMethods
+
+    @orderDetailView.render()
+    @paymentView.render()
+
+    @addressCK.on "change", ->
+      console.log "address change"
+      that.addressManagerView.render()
+
+    @orderDetails.on "change", ->
+      console.log "ordersDetail  change"
+    @payments.on "change", ->
+      console.log "---->"
+
+    if @order_data.shippingTotal > 0
+      @publishEvent "showStep", ".shippingAddressesContainer"
+
+

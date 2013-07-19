@@ -1,3 +1,4 @@
+{{debug}}
 <form id="winbits-register-form" accept-charset="utf-8" action="#" method="post" style="margin: 0;">
   <div class="mainModal registro01">
     <div class="contentModal">
@@ -28,23 +29,18 @@
 
 <div id="complete-register-layer" style="display:none">
   <form id="complete-register-form" accept-charset="utf-8" action="#" method="post" style="margin: 0;">
-    <input type="hidden" name="facebookToken" >
-    <input type="hidden" name="providerUserId" value="{{id}}">
-    <input type="hidden" name="profileUrl">
-    <input type="hidden" name="imageUrl">
-    <input type="hidden" name="expireTime" value="{{updated_time}}">
     <div class="mainModal completaRegistro">
       <div class="contentModal">
         <fieldset class="leftModal">
           <h1>COMPLETA TU REGISTRO Y GANA BITS!</h1>
           <h3>Si completas tu registro con nosotros, obtendrás $50 bits que podras utilizar desde tu primera compra.</h3>
-          <input type="text" placeholder="Nombre" name="name" value="{{first_name}}">
-          <input type="text" placeholder="Apellido" name="lastName" value={{last_name}}>
+          <input type="text" placeholder="Nombre" name="name" value="{{name}}">
+          <input type="text" placeholder="Apellido" name="lastName" value={{lastName}}>
           <div class="fieldsetDiv divBirthday">
             <label>Cumpleaños</label>
-            <input type="text" placeholder="dd" maxlength="2" digits="true" class="day-input" value="{{substr birthday start=3 length=2}}">
-            <input type="text" placeholder="mm" maxlength="2" digits="true" class="month-input" value="{{substr birthday start=0 length=2}}">
-            <input type="text" placeholder="aa" maxlength="2" digits="true" class="year-input" value="{{substr birthday start=8 length=2}}">
+            <input type="text" placeholder="dd" maxlength="2" digits="true" class="day-input" value="{{substr birthday start=8 length=2}}">
+            <input type="text" placeholder="mm" maxlength="2" digits="true" class="month-input" value="{{substr birthday start=5 length=2}}">
+            <input type="text" placeholder="aa" maxlength="2" digits="true" class="year-input" value="{{substr birthday start=2 length=2}}">
             <input type="hidden" name="birthday">
           </div>
           <div class="fieldsetDiv divGender">

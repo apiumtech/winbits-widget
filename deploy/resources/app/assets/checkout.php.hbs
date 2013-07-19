@@ -25,14 +25,14 @@ $order_data = $_POST['order_data'];
   <script src="{{baseUrl}}/javascripts/vendor.js"></script>
   <script type="text/javascript">
     Backbone.$ = window.w$;
-    window.order_data='<?=$order_data?>';
-    window.token= '<?=$_token?>';
+    window.order_data='<?echo stripslashes($order_data)?>';
+    window.token= '<?echo $_token?>';
   </script>
   <script src="{{baseUrl}}/javascripts/app.js"></script>
   <script>
     window.w$(document).ready(function($) {
       var Application = require('application');
-      //(new Application).initialize(true);
+      (new Application).initialize(true);
     });
   </script>
 </head>

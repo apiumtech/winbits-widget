@@ -1,13 +1,19 @@
 ChaplinModel = require 'chaplin/models/model'
 config = require 'config'
+util = require 'lib/util'
 module.exports = class AddressCK extends ChaplinModel
 
   initialize: (attributes, option) ->
     super
     @url = config.apiUrl + "/affiliation/shipping-addresses"
 
-    #@fetch success: (collection, response) ->
+    @fetch
+      error: ->
+        console.log "error",
+      headers:{ 'Accept-Language': 'es', "WB-Api-Token": util.getCookie(config.apiTokenName)}
+      success: ->
+        console.log "success load Virtual cart"
       #collection.resolve()
   parse: (response) ->
-    response
+    addresses : response.response
 

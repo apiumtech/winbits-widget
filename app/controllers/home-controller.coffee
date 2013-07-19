@@ -34,6 +34,8 @@ module.exports = class HomeController extends ChaplinController
     @profileView = new ProfileView(model: @profile )
     @cartView = new CartView(model:@cart)
     @registerView = new RegisterView(model: @registerfb)
+
+    @address.fetch()
     @profile.on "change", ->
       console.log "profileChanged"
       that.profileView.render()
