@@ -2,7 +2,7 @@
 <div class="shippingAddresses">
   <ul>
       {{#each addresses}}
-      <li class="shippingItem" id="address-{{id}}">
+      <li class="shippingItem">
         <div class="shippingMenu">
           <a href="#" class="edit-address" id="editAddress-{{id}}">edit</a>
           <span class="icon closeButton delete-address" id="deleteAddress-{{id}}">cerrar</span>
@@ -23,7 +23,7 @@
       <span id="aNewAddress">Da click para agregar</span>
     </li>
   </ul>
-  <input type="submit" class="btn btnCheckout" value="Continuar">
+  <input type="button"  id="btnContinuar" class="btn btnCheckout" value="Continuar">
 </div>
 <div class="">
       {{#each addresses}}
@@ -82,6 +82,12 @@
       <div class="column">
         <h3>DIRECCIÓN</h3>
         <input type="hidden" value="1" name="country">
+        <select class="select" data-clase="selectRegister" name="country" id="winbitsShippingCountry">
+          <option>País</option>
+          <option value=1>México</option>
+          <option value=2>USA</option>
+          <option value=3>Puerto Rico</option>
+        </select>
         <input type="text" placeholder="Calle" class="inputMedium required" name="street" id="winbitsShippingStreet">
         <input type="text" placeholder="##" class="inputSmall required" name="externalNumber" id="winbitsShippingNumber">
         <input type="text" placeholder="##" class="inputSmall required" name="internalNumber" id="winbitsShippingNumber">
@@ -108,7 +114,7 @@
         <div class="errorDiv"><p></p></div>
         <div class="submitButton">
           <span id="btnCancel" class="btn btnCancel">Cancelar</span>
-          <input id="btnContinuar" type="btn" value="Continuar" class="btn">
+          <input id="btnSubmit" type="btn" value="Continuar" class="btn">
         </div>
       </div>
     </fieldset>
