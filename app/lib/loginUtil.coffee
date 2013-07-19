@@ -150,7 +150,7 @@ module.exports = class LoginUtil
       success: (data) ->
         console.log "facebook.json success!"
         console.log ["data", data]
-        that.publishEvent 'applyLogin', data.response.profile
+        that.publishEvent 'applyLogin', data.response
         if 201 is data.meta.status
           console.log "Facebook registered"
           that.publishEvent("setRegisterFb", data.response.profile)

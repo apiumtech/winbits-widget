@@ -42,7 +42,7 @@ module.exports = class Cart extends ChaplinModel
       success: (data) ->
         console.log ["V: User cart", data.response]
         util.setCookie config.vcartTokenName, '[]', 7
-        that.set data.response
+        that.set that.completeCartModel(data.response)
         mediator.proxy.post
           action: "storeVirtualCart"
           params: ['[]']
