@@ -28,8 +28,10 @@ module.exports = class CheckoutController extends ChaplinController
     @order_data = JSON.parse(window.order_data)
     console.log @order_data
 
-    @orderDetails.set {details:@order_data.orderDetails, bitsTotal: @order_data.bitsTotal, shippingTotal: @order_data.shippingTotal, total: @order_data.total}
-
+    @orderDetails.set @orderDetails.completeOrderModel @order_data, parseFloat(window.bits_balance)
+    @orderDetails.on "change", ->
+      console.log "Order Details Changed"
+      that.orderDetailView.render()
 
     @payments.set methods:@order_data.paymentMethods
 
@@ -40,6 +42,8 @@ module.exports = class CheckoutController extends ChaplinController
       console.log "address change"
       if mediator.post_checkout
         mediator.post_checkout.order = that.order_data.id
+      if mediator.profile
+        mediator.profile.bitsBalance = that.bits_balance
       that.addressManagerView.render()
 
     @orderDetails.on "change", ->

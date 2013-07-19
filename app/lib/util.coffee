@@ -278,3 +278,8 @@ module.exports =
           $styledSelect.removeClass "active"
           $list.hide()
 
+  calculateOrderFullPrice: (details) ->
+    orderFullPrice = 0.0
+    w$.each details, (index, detail) ->
+      orderFullPrice += detail.sku.fullPrice * detail.quantity
+    orderFullPrice

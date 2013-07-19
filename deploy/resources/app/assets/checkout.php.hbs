@@ -1,6 +1,7 @@
 <?php
 $token = $_POST['token'];
 $order_data = $_POST['order_data'];
+$bits_balance = $_POST['bits_balance'];
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -26,7 +27,8 @@ $order_data = $_POST['order_data'];
   <script type="text/javascript">
     Backbone.$ = window.w$;
     window.order_data='<?echo stripslashes($order_data)?>';
-    window.token= '<?echo $_token?>';
+    window.token= '<?echo $token?>';
+    window.bits_balance = '<?echo $bits_balance?>';
   </script>
   <script src="{{baseUrl}}/javascripts/app.js"></script>
   <script>

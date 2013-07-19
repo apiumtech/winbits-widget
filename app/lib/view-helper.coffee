@@ -191,20 +191,28 @@ Handlebars.registerHelper "replace", (context, options) ->
   else
     ""
 Handlebars.registerHelper "cartShipping", (total, shippingTotal, bitsTotal) ->
-  if shippingTotal and total > bitsTotal
+  if shippingTotal
     '$' + shippingTotal
   else
     'GRATIS'
 
 Handlebars.registerHelper "cartTotal", (total, bitsTotal) ->
-  cartTotal = total - bitsTotal
-  if cartTotal then '$' + cartTotal else 'GRATIS'
+  total - bitsTotal
 
 Handlebars.registerHelper "cartSaving", (total, bitsTotal) ->
   if total then Math.round(bitsTotal * 100 / total) else 0
 
 Handlebars.registerHelper "cartDetailTotal", (unitPrice, quantity) ->
   unitPrice * quantity
+
+Handlebars.registerHelper "joinAttributes", (mainAttribute, attributes) ->
+  attrValues = [mainAttribute.value]
+  w$.each attributes, (index, attribute) ->
+    attrValues.push attribute.value
+  attrValues.join ', '
+
+Handlebars.registerHelper "defaultThumbnail", (thumbnail) ->
+  thumbnail || 'images/assets/jeans-tiny.jpg'
 
 #******************************
 #Custom partial

@@ -186,14 +186,8 @@ module.exports = class WidgetSiteView extends View
       success: (data) ->
         console.log "Checkout Success!"
         console.log ["data", data]
-        $chkForm = @$el.find("#chk-form")
-        console.log $chkForm
-        $token = $chkForm.find("#token")
-        $order_data = $chkForm.find("#order_data")
-        $token.val(util.getCookie(config.apiTokenName))
-        $order_data.val(JSON.stringify(data.response))
-        $chkForm.attr("action", config.baseUrl + "/checkout.php")
-        $chkForm.submit()
+        @postToCheckoutApp data.response
+
       error: (xhr, textStatus, errorThrown) ->
         console.log xhr
         error = JSON.parse(xhr.responseText)
@@ -219,3 +213,14 @@ module.exports = class WidgetSiteView extends View
 
   updateBitsBalanceWithCart: (cart) ->
     @updateBitsBalance mediator.profile.bitsBalance - cart.bitsTotal
+
+  postToCheckoutApp: (order) ->
+    $chkForm = w$('<form id="chk-form" method="POST" style="display:none"></form>')
+    $chkForm.attr("action", config.baseUrl + "/checkout.php")
+    $chkForm.append w$('<input type="hidden" name="token"/>').val(util.getCookie(config.apiTokenName))
+    $chkForm.append w$('<input type="hidden" name="order_data"/>').val(JSON.stringify(order))
+    $chkForm.append w$('<input type="hidden" name="bits_balance"/>').val(mediator.profile.bitsBalance)
+    $chkForm.append w$('<input type="hidden" name="vertical_id"/>').val(config.verticalId)
+
+    @$el.append $chkForm
+    $chkForm.submit()
