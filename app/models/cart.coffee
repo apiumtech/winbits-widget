@@ -71,7 +71,7 @@ module.exports = class Cart extends ChaplinModel
 
       success: (data) ->
         console.log ["V: User cart", data.response]
-        that.set data.response
+        that.set that.completeCartModel data.response
 
       error: (xhr, textStatus, errorThrown) ->
         error = JSON.parse(xhr.responseText)
@@ -128,7 +128,7 @@ module.exports = class Cart extends ChaplinModel
       headers:{ 'Accept-Language': 'es', "WB-Api-Token": util.getCookie(config.apiTokenName) }
       success: (data) ->
         console.log ["V: User cart", data.response]
-        that.set data.response
+        that.set that.completeCartModel data.response
       error: (xhr, textStatus, errorThrown) ->
         error = JSON.parse(xhr.responseText)
         alert error.meta.message
@@ -167,8 +167,7 @@ module.exports = class Cart extends ChaplinModel
 
       success: (data) ->
         console.log ["V: User cart", data.response]
-        that.set that.parse(data.response)
-        #app.refreshCart $, data.response, true
+        that.set that.completeCartModel data.response
 
       error: (xhr, textStatus, errorThrown) ->
         error = JSON.parse(xhr.responseText)
@@ -227,6 +226,7 @@ module.exports = class Cart extends ChaplinModel
     if mediator.flags.loggedIn
       bitsTotal = model.bitsTotal
       model.maxBits = Math.min(mediator.profile.bitsBalance, total)
+
     else
       bitsTotal = Math.min(bitsTotal, model.total)
       model.maxBits = total
@@ -241,3 +241,22 @@ module.exports = class Cart extends ChaplinModel
         cartDetail = detail
         return false
     cartDetail
+
+  updateCartBits: (bits) ->
+    Backbone.$.ajax config.apiUrl + "/orders/update-cart-bits.json",
+      type: "PUT"
+      contentType: "application/json"
+      dataType: "json"
+      data: JSON.stringify({bitsTotal: bits})
+      context: @
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+
+      success: (data) ->
+        console.log ["Success: Update cart bits", data.response]
+        @set 'bitsTotal', data.response.bitsTotal
+
+      error: (xhr, textStatus, errorThrown) ->
+        error = JSON.parse(xhr.responseText)
+        alert error.meta.message
