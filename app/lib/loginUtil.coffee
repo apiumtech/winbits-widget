@@ -63,10 +63,18 @@ module.exports = class LoginUtil
       mediator.profile.bitsBalance = profile.bitsBalance
 
       token.saveApiToken profile.apiToken
+
+      profileData = profile.profile
+
+      facebook = (item for item in profile.socialAccounts when item.providerId is "facebook") #profile.socialAccounts[0].providerId
+      twitter = (item for item in profile.socialAccounts when item.providerId is "twitter")
+      profileData.facebook = if facebook != null && facebook.length > 0  then "On" else "Off"
+      profileData.twitter = if twitter != null && twitter.length > 0 then "On" else "Off"
+
       #Winbits.restoreCart $
       @publishEvent "showHeaderLogin"
       @publishEvent "restoreCart"
-      @publishEvent "setProfile", profile.profile
+      @publishEvent "setProfile", profileData
       @publishEvent "setSubscription", subscriptions:profile.subscriptions
 
       #Winbits.$widgetContainer.find("div.login").hide()
