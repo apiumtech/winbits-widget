@@ -3,7 +3,7 @@ View = require 'views/base/view'
 util = require 'lib/util'
 
 module.exports = class AddressView extends View
-  autoRender: no
+  autoRender: yes
   #className: 'home-page'
   container: '#headerAddress'
   template: template
