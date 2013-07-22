@@ -70,14 +70,18 @@ module.exports = class CheckoutSiteView extends View
         formData.principal  = true
       else
         formData.principal = false
+      formData.contactName = formData.name + " " + formData.lastname
+      formData.contactPhone = formData.phone
       console.log formData
       @model.set formData
+      that = @
       @model.sync 'create', @model,
         error: ->
           console.log "error",
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
         success: ->
           console.log "success"
+          that.model.actualiza()
           #that.$el.find(".myPerfil").slideDown()
           #
   addressUpdate: (e)->
@@ -94,6 +98,7 @@ module.exports = class CheckoutSiteView extends View
         formData.principal  = true
       else
         formData.principal = false
+      formData.contactName = formData.name + " " + formData.lastname
       console.log formData
       @model.set formData
       @model.sync 'update', @model,
