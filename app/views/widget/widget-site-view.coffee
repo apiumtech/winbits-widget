@@ -234,6 +234,7 @@ module.exports = class WidgetSiteView extends View
     $chkForm.submit()
 
   twitterShare: (e) ->
+    e.preventDefault()
     that = @
     console.log "twitter update status"
     Backbone.$.ajax config.apiUrl + "/affiliation/twitterPublish/updateStatus.json",
@@ -260,6 +261,7 @@ module.exports = class WidgetSiteView extends View
         console.log "updateStatus.json Completed!"
 
   facebookShare: (e) ->
+    e.preventDefault()
     that = @
     console.log "facebook share"
     Backbone.$.ajax config.apiUrl + "/affiliation/facebookPublish/share.json",
