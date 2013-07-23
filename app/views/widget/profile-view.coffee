@@ -187,7 +187,6 @@ module.exports = class ProfileView extends View
   updateSocialAccountsStatus : () ->
     that = @
     console.log "update social accounts"
-    #Backbone.$.ajax "http://localhost:8080/affiliation-api/social-accounts.json",
     Backbone.$.ajax config.apiUrl + "/affiliation/social-accounts.json",
       type: "GET"
       contentType: "application/json"
