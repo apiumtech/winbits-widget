@@ -87,7 +87,7 @@ module.exports = class CheckoutSiteView extends View
       data: JSON.stringify(formData)
       formData = util.serializeForm($form)
       formData.country  = {"id": formData.country}
-      formData.zipCodeInfo  = {"id": '4000'}
+      formData.zipCodeInfo  = {"id": formData.zipCodeInfoId}
       if formData.principal
         formData.principal  = true
       else
