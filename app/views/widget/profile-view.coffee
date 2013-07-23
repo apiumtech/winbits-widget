@@ -22,7 +22,12 @@ module.exports = class ProfileView extends View
     @delegate 'click', '#updateBtnProfile', @saveProfile
     @delegate 'click', '#editBtnProfile', @editProfile
     @delegate 'keyup', '.zipCode', @findZipcode
+    @delegate 'click', '#attachTwitterAccountOff', @viewAttachTwitterAccount
+    @delegate 'click', '#attachFacebookAccountOff', @viewAttachFacebookAccount
+    @delegate 'click', '#attachTwitterAccountOn', @viewDetachTwitterAccount
+    @delegate 'click', '#attachFacebookAccountOn', @viewDetachFacebookAccount
 
+    @subscribeEvent 'updateSocialAccountsStatus', @updateSocialAccountsStatus
 
   editProfile: (e)->
     console.log "---->"
@@ -95,3 +100,170 @@ module.exports = class ProfileView extends View
     $slt = @$("#zipCodeInfo")
     zipCode(Backbone.$).find currentTarget.val(), $slt
 
+  viewAttachTwitterAccount: (e)->
+    that = @
+    console.log "attach-twitter-account"
+    maxHeight = Backbone.$(window).height() - 200
+    @$("#attach-twitter-account-modal .modal-body").css("max-height", maxHeight)
+    @$("#attach-twitter-account-modal").modal( 'show' ).css {
+      'background-color': 'transparent',
+      float: 'left',
+      width: '330px',
+      'margin-left': -> -( Backbone.$( this ).width() / 2 )
+      top: '50%',
+      'max-height': maxHeight,
+      'margin-top': -> -(  Backbone.$( this ).height() / 2 )
+    }
+    Backbone.$.ajax config.apiUrl + "/affiliation/connect/twitter",
+      type: "POST"
+      contentType: "application/json"
+      dataType: "json"
+      data: {}
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+
+      success: (data) ->
+        popup = window.open(data.response.socialUrl, "twitter", "menubar=0,resizable=0,width=800,height=500")
+        popup.postMessage
+        popup.focus()
+        timer = setInterval(->
+            if popup.closed
+              clearInterval timer
+              Backbone.$(".modal").modal('hide')
+              that.publishEvent 'updateSocialAccountsStatus'
+        , 1000)
+
+      error: (xhr, textStatus, errorThrown) ->
+        error = JSON.parse(xhr.responseText)
+        alert error.message
+
+      complete: ->
+        console.log "Request Completed!"
+
+
+  viewAttachFacebookAccount: (e)->
+    that = @
+    console.log "attach-facebook-account"
+    maxHeight = Backbone.$(window).height() - 200
+    @$("#attach-facebook-account-modal .modal-body").css("max-height", maxHeight)
+    @$("#attach-facebook-account-modal").modal( 'show' ).css {
+      'background-color': 'transparent',
+      float: 'left',
+      width: '330px',
+      'margin-left': -> -( Backbone.$( this ).width() / 2 )
+      top: '50%',
+      'max-height': maxHeight,
+      'margin-top': -> -(  Backbone.$( this ).height() / 2 )
+    }
+    Backbone.$.ajax config.apiUrl + "/affiliation/connect/facebook",
+      type: "POST"
+      contentType: "application/json"
+      dataType: "json"
+      data: {}
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+
+      success: (data) ->
+        popup = window.open(data.response.socialUrl, "facebook", "menubar=0,resizable=0,width=800,height=500")
+        popup.postMessage
+        popup.focus()
+        timer = setInterval(->
+          if popup.closed
+            clearInterval timer
+            Backbone.$(".modal").modal('hide')
+            that.publishEvent 'updateSocialAccountsStatus'
+        , 1000)
+
+      error: (xhr, textStatus, errorThrown) ->
+        error = JSON.parse(xhr.responseText)
+        alert error.message
+
+      complete: ->
+        console.log "Request Completed!"
+
+
+  updateSocialAccountsStatus : () ->
+    that = @
+    console.log "update social accounts"
+    Backbone.$.ajax config.apiUrl + "/affiliation/social-accounts.json",
+      type: "GET"
+      contentType: "application/json"
+      dataType: "json"
+      xhrFields:
+        withCredentials: true
+
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+
+      success: (data) ->
+        console.log "logout.json Success!"
+        socialAccounts = data.response.socialAccounts
+        facebook = (item for item in socialAccounts when item.providerId is "facebook") #profile.socialAccounts[0].providerId
+        twitter = (item for item in socialAccounts when item.providerId is "twitter")
+        facebookFlag = if facebook != null && facebook.length > 0  then "On" else "Off"
+        twitterFlag = if twitter != null && twitter.length > 0 then "On" else "Off"
+        that.publishEvent 'setProfile', {twitter: twitterFlag, facebook: facebookFlag}
+
+      error: (xhr, textStatus, errorThrown) ->
+        console.log "accounts.json Error!"
+        error = JSON.parse(xhr.responseText)
+        alert error.meta.message
+
+      complete: ->
+        console.log "accounts.json Completed!"
+
+  viewDetachFacebookAccount: (e) ->
+    that = @
+    console.log "detach facebook account"
+    Backbone.$.ajax config.apiUrl + "/affiliation/social-account/facebook.json",
+      type: "DELETE"
+      contentType: "application/json"
+      dataType: "json"
+      xhrFields:
+        withCredentials: true
+
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+
+      success: (data) ->
+        console.log "deleteAccount.json Success!"
+        that.publishEvent 'updateSocialAccountsStatus'
+
+      error: (xhr, textStatus, errorThrown) ->
+        console.log "deleteAccount.json Error!"
+        error = JSON.parse(xhr.responseText)
+        alert error.meta.message
+
+      complete: ->
+        console.log "deleteAccount.json Completed!"
+
+  viewDetachTwitterAccount: (e) ->
+    that = @
+    console.log "detach twitter account"
+    Backbone.$.ajax config.apiUrl + "/affiliation/social-account/twitter.json",
+      type: "DELETE"
+      contentType: "application/json"
+      dataType: "json"
+      data: {id: 'twitter'}
+      xhrFields:
+        withCredentials: true
+
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+
+      success: (data) ->
+        console.log "deleteAccount.json Success!"
+        that.publishEvent 'updateSocialAccountsStatus'
+
+      error: (xhr, textStatus, errorThrown) ->
+        console.log "deleteAccount.json Error!"
+        error = JSON.parse(xhr.responseText)
+        alert error.meta.message
+
+      complete: ->
+        console.log "deleteAccount.json Completed!"

@@ -24,8 +24,14 @@ module.exports = class WidgetSiteView extends View
     @delegate 'click', '#registerLink', @viewRegister
     @delegate 'click', '#viewVideoLink', @viewVideo
     @delegate 'click', '#postCheckout', @postCheckout
+
+    @delegate 'click', '#twitterShare', @twitterShare
+    @delegate 'click', '#facebookShare', @facebookShare
+
     #@delegate 'shown', '#login-modal', @placeFacebookFrame
     @delegate 'shown', '#register-modal', @placeFacebookFrame
+
+
     @subscribeEvent 'showHeaderLogin', @showHeaderLogin
     @subscribeEvent 'showHeaderLogout', @showHeaderLogout
     @subscribeEvent 'resetComponents', @resetComponents
@@ -226,3 +232,55 @@ module.exports = class WidgetSiteView extends View
 
     @$el.append $chkForm
     $chkForm.submit()
+
+  twitterShare: (e) ->
+    that = @
+    console.log "twitter update status"
+    Backbone.$.ajax config.apiUrl + "/affiliation/twitterPublish/updateStatus.json",
+      type: "POST"
+      contentType: "application/json"
+      dataType: "json"
+      data: JSON.stringify(message: 'Yo ya me registré en Winbits (twitter test)')
+      xhrFields:
+        withCredentials: true
+
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+
+      success: (data) ->
+        console.log "updateStatus.json Success!"
+
+      error: (xhr, textStatus, errorThrown) ->
+        console.log "updateStatus.json Error!"
+        error = JSON.parse(xhr.responseText)
+        alert error.meta.message
+
+      complete: ->
+        console.log "updateStatus.json Completed!"
+
+  facebookShare: (e) ->
+    that = @
+    console.log "facebook share"
+    Backbone.$.ajax config.apiUrl + "/affiliation/facebookPublish/share.json",
+      type: "POST"
+      contentType: "application/json"
+      dataType: "json"
+      data: JSON.stringify(message: 'Yo ya me registré en Winbits (facebook test)')
+      xhrFields:
+        withCredentials: true
+
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+
+      success: (data) ->
+        console.log "share.json Success!"
+
+      error: (xhr, textStatus, errorThrown) ->
+        console.log "share.json Error!"
+        error = JSON.parse(xhr.responseText)
+        alert error.meta.message
+
+      complete: ->
+        console.log "share.json Completed!"

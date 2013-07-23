@@ -144,7 +144,6 @@ module.exports = class LoginUtil
       profileUrl: profileUrl
       imageUrl: imageUrl
 
-    #$.fancybox.close()
     $.ajax config.apiUrl + "/affiliation/facebook",
       type: "POST"
       contentType: "application/json"
