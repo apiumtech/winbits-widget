@@ -92,6 +92,8 @@ module.exports = class CheckoutSiteView extends View
       formData.contactPhone = formData.phone
       console.log formData
       @model.set formData
+
+
       that = @
       @model.sync 'create', @model,
         error: ->
@@ -112,7 +114,7 @@ module.exports = class CheckoutSiteView extends View
       data: JSON.stringify(formData)
       formData = util.serializeForm($form)
       formData.country  = {"id": formData.country}
-      formData.zipCodeInfo  = {"id": '4000'}
+      formData.zipCodeInfo  = {"id": formData.zipCodeInfoId}
       if formData.principal
         formData.principal  = true
       else
@@ -134,11 +136,19 @@ module.exports = class CheckoutSiteView extends View
     super
     console.log "CheckoutSiteView#attach"
     util.customCheckbox(@$(".checkbox"))
-    util.customSelect(@$('.select'))
-
+    that = this
+    @$(".shippingEditAddress").each ->
+      $select = that.$(this).find('.select')
+      $zipCode = that.$(this).find('.zipCode')
+      $zipCodeExtra = that.$(this).find('.zipCodeInfoExtra')
+      zipCode(Backbone.$).find $zipCode.val(), $select, $zipCodeExtra.val()
+      unless $zipCode.val().length < 5
+        util.customSelect($select)
   findZipcode: (event)->
     event.preventDefault()
     console.log "find zipCode"
-    currentTarget = @$(event.currentTarget)
-    $slt = @$("#zipCodeInfo")
-    zipCode(Backbone.$).find currentTarget.val(), $slt
+    $currentTarget = @$(event.currentTarget)
+    $slt = $currentTarget.parent().find(".select")
+    console.log $currentTarget
+    console.log $slt
+    zipCode(Backbone.$).find $currentTarget.val(), $slt

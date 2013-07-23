@@ -241,6 +241,7 @@ module.exports =
           selectContent = "<span class=\"selectContent\"/>"
         $this.after selectContent + "<span class=\"icon selectTrigger\"/>"
         $styledSelect = $this.next(".selectContent")
+        console.log $this
         if $this.data("inputselect")
           $styledSelect.attr("placeholder", $this.children("option").eq(0).text()).addClass $this.children("option").eq(0).data("icon")
         else

@@ -26,7 +26,7 @@
 </div>
 <div class="">
       {{#each addresses}}
-      <form id="shippingEditAddress-{{id}}" class="shippingNewAddress" accept-charset="utf-8" action="#" method="post" style="display:none">
+      <form id="shippingEditAddress-{{id}}" class="shippingEditAddress" accept-charset="utf-8" action="#" method="post" style="display:none">
     <fieldset>
       <div class="column">
         <h3>NOMBRE</h3>
@@ -43,13 +43,14 @@
         <input type="text" placeholder="##" class="inputSmall required" name="externalNumber" value="{{externalNumber}}" id="">
         <input type="text" placeholder="##" class="inputSmall required" name="internalNumber" value="{{internalNumber}}" id="">
         <input type="text" placeholder="Codigo Postal" name="zipCode" value="{{zipCode}}" class="zipCode" >
-        <select class="select" id="zipCodeInfo" data-clase="selectRegister" name="location" placeholder="Localidad">
+        <input type="hidden" name="zipCodeInfoExtra" class="zipCodeInfoExtra" value="{{zipCodeInfo.id}}">
+        <select class="select zipCodeInfo" data-clase="selectRegister" name="zipCodeInfoId" placeholder="Localidad">
           <option>Localidad:</option>
         </select>
-        <input type="text" placeholder="Locacion" name="location" id="winbitsShippingCity" value="{{location}}">
-        <input type="text" placeholder="Indicaciones" name="indications" id="winbitsShippingCity" value="{{indications}}">
-        <input type="text" placeholder="Entre que calles" name="betweenStreets" id="winbitsShippingCity" value="{{betweenStreets}}">
-        <input type="text" placeholder="Ciudad" name="city" id="winbitsShippingCity" value="">
+        <input type="text" placeholder="Locacion" name="location" value="{{location}}">
+        <input type="text" placeholder="Indicaciones" name="indications"  value="{{indications}}">
+        <input type="text" placeholder="Entre que calles" name="betweenStreets" value="{{betweenStreets}}">
+        <input type="text" placeholder="Ciudad" name="city"  value="">
       </div>
       <div class="column columnLarge">
         <h3>OPCIONES</h3>
@@ -80,17 +81,14 @@
         <input type="text" placeholder="Calle" class="inputMedium required" name="street" id="winbitsShippingStreet">
         <input type="text" placeholder="##" class="inputSmall required" name="externalNumber" id="winbitsShippingNumber">
         <input type="text" placeholder="##" class="inputSmall required" name="internalNumber" id="winbitsShippingNumber">
-        <select class="select" data-clase="selectRegister" data-inputselect="true">
-          <option>Colonia</option>
-          <option>Anahuac</option>
-          <option>Roma</option>
-          <option>Lomas de Chapultepec</option>
+        <input type="text" placeholder="Codigo Postal" name="zipCode" id="winbitsShippingCP" class="zipCode">
+        <select class="select zipCodeInfo" data-clase="selectRegister" name="location" placeholder="Localidad">
+          <option>Localidad:</option>
         </select>
-        <input type="text" placeholder="Locacion" name="location" id="winbitsShippingCity">
-        <input type="text" placeholder="Indicaciones" name="indications" id="winbitsShippingCity">
-        <input type="text" placeholder="Entre que calles" name="betweenStreets" id="winbitsShippingCity">
-        <input type="text" placeholder="Ciudad" name="city" id="winbitsShippingCity">
-        <input type="text" placeholder="Codigo Postal" name="zipCode" id="winbitsShippingCP">
+        <input type="text" placeholder="Locacion" name="location" >
+        <input type="text" placeholder="Indicaciones" name="indications" >
+        <input type="text" placeholder="Entre que calles" name="betweenStreets" >
+        <input type="text" placeholder="Ciudad" name="city" >
       </div>
       <div class="column columnLarge">
         <h3>OPCIONES</h3>
