@@ -87,7 +87,7 @@ module.exports = class ProfileView extends View
       objetivo: ".myProfile .miPerfil"
 
     util.customSelect(@$('.select'))
-    util.customRadio(".divGender")
+    util.customRadio(@$(".divGender"))
 
     #@$(".zipCode").on "keyup", ->
       #console.log "---- - - - - - >"

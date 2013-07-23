@@ -21,11 +21,13 @@ module.exports = class CheckoutSiteView extends View
   showAddress: (e)->
     e.preventDefault()
     @$("#showAddress").hide()
-    @showStep(".shippingAddressesContainer")
+    @$(".choosen-address").hide()
+    @showStep(".shippingAddresses")
 
   showStep: (selector)->
     console.log @$(".chk-step")
     if selector is ".checkoutPaymentContainer"
+      #display edit link
       @$("#showAddress").show()
     @$(".chk-step").hide()
     @$(selector).show()

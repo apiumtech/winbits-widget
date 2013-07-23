@@ -242,9 +242,9 @@ module.exports =
         $this.after selectContent + "<span class=\"icon selectTrigger\"/>"
         $styledSelect = $this.next(".selectContent")
         if $this.data("inputselect")
-          $styledSelect.attr("placeholder", $this.children("option").eq(0).text()).addClass $this.children("option").eq(0).data("icon")
+          $styledSelect.attr("placeholder", $this.children("option:selected").eq(0).text()).addClass $this.children("option").eq(0).data("icon")
         else
-          $styledSelect.text($this.children("option").eq(0).text()).addClass $this.children("option").eq(0).data("icon")
+          $styledSelect.text($this.children("option:selected").eq(0).text()).addClass $this.children("option").eq(0).data("icon")
         $list = $("<ul />",
           class: "selectOptions"
         ).insertAfter($this.parent().find("span.selectTrigger"))
