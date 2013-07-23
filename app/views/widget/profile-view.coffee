@@ -114,7 +114,7 @@ module.exports = class ProfileView extends View
       'max-height': maxHeight,
       'margin-top': -> -(  Backbone.$( this ).height() / 2 )
     }
-    Backbone.$.ajax "http://localhost:8080/affiliation-api/connect/twitter",
+    Backbone.$.ajax config.apiUrl + "/affiliation/connect/twitter",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -156,7 +156,7 @@ module.exports = class ProfileView extends View
       'max-height': maxHeight,
       'margin-top': -> -(  Backbone.$( this ).height() / 2 )
     }
-    Backbone.$.ajax "http://localhost:8080/affiliation-api/connect/facebook",
+    Backbone.$.ajax config.apiUrl + "/affiliation/connect/facebook",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -187,8 +187,8 @@ module.exports = class ProfileView extends View
   updateSocialAccountsStatus : () ->
     that = @
     console.log "update social accounts"
-    #Backbone.$.ajax config.apiUrl + "/affiliation/accounts.json",
-    Backbone.$.ajax "http://localhost:8080/affiliation-api/social-accounts.json",
+    #Backbone.$.ajax "http://localhost:8080/affiliation-api/social-accounts.json",
+    Backbone.$.ajax config.apiUrl + "/affiliation/social-accounts.json",
       type: "GET"
       contentType: "application/json"
       dataType: "json"
@@ -219,8 +219,7 @@ module.exports = class ProfileView extends View
   viewDetachFacebookAccount: (e) ->
     that = @
     console.log "detach facebook account"
-    #Backbone.$.ajax config.apiUrl + "/affiliation/deleteAccount.json",
-    Backbone.$.ajax "http://localhost:8080/affiliation-api/social-account/facebook.json",
+    Backbone.$.ajax config.apiUrl + "/affiliation/social-account/facebook.json",
       type: "DELETE"
       contentType: "application/json"
       dataType: "json"
@@ -246,8 +245,7 @@ module.exports = class ProfileView extends View
   viewDetachTwitterAccount: (e) ->
     that = @
     console.log "detach twitter account"
-    #Backbone.$.ajax config.apiUrl + "/affiliation/deleteAccount.json",
-    Backbone.$.ajax "http://localhost:8080/affiliation-api/social-account/twitter.json",
+    Backbone.$.ajax config.apiUrl + "/affiliation/social-account/twitter.json",
       type: "DELETE"
       contentType: "application/json"
       dataType: "json"
