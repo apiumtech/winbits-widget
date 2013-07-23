@@ -20,8 +20,23 @@ module.exports = class CheckoutSiteView extends View
     @delegate "click" , "#btnSubmit", @addressSubmit
     @delegate "click" , "#btnUpdate", @addressUpdate
     @delegate "click" , ".edit-address", @editAddress
+    @delegate "click" , ".delete-address", @deleteAddress
     @delegate "click" , "#btnContinuar", @addressContinuar
     @delegate "click" , ".shippingItem", @selectShipping
+
+  deleteAddress: (e)->
+    console.log "deleting address"
+    $currentTarget = @$(e.currentTarget)
+    that = @
+    id =  $currentTarget.attr("id").split("-")[1]
+    @model.sync 'delete', @model,
+      url: config.apiUrl + "/affiliation/shipping-addresses/" + id,
+      error: ->
+        console.log "error",
+      headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
+      success: ->
+        console.log "success"
+        that.model.actualiza()
 
   selectShipping: (e)->
     $currentTarget = @$(e.currentTarget)
