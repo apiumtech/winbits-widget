@@ -14,7 +14,6 @@ module.exports = ($)->
         callback()  if typeof callback is "function"
 
   renderData : ($element, data, itemSelected) ->
-    console.log $element.parent()
     $element.unwrap()
     $element.parent().find(".selectContent").remove()
     $element.parent().find(".selectTrigger").remove()
@@ -31,6 +30,4 @@ module.exports = ($)->
         values.push "<option value=\"\">Lo sentimos no encontramos tu codigo posta, por favor ingresa tu colonia en el campo de localidad</option>"
 
     $element.html(values)
-
     util.customSelect($element)
-

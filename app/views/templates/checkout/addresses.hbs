@@ -1,12 +1,12 @@
 <div class="shippingAddresses chk-step">
   <ul>
       {{#each addresses}}
-      <li class="shippingItem" id="shippingItem-{{id}}">
+      <li class="shippingItem {{#if default}}shippingSelected{{/if}}" id="shippingItem-{{id}}">
         <div class="shippingMenu">
           <a href="#" class="edit-address" id="editAddress-{{id}}">edit</a>
           <span class="icon closeButton delete-address" id="deleteAddress-{{id}}">cerrar</span>
         </div>
-        <h3>DIRECCIÓN 1</h3>
+        <h3>DIRECCIÓN {{index}}</h3>
         <address>
           <span>{{contactName}},</span>
           <span>{{street}} {{externalNumber}}, {{location}},</span>

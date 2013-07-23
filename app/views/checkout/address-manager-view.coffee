@@ -51,6 +51,10 @@ module.exports = class CheckoutSiteView extends View
 
   addressContinuar: (e)->
     console.log "continuar"
+    $addresSelected = @$(".shippingSelected")
+    id = $addresSelected.attr("id").split("-")[1]
+    if id
+      mediator.post_checkout.shippingAddress = id
     if mediator.post_checkout.shippingAddress
       @publishEvent "showStep", ".checkoutPaymentContainer"
       @$("#choosen-address-" + mediator.post_checkout.shippingAddress).show()
@@ -144,6 +148,8 @@ module.exports = class CheckoutSiteView extends View
       zipCode(Backbone.$).find $zipCode.val(), $select, $zipCodeExtra.val()
       unless $zipCode.val().length < 5
         util.customSelect($select)
+
+    util.customSelect(@$(".shippingNewAddress").find(".select"))
   findZipcode: (event)->
     event.preventDefault()
     console.log "find zipCode"
