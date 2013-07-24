@@ -16,10 +16,18 @@ module.exports = class CheckoutSiteView extends View
     super
     @subscribeEvent "showStep", @showStep
     @subscribeEvent "hideAddress", @hideAddress
+    @delegate "click","#showAddress", @showAddress
 
+  showAddress: (e)->
+    e.preventDefault()
+    @$("#showAddress").hide()
+    @$(".choosen-address").hide()
+    @showStep(".shippingAddresses")
 
   showStep: (selector)->
-    console.log @$(".chk-step")
+    if selector is ".checkoutPaymentContainer"
+      #display edit link
+      @$("#showAddress").show()
     @$(".chk-step").hide()
     @$(selector).show()
   hideAddress: ()->

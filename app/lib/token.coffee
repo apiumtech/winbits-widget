@@ -18,7 +18,6 @@ token.segregateTokens = (tokensDef) ->
   console.log ["tokensDef", tokensDef]
   #console.log _.keys(tokensDef)
   vcartTokenDef = tokensDef['0'].vcartToken
-  console.log vcartTokenDef
   util.setCookie vcartTokenDef.cookieName, vcartTokenDef.value, vcartTokenDef.expireDays
   apiTokenDef = tokensDef["0"].apiToken
   if apiTokenDef

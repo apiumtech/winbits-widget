@@ -19,7 +19,6 @@ module.exports = class CheckoutController extends ChaplinController
     @checkoutSiteView = new CheckoutSiteView()
 
   index: ->
-    console.log ":-02"
     that=this
     @addressCK = new AddressCK
     @orderDetails = new OrderDetails
@@ -30,11 +29,9 @@ module.exports = class CheckoutController extends ChaplinController
     @paymentView = new PaymentView({model: @payments})
     @orderDetailView = new OrderDetailView({model: @orderDetails})
     @order_data = JSON.parse(window.order_data)
-    console.log @order_data
 
     @orderDetails.set @orderDetails.completeOrderModel @order_data, parseFloat(window.bits_balance)
     @orderDetails.on "change", ->
-      console.log "Order Details Changed"
       that.orderDetailView.render()
 
     @payments.set methods:@order_data.paymentMethods
@@ -43,19 +40,13 @@ module.exports = class CheckoutController extends ChaplinController
     @paymentView.render()
 
     @addressCK.on "change", ->
-      console.log "address change"
       if mediator.post_checkout
         mediator.post_checkout.order = that.order_data.id
       if mediator.profile
         mediator.profile.bitsBalance = that.bits_balance
       that.addressManagerView.render()
 
-    @orderDetails.on "change", ->
-      console.log "ordersDetail  change"
-    @payments.on "change", ->
-      console.log "---->"
     @confirm.on "change", ->
-      console.log "order change"
       that.confirmView.render()
     if @order_data.shippingTotal > 0
       @publishEvent "showStep", ".shippingAddressesContainer"

@@ -22,9 +22,7 @@ module.exports = class ProxyHandlers
   getTokensHandler: (tokensDef) ->
     console.log ["getTokensHandler", tokensDef]
     token.segregateTokens tokensDef
-    console.log "<3"
     @publishEvent 'expressLogin'
-    console.log "</3"
 
 
   facebookStatusHandler: (response) ->

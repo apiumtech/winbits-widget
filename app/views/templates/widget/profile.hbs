@@ -11,10 +11,16 @@
   <ul>
     <li><a href="#" class="changePassBtn"><span class="icon changePasword"></span>Cambiar Password</a></li>
     <li><a href="#"><span class="icon creditCard"></span>Editar Tarjetas de Crédito </a></li>
-    <li><a href="#"><span class="icon facebookCircle"></span> <span class="socialProvider{{facebook}}">Liga tu cuenta de Facebook </span></a></li>
-    <li><a href="#"><span class="icon twitterCircle"></span> <span class="socialProvider{{twitter}}"> Liga tu cuenta de Twitter </span></a></li>
+    <li><a href="#" id="attachFacebookAccount{{facebook}}"><span class="icon facebookCircle"></span> <span class="socialProvider{{facebook}}">Liga tu cuenta de Facebook </span></a></li>
+    <li><a href="#" id="attachTwitterAccount{{twitter}}"><span class="icon twitterCircle"></span> <span class="socialProvider{{twitter}}"> Liga tu cuenta de Twitter </span></a></li>
   </ul>
   <input class="btn editBtn" id="editBtnProfile" value="Editar">
+</div>
+<div id='attach-facebook-account-modal' class="modal hide">
+        <div class="modal-body reset-modal" id="attach-facebook-account-modal-body" style="padding:0px"></div>
+</div>
+<div id='attach-twitter-account-modal' class="modal hide">
+        <div class="modal-body reset-modal" id="attach-twitter-account-modal-body" style="padding:0px"></div>
 </div>
 <div class="editMiPerfil">
   <form id="update-profile-form">
@@ -35,9 +41,10 @@
       <input type="radio" name="gender" value="M" class="female">
     </div>
     <input type="text" placeholder="Zip Code" id="zipCode" required name="zipCode" class="zipCode" value="{{zipCode}}">
-    <select class="select" id="zipCodeInfo" data-clase="selectRegister" name="location" placeholder="Localidad">
-      <option>Localidad:</option>
-    </select>
+    <input type="hidden" name="zipCodeInfoExtra" class="zipCodeInfoExtra" value="{{location}}">
+        <select class="select zipCodeInfo" data-clase="selectRegister" name="location" placeholder="Localidad">
+          <option>Localidad:</option>
+        </select>
     <input type="text" placeholder="Teléfono" name="phone" maxlength="15" value="{{phone}}">
     <div class="errorDiv"><p></p></div>
   </fieldset>

@@ -3,6 +3,7 @@ template = require 'views/templates/checkout/addresses'
 util = require 'lib/util'
 config = require 'config'
 mediator = require 'chaplin/mediator'
+zipCode = require 'lib/zipCode'
 
 # Site view is a top-level view which is bound to body.
 module.exports = class CheckoutSiteView extends View
@@ -18,10 +19,26 @@ module.exports = class CheckoutSiteView extends View
     @delegate "click" , "#aNewAddress", @newAddress
     @delegate "click" , "#btnCancel", @cancelEdit
     @delegate "click" , "#btnSubmit", @addressSubmit
-    @delegate "click" , "#btnUpdate", @addressUpdate
+    @delegate "click" , ".btnUpdate", @addressUpdate
     @delegate "click" , ".edit-address", @editAddress
+    @delegate "click" , ".delete-address", @deleteAddress
     @delegate "click" , "#btnContinuar", @addressContinuar
     @delegate "click" , ".shippingItem", @selectShipping
+    @delegate 'keyup', '.zipCode', @findZipcode
+
+  deleteAddress: (e)->
+    console.log "deleting address"
+    $currentTarget = @$(e.currentTarget)
+    that = @
+    id =  $currentTarget.attr("id").split("-")[1]
+    @model.sync 'delete', @model,
+      url: config.apiUrl + "/affiliation/shipping-addresses/" + id,
+      error: ->
+        console.log "error",
+      headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
+      success: ->
+        console.log "success"
+        that.model.actualiza()
 
   selectShipping: (e)->
     $currentTarget = @$(e.currentTarget)
@@ -34,15 +51,19 @@ module.exports = class CheckoutSiteView extends View
 
   addressContinuar: (e)->
     console.log "continuar"
+    $addresSelected = @$(".shippingSelected")
+    id = $addresSelected.attr("id").split("-")[1]
+    if id
+      mediator.post_checkout.shippingAddress = id
     if mediator.post_checkout.shippingAddress
       @publishEvent "showStep", ".checkoutPaymentContainer"
+      @$("#choosen-address-" + mediator.post_checkout.shippingAddress).show()
 
 
   editAddress: (e)->
     e.principal
     $currentTarget = @$(e.currentTarget)
     id =  $currentTarget.attr("id").split("-")[1]
-    console.log id
     $editAddress = @$("#shippingEditAddress-" + id)
     @$(".shippingAddresses").hide()
     $editAddress.show()
@@ -65,7 +86,7 @@ module.exports = class CheckoutSiteView extends View
       data: JSON.stringify(formData)
       formData = util.serializeForm($form)
       formData.country  = {"id": formData.country}
-      formData.zipCodeInfo  = {"id": '4000'}
+      formData.zipCodeInfo  = {"id": formData.zipCodeInfoId}
       if formData.principal
         formData.principal  = true
       else
@@ -74,6 +95,8 @@ module.exports = class CheckoutSiteView extends View
       formData.contactPhone = formData.phone
       console.log formData
       @model.set formData
+
+
       that = @
       @model.sync 'create', @model,
         error: ->
@@ -87,13 +110,13 @@ module.exports = class CheckoutSiteView extends View
   addressUpdate: (e)->
     e.preventDefault()
     console.log "AddressUpdate"
-    $form = @$el.find("#shippingNewAddress")
-    console.log $form.valid()
+    $currentTarget = @$(e.currentTarget)
+    id =  $currentTarget.attr("id").split("-")[1]
+    $form = @$el.find("#shippingEditAddress-" + id)
     if $form.valid()
-      data: JSON.stringify(formData)
       formData = util.serializeForm($form)
       formData.country  = {"id": formData.country}
-      formData.zipCodeInfo  = {"id": '4000'}
+      formData.zipCodeInfo  = {"id": formData.zipCodeInfoId}
       if formData.principal
         formData.principal  = true
       else
@@ -101,6 +124,7 @@ module.exports = class CheckoutSiteView extends View
       formData.contactName = formData.name + " " + formData.lastname
       console.log formData
       @model.set formData
+      that = @
       @model.sync 'update', @model,
         url: config.apiUrl + "/affiliation/shipping-addresses/" + formData.id,
         error: ->
@@ -108,7 +132,27 @@ module.exports = class CheckoutSiteView extends View
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
         success: ->
           console.log "success"
+          that.model.actualiza()
 
   attach: ->
     super
     console.log "CheckoutSiteView#attach"
+    util.customCheckbox(@$(".checkbox"))
+    that = this
+    @$(".shippingEditAddress").each ->
+      $select = that.$(this).find('.select')
+      $zipCode = that.$(this).find('.zipCode')
+      $zipCodeExtra = that.$(this).find('.zipCodeInfoExtra')
+      zipCode(Backbone.$).find $zipCode.val(), $select, $zipCodeExtra.val()
+      unless $zipCode.val().length < 5
+        util.customSelect($select)
+
+    util.customSelect(@$(".shippingNewAddress").find(".select"))
+  findZipcode: (event)->
+    event.preventDefault()
+    console.log "find zipCode"
+    $currentTarget = @$(event.currentTarget)
+    $slt = $currentTarget.parent().find(".select")
+    console.log $currentTarget
+    console.log $slt
+    zipCode(Backbone.$).find $currentTarget.val(), $slt

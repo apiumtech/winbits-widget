@@ -11,4 +11,7 @@ module.exports = class Address extends ChaplinModel
       #collection.resolve()
   parse: (response) ->
     response
+  set: (args) ->
+    super
+    console.log ["wee", args]
 

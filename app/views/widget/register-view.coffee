@@ -9,7 +9,6 @@ module.exports = class RegisterView extends View
   template: template
 
   render: ->
-    console.log "(>|<)"
     super
 
   initialize: ->
@@ -35,7 +34,6 @@ module.exports = class RegisterView extends View
     e.preventDefault()
     console.log "RegisterView#registerStep1"
     $form =  @$el.find("#winbits-register-form")
-    console.log $form
     that = @
     formData = verticalId: config.verticalId
     formData = util.serializeForm($form, formData)
