@@ -115,7 +115,6 @@ module.exports = class CheckoutSiteView extends View
     id =  $currentTarget.attr("id").split("-")[1]
     $form = @$el.find("#shippingEditAddress-" + id)
     if $form.valid()
-      data: JSON.stringify(formData)
       formData = util.serializeForm($form)
       formData.country  = {"id": formData.country}
       formData.zipCodeInfo  = {"id": formData.zipCodeInfoId}

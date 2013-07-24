@@ -52,7 +52,6 @@ module.exports = class ProfileView extends View
     console.log $form.valid()
     that = this
     if $form.valid()
-      data: JSON.stringify(formData)
       formData = { verticalId: config.verticalId }
       formData = util.serializeForm($form, formData)
       console.log formData
@@ -89,6 +88,12 @@ module.exports = class ProfileView extends View
     util.customSelect(@$('.select'))
     util.customRadio(@$(".divGender"))
 
+    $select = @$('.select')
+    $zipCode = @$('.zipCode')
+    $zipCodeExtra = @$('.zipCodeInfoExtra')
+    zipCode(Backbone.$).find $zipCode.val(), $select, $zipCodeExtra.val()
+    unless $zipCode.val().length < 5
+      util.customSelect($select)
     #@$(".zipCode").on "keyup", ->
       #console.log "---- - - - - - >"
 
