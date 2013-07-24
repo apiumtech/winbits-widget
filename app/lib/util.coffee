@@ -72,7 +72,6 @@ module.exports =
         that.$(options.obj).slideDown()
 
       @$(options.obj).each ->
-        #console.log $(this)
         that.$(this).bind
           click: (e) ->
             e.stopPropagation()
@@ -170,7 +169,6 @@ module.exports =
   #      CUSTOMRADIO: Cambiar radio buttons por input text para el género
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   customRadio: (obj) ->
-    console.log @$
     that = @
     if @$(obj).length
       @$(obj).find("input[type=\"radio\"]").each ->

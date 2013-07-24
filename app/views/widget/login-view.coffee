@@ -12,7 +12,6 @@ module.exports = class LoginView extends View
   template: template
 
   render: ->
-    console.log "(>_<)"
     super
 
   initialize: ->

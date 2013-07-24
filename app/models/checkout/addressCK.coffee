@@ -15,7 +15,7 @@ module.exports = class AddressCK extends ChaplinModel
   actualiza : ()->
     @fetch
       error: ->
-        console.log "error",
+        console.log "error cart",
       headers:{ 'Accept-Language': 'es', "WB-Api-Token": util.getCookie(config.apiTokenName)}
       success: ->
         console.log "success load Virtual cart"

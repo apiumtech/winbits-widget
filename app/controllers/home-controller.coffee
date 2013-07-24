@@ -20,7 +20,6 @@ module.exports = class HomeController extends ChaplinController
     @widgetSiteView.render()
 
   index: ->
-    console.log ":-0"
     that=this
     @view = new LoginView region: 'main'
     @address = new Address
@@ -28,8 +27,6 @@ module.exports = class HomeController extends ChaplinController
     @cart = new Cart
     @subscription = new Subscription
     @registerfb = new RegisterFb
-    @address.on "change", ->
-      console.log "addressChanged"
     @addressView = new AddressView(model: @address)
     @profileView = new ProfileView(model: @profile )
     @cartView = new CartView(model:@cart)
@@ -37,17 +34,17 @@ module.exports = class HomeController extends ChaplinController
 
     @address.fetch()
     @profile.on "change", ->
-      console.log "profileChanged"
       that.profileView.render()
     @cart.on "change", ->
-      console.log "cartChanged"
       that.cartView.render()
     @subscriptionView = new SubscriptionView(model: @subscription)
     @subscription.on "change", ->
-      console.log "subscriptionChanged"
       that.subscriptionView.render()
     @registerfb.on "change", ->
       that.registerView.render()
-    #Exporting fucntion
+    @address.on "change", ->
+      console.log "addressChanged"
+      that.addressView.render()
+    #Exporting function
     window.Winbits.addToCart = (item)->
       that.cartView.addToCart(item)

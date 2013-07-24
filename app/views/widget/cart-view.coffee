@@ -12,11 +12,9 @@ module.exports = class CartView extends View
   id: "cart-view"
 
   render: ->
-    console.log "(>_<>_>)"
     super
   initialize: () ->
     super
-    console.log "CartView#initialize"
     @subscribeEvent 'restoreCart', @restoreCart
     @delegate 'click', '.cart-detail-delete-link', @clickDeleteCartDetailLink
     @subscribeEvent 'addToCart', @addToCart
@@ -25,7 +23,6 @@ module.exports = class CartView extends View
   restoreCart: ()->
     console.log ["CartView#restoreCart"]
     vCart = util.getCookie(config.vcartTokenName)
-    console.log vCart
     unless vCart is "[]"
       @model.transferVirtualCart vCart
     else

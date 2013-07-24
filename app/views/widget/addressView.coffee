@@ -9,7 +9,6 @@ module.exports = class AddressView extends View
   template: template
 
   render: ->
-    console.log "ಠ_ಠ"
     super
 
   initialize: ->
@@ -19,7 +18,6 @@ module.exports = class AddressView extends View
 
 
   editAddress: (e)->
-    console.log "---->"
     @$el.find(".miDireccion").slideUp()
     @$el.find(".editMiDireccion").slideDown()
 

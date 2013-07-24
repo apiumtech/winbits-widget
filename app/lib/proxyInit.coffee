@@ -21,7 +21,6 @@ module.exports = class ProxyInit
       console.log "iframeLoaded"
       mediator.proxy = new Porthole.WindowProxy(config.baseUrl + "/proxy.html", "winbits-iframe")
       mediator.proxy.addEventListener (messageEvent) ->
-        console.log ":)(:-"
         console.log ["Message from Winibits", messageEvent]
         data = messageEvent.data
         console.log "publicando evento " + data.action + "Handler"

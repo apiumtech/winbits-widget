@@ -13,7 +13,6 @@ module.exports = class ProfileView extends View
   template: template
 
   render: ->
-    console.log "(:})"
     super
 
 
@@ -30,7 +29,6 @@ module.exports = class ProfileView extends View
     @subscribeEvent 'updateSocialAccountsStatus', @updateSocialAccountsStatus
 
   editProfile: (e)->
-    console.log "---->"
     @$el.find(".miPerfil").slideUp()
     @$el.find(".editMiPerfil").slideDown()
 
@@ -66,7 +64,6 @@ module.exports = class ProfileView extends View
           #that.$el.find(".editMiPerfil").slideUp()
         #emulateHTTP: true
 
-    console.log JSON.stringify(@model)
 
   attach: ->
     super
@@ -94,8 +91,6 @@ module.exports = class ProfileView extends View
     zipCode(Backbone.$).find $zipCode.val(), $select, $zipCodeExtra.val()
     unless $zipCode.val().length < 5
       util.customSelect($select)
-    #@$(".zipCode").on "keyup", ->
-      #console.log "---- - - - - - >"
 
 
   findZipcode: (event)->
@@ -235,7 +230,6 @@ module.exports = class ProfileView extends View
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
 
       success: (data) ->
-        console.log "deleteAccount.json Success!"
         that.publishEvent 'updateSocialAccountsStatus'
 
       error: (xhr, textStatus, errorThrown) ->

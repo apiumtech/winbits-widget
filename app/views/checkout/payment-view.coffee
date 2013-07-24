@@ -23,8 +23,6 @@ module.exports = class PaymentView extends View
     e.preventDefault()
     $currentTarget = @$(e.currentTarget)
     methodName =  $currentTarget.attr("id").split("-")[1]
-    console.log methodName
-    console.log methodName
     selector = "#method-" + methodName
     @$(selector).show()
     @$(".checkoutPaymentCreditcard").hide()
@@ -35,12 +33,10 @@ module.exports = class PaymentView extends View
     that = @
     $currentTarget = @$(e.currentTarget)
     paymentMethod =  $currentTarget.attr("id").split("-")[1]
-    console.log paymentMethod
     mediator.post_checkout.paymentMethod = paymentMethod
 
     formData = mediator.post_checkout
     formData.vertical = window.verticalId
-    console.log formData
 
     Backbone.$.ajax config.apiUrl + "/orders/payment.json",
       type: "POST"

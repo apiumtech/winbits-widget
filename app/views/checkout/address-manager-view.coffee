@@ -64,7 +64,6 @@ module.exports = class CheckoutSiteView extends View
     e.principal
     $currentTarget = @$(e.currentTarget)
     id =  $currentTarget.attr("id").split("-")[1]
-    console.log id
     $editAddress = @$("#shippingEditAddress-" + id)
     @$(".shippingAddresses").hide()
     $editAddress.show()

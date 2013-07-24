@@ -9,7 +9,6 @@ module.exports = class SubscriptionView extends View
   template: template
 
   render: ->
-    console.log "(;{)"
     super
 
   initialize: ->
@@ -78,5 +77,4 @@ module.exports = class SubscriptionView extends View
 
   attach: ()->
     super
-    console.log ":o"
     util.customCheckbox(@$el.find(".checkbox"))

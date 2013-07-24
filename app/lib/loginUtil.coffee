@@ -55,9 +55,7 @@ module.exports = class LoginUtil
     mediator.proxy.post action: "facebookStatus"
 
   applyLogin : (profile) ->
-    console.log "LoginUtil#applyLogin"
-    console.log profile
-    console.log "LoginUtil#applyLogin"
+    console.log ["LoginUtil#applyLogin",profile]
     if profile.apiToken
       mediator.flags.loggedIn = true
       mediator.profile.bitsBalance = profile.bitsBalance
@@ -76,6 +74,7 @@ module.exports = class LoginUtil
       @publishEvent "restoreCart"
       @publishEvent "setProfile", profileData
       @publishEvent "setSubscription", subscriptions:profile.subscriptions
+      @publishEvent "setAddress",  profile.mainShippingAddres
 
       #Winbits.$widgetContainer.find("div.login").hide()
       #Winbits.$widgetContainer.find("div.miCuentaPanel").show()

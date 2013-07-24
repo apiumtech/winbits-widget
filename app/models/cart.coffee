@@ -139,7 +139,6 @@ module.exports = class Cart extends ChaplinModel
   loadUserCart: ()->
     console.log ["loadUserCart"]
     @url = config.apiUrl + "/orders/cart-items.json"
-    console.log @
     @fetch
       error: ->
         console.log "error",

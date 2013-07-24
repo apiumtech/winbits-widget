@@ -25,7 +25,6 @@ module.exports = class CheckoutSiteView extends View
     @showStep(".shippingAddresses")
 
   showStep: (selector)->
-    console.log @$(".chk-step")
     if selector is ".checkoutPaymentContainer"
       #display edit link
       @$("#showAddress").show()
