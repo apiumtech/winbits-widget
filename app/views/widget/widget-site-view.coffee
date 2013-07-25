@@ -204,14 +204,7 @@ module.exports = class WidgetSiteView extends View
         console.log "Request Completed!"
 
   placeFacebookFrame: (e) ->
-    $fbHolder = @$el.find(".facebook-btn-holder:visible")
-    $fbLink = $fbHolder.find(".btnFacebook")
-    $fbIFrameHolder = @$el.find("#winbits-iframe-holder")
-    offset = $fbHolder.delay(250).offset()
-    setTimeout () ->
-      offset.top = $fbLink.offset().top
-      $fbIFrameHolder.offset(offset).height(35).width($fbHolder.width()).css "z-index", 10000
-    , 750
+    console.log "Facebook Frame disable!"
 
   updateBitsBalanceWithProfile: (profile) ->
     @updateBitsBalance profile.bitsBalance
