@@ -1,5 +1,5 @@
 module.exports =
-    apiUrl: "http://staging.winbits.com/v1"
+    apiUrl: "http://apici.winbits.com/v1"
     baseUrl: "http://widgets.winbits.com/qa"
     loginRedirectUrl: "http://widgets.winbits.com/qa/ilogin.html"
     errorFormClass: "error-form"
