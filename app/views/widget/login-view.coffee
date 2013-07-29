@@ -17,6 +17,7 @@ module.exports = class LoginView extends View
   initialize: ->
     super
     @delegate 'click', '#form-login-btn', @doLogin
+    @delegate 'click', '#login-by-facebook', @doLoginFacebook
 
   doLogin: (e)->
     e.preventDefault()
@@ -75,4 +76,19 @@ module.exports = class LoginView extends View
     else
       message = error.message or error.meta.message
       $form.find(".errors").html "<p>" + message + "</p>"
+
+  doLoginFacebook: (e) ->
+    e.preventDefault()
+    $ = Backbone.$
+    that = @
+    popup = window.open(config.apiUrl + "/affiliation/facebook-login/connect?verticalId=" + config.verticalId,
+        "facebook", "menubar=0,resizable=0,width=800,height=500")
+    popup.postMessage
+    popup.focus()
+    timer = setInterval(->
+      if popup.closed
+        clearInterval timer
+        $(".modal").modal('hide')
+        that.publishEvent 'expressLogin'
+    , 1000)
 

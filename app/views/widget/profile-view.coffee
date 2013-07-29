@@ -114,6 +114,10 @@ module.exports = class ProfileView extends View
       'max-height': maxHeight,
       'margin-top': -> -(  Backbone.$( this ).height() / 2 )
     }
+
+    popup = window.open("", "twitter", "menubar=0,resizable=0,width=800,height=500")
+    popup.postMessage
+
     Backbone.$.ajax config.apiUrl + "/affiliation/connect/twitter",
       type: "POST"
       contentType: "application/json"
@@ -124,8 +128,7 @@ module.exports = class ProfileView extends View
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
 
       success: (data) ->
-        popup = window.open(data.response.socialUrl, "twitter", "menubar=0,resizable=0,width=800,height=500")
-        popup.postMessage
+        popup.window.location.href = data.response.socialUrl
         popup.focus()
         timer = setInterval(->
             if popup.closed
@@ -156,6 +159,10 @@ module.exports = class ProfileView extends View
       'max-height': maxHeight,
       'margin-top': -> -(  Backbone.$( this ).height() / 2 )
     }
+
+    popup = window.open("", "facebook", "menubar=0,resizable=0,width=800,height=500")
+    popup.postMessage
+
     Backbone.$.ajax config.apiUrl + "/affiliation/connect/facebook",
       type: "POST"
       contentType: "application/json"
@@ -166,8 +173,7 @@ module.exports = class ProfileView extends View
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
 
       success: (data) ->
-        popup = window.open(data.response.socialUrl, "facebook", "menubar=0,resizable=0,width=800,height=500")
-        popup.postMessage
+        popup.window.location.href = data.response.socialUrl
         popup.focus()
         timer = setInterval(->
           if popup.closed
