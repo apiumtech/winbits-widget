@@ -15,6 +15,7 @@ module.exports = class RegisterView extends View
     super
     @delegate "click", "#registerStep1", @registerStep1
     @delegate "click", "#registerStep2", @registerStep2
+    @delegate 'click', '#register-by-facebook', @doRegisterWithFacebook
 
     @subscribeEvent "showCompletaRegister", @showCompletaRegister
 
@@ -114,3 +115,20 @@ module.exports = class RegisterView extends View
       message = error.message or error.meta.message
       $form.find(".errors").html "<p>" + message + "</p>"
 
+
+  doRegisterWithFacebook: (e) ->
+    e.preventDefault()
+    $ = Backbone.$
+    that = @
+    referredBy = $("#referredById")[0].value
+    popup = window.open(config.apiUrl + "/affiliation/facebook-login/connect?verticalId=" + config.verticalId +
+        "&referredBy=" + referredBy,
+        "facebook", "menubar=0,resizable=0,width=800,height=500")
+    popup.postMessage
+    popup.focus()
+    timer = setInterval(->
+      if popup.closed
+        clearInterval timer
+        $(".modal").modal('hide')
+        that.publishEvent 'expressLogin'
+    , 1000)

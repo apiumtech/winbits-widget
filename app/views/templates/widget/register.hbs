@@ -2,10 +2,11 @@
   <div class="mainModal registro01">
     <div class="contentModal">
       <fieldset class="leftModal">
-        <h2>Para crear una cuenta con nosotros, proporciónanos los siguientes datos:</h2>
+        <h2>Para crear una cuenta con nosotros, proporciónanos los siguientes datos: </h2>
         <input type="text" placeholder="Email" class="required default email" id="email" name="email" email="true">
         <input type="password" placeholder="Password" class="required" id="password" name="password">
         <input type="password" placeholder="Comprobar Password" class="required" equalTo="#password">
+        <input type="hidden" name="referredBy" value="{{referredCode}}" id="referredById">
         <div class="errors"></div>
         <p>¿Ya tienes una cuenta? <a href="#login-layer" class="fancybox">haz click aquí</a></p>
         <p class="terminosCondiciones">Al hacer click en "Registrate" aceptas nuestros <a href="#">Términos y Condiciones</a> y nuestro <a href="#">Aviso de Privacidad.</a></p>
@@ -21,7 +22,7 @@
       </aside>
     </div>
     <footer class="widgetWinbitsFooter facebook-btn-holder">
-      <a href="#" class="btnFacebook"><span class="icon facebookWhite"></span>Log in with Facebook</a>
+      <a href="#" class="btnFacebook" id="register-by-facebook"><span class="icon facebookWhite"></span>Log in with Facebook</a>
     </footer>
   </div>
 </form>
@@ -34,7 +35,7 @@
           <h1>COMPLETA TU REGISTRO Y GANA BITS!</h1>
           <h3>Si completas tu registro con nosotros, obtendrás $50 bits que podras utilizar desde tu primera compra.</h3>
           <input type="text" placeholder="Nombre" name="name" value="{{name}}">
-          <input type="text" placeholder="Apellido" name="lastName" value={{lastName}}>
+          <input type="text" placeholder="Apellido" name="lastName" value="{{lastName}}">
           <div class="fieldsetDiv divBirthday">
             <label>Cumpleaños</label>
             <input type="text" placeholder="dd" maxlength="2" digits="true" class="day-input" value="{{substr birthday start=8 length=2}}">
