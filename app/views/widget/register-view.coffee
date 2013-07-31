@@ -18,6 +18,7 @@ module.exports = class RegisterView extends View
     @delegate 'click', '#register-by-facebook', @doRegisterWithFacebook
 
     @subscribeEvent "showCompletaRegister", @showCompletaRegister
+    @subscribeEvent 'showRegisterByReferredCode', @showRegisterByReferredCode
 
   attach: ()->
     super
@@ -114,6 +115,17 @@ module.exports = class RegisterView extends View
     if code is "AFER001"
       message = error.message or error.meta.message
       $form.find(".errors").html "<p>" + message + "</p>"
+
+  showRegisterByReferredCode: (e) ->
+    params = window.location.search.substr(1).split('&')
+    paramsMap = params.reduce(_reduce = (a, b) ->
+      b = b.split('=')
+      a[b[0]] = b[1]
+      a
+    , {})
+    if paramsMap.a is "register"
+      @publishEvent 'showRegister'
+      @publishEvent "setRegisterFb", {referredCode: paramsMap.rc}
 
 
   doRegisterWithFacebook: (e) ->

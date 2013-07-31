@@ -52,10 +52,12 @@ module.exports = class ProxyHandlers
 
         error: (xhr, textStatus, errorThrown) ->
           console.log "express-facebook-login.json Error!"
+          that.publishEvent 'showRegisterByReferredCode'
 
     else
       console.log "calling loadVirtualCart"
       @publishEvent "loadVirtualCart"
+      @publishEvent 'showRegisterByReferredCode'
 
   facebookLoginHandler: (response) ->
     console.log ["Facebook Login", response]
@@ -70,4 +72,3 @@ module.exports = class ProxyHandlers
     Backbone.$('.modal').modal 'hide'
     if response[0].email
       @publishEvent "loginFacebook", response[0]
-

@@ -49,13 +49,4 @@ module.exports = class HomeController extends ChaplinController
     window.Winbits.addToCart = (item)->
       that.cartView.addToCart(item)
 
-    params = window.location.search.substr(1).split('&')
-    paramsMap = params.reduce(_reduce = (a, b) ->
-      b = b.split('=')
-      a[b[0]] = b[1]
-      a
-    , {})
-    if paramsMap.a is "register"
-      @publishEvent 'showRegister'
-      @publishEvent "setRegisterFb", {referredCode: paramsMap.rc}
 
