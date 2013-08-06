@@ -30,14 +30,18 @@ module.exports = class CheckoutController extends ChaplinController
     @orderDetailView = new OrderDetailView({model: @orderDetails})
     @order_data = JSON.parse(window.order_data)
 
-    @orderDetails.set @orderDetails.completeOrderModel @order_data, parseFloat(window.bits_balance)
-    @orderDetails.on "change", ->
-      that.orderDetailView.render()
-
     @payments.set methods:@order_data.paymentMethods
 
-    @orderDetailView.render()
+    # @orderDetailView.render()
     @paymentView.render()
+    @payments.on "change", ->
+        console.log "on change payment"
+        that.paymentView.render()
+    console.log @order_data
+    @orderDetails.on "change", ->
+      console.log "here order details changeed"
+      that.orderDetailView.render()
+    @orderDetails.set @orderDetails.completeOrderModel @order_data, parseFloat(window.bits_balance)
 
     @addressCK.on "change", ->
       if mediator.post_checkout

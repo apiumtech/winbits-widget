@@ -18,6 +18,7 @@ module.exports = class PaymentView extends View
     @delegate "click" , ".li-method", @selectMethod
     @delegate "click" , ".submitOrder", @submitOrder
     @delegate "click", ".linkBack", @linkBack
+    @subscribeEvent "showBitsPayment", @showBitsPayment
 
   selectMethod: (e)->
     e.preventDefault()
@@ -64,7 +65,13 @@ module.exports = class PaymentView extends View
     e.preventDefault()
     @$(".checkoutPaymentCreditcard").show()
     @$(".method-payment").hide()
+    @$('#method-bits').hide()
 
 
   attach: ->
     super
+
+  showBitsPayment: -> 
+    @$(".method-payment").hide()
+    @$(".checkoutPaymentCreditcard").hide()
+    @$('#method-bits').show()
