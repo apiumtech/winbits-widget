@@ -93,15 +93,14 @@
   <p class="information">O, escoge un método de pago. </p>
   <ul class="paymentMethod">
     {{#methods}}
-      {{#compare identifier "webpay.cc"}}
+      {{#compare identifier "amex.cc"}}
     <li class="debitCreditCard">
       <span class="paymentIcon debitCard"></span>
       <p>TARJETA DE DEBITO</p>
     </li>
       {{/compare}}
-
-      {{#compare identifier "webpay.cc"}}
-      <li class="debitCreditCard li-method" id="li-{{replace identifier searchValue='.' replaceValue='_'}}">
+      {{#compare identifier "cybersource.cc"}}
+    <li class="debitCreditCard li-method" id="li-{{replace identifier searchValue='.' replaceValue='_'}}">
       <span class="paymentIcon creditCard"></span>
       <p>TARJETA DE CRÉDITO</p>
     </li>
@@ -112,7 +111,7 @@
       <p>MESES SIN INTERESES</p>
     </li>
       {{/compare}}
-      {{#compare identifier "cybersource.ccm"}}
+      {{#compare identifier "reference.hsbc"}}
     <li class="cashDeposit li-method" id="li-{{replace identifier searchValue='.' replaceValue='_'}}">
       <span class="paymentIcon cash"></span>
       <p>DEPÓSITO EN EFECTIVO</p>
@@ -209,20 +208,16 @@
 
 </div>
     {{#methods}}
-      {{#compare identifier "cybersource.cc"}}
+      {{#compare identifier "reference.hsbc"}}
       <div class="checkoutPaymentCash method-payment" id="method-{{replace identifier searchValue='.' replaceValue='_'}}">
   <ul>
     <li>
       <span class="cashIcon cashEmail"></span>
-      <p>Recibirás un email con el número de cuenta y el número de referencia</p>
+      <p>Da click en el botón de la derecha para obtener tu número de referencia</p>
     </li>
     <li>
       <span class="cashIcon cashBank"></span>
-      <p>Acude a tu banco o accede a tu banco en linea. Realiza tu pago a la cuenta y número de referencia que te enviamos</p>
-    </li>
-    <li>
-      <span class="cashIcon cashHistory"></span>
-      <p>Sube tu comprobante a ClickOnero en la sección de "Historial de Compra", ubicado en Mi Cuenta.</p>
+      <p>Acude a tu banco o accede a tu banco en linea. Realiza tu pago a la cuenta y número de referencia</p>
     </li>
   </ul>
   <a href="#" class="btn submitOrder" id="submit-{{id}}">Pedir mi número de referencia</a>
@@ -240,10 +235,6 @@
       <div class="checkoutPaymentOxxo method-payment" id="method-{{replace identifier searchValue='.' replaceValue='_'}}">
   <ul>
     <li>
-      <span class="cashIcon oxxoEmail"></span>
-      <p>Recibirás un email con las instrucciones</p>
-    </li>
-    <li>
       <span class="cashIcon oxxoPrint"></span>
       <p>Descarga e imprime tu comprobante</p>
     </li>
@@ -256,7 +247,7 @@
       <p>Paga en efectivo</p>
     </li>
   </ul>
-  <input type="button" value="Continuar" class="btn submitOrder" id="submit-{{id}}">
+  <a href="#" class="btn submitOrder" id="submit-{{id}}">Descargar ficha de pago</a>
   <a href="#" class="linkBack" ><em class="icon backBtn"></em> Regresar</a>
 </div>
 {{/compare}}
