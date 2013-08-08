@@ -18,12 +18,14 @@ module.exports = class PaymentView extends View
     @delegate "click" , ".li-method", @selectMethod
     @delegate "click" , ".submitOrder", @submitOrder
     @delegate "click", ".linkBack", @linkBack
+    @delegate "click", ".btnPaymentCancel", @linkBack
 
   selectMethod: (e)->
     e.preventDefault()
     $currentTarget = @$(e.currentTarget)
     methodName =  $currentTarget.attr("id").split("-")[1]
     selector = "#method-" + methodName
+    console.log ["Selector", selector]
     @$(selector).show()
     @$(".checkoutPaymentCreditcard").hide()
 

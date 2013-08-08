@@ -152,104 +152,111 @@
     </fieldset>
   </form>
 </div>
-<div class="checkoutPaymentNewCard creditcardNew">
-  <form id="checkoutPaymentNewCard" accept-charset="utf-8" action="#" method="post">
-    <fieldset>
-      <div class="column">
-        <h3>NOMBRE</h3>
-        <input type="text" class="required" placeholder="Nombre" name="winbitsPaymentNewCardName" id="winbitsPaymentNewCardName">
-        <input type="text" class="required" placeholder="Apellido" name="winbitsPaymentNewCardLastName" id="winbitsPaymentNewCardLastName">
-        <input type="text" class="required" placeholder="Número de Tarjeta" name="winbitsPaymentNewCardNumber" id="winbitsPaymentNewCardNumber">
-        <div class="divFechaExpiracion">
-          <label>Fecha de Expiración</label>
-          <input type="text" class="required digits" placeholder="dd" maxlength="2" name="winbitsPaymentNewCardDD" id="winbitsPaymentNewCardDD">
-          <input type="text" class="required digits" placeholder="aa" maxlength="2" name="winbitsPaymentNewCardAA" id="winbitsPaymentNewCardAA">
-        </div>
-        <div class="divNumSecurity">
-          <label for="winbitsPaymentNewCardSecurity"># de Seguridad</label>
-          <input type="text" class="required digits" placeholder="###" maxlength="3" name="winbitsPaymentNewCardSecurity" id="winbitsPaymentNewCardSecurity">
-        </div>
-      </div>
-      <div class="column">
-        <h3>DIRECCIÓN</h3>
-        <select class="select" data-clase="selectRegister" name="winbitsPaymentNewCardCountry" id="winbitsPaymentNewCardCountry">
-          <option>País</option>
-          <option>México</option>
-          <option>USA</option>
-          <option>Puerto Rico</option>
-        </select>
-        <input type="text" placeholder="Calle" class="inputMedium required" name="winbitsPaymentNewCardStreet" id="winbitsPaymentNewCardStreet">
-        <input type="text" placeholder="##" class="inputSmall required" name="winbitsPaymentNewCardNumero" id="winbitsPaymentNewCardNumero">
-        <select class="select" data-clase="selectRegister" data-inputselect="true" name="winbitsPaymentNewCardCol" id="winbitsPaymentNewCardCol">
-          <option>Colonia</option>
-          <option>Anahuac</option>
-          <option>Roma</option>
-          <option>Lomas de Chapultepec</option>
-        </select>
-        <input type="text" placeholder="Ciudad" name="winbitsPaymentNewCardCity" id="winbitsPaymentNewCardCity">
-        <input type="text" placeholder="Codigo Postal" name="winbitsPaymentNewCardCP" id="winbitsPaymentNewCardCP">
-        <input type="text" placeholder="Teléfono" name="winbitsPaymentNewCardTel" id="winbitsPaymentNewCardTel">
-      </div>
-      <div class="column columnLarge">
-        <h3>OPCIONES</h3>
-        <input type="checkbox" class="checkbox" name="winbitsPaymentNewCardSave" id="winbitsPaymentNewCardSave">
-        <label for="winbitsPaymentNewCardSave" class="checkboxLabel">Guardar esta tarjeta</label>
-        <input type="checkbox" class="checkbox" name="winbitsPaymentNewCardPrincipal" id="winbitsPaymentNewCardPrincipal">
-        <label for="winbitsPaymentNewCardPrincipal" class="checkboxLabel">Hacer esta mi tarjeta principal</label>
-        <p class="note">Winbits puede guardar tus tarjetas de credito por ti, para que tu proxima compra sea mucho más rápida.</p>
-        <div class="errorDiv"><p></p></div>
-        <div class="submitButton">
-          <span class="btn btnCancel">Cancelar</span>
-          <input type="submit" class="submitOrder" id="submit-{{id}}" value="Pagar" class="btn">
-        </div>
-      </div>
-    </fieldset>
-  </form>
-
-</div>
-    {{#methods}}
-      {{#compare identifier "reference.hsbc"}}
+{{#methods}}
+  {{#compare identifier "reference.hsbc"}}
       <div class="checkoutPaymentCash method-payment" id="method-{{replace identifier searchValue='.' replaceValue='_'}}">
-  <ul>
-    <li>
-      <span class="cashIcon cashEmail"></span>
-      <p>Da click en el botón de la derecha para obtener tu número de referencia</p>
-    </li>
-    <li>
-      <span class="cashIcon cashBank"></span>
-      <p>Acude a tu banco o accede a tu banco en linea. Realiza tu pago a la cuenta y número de referencia</p>
-    </li>
-  </ul>
-  <a href="#" class="btn submitOrder" id="submit-{{id}}">Pedir mi número de referencia</a>
-  <a href="#" class="linkBack"><em class="icon backBtn"></em> Regresar</a>
-</div>
-      {{/compare}}
-      {{#compare identifier "paypal.latam"}}
+        <ul>
+          <li>
+            <span class="cashIcon cashEmail"></span>
+            <p>Da click en el botón de la derecha para obtener tu número de referencia</p>
+          </li>
+          <li>
+            <span class="cashIcon cashBank"></span>
+            <p>Acude a tu banco o accede a tu banco en linea. Realiza tu pago a la cuenta y número de referencia</p>
+          </li>
+        </ul>
+        <a href="#" class="btn submitOrder" id="submit-{{id}}">Pedir mi número de referencia</a>
+        <a href="#" class="linkBack"><em class="icon backBtn"></em> Regresar</a>
+      </div>
+   {{/compare}}
+   {{#compare identifier "paypal.latam"}}
       <div class="checkoutPaymentPayPal method-payment" id="method-{{replace identifier searchValue='.' replaceValue='_'}}">
-  <p>Paga de forma rapida y segura con tu cuenta de PayPal</p>
-  <a href="#" class="submitOrder" id="submit-{{id}}"><span class="icon paypalLogo">Pay Pal</span></a>
-  <a href="#" class="linkBack"><em class="icon backBtn"></em> Regresar</a>
-</div>
+        <p>Paga de forma rapida y segura con tu cuenta de PayPal</p>
+        <a href="#" class="submitOrder" id="submit-{{id}}"><span class="icon paypalLogo">Pay Pal</span></a>
+        <a href="#" class="linkBack"><em class="icon backBtn"></em> Regresar</a>
+      </div>
   {{/compare}}
-      {{#compare identifier "oxxo.bc"}}
+  {{#compare identifier "oxxo.bc"}}
       <div class="checkoutPaymentOxxo method-payment" id="method-{{replace identifier searchValue='.' replaceValue='_'}}">
-  <ul>
-    <li>
-      <span class="cashIcon oxxoPrint"></span>
-      <p>Descarga e imprime tu comprobante</p>
-    </li>
-    <li>
-      <span class="cashIcon oxxoBarcode"></span>
-      <p>Presenta tu codigo de barras en OXXO</p>
-    </li>
-    <li>
-      <span class="cashIcon oxxoCash"></span>
-      <p>Paga en efectivo</p>
-    </li>
-  </ul>
-  <a href="#" class="btn submitOrder" id="submit-{{id}}">Descargar ficha de pago</a>
-  <a href="#" class="linkBack" ><em class="icon backBtn"></em> Regresar</a>
-</div>
-{{/compare}}
+        <ul>
+          <li>
+            <span class="cashIcon oxxoPrint"></span>
+            <p>Descarga e imprime tu comprobante</p>
+          </li>
+          <li>
+            <span class="cashIcon oxxoBarcode"></span>
+            <p>Presenta tu codigo de barras en OXXO</p>
+          </li>
+          <li>
+            <span class="cashIcon oxxoCash"></span>
+            <p>Paga en efectivo</p>
+          </li>
+        </ul>
+        <a href="#" class="btn submitOrder" id="submit-{{id}}">Descargar ficha de pago</a>
+        <a href="#" class="linkBack" ><em class="icon backBtn"></em> Regresar</a>
+      </div>
+  {{/compare}}
+  {{#compare identifier "cybersource.cc"}}
+      <div class="checkoutPaymentNewCard method-payment creditcardNew" id="method-{{replace identifier searchValue='.' replaceValue='_'}}">
+        <form id="checkoutPaymentNewCard" accept-charset="utf-8" action="#" method="post">
+            <fieldset>
+              <div class="column">
+                <h3>NOMBRE</h3>
+                <input type="text" class="required" placeholder="Nombre" name="winbitsPaymentNewCardName" id="winbitsPaymentNewCardName">
+                <input type="text" class="required" placeholder="Apellido" name="winbitsPaymentNewCardLastName" id="winbitsPaymentNewCardLastName">
+                <input type="text" class="required" placeholder="Número de Tarjeta" name="winbitsPaymentNewCardNumber" id="winbitsPaymentNewCardNumber">
+                <div class="divFechaExpiracion">
+                  <label>Fecha de Expiración</label>
+                  <input type="text" class="required digits" placeholder="dd" maxlength="2" name="winbitsPaymentNewCardDD" id="winbitsPaymentNewCardDD">
+                  <input type="text" class="required digits" placeholder="aa" maxlength="2" name="winbitsPaymentNewCardAA" id="winbitsPaymentNewCardAA">
+                </div>
+                <div class="divNumSecurity">
+                  <label for="winbitsPaymentNewCardSecurity"># de Seguridad</label>
+                  <input type="text" class="required digits" placeholder="###" maxlength="3" name="winbitsPaymentNewCardSecurity" id="winbitsPaymentNewCardSecurity">
+                </div>
+              </div>
+              <div class="column">
+                <h3>DIRECCIÓN</h3>
+                <select class="select" data-clase="selectRegister" name="winbitsPaymentNewCardCountry" id="winbitsPaymentNewCardCountry">
+                  <option>País</option>
+                  <option>México</option>
+                  <option>USA</option>
+                  <option>Puerto Rico</option>
+                </select>
+                <input type="text" placeholder="Calle" class="inputMedium required" name="winbitsPaymentNewCardStreet" id="winbitsPaymentNewCardStreet">
+                <input type="text" placeholder="##" class="inputSmall required" name="winbitsPaymentNewCardNumero" id="winbitsPaymentNewCardNumero">
+                <select class="select" data-clase="selectRegister" data-inputselect="true" name="winbitsPaymentNewCardCol" id="winbitsPaymentNewCardCol">
+                  <option>Colonia</option>
+                  <option>Anahuac</option>
+                  <option>Roma</option>
+                  <option>Lomas de Chapultepec</option>
+                </select>
+                <input type="text" placeholder="Ciudad" name="winbitsPaymentNewCardCity" id="winbitsPaymentNewCardCity">
+                <input type="text" placeholder="Codigo Postal" name="winbitsPaymentNewCardCP" id="winbitsPaymentNewCardCP">
+                <input type="text" placeholder="Teléfono" name="winbitsPaymentNewCardTel" id="winbitsPaymentNewCardTel">
+              </div>
+              <div class="column columnLarge">
+                <h3>OPCIONES</h3>
+                <div class="divCheckbox">
+                  <span class="icon spanCheckbox unselectCheckbox"></span>
+                  <input type="checkbox" class="checkbox" name="winbitsPaymentNewCardSave" id="winbitsPaymentNewCardSave">
+                  <label for="winbitsPaymentNewCardSave" class="checkboxLabel">Guardar esta tarjeta</label>
+                </div>
+                <div class="divCheckbox">
+                  <span class="icon spanCheckbox unselectCheckbox"></span>
+                  <input type="checkbox" class="checkbox" name="winbitsPaymentNewCardPrincipal" id="winbitsPaymentNewCardPrincipal">
+                  <label for="winbitsPaymentNewCardPrincipal" class="checkboxLabel">Hacer esta mi tarjeta principal</label>
+                </div>
+                <p class="note">Winbits puede guardar tus tarjetas de credito por ti, para que tu proxima compra sea mucho más rápida.</p>
+                <div class="errorDiv"><p></p></div>
+                <div class="submitButton">
+                  <span class="btn btnCancel btnPaymentCancel">Cancelar</span>
+                  <input type="submit" value="Pagar" class="btn">
+                </div>
+              </div>
+            </fieldset>
+        </form>
+      </div>
+  {{/compare}}
 {{/methods}}
 
