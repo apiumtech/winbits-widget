@@ -23,7 +23,8 @@ module.exports = class WidgetSiteView extends View
     @delegate 'click', 'i.close-icon', @closeModal
     @delegate 'click', '#registerLink', @viewRegister
     @delegate 'click', '#viewVideoLink', @viewVideo
-    @delegate 'click', '#postCheckout', @postCheckout
+    @delegate 'click', '#postCheckout', @showBitsRecord
+    @delegate 'click', '#bitsCredit', @showBitsRecord
 
     @delegate 'click', '#twitterShare', @twitterShare
     @delegate 'click', '#facebookShare', @facebookShare
@@ -44,6 +45,12 @@ module.exports = class WidgetSiteView extends View
   updateCartCounter: (count)->
     console.log ["WidgetSiteView#updateCartCounter " + count]
     @$el.find(".cart-items-count").html(count)
+
+  showBitsRecord: (e)-> 
+    e.preventDefault()
+    Backbone.$("#historial").toggle()
+    Backbone.$("main:first").append("<div id='historial' ></div>")
+    @publishEvent 'showHistorical'
 
   showLoginLayer: (e)->
     e.preventDefault()

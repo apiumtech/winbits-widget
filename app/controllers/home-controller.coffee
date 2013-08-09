@@ -11,6 +11,8 @@ Address = require "models/address"
 Profile = require "models/profile"
 Cart = require "models/cart"
 RegisterFb = require "models/registerfb"
+BitRecord = require "models/bitRecord"
+BitRecordView = require "views/widget/bitRecord-view"
 
 module.exports = class HomeController extends ChaplinController
 
@@ -31,6 +33,8 @@ module.exports = class HomeController extends ChaplinController
     @profileView = new ProfileView(model: @profile )
     @cartView = new CartView(model:@cart)
     @registerView = new RegisterView(model: @registerfb)
+    @bitRecord = new BitRecord
+    @bitRecordView = new BitRecordView(model: @bitRecord)
 
     @address.fetch()
     @profile.on "change", ->
