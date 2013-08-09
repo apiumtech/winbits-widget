@@ -198,52 +198,52 @@
   {{/compare}}
   {{#compare identifier "cybersource.cc"}}
       <div class="checkoutPaymentNewCard method-payment creditcardNew" id="method-{{replace identifier searchValue='.' replaceValue='_'}}">
-        <form id="checkoutPaymentNewCard" accept-charset="utf-8" action="#" method="post">
+        <form id="checkoutPaymentNewCardFormId" accept-charset="utf-8" action="#" method="post">
             <fieldset>
               <div class="column">
                 <h3>NOMBRE</h3>
-                <input type="text" class="required" placeholder="Nombre" name="winbitsPaymentNewCardName" id="winbitsPaymentNewCardName">
-                <input type="text" class="required" placeholder="Apellido" name="winbitsPaymentNewCardLastName" id="winbitsPaymentNewCardLastName">
-                <input type="text" class="required" placeholder="Número de Tarjeta" name="winbitsPaymentNewCardNumber" id="winbitsPaymentNewCardNumber">
+                <input type="text" class="required" placeholder="Nombre" name="firstName" id="winbitsPaymentNewCardName">
+                <input type="text" class="required" placeholder="Apellido" name="lastName" id="winbitsPaymentNewCardLastName">
+                <input type="text" class="required" placeholder="Número de Tarjeta" name="accountNumber" id="winbitsPaymentNewCardNumber">
                 <div class="divFechaExpiracion">
                   <label>Fecha de Expiración</label>
-                  <input type="text" class="required digits" placeholder="dd" maxlength="2" name="winbitsPaymentNewCardDD" id="winbitsPaymentNewCardDD">
-                  <input type="text" class="required digits" placeholder="aa" maxlength="2" name="winbitsPaymentNewCardAA" id="winbitsPaymentNewCardAA">
+                  <input type="text" class="required digits" placeholder="dd" maxlength="2" name="expirationMonth" id="winbitsPaymentNewCardDD">
+                  <input type="text" class="required digits" placeholder="aa" maxlength="2" name="expirationYear" id="winbitsPaymentNewCardAA">
                 </div>
                 <div class="divNumSecurity">
                   <label for="winbitsPaymentNewCardSecurity"># de Seguridad</label>
-                  <input type="text" class="required digits" placeholder="###" maxlength="3" name="winbitsPaymentNewCardSecurity" id="winbitsPaymentNewCardSecurity">
+                  <input type="text" class="required digits" placeholder="###" maxlength="3" name="securityNumber" id="winbitsPaymentNewCardSecurity">
                 </div>
               </div>
               <div class="column">
                 <h3>DIRECCIÓN</h3>
-                <select class="select" data-clase="selectRegister" name="winbitsPaymentNewCardCountry" id="winbitsPaymentNewCardCountry">
+                <select class="select" data-clase="selectRegister" name="country" id="winbitsPaymentNewCardCountry">
                   <option>País</option>
                   <option>México</option>
                   <option>USA</option>
                   <option>Puerto Rico</option>
                 </select>
-                <input type="text" placeholder="Calle" class="inputMedium required" name="winbitsPaymentNewCardStreet" id="winbitsPaymentNewCardStreet">
-                <input type="text" placeholder="##" class="inputSmall required" name="winbitsPaymentNewCardNumero" id="winbitsPaymentNewCardNumero">
-                <select class="select" data-clase="selectRegister" data-inputselect="true" name="winbitsPaymentNewCardCol" id="winbitsPaymentNewCardCol">
+                <input type="text" placeholder="Calle" class="inputMedium required" name="street1" id="winbitsPaymentNewCardStreet">
+                <input type="text" placeholder="##" class="inputSmall required" name="cvNumber" id="winbitsPaymentNewCardNumero">
+                <select class="select" data-clase="selectRegister" data-inputselect="true" name="location" id="winbitsPaymentNewCardCol">
                   <option>Colonia</option>
                   <option>Anahuac</option>
                   <option>Roma</option>
                   <option>Lomas de Chapultepec</option>
                 </select>
-                <input type="text" placeholder="Ciudad" name="winbitsPaymentNewCardCity" id="winbitsPaymentNewCardCity">
-                <input type="text" placeholder="Codigo Postal" name="winbitsPaymentNewCardCP" id="winbitsPaymentNewCardCP">
-                <input type="text" placeholder="Teléfono" name="winbitsPaymentNewCardTel" id="winbitsPaymentNewCardTel">
+                <input type="text" placeholder="Ciudad" name="city" id="winbitsPaymentNewCardCity">
+                <input type="text" placeholder="Codigo Postal" name="postalCode" id="winbitsPaymentNewCardCP">
+                <input type="text" placeholder="Teléfono" name="phoneNumber" id="winbitsPaymentNewCardTel">
               </div>
               <div class="column columnLarge">
                 <h3>OPCIONES</h3>
                 <div class="divCheckbox">
-                  <span class="icon spanCheckbox unselectCheckbox"></span>
+                  <span class="icon spanCheckbox unselectCheckbox" id="spanCheckboxSaveCard"></span>
                   <input type="checkbox" class="checkbox" name="winbitsPaymentNewCardSave" id="winbitsPaymentNewCardSave">
                   <label for="winbitsPaymentNewCardSave" class="checkboxLabel">Guardar esta tarjeta</label>
                 </div>
                 <div class="divCheckbox">
-                  <span class="icon spanCheckbox unselectCheckbox"></span>
+                  <span class="icon spanCheckbox unselectCheckbox" id="spanCheckboxAsPrincipal"></span>
                   <input type="checkbox" class="checkbox" name="winbitsPaymentNewCardPrincipal" id="winbitsPaymentNewCardPrincipal">
                   <label for="winbitsPaymentNewCardPrincipal" class="checkboxLabel">Hacer esta mi tarjeta principal</label>
                 </div>
@@ -251,7 +251,7 @@
                 <div class="errorDiv"><p></p></div>
                 <div class="submitButton">
                   <span class="btn btnCancel btnPaymentCancel">Cancelar</span>
-                  <input type="submit" value="Pagar" class="btn">
+                  <input type="button" value="Pagar" class="btn submitCheckoutPaymentNewCard" id="submitCheckoutPaymentNewCard-{{id}}">
                 </div>
               </div>
             </fieldset>
