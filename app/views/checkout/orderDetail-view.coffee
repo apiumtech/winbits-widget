@@ -21,5 +21,10 @@ module.exports = class OrderDetailView extends View
 #      TODO: Create view OrderInfo and maintain slider out of that view
       that.updateOrderBits ui.value
 
+    if this.model.get("cashTotal") is 0
+        console.log("ENTRO CASH TOTAL")
+        @publishEvent "showBitsPayment"
+
+
   updateOrderBits: (bits) ->
     @model.updateOrderBits(bits)

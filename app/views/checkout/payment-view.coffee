@@ -18,6 +18,7 @@ module.exports = class PaymentView extends View
     @delegate "click" , ".li-method", @selectMethod
     @delegate "click" , ".submitOrder", @submitOrder
     @delegate "click", ".linkBack", @linkBack
+    @subscribeEvent "showBitsPayment", @showBitsPayment
     @delegate "click", ".btnPaymentCancel", @linkBack
     @delegate "click", "#spanCheckboxSaveCard", @selectCheckboxOption
     @delegate "click", "#spanCheckboxAsPrincipal", @selectCheckboxOption
@@ -78,7 +79,6 @@ module.exports = class PaymentView extends View
     $currentTarget = @$(e.currentTarget)
     methodName =  $currentTarget.attr("id").split("-")[1]
     selector = "#method-" + methodName
-    console.log ["Selector", selector]
     @$(selector).show()
     @$(".checkoutPaymentCreditcard").hide()
 
@@ -119,7 +119,13 @@ module.exports = class PaymentView extends View
     e.preventDefault()
     @$(".checkoutPaymentCreditcard").show()
     @$(".method-payment").hide()
+    @$('#method-bits').hide()
 
 
   attach: ->
     super
+
+  showBitsPayment: -> 
+    @$(".method-payment").hide()
+    @$(".checkoutPaymentCreditcard").hide()
+    @$('#method-bits').show()
