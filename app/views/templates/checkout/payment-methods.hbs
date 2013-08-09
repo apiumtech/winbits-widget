@@ -201,12 +201,12 @@
         <form id="checkoutPaymentNewCardFormId" accept-charset="utf-8" action="#" method="post">
             <fieldset>
               <div class="column">
-                <h3>NOMBRE</h3>
+                <h3>NOMBRE TITULAR</h3>
                 <input type="text" class="required" placeholder="Nombre" name="firstName" id="winbitsPaymentNewCardName">
                 <input type="text" class="required" placeholder="Apellido" name="lastName" id="winbitsPaymentNewCardLastName">
                 <input type="text" class="required" placeholder="Número de Tarjeta" name="accountNumber" id="winbitsPaymentNewCardNumber">
                 <div class="divFechaExpiracion">
-                  <label>Fecha de Expiración</label>
+                  <label>Fecha de vencimiento</label>
                   <input type="text" class="required digits" placeholder="dd" maxlength="2" name="expirationMonth" id="winbitsPaymentNewCardDD">
                   <input type="text" class="required digits" placeholder="aa" maxlength="2" name="expirationYear" id="winbitsPaymentNewCardAA">
                 </div>
@@ -216,24 +216,15 @@
                 </div>
               </div>
               <div class="column">
-                <h3>DIRECCIÓN</h3>
-                <select class="select" data-clase="selectRegister" name="country" id="winbitsPaymentNewCardCountry">
-                  <option>País</option>
-                  <option>México</option>
-                  <option>USA</option>
-                  <option>Puerto Rico</option>
-                </select>
-                <input type="text" placeholder="Calle" class="inputMedium required" name="street1" id="winbitsPaymentNewCardStreet">
-                <input type="text" placeholder="##" class="inputSmall required" name="cvNumber" id="winbitsPaymentNewCardNumero">
-                <select class="select" data-clase="selectRegister" data-inputselect="true" name="location" id="winbitsPaymentNewCardCol">
-                  <option>Colonia</option>
-                  <option>Anahuac</option>
-                  <option>Roma</option>
-                  <option>Lomas de Chapultepec</option>
-                </select>
-                <input type="text" placeholder="Ciudad" name="city" id="winbitsPaymentNewCardCity">
+                <h3>DIRECCIÓN DE La TARJETA</h3>
+                <input type="text" placeholder="Calle" class="required" name="street1" id="winbitsPaymentNewCardStreet">
+                <input type="text" placeholder="Número" class="inputMedium required" name="cvNumber" id="winbitsPaymentNewCardNumero">
                 <input type="text" placeholder="Codigo Postal" name="postalCode" id="winbitsPaymentNewCardCP">
                 <input type="text" placeholder="Teléfono" name="phoneNumber" id="winbitsPaymentNewCardTel">
+                <input type="text" placeholder="Estado" name="state" id="winbitsPaymentNewCardState">
+                <input type="text" placeholder="Colonia" name="colony" id="winbitsPaymentNewCardColony">
+                <input type="text" placeholder="Delegación o Municipio" name="municipality" id="winbitsPaymentNewCardMunicipality">
+                <input type="text" placeholder="País" class="required" name="country" id="winbitsPaymentNewCardCountry">
               </div>
               <div class="column columnLarge">
                 <h3>OPCIONES</h3>
