@@ -5,6 +5,7 @@ module.exports =
     errorFormClass: "error-form"
     errorClass: "error"
     verticalId: 1
+    currency: 'MXN'
     proxyUrl: "-"
     winbitsDivId: "winbits-widget"
     apiTokenName : '_wb_api_token'

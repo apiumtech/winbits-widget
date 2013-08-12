@@ -32,11 +32,12 @@ module.exports = class PaymentView extends View
 
     if $form.valid()
       console.log ['valid', $form]
-      formData = util.serializeForm($form)
-      formData.paymentMethod = { "id": paymentMethod }
-      formData.order = { "id": mediator.post_checkout.order}
-      formData.vertical = { "id": window.verticalId}
-      formData.shippingAddress = {"id": mediator.post_checkout.shippingAddress}
+      formData = {paymentInfo : util.serializeForm($form)}
+      formData.paymentInfo.currency = config.currency
+      formData.paymentMethod = paymentMethod
+      formData.order = mediator.post_checkout.order
+      formData.vertical = window.verticalId
+      formData.shippingAddress = mediator.post_checkout.shippingAddress
 
       Backbone.$.ajax config.apiUrl + "/orders/payment.json",
         type: "POST"
