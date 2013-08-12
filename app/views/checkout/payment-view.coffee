@@ -59,17 +59,16 @@ module.exports = class PaymentView extends View
   selectCheckboxOption: (e)->
     e.preventDefault()
     $currentTarget = @$(e.currentTarget)
-    option = $currentTarget.parent().find(".checkbox")
-    checkboxStatus = option.prop("checked")
-    console.log ['Checkbox status: ' , checkboxStatus]
-    if checkboxStatus
+    checkboxInput = $currentTarget.parent().find(".checkbox")
+    checkboxStatus = checkboxInput.val()
+    if checkboxStatus is "true"
       $currentTarget.removeClass "selectCheckbox"
       $currentTarget.addClass "unselectCheckbox"
-      option.removeAttr "checked"
+      checkboxInput.val("false")
     else
       $currentTarget.removeClass "unselectCheckbox"
       $currentTarget.addClass "selectCheckbox"
-      option.attr "checked", "checked"
+      checkboxInput.val("true")
 
 
 
