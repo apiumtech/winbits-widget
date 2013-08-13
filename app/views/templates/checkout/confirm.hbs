@@ -26,5 +26,12 @@
   <input type="hidden" name="success" value="{{paymentCapture.params.ack}}">
 </form>
 {{/compare}}
-
+{{#compare paymentMethod "6"}}
+  <div class="checkoutResumen">
+    <h3>Has pagado con bits, felicidades!!!</h3>
+  <div class="checkoutButton">
+    <input type="submit" class="btn btnCheckout" value="Terminar">
+  </div>
+  </div>
+{{/compare}}
 

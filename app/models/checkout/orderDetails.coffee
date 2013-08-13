@@ -45,6 +45,9 @@ module.exports = class OrderDetails extends ChaplinModel
         console.log ["Success: Update cart bits", data.response]
         @set @completeOrderModel(data.response)
         @publishEvent('orderBitsUpdated', data.response)
+        if data.response.cashTotal is 0 
+            @publishEvent('showBitsPayment')
+
 
       error: (xhr, textStatus, errorThrown) ->
         error = JSON.parse(xhr.responseText)

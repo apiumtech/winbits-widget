@@ -260,5 +260,18 @@
   <a href="#" class="linkBack" ><em class="icon backBtn"></em> Regresar</a>
 </div>
 {{/compare}}
+      {{#compare identifier "user.bits"}}
+      <div class="checkoutPaymentmethod-payment" id="method-bits" style='display:none'>
+  <ul>
+    <li>
+      <span class="cashIcon bitsCash"></span>
+      <p>Pago con bits</p>
+    </li>
+  </ul>
+  <Input type="button" value="Continuar" class="btn submitOrder" id="submit-{{id}}">
+  <a href="#" class="linkBack" ><em class="icon backBtn"></em> Regresar</a>
+</div>
+{{/compare}}
 {{/methods}}
+
 

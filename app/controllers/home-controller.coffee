@@ -48,3 +48,5 @@ module.exports = class HomeController extends ChaplinController
     #Exporting function
     window.Winbits.addToCart = (item)->
       that.cartView.addToCart(item)
+
+
