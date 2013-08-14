@@ -1,7 +1,6 @@
 template = require 'views/templates/widget/bitsCredit'
 View = require 'views/base/view'
 util = require 'lib/util'
-moment = require ''
 
 module.exports = class BitRecordView extends View
   autoRender: false
