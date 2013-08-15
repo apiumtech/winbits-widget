@@ -24,44 +24,62 @@
       <thead>
       <tr>
         <th class="width25">DESCRIPCIÓN</th>
-        <th class="width25" style="text-align: center">DETALLES</th>
+        <th class="width10">PHOTO</th>
+        <th class="width30">DESCRIPCIÓN DEL PRODUCTO</th>
+        <th class="width5">CANT.</th>
+        <th class="widht10">ESTATUS</th>
+        <th class="width10"># DE RASTREO</th>
+        <th class="width10">SITE</th>
       </tr>
       </thead>
       <tbody>
 
       {{#each orders}}
-      <tr class="singleItemOrder">
-        <td>
-          <p>Orden: {{orderNumber}}</p>
-          <p>Fecha de compra: {{dateOfPurchase}}</p>
-          <p>Total: {{total}} </p>
-        </td>
-        <td>
-          <table>
-            <th class="width10">PHOTO</th>
-            <th class="width30">DESCRIPCIÓN DEL PRODUCTO</th>
-            <th class="width5">CANT.</th>
-            <th class="widht10">ESTATUS</th>
-            <th class="width10"># DE RASTREO</th>
-            <th class="width10">SITE</th>
-            {{#each details}}
-              <tr>
-                <td>
-                  <img src="{{imageThumb.url}}" width="62" height="79" alt="producto" />
-                </td>
-                <td>
-                  <strong>{{description}}</strong>
-                  <p>{{attributeLabel}}: {{attributeName}}</p>
-                </td>
-                <td>{{amount}}</td>
-                <td>{{status}}</td>
-                <td><a href="#">{{tracingNumber}}</a></td>
-                <td><a href="{{vertical.baseUrl}}">{{vertical.name}}</a></td>
-              </tr>
-            {{/each}}
-          </table>
-        </td>
-      </tr>
+        {{#withFirstOrderDetail}}
+          <tr class="{{firstDetailRowClass}}">
+            <td>
+              <p>Orden: {{../orderNumber}}</p>
+              <p>Fecha de compra: {{../dateOfPurchase}}</p>
+              <p>Total: {{../total}} </p>
+
+            </td>
+            <td>
+              <img src="{{imageThumb.url}}" width="62" height="79" alt="producto" />
+            </td>
+            <td>
+              <strong>{{description}}</strong>
+              <strong>Pull &amp; Bear</strong> <!-- Marca (Brand) -->
+              <p>{{attributeLabel}}: {{attributeName}}</p>
+            </td>
+            <td>{{amount}}</td>
+            <td>{{status}}</td>
+            <td><a href="#">{{tracingNumber}}</a></td>
+            <td><a href="{{vertical.baseUrl}}">{{vertical.name}}</a></td>
+          </tr>
+        {{/withFirstOrderDetail}}
+
+        {{#withRestOfOrderDetails}}
+          <tr class="lastItemOrder">
+            <td>
+              <img width="62" height="79" alt="LACE OFF THE SHOULDER DRESS" src="winbitsInclude/images/assets/blackDress-small.jpg">
+            </td>
+            <td>
+              <strong>{{description}}</strong>
+              <strong>Pull &amp; Bear</strong>
+              <p>{{attributeLabel}}: {{attributeName}}</p>
+            </td>
+            <td>2</td>
+            <td>
+              <p>1 Delivered</p>
+              <p>1 Pending</p>
+            </td>
+            <td>
+              <p><a href="#">121029163</a></p>
+              <p><a href="#">121029163</a></p>
+            </td>
+            <td><a class="icon clickoneroLogoSmall" href="#">clickonero</a></td>
+          </tr>
+        {{/withRestOfOrderDetails}}
       {{/each}}
       </tbody>
     </table>
