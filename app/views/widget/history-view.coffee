@@ -15,6 +15,7 @@ module.exports = class HistoryView extends View
   initialize: ->
     super
     @delegate 'click', '#bitsCredit', @showBitsRecord
+    @delegate 'click', '#ordersHistory', @showOrdersRecord
 
 
   showBitsRecord: (e)-> 
@@ -24,3 +25,11 @@ module.exports = class HistoryView extends View
     Backbone.$("main:first").find("div").toggle()
     Backbone.$("main:first").append("<div id='historial' ></div>")
     @publishEvent 'showHistorical'
+
+  showOrdersRecord: (e) ->
+    console.log "ENTRE A SHOW ORDERS"
+    e.preventDefault()
+    Backbone.$("#historial").remove()
+    Backbone.$("main:first").find("div").toggle()
+    Backbone.$("main:first").append("<div id='historial' ></div>")
+    @publishEvent 'showOrdersHistory'
