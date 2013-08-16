@@ -222,12 +222,20 @@ Handlebars.registerHelper "withFirstOrderDetail", (options) ->
 Handlebars.registerHelper "withRestOfOrderDetails", (options) ->
   restOfDetails = this.details.slice(1)
   ret = ""
-  for detail of restOfDetails
-    ret += options.fn detail
+  for i of restOfDetails
+    ret += options.fn restOfDetails[i]
   ret
 
 Handlebars.registerHelper "firstDetailRowClass", () ->
   if this.isSingle then 'singleItemOrder' else 'firstItemOrder'
+
+Handlebars.registerHelper "select", (value, options) ->
+  select = document.createElement("select")
+  select.innerHTML = options.fn(this)
+  select.value = value
+  select.children[select.selectedIndex].setAttribute "selected", "selected"  if select.children[select.selectedIndex]
+  select.innerHTML
+
 
 #******************************
 #Custom partial

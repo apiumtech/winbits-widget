@@ -18,7 +18,7 @@ module.exports = class HistoryView extends View
     @delegate 'click', '#ordersHistory', @showOrdersRecord
 
 
-  showBitsRecord: (e)-> 
+  showBitsRecord: (e)->
     console.log "ENTRE A SHOWBITSRECORD"
     e.preventDefault()
     Backbone.$("#historial").remove()

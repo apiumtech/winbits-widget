@@ -17,33 +17,42 @@ module.exports = class OrderHistory extends ChaplinModel
   render: ->
     super
 
-  getHistorical: (args) ->
-    Backbone.$.ajax config.apiUrl + "/affiliation/orders.json",
+  getHistorical: (formData) ->
+    console.log ['formdata', formData]
+    url = config.apiUrl + "/affiliation/orders.json?"
+    status = ""
+    sort = ""
+    if (formData?)
+      url += "status=" + formData.status + "&sort=" + formData.sort
+      status = formData.status
+      sort = formData.sort
+
+    Backbone.$.ajax url,
       type: "GET"
       contentType: "application/json"
       dataType: "json"
-    #data: JSON.stringify(updateData)
+      #data: JSON.stringify(formData)
       context: @
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
 
       success: (data) ->
-        console.log ["Success: Update  Orders", data.response]
-        @set @completeOrdersHistory(data.response)
+        modelData = {orders: data.response, status: status, sort: sort}
+        @set @completeOrdersHistory(modelData)
         @publishEvent 'orderRecordReady'
 
       error: (xhr, textStatus, errorThrown) ->
         error = JSON.parse(xhr.responseText)
         alert error.meta.message
 
-    console.log ["wee", args]
 
   completeOrdersHistory: (data) ->
     model = {}
-    model.orders = data
+    model.orders = data.orders
+    model.status = data.status
+    model.sort = data.sort
     model
-
 
   set: (args) ->
     super

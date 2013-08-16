@@ -13,6 +13,7 @@ module.exports = class OrdersHistoryView extends View
 
   initialize: ->
     super
+    @delegate 'change', '.orderHistoryFilter', @filterOrderHistory
     @subscribeEvent 'orderRecordReady', @handlerModelReady
 
   attach: ->
@@ -36,3 +37,12 @@ module.exports = class OrdersHistoryView extends View
     Backbone.$("#historial").remove()
     Backbone.$("main:first").find("div").toggle()
 #Backbone.$("main:first").append("<div id='historial' ></div>")
+
+  filterOrderHistory: (e) ->
+    e.preventDefault()
+    $form = @$el.find("#orderHistoryFilterForm")
+    console.log ['form', $form]
+    formData = util.serializeForm($form)
+    console.log ['datos', formData]
+    @publishEvent 'showOrdersHistory', formData
+

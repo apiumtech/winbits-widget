@@ -4,32 +4,37 @@
 <h2>Historial de Compras<span class="icon plusIcon">+</span></h2>
 <div class="accordeonContent">
   <div class="accordeonSelectDiv">
-    <select class="select" data-clase="selectRegister">
-      <option>Estatus</option>
-      <option>Item 1</option>
-      <option>Item 2</option>
-      <option>Item 3</option>
-      <option>Item 4</option>
-    </select>
-    <select class="select" data-clase="selectRegister">
-      <option>Ordenar por...</option>
-      <option>Item 1</option>
-      <option>Item 2</option>
-      <option>Item 3</option>
-      <option>Item 4</option>
-    </select>
+    <form id="orderHistoryFilterForm" accept-charset="utf-8" action="#" method="post">
+      <select class="select orderHistoryFilter" data-clase="selectRegister" name="status">
+        {{#select status}}
+        <option>Estatus</option>
+        <option value="4">Pagadas</option>
+        <option value="3">Pendientes</option>
+        <option value="7">Reembolsadas</option>
+        {{/select}}
+      </select>
+
+      <select class="select orderHistoryFilter" data-clase="selectRegister" name="sort">
+        {{#select sort}}
+        <option>Ordenar por...</option>
+        <option value="dateCreated">Fecha de compra</option>
+        <option value="orderNumber">Número de orden</option>
+        <option value="status.name">Estatus</option>
+        {{/select}}
+      </select>
+    </form>
   </div>
   <div class="dataTable">
     <table>
       <thead>
       <tr>
         <th class="width25">DESCRIPCIÓN</th>
-        <th class="width10">PHOTO</th>
+        <th class="width10">FOTO</th>
         <th class="width30">DESCRIPCIÓN DEL PRODUCTO</th>
         <th class="width5">CANT.</th>
         <th class="widht10">ESTATUS</th>
         <th class="width10"># DE RASTREO</th>
-        <th class="width10">SITE</th>
+        <th class="width10">SITIO</th>
       </tr>
       </thead>
       <tbody>
@@ -40,18 +45,21 @@
             <td>
               <p>Orden: {{../orderNumber}}</p>
               <p>Fecha de compra: {{../dateOfPurchase}}</p>
+              <p>Estatus: {{../status}} </p>
               <p>Total: {{../total}} </p>
-
             </td>
             <td>
-              <img src="{{imageThumb.url}}" width="62" height="79" alt="producto" />
+              <img src="{{thumbnail.url}}" width="62" height="79" alt="{{name}}" />
             </td>
             <td>
-              <strong>{{description}}</strong>
-              <strong>Pull &amp; Bear</strong> <!-- Marca (Brand) -->
-              <p>{{attributeLabel}}: {{attributeName}}</p>
+              <strong>{{name}}</strong>
+              <strong>{{brand}}</strong>
+              <p>{{attributeName}}: {{attributeLabel}}</p>
+              {{#each attributes}}
+                <p>{{name}}: {{label}}</p>
+              {{/each}}
             </td>
-            <td>{{amount}}</td>
+            <td>{{quantity}}</td>
             <td>{{status}}</td>
             <td><a href="#">{{tracingNumber}}</a></td>
             <td><a href="{{vertical.baseUrl}}">{{vertical.name}}</a></td>
@@ -59,25 +67,28 @@
         {{/withFirstOrderDetail}}
 
         {{#withRestOfOrderDetails}}
-          <tr class="lastItemOrder">
+          {{!-- TODO: usar clase css lastItemOrder y quitar primer <td> cuando arreglen el markup para soportar ordenes con mas de 2 details --}}
+          <tr class="firstItemOrder">
+            <td>{{!-- Quitame cuando el TODO se quite --}}</td>
             <td>
-              <img width="62" height="79" alt="LACE OFF THE SHOULDER DRESS" src="winbitsInclude/images/assets/blackDress-small.jpg">
+              <img src="{{thumbnail.url}}" width="62" height="79" alt="{{name}}" />
             </td>
             <td>
-              <strong>{{description}}</strong>
-              <strong>Pull &amp; Bear</strong>
-              <p>{{attributeLabel}}: {{attributeName}}</p>
+              <strong>{{name}}</strong>
+              <strong>{{brand}}</strong>
+              <p>{{attributeName}}: {{attributeLabel}}</p>
+              {{#each attributes}}
+                <p>{{name}}: {{label}}</p>
+              {{/each}}
             </td>
-            <td>2</td>
+            <td>{{quantity}}</td>
+            <td>{{status}}</td>
+            <td><a href="#">{{tracingNumber}}</a></td>
             <td>
-              <p>1 Delivered</p>
-              <p>1 Pending</p>
+              <a href="{{vertical.baseUrl}}">
+                <img src="{{vertical.logo}}"  alt="{{vertical.name}}" />
+              </a>
             </td>
-            <td>
-              <p><a href="#">121029163</a></p>
-              <p><a href="#">121029163</a></p>
-            </td>
-            <td><a class="icon clickoneroLogoSmall" href="#">clickonero</a></td>
           </tr>
         {{/withRestOfOrderDetails}}
       {{/each}}
