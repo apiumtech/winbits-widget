@@ -8,10 +8,9 @@
         </div>
         <h3>DIRECCIÓN {{index}}</h3>
         <address>
-          <span>Name {{firstName}} {{lastName}}</span>
-          <span>{{contactName firstName lastName}},</span>
-          <span>{{street}} {{externalNumber}}, {{location}},</span>
-          <span>{{zipCodeInfo.city}}, {{zipCodeInfo.id}}</span>
+          <span>{{getContactName}},</span>
+          <span>{{street}} {{externalNumber}}, {{getLocation}},</span>
+          <span>{{zipCodeInfo.county}}, {{getZipCode}}</span>
         </address>
         <span class="note send">Tu paquete será enviado a esta dirección</span>
         <span class="note hover">Da click aqui para establecer como dirección principal</span>

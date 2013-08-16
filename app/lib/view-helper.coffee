@@ -236,11 +236,14 @@ Handlebars.registerHelper "select", (value, options) ->
   select.children[select.selectedIndex].setAttribute "selected", "selected"  if select.children[select.selectedIndex]
   select.innerHTML
 
-Handlebars.registerHelper "contactName", (firstName, lastName) ->
-  console.log ['THIS', this]
-  console.log ['first', firstName]
-  console.log ['last', lastName]
+Handlebars.registerHelper "getContactName", (firstName, lastName) ->
   (this.firstName + ' ' + this.lastName).trim()
+
+Handlebars.registerHelper "getLocation", (firstName, lastName) ->
+  this.location or this.zipCodeInfo.locationName
+
+Handlebars.registerHelper "getZipCode", (firstName, lastName) ->
+  this.zipCodeInfo.zipCode or this.zipCodeInfo.id
 
 #******************************
 #Custom partial
