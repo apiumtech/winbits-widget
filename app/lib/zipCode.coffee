@@ -1,5 +1,6 @@
 config = require 'config'
 util = require 'lib/util'
+
 module.exports = ($)->
   find : (cp, element, itemSelected, callback) ->
     that = @
@@ -19,6 +20,7 @@ module.exports = ($)->
     $element.parent().find(".selectTrigger").remove()
     $element.parent().find(".selectOptions").remove()
 
+    $form = $element.closest('form')
     values = new Array()
     if data.response.length > 0
       for response in data.response
@@ -28,6 +30,11 @@ module.exports = ($)->
           values.push "<option value='#{response.id}'>#{response.locationName}</value>"
     else
         values.push "<option value=\"\">Lo sentimos no encontramos tu codigo posta, por favor ingresa tu colonia en el campo de localidad</option>"
+
+    if not itemSelected and data.response.length > 0
+      response = data.response[0]
+      $form.find('#winbitsShippingCounty').val(response.county)
+      $form.find('#winbitsShippingState').val(response.state)
 
     $element.html(values)
     util.customSelect($element)

@@ -148,11 +148,10 @@ module.exports = class CheckoutSiteView extends View
         util.customSelect($select)
 
     util.customSelect(@$(".shippingNewAddress").find(".select"))
+
   findZipcode: (event)->
     event.preventDefault()
     console.log "find zipCode"
     $currentTarget = @$(event.currentTarget)
     $slt = $currentTarget.parent().find(".select")
-    console.log $currentTarget
-    console.log $slt
     zipCode(Backbone.$).find $currentTarget.val(), $slt

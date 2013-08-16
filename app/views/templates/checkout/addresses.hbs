@@ -30,7 +30,7 @@
     <fieldset>
       <div class="column">
         <h3>CONTACTO</h3>
-        <input type="text" class="required" placeholder="Nombre" name="firstName" value="{{name}}"  id="winbitsShippingName">
+        <input type="text" class="required" placeholder="Nombre" name="firstName" value="{{firstName}}"  id="winbitsShippingName">
         <input type="text" class="required" placeholder="Apellido(s)" name="lastName" value="{{lastName}}"  id="winbitsShippingLastname">
         <input type="text" placeholder="Teléfono a 10 dígitos" name="phone" id="winbitsShippingTel" value="{{phone}}">
       </div>
@@ -89,15 +89,15 @@
         <input type="text" placeholder="Codigo Postal" class="required digits zipCode">
         <input type="hidden" name="zipCodeInfo" class="zipCodeInfoExtra">
         <select class="select zipCodeInfo" data-clase="selectRegister" placeholder="Localidad">
-          <option>Localidad:</option>
+          <option>Colonia/Localidad:</option>
         </select>
-        <input type="text" placeholder="Colonia" name="location">
-        <input type="text" placeholder="Delegación o Municipio" readonly="true">
-        <input type="text" placeholder="Estado" readonly="true">
+        <input type="text" placeholder="Colonia" name="location" style="display: none;">
+        <input type="text" placeholder="Delegación o Municipio" id="winbitsShippingCounty" readonly="true">
+        <input type="text" placeholder="Estado" id="winbitsShippingState" readonly="true">
       </div>
       <div class="column columnLarge">
         <h3>OPCIONES</h3>
-        <input type="checkbox" class="checkbox" name="principal" id="winbitsShippingPrincipal">
+        <input type="checkbox" class="checkbox" name="main" id="winbitsShippingPrincipal">
         <label for="winbitsShippingPrincipal" class="checkboxLabel">Hacer esta mi dirección principal</label>
         <p class="note">Winbits puede salvar tu dirección para que en tu próxima visita tus compras sean más faciles de realizar.</p>
         <div class="errorDiv"><p></p></div>
@@ -111,8 +111,8 @@
 </div>
 {{#each addresses}}
 <address class="choosen-address" id="choosen-address-{{id}}" style="display:none">
-  <span>{{name}} {{lastName}}</span>
-    <span>{{street}} {{externalNumber}}, {{location}},</span>
-    <span>{{zipCodeInfo.city}}, {{zipCodeInfo.id}}</span>
+  <span>{{getContactName}}</span>
+    <span>{{street}} {{externalNumber}}, {{getLocation}},</span>
+    <span>{{zipCodeInfo.county}}, {{getZipCode}}</span>
   </address>
 {{/each}}
