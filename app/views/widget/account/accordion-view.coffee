@@ -15,6 +15,7 @@ module.exports = class AccordionView extends View
     super
     console.log 'Inicializando acordeon'
     @subscribeEvent 'cleanAccordion', @cleanAccordion
+    @subscribeEvent 'renderAccordionOption', @renderAccordionOption
     @delegate 'click', '.btnBackToSite', @backToSite
 
   attach: ->
@@ -36,3 +37,15 @@ module.exports = class AccordionView extends View
   cleanAccordion:  ->
     console.log('Limpiando acordion')
     Backbone.$(".accordeonContent").hide()
+
+  renderAccordionOption: (op)->
+    console.log ['Option', op.attr("id")]
+    optionId = op.attr("id")
+    @publishEvent 'cleanAccordion'
+    if optionId == 'ordersHistoryHId'
+      @publishEvent 'showOrdersHistory'
+      Backbone.$("#ordersHistoryContent").show()
+
+    if optionId == 'bitsHistoryHId'
+      @publishEvent 'showBitsHistory'
+      Backbone.$("#bitRecordContent").show()

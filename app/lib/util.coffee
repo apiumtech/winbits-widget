@@ -1,3 +1,4 @@
+ChaplinMediator = require 'chaplin/mediator'
 module.exports =
     #app.$ = (element) ->
       #(if element instanceof app.jQuery then element else app.jQuery(element))
@@ -235,7 +236,7 @@ module.exports =
                 $(this).next(options.contenedor).slideToggle()
                 $(this).toggleClass(options.claseActivo).find(".icon").toggleClass options.minusIcon
                 $(this).siblings(options.trigger).removeClass(options.claseActivo).find(".icon").removeClass options.minusIcon
-
+                ChaplinMediator.publish 'renderAccordionOption', $(this)
 
 
   # +++++++++++++++++++++++++++++++++++++++++++

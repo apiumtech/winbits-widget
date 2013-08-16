@@ -13,7 +13,6 @@ module.exports = class OrdersHistoryView extends View
   initialize: ->
     super
     @delegate 'change', '.orderHistoryFilter', @filterOrderHistory
-    @delegate 'click', '#ordersHistoryAccordion', @showOrdersHistoryAccordion
     @subscribeEvent 'orderRecordReady', @handlerModelReady
 
   attach: ->
@@ -28,8 +27,3 @@ module.exports = class OrdersHistoryView extends View
     $form = @$el.find("#orderHistoryFilterForm")
     formData = util.serializeForm($form)
     @publishEvent 'showOrdersHistory', formData
-
-  showOrdersHistoryAccordion: (e) ->
-    console.log 'abriendo historial de ordenes'
-    e.preventDefault()
-    @publishEvent 'showOrdersHistory'

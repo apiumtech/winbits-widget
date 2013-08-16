@@ -21,8 +21,8 @@ module.exports = class HistoryView extends View
     console.log "ENTRE A SHOWBITSRECORD"
     e.preventDefault()
     Backbone.$("#historicalAccordion").show()
-    @publishEvent 'cleanAccordion'
-    @publishEvent 'showBitsHistory'
+    #@publishEvent 'cleanAccordion'
+    #@publishEvent 'showBitsHistory'
     Backbone.$(".accordeonWinbits").find("h2")[1].click()
 
 
@@ -31,6 +31,6 @@ module.exports = class HistoryView extends View
     console.log "ENTRE A SHOW ORDERS"
     e.preventDefault()
     Backbone.$("#historicalAccordion").show()
-    @publishEvent 'cleanAccordion'
-    @publishEvent 'showOrdersHistory'
+    #@publishEvent 'cleanAccordion'
+    #@publishEvent 'showOrdersHistory'
     Backbone.$(".accordeonWinbits").find("h2")[0].click()
