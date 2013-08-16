@@ -87,15 +87,9 @@ module.exports = class CheckoutSiteView extends View
       formData = util.serializeForm($form)
       formData.country  = {"id": formData.country}
       formData.zipCodeInfo  = {"id": formData.zipCodeInfoId}
-      if formData.principal
-        formData.principal  = true
-      else
-        formData.principal = false
-      formData.contactName = formData.name + " " + formData.lastname
-      formData.contactPhone = formData.phone
+      formData.main = if formData.main then true else false
       console.log formData
       @model.set formData
-
 
       that = @
       @model.sync 'create', @model,
@@ -148,11 +142,10 @@ module.exports = class CheckoutSiteView extends View
         util.customSelect($select)
 
     util.customSelect(@$(".shippingNewAddress").find(".select"))
+
   findZipcode: (event)->
     event.preventDefault()
     console.log "find zipCode"
     $currentTarget = @$(event.currentTarget)
     $slt = $currentTarget.parent().find(".select")
-    console.log $currentTarget
-    console.log $slt
     zipCode(Backbone.$).find $currentTarget.val(), $slt
