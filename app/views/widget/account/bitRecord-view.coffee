@@ -1,4 +1,4 @@
-template = require 'views/templates/widget/bitsCredit'
+template = require 'views/templates/account/bitsCredit'
 View = require 'views/base/view'
 util = require 'lib/util'
 
