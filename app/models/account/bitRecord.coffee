@@ -6,7 +6,7 @@ module.exports = class BitRecord extends ChaplinModel
   initialize: (attributes, option) ->
     super
     @url = config.apiUrl + "/affiliation/bits.json"
-    @subscribeEvent 'showHistorical', @getHistorical
+    @subscribeEvent 'showBitsHistory', @getHistorical
 
   #@fetch success: (collection, response) ->
   #collection.resolve()

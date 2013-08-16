@@ -22,7 +22,7 @@ module.exports = class HistoryView extends View
     e.preventDefault()
     Backbone.$("#historicalAccordion").show()
     @publishEvent 'cleanAccordion'
-    @publishEvent 'showHistorical'
+    @publishEvent 'showBitsHistory'
     Backbone.$(".accordeonWinbits").find("h2")[1].click()
 
 
