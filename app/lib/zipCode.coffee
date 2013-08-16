@@ -35,6 +35,7 @@ module.exports = ($)->
       response = data.response[0]
       $form.find('#winbitsShippingCounty').val(response.county)
       $form.find('#winbitsShippingState').val(response.state)
+      $form.find('.zipCodeInfoExtra').val(response.id)
 
     $element.html(values)
     util.customSelect($element)
