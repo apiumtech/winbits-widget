@@ -206,10 +206,10 @@ Handlebars.registerHelper "cartDetailTotal", (unitPrice, quantity) ->
   unitPrice * quantity
 
 Handlebars.registerHelper "joinAttributes", (mainAttribute, attributes) ->
-  attrValues = [mainAttribute.value]
+  attrLabels = [mainAttribute.label]
   w$.each attributes, (index, attribute) ->
-    attrValues.push attribute.value
-  attrValues.join ', '
+    attrLabels.push attribute.label
+  attrLabels.join ', '
 
 Handlebars.registerHelper "defaultThumbnail", (thumbnail) ->
   thumbnail || 'images/assets/jeans-tiny.jpg'
