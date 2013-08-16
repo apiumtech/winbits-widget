@@ -236,6 +236,11 @@ Handlebars.registerHelper "select", (value, options) ->
   select.children[select.selectedIndex].setAttribute "selected", "selected"  if select.children[select.selectedIndex]
   select.innerHTML
 
+Handlebars.registerHelper "contactName", (firstName, lastName) ->
+  console.log ['THIS', this]
+  console.log ['first', firstName]
+  console.log ['last', lastName]
+  (this.firstName + ' ' + this.lastName).trim()
 
 #******************************
 #Custom partial
