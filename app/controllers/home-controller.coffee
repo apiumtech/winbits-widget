@@ -14,8 +14,9 @@ RegisterFb = require "models/registerfb"
 BitRecord = require "models/bitRecord"
 BitRecordView = require "views/widget/bitRecord-view"
 HistoryView = require "views/widget/history-view"
-OrderHistory = require "models/orderHistory"
-OrdersHistoryView = require "views/widget/ordersHistory-view"
+OrderHistory = require "models/account/orderHistory"
+OrdersHistoryView = require "views/widget/account/ordersHistory-view"
+AccordionView = require "views/widget/account/accordion-view"
 
 module.exports = class HomeController extends ChaplinController
 
@@ -41,7 +42,7 @@ module.exports = class HomeController extends ChaplinController
     @bitRecordView = new BitRecordView(model: @bitRecord)
     @orderHistory = new OrderHistory
     @ordersHistoryView = new OrdersHistoryView(model: @orderHistory)
-
+    @accordionView = new AccordionView
     @address.fetch()
     @profile.on "change", ->
       that.profileView.render()

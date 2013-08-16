@@ -8,8 +8,6 @@ module.exports = class OrderHistory extends ChaplinModel
     @url = config.apiUrl + "/affiliation/orders.json"
     @subscribeEvent 'showOrdersHistory', @getHistorical
 
-  #@fetch success: (collection, response) ->
-  #collection.resolve()
   parse: (response) ->
     console.log ("Orders record: parse")
     response
@@ -31,7 +29,6 @@ module.exports = class OrderHistory extends ChaplinModel
       type: "GET"
       contentType: "application/json"
       dataType: "json"
-      #data: JSON.stringify(formData)
       context: @
       headers:
         "Accept-Language": "es"

@@ -5,7 +5,6 @@ util = require 'lib/util'
 
 module.exports = class HistoryView extends View
   autoRender: yes
-  #className: 'home-page'
   container: '#headerHistory'
   template: template
 
@@ -21,15 +20,17 @@ module.exports = class HistoryView extends View
   showBitsRecord: (e)->
     console.log "ENTRE A SHOWBITSRECORD"
     e.preventDefault()
-    Backbone.$("#historial").remove()
-    Backbone.$("main:first").find("div").toggle()
-    Backbone.$("main:first").append("<div id='historial' ></div>")
+    Backbone.$("#historicalAccordion").show()
+    @publishEvent 'cleanAccordion'
     @publishEvent 'showHistorical'
+    Backbone.$(".accordeonWinbits").find("h2")[1].click()
+
+
 
   showOrdersRecord: (e) ->
     console.log "ENTRE A SHOW ORDERS"
     e.preventDefault()
-    Backbone.$("#historial").remove()
-    Backbone.$("main:first").find("div").toggle()
-    Backbone.$("main:first").append("<div id='historial' ></div>")
+    Backbone.$("#historicalAccordion").show()
+    @publishEvent 'cleanAccordion'
     @publishEvent 'showOrdersHistory'
+    Backbone.$(".accordeonWinbits").find("h2")[0].click()
