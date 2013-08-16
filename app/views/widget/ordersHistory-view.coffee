@@ -32,10 +32,10 @@ module.exports = class OrdersHistoryView extends View
   handlerModelReady: ->
     @render()
 
-  backToSite: (e) ->
+  ###backToSite: (e) ->
     console.log "ENTRE A BACKTOSITE"
     Backbone.$("#historial").remove()
-    Backbone.$("main:first").find("div").toggle()
+    Backbone.$("main:first").find("div").toggle()###
 #Backbone.$("main:first").append("<div id='historial' ></div>")
 
   filterOrderHistory: (e) ->

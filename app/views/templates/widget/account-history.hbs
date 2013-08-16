@@ -1,13 +1,13 @@
 <div class="wrapper historical" id="historical">
 <input type="submit" value="Back to site" class="btn btnBackToSite">
 <div class="accordeonWinbits">
-<h2>Historial de Compras<span class="icon plusIcon">+</span></h2>
+<h2>Historial de Compras<span class="icon plusIcon" id="ordersHistoryAccordion">+</span></h2>
 <div class="accordeonContent">
   <div class="accordeonSelectDiv">
     <form id="orderHistoryFilterForm" accept-charset="utf-8" action="#" method="post">
       <select class="select orderHistoryFilter" data-clase="selectRegister" name="status">
         {{#select status}}
-        <option>Estatus</option>
+        <option value="">Estatus</option>
         <option value="4">Pagadas</option>
         <option value="3">Pendientes</option>
         <option value="7">Reembolsadas</option>
@@ -16,7 +16,7 @@
 
       <select class="select orderHistoryFilter" data-clase="selectRegister" name="sort">
         {{#select sort}}
-        <option>Ordenar por...</option>
+        <option value="">Ordenar por...</option>
         <option value="dateCreated">Fecha de compra</option>
         <option value="orderNumber">Número de orden</option>
         <option value="status.name">Estatus</option>
