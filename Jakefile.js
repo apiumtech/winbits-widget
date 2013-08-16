@@ -5,14 +5,14 @@ fs = require("fs");
 handlebars = require("handlebars");
 _ = require("underscore");
 
-desc("This is the default task and doesnt do nada.");
+desc("This is the default task and doesn't do nada.");
 task("default", function() {
-  return console.log("jake -T  to see a list of avalible tasks");
+  return console.log("jake -T  to see a list of available tasks");
 });
 
 
 
-desc("task to build just must change enviroment before build");
+desc("task to build just must change environment before build");
 task("build", function() {
   var cmds;
   //cmds = ["jake deploy-field",
@@ -38,9 +38,9 @@ task("switch-config", function() {
   jake.rmRf(".tmp/");
   env = arguments[0];
   console.log("switching config ... to " + env);
-  fileContents = fs.readFileSync("deploy/enviroments.js", "utf8");
+  fileContents = fs.readFileSync("deploy/environments.json", "utf8");
   schema = JSON.parse(fileContents);
-  envJson = _.find(schema.enviroments, function(envc) {
+  envJson = _.find(schema.environments, function(envc) {
     return envc.name === env;
   });
   console.log(envJson);

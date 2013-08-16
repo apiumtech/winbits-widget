@@ -1,0 +1,269 @@
+            <div class="wrapper historical" id="historical">
+                <input type="submit" value="Back to site" class="btn btnBackToSite">
+                <div class="accordeonWinbits">
+                    <h2>Historial de Compras<span class="icon plusIcon">+</span></h2>
+                    <div class="accordeonContent">
+                        <div class="accordeonSelectDiv">
+                            <select class="select" data-clase="selectRegister">
+                                <option>Estatus</option>
+                                <option>Item 1</option>
+                                <option>Item 2</option>
+                                <option>Item 3</option>
+                                <option>Item 4</option>
+                            </select>
+                            <select class="select" data-clase="selectRegister">
+                                <option>Ordenar por...</option>
+                                <option>Item 1</option>
+                                <option>Item 2</option>
+                                <option>Item 3</option>
+                                <option>Item 4</option>
+                            </select>
+                        </div>
+                        <div class="dataTable">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="width25">DESCRIPCIÓN</th>
+                                        <th class="width10">PHOTO</th>
+                                        <th class="width30">DESCRIPCIÓN DEL PRODUCTO</th>
+                                        <th class="width5">CANT.</th>
+                                        <th class="widht10">ESTATUS</th>
+                                        <th class="width10"># DE RASTREO</th>
+                                        <th class="width10">SITE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="firstItemOrder">
+                                        <td rowspan="2">
+                                            <p>Orden: 1210291633--1595</p>
+                                            <p>Fecha de compra: 29/10/2012</p>
+                                            <p>Total: $1,349 </p>
+                                        </td>
+                                        <td>
+                                            <img src="winbitsInclude/images/assets/blackDress-small.jpg" width="62" height="79" alt="LACE OFF THE SHOULDER DRESS" />
+                                        </td>
+                                        <td>
+                                            <strong>LACE OFF THE SHOULDER DRESS</strong>
+                                            <strong>Pull &amp; Bear</strong>
+                                            <p>color: black</p>
+                                            <p>size: small </p>
+                                        </td>
+                                        <td>1</td>
+                                        <td>Delivered</td>
+                                        <td><a href="#">121029163</a></td>
+                                        <td><a href="#" class="icon looqLogoSmall">looq</a></td>
+                                    </tr>
+                                    <tr class="lastItemOrder">
+                                        <td>
+                                            <img src="winbitsInclude/images/assets/blackDress-small.jpg" width="62" height="79" alt="LACE OFF THE SHOULDER DRESS" />
+                                        </td>
+                                        <td>
+                                            <strong>LACE OFF THE SHOULDER DRESS</strong>
+                                            <strong>Pull &amp; Bear</strong>
+                                            <p>color: black</p>
+                                            <p>size: small </p>
+                                        </td>
+                                        <td>2</td>
+                                        <td>
+                                            <p>1 Delivered</p>
+                                            <p>1 Pending</p>
+                                        </td>
+                                        <td>
+                                            <p><a href="#">121029163</a></p>
+                                            <p><a href="#">121029163</a></p>
+                                        </td>
+                                        <td><a href="#" class="icon clickoneroLogoSmall">clickonero</a></td>
+                                    </tr>
+                                    <tr class="singleItemOrder">
+                                        <td>
+                                            <p>Orden: 1210291633--1595</p>
+                                            <p>Fecha de compra: 29/10/2012</p>
+                                            <p>Total: $1,349 </p>
+                                        </td>
+                                        <td>
+                                            <img src="winbitsInclude/images/assets/blackDress-small.jpg" width="62" height="79" alt="LACE OFF THE SHOULDER DRESS" />
+                                        </td>
+                                        <td>
+                                            <strong>LACE OFF THE SHOULDER DRESS</strong>
+                                            <strong>Pull &amp; Bear</strong>
+                                            <p>color: black</p>
+                                            <p>size: small </p>
+                                        </td>
+                                        <td>1</td>
+                                        <td>Delivered</td>
+                                        <td><a href="#">121029163</a></td>
+                                        <td><a href="#" class="icon clickoneroLogoSmall">clickonero</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <h2>Historial de Bits<span class="icon plusIcon">+</span></h2>
+                    <div class="accordeonContent">
+                        <div class="accordeonSelectDiv">
+                            <select class="select" data-clase="selectRegister">
+                                <option>Ordenar por...</option>
+                                <option>Item 1</option>
+                                <option>Item 2</option>
+                                <option>Item 3</option>
+                                <option>Item 4</option>
+                            </select>
+                        </div>
+                        <div class="dataTable totalBitsTable">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>TOTAL</th>
+                                        <th>BITS</th>
+                                        <th>FECHA</th>
+                                        <th>VENCIMIENTO</th>
+                                        <th>CONCEPTO</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="totalBits">
+                                        <td rowspan="{{transactionsSize}}">$ {{balance}} Bits</td>
+                                    </tr>
+                                    {{#each transactions}}
+                                    <tr>
+                                        <td>$ {{amount}} </td>
+                                        <td>{{dateCreated}}</td>
+                                        <td>{{expirationDate}}</td>
+                                        <td>{{concept}}</td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>  
+                    <h2>Lista de Espera<span class="icon plusIcon">+</span></h2>
+                    <div class="accordeonContent">
+                        <div class="accordeonSelectDiv">
+                            <select class="select" data-clase="selectRegister">
+                                <option>Estatus</option>
+                                <option>Item 1</option>
+                                <option>Item 2</option>
+                                <option>Item 3</option>
+                                <option>Item 4</option>
+                            </select>
+                            <select class="select" data-clase="selectRegister">
+                                <option>Ordenar por...</option>
+                                <option>Item 1</option>
+                                <option>Item 2</option>
+                                <option>Item 3</option>
+                                <option>Item 4</option>
+                            </select>
+                        </div>
+                        <div class="dataTable">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="width15">PHOTO</th>
+                                        <th class="width30">DESCRIPCIÓN DEL PRODUCTO</th>
+                                        <th class="width10">SITE</th>
+                                        <th class="widht10">ESTATUS</th>
+                                        <th class="width10">ELIMINAR</th>
+                                        <th class="width25">&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="itemWaitingList">
+                                        <td>
+                                            <img src="winbitsInclude/images/assets/blackDress-small.jpg" width="62" height="79" alt="LACE OFF THE SHOULDER DRESS" />
+                                        </td>
+                                        <td>
+                                            <strong>LACE OFF THE SHOULDER DRESS</strong>
+                                            <strong>Pull &amp; Bear</strong>
+                                            <p>color: black</p>
+                                            <p>size: small </p>
+                                        </td>
+                                        <td><a href="#" class="icon looqLogoSmall">looq</a></td>
+                                        <td>Esperando</td>
+                                        <td><a href="#" class="icon closeButton">Eliminar</a></td> 
+                                        <td>&nbsp;</td> 
+                                    </tr>
+                                    <tr class="itemWaitingList">
+                                        <td>
+                                            <img src="winbitsInclude/images/assets/blackDress-small.jpg" width="62" height="79" alt="LACE OFF THE SHOULDER DRESS" />
+                                        </td>
+                                        <td>
+                                            <strong>LACE OFF THE SHOULDER DRESS</strong>
+                                            <strong>Pull &amp; Bear</strong>
+                                            <p>color: black</p>
+                                            <p>size: small </p>
+                                        </td>
+                                        <td><a href="#" class="icon looqLogoSmall">looq</a></td>
+                                        <td><a href="#" class="availableWish">Ya disponible</a></td>
+                                        <td><a href="#" class="icon closeButton">Eliminar</a></td> 
+                                        <td>&nbsp;</td> 
+                                    </tr>
+                                    <tr class="itemWaitingList">
+                                        <td>
+                                            <img src="winbitsInclude/images/assets/blackDress-small.jpg" width="62" height="79" alt="LACE OFF THE SHOULDER DRESS" />
+                                        </td>
+                                        <td>
+                                            <strong>LACE OFF THE SHOULDER DRESS</strong>
+                                            <strong>Pull &amp; Bear</strong>
+                                            <p>color: black</p>
+                                            <p>size: small </p>
+                                        </td>
+                                        <td><a href="#" class="icon looqLogoSmall">looq</a></td>
+                                        <td>Esperando</td>
+                                        <td><a href="#" class="icon closeButton">Eliminar</a></td> 
+                                        <td>&nbsp;</td> 
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div> 
+                    <h2>Favoritos<span class="icon plusIcon">+</span></h2>
+                    <div class="accordeonContent">
+                        <div class="favoriteBrands">
+                            <p>Aqui encontraras todas las marcas que haz marcado como favoritas, cuando vuelvan a alguno de nuestros sitios, te notificaremos via e-mail.</p>
+                            <ul>
+                                <li>
+                                    <span>NIKE</span>
+                                    <a href="#" class="icon closeButton">Eliminar</a>
+                                </li>
+                                <li>
+                                    <span>TOMMY</span>
+                                    <a href="#" class="icon closeButton">Eliminar</a>
+                                </li>
+                                <li>
+                                    <span>BROOKS BROTHE...</span>
+                                    <a href="#" class="icon closeButton">Eliminar</a>
+                                </li>
+                                <li>
+                                    <span>REEBOOK</span>
+                                    <a href="#" class="icon closeButton">Eliminar</a>
+                                </li>
+                                <li>
+                                    <span>TOSHIBA</span>
+                                    <a href="#" class="icon closeButton">Eliminar</a>
+                                </li>
+                                <li>
+                                    <span>ADIDAS</span>
+                                    <a href="#" class="icon closeButton">Eliminar</a>
+                                </li>
+                                <li>
+                                    <span>STEVE MAIDEN</span>
+                                    <a href="#" class="icon closeButton">Eliminar</a>
+                                </li>
+                                <li>
+                                    <span>MARC JACOBS</span>
+                                    <a href="#" class="icon closeButton">Eliminar</a>
+                                </li>
+                                <li>
+                                    <span>SAMSUNG</span>
+                                    <a href="#" class="icon closeButton">Eliminar</a>
+                                </li>
+                                <li>
+                                    <span>ADIR</span>
+                                    <a href="#" class="icon closeButton">Eliminar</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>   
+                </div>
+                <input type="submit" value="Back to site" class="btn btnBackToSite">
+            </div>
