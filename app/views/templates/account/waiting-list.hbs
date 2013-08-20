@@ -27,51 +27,25 @@
     </tr>
     </thead>
     <tbody>
+    {{#each waitingListItems}}
     <tr class="itemWaitingList">
       <td>
-        <img src="winbitsInclude/images/assets/blackDress-small.jpg" width="62" height="79" alt="LACE OFF THE SHOULDER DRESS" />
+        <img src="{{skuProfile.image.url}}" width="62" height="79" alt="{{skuProfile.name}}" />
       </td>
       <td>
-        <strong>LACE OFF THE SHOULDER DRESS</strong>
-        <strong>Pull &amp; Bear</strong>
-        <p>color: black</p>
-        <p>size: small </p>
+        <strong>{{skuProfile.name}}</strong>
+        <strong>{{skuProfile.marca}}</strong>
+        <p>{{skuProfile.mainAttribute.name}} : {{skuProfile.mainAttribute.label}}</p>
+        {{#each skuProfile.attributes}}
+          <p>{{name}} : {{label}}</p>
+        {{/each}}
       </td>
-      <td><a href="#" class="icon looqLogoSmall">looq</a></td>
-      <td>Esperando</td>
-      <td><a href="#" class="icon closeButton">Eliminar</a></td>
+      <td><a href="{{skuProfile.vertical.baseUrl}}"><img src="{{skuProfile.vertical.logo}}" alt="{{skuProfile.vertical.name}}"/></a></td>
+      <td>{{status}}</td>
+      <td><a href="#" class="icon closeButton deleteWaitingListItem" id="waitingList-{{skuProfile.id}}">Eliminar</a></td>
       <td>&nbsp;</td>
     </tr>
-    <tr class="itemWaitingList">
-      <td>
-        <img src="winbitsInclude/images/assets/blackDress-small.jpg" width="62" height="79" alt="LACE OFF THE SHOULDER DRESS" />
-      </td>
-      <td>
-        <strong>LACE OFF THE SHOULDER DRESS</strong>
-        <strong>Pull &amp; Bear</strong>
-        <p>color: black</p>
-        <p>size: small </p>
-      </td>
-      <td><a href="#" class="icon looqLogoSmall">looq</a></td>
-      <td><a href="#" class="availableWish">Ya disponible</a></td>
-      <td><a href="#" class="icon closeButton">Eliminar</a></td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr class="itemWaitingList">
-      <td>
-        <img src="winbitsInclude/images/assets/blackDress-small.jpg" width="62" height="79" alt="LACE OFF THE SHOULDER DRESS" />
-      </td>
-      <td>
-        <strong>LACE OFF THE SHOULDER DRESS</strong>
-        <strong>Pull &amp; Bear</strong>
-        <p>color: black</p>
-        <p>size: small </p>
-      </td>
-      <td><a href="#" class="icon looqLogoSmall">looq</a></td>
-      <td>Esperando</td>
-      <td><a href="#" class="icon closeButton">Eliminar</a></td>
-      <td>&nbsp;</td>
-    </tr>
+    {{/each}}
     </tbody>
   </table>
 </div>

@@ -5,8 +5,8 @@ module.exports = class WaitingList extends ChaplinModel
 
   initialize: (attributes, option) ->
     super
-    @url = config.apiUrl + "/affiliation/orders.json"
     @subscribeEvent 'showWaitingList', @getWaitingList
+    @subscribeEvent 'completeWaitingList', @completeWaitingList
 
   parse: (response) ->
     console.log ("Waiting List: parse")
@@ -37,22 +37,23 @@ module.exports = class WaitingList extends ChaplinModel
 
       success: (data) ->
         #modelData = {orders: data.response, status: status, sort: sort}
-        modelData = {waitingListitems: data.response}
-        @set @completeOrdersHistory(modelData)
-        @publishEvent 'orderRecordReady'
+        modelData = {waitingListItems: data.response}
+        @publishEvent 'completeWaitingList', modelData
 
       error: (xhr, textStatus, errorThrown) ->
         error = JSON.parse(xhr.responseText)
         alert error.meta.message
 
 
-  completeOrdersHistory: (data) ->
+  completeWaitingList: (data) ->
     console.log ['Datos waiting list', data]
     model = {}
-    model.waitingListitems = data.items
+    model.waitingListItems = data.waitingListItems
     #model.status = data.status
     #model.sort = data.sort
-    model
+    console.log ['items', model]
+    @set model
+    @publishEvent 'waitingListReady'
 
   set: (args) ->
     super            ###
