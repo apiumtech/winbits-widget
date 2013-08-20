@@ -17,6 +17,10 @@ HistoryView = require "views/widget/history-view"
 OrderHistory = require "models/account/orderHistory"
 OrdersHistoryView = require "views/widget/account/ordersHistory-view"
 AccordionView = require "views/widget/account/accordion-view"
+WaitingList = require "models/account/waitingList"
+WaitingListView = require "views/widget/account/waitingList-view"
+WishList = require "models/account/wishList"
+WishListView = require "views/widget/account/wishList-view"
 
 module.exports = class HomeController extends ChaplinController
 
@@ -43,6 +47,10 @@ module.exports = class HomeController extends ChaplinController
     @orderHistory = new OrderHistory
     @ordersHistoryView = new OrdersHistoryView(model: @orderHistory)
     @accordionView = new AccordionView
+    @waitingList = new WaitingList
+    @waitingListView = new WaitingListView(model: @waitingList)
+    @wishList = new WishList
+    @wishListView = new WishListView(model: @wishList)
     @address.fetch()
     @profile.on "change", ->
       that.profileView.render()

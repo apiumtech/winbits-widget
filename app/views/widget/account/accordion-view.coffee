@@ -49,3 +49,11 @@ module.exports = class AccordionView extends View
     if optionId == 'bitsHistoryHId'
       @publishEvent 'showBitsHistory'
       Backbone.$("#bitRecordContent").show()
+
+    if optionId == 'waitingListHId'
+      @publishEvent 'showWaitingList'
+      Backbone.$("#waitingListContent").show()
+
+    if optionId == 'wishListHId'
+      @publishEvent 'showWishList'
+      Backbone.$("#wishListContent").show()

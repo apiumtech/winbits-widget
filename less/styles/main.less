@@ -38,6 +38,30 @@ main {
 			margin-left: 21px;
 			width: 175px;
 		}
+    .favoriteBrands {
+      padding: 0 0 20px 20px;
+      p {
+        font-size: 11px;
+        .font('OmnesLight');
+        width: 250px;
+      }
+      .no-list;
+      li {
+        background: lighten(@black, 95%);
+        margin: 3px;
+        padding: 5px 15px;
+        span {
+          font-size: 15px;
+          height: 17px;
+          overflow: hidden;
+          .inline-block(130px);
+          .font('OmnesMedium');
+        }
+        .closeButton {
+          position: static;
+        }
+      }
+    }
 	}
 	.shippingMain {
 		width: 700px;

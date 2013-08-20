@@ -15,22 +15,29 @@ module.exports = class HistoryView extends View
     super
     @delegate 'click', '#bitsCredit', @showBitsRecord
     @delegate 'click', '#ordersHistory', @showOrdersRecord
+    @delegate 'click', '#waitingListTable', @showWaitingList
+    @delegate 'click', '#wishListTable', @showWishList
 
 
   showBitsRecord: (e)->
     console.log "ENTRE A SHOWBITSRECORD"
     e.preventDefault()
     Backbone.$("#historicalAccordion").show()
-    #@publishEvent 'cleanAccordion'
-    #@publishEvent 'showBitsHistory'
     Backbone.$(".accordeonWinbits").find("h2")[1].click()
 
 
 
   showOrdersRecord: (e) ->
-    console.log "ENTRE A SHOW ORDERS"
     e.preventDefault()
     Backbone.$("#historicalAccordion").show()
-    #@publishEvent 'cleanAccordion'
-    #@publishEvent 'showOrdersHistory'
     Backbone.$(".accordeonWinbits").find("h2")[0].click()
+
+  showWaitingList: (e) ->
+    e.preventDefault()
+    Backbone.$("#historicalAccordion").show()
+    Backbone.$(".accordeonWinbits").find("h2")[2].click()
+
+  showWishList: (e) ->
+    e.preventDefault()
+    Backbone.$("#historicalAccordion").show()
+    Backbone.$(".accordeonWinbits").find("h2")[3].click()
