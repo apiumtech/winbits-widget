@@ -1,4 +1,4 @@
-template = require 'views/templates/account/account-history'
+template = require 'views/templates/account/order-history'
 View = require 'views/base/view'
 util = require 'lib/util'
 

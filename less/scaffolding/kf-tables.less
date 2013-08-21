@@ -71,6 +71,57 @@
       }
     }
   }
+
+  .dataTable-header {
+    padding-left: 40px;
+    width: 940px;
+    span {
+      font-size: 14px;
+      padding: 7px 0;
+      text-align: left;
+    }
+  }
+  .dataTable-desc {
+    .inline-block(200px, top);
+  }
+  .dataTable-photo {
+    .inline-block(100px, top);
+  }
+  .dataTable-prod {
+    .inline-block(280px, top);
+    strong {
+      display: block;
+    }
+    p {
+      margin: 0;
+    }
+  }
+  .dataTable-cant {
+    .inline-block(50px, top);
+  }
+  .dataTable-status {
+    .inline-block(90px, top);
+  }
+  .dataTable-num {
+    .inline-block(100px, top);
+  }
+  .dataTable-site {
+    .inline-block(100px, top);
+  }
+  .dataTable-fila {
+    border-top: 1px solid lighten(@black, 89%);
+    padding-top: 20px;
+    .dataTable-desc {
+      margin-left: 40px;
+    }
+    .dataTable-bodyItems {
+      .inline-block(730px, top);
+      .dataTable-item {
+        margin-bottom: 15px;
+      }
+    }
+  }
+
   &.totalBitsTable {
     margin-bottom: 30px !important;
     td {
