@@ -284,11 +284,13 @@ module.exports =
 
         $listItems.click (e) ->
           e.stopPropagation()
+          console.log ['select ...', $styledSelect]
+          console.log ['select ...', $this.data('inputSelect')]
           if $this.data("inputselect")
             $styledSelect.val($(this).text()).removeClass("active").removeClass().addClass "selectActive selectContent " + $(this).data("class")
           else
             $styledSelect.text($(this).text()).removeClass("active").removeClass().addClass "selectActive selectContent " + $(this).data("class")
-          $this.val $(this).attr("rel")
+          $this.val($(this).attr("rel")).trigger('change')
           $list.hide()
 
         $(document).click ->

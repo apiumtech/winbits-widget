@@ -19,6 +19,7 @@ module.exports = class WaitingListView extends View
 
   attach: ->
     super
+    util.customSelect(@$('.select'))
 
   handlerModelReady: ->
     @render()

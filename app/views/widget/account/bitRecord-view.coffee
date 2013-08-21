@@ -16,6 +16,7 @@ module.exports = class BitRecordView extends View
 
   attach: ->
     super
+    util.customSelect(@$('.select'))
 
   handlerModelReady: ->
       @render()

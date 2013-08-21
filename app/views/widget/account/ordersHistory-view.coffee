@@ -17,6 +17,7 @@ module.exports = class OrdersHistoryView extends View
 
   attach: ->
     super
+    util.customSelect(@$('.select'))
 
   handlerModelReady: ->
     @render()
@@ -24,6 +25,7 @@ module.exports = class OrdersHistoryView extends View
 
   filterOrderHistory: (e) ->
     e.preventDefault()
+    console.log('amigo')
     $form = @$el.find("#orderHistoryFilterForm")
     formData = util.serializeForm($form)
     @publishEvent 'showOrdersHistory', formData
