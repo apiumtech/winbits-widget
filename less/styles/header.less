@@ -85,6 +85,7 @@
 		.login {
 			.no-list;
 			float: right;
+			width: auto;
 			li {
 				padding: 0 15px;
 				&:first-child {
@@ -148,6 +149,8 @@
 				left: 0;
 				top: 102px;
 				width: 100%;
+				//width: 960px;
+				.box-shadow(0 5px 5px rgba(0,0,0,0.3));
 				ul {
 					margin: 10px 0;
 				}
@@ -165,8 +168,9 @@
 					margin: 0;
 				}
 				.colum {
-					height: 320px;
+					min-height: 200px;
 					margin: 15px 15px 0 5px;
+					padding-bottom: 50px;
 					.inline-block(190px, top);
 					fieldset {
 						padding: 0;
@@ -176,9 +180,23 @@
 						margin: 2px 0;
 						width: 160px;
 					}
+					h2 {
+						margin-bottom: 10px;
+					}
+					h3 {
+						.font('OmnesMedium');
+					}
 					label {
-						font-size: 11px;
-						.inline-block(62px);
+						color: lighten(@black, 50%);
+						font-size: 10px;
+						padding-top: 5px;
+						.inline-block(61px, top);
+					}
+					.divCheckbox {
+						label {
+							font-size: 11px;
+							width: 110px;
+						}
 					}
 					.divGender {
 						font-size: 11px;
@@ -210,6 +228,50 @@
 							}
 						}
 					}
+					.divBirthday {
+						position: relative;
+						span.errorInputError {
+							background: @white;
+							position: absolute;
+							top: 27px;
+
+						}
+						input.errorInputError {
+							margin-bottom: 20px;
+						}
+						input {
+							vertical-align: top;
+						}
+					}
+					.divGender {
+						position: relative;
+						span.errorInputError {
+							position: absolute;
+							top: 25px;
+							left: 0;
+						}
+						.errorInputError + .spanRadio {
+							border-color: @red;
+							margin-bottom: 20px;
+						}
+						.errorInputError.errorInputOK + .spanRadio {
+							border-color: lighten(@black, 90%);
+							margin-bottom: 0 !important;
+						}
+						.spanRadio {
+							vertical-align: top;
+						}
+					}
+					span.errorInputError {
+						font-size: 10px;
+					}
+				}
+				.miDireccion {
+					h4 {
+						font-size: 12px;
+						.font('OmnesRegular');
+						margin-bottom: 10px;
+					}
 				}
 				.editMiPerfil {
 					display: none;
@@ -224,9 +286,6 @@
 					font-size: 11px;
 					a {
 						font-size: 12px;
-					}
-					h2 {
-						margin-bottom: -10px;
 					}
 					h3 {
 						margin-top: 10px;
@@ -266,6 +325,9 @@
 					 	margin: 0;
 					 	padding-bottom: 10px;
 					 }
+					 .linkBack {
+					 	font-size: 11px;
+					 }
 				}
 				.wrapper {
 					position: relative;
@@ -283,22 +345,29 @@
 				top: 102px;
 				left: 0;
 				width: 100%;
-				.triangle {
+				.triangle2 {
 					left: 50%;
 					margin: -19px 0 0 300px;
 					position: absolute;
 				}
 				.wrapper {
-					padding-left: 500px;
+					padding-left: 320px;
 					position: relative;
-					width: 500px;
+					width: 660px;
+					overflow: inherit;
 				}
 				.carContenido {
 					background: @white;
+					.box-shadow(0 5px 5px rgba(0,0,0,0.3));
 				}
 				.carritoDivLeft{
-					padding: 20px 40px;
-					.inline-block(230px, top);
+					padding: 20px 20px 20px 40px;
+					.inline-block(340px, top);
+					&:hover {
+						.jspVerticalBar {
+							.opacity(100);
+						}
+					}
 					h3 {
 						font-size: 10px;
 						span {
@@ -306,35 +375,49 @@
 							.font('OmnesMedium');
 						}
 					}
-					img {
-						float: left;
-						margin-right: 7px
-					}
 					label {
 						color: lighten(@black, 27%);
-						font-size: 12px;
+						font-size: 13px;
+						.font('OmnesLight');
 					}
 					li {
 						border-bottom: 1px solid lighten(@black, 80%);
-						padding: 5px 0;
+						padding: 10px 0;
 						position: relative;
+						.font('OmnesLight');
 					}
 					.carritoContainer {
-						height: 280px;
+						height: 352px;
+						margin-top: 10px;
 						overflow: hidden;
 					}
+					.caracItem {
+						font-size: 13px;
+					}
 					.descriptionItem {
-						.inline-block(150px, top);
+						font-size: 14px;
+						.inline-block(250px, top);
 						margin: -3px 0 2px 0;
 					}
+
 					.deleteItem {
 						bottom: 5px;
 						font-size: 9px;
 						right: 5px;
 						position: absolute;
 					}
+					.imgItem {
+						float: left;
+						margin-right: 7px;
+						.size(67px, 52px);
+					}
+					.jspVerticalBar {
+						.transition(.3s);
+						.opacity(0);
+					}
 					.priceItem {
 						color: @black;
+						font-size: 14px;
 						.font('OmnesMedium');
 						.margin-padding;
 					}
@@ -346,31 +429,27 @@
 							.opacity(30);
 						}
 					}
-					.verticalName {
-						bottom: 21px;
-						font-size: 10px;
+					.looqLogoSmall {
+						top: 10px;
 						position: absolute;
-						right: 5px;
-						em {
-							.font('OmnesMedium');
-						}
+						right: 0;
+					}
+					.closeButton {
+						bottom: 10px;
+						left: inherit !important;
+						top: inherit !important;
+						position: absolute;
+						right: 0;
 					}
 				}
 				.carritoDivRight {
-					padding: 20px 40px 20px 0;
+					background: @cream;
+					padding: 20px 20px 20px 50px;
 					margin-left: -2px;
-					.inline-block(140px, top);
+					.inline-block(190px, top);
 					h3 {
-						font-size: 12px;
+						font-size: 14px;
 						.font('OmnesMedium');
-					}
-					li {
-						background: @lineLi no-repeat 0 5px;
-						font-size: 10px;
-						padding-left: 10px;
-					}
-					ul {
-						margin: 5px 0;
 					}
 					.btn {
 						font-size: 12px;
@@ -384,23 +463,43 @@
 						.font('OmnesRegularItalic');
 					}
 					.freeShipping {
+						display: block;
+						font-size: 13px;
 						color: @red;
-						line-height: 20px;
+						margin-bottom: 7px;
 					}
 					.legendCarrito {
 						display: block;
 						font-size: 10px;
 						padding: 10px 0;
+						a {
+							display: block;
+						}
 					}
 					.totalCar {
-						font-size: 15px;
+						font-size: 18px;
 						.font('OmnesMedium');
 					}
 					.winSave {
-						font-size: 10px;
+						font-size: 12px;
+						.font('OmnesLight');
 						label {
-							font-size: 10px;
+							color: lighten(@black, 0.3%);
+							font-size: 12px;
+							margin-right: 15px;
 							.font('OmnesMedium');
+						}
+					}
+					.slider {
+						width: 140px;
+					}
+					.condicionesCompra {
+						background: @cream2;
+						padding: 30px 0 30px 50px;
+						margin: 10px -20px -20px -50px;
+						p {
+							padding: 0;
+							margin: 0;
 						}
 					}
 				}
@@ -434,6 +533,8 @@
 	position: absolute;
 	top: 50%;
 	z-index: 10000;
+	border: 1px solid red;
+	display: none;
 	iframe {
 		border: none;
 		height: 30px;

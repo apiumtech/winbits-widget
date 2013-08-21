@@ -38,30 +38,38 @@ main {
 			margin-left: 21px;
 			width: 175px;
 		}
-    .favoriteBrands {
-      padding: 0 0 20px 20px;
-      p {
-        font-size: 11px;
-        .font('OmnesLight');
-        width: 250px;
-      }
-      .no-list;
-      li {
-        background: lighten(@black, 95%);
-        margin: 3px;
-        padding: 5px 15px;
-        span {
-          font-size: 15px;
-          height: 17px;
-          overflow: hidden;
-          .inline-block(130px);
-          .font('OmnesMedium');
-        }
-        .closeButton {
-          position: static;
-        }
-      }
-    }
+		.favoriteBrands {
+			padding: 0 0 20px 20px;
+			p {
+				font-size: 11px;
+				margin-bottom: 10px;
+				width: 250px;
+				.font('OmnesLight');
+
+			}
+			.no-list;
+			li {
+				background: lighten(@black, 95%);
+				margin: 3px;
+				padding: 5px 15px;
+				&:hover {
+					.opacity(50);
+				}
+				span {
+					font-size: 15px;
+					height: 17px;
+					overflow: hidden;
+					.inline-block(130px);
+					.font('OmnesMedium');
+				}
+				.closeButton {
+					position: static;
+					&:hover {
+						.opacity(100);
+					}
+				}
+			}
+		}
 	}
 	.shippingMain {
 		width: 700px;
@@ -74,8 +82,18 @@ main {
 		address {
 			font-size: 11px;
 			margin: 10px 20px;
+			a {
+				color: @blueLink;
+				text-decoration: underline;
+				&:hover {
+					color: lighten(@blueLink, 30%);
+				}
+			}
 			span {
 				display: block;
+			}
+			strong {
+				.font('OmnesMedium');
 			}
 		}
 		.linkMe {
@@ -118,6 +136,43 @@ main {
 					}
 				}
 			}
+			.checkoutPayPal {
+				margin: 50px 0;
+				.checkoutPayPal-logo {
+					position: relative;
+					.inline-block(175px, top);
+					.validacion, .rechazada {
+						bottom: -3px;
+						position: absolute;
+						right: 10px;
+					}
+				}
+				.checkoutPayPal-container {
+					color: lighten(@black, 27%);
+					font-size: 13px;
+					h4 {
+						color: lighten(@black, 27%);
+						font-size: 14px;
+						margin-bottom: 10px;
+						.font('OmnesRegular');
+					}
+					.inline-block(300px, top);
+					a {
+						color: @blueLink;
+						text-decoration: underline;
+						&:hover {
+							color: lighten(@blueLink, 20%);
+						}
+					}
+				}
+				.checkoutPayPal-submit {
+					margin-top: 40px;
+					.btn {
+						font-size: 15px;
+						padding: 15px 20px;
+					}
+				}
+			}
 			.checkoutPaymentCreditcard {
 				.btnCheckout {
 					font-size: 16px;
@@ -129,6 +184,7 @@ main {
 			}
 			.checkoutPaymentCreditValidate {
 				display: none;
+				position: relative;
 				h3 {
 					margin: 10px 0;
 				}
@@ -144,6 +200,11 @@ main {
 					padding: 5px;
 					text-align: center;
 					width: 60px !important;
+				}
+				.columExtralarge {
+					margin-left: 0;
+					position: absolute;
+					bottom: 30px;
 				}
 			}
 			.checkoutPaymentCash, .checkoutPaymentOxxo {
@@ -180,6 +241,42 @@ main {
 					bottom: 10px;
 				}
 			}
+			.checkoutPaymentBits {
+				//display: none;
+				margin: 10px 0;
+				position: relative;
+				h3 {
+					color: lighten(@black, 27%);
+					font-size: 13px;
+					.font('OmnesRegular');
+					.margin-padding;
+				}
+				p {
+					border-bottom: 1px solid lighten(@black, 90%);
+					font-size: 11px;
+					margin: 0;
+					padding: 5px 80px 10px 0;
+					width: 250px;
+					a {
+						color: lighten(@black, 58%);
+					}
+				}
+				.btn {
+					bottom: 40px;
+					font-size: 12px;
+					padding: 10px 30px;
+					position: absolute;
+					right: 0;
+					.font('OmnesRegular');
+				}
+				.linkBack {
+					bottom: 5px;
+					right: 0;
+				}
+				.bitsMoney {
+					margin: 20px 0;
+				}
+			}
 			.checkoutPaymentPayPal {
 				display: none;
 				margin: 10px 0;
@@ -195,7 +292,7 @@ main {
 				}
 			}
 			.checkoutPaymentNewCard {
-
+				display: none;
 			}
 			.checkoutResumen {
 				font-size: 11px;
@@ -210,9 +307,13 @@ main {
 				}
 			}
 			.checkoutButton {
-				margin: 20px 0 0 70px;				
-				.inline-block(auto, top);
-
+				position: relative;
+				.btnCheckout {
+					bottom: 15px;
+					right: 20px;
+					padding: 15px !important;
+					position: absolute;
+				}
 			}
 			.column {
 				.inline-block(175px, top);
@@ -227,6 +328,7 @@ main {
 					label {
 						font-size: 11px;
 						line-height: 11px;
+						margin-top: 6px;
 						padding-left: 15px;
 						.inline-block(75px);
 					}
@@ -238,6 +340,7 @@ main {
 				}
 				.divNumSecurity {
 					label {
+						margin-top: 11px;
 						width: 81px;
 					}
 					input[type="text"]{
@@ -468,6 +571,17 @@ main {
 					left: 0;
 				}
 			}
+			.mesesSinIntereses-box {
+				background: lighten(@black, 21%);
+				bottom: 7px;
+				color: @white;
+				font-size: 9px;
+				padding: 5px;
+				position: absolute;
+				text-align: center;
+				right: 0;
+				width: 60px;
+			}
 			&:hover {
 				.hover {
 					display: block;
@@ -477,7 +591,15 @@ main {
 			&.creditcardSelected {
 				background: @yellowShip;
 				.send {
+					bottom: 10px;
 					display: block;
+					position: absolute;
+					&.direccionSend {
+						.size-icon (@iconBackground, 32px, 40px, -277px -385px);
+					}
+					&.creditCardSend {
+						.size-icon (@iconBackground, 25px, 28px, -257px -385px);
+					}
 				}
 				&:hover {
 					.hover {
@@ -487,59 +609,83 @@ main {
 			}
 		}
 	}
-	.shippingNewAddress, .creditcardNew {
+	.shippingNewAddress, .creditcardNew, .mesesSinInteresesTab {
 		margin: 5px 0;
 		width: 720px;
 		display: none;
 		.column {
-				.inline-block(175px, top);
-				margin-left: 10px;
-				input[type="text"] {
+			.inline-block(175px, top);
+			margin-left: 10px;
+			input[type="text"] {
+				font-size: 11px;
+				margin: 2px 0;
+				padding: 5px 10px;
+				width: 150px;
+			}
+			.divFechaExpiracion, .divNumSecurity {
+				position: relative;
+				label {
 					font-size: 11px;
-					margin: 2px 0;
+					line-height: 11px;
+					padding-left: 15px;
+					.inline-block(75px);
+				}
+				input[type="text"]{
+					margin-left: 2px;
+					text-align: center;
+					vertical-align: top;
+					width: 15px;
+				}
+				input.errorInputError {
+					margin-bottom: 20px;
+				}
+				span.errorInputError {
+					background: @white;
+					position: absolute;
+					top: 32px;
+				}
+			}
+			.divNumSecurity {
+				label {
+					width: 81px;
+				}
+				input[type="text"]{
+					width: 50px;
+				}
+			}
+			.numCalle {
+				position: relative;
+				input[type="text"]{
+					vertical-align: top;
+				}
+				input.errorInputError {
+					margin-bottom: 20px;
+				}
+				span.errorInputError {
+					background: @white;
+					position: absolute;
+					top: 32px;
+				}
+			}
+			.selectRegister {
+				font-size: 11px;
+				.selectContent {
 					padding: 5px 10px;
 					width: 150px;
 				}
-				.divFechaExpiracion, .divNumSecurity {
-					label {
-						font-size: 11px;
-						line-height: 11px;
-						padding-left: 15px;
-						.inline-block(75px);
-					}
-					input[type="text"]{
-						margin-left: 2px;
-						text-align: center;
-						width: 15px;
-					}
+				.selectOptions {
+					width: 170px;
+					margin: -3px 0 0 0;
 				}
-				.divNumSecurity {
-					label {
-						width: 81px;
-					}
-					input[type="text"]{
-						width: 50px;
-					}
-				}
-				.selectRegister {
-					font-size: 11px;
-					.selectContent {
-						padding: 5px 10px;
-						width: 150px;
-					}
-					.selectOptions {
-						width: 170px;
-						margin: -3px 0 0 0;
-					}
-				}
-				.inputMedium {
-					margin-right: 2px !important;
-					width: 101px !important;
-				}
-				.inputSmall {
-					text-align: center;
-					width: 22px !important;
-				}
+			}
+			.inputMedium {
+				margin-right: 2px !important;
+				width: 101px !important;
+			}
+			.inputSmall {
+				text-align: center;
+				width: 22px !important;
+			}
 			.inputNumber {
 				position: relative;
 				input {
@@ -561,39 +707,39 @@ main {
 				width: 160px;
 				margin: 2px 0;
 			}
-				&.columnLarge,
-				&.columExtralarge {
-					width: 225px;
-					.checkboxLabel {
-						color: lighten(@black, 40%);
-						font-size: 13px;
-						line-height: 13px;
-						margin-left: 5px;
-						.font('OmnesMedium');
-					}
-					.note {
-						border-top: 1px solid lighten(@black, 80%);
-						font-size: 11px;
-						padding: 5px;
-					}
-					.btn {
-						font-size: 11px;
-						margin: 0 3px;
-						padding: 6px 0;
-						.font('HelveticaNeueBold');
-						width: 100px;
-					}
+			&.columnLarge,
+			&.columExtralarge {
+				width: 225px;
+				.checkboxLabel {
+					color: lighten(@black, 40%);
+					font-size: 13px;
+					line-height: 13px;
+					margin-left: 5px;
+					.font('OmnesMedium');
 				}
-				&.columExtralarge {
-					margin-left: 247px;
-					vertical-align: bottom;
+				.note {
+					border-top: 1px solid lighten(@black, 80%);
+					font-size: 11px;
+					padding: 5px;
 				}
+				.btn {
+					font-size: 11px;
+					margin: 0 3px;
+					padding: 6px 0;
+					.font('HelveticaNeueBold');
+					width: 100px;
+				}
+			}
+			&.columExtralarge {
+				margin-left: 247px;
+				vertical-align: bottom;
+			}
 		}
 		span.errorInputError {
 			display: block !important;
 			font-size: 10px;
 			padding: 3px 0 5px 0;
-			}
+		}
 	}
 	.totalCheckOutTemp {
 		.totalCheckOutTemp-leyend {

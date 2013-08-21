@@ -74,10 +74,29 @@
 				width: 115px !important;
 			}
 		}
+		span.errorInputError {
+			font-size: 11px;
+		}
 		.terminosCondiciones {
 			margin: 30px 0 10px 0;	
 		}
-		
+		.divBirthday {
+			position: relative;
+			input[type="text"]{
+				vertical-align: top;
+			}
+			input.errorInputError {
+				margin-bottom: 25px;
+			}
+			label {
+				margin-top: 10px;
+			}
+			span.errorInputError {
+				background: lighten(@black, 97%);
+				position: absolute;
+				top: 35px;
+			}
+		}
 	}
 	.asideModal {
 		padding: 60px 0 0 20px;
