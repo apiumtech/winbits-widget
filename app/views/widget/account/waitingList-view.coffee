@@ -13,6 +13,7 @@ module.exports = class WaitingListView extends View
 
   initialize: ->
     super
+    @delegate 'change', '.waitingListFilter', @filterWaitingList
     @delegate 'click', '.deleteWaitingListItem', @deleteWaitingListItem
     @subscribeEvent 'waitingListReady', @handlerModelReady
 
@@ -43,3 +44,9 @@ module.exports = class WaitingListView extends View
       error: (xhr, textStatus, errorThrown) ->
         error = JSON.parse(xhr.responseText)
         alert error.meta.message
+
+  filterWaitingList: (e) ->
+     e.preventDefault()
+     $form = @$el.find("#waitingListFilterForm")
+     formData = util.serializeForm($form)
+     @publishEvent 'showWaitingList', formData

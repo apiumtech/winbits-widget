@@ -21,9 +21,9 @@ module.exports = class OrderHistory extends ChaplinModel
     status = ""
     sort = ""
     if (formData?)
-      url += "status=" + formData.status + "&sort=" + formData.sort
       status = formData.status
       sort = formData.sort
+      url += "status=" + status + "&sort=" + sort
 
     Backbone.$.ajax url,
       type: "GET"

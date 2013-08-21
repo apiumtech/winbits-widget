@@ -18,14 +18,13 @@ module.exports = class WaitingList extends ChaplinModel
   getWaitingList: (formData) ->
     console.log ['formdata', formData]
     url = config.apiUrl + "/affiliation/waiting-list-items.json?"
-    ###
-    status = ""
-    sort = ""
+    statusWaitingList = ""
+    siteWaitingList = ""
     if (formData?)
-      url += "status=" + formData.status + "&sort=" + formData.sort
-      status = formData.status
-      sort = formData.sort
-       ###
+      statusWaitingList = formData.statusWaitingList
+      siteWaitingList = formData.siteWaitingList
+      url += "status=" + statusWaitingList + "&site=" + siteWaitingList
+
     Backbone.$.ajax url,
       type: "GET"
       contentType: "application/json"
@@ -36,8 +35,7 @@ module.exports = class WaitingList extends ChaplinModel
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
 
       success: (data) ->
-        #modelData = {orders: data.response, status: status, sort: sort}
-        modelData = {waitingListItems: data.response}
+        modelData = {waitingListItems: data.response, status: statusWaitingList, site: siteWaitingList}
         @publishEvent 'completeWaitingList', modelData
 
       error: (xhr, textStatus, errorThrown) ->
@@ -46,12 +44,10 @@ module.exports = class WaitingList extends ChaplinModel
 
 
   completeWaitingList: (data) ->
-    console.log ['Datos waiting list', data]
     model = {}
     model.waitingListItems = data.waitingListItems
-    #model.status = data.status
-    #model.sort = data.sort
-    console.log ['items', model]
+    model.statusWaitingList = data.status
+    model.siteWaitingList = data.site
     @set model
     @publishEvent 'waitingListReady'
 

@@ -1,26 +1,30 @@
 <div class="accordeonSelectDiv">
-  <select class="select" data-clase="selectRegister">
-    <option>Estatus</option>
-    <option>Item 1</option>
-    <option>Item 2</option>
-    <option>Item 3</option>
-    <option>Item 4</option>
-  </select>
-  <select class="select" data-clase="selectRegister">
-    <option>Ordenar por...</option>
-    <option>Item 1</option>
-    <option>Item 2</option>
-    <option>Item 3</option>
-    <option>Item 4</option>
-  </select>
+  <form id="waitingListFilterForm" accept-charset="utf-8" action="#" method="post">
+    <select class="select waitingListFilter" data-clase="selectRegister" name="statusWaitingList">
+      {{#select statusWaitingList}}
+        <option value="">Estatus</option>
+        <option value="1">Agotado</option>
+        <option value="2">Disponible</option>
+        <option value="3">No disponible</option>
+      {{/select}}
+    </select>
+    <select class="select waitingListFilter" data-clase="selectRegister" name="siteWaitingList">
+      {{#select siteWaitingList}}
+        <option value="">Sitio ...</option>
+        <option value="1">clickOnero</option>
+        <option value="2">Looq</option>
+        <option value="3">Sportlet</option>
+      {{/select}}
+    </select>
+  </form>
 </div>
 <div class="dataTable">
   <table>
     <thead>
     <tr>
-      <th class="width15">PHOTO</th>
+      <th class="width15">FOTO</th>
       <th class="width30">DESCRIPCIÓN DEL PRODUCTO</th>
-      <th class="width10">SITE</th>
+      <th class="width10">SITIO</th>
       <th class="widht10">ESTATUS</th>
       <th class="width10">ELIMINAR</th>
       <th class="width25">&nbsp;</th>
