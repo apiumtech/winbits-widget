@@ -45,7 +45,10 @@
         {{/each}}
       </td>
       <td><a href="{{skuProfile.vertical.baseUrl}}"><img src="{{skuProfile.vertical.logo}}" alt="{{skuProfile.vertical.name}}"/></a></td>
-      <td>{{status}}</td>
+      <td>
+        {{#getStyleByStatus status}}
+        {{/getStyleByStatus}}
+      </td>
       <td><a href="#" class="icon closeButton deleteWaitingListItem" id="waitingList-{{skuProfile.id}}">Eliminar</a></td>
       <td>&nbsp;</td>
     </tr>

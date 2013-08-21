@@ -214,20 +214,13 @@ Handlebars.registerHelper "joinAttributes", (mainAttribute, attributes) ->
 Handlebars.registerHelper "defaultThumbnail", (thumbnail) ->
   thumbnail || 'images/assets/jeans-tiny.jpg'
 
-Handlebars.registerHelper "withFirstOrderDetail", (options) ->
-  firstDetail = this.details[0]
-  firstDetail.isSingle = this.details.length == 1
-  options.fn firstDetail
-
-Handlebars.registerHelper "withRestOfOrderDetails", (options) ->
-  restOfDetails = this.details.slice(1)
-  ret = ""
-  for i of restOfDetails
-    ret += options.fn restOfDetails[i]
-  ret
-
-Handlebars.registerHelper "firstDetailRowClass", () ->
-  if this.isSingle then 'singleItemOrder' else 'firstItemOrder'
+Handlebars.registerHelper "getStyleByStatus", (status, options) ->
+  link = ""
+  if status == "AVAILABLE"
+    link = new Handlebars.SafeString("<a href='#' class='availableWish'>" + status + "</a>")
+  else
+    link = status
+  link
 
 Handlebars.registerHelper "select", (value, options) ->
   select = document.createElement("select")
