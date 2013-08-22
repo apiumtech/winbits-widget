@@ -21,6 +21,7 @@ WaitingList = require "models/account/waitingList"
 WaitingListView = require "views/widget/account/waitingList-view"
 WishList = require "models/account/wishList"
 WishListView = require "views/widget/account/wishList-view"
+mediator = require 'chaplin/mediator'
 
 module.exports = class HomeController extends ChaplinController
 
@@ -68,4 +69,26 @@ module.exports = class HomeController extends ChaplinController
     window.Winbits.addToCart = (item)->
       that.cartView.addToCart(item)
 
+    window.Winbits.getBitsBalance = ()->
+      if mediator.flags.loggedIn
+        mediator.profile.bitsBalance
+      else
+        throw 'Not available if not logged in!'
 
+    window.Winbits.getSocialAccounts = ()->
+      if mediator.flags.loggedIn
+
+      else
+        throw 'Not available if not logged in!'
+
+    window.Winbits.tweet = (options)->
+      if mediator.flags.loggedIn
+
+      else
+        throw 'Not available if not logged in!'
+
+    window.Winbits.share = (options)->
+      if mediator.flags.loggedIn
+
+      else
+        throw 'Not available if not logged in!'
