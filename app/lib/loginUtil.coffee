@@ -59,6 +59,7 @@ module.exports = class LoginUtil
     if profile.apiToken
       mediator.flags.loggedIn = true
       mediator.profile.bitsBalance = profile.bitsBalance
+      mediator.profile.socialAccounts = profile.socialAccounts
 
       token.saveApiToken profile.apiToken
 
