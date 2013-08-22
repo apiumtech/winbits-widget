@@ -83,6 +83,10 @@ module.exports = class HomeController extends ChaplinController
 
     window.Winbits.tweet = (options)->
       if mediator.flags.loggedIn
+        socialAccounts = window.Winbits.getSocialAccounts()
+        w$.each socialAccounts, (i, account) ->
+          if account.providerId is 'twitter' and !account.linked
+            throw 'Twitter not connected!'
         message = options.message or 'Test message'
         Backbone.$.ajax config.apiUrl + "/affiliation/twitterPublish/updateStatus.json",
           type: "POST"
@@ -112,6 +116,10 @@ module.exports = class HomeController extends ChaplinController
     window.Winbits.share = (options)->
       options = options or {}
       if mediator.flags.loggedIn
+        socialAccounts = window.Winbits.getSocialAccounts()
+        w$.each socialAccounts, (i, account) ->
+          if account.providerId is 'facebook' and !account.linked
+            throw 'Facebook not connected!'
         message = options.message or 'Test message'
         Backbone.$.ajax config.apiUrl + "/affiliation/facebookPublish/share.json",
           type: "POST"
