@@ -2,6 +2,7 @@ template = require 'views/templates/account/waiting-list'
 View = require 'views/base/view'
 util = require 'lib/util'
 config = require 'config'
+vendor = require 'lib/vendor'
 
 module.exports = class WaitingListView extends View
   autoRender: yes
@@ -19,7 +20,7 @@ module.exports = class WaitingListView extends View
 
   attach: ->
     super
-    util.customSelect(@$('.select'))
+    vendor.customSelect(@$('.select'))
 
   handlerModelReady: ->
     @render()

@@ -5,6 +5,7 @@ util = require 'lib/util'
 zipCode = require 'lib/zipCode'
 token = require 'lib/token'
 mediator = require 'chaplin/mediator'
+vendor = require 'lib/vendor'
 
 module.exports = class ProfileView extends View
   autoRender: yes
@@ -72,25 +73,25 @@ module.exports = class ProfileView extends View
       birthdate:
         dateISO: true
 
-    util.openFolder
+    vendor.openFolder
       obj: ".myProfile .miPerfil"
       trigger: ".myProfile .miPerfil .changePassBtn"
       objetivo: ".myProfile .changePassDiv"
 
-    util.openFolder
+    vendor.openFolder
       obj: ".myProfile .changePassDiv"
       trigger: ".myProfile .changePassDiv"
       objetivo: ".myProfile .miPerfil"
 
-    util.customSelect(@$('.select'))
-    util.customRadio(@$(".divGender"))
+    vendor.customSelect(@$('.select'))
+    vendor.customRadio(@$(".divGender"))
 
     $select = @$('.select')
     $zipCode = @$('.zipCode')
     $zipCodeExtra = @$('.zipCodeInfoExtra')
     zipCode(Backbone.$).find $zipCode.val(), $select, $zipCodeExtra.val()
     unless $zipCode.val().length < 5
-      util.customSelect($select)
+      vendor.customSelect($select)
 
 
   findZipcode: (event)->

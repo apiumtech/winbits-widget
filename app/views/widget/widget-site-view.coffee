@@ -1,6 +1,7 @@
 View = require 'views/base/view'
 template = require 'views/templates/widget/widget-site'
 util = require 'lib/util'
+vendor = require 'lib/vendor'
 config = require 'config'
 ProxyInit = require 'lib/proxyInit'
 mediator = require 'chaplin/mediator'
@@ -155,28 +156,31 @@ module.exports = class WidgetSiteView extends View
       console.log "close"
       that.$("#winbits-iframe-holder").offset top: -1000
 
-    util.dropMenu
+    vendor.dropMenu
       obj: ".miCuentaDiv"
       clase: ".dropMenu"
       trigger: ".triggerMiCuenta"
       other: ".miCarritoDiv"
 
-    util.dropMenu
+    vendor.dropMenu
       obj: ".miCarritoDiv"
       clase: ".dropMenu"
       trigger: ".shopCarMin"
       other: ".miCuentaDiv"
 
 
-    util.openFolder
+    vendor.openFolder
       obj: ".knowMoreMin"
       trigger: ".knowMoreMin .openClose"
       objetivo: ".knowMoreMax"
 
-    util.openFolder
+    vendor.openFolder
       obj: ".knowMoreMax"
       trigger: ".knowMoreMax .openClose"
       objetivo: ".knowMoreMin"
+
+    vendor.scrollpane ".scrollPanel", ".miCarritoDiv"
+    vendor.stickyFooter ".widgetWinbitsFooter"
 
     @$el.find('.wb-vertical-' + config.verticalId).addClass('current');
 

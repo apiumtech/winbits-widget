@@ -2,6 +2,7 @@ View = require 'views/base/view'
 template = require 'views/templates/checkout/order-detail'
 util = require 'lib/util'
 config = require 'config'
+vendor = require 'lib/vendor'
 
 # Site view is a top-level view which is bound to body.
 module.exports = class OrderDetailView extends View
@@ -17,7 +18,7 @@ module.exports = class OrderDetailView extends View
   attach: ->
     super
     that = @
-    util.customSlider(".slideInput").on 'slidechange', (e, ui) ->
+    vendor.customSlider(".slideInput").on 'slidechange', (e, ui) ->
 #      TODO: Create view OrderInfo and maintain slider out of that view
       that.updateOrderBits ui.value
 

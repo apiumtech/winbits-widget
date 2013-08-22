@@ -2,6 +2,7 @@ template = require 'views/templates/widget/subscription'
 View = require 'views/base/view'
 config = require 'config'
 util = require 'lib/util'
+vendor = require 'lib/vendor'
 
 module.exports = class SubscriptionView extends View
   autoRender: yes
@@ -77,4 +78,4 @@ module.exports = class SubscriptionView extends View
 
   attach: ()->
     super
-    util.customCheckbox(@$el.find(".checkbox"))
+    vendor.customCheckbox(@$el.find(".checkbox"))

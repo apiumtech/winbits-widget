@@ -3,6 +3,7 @@ View = require 'views/base/view'
 util = require 'lib/util'
 config = require 'config'
 mediator = require 'chaplin/mediator'
+vendor = require 'lib/vendor'
 
 module.exports = class CartView extends View
   autoRender: yes
@@ -67,7 +68,7 @@ module.exports = class CartView extends View
     console.log "CartView#attach"
     that = @
     @publishEvent "updateCartCounter", @model.get("itemsCount")
-    util.customStepper(@$el.find(".cart-detail-quantity")).on "step", (e, previous) ->
+    vendor.customStepper(@$el.find(".cart-detail-quantity")).on "step", (e, previous) ->
       $cartDetailStepper = that.$(this)
       val = parseInt($cartDetailStepper.val())
       unless previous is val
@@ -76,7 +77,7 @@ module.exports = class CartView extends View
         that.updateCartDetail id, val
         #console.log @$el
     #console.log @$el.find(".cart-detail-delete-link")
-    util.customSlider(".slideInput").on 'slidechange', (e, ui) ->
+    vendor.customSlider(".slideInput").on 'slidechange', (e, ui) ->
 #      TODO: Create view CartInfo and maintain slider out of that view
       that.updateCartBits ui.value
 

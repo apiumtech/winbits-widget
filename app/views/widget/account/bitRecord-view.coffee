@@ -1,6 +1,7 @@
 template = require 'views/templates/account/bitsCredit'
 View = require 'views/base/view'
 util = require 'lib/util'
+vendor = require 'lib/vendor'
 
 module.exports = class BitRecordView extends View
   autoRender: false
@@ -16,7 +17,7 @@ module.exports = class BitRecordView extends View
 
   attach: ->
     super
-    util.customSelect(@$('.select'))
+    vendor.customSelect(@$('.select'))
 
   handlerModelReady: ->
       @render()

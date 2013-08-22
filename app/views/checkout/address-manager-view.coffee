@@ -1,6 +1,7 @@
 View = require 'views/base/view'
 template = require 'views/templates/checkout/addresses'
 util = require 'lib/util'
+vendor = require 'lib/vendor'
 config = require 'config'
 mediator = require 'chaplin/mediator'
 zipCode = require 'lib/zipCode'
@@ -131,7 +132,7 @@ module.exports = class CheckoutSiteView extends View
   attach: ->
     super
     console.log "CheckoutSiteView#attach"
-    util.customCheckbox(@$(".checkbox"))
+    vendor.customCheckbox(@$(".checkbox"))
     that = this
     @$(".shippingEditAddress").each ->
       $select = that.$(this).find('.select')
@@ -139,9 +140,9 @@ module.exports = class CheckoutSiteView extends View
       $zipCodeExtra = that.$(this).find('.zipCodeInfoExtra')
       zipCode(Backbone.$).find $zipCode.val(), $select, $zipCodeExtra.val()
       unless $zipCode.val().length < 5
-        util.customSelect($select)
+        vendor.customSelect($select)
 
-    util.customSelect(@$(".shippingNewAddress").find(".select"))
+    vendor.customSelect(@$(".shippingNewAddress").find(".select"))
 
   findZipcode: (event)->
     event.preventDefault()

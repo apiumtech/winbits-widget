@@ -1,5 +1,6 @@
 config = require 'config'
 util = require 'lib/util'
+vendor = require 'lib/vendor'
 
 module.exports = ($)->
   find : (cp, element, itemSelected, callback) ->
@@ -38,4 +39,4 @@ module.exports = ($)->
       $form.find('.zipCodeInfoExtra').val(response.id)
 
     $element.html(values)
-    util.customSelect($element)
+    vendor.customSelect($element)
