@@ -22,6 +22,8 @@ WaitingListView = require "views/widget/account/waitingList-view"
 WishList = require "models/account/wishList"
 WishListView = require "views/widget/account/wishList-view"
 mediator = require 'chaplin/mediator'
+util = require 'lib/util'
+config = require 'config'
 
 module.exports = class HomeController extends ChaplinController
 
@@ -82,8 +84,11 @@ module.exports = class HomeController extends ChaplinController
         throw 'Not available if not logged in!'
 
     window.Winbits.tweet = (options)->
+      options = options or {}
       if mediator.flags.loggedIn
         socialAccounts = window.Winbits.getSocialAccounts()
+        if socialAccounts.length is 0
+          throw 'Twitter not connected!'
         w$.each socialAccounts, (i, account) ->
           if account.providerId is 'twitter' and !account.linked
             throw 'Twitter not connected!'
@@ -117,6 +122,8 @@ module.exports = class HomeController extends ChaplinController
       options = options or {}
       if mediator.flags.loggedIn
         socialAccounts = window.Winbits.getSocialAccounts()
+        if socialAccounts.length is 0
+          throw 'Facebook not connected!'
         w$.each socialAccounts, (i, account) ->
           if account.providerId is 'facebook' and !account.linked
             throw 'Facebook not connected!'
