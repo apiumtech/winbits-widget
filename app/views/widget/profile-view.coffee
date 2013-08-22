@@ -208,8 +208,8 @@ module.exports = class ProfileView extends View
       success: (data) ->
         console.log "logout.json Success!"
         socialAccounts = data.response.socialAccounts
-        facebook = (item for item in socialAccounts when item.providerId is "facebook") #profile.socialAccounts[0].providerId
-        twitter = (item for item in socialAccounts when item.providerId is "twitter")
+        facebook = (item for item in socialAccounts when item.providerId is "facebook"  and item.available)
+        twitter = (item for item in socialAccounts when item.providerId is "twitter"  and item.available)
         facebookFlag = if facebook != null && facebook.length > 0  then "On" else "Off"
         twitterFlag = if twitter != null && twitter.length > 0 then "On" else "Off"
         that.publishEvent 'setProfile', {twitter: twitterFlag, facebook: facebookFlag}
