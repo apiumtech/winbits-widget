@@ -1,3 +1,4 @@
+ChaplinMediator = require 'chaplin/mediator'
 module.exports =
     #app.$ = (element) ->
       #(if element instanceof app.jQuery then element else app.jQuery(element))
@@ -74,9 +75,11 @@ module.exports =
       @$(options.obj).each ->
         that.$(this).bind
           click: (e) ->
+            that.$(options.obj).slideUp()
             e.stopPropagation()
 
-          mouseenter: ->
+          mouseenter: (e) ->
+           e.preventDefault()
            that.$(this).slideDown()
 
           mouseleave: ->
@@ -218,6 +221,22 @@ module.exports =
           step: $this.data("step")
     $slider
 
+# +++++++++++++++++++++++++++++++++++++++++++++
+#      ACCORDEON: Acordeón para el historial
+# +++++++++++++++++++++++++++++++++++++++++++++
+  accordeon : (options) ->
+    $ = window.w$
+    if $(options.obj).length
+        if options.first
+            $(options.obj).find(options.trigger).first().addClass(options.claseActivo).find(".icon").toggleClass options.minusIcon
+            $(options.obj).find(options.contenedor).not(":first").hide()
+        else
+            $(options.obj).find(options.contenedor).hide()
+            $(options.obj).find(options.trigger).click ->
+                $(this).next(options.contenedor).slideToggle()
+                $(this).toggleClass(options.claseActivo).find(".icon").toggleClass options.minusIcon
+                $(this).siblings(options.trigger).removeClass(options.claseActivo).find(".icon").removeClass options.minusIcon
+                ChaplinMediator.publish 'renderAccordionOption', $(this)
 
 
   # +++++++++++++++++++++++++++++++++++++++++++
@@ -265,11 +284,13 @@ module.exports =
 
         $listItems.click (e) ->
           e.stopPropagation()
+          console.log ['select ...', $styledSelect]
+          console.log ['select ...', $this.data('inputSelect')]
           if $this.data("inputselect")
             $styledSelect.val($(this).text()).removeClass("active").removeClass().addClass "selectActive selectContent " + $(this).data("class")
           else
             $styledSelect.text($(this).text()).removeClass("active").removeClass().addClass "selectActive selectContent " + $(this).data("class")
-          $this.val $(this).attr("rel")
+          $this.val($(this).attr("rel")).trigger('change')
           $list.hide()
 
         $(document).click ->
