@@ -64,8 +64,8 @@ module.exports = class LoginUtil
 
       profileData = profile.profile
 
-      facebook = (item for item in profile.socialAccounts when item.providerId is "facebook") #profile.socialAccounts[0].providerId
-      twitter = (item for item in profile.socialAccounts when item.providerId is "twitter")
+      facebook = (item for item in profile.socialAccounts when item.providerId is "facebook" and item.available)
+      twitter = (item for item in profile.socialAccounts when item.providerId is "twitter" and item.available)
       profileData.facebook = if facebook != null && facebook.length > 0  then "On" else "Off"
       profileData.twitter = if twitter != null && twitter.length > 0 then "On" else "Off"
 
