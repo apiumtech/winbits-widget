@@ -245,32 +245,31 @@ module.exports =
   # +++++++++++++++++++++++++++++++++++
   dropMenu : (options) ->
     $ = w$ # NO BORRAR - Fix desarrollo
-    if $(options.obj).length
-      $(options.trigger).click ->
+    if @$(options.obj).length
+      @$(options.trigger).click ->
         $(options.other).slideUp()
         $(options.obj).slideDown()
 
-      $(options.obj).each ->
+      @$(options.obj).each ->
+        ###
         $objeto = undefined
         if options.carro is true
           $objeto = $(this).find(".wrapper").children().eq(0)
         else
-          $objeto = $(this).find(".wrapper")
-        $objeto.bind
+          $objeto = $(this).find(".wrapper")###
+        $(this).bind
           click: (e) ->
+            $(options.obj).slideUp()
             e.stopPropagation()
 
-          mouseenter: ->
+          mouseenter: (e) ->
+            e.preventDefault()
             $(this).slideDown()
 
           mouseleave: ->
             $(document).click ->
               $(options.obj).slideUp()
               $(document).unbind "click"
-
-
-
-
 
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   #      OPENFOLDER: Abrir el DIV superior del encabezado
