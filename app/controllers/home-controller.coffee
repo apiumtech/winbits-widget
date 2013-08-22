@@ -77,18 +77,63 @@ module.exports = class HomeController extends ChaplinController
 
     window.Winbits.getSocialAccounts = ()->
       if mediator.flags.loggedIn
-
+        mediator.profile.socialAccounts
       else
         throw 'Not available if not logged in!'
 
     window.Winbits.tweet = (options)->
       if mediator.flags.loggedIn
+        message = options.message or 'Test message'
+        Backbone.$.ajax config.apiUrl + "/affiliation/twitterPublish/updateStatus.json",
+          type: "POST"
+          contentType: "application/json"
+          dataType: "json"
+          data: JSON.stringify(message: message)
+          xhrFields:
+            withCredentials: true
 
+          headers:
+            "Accept-Language": "es"
+            "WB-Api-Token":  util.getCookie(config.apiTokenName)
+
+          success: (data) ->
+        console.log "updateStatus.json Success!"
+
+        error: (xhr, textStatus, errorThrown) ->
+          console.log "updateStatus.json Error!"
+          error = JSON.parse(xhr.responseText)
+          alert error.meta.message
+
+        complete: ->
+          console.log "updateStatus.json Completed!"
       else
         throw 'Not available if not logged in!'
 
     window.Winbits.share = (options)->
+      options = options or {}
       if mediator.flags.loggedIn
+        message = options.message or 'Test message'
+        Backbone.$.ajax config.apiUrl + "/affiliation/facebookPublish/share.json",
+          type: "POST"
+          contentType: "application/json"
+          dataType: "json"
+          data: JSON.stringify(message: 'Yo ya me registré en Winbits (facebook test)')
+          xhrFields:
+            withCredentials: true
 
+          headers:
+            "Accept-Language": "es"
+            "WB-Api-Token":  util.getCookie(config.apiTokenName)
+
+          success: (data) ->
+            console.log "share.json Success!"
+
+          error: (xhr, textStatus, errorThrown) ->
+            console.log "share.json Error!"
+            error = JSON.parse(xhr.responseText)
+            alert error.meta.message
+
+          complete: ->
+          console.log "share.json Completed!"
       else
         throw 'Not available if not logged in!'
