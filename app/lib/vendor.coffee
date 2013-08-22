@@ -38,7 +38,7 @@ module.exports =
   #      CHANGEBOX: Cambiar div para seleccionar direccion/tarjeta
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   changeBox : (options) ->
-    $ = @$ # NO BORRAR - Fix desarrollo
+    $ = w$ # NO BORRAR - Fix desarrollo
     if $(options.obj).length
       $(options.objetivo).each ->
         $this = $(this)
@@ -58,7 +58,7 @@ module.exports =
   #      CUSTOMCHECKBOX: Cambiar checkbox
   # +++++++++++++++++++++++++++++++++++++++++
   customCheckbox : (obj) ->
-    $ = @$ # NO BORRAR - Fix desarrollo
+    $ = w$ # NO BORRAR - Fix desarrollo
     if $(obj).length
       $(obj).each ->
         $this = $(this)
@@ -86,7 +86,7 @@ module.exports =
 #      CUSTOMRADIO: Cambiar radio buttons por input text para el género
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   customRadio: (obj) ->
-    $ = @$ # NO BORRAR - Fix desarrollo
+    $ = w$ # NO BORRAR - Fix desarrollo
     that = @ # NO BORRAR - Fix desarrollo
     if $(obj).length
       $(obj).find("input[type=\"radio\"]").each ->
@@ -104,7 +104,7 @@ module.exports =
 
 
   uncheckRadio: (obj) ->
-    $ = @$ # NO BORRAR - Fix desarrollo
+    $ = w$ # NO BORRAR - Fix desarrollo
     $radio = $(obj).find("input[type=\"radio\"]")
     $radio.each ->
       $(this).attr "checked", false
@@ -116,7 +116,7 @@ module.exports =
 #      CUSTOMSELECT: Customizar el select
 # +++++++++++++++++++++++++++++++++++++++++++
   customSelect: (obj) ->
-    $ = @$ # NO BORRAR - Fix desarrollo
+    $ = w$ # NO BORRAR - Fix desarrollo
     if $(obj).length
       $(obj).each ->
         $this = $(this)
@@ -161,8 +161,7 @@ module.exports =
             $styledSelect.val($(this).text()).removeClass("active").removeClass().addClass "selectActive selectContent " + $(this).data("class")
           else
             $styledSelect.text($(this).text()).removeClass("active").removeClass().addClass "selectActive selectContent " + $(this).data("class")
-          $this.val $(this).attr("rel")
-#          $this.val($(this).attr("rel")).trigger('change')
+          $this.val($(this).attr("rel")).trigger('change') # NO BORRAR - Fix desarrollo
           $list.hide()
 
         $(document).click ->
@@ -177,7 +176,7 @@ module.exports =
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   customSlider: (obj) ->
     $slider = undefined # NO BORRAR - Fix desarrollo
-    $ = @$ # NO BORRAR - Fix desarrollo
+    $ = w$ # NO BORRAR - Fix desarrollo
     if $(obj).length
       $(obj).each ->
         $this = $(this)
@@ -203,8 +202,7 @@ module.exports =
   #      CUSTOMSTEPPER: Sumar y restar valores del stepper
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   customStepper : (obj) ->
-    $ = @$ # NO BORRAR - Fix desarrollo
-    that = @ # NO BORRAR - Fix desarrollo
+    $ = w$ # NO BORRAR - Fix desarrollo
     if $(obj).length
       $(obj).each ->
         $(this).wrap "<div class=\"stepper\"/>"
@@ -246,7 +244,7 @@ module.exports =
   #      DROPMENU: Abrir los menús
   # +++++++++++++++++++++++++++++++++++
   dropMenu : (options) ->
-    $ = @$ # NO BORRAR - Fix desarrollo
+    $ = w$ # NO BORRAR - Fix desarrollo
     if $(options.obj).length
       $(options.trigger).click ->
         $(options.other).slideUp()
@@ -278,7 +276,7 @@ module.exports =
   #      OPENFOLDER: Abrir el DIV superior del encabezado
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   openFolder : (options) ->
-    $ = @$ # NO BORRAR - Fix desarrollo
+    $ = w$ # NO BORRAR - Fix desarrollo
     if $(options.obj).length
       $(options.trigger).click ->
         $(options.obj).slideUp()
@@ -290,7 +288,7 @@ module.exports =
   #      QUITACLASE: Remover todas las clases con una iteración
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   quitaClase : (options) ->
-    $ = @$ # NO BORRAR - Fix desarrollo
+    $ = w$ # NO BORRAR - Fix desarrollo
     $(options.obj).each ->
       $(this).removeClass options.clase
 
@@ -300,7 +298,7 @@ module.exports =
   #      SCROLLPANE: Scroll que aparece / desaparece
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   scrollpane : (obj, father) ->
-    $ = @$ # NO BORRAR - Fix desarrollo
+    $ = w$ # NO BORRAR - Fix desarrollo
     if father
       if $(father).css("display") is "none"
         $(father).css "display", "block"
@@ -315,7 +313,7 @@ module.exports =
   #      STICKYFOOTER: Pegar el footer sin importar el tamaño de la página
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   stickyFooter : (obj) ->
-    $ = @$ # NO BORRAR - Fix desarrollo
+    $ = w$ # NO BORRAR - Fix desarrollo
     unless $(".bodyModal").length
       footerHeight = 0
       footerTop = 0
@@ -337,7 +335,7 @@ module.exports =
   #      UNCHECK: Iterar para remover el checked en radiobutton y checkbox
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   uncheck : (obj) ->
-    $ = @$ # NO BORRAR - Fix desarrollo
+    $ = w$ # NO BORRAR - Fix desarrollo
     $(obj).each ->
       $(this).attr "checked", false
 
@@ -347,7 +345,7 @@ module.exports =
   #      VALIDAR: Validar formularios
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   validar : (obj) ->
-    $ = @$ # NO BORRAR - Fix desarrollo
+    $ = w$ # NO BORRAR - Fix desarrollo
     $.extend $.validator.messages,
       required: "Campo requerido."
       remote: "Llena este campo."
