@@ -71,6 +71,9 @@ module.exports = class HomeController extends ChaplinController
     window.Winbits.addToCart = (item)->
       that.cartView.addToCart(item)
 
+    window.Winbits.getUserActive = () ->
+      mediator.flags.loggedIn
+
     window.Winbits.getBitsBalance = ()->
       if mediator.flags.loggedIn
         mediator.profile.bitsBalance
@@ -152,3 +155,34 @@ module.exports = class HomeController extends ChaplinController
           console.log "share.json Completed!"
       else
         throw 'Not available if not logged in!'
+
+    window.Winbits.getSkuProfileInfo = (options) ->
+      result = ""
+      data = undefined
+      if mediator.flags.loggedIn
+        data = {userId: mediator.profile.userId}
+      Backbone.$.ajax config.apiUrl + "/catalog/sku-profiles/" + options.id + "/info.json",
+        type: "POST"
+        contentType: "application/json"
+        dataType: "json"
+        data: data
+        xhrFields:
+          withCredentials: true
+
+        headers:
+          "Accept-Language": "es"
+          "WB-Api-Token":  util.getCookie(config.apiTokenName)
+
+        success: (data) ->
+          console.log "info.json Success!"
+          result = data
+
+        error: (xhr, textStatus, errorThrown) ->
+          console.log "info.json Error!"
+          error = JSON.parse(xhr.responseText)
+          alert error.meta.message
+
+        complete: ->
+          console.log "info.json Completed!"
+
+      result
