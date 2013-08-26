@@ -12,6 +12,7 @@ module.exports = class ProxyInit
     #@.initialize.apply this, arguments
     console.log "ProxyInit#constructor"
     $widgetContainer = Backbone.$('#' + config.winbitsDivId)
+    window.Winbits.$widget = $widgetContainer
 
 
     iframeSrc = config.baseUrl + "/winbits.html?origin=" + config.proxyUrl
