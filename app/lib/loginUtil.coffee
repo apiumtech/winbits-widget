@@ -61,6 +61,7 @@ module.exports = class LoginUtil
       mediator.profile.bitsBalance = profile.bitsBalance
       mediator.profile.socialAccounts = profile.socialAccounts
       mediator.profile.userId = profile.id
+      mediator.fullProfile = profile
 
       token.saveApiToken profile.apiToken
 

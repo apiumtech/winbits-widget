@@ -71,8 +71,11 @@ module.exports = class HomeController extends ChaplinController
     window.Winbits.addToCart = (item)->
       that.cartView.addToCart(item)
 
-    window.Winbits.getUserActive = () ->
-      mediator.flags.loggedIn
+    window.Winbits.getUserProfile = () ->
+      if mediator.flags.loggedIn
+        mediator.fullProfile
+      else
+        throw 'Not available if not logged in!'
 
     window.Winbits.getBitsBalance = ()->
       if mediator.flags.loggedIn
