@@ -174,15 +174,15 @@ module.exports = class HomeController extends ChaplinController
           "WB-Api-Token":  util.getCookie(config.apiTokenName)
 
         success: (data) ->
-          console.log "share.json Success!"
+          console.log "info.json Success!"
           result = data
 
         error: (xhr, textStatus, errorThrown) ->
-          console.log "share.json Error!"
+          console.log "info.json Error!"
           error = JSON.parse(xhr.responseText)
           alert error.meta.message
 
         complete: ->
-          console.log "share.json Completed!"
+          console.log "info.json Completed!"
 
       result
