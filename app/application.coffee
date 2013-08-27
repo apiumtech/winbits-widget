@@ -42,6 +42,7 @@ module.exports = class Application
     ChaplinMediator.facebook = {}
     ChaplinMediator.proxy = {}
     ChaplinMediator.profile = {}
+    ChaplinMediator.global = {}
     ChaplinMediator.post_checkout = {}
     ChaplinMediator.seal()
 
