@@ -49,53 +49,33 @@ module.exports = class WidgetSiteView extends View
   showLoginLayer: (e)->
     e.preventDefault()
     console.log "WidgetSiteView#showLoginLayer"
-    #console.log $("#login-layer")
-    maxHeight = Backbone.$(window).height() - 200
-    @$("#login-modal .modal-body").css("max-height", maxHeight)
     @$("#login-modal").modal( 'show' ).css {
-      'background-color': 'transparent',
-      float: 'left',
       width: '330px',
       'margin-left': -> -( Backbone.$( this ).width() / 2 )
       top: '50%',
-      'max-height': maxHeight,
       'margin-top': -> -(  Backbone.$( this ).height() / 2 )
     }
-
-    that=@
 
 
   viewRegister: (e)->
     #e.preventDefault()
     console.log "WidgetSiteView#viewRegister"
-    #console.log $("#login-layer")
-    maxHeight = @$(window).height() - 200
     that = @
-    @$("#register-modal .modal-body").css("max-height", maxHeight)
     @$("#register-modal").modal( 'show' ).css {
-      'background-color': 'transparent',
-      float: 'left',
       width: '520px',
       'margin-left': -> -( that.$( this ).width() / 2 )
       top: '50%',
-      'max-height': maxHeight,
       'margin-top': -> -(  that.$( this ).height() / 2 )
     }
 
   viewVideo: (e)->
     e.preventDefault()
     console.log "WidgetSiteView#viewVideo"
-    #console.log $("#login-layer")
-    maxHeight = @$(window).height() - 200
     that = @
-    @$("#view-video-modal .modal-body").css("max-height", maxHeight)
     @$("#view-video-modal").modal( 'show' ).css {
-      'background-color': 'transparent',
-      float: 'left',
       width: '560px',
       'margin-left': -> -( that.$( this ).width() / 2 )
       top: '50%',
-      'max-height': maxHeight,
       'margin-top': -> -(  that.$( this ).height() / 2 )
     }
 
@@ -106,16 +86,10 @@ module.exports = class WidgetSiteView extends View
 
   showConfirmation: () ->
     console.log "WidgetSiteView#showConfirmation"
-    #console.log $("#login-layer")
-    maxHeight = Backbone.$(window).height() - 200
-    Backbone.$("#register-confirm-modal .modal-body").css("max-height", maxHeight)
     Backbone.$("#register-confirm-modal").modal( 'show' ).css {
-      'background-color': 'transparent',
-      float: 'left',
       width: '625px',
       'margin-left': -> -( Backbone.$( this ).width() / 2 )
       top: '50%',
-      'max-height': maxHeight,
       'margin-top': -> -(  Backbone.$( this ).height() / 2 )
     }
 

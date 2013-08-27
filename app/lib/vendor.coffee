@@ -245,12 +245,12 @@ module.exports =
   # +++++++++++++++++++++++++++++++++++
   dropMenu : (options) ->
     $ = w$ # NO BORRAR - Fix desarrollo
-    if @$(options.obj).length
-      @$(options.trigger).click ->
+    if $(options.obj).length
+      $(options.trigger).click ->
         $(options.other).slideUp()
         $(options.obj).slideDown()
 
-      @$(options.obj).each ->
+      $(options.obj).each ->
         ###
         $objeto = undefined
         if options.carro is true
