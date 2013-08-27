@@ -1,6 +1,7 @@
 // Iteraciones
 .iIcons(@width, @item, @index, @top, @height) when (@index >= 0){
-	(~".@{item}@{index}") {
+	@tmp: ~".@{item}@{index}";
+	@{tmp} {
 		background-position: -(@index*@width) @top;
 		&:hover {
 			background-color: @white;
@@ -15,7 +16,8 @@
 	.iIcons(@width, @item, @index - 1, @top, @height);
 }
 .iWidth(@item, @index) when (@index >= 0){
-	(~".@{item}@{index}") {
+	@tmp : ~".@{item}@{index}";
+	@{tmp} {
 		width: ~"@{index}%";
 	}
 	.iWidth(@item, @index - 5);
