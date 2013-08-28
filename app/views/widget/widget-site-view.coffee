@@ -153,7 +153,7 @@ module.exports = class WidgetSiteView extends View
       trigger: ".knowMoreMax .openClose"
       objetivo: ".knowMoreMin"
 
-    vendor.scrollpane ".scrollPanel", ".miCarritoDiv"
+#    vendor.scrollpane ".scrollPanel", ".miCarritoDiv"
     vendor.stickyFooter ".widgetWinbitsFooter"
 
     @$el.find('.wb-vertical-' + config.verticalId).addClass('current');
@@ -195,7 +195,7 @@ module.exports = class WidgetSiteView extends View
     bitsTotal = cart.bitsTotal
     @updateBitsBalance bitsBalance - bitsTotal
     $ = window.$ or w$
-    $('#' + config.winbitsDivId).trigger 'bitschanged', [{bitsBalance: bitsBalance. bitsTotal: bitsTotal}]
+    $('#' + config.winbitsDivId).trigger 'bitschanged', [{bitsBalance: bitsBalance, bitsTotal: bitsTotal}]
 
   postToCheckoutApp: (order) ->
     $chkForm = w$('<form id="chk-form" method="POST" style="display:none"></form>')
