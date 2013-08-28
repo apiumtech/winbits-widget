@@ -1,10 +1,12 @@
 <li data-id="{{skuProfile.id}}">
-  <a href="#"><img class="cart-detail-thumb" width="35" height="45" src="{{defaultThumbnail skuProfile.item.thumbnail}}"></a>
+  <a href="#"><img class="cart-detail-thumb imgItem" src="{{defaultThumbnail skuProfile.item.thumbnail}}"></a>
   <p class="descriptionItem cart-detail-name">{{skuProfile.item.name}}</p>
+  <p class="caracItem">{{joinAttributes skuProfile.mainAttribute skuProfile.attributes}}</p>
   <label>Cantidad</label>
   <input type="text" class="inputStepper cart-detail-quantity" value="{{quantity}}">
   <p class="priceItem cart-detail-price">${{cartDetailTotal skuProfile.price quantity}}</p>
-  <span class="verticalName">Producto de <em class="cart-detail-vertical">{{skuProfile.item.vertical.name}}</em></span>
-  <span class="deleteItem"><a href="#" class="cart-detail-delete-link">eliminar</a></span>
+  <span class="icon looqLogoSmall">{{skuProfile.item.vertical.name}}</span>
+  {{!--<span class="verticalName">Producto de <em class="cart-detail-vertical">{{skuProfile.item.vertical.name}}</em></span>--}}
+  <!--<span class="deleteItem"><a href="#" class="cart-detail-delete-link">eliminar</a></span>-->
+  <span class="icon closeButton"><a href="#" class="cart-detail-delete-link">eliminar</a></span>
 </li>
-
