@@ -77,6 +77,9 @@ module.exports = class HomeController extends ChaplinController
       else
         throw 'Not available if not logged in!'
 
+    window.Winbits.isUserLoggedIn = () ->
+      mediator.flags.loggedIn
+
     window.Winbits.getBitsBalance = ()->
       if mediator.flags.loggedIn
         mediator.profile.bitsBalance
@@ -112,15 +115,21 @@ module.exports = class HomeController extends ChaplinController
             "WB-Api-Token":  util.getCookie(config.apiTokenName)
 
           success: (data) ->
-        console.log "updateStatus.json Success!"
+            console.log "info.json Success!"
+            if options.success
+              options.success.call({}, [data.response])
 
-        error: (xhr, textStatus, errorThrown) ->
-          console.log "updateStatus.json Error!"
-          error = JSON.parse(xhr.responseText)
-          alert error.meta.message
+          error: (xhr, textStatus, errorThrown) ->
+            console.log "info.json Error!"
+            error = JSON.parse(xhr.responseText)
+            console.log ['Error', error.meta.message]
+            if options.error
+              options.error.call({}, [error.response])
 
-        complete: ->
-          console.log "updateStatus.json Completed!"
+          complete: ->
+            console.log "info.json Completed!"
+            if options.complete
+              options.complete.call({}, [])
       else
         throw 'Not available if not logged in!'
 
@@ -147,26 +156,31 @@ module.exports = class HomeController extends ChaplinController
             "WB-Api-Token":  util.getCookie(config.apiTokenName)
 
           success: (data) ->
-            console.log "share.json Success!"
+            console.log "info.json Success!"
+            if options.success
+              options.success.call({}, [data.response])
 
           error: (xhr, textStatus, errorThrown) ->
-            console.log "share.json Error!"
+            console.log "info.json Error!"
             error = JSON.parse(xhr.responseText)
-            alert error.meta.message
+            console.log ['Error', error.meta.message]
+            if options.error
+              options.error.call({}, [error.response])
 
           complete: ->
-          console.log "share.json Completed!"
+            console.log "info.json Completed!"
+            if options.complete
+              options.complete.call({}, [])
       else
         throw 'Not available if not logged in!'
 
     window.Winbits.getSkuProfileInfo = (options) ->
-      result = ""
+      options = options or {}
       data = undefined
       if mediator.flags.loggedIn
         data = {userId: mediator.profile.userId}
       Backbone.$.ajax config.apiUrl + "/catalog/sku-profiles/" + options.id + "/info.json",
         type: "POST"
-        contentType: "application/json"
         dataType: "json"
         data: data
         xhrFields:
@@ -178,14 +192,148 @@ module.exports = class HomeController extends ChaplinController
 
         success: (data) ->
           console.log "info.json Success!"
-          result = data
+          if options.success
+            options.success.call({}, [data.response])
 
         error: (xhr, textStatus, errorThrown) ->
           console.log "info.json Error!"
           error = JSON.parse(xhr.responseText)
-          alert error.meta.message
+          console.log ['Error', error.meta.message]
+          if options.error
+            options.error.call({}, [error.response])
 
         complete: ->
           console.log "info.json Completed!"
+          if options.complete
+            options.complete.call({}, [])
 
-      result
+    window.Winbits.addToWishList = (options) ->
+      options = options or {}
+      if !mediator.flags.loggedIn
+        throw 'Not available if not logged in!'
+
+      Backbone.$.ajax config.apiUrl + "/affiliation/wish-list-items.json",
+        type: "POST"
+        contentType: "application/json"
+        dataType: "json"
+        data: JSON.stringify {brandId: options.brandId}
+        xhrFields:
+          withCredentials: true
+
+        headers:
+          "Accept-Language": "es"
+          "WB-Api-Token":  util.getCookie(config.apiTokenName)
+
+        success: (data) ->
+          console.log "info.json Success!"
+          if options.success
+            options.success.call({}, [data.response])
+
+        error: (xhr, textStatus, errorThrown) ->
+          console.log "info.json Error!"
+          error = JSON.parse(xhr.responseText)
+          console.log ['Error', error.meta.message]
+          if options.error
+            options.error.call({}, [error.response])
+
+        complete: ->
+          console.log "info.json Completed!"
+          if options.complete
+            options.complete.call({}, [])
+
+    window.Winbits.deleteFromWishList = (options) ->
+      options = options or {}
+      if !mediator.flags.loggedIn
+        throw 'Not available if not logged in!'
+
+      Backbone.$.ajax config.apiUrl + "/affiliation/wish-list-items/" + options.brandId + "/.json",
+        type: "DELETE"
+        dataType: "json"
+        xhrFields:
+          withCredentials: true
+
+        headers:
+          "Accept-Language": "es"
+          "WB-Api-Token":  util.getCookie(config.apiTokenName)
+
+        success: (data) ->
+          console.log "info.json Success!"
+          if options.success
+            options.success.call({}, [data.response])
+
+        error: (xhr, textStatus, errorThrown) ->
+          console.log "info.json Error!"
+          error = JSON.parse(xhr.responseText)
+          console.log ['Error', error.meta.message]
+          if options.error
+            options.error.call({}, [error.response])
+
+        complete: ->
+          console.log "info.json Completed!"
+          if options.complete
+            options.complete.call({}, [])
+
+    window.Winbits.addToWaitingList = (options) ->
+      options = options or {}
+      if !mediator.flags.loggedIn
+        throw 'Not available if not logged in!'
+      Backbone.$.ajax config.apiUrl + "/affiliation/waiting-list-items.json",
+        type: "POST"
+        contentType: "application/json"
+        dataType: "json"
+        data: JSON.stringify {skuProfileId: options.id}
+        xhrFields:
+          withCredentials: true
+
+        headers:
+          "Accept-Language": "es"
+          "WB-Api-Token":  util.getCookie(config.apiTokenName)
+
+        success: (data) ->
+          console.log "info.json Success!"
+          if options.success
+            options.success.call({}, [data.response])
+
+        error: (xhr, textStatus, errorThrown) ->
+          console.log "info.json Error!"
+          error = JSON.parse(xhr.responseText)
+          console.log ['Error', error.meta.message]
+          if options.error
+            options.error.call({}, [error.response])
+
+        complete: ->
+          console.log "info.json Completed!"
+          if options.complete
+            options.complete.call({}, [])
+
+    window.Winbits.deleteFromWaitingList = (options) ->
+      options = options or {}
+      if !mediator.flags.loggedIn
+        throw 'Not available if not logged in!'
+
+      Backbone.$.ajax config.apiUrl + "/affiliation/wish-list-items/" + options.id + "/.json",
+        type: "DELETE"
+        dataType: "json"
+        xhrFields:
+          withCredentials: true
+
+        headers:
+          "Accept-Language": "es"
+          "WB-Api-Token":  util.getCookie(config.apiTokenName)
+
+        success: (data) ->
+          console.log "info.json Success!"
+          if options.success
+            options.success.call({}, [data.response])
+
+        error: (xhr, textStatus, errorThrown) ->
+          console.log "info.json Error!"
+          error = JSON.parse(xhr.responseText)
+          console.log ['Error', error.meta.message]
+          if options.error
+            options.error.call({}, [error.response])
+
+        complete: ->
+          console.log "info.json Completed!"
+          if options.complete
+            options.complete.call({}, [])
