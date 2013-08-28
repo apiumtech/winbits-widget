@@ -13,7 +13,6 @@ module.exports = class ProxyInit
     console.log "ProxyInit#constructor"
     $widgetContainer = Backbone.$('#' + config.winbitsDivId)
 
-
     iframeSrc = config.baseUrl + "/winbits.html?origin=" + config.proxyUrl
     iframeStyle = "width:100%;border: 0px;overflow: hidden;"
     that = this
