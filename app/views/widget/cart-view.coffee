@@ -81,6 +81,8 @@ module.exports = class CartView extends View
 #      TODO: Create view CartInfo and maintain slider out of that view
       that.updateCartBits ui.value
 
+    vendor.scrollpane ".scrollPanel", ".miCarritoDiv"
+
   updateCartDetail : (id, quantity, bits) ->
     console.log ["updateCartDetail"]
     if mediator.flags.loggedIn

@@ -2,6 +2,7 @@
  * @author trixta
  * @version 1.2
  */
+/*
 (function($){
 
 var mwheelI = {
@@ -74,3 +75,4 @@ $(function(){
 	$(doc).bind('mwheelIntent.mwheelIntentDefault', $.noop);
 });
 })(window.w$);
+*/

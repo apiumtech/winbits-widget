@@ -299,13 +299,16 @@ module.exports =
   scrollpane : (obj, father) ->
     $ = w$ # NO BORRAR - Fix desarrollo
     if father
-      if $(father).css("display") is "none"
+      # NO BORRAR - Fix desarrollo las siguientes 7 líneas
+      display = $(father).css("display")
+      if display is "none"
         $(father).css "display", "block"
-        $(obj).jScrollPane
-          horizontalDragMinWidth: 40
-          horizontalDragMaxWidth: 40
+      $(obj).jScrollPane
+        horizontalDragMinWidth: 40
+        horizontalDragMaxWidth: 40
 
-        $(father).css "display", "none"
+      $(father).css "display", display
+
 
 
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

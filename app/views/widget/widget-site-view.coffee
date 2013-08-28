@@ -153,7 +153,6 @@ module.exports = class WidgetSiteView extends View
       trigger: ".knowMoreMax .openClose"
       objetivo: ".knowMoreMin"
 
-    vendor.scrollpane ".scrollPanel", ".miCarritoDiv"
     vendor.stickyFooter ".widgetWinbitsFooter"
 
     @$el.find('.wb-vertical-' + config.verticalId).addClass('current');
