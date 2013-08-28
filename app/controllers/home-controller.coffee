@@ -73,7 +73,7 @@ module.exports = class HomeController extends ChaplinController
 
     window.Winbits.getUserProfile = () ->
       if mediator.flags.loggedIn
-        mediator.fullProfile
+        mediator.global.profile
       else
         throw 'Not available if not logged in!'
 

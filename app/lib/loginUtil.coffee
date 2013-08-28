@@ -19,7 +19,6 @@ module.exports = class LoginUtil
     @subscribeEvent 'loginFacebook', @loginFacebook
 
   expressLogin : () ->
-    #Winbits.checkRegisterConfirmation Backbone.$
     console.log "LoginUtil#expressLogin"
     apiToken = util.getCookie(config.apiTokenName)
     console.log ["API Token", apiToken]
@@ -61,7 +60,7 @@ module.exports = class LoginUtil
       mediator.profile.bitsBalance = profile.bitsBalance
       mediator.profile.socialAccounts = profile.socialAccounts
       mediator.profile.userId = profile.id
-      mediator.fullProfile = profile
+      mediator.global.profile = profile
 
       token.saveApiToken profile.apiToken
 
@@ -72,18 +71,15 @@ module.exports = class LoginUtil
       profileData.facebook = if facebook != null && facebook.length > 0  then "On" else "Off"
       profileData.twitter = if twitter != null && twitter.length > 0 then "On" else "Off"
 
-      #Winbits.restoreCart $
       @publishEvent "showHeaderLogin"
       @publishEvent "restoreCart"
       @publishEvent "setProfile", profileData
       @publishEvent "setSubscription", subscriptions:profile.subscriptions
       @publishEvent "setAddress",  profile.mainShippingAddress
 
-      #Winbits.$widgetContainer.find("div.login").hide()
-      #Winbits.$widgetContainer.find("div.miCuentaPanel").show()
-      #Winbits.loadUserProfile $, profile
-      window.Winbits.$widget.trigger('loggedin', [profile])
-      #
+      $ = window.$ or w$
+      $('#' + config.winbitsDivId).trigger 'loggedin', [profile]
+
   initLogout : () ->
     that = this
     console.log "initLogout"
