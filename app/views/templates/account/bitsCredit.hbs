@@ -23,12 +23,21 @@
       <td rowspan="{{transactionsSize}}">$ {{balance}} Bits</td>
     </tr>
       {{#each transactions}}
-      <tr>
-        <td>$ {{amount}} </td>
-        <td>{{dateCreated}}</td>
-        <td>{{expirationDate}}</td>
-        <td>{{concept}}</td>
-      </tr>
+        {{#compare amount 0 operator=">"}}
+        <tr>
+          <td>${{amount}} </td>
+          <td>{{toDefaultDateFormat dateCreated}}</td>
+          <td>{{toDefaultDateFormat expirationDate}}</td>
+          <td>{{concept}}</td>
+        </tr>
+        {{else}}
+        <tr>
+          <td class="minusBits">- ${{abs amount}} </td>
+          <td>{{toDefaultDateFormat dateCreated}}</td>
+          <td>-</td>
+          <td>{{concept}}</td>
+        </tr>
+        {{/compare}}
       {{/each}}
     </tbody>
   </table>

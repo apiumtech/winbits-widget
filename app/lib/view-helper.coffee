@@ -238,6 +238,13 @@ Handlebars.registerHelper "getLocation", (firstName, lastName) ->
 Handlebars.registerHelper "getZipCode", (firstName, lastName) ->
   this.zipCodeInfo.zipCode or this.zipCodeInfo.id
 
+Handlebars.registerHelper "toDefaultDateFormat", (dateString) ->
+  date = new Date(dateString)
+  date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()
+
+Handlebars.registerHelper "abs", (number) ->
+  Math.abs(number)
+
 #******************************
 #Custom partial
 #******************************

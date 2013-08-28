@@ -22,22 +22,28 @@ module.exports = class HistoryView extends View
   showBitsRecord: (e)->
     console.log "ENTRE A SHOWBITSRECORD"
     e.preventDefault()
-    Backbone.$("#historicalAccordion").show()
+    @showHistoryView()
     Backbone.$(".accordeonWinbits").find("h2")[1].click()
-
-
 
   showOrdersRecord: (e) ->
     e.preventDefault()
-    Backbone.$("#historicalAccordion").show()
+    @showHistoryView()
     Backbone.$(".accordeonWinbits").find("h2")[0].click()
 
   showWaitingList: (e) ->
     e.preventDefault()
-    Backbone.$("#historicalAccordion").show()
+    @showHistoryView()
     Backbone.$(".accordeonWinbits").find("h2")[2].click()
 
   showWishList: (e) ->
     e.preventDefault()
-    Backbone.$("#historicalAccordion").show()
+    @showHistoryView()
     Backbone.$(".accordeonWinbits").find("h2")[3].click()
+
+  showHistoryView: () ->
+    $ = Backbone.$
+    $main = $('main').first()
+    $historicalContainer = $main.find('div.wrapper.historical')
+    if $historicalContainer.css('display') is 'none'
+      $main.find('div.wrapper').hide()
+      $historicalContainer.show()
