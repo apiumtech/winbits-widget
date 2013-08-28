@@ -33,10 +33,7 @@ module.exports = class AccordionView extends View
     console.log 'END Inicializando acordeon'
 
   backToSite: (e) ->
-    $ = Backbone.$
-    $main = $('main').first()
-    $main.find('div.wrapper').show()
-    $main.find('div.wrapper.historical').hide()
+    util.backToSite(e)
 
   cleanAccordion:  ->
     console.log('Limpiando acordion')

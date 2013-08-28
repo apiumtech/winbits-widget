@@ -21,6 +21,9 @@ WaitingList = require "models/account/waitingList"
 WaitingListView = require "views/widget/account/waitingList-view"
 WishList = require "models/account/wishList"
 WishListView = require "views/widget/account/wishList-view"
+ShippingAddress = require "models/shipping/shipping-address"
+ShippingAddressView = require "views/widget/shipping/shipping-address-view"
+ShippingMainView = require "views/widget/shipping/shipping-main-view"
 mediator = require 'chaplin/mediator'
 util = require 'lib/util'
 config = require 'config'
@@ -38,6 +41,7 @@ module.exports = class HomeController extends ChaplinController
     @address = new Address
     @profile = new Profile
     @cart = new Cart
+    @shippingAddress = new ShippingAddress
     @subscription = new Subscription
     @registerfb = new RegisterFb
     @addressView = new AddressView(model: @address)
@@ -54,6 +58,8 @@ module.exports = class HomeController extends ChaplinController
     @waitingListView = new WaitingListView(model: @waitingList)
     @wishList = new WishList
     @wishListView = new WishListView(model: @wishList)
+    @shippingMainView = new ShippingMainView
+    @shippingAddressView = new ShippingAddressView(model: @shippingAddress)
     @address.fetch()
     @profile.on "change", ->
       that.profileView.render()

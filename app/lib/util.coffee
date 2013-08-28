@@ -74,3 +74,9 @@ module.exports =
     w$.each details, (index, detail) ->
       orderFullPrice += detail.sku.fullPrice * detail.quantity
     orderFullPrice
+
+  backToSite: (e) ->
+    $ = Backbone.$
+    $main = $('main').first()
+    $main.find('div.wrapper').show()
+    $main.find('div.wrapper.subview').hide()
