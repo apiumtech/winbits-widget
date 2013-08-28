@@ -49,7 +49,7 @@ module.exports = class Cart extends ChaplinModel
 
       error: (xhr, textStatus, errorThrown) ->
         error = JSON.parse(xhr.responseText)
-        alert error.message
+        alert error.meta.message
 
       complete: ->
         console.log "Request Completed!"
