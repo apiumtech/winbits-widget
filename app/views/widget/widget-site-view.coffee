@@ -191,7 +191,11 @@ module.exports = class WidgetSiteView extends View
     @$el.find('.wb-user-bits-balance').text bitsBalance
 
   updateBitsBalanceWithCart: (cart) ->
-    @updateBitsBalance mediator.profile.bitsBalance - cart.bitsTotal
+    bitsBalance = mediator.profile.bitsBalance
+    bitsTotal = cart.bitsTotal
+    @updateBitsBalance bitsBalance - bitsTotal
+    $ = window.$ or w$
+    $('#' + config.winbitsDivId).trigger 'bitschanged', [{bitsBalance: bitsBalance. bitsTotal: bitsTotal}]
 
   postToCheckoutApp: (order) ->
     $chkForm = w$('<form id="chk-form" method="POST" style="display:none"></form>')

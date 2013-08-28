@@ -117,7 +117,8 @@ module.exports = class LoginUtil
     @publishEvent "showHeaderLogout"
     mediator.flags.loggedIn = false
     mediator.flags.fbConnect = false
-
+    $ = window.$ or w$
+    $('#' + config.winbitsDivId).trigger 'loggedout', [logoutData]
 
 
 
