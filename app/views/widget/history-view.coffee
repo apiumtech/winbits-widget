@@ -43,7 +43,9 @@ module.exports = class HistoryView extends View
   showHistoryView: () ->
     $ = Backbone.$
     $main = $('main').first()
+    $('div.dropMenu').slideUp()
     $historicalContainer = $main.find('div.wrapper.historical')
     if $historicalContainer.css('display') is 'none'
+      $historicalContainer.find('.accordeonContent').hide()
       $main.find('div.wrapper').hide()
       $historicalContainer.show()
