@@ -14,7 +14,7 @@ module.exports = class SubscriptionView extends View
 
   initialize: ->
     super
-    @delegate 'click', '#editBtnSubscription', @editSubscription
+    @delegate 'click', '.editLink', @editSubscription
     @delegate 'click', '#saveBntSubscription', @saveSubscription
     @delegate 'click', '#cancelEditSubscription', @cancelEditSubscription
 

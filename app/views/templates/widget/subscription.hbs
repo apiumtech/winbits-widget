@@ -16,45 +16,28 @@
   <ul>
     <li>{{getNewsletterPeriodicityText}} <a href="#" class="editLink">edit</a></li>
   </ul>
-  <input type="submit" class="btn editBtn" value="Editar">
+  <input type="submit" class="btn editBtn editLink" value="Editar">
 </div>
-{{!--<div class="editSuscription">
-  <h3>¿De cuál de nuestros sitios te gustaría recibir información?</h3>
-  <fieldset class="wb-subscriptions-checklist">
-    <form id='formUpdateSubscription'>
-    {{#each subscriptions}}
-    <div class="divCheckbox">
-      <input type="checkbox" name="{{name}}" id="{{id}}-chk" {{#if active}}checked="checked"{{/if}} class="checkbox" value="{{id}}">
-      <label class="checkboxLabel" for="{{name}}">{{name}}</label>
-    </div>
-    {{/each}}
-  </form>
-  </fieldset>
-  <input class="btn editBtn" id="saveBntSubscription" value="Guardar">
-  <a class="linkBack" id="cancelEditSubscription" href="#">Regresar</a>
-</div>--}}
 
 <div class="editSuscription">
-  <form id="editSuscription" accept-charset="utf-8" action="#" method="post">
+  <form id="formUpdateSubscription" accept-charset="utf-8" action="#" method="post">
     <fieldset>
       <h3>¿De cuál de nuestros sitios te gustaría recibir información?</h3>
-      <input type="checkbox" value="Looq" class="checkbox" checked="checked" name="winbitsSuscription1" id="winbitsSuscription1">
-      <label for="winbitsSuscription1" class="checkboxLabel">Looq</label>
-      <input type="checkbox" value="Clickonero" class="checkbox" name="winbitsSuscription2" id="winbitsSuscription2">
-      <label for="winbitsSuscription2" class="checkboxLabel">Clickonero</label>
-      <input type="checkbox" value="MiPlan" class="checkbox" name="winbitsSuscription3" id="winbitsSuscription3">
-      <label for="winbitsSuscription3" class="checkboxLabel">Mi Plan</label>
-      <input type="checkbox" value="Travel" class="checkbox" name="winbitsSuscription4" id="winbitsSuscription4">
-      <label for="winbitsSuscription4" class="checkboxLabel">Travel</label>
+      {{#each subscriptions}}
+        <div class="divCheckbox">
+          <input type="checkbox" name="{{name}}" id="{{id}}-chk" {{#if active}}checked="checked"{{/if}} class="checkbox" value="{{id}}">
+          <label class="checkboxLabel" for="{{id}}-chk">{{name}}</label>
+        </div>
+      {{/each}}
       <h3>¿Cómo te gustaría recibir la información?</h3>
-      <input type="checkbox" value="Allinone" class="checkbox" name="winbitsSuscription5" id="winbitsSuscription5">
+      <input type="radio" value="unified" name="newsletterFormat" id="winbitsSuscription5">
       <label for="winbitsSuscription5" class="checkboxLabel">Todo en un correo</label>
-      <input type="checkbox" value="individualMail" class="checkbox" name="winbitsSuscription6" id="winbitsSuscription6">
+      <input type="radio" value="separated" name="newsletterFormat" id="winbitsSuscription6">
       <label for="winbitsSuscription6" class="checkboxLabel">Correos individuales</label>
       <h3>¿Con qué frecuencia te gustaría recibir nuestros correos?</h3>
-      <input type="checkbox" value="Alldays" class="checkbox" name="winbitsSuscription7" id="winbitsSuscription7">
+      <input type="radio" value="daily" name="newsletterPeriodicity" id="winbitsSuscription7">
       <label for="winbitsSuscription7" class="checkboxLabel">Todos los días</label>
-      <input type="checkbox" value="Onemailweek" class="checkbox" name="winbitsSuscription8" id="winbitsSuscription8">
+      <input type="radio" value="weekly" name="newsletterPeriodicity" id="winbitsSuscription8">
       <label for="winbitsSuscription8" class="checkboxLabel">Un correo por semana</label>
       <input type="submit" class="btn editBtn" value="Guardar">
       <a href="#" class="linkBack">Regresar</a>

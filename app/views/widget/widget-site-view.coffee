@@ -133,15 +133,8 @@ module.exports = class WidgetSiteView extends View
     vendor.dropMenu
       obj: ".miCuentaDiv"
       clase: ".dropMenu"
-      trigger: ".triggerMiCuenta"
+      trigger: ".triggerMiCuenta, .miCuenta .link"
       other: ".miCarritoDiv"
-
-    vendor.dropMenu
-      obj: ".miCarritoDiv"
-      clase: ".dropMenu"
-      trigger: ".shopCarMin"
-      other: ".miCuentaDiv"
-
 
     vendor.openFolder
       obj: ".knowMoreMin"
