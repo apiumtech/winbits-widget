@@ -259,10 +259,10 @@ Handlebars.registerHelper "getProfileEmail", () ->
     ''
 
 Handlebars.registerHelper "getNewsletterFormatText", () ->
-  if this.newletterFormat is 'unified' then 'Un solo correo' else 'Correos individuales'
+  if this.newsletterFormat is 'unified' then 'Un solo correo' else 'Correos individuales'
 
 Handlebars.registerHelper "getNewsletterPeriodicityText", () ->
-  if this.newletterFormat is 'weekly' then 'Cada semana' else 'Todos los días'
+  if this.newsletterPeriodicity is 'weekly' then 'Cada semana' else 'Todos los días'
 
 Handlebars.registerHelper "checkRadio", (value, radioValue) ->
   if value is radioValue then 'checked="checked"' else ''
