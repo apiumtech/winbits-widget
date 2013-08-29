@@ -230,14 +230,20 @@ Handlebars.registerHelper "select", (value, options) ->
   select.children[select.selectedIndex].setAttribute "selected", "selected"  if select.children[select.selectedIndex]
   select.innerHTML
 
-Handlebars.registerHelper "getContactName", (firstName, lastName) ->
+Handlebars.registerHelper "getContactName", () ->
   (this.firstName + ' ' + this.lastName).trim()
 
-Handlebars.registerHelper "getLocation", (firstName, lastName) ->
+Handlebars.registerHelper "getLocation", () ->
   this.location or this.zipCodeInfo.locationName
 
-Handlebars.registerHelper "getZipCode", (firstName, lastName) ->
+Handlebars.registerHelper "getZipCode", () ->
   this.zipCodeInfo.zipCode or this.zipCodeInfo.id
+
+Handlebars.registerHelper "formatAddressNumber", () ->
+  addressNumber = this.externalNumber
+  if this.internalNumber
+    addressNumber += ' int. ' + this.internalNumber
+  addressNumber
 
 Handlebars.registerHelper "toDefaultDateFormat", (dateString) ->
   date = new Date(dateString)
@@ -246,7 +252,7 @@ Handlebars.registerHelper "toDefaultDateFormat", (dateString) ->
 Handlebars.registerHelper "abs", (number) ->
   Math.abs(number)
 
-Handlebars.registerHelper "getProfileEmail", (number) ->
+Handlebars.registerHelper "getProfileEmail", () ->
   if mediator.global and mediator.global.profile
     mediator.global.profile.email
   else

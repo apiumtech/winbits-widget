@@ -75,7 +75,7 @@ module.exports = class LoginUtil
       @publishEvent "restoreCart"
       @publishEvent "setProfile", profileData
       @publishEvent "setSubscription", subscriptions:profile.subscriptions
-      @publishEvent "setAddress",  profile.mainShippingAddress
+      @publishEvent "setAddress",  profile.mainShippingAddres
 
       $ = window.$ or w$
       $('#' + config.winbitsDivId).trigger 'loggedin', [profile]

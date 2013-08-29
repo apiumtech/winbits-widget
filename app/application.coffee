@@ -46,7 +46,6 @@ module.exports = class Application
     ChaplinMediator.post_checkout = {}
     ChaplinMediator.seal()
 
-
   initHomeControllers: ->
     # These controllers are active during the whole application runtime.
     @loginUtil = new LoginUtil()
