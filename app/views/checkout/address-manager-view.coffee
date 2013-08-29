@@ -96,7 +96,7 @@ module.exports = class CheckoutSiteView extends View
       @model.sync 'create', @model,
         error: ->
           console.log "error",
-        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
+        headers: { 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
         success: ->
           console.log "success"
           that.model.actualiza()

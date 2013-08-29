@@ -37,19 +37,19 @@
           <h3>DIRECCIÓN</h3>
           <input type="hidden" value="1" name="country">
           <input type="hidden" value="{{id}}" name="id">
-          <textarea placeholder="Calle" class="required" name="street" value="{{street}}"></textarea>
+          <textarea placeholder="Calle" class="required" name="street">{{street}}</textarea>
           <div class="inputNumber">
             <input type="text" placeholder="# ext" class="required" name="externalNumber" value="{{externalNumber}}">
             <input type="text" placeholder="# int" name="internalNumber" value="{{internalNumber}}">
           </div>
-          <textarea placeholder="¿Entre qué calles?" class="required" name="betweenStreets" value="{{betweenStreets}}"></textarea>
-          <textarea placeholder="Referencias para llegar" class="required" name="indications"  value="{{indications}}"></textarea>
-          <input type="text" placeholder="Codigo Postal" class="required digits zipCode" value="{{zipCode}}">
-          <input type="hidden" name="zipCodeInfo" class="zipCodeInfoExtra" value="{{zipCodeInfo.id}}">
+          <textarea placeholder="¿Entre qué calles?" class="required" name="betweenStreets">{{betweenStreets}}</textarea>
+          <textarea placeholder="Referencias para llegar" class="required" name="indications">{{indications}}</textarea>
+          <input type="text" placeholder="Codigo Postal" class="required digits zipCode" value="{{zipCodeInfo.zipCode}}">
+          <input type="hidden" name="zipCodeInfoId" class="zipCodeInfoExtra" value="{{zipCodeInfo.id}}">
           <select class="select zipCodeInfo" data-clase="selectRegister" placeholder="Localidad">
             <option>Localidad:</option>
           </select>
-          <input type="text" placeholder="Colonia" name="location" value="{{location}}">
+          <input type="text" placeholder="Colonia" name="location" value="{{zipCodeInfo.locationName}}">
           <input type="text" placeholder="Delegación o Municipio" value="{{zipCodeInfo.county}}" readonly="true">
           <input type="text" placeholder="Estado" value="{{zipCodeInfo.state}}" readonly="true">
         </div>

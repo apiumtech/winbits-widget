@@ -17,13 +17,13 @@ module.exports = class ShippingAddressView extends View
   initialize: ->
     super
     @subscribeEvent 'shippingReady', @handlerModelReady
+
     @delegate "click" , "#aNewAddress", @newAddress
     @delegate "click" , "#btnCancel", @cancelEdit
     @delegate "click" , "#btnSubmit", @addressSubmit
     @delegate "click" , ".btnUpdate", @addressUpdate
     @delegate "click" , ".edit-address", @editAddress
     @delegate "click" , ".delete-address", @deleteAddress
-    @delegate "click" , "#btnContinuar", @addressContinuar
     @delegate "click" , ".shippingItem", @selectShipping
     @delegate 'keyup', '.zipCode', @findZipcode
 
@@ -39,10 +39,10 @@ module.exports = class ShippingAddressView extends View
       url: config.apiUrl + "/affiliation/shipping-addresses/" + id,
       error: ->
         console.log "error",
-          headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
-          success: ->
-            console.log "success"
-            that.model.actualiza()
+      headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
+      success: ->
+        console.log "success"
+        that.publishEvent 'showShippingAddresses'
 
   selectShipping: (e)->
     $currentTarget = @$(e.currentTarget)
@@ -52,18 +52,6 @@ module.exports = class ShippingAddressView extends View
     $currentTarget.addClass("shippingSelected")
     mediator.post_checkout.shippingAddress = id
 
-
-  addressContinuar: (e)->
-    console.log "continuar"
-    $addresSelected = @$(".shippingSelected")
-    id = $addresSelected.attr("id").split("-")[1]
-    if id
-      mediator.post_checkout.shippingAddress = id
-    if mediator.post_checkout.shippingAddress
-      @publishEvent "showStep", ".checkoutPaymentContainer"
-      @$("#choosen-address-" + mediator.post_checkout.shippingAddress).show()
-
-
   editAddress: (e)->
     e.principal
     $currentTarget = @$(e.currentTarget)
@@ -71,6 +59,7 @@ module.exports = class ShippingAddressView extends View
     $editAddress = @$("#shippingEditAddress-" + id)
     @$(".shippingAddresses").hide()
     $editAddress.show()
+
   newAddress: (e)->
     e.preventDefault()
     @$(".shippingAddresses").hide()
@@ -80,6 +69,7 @@ module.exports = class ShippingAddressView extends View
     e.preventDefault()
     @$(".shippingAddresses").show()
     @$(".shippingNewAddress").hide()
+    @$(".shippingEditAddress").hide()
 
   addressSubmit: (e)->
     e.preventDefault()
@@ -99,10 +89,14 @@ module.exports = class ShippingAddressView extends View
       @model.sync 'create', @model,
         error: ->
           console.log "error",
-            headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
-            success: ->
+        headers:
+              "Accept-Language": "es"
+              "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        success: ->
               console.log "success"
-              that.model.actualiza()
+              that.publishEvent 'showShippingAddresses'
+              @$(".shippingAddresses").show()
+              @$("#shippingNewAddress").hide()
   #that.$el.find(".myPerfil").slideDown()
   #
   addressUpdate: (e)->
@@ -127,10 +121,12 @@ module.exports = class ShippingAddressView extends View
         url: config.apiUrl + "/affiliation/shipping-addresses/" + formData.id,
         error: ->
           console.log "error",
-            headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
-            success: ->
-              console.log "success"
-              that.model.actualiza()
+        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
+        success: ->
+          console.log "success"
+          that.publishEvent 'showShippingAddresses'
+          @$(".shippingAddresses").show()
+          @$($currentTarget).hide()
 
   attach: ->
     super
