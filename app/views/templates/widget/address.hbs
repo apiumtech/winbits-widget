@@ -1,19 +1,25 @@
-{{debug}}
 <h2>DIRECCIÓN DE ENVIO</h2>
-<div class="miDireccion">
-  <h3 class="address-contact-name">{{contactName}}</h3>
-  <address>
-    <span class="address-street">{{street}}</span>
-    <span class="address-location">{{city}}</span>
-    <span class="address-state"></span>
-    <span class="address-zip-code">{{zipCode}}</span>
-    <span class="address-phone"></span>
-  </address>
-  <ul>
-    <li><a href="#" class="changeAddressBtn"><em class="icon changeAdress"></em> Cambiar Dirección</a></li>
-  </ul>
-  <input id="editBtnAddress" class="btn editBtn" value="Editar">
-</div>
+{{#if street}}
+  <div class="miDireccion">
+    <h3 class="address-contact-name">{{firstName}} {{lastName}}</h3>
+    <address>
+      <span class="address-street">{{street}}</span>
+      <span class="address-location">{{location}}</span>
+      <span class="address-state">{{state}}</span>
+      <span class="address-zip-code">{{zipCode}}</span>
+      <span class="address-phone">{{phone}}</span>
+    </address>
+    <ul>
+      <li><a href="#" class="changeAddressBtn"><em class="icon changeAdress"></em> Cambiar Dirección</a></li>
+    </ul>
+    <input id="editBtnAddress" class="btn editBtn" value="Editar">
+  </div>
+{{else}}
+  <div class="miDireccion">
+    <h4>No has ingresado ninguna dirección de envío aún.</h4>
+    <a href="#">+ Agregar Dirección</a>
+  </div>
+{{/if}}
 <div class="editMiDireccion">
   <fieldset>
     <input type="text" placeholder="Nombre" name="name">
