@@ -26,6 +26,7 @@ module.exports = class PaymentView extends View
 
   payWithCard: (e) ->
     e.preventDefault()
+    that = @
     $form = @$el.find("#checkoutPaymentNewCardFormId")
     $currentTarget = @$(e.currentTarget)
     paymentMethod =  $currentTarget.attr("id").split("-")[1]
@@ -48,6 +49,12 @@ module.exports = class PaymentView extends View
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': window.token }
         success: (data) ->
           console.log ["data", data]
+          payment = data.response.payments[0]
+          if payment.status is 'PAID'
+            that.publishEvent "setConfirm", data.response
+            that.publishEvent "showStep", ".checkoutSummaryContainer"
+          else
+            alert payment.paymentCapture.mensaje
 
         error: (xhr, textStatus, errorThrown) ->
           console.log xhr
@@ -102,7 +109,7 @@ module.exports = class PaymentView extends View
       headers:{ 'Accept-Language': 'es', 'WB-Api-Token': window.token }
       success: (data) ->
         console.log ["data", data]
-        that.publishEvent "setConfirm", data.response.payments[0]
+        that.publishEvent "setConfirm", data.response
         that.publishEvent "showStep", ".checkoutSummaryContainer"
 
 
