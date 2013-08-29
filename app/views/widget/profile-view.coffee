@@ -42,9 +42,8 @@ module.exports = class ProfileView extends View
     day = $form.find("[name=day-input]").val()
     month = $form.find("[name=month-input]").val()
     year = $form.find("[name=year-input]").val()
-    console.log day
-    console.log month
-    console.log year
+    gender = $form.find("[name=gender][checked]").val()
+    gender = if gender is 'H' then 'male' else 'female'
     if day or month or year
       $form.find("[name=birthdate]").val ((if year > 13 then "19" else "20")) + year + "-" + month + "-" + day
 
@@ -54,6 +53,7 @@ module.exports = class ProfileView extends View
     if $form.valid()
       formData = { verticalId: config.verticalId }
       formData = util.serializeForm($form, formData)
+      formData.gender = gender
       console.log formData
       @model.set formData
       @model.sync 'update', @model,
@@ -94,13 +94,19 @@ module.exports = class ProfileView extends View
     unless $zipCode.val().length < 5
       vendor.customSelect($select)
 
+    @$('input[name=gender]').removeAttr('checked').next().removeClass('spanSelected')
+    gender = @model.get 'gender'
+    console.log ['GENDER', gender]
+    if gender
+      @$('input.' + gender).attr('checked', 'checked').next().addClass('spanSelected')
 
-  findZipcode: (event)->
-    event.preventDefault()
+
+  findZipcode: (e)->
+    e.preventDefault()
     console.log "find zipCode"
-    currentTarget = @$(event.currentTarget)
-    $slt = @$("#zipCodeInfo")
-    zipCode(Backbone.$).find currentTarget.val(), $slt
+    $currentTarget = @$(e.currentTarget)
+    $slt = @$el.find("#wbi-profile-zip-code-info")
+    zipCode(Backbone.$).find $currentTarget.val(), $slt
 
   viewAttachTwitterAccount: (e)->
     that = @
@@ -276,5 +282,9 @@ module.exports = class ProfileView extends View
         console.log "deleteAccount.json Completed!"
 
   cancelEditing: (e) ->
-    @$el.find(".editMiPerfil").slideUp().find('form').get(0).reset()
+    $editProfileContainer = @$el.find(".editMiPerfil")
+    $editProfileForm = $editProfileContainer.find('form')
+    $editProfileContainer.slideUp()
+    $editProfileForm.get(0).reset()
     @$el.find(".miPerfil").slideDown()
+#    util.resetLocationSelect($editProfileForm.find("#wbi-profile-zip-code-info"))

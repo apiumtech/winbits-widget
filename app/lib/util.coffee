@@ -1,3 +1,5 @@
+vendor = require 'lib/vendor'
+
 module.exports =
   $ : window.w$
   setCookie : setCookie = (c_name, value, exdays) ->
@@ -80,3 +82,7 @@ module.exports =
     $main = $('main').first()
     $main.find('div.wrapper').show()
     $main.find('div.wrapper.subview').hide()
+
+  resetLocationSelect: ($select) ->
+    $select.html '<option>Localidad</option>'
+    $select.parent().find('ul').html '<li rel="Localidad">Localidad</li>'
