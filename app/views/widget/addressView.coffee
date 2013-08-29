@@ -15,7 +15,7 @@ module.exports = class AddressView extends View
     super
     @delegate 'click', '#updateBtnAdress', @saveDireccion
     @delegate 'click', '#editBtnAddress', @editAddress
-
+    @delegate 'click', ".changeAddressBtn", @changeAddress
 
   editAddress: (e)->
     @$el.find(".miDireccion").slideUp()
@@ -29,3 +29,12 @@ module.exports = class AddressView extends View
   attach: ->
     super
 
+  changeAddress: (e) ->
+    e.preventDefault()
+    $ = Backbone.$
+    $main = $('main').first()
+    $shippingAddressContainer = $main.find('#shippingAddressMain')
+    if $shippingAddressContainer.css('display') is 'none'
+      $main.find('div.wrapper').hide()
+      $shippingAddressContainer.show()
+      @publishEvent 'showShippingAddresses'

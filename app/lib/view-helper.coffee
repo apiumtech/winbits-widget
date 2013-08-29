@@ -7,6 +7,7 @@
 # Map helpers
 # -----------
 cartDetail = require 'views/templates/widget/cartDetail'
+mediator = require 'chaplin/mediator'
 
 # Make 'with' behave a little more mustachey.
 Handlebars.registerHelper 'with', (context, options) ->
@@ -229,14 +230,42 @@ Handlebars.registerHelper "select", (value, options) ->
   select.children[select.selectedIndex].setAttribute "selected", "selected"  if select.children[select.selectedIndex]
   select.innerHTML
 
-Handlebars.registerHelper "getContactName", (firstName, lastName) ->
+Handlebars.registerHelper "getContactName", () ->
   (this.firstName + ' ' + this.lastName).trim()
 
-Handlebars.registerHelper "getLocation", (firstName, lastName) ->
+Handlebars.registerHelper "getLocation", () ->
   this.location or this.zipCodeInfo.locationName
 
-Handlebars.registerHelper "getZipCode", (firstName, lastName) ->
+Handlebars.registerHelper "getZipCode", () ->
   this.zipCodeInfo.zipCode or this.zipCodeInfo.id
+
+Handlebars.registerHelper "formatAddressNumber", () ->
+  addressNumber = this.externalNumber
+  if this.internalNumber
+    addressNumber += ' int. ' + this.internalNumber
+  addressNumber
+
+Handlebars.registerHelper "toDefaultDateFormat", (dateString) ->
+  date = new Date(dateString)
+  date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()
+
+Handlebars.registerHelper "abs", (number) ->
+  Math.abs(number)
+
+Handlebars.registerHelper "getProfileEmail", () ->
+  if mediator.global and mediator.global.profile
+    mediator.global.profile.email
+  else
+    ''
+
+Handlebars.registerHelper "getNewsletterFormatText", () ->
+  if this.newsletterFormat is 'unified' then 'Un solo correo' else 'Correos individuales'
+
+Handlebars.registerHelper "getNewsletterPeriodicityText", () ->
+  if this.newsletterPeriodicity is 'weekly' then 'Cada semana' else 'Todos los días'
+
+Handlebars.registerHelper "checkRadio", (value, radioValue) ->
+  if value is radioValue then 'checked="checked"' else ''
 
 #******************************
 #Custom partial

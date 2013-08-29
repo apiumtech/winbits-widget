@@ -1,15 +1,21 @@
 <h2>MI PERFIL</h2>
 <div class="miPerfil">
   <h3 class="profile-full-name">{{name}} {{lastName}}</h3>
-  <p><a  class="profile-email" href="#">{{email}}</a></p>
+  <p><a id="wbi-profile-email" class="profile-email" href="mailto:{{getProfileEmail}}">{{getProfileEmail}}</a></p>
   <p class="profile-age"></p>
   <address>
-    <span class="profile-location">{{location}}</span>
-    <span class="profile-zip-code">{{zipCode}}</span>
-    <span class="profile-phone">{{phone}}</span>
+    {{#if location}}
+      <span class="profile-location">Col. {{location}}</span>
+    {{/if}}
+    {{#if zipCode}}
+      <span class="profile-zip-code">C.P. {{zipCode}}</span>
+    {{/if}}
+    {{#if phone}}
+      <span class="profile-phone">tel. {{phone}}</span>
+    {{/if}}
   </address>
   <ul>
-    <li><a href="#" class="changePassBtn"><span class="icon changePasword"></span>Cambiar Password</a></li>
+    <li><a href="#" id="wbi-change-password-link" class="changePassBtn"><span class="icon changePasword"></span>Cambiar Password</a></li>
     <li><a href="#"><span class="icon creditCard"></span>Editar Tarjetas de Crédito </a></li>
     <li><a href="#" id="attachFacebookAccount{{facebook}}"><span class="icon facebookCircle"></span> <span class="socialProvider{{facebook}}">Liga tu cuenta de Facebook </span></a></li>
     <li><a href="#" id="attachTwitterAccount{{twitter}}"><span class="icon twitterCircle"></span> <span class="socialProvider{{twitter}}"> Liga tu cuenta de Twitter </span></a></li>
@@ -25,14 +31,14 @@
 <div class="editMiPerfil">
   <form id="update-profile-form">
   <fieldset>
-    <input type="text" placeholder="Nombre"  required name="name" maxlength="75" value="{{name}}">
-    <input type="text" placeholder="Apellido" required name="lastName" maxlength="75" value="{{lastName}}">
+    <input type="text" placeholder="Nombre" class="required" name="name" maxlength="75" value="{{name}}">
+    <input type="text" placeholder="Apellido" class="required" name="lastName" maxlength="75" value="{{lastName}}">
     <!--<input type="text" placeholder="Correo Electrónico" value="rulas@hotmail" email="true">-->
     <div class="fieldsetDiv divBirthday">
       <label>Cumpleaños</label>
-      <input type="text" placeholder="dd" maxlength="2" digits="true" name="day-input" value="{{substr birthdate start=8 length=2}}">
-      <input type="text" placeholder="mm" maxlength="2" digits="true" name="month-input" value="{{substr birthdate start=5 length=2}}">
-      <input type="text" placeholder="aa" maxlength="2" required digits="true" name="year-input" value="{{substr birthdate start=2 length=2}}">
+      <input type="text" placeholder="dd" maxlength="2" class="required digits" name="day-input" value="{{substr birthdate start=8 length=2}}">
+      <input type="text" placeholder="mm" maxlength="2" class="required digits" name="month-input" value="{{substr birthdate start=5 length=2}}">
+      <input type="text" placeholder="aa" maxlength="2" class="required digits" name="year-input" value="{{substr birthdate start=2 length=2}}">
       <input type="hidden" name="birthdate" value="{{birthdate}}">
     </div>
     <div class="fieldsetDiv divGender">
@@ -40,26 +46,27 @@
       <input type="radio" name="gender" value="H" class="male">
       <input type="radio" name="gender" value="M" class="female">
     </div>
-    <input type="text" placeholder="Zip Code" id="zipCode" required name="zipCode" class="zipCode" value="{{zipCode}}">
+    <input type="text" placeholder="Código Postal" id="zipCode" maxlength="5" required name="zipCode" class="zipCode" value="{{zipCode}}">
     <input type="hidden" name="zipCodeInfoExtra" class="zipCodeInfoExtra" value="{{location}}">
-        <select class="select zipCodeInfo" data-clase="selectRegister" name="location" placeholder="Localidad">
-          <option>Localidad:</option>
-        </select>
+    <select class="select" data-clase="selectRegister" data-inputselect="true" name="localidad" id="wbi-profile-zip-code-info">
+      <option>Localidad</option>
+    </select>
     <input type="text" placeholder="Teléfono" name="phone" maxlength="15" value="{{phone}}">
     <div class="errorDiv"><p></p></div>
+    <input id="updateBtnProfile" type="button" class="btn editBtn" value="Guardar">
+    <a href="#" class="linkBack">Regresar</a>
   </fieldset>
-  <input class="btn editBtn" id="updateBtnProfile" type="button" value="Guardar">
   </form>
 </div>
 <div class="changePassDiv">
-  <form id="wb-change-password-form">
+  <form id="wbi-change-password-form">
   <fieldset>
-    <input type="password" placeholder="Password Actual" name="password" class="reseteable">
-    <input type="password" placeholder="Nuevo Password" id="newPassword" class="required reseteable" name="newPassword">
-    <input type="password" placeholder="Confirmar Nuevo Password" class="required reseteable" equalTo="#newPassword" name="passwordConfirm">
+    <input type="password" placeholder="Password Actual" class="required reseteable" name="password">
+    <input type="password" placeholder="Nuevo Password" class="required reseteable" name="newPassword" id="newPassword">
+    <input type="password" placeholder="Confirmar Nuevo Password" class="required reseteable" name="passwordConfirm">
     <div class="errors"></div>
-  </fieldset>
     <input type="submit" class="btn editBtn" value="Guardar">
-    <input type="button" class="btn editBtn" style="display: none;">
+    <a href="#" class="linkBack">Regresar</a>
+  </fieldset>
   </form>
 </div>

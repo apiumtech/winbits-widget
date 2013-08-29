@@ -71,11 +71,16 @@ module.exports = class LoginUtil
       profileData.facebook = if facebook != null && facebook.length > 0  then "On" else "Off"
       profileData.twitter = if twitter != null && twitter.length > 0 then "On" else "Off"
 
+      w$('#wbi-user-waiting-list-count').text profileData.waitingListCount
+      w$('#wbi-user-waiting-list-count').text profileData.wishListCount
+      w$('#wbi-user-pending-orders-count').text profileData.pendingOrdersCount
+
       @publishEvent "showHeaderLogin"
       @publishEvent "restoreCart"
       @publishEvent "setProfile", profileData
-      @publishEvent "setSubscription", subscriptions:profile.subscriptions
-      @publishEvent "setAddress",  profile.mainShippingAddress
+      subscriptionsModel = { subscriptions: profile.subscriptions, newsletterFormat: profileData.newsletterFormat, newsletterPeriodicity: profileData.newsletterPeriodicity }
+      @publishEvent "setSubscription", subscriptionsModel
+      @publishEvent "setAddress",  profile.mainShippingAddres
 
       $ = window.$ or w$
       $('#' + config.winbitsDivId).trigger 'loggedin', [profile]
@@ -117,7 +122,8 @@ module.exports = class LoginUtil
     @publishEvent "showHeaderLogout"
     mediator.flags.loggedIn = false
     mediator.flags.fbConnect = false
-
+    $ = window.$ or w$
+    $('#' + config.winbitsDivId).trigger 'loggedout', [logoutData]
 
 
 

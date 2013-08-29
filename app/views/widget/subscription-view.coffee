@@ -14,8 +14,9 @@ module.exports = class SubscriptionView extends View
 
   initialize: ->
     super
-    @delegate 'click', '#editBtnSubscription', @editSubscription
-    @delegate 'click', '#saveBntSubscription', @saveSubscription
+    @delegate 'click', '.editLink', @editSubscription
+    @delegate 'click', '.linkBack', @cancelEditing
+    @delegate 'click', '#wbi-update-subscription', @saveSubscription
     @delegate 'click', '#cancelEditSubscription', @cancelEditSubscription
 
   editSubscription: (e)->
@@ -27,13 +28,8 @@ module.exports = class SubscriptionView extends View
     @$el.find(".miSuscripcion").slideDown()
     @$el.find(".editSuscription").slideUp()
 
-  cancelEditSubscription: (e)->
-    e.preventDefault()
-    e.stopPropagation()
-    @$el.find(".miSuscripcion").slideDown()
-    @$el.find(".editSuscription").slideUp()
-
   saveSubscription: (e)->
+    e.preventDefault()
     console.log "SubscriptionView#saveSubscription"
     sbs = []
     that = @
@@ -51,14 +47,15 @@ module.exports = class SubscriptionView extends View
         sbs.push
           id: id
           active: active
+    format = @$el.find('input[name=newsletterFormat]:checked').val()
+    periodicity = @$el.find('input[name=newsletterPeriodicity]:checked').val()
 
-    console.log sbs
     that = @
     Backbone.$.ajax config.apiUrl + "/affiliation/updateSubscriptions.json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
-      data: JSON.stringify({subscriptions:sbs})
+      data: JSON.stringify({subscriptions:sbs, newsletterFormat: format, newsletterPeriodicity: periodicity})
 
       headers:
         "Accept-Language": "es"
@@ -66,8 +63,7 @@ module.exports = class SubscriptionView extends View
 
       success: (data) ->
         console.log ["Subscription updated1", data.response]
-        console.log subscriptions:data.response
-        that.publishEvent 'setSubscription', {subscriptions:data.response}
+        that.publishEvent 'setSubscription', data.response
 
       error: (xhr, textStatus, errorThrown) ->
         error = JSON.parse(xhr.responseText)
@@ -79,3 +75,10 @@ module.exports = class SubscriptionView extends View
   attach: ()->
     super
     vendor.customCheckbox(@$el.find(".checkbox"))
+
+  cancelEditing: (e) ->
+    $editSubscriptionsContainer = @$el.find(".editSuscription")
+    $editSubscriptionForm = $editSubscriptionsContainer.find('form')
+    $editSubscriptionsContainer.slideUp()
+    $editSubscriptionForm.get(0).reset()
+    @$el.find(".miSuscripcion").slideDown()

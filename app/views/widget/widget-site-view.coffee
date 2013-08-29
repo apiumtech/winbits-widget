@@ -133,15 +133,8 @@ module.exports = class WidgetSiteView extends View
     vendor.dropMenu
       obj: ".miCuentaDiv"
       clase: ".dropMenu"
-      trigger: ".triggerMiCuenta"
+      trigger: ".triggerMiCuenta, .miCuenta .link"
       other: ".miCarritoDiv"
-
-    vendor.dropMenu
-      obj: ".miCarritoDiv"
-      clase: ".dropMenu"
-      trigger: ".shopCarMin"
-      other: ".miCuentaDiv"
-
 
     vendor.openFolder
       obj: ".knowMoreMin"
@@ -153,7 +146,6 @@ module.exports = class WidgetSiteView extends View
       trigger: ".knowMoreMax .openClose"
       objetivo: ".knowMoreMin"
 
-    vendor.scrollpane ".scrollPanel", ".miCarritoDiv"
     vendor.stickyFooter ".widgetWinbitsFooter"
 
     @$el.find('.wb-vertical-' + config.verticalId).addClass('current');
@@ -191,7 +183,11 @@ module.exports = class WidgetSiteView extends View
     @$el.find('.wb-user-bits-balance').text bitsBalance
 
   updateBitsBalanceWithCart: (cart) ->
-    @updateBitsBalance mediator.profile.bitsBalance - cart.bitsTotal
+    bitsBalance = mediator.profile.bitsBalance
+    bitsTotal = cart.bitsTotal
+    @updateBitsBalance bitsBalance - bitsTotal
+    $ = window.$ or w$
+    $('#' + config.winbitsDivId).trigger 'bitschanged', [{bitsBalance: bitsBalance, bitsTotal: bitsTotal}]
 
   postToCheckoutApp: (order) ->
     $chkForm = w$('<form id="chk-form" method="POST" style="display:none"></form>')

@@ -1,31 +1,34 @@
+template = require 'views/templates/shipping/address'
 View = require 'views/base/view'
-template = require 'views/templates/checkout/addresses'
 util = require 'lib/util'
 vendor = require 'lib/vendor'
 config = require 'config'
 mediator = require 'chaplin/mediator'
 zipCode = require 'lib/zipCode'
 
-# Site view is a top-level view which is bound to body.
-module.exports = class CheckoutSiteView extends View
-  container: '.shippingAddressesContainer'
+module.exports = class ShippingAddressView extends View
   autoRender: yes
-  #regions:
-  #'#header-container': 'header'
-  #'#page-container': 'main'
+  container: '#shippingAddressContent'
   template: template
+
+  render: ->
+    super
 
   initialize: ->
     super
+    @subscribeEvent 'shippingReady', @handlerModelReady
+
     @delegate "click" , "#aNewAddress", @newAddress
     @delegate "click" , "#btnCancel", @cancelEdit
     @delegate "click" , "#btnSubmit", @addressSubmit
     @delegate "click" , ".btnUpdate", @addressUpdate
     @delegate "click" , ".edit-address", @editAddress
     @delegate "click" , ".delete-address", @deleteAddress
-    @delegate "click" , "#btnContinuar", @addressContinuar
     @delegate "click" , ".shippingItem", @selectShipping
     @delegate 'keyup', '.zipCode', @findZipcode
+
+  handlerModelReady: ->
+    @render()
 
   deleteAddress: (e)->
     console.log "deleting address"
@@ -39,7 +42,7 @@ module.exports = class CheckoutSiteView extends View
       headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
       success: ->
         console.log "success"
-        that.model.actualiza()
+        that.publishEvent 'showShippingAddresses'
 
   selectShipping: (e)->
     $currentTarget = @$(e.currentTarget)
@@ -49,18 +52,6 @@ module.exports = class CheckoutSiteView extends View
     $currentTarget.addClass("shippingSelected")
     mediator.post_checkout.shippingAddress = id
 
-
-  addressContinuar: (e)->
-    console.log "continuar"
-    $addresSelected = @$(".shippingSelected")
-    id = $addresSelected.attr("id").split("-")[1]
-    if id
-      mediator.post_checkout.shippingAddress = id
-    if mediator.post_checkout.shippingAddress
-      @publishEvent "showStep", ".checkoutPaymentContainer"
-      @$("#choosen-address-" + mediator.post_checkout.shippingAddress).show()
-
-
   editAddress: (e)->
     e.principal
     $currentTarget = @$(e.currentTarget)
@@ -68,6 +59,7 @@ module.exports = class CheckoutSiteView extends View
     $editAddress = @$("#shippingEditAddress-" + id)
     @$(".shippingAddresses").hide()
     $editAddress.show()
+
   newAddress: (e)->
     e.preventDefault()
     @$(".shippingAddresses").hide()
@@ -77,6 +69,7 @@ module.exports = class CheckoutSiteView extends View
     e.preventDefault()
     @$(".shippingAddresses").show()
     @$(".shippingNewAddress").hide()
+    @$(".shippingEditAddress").hide()
 
   addressSubmit: (e)->
     e.preventDefault()
@@ -96,12 +89,16 @@ module.exports = class CheckoutSiteView extends View
       @model.sync 'create', @model,
         error: ->
           console.log "error",
-        headers: { 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
+        headers:
+              "Accept-Language": "es"
+              "WB-Api-Token":  util.getCookie(config.apiTokenName)
         success: ->
-          console.log "success"
-          that.model.actualiza()
-          #that.$el.find(".myPerfil").slideDown()
-          #
+              console.log "success"
+              that.publishEvent 'showShippingAddresses'
+              @$(".shippingAddresses").show()
+              @$("#shippingNewAddress").hide()
+  #that.$el.find(".myPerfil").slideDown()
+  #
   addressUpdate: (e)->
     e.preventDefault()
     console.log "AddressUpdate"
@@ -127,7 +124,9 @@ module.exports = class CheckoutSiteView extends View
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
         success: ->
           console.log "success"
-          that.model.actualiza()
+          that.publishEvent 'showShippingAddresses'
+          @$(".shippingAddresses").show()
+          @$($currentTarget).hide()
 
   attach: ->
     super

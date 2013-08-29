@@ -16,7 +16,6 @@ module.exports =
         $(this).next(options.contenedor).slideToggle() #.siblings(options.contenedor+':visible').slideUp()
         $(this).toggleClass(options.claseActivo).find(".icon").toggleClass options.minusIcon
         $(this).siblings(options.trigger).removeClass(options.claseActivo).find(".icon").removeClass options.minusIcon
-        ChaplinMediator.publish 'renderAccordionOption', $(this) # A LO MEJOR BORRAR - Fix desarrollo
 
 
 
@@ -251,19 +250,17 @@ module.exports =
         $(options.obj).slideDown()
 
       $(options.obj).each ->
-        ###
         $objeto = undefined
         if options.carro is true
           $objeto = $(this).find(".wrapper").children().eq(0)
         else
-          $objeto = $(this).find(".wrapper")###
-        $(this).bind
+          $objeto = $(this).find(".wrapper")
+
+        $objeto.bind
           click: (e) ->
-            $(options.obj).slideUp()
             e.stopPropagation()
 
           mouseenter: (e) ->
-            e.preventDefault()
             $(this).slideDown()
 
           mouseleave: ->
@@ -299,13 +296,16 @@ module.exports =
   scrollpane : (obj, father) ->
     $ = w$ # NO BORRAR - Fix desarrollo
     if father
-      if $(father).css("display") is "none"
+      # NO BORRAR - Fix desarrollo las siguientes 7 líneas
+      display = $(father).css("display")
+      if display is "none"
         $(father).css "display", "block"
-        $(obj).jScrollPane
-          horizontalDragMinWidth: 40
-          horizontalDragMaxWidth: 40
+      $(obj).jScrollPane
+        horizontalDragMinWidth: 40
+        horizontalDragMaxWidth: 40
 
-        $(father).css "display", "none"
+      $(father).css "display", display
+
 
 
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
