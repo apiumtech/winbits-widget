@@ -16,7 +16,6 @@ module.exports =
         $(this).next(options.contenedor).slideToggle() #.siblings(options.contenedor+':visible').slideUp()
         $(this).toggleClass(options.claseActivo).find(".icon").toggleClass options.minusIcon
         $(this).siblings(options.trigger).removeClass(options.claseActivo).find(".icon").removeClass options.minusIcon
-        ChaplinMediator.publish 'renderAccordionOption', $(this) # A LO MEJOR BORRAR - Fix desarrollo
 
 
 
