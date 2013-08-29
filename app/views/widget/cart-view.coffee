@@ -82,6 +82,12 @@ module.exports = class CartView extends View
       that.updateCartBits ui.value
 
     vendor.scrollpane ".scrollPanel", ".miCarritoDiv"
+    vendor.dropMenu
+      obj: ".miCarritoDiv"
+      clase: ".dropMenu"
+      trigger: ".shopCarMin"
+      other: ".miCuentaDiv"
+      carro: true
 
   updateCartDetail : (id, quantity, bits) ->
     console.log ["updateCartDetail"]

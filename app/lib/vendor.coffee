@@ -250,19 +250,17 @@ module.exports =
         $(options.obj).slideDown()
 
       $(options.obj).each ->
-        ###
         $objeto = undefined
         if options.carro is true
           $objeto = $(this).find(".wrapper").children().eq(0)
         else
-          $objeto = $(this).find(".wrapper")###
-        $(this).bind
+          $objeto = $(this).find(".wrapper")
+
+        $objeto.bind
           click: (e) ->
-            $(options.obj).slideUp()
             e.stopPropagation()
 
           mouseenter: (e) ->
-            e.preventDefault()
             $(this).slideDown()
 
           mouseleave: ->
