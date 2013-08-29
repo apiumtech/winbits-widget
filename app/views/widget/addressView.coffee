@@ -33,6 +33,7 @@ module.exports = class AddressView extends View
     e.preventDefault()
     $ = Backbone.$
     $main = $('main').first()
+    $('div.dropMenu').slideUp()
     $shippingAddressContainer = $main.find('#shippingAddressMain')
     if $shippingAddressContainer.css('display') is 'none'
       $main.find('div.wrapper').hide()
