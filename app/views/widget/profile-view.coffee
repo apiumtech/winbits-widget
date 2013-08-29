@@ -21,6 +21,7 @@ module.exports = class ProfileView extends View
     super
     @delegate 'click', '#updateBtnProfile', @saveProfile
     @delegate 'click', '#editBtnProfile', @editProfile
+    @delegate 'click', '.linkBack', @cancelEditing
     @delegate 'keyup', '.zipCode', @findZipcode
     @delegate 'click', '#attachTwitterAccountOff', @viewAttachTwitterAccount
     @delegate 'click', '#attachFacebookAccountOff', @viewAttachFacebookAccount
@@ -273,3 +274,7 @@ module.exports = class ProfileView extends View
 
       complete: ->
         console.log "deleteAccount.json Completed!"
+
+  cancelEditing: (e) ->
+    @$el.find(".editMiPerfil").slideUp().find('form').get(0).reset()
+    @$el.find(".miPerfil").slideDown()
