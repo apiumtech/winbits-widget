@@ -5,6 +5,7 @@ module.exports = class ShippingAddress extends ChaplinModel
 
   initialize: (attributes, option) ->
     super
+    @url = config.apiUrl + "/affiliation/shipping-addresses"
     @subscribeEvent 'completeShippingAddress', @completeShippingAddress
     @subscribeEvent 'showShippingAddresses', @getShippingAddressList
 
