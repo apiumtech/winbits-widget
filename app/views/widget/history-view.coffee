@@ -2,6 +2,7 @@ template = require 'views/templates/widget/history-view'
 View = require 'views/base/view'
 config = require 'config'
 util = require 'lib/util'
+mediator = require 'chaplin/mediator'
 
 module.exports = class HistoryView extends View
   autoRender: yes
@@ -17,7 +18,6 @@ module.exports = class HistoryView extends View
     @delegate 'click', '#ordersHistory', @showOrdersRecord
     @delegate 'click', '#waitingListTable', @showWaitingList
     @delegate 'click', '#wishListTable', @showWishList
-
 
   showBitsRecord: (e)->
     console.log "ENTRE A SHOWBITSRECORD"
