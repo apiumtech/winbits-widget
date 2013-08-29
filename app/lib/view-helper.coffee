@@ -7,6 +7,7 @@
 # Map helpers
 # -----------
 cartDetail = require 'views/templates/widget/cartDetail'
+mediator = require 'chaplin/mediator'
 
 # Make 'with' behave a little more mustachey.
 Handlebars.registerHelper 'with', (context, options) ->
@@ -244,6 +245,12 @@ Handlebars.registerHelper "toDefaultDateFormat", (dateString) ->
 
 Handlebars.registerHelper "abs", (number) ->
   Math.abs(number)
+
+Handlebars.registerHelper "getProfileEmail", (number) ->
+  if mediator.global and mediator.global.profile
+    mediator.global.profile.email
+  else
+    ''
 
 #******************************
 #Custom partial

@@ -1,7 +1,7 @@
 <h2>MI PERFIL</h2>
 <div class="miPerfil">
   <h3 class="profile-full-name">{{name}} {{lastName}}</h3>
-  <p><a  class="profile-email" href="#">{{email}}</a></p>
+  <p><a id="wbi-profile-email" class="profile-email" href="mailto:{{getProfileEmail}}">{{getProfileEmail}}</a></p>
   <p class="profile-age"></p>
   <address>
     {{#if location}}
@@ -48,7 +48,7 @@
     </div>
     <input type="text" placeholder="Código Postal" id="zipCode" maxlength="5" required name="zipCode" class="zipCode" value="{{zipCode}}">
     <input type="hidden" name="zipCodeInfoExtra" class="zipCodeInfoExtra" value="{{location}}">
-    <select class="select" data-clase="selectRegister" data-inputselect="true" name="winbitsProfileLocalidad" id="wbi-profile-zip-code-info">
+    <select class="select" data-clase="selectRegister" data-inputselect="true" name="localidad" id="wbi-profile-zip-code-info">
       <option>Localidad</option>
     </select>
     <input type="text" placeholder="Teléfono" name="phone" maxlength="15" value="{{phone}}">
