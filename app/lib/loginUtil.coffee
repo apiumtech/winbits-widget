@@ -71,9 +71,9 @@ module.exports = class LoginUtil
       profileData.facebook = if facebook != null && facebook.length > 0  then "On" else "Off"
       profileData.twitter = if twitter != null && twitter.length > 0 then "On" else "Off"
 
-      w$('.wb-user-waiting-list-count').text profileData.waitingListCount
-      w$('.wb-user-waiting-list-count').text profileData.wishListCount
-      w$('.wb-user-pending-orders-count').text profileData.pendingOrdersCount
+      w$('#wbi-user-waiting-list-count').text profileData.waitingListCount
+      w$('#wbi-user-waiting-list-count').text profileData.wishListCount
+      w$('#wbi-user-pending-orders-count').text profileData.pendingOrdersCount
 
       @publishEvent "showHeaderLogin"
       @publishEvent "restoreCart"

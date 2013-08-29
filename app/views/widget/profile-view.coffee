@@ -27,6 +27,8 @@ module.exports = class ProfileView extends View
     @delegate 'click', '#attachFacebookAccountOff', @viewAttachFacebookAccount
     @delegate 'click', '#attachTwitterAccountOn', @viewDetachTwitterAccount
     @delegate 'click', '#attachFacebookAccountOn', @viewDetachFacebookAccount
+    @delegate 'click', '#wbi-change-password-link', @changePassword
+    @delegate 'submit', '#wbi-change-password-form', @requestPasswordChange
 
     @subscribeEvent 'updateSocialAccountsStatus', @updateSocialAccountsStatus
 
@@ -62,9 +64,6 @@ module.exports = class ProfileView extends View
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
         success: ->
           console.log "success"
-          #that.$el.find(".myPerfil").slideDown()
-          #that.$el.find(".editMiPerfil").slideUp()
-        #emulateHTTP: true
 
 
   attach: ->
@@ -73,16 +72,6 @@ module.exports = class ProfileView extends View
     $form.validate rules:
       birthdate:
         dateISO: true
-
-    vendor.openFolder
-      obj: ".myProfile .miPerfil"
-      trigger: ".myProfile .miPerfil .changePassBtn"
-      objetivo: ".myProfile .changePassDiv"
-
-    vendor.openFolder
-      obj: ".myProfile .changePassDiv"
-      trigger: ".myProfile .changePassDiv"
-      objetivo: ".myProfile .miPerfil"
 
     vendor.customSelect(@$('.select'))
     vendor.customRadio(@$(".divGender"))
@@ -283,8 +272,43 @@ module.exports = class ProfileView extends View
 
   cancelEditing: (e) ->
     $editProfileContainer = @$el.find(".editMiPerfil")
-    $editProfileForm = $editProfileContainer.find('form')
+    $editProfileContainer.find('form').get(0).reset()
     $editProfileContainer.slideUp()
-    $editProfileForm.get(0).reset()
+    $changePasswordContainer = @$el.find(".changePassDiv")
+    $changePasswordContainer.find('form').get(0).reset()
+    $changePasswordContainer.slideUp()
     @$el.find(".miPerfil").slideDown()
 #    util.resetLocationSelect($editProfileForm.find("#wbi-profile-zip-code-info"))
+
+  changePassword: (e) ->
+    e.preventDefault()
+    @$el.find(".miPerfil").slideUp()
+    @$el.find(".changePassDiv").slideDown()
+
+  requestPasswordChange: (e) ->
+    e.preventDefault()
+    $ = Backbone.$
+    $form = $(e.currentTarget)
+    formData = util.serializeForm($form)
+    that = @
+    console.log "detach twitter account"
+    $.ajax config.apiUrl + "/affiliation/change-password.json",
+      type: "PUT"
+      contentType: "application/json"
+      dataType: "json"
+      data: JSON.stringify(formData)
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+
+      success: (data) ->
+        console.log "deleteAccount.json Success!"
+        that.cancelEditing()
+
+      error: (xhr, textStatus, errorThrown) ->
+        console.log "deleteAccount.json Error!"
+        error = JSON.parse(xhr.responseText)
+        alert error.meta.message
+
+      complete: ->
+        console.log "deleteAccount.json Completed!"

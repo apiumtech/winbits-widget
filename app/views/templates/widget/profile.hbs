@@ -15,7 +15,7 @@
     {{/if}}
   </address>
   <ul>
-    <li><a href="#" class="changePassBtn"><span class="icon changePasword"></span>Cambiar Password</a></li>
+    <li><a href="#" id="wbi-change-password-link" class="changePassBtn"><span class="icon changePasword"></span>Cambiar Password</a></li>
     <li><a href="#"><span class="icon creditCard"></span>Editar Tarjetas de Crédito </a></li>
     <li><a href="#" id="attachFacebookAccount{{facebook}}"><span class="icon facebookCircle"></span> <span class="socialProvider{{facebook}}">Liga tu cuenta de Facebook </span></a></li>
     <li><a href="#" id="attachTwitterAccount{{twitter}}"><span class="icon twitterCircle"></span> <span class="socialProvider{{twitter}}"> Liga tu cuenta de Twitter </span></a></li>
@@ -59,7 +59,7 @@
   </form>
 </div>
 <div class="changePassDiv">
-  <form id="wb-change-password-form">
+  <form id="wbi-change-password-form">
   <fieldset>
     <input type="password" placeholder="Password Actual" class="required reseteable" name="password">
     <input type="password" placeholder="Nuevo Password" class="required reseteable" name="newPassword" id="newPassword">
