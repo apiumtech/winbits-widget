@@ -74,7 +74,8 @@ module.exports = class LoginUtil
       @publishEvent "showHeaderLogin"
       @publishEvent "restoreCart"
       @publishEvent "setProfile", profileData
-      @publishEvent "setSubscription", subscriptions:profile.subscriptions
+      subscriptionsModel = { subscriptions: profile.subscriptions, newsletterFormat: profileData.newsletterFormat, newsletterPeriodicity: profileData.newsletterPeriodicity }
+      @publishEvent "setSubscription", subscriptionsModel
       @publishEvent "setAddress",  profile.mainShippingAddres
 
       $ = window.$ or w$

@@ -1,27 +1,24 @@
-{{!--<h2>SUSCRIPCIÓN</h2>
+<h2>SUSCRIPCIÓN</h2>
 <div class="miSuscripcion">
   <h3>Esta cuenta está suscrita a los siguientes sitios:</h3>
   <ul class="wb-subscriptions-list">
     {{#each subscriptions}}
       {{#if active}}
-        <li>
-          {{name}}
-        <a class="editLink" href="#">edit</a>
-      </li>
+        <li>{{name}}<a href="#" class="editLink">edit</a></li>
       {{/if}}
     {{/each}}
   </ul>
+  <h3>Recibes:</h3>
+  <ul>
+    <li>{{getNewsletterFormatText}} <a href="#" class="editLink">edit</a></li>
+  </ul>
   <h3>Recibes un correo:</h3>
   <ul>
-    <li><span class="subscriptions-periodicity">Todos los días</span> <a href="#">edit</a></li>
+    <li>{{getNewsletterPeriodicityText}} <a href="#" class="editLink">edit</a></li>
   </ul>
-  <h3>Favoritos:</h3>
-  <ul>
-    <!--<li>Marcas 0 <a href="#">view detail</a></li>-->
-  </ul>
-  <input class="btn editBtn" id="editBtnSubscription" value="Editar">
+  <input type="submit" class="btn editBtn" value="Editar">
 </div>
-<div class="editSuscription">
+{{!--<div class="editSuscription">
   <h3>¿De cuál de nuestros sitios te gustaría recibir información?</h3>
   <fieldset class="wb-subscriptions-checklist">
     <form id='formUpdateSubscription'>
@@ -37,49 +34,30 @@
   <a class="linkBack" id="cancelEditSubscription" href="#">Regresar</a>
 </div>--}}
 
-<div class="colum mySuscription">
-  <h2>SUSCRIPCIÓN</h2>
-  <div class="miSuscripcion">
-    <h3>Esta cuenta está suscrita los siguientes sitios:</h3>
-    <ul>
-      <li>Looq <a href="#" class="editLink">edit</a></li>
-      <li>Travel <a href="#" class="editLink">edit</a></li>
-    </ul>
-    <h3>Recibes:</h3>
-    <ul>
-      <li>Correos individuales <a href="#" class="editLink">edit</a></li>
-    </ul>
-    <h3>Recibes un correo:</h3>
-    <ul>
-      <li>Todos los días <a href="#" class="editLink">edit</a></li>
-    </ul>
-    <input type="submit" class="btn editBtn" value="Editar">
-  </div>
-  <div class="editSuscription">
-    <form id="editSuscription" accept-charset="utf-8" action="#" method="post">
-      <fieldset>
-        <h3>¿De cuál de nuestros sitios te gustaría recibir información?</h3>
-        <div class="divCheckbox"><span class="icon spanCheckbox selectCheckbox"></span><input type="checkbox" value="Looq" class="checkbox" checked="checked" name="winbitsSuscription1" id="winbitsSuscription1"><label for="winbitsSuscription1" class="checkboxLabel">Looq</label></div>
-
-        <div class="divCheckbox"><span class="icon spanCheckbox unselectCheckbox"></span><input type="checkbox" value="Clickonero" class="checkbox" name="winbitsSuscription2" id="winbitsSuscription2"><label for="winbitsSuscription2" class="checkboxLabel">Clickonero</label></div>
-
-        <div class="divCheckbox"><span class="icon spanCheckbox unselectCheckbox"></span><input type="checkbox" value="MiPlan" class="checkbox" name="winbitsSuscription3" id="winbitsSuscription3"><label for="winbitsSuscription3" class="checkboxLabel">Mi Plan</label></div>
-
-        <div class="divCheckbox"><span class="icon spanCheckbox unselectCheckbox"></span><input type="checkbox" value="Travel" class="checkbox" name="winbitsSuscription4" id="winbitsSuscription4"><label for="winbitsSuscription4" class="checkboxLabel">Travel</label></div>
-
-        <h3>¿Cómo te gustaría recibir la información?</h3>
-        <div class="divCheckbox"><span class="icon spanCheckbox unselectCheckbox"></span><input type="checkbox" value="Allinone" class="checkbox" name="winbitsSuscription5" id="winbitsSuscription5"><label for="winbitsSuscription5" class="checkboxLabel">Todo en un correo</label></div>
-
-        <div class="divCheckbox"><span class="icon spanCheckbox unselectCheckbox"></span><input type="checkbox" value="individualMail" class="checkbox" name="winbitsSuscription6" id="winbitsSuscription6"><label for="winbitsSuscription6" class="checkboxLabel">Correos individuales</label></div>
-
-        <h3>¿Con qué frecuencia te gustaría recibir nuestros correos?</h3>
-        <div class="divCheckbox"><span class="icon spanCheckbox unselectCheckbox"></span><input type="checkbox" value="Alldays" class="checkbox" name="winbitsSuscription7" id="winbitsSuscription7"><label for="winbitsSuscription7" class="checkboxLabel">Todos los días</label></div>
-
-        <div class="divCheckbox"><span class="icon spanCheckbox unselectCheckbox"></span><input type="checkbox" value="Onemailweek" class="checkbox" name="winbitsSuscription8" id="winbitsSuscription8"><label for="winbitsSuscription8" class="checkboxLabel">Un correo por semana</label></div>
-
-        <input type="submit" class="btn editBtn" value="Guardar">
-        <a href="#" class="linkBack">Regresar</a>
-      </fieldset>
-    </form>
-  </div>
+<div class="editSuscription">
+  <form id="editSuscription" accept-charset="utf-8" action="#" method="post">
+    <fieldset>
+      <h3>¿De cuál de nuestros sitios te gustaría recibir información?</h3>
+      <input type="checkbox" value="Looq" class="checkbox" checked="checked" name="winbitsSuscription1" id="winbitsSuscription1">
+      <label for="winbitsSuscription1" class="checkboxLabel">Looq</label>
+      <input type="checkbox" value="Clickonero" class="checkbox" name="winbitsSuscription2" id="winbitsSuscription2">
+      <label for="winbitsSuscription2" class="checkboxLabel">Clickonero</label>
+      <input type="checkbox" value="MiPlan" class="checkbox" name="winbitsSuscription3" id="winbitsSuscription3">
+      <label for="winbitsSuscription3" class="checkboxLabel">Mi Plan</label>
+      <input type="checkbox" value="Travel" class="checkbox" name="winbitsSuscription4" id="winbitsSuscription4">
+      <label for="winbitsSuscription4" class="checkboxLabel">Travel</label>
+      <h3>¿Cómo te gustaría recibir la información?</h3>
+      <input type="checkbox" value="Allinone" class="checkbox" name="winbitsSuscription5" id="winbitsSuscription5">
+      <label for="winbitsSuscription5" class="checkboxLabel">Todo en un correo</label>
+      <input type="checkbox" value="individualMail" class="checkbox" name="winbitsSuscription6" id="winbitsSuscription6">
+      <label for="winbitsSuscription6" class="checkboxLabel">Correos individuales</label>
+      <h3>¿Con qué frecuencia te gustaría recibir nuestros correos?</h3>
+      <input type="checkbox" value="Alldays" class="checkbox" name="winbitsSuscription7" id="winbitsSuscription7">
+      <label for="winbitsSuscription7" class="checkboxLabel">Todos los días</label>
+      <input type="checkbox" value="Onemailweek" class="checkbox" name="winbitsSuscription8" id="winbitsSuscription8">
+      <label for="winbitsSuscription8" class="checkboxLabel">Un correo por semana</label>
+      <input type="submit" class="btn editBtn" value="Guardar">
+      <a href="#" class="linkBack">Regresar</a>
+    </fieldset>
+  </form>
 </div>

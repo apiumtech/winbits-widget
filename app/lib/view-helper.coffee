@@ -258,6 +258,12 @@ Handlebars.registerHelper "getProfileEmail", () ->
   else
     ''
 
+Handlebars.registerHelper "getNewsletterFormatText", () ->
+  if this.newletterFormat is 'unified' then 'Un solo correo' else 'Correos individuales'
+
+Handlebars.registerHelper "getNewsletterPeriodicityText", () ->
+  if this.newletterFormat is 'weekly' then 'Cada semana' else 'Todos los días'
+
 #******************************
 #Custom partial
 #******************************
