@@ -15,6 +15,7 @@ module.exports = class SubscriptionView extends View
   initialize: ->
     super
     @delegate 'click', '.editLink', @editSubscription
+    @delegate 'click', '.linkBack', @cancelEditing
     @delegate 'click', '#saveBntSubscription', @saveSubscription
     @delegate 'click', '#cancelEditSubscription', @cancelEditSubscription
 
@@ -79,3 +80,10 @@ module.exports = class SubscriptionView extends View
   attach: ()->
     super
     vendor.customCheckbox(@$el.find(".checkbox"))
+
+  cancelEditing: (e) ->
+    $editSubscriptionsContainer = @$el.find(".editSuscription")
+    $editSubscriptionForm = $editSubscriptionsContainer.find('form')
+    $editSubscriptionsContainer.slideUp()
+    $editSubscriptionForm.get(0).reset()
+    @$el.find(".miSuscripcion").slideDown()

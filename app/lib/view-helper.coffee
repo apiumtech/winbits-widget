@@ -264,6 +264,9 @@ Handlebars.registerHelper "getNewsletterFormatText", () ->
 Handlebars.registerHelper "getNewsletterPeriodicityText", () ->
   if this.newletterFormat is 'weekly' then 'Cada semana' else 'Todos los días'
 
+Handlebars.registerHelper "checkRadio", (value, radioValue) ->
+  if value is radioValue then 'checked="checked"' else ''
+
 #******************************
 #Custom partial
 #******************************
