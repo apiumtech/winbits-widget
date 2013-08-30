@@ -36,6 +36,7 @@ module.exports = class AddressView extends View
     $('div.dropMenu').slideUp()
     $shippingAddressContainer = $main.find('#shippingAddressMain')
     if $shippingAddressContainer.css('display') is 'none'
-      $main.find('div.wrapper').hide()
+      $main.children().hide()
+      $shippingAddressContainer.parents().show()
       $shippingAddressContainer.show()
       @publishEvent 'showShippingAddresses'

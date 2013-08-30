@@ -80,7 +80,7 @@ module.exports =
   backToSite: (e) ->
     $ = Backbone.$
     $main = $('main').first()
-    $main.find('div.wrapper').show()
+    $main.children().show()
     $main.find('div.wrapper.subview').hide()
 
   resetLocationSelect: ($select) ->
