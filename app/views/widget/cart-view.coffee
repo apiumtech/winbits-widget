@@ -78,7 +78,9 @@ module.exports = class CartView extends View
     #console.log @$el.find(".cart-detail-delete-link")
     vendor.customSlider(".slideInput").on 'slidechange', (e, ui) ->
 #      TODO: Create view CartInfo and maintain slider out of that view
-      that.updateCartBits ui.value
+      maxBits = w$(ui.handle).closest('.slider-holder').slider('option', 'max')
+      if maxBits > 0
+        that.updateCartBits ui.value
 
     vendor.scrollpane ".scrollPanel", ".miCarritoDiv"
     vendor.dropMenu
