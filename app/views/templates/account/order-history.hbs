@@ -62,8 +62,12 @@
             <a href="#">{{tracingNumber}}</a>
           </div>
           <div class="dataTable-site">
-            <a href="{{vertical.baseUrl}}">
-              <img src="{{vertical.logo}}"  alt="{{vertical.name}}" />
+            <a class="icon" href="{{vertical.baseUrl}}">
+              {{#if vertical.logo}}
+                <img src="{{vertical.logo}}"  alt="{{vertical.name}}" />
+              {{else}}
+                {{vertical.name}}
+              {{/if}}
             </a>
           </div>
         </div>

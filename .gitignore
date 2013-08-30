@@ -28,3 +28,5 @@ node_modules/javascript-brunch
 node_modules/stylus-brunch
 node_modules/uglify-js-brunch
 app/config.coffee
+app/assets/index.html
+app/assets/winbits.js
