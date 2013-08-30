@@ -47,8 +47,11 @@ module.exports = class ProxyHandlers
         success: (data) ->
           console.log "express-facebook-login.json Success!"
           console.log ["data", data]
-          #app.applyLogin $, data.response
           that.publishEvent "applyLogin", data.response
+          if 201 is data.meta.status
+            console.log ["Show Complete Register.", data.response.profile]
+            that.publishEvent("setRegisterFb", data.response.profile)
+            that.publishEvent "showCompletaRegister", data.response.profile
 
         error: (xhr, textStatus, errorThrown) ->
           console.log "express-facebook-login.json Error!"
