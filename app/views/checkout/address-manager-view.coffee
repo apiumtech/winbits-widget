@@ -77,6 +77,7 @@ module.exports = class CheckoutSiteView extends View
     e.preventDefault()
     @$(".shippingAddresses").show()
     @$(".shippingNewAddress").hide()
+    @$(".shippingEditAddress").hide()
 
   addressSubmit: (e)->
     e.preventDefault()
