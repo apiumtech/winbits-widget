@@ -319,7 +319,6 @@ module.exports = class ProfileView extends View
       data: JSON.stringify(formData)
       context: {$form: $form, that: @}
       beforeSend: ->
-        console.log ['BEFORE SENDING password-change']
         this.$form.valid()
       headers:
         "Accept-Language": "es"

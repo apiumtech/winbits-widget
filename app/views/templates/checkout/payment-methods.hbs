@@ -250,7 +250,7 @@
   {{/compare}}
   {{#compare identifier "cybersource.cc"}}
       <div class="checkoutPaymentNewCard method-payment creditcardNew" id="method-{{replace identifier searchValue='.' replaceValue='_'}}">
-        <form id="checkoutPaymentNewCardFormId" accept-charset="utf-8" action="#" method="post">
+        <form id="wbi-credit-card-payment-form" accept-charset="utf-8" action="#" method="post">
             <fieldset>
               <div class="column">
                 <h3>NOMBRE TITULAR</h3>
@@ -264,7 +264,7 @@
                 </div>
                 <div class="divNumSecurity">
                   <label for="winbitsPaymentNewCardSecurity"># de Seguridad</label>
-                  <input type="text" class="required digits" placeholder="###" maxlength="3" name="cvNumber" id="winbitsPaymentNewCardSecurity">
+                  <input type="text" class="required digits" placeholder="###" maxlength="4" name="cvNumber" id="winbitsPaymentNewCardSecurity">
                 </div>
               </div>
               <div class="column">
@@ -303,7 +303,6 @@
       </div>
   {{/compare}}
   {{#compare identifier "user.bits"}}
-        <!--<div class="checkoutPaymentmethod-payment" id="method-bits" style='display:none'>-->
           <div class="checkoutPaymentBits">
             <h3>Concluye tu compra con bits</h3>
             <p>Al hacer clic en "CONTINUAR" acepto haber leído y comprendido los <a href="#">Términos y Condiciones</a></p>
@@ -311,7 +310,6 @@
             <input type="button" value="Continuar" class="btn submitOrder" id="submit-{{id}}">
             <!--<a href="#" class="linkBack"><em class="icon backBtn"></em> Regresar</a>-->
           </div>
-  <!--</div>-->
   {{/compare}}
 {{/methods}}
 {{/if}}

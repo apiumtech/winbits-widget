@@ -27,7 +27,7 @@ module.exports = class PaymentView extends View
   payWithCard: (e) ->
     e.preventDefault()
     that = @
-    $form = @$el.find("#checkoutPaymentNewCardFormId")
+    $form = @$el.find("#wbi-credit-card-payment-form")
     $currentTarget = @$(e.currentTarget)
     paymentMethod =  $currentTarget.attr("id").split("-")[1]
 
@@ -131,6 +131,62 @@ module.exports = class PaymentView extends View
 
   attach: ->
     super
+    @$el.find("#wbi-credit-card-payment-form").validate
+      groups:
+        cardExpiration: 'expirationMonth expirationYear'
+      errorPlacement: ($error, $element) ->
+        if $element.attr("name") is "expirationMonth" or $element.attr("name") is "expirationYear"
+          $error.appendTo $element.parent()
+        else
+          $error.insertAfter $element
+      rules:
+        firstName:
+          required: true
+          minlength: 2
+        lastName:
+          required: true
+          minlength: 2
+        accountNumber:
+          required: true
+          creditcard: true
+        expirationMonth:
+          required: true
+          minlength: 2
+          digits: true
+          range: [1, 12]
+        expirationYear:
+          required: true
+          minlength: 2
+          digits: true
+        cvNumber:
+          required: true
+          digits: true
+          minlength: 3
+        street1:
+          required: true
+          minlength: 2
+        number:
+          required: true
+        postalCode:
+          required: true
+          minlength: 5
+          digits: true
+        phone:
+          required: true
+          minlength: 7
+          digits: true
+        state:
+          required: true
+          minlength: 2
+        colony:
+          required: true
+          minlength: 2
+        municipality:
+          required: true
+          minlength: 2
+        city:
+          required: true
+          minlength: 2
 
   showBitsPayment: -> 
     @$(".method-payment").hide()
