@@ -254,9 +254,9 @@
             <fieldset>
               <div class="column">
                 <h3>NOMBRE TITULAR</h3>
-                <input type="text" class="required" placeholder="Nombre" name="firstName" id="winbitsPaymentNewCardName">
-                <input type="text" class="required" placeholder="Apellido" name="lastName" id="winbitsPaymentNewCardLastName">
-                <input type="text" class="required" placeholder="Número de Tarjeta" name="accountNumber" id="winbitsPaymentNewCardNumber">
+                <input type="text" class="required" placeholder="Nombre" maxlength="30" name="firstName" id="winbitsPaymentNewCardName">
+                <input type="text" class="required" placeholder="Apellido(s)" maxlength="50" name="lastName" id="winbitsPaymentNewCardLastName">
+                <input type="text" class="required" placeholder="Número de Tarjeta" maxlength="17" name="accountNumber" id="winbitsPaymentNewCardNumber">
                 <div class="divFechaExpiracion">
                   <label>Fecha de vencimiento</label>
                   <input type="text" class="required digits" placeholder="dd" maxlength="2" name="expirationMonth" id="winbitsPaymentNewCardDD">
@@ -270,14 +270,14 @@
               <div class="column">
                 <h3>DIRECCIÓN DE La TARJETA</h3>
                 <input type="text" placeholder="Calle" class="required" name="street1" id="winbitsPaymentNewCardStreet">
-                <input type="text" placeholder="Número" class="inputMedium required" name="number" id="winbitsPaymentNewCardNumero">
-                <input type="text" placeholder="Codigo Postal" name="postalCode" id="winbitsPaymentNewCardCP">
-                <input type="text" placeholder="Teléfono" name="phoneNumber" id="winbitsPaymentNewCardTel">
-                <input type="text" placeholder="Estado" name="state" id="winbitsPaymentNewCardState">
-                <input type="text" placeholder="Colonia" name="colony" id="winbitsPaymentNewCardColony">
-                <input type="text" placeholder="Delegación o Municipio" name="municipality" id="winbitsPaymentNewCardMunicipality">
-                <input type="text" placeholder="Ciudad" name="city" id="winbitsPaymentNewCardCity">
-                <input type="text" placeholder="País" class="required" name="country" id="winbitsPaymentNewCardCountry">
+                <input type="text" placeholder="Número" class="inputMedium required" maxlength="10" name="number" id="winbitsPaymentNewCardNumero">
+                <input type="text" placeholder="Codigo Postal" name="postalCode" maxlength="5" id="winbitsPaymentNewCardCP">
+                <input type="text" placeholder="Teléfono" name="phoneNumber" maxlength="10" id="winbitsPaymentNewCardTel">
+                <input type="text" placeholder="Estado" name="state" maxlength="40" id="winbitsPaymentNewCardState">
+                <input type="text" placeholder="Colonia" name="colony" maxlength="40" id="winbitsPaymentNewCardColony">
+                <input type="text" placeholder="Delegación o Municipio" maxlength="40" name="municipality" id="winbitsPaymentNewCardMunicipality">
+                <input type="text" placeholder="Ciudad" name="city" maxlength="40" id="winbitsPaymentNewCardCity">
+                <input type="hidden" placeholder="País" class="required" name="country" id="winbitsPaymentNewCardCountry" value="MX">
               </div>
               <div class="column columnLarge">
                 <h3>OPCIONES</h3>
@@ -303,16 +303,15 @@
       </div>
   {{/compare}}
   {{#compare identifier "user.bits"}}
-        <div class="checkoutPaymentmethod-payment" id="method-bits" style='display:none'>
-    <ul>
-      <li>
-        <span class="cashIcon bitsCash"></span>
-        <p>Pago con bits</p>
-      </li>
-    </ul>
-    <Input type="button" value="Continuar" class="btn submitOrder" id="submit-{{id}}">
-    <a href="#" class="linkBack" ><em class="icon backBtn"></em> Regresar</a>
-  </div>
+        <!--<div class="checkoutPaymentmethod-payment" id="method-bits" style='display:none'>-->
+          <div class="checkoutPaymentBits">
+            <h3>Concluye tu compra con bits</h3>
+            <p>Al hacer clic en "CONTINUAR" acepto haber leído y comprendido los <a href="#">Términos y Condiciones</a></p>
+            <span class="icon bitsMoney"></span>
+            <input type="button" value="Continuar" class="btn submitOrder" id="submit-{{id}}">
+            <!--<a href="#" class="linkBack"><em class="icon backBtn"></em> Regresar</a>-->
+          </div>
+  <!--</div>-->
   {{/compare}}
 {{/methods}}
 {{/if}}
