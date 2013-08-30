@@ -30,6 +30,7 @@ module.exports = class CheckoutSiteView extends View
       @$("#showAddress").show()
     if payment
       @publishEvent 'orderProcessed', payment: payment
+      @$("#showAddress").hide()
     else
       @$(".chk-step").hide()
     @$(selector).show()

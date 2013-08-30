@@ -1,41 +1,3 @@
-{{!--
-{{#compare paymentMethod "5"}}
-  <div class="checkoutResumen">
-    <h3>ENTREGA</h3>
-    <p>Fecha estimada de entrega:<span>July 29 - Aug 9</span></p>
-    <p>Estatus:<span>{{status}}</span></p>
-  </div>
-  <div class="checkoutResumen">
-    <h3>ORDEN DE COMPRA</h3>
-    <p>Descarga tu ficha de pago aqui:<a target="blank" href="{{paymentCapture.downloadUrl}}">
-      {{paymentCapture.downloadUrl}}
-    </a>
-    </p>
-  </div>
-  <div class="checkoutButton">
-    <input type="submit" class="btn btnCheckout" value="Terminar">
-  </div>
-{{/compare}}
-{{#compare paymentMethod "4"}}
-  <div class="checkoutResumen">
-    <h3>Por favor espera te estamos redirigiendo</h3>
-  </div>
-<form id="paypalForm" action="{{paymentCapture.url}}">
-  <input type="hidden" name="useraction" value="{{paymentCapture.params.useraction}}">
-  <input type="hidden" name="cmd" value="{{paymentCapture.params.cmd}}">
-  <input type="hidden" name="token" value="{{paymentCapture.params.token}}">
-  <input type="hidden" name="success" value="{{paymentCapture.params.ack}}">
-</form>
-{{/compare}}
-{{#compare paymentMethod "6"}}
-  <div class="checkoutResumen">
-    <h3>Has pagado con bits, felicidades!!!</h3>
-  <div class="checkoutButton">
-    <input type="submit" class="btn btnCheckout" value="Terminar">
-  </div>
-  </div>
-{{/compare}}
---}}
 <div class="checkoutResumen">
   <h3>ENTREGA</h3>
   <p>Fecha estimada de entrega:<span>{{estimatedDeliveryDate}}</span></p>
@@ -46,5 +8,5 @@
   <p>Tu orden de compra se enviará a la siguiente dirección:<span>{{email}}</span></p>
 </div>
 <div class="checkoutButton">
-  <input type="submit" class="btn btnCheckout" value="Volver a la tienda">
+  <input type="submit" class="btn btnCheckout" value="Volver a la tienda" onclick="window.history.back();">
 </div>
