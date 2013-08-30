@@ -14,11 +14,11 @@ module.exports = class CartView extends View
 
   render: ->
     super
+
   initialize: () ->
     super
     @subscribeEvent 'restoreCart', @restoreCart
     @subscribeEvent 'addToCart', @addToCart
-    @delegate 'click', '.cart-detail-delete-link', @clickDeleteCartDetailLink
 
   restoreCart: ()->
     console.log ["CartView#restoreCart"]
@@ -50,16 +50,16 @@ module.exports = class CartView extends View
     @$el.closest('.miCarritoDiv').slideDown()
 
 
-  clickDeleteCartDetailLink: (e) ->
-    e.stopPropagation()
+  clickDeleteCartDetailLink: (e, model) ->
+    e.preventDefault()
     console.log ["deleting Item from cart"]
-    $cartDetail = @$(e.target).closest("li")
+    $cartDetail = w$(e.target).closest("li")
     console.log $cartDetail
     id = $cartDetail.attr("data-id")
     if mediator.flags.loggedIn
-      @model.deleteUserCartDetail id
+      model.deleteUserCartDetail id
     else
-      @model.deleteVirtualCartDetail id
+      model.deleteVirtualCartDetail id
 
 
   attach: ()->
@@ -74,13 +74,16 @@ module.exports = class CartView extends View
         console.log ["previous", "current", previous, val]
         id = $cartDetailStepper.closest("li").attr("data-id")
         that.updateCartDetail id, val
-        #console.log @$el
-    #console.log @$el.find(".cart-detail-delete-link")
+
     vendor.customSlider(".slideInput").on 'slidechange', (e, ui) ->
 #      TODO: Create view CartInfo and maintain slider out of that view
       maxBits = w$(ui.handle).closest('.slider-holder').slider('option', 'max')
       if maxBits > 0
         that.updateCartBits ui.value
+
+    that = @
+    @$el.find('.wb-cart-detail-delete-link').click (e) ->
+      that.clickDeleteCartDetailLink(e, that.model)
 
     vendor.scrollpane ".scrollPanel", ".miCarritoDiv"
     vendor.dropMenu

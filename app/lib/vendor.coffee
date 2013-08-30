@@ -247,6 +247,8 @@ module.exports =
     if $(options.obj).length
       $(options.trigger).click (e) ->
         e.stopPropagation()
+        if e.currentTarget.id is 'wbi-show-cart-logo'
+          return
         $(options.other).slideUp()
         $(options.obj).slideDown()
 
