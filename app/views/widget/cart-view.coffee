@@ -17,9 +17,8 @@ module.exports = class CartView extends View
   initialize: () ->
     super
     @subscribeEvent 'restoreCart', @restoreCart
-    @delegate 'click', '.cart-detail-delete-link', @clickDeleteCartDetailLink
     @subscribeEvent 'addToCart', @addToCart
-
+    @delegate 'click', '.cart-detail-delete-link', @clickDeleteCartDetailLink
 
   restoreCart: ()->
     console.log ["CartView#restoreCart"]
@@ -89,6 +88,8 @@ module.exports = class CartView extends View
       other: ".miCuentaDiv"
       carro: true
 
+    @$el.find('.wb-continue-shopping-link').click @closeCart
+
   updateCartDetail : (id, quantity, bits) ->
     console.log ["updateCartDetail"]
     if mediator.flags.loggedIn
@@ -101,3 +102,7 @@ module.exports = class CartView extends View
       @model.updateCartBits(bits)
     else
       @model.set 'bitsTotal', bits
+
+  closeCart: (e) ->
+    e.preventDefault()
+    w$(e.currentTarget).closest('.dropMenu').slideUp()

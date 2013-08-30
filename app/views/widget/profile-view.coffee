@@ -107,7 +107,6 @@ module.exports = class ProfileView extends View
 
     @$('input[name=gender]').removeAttr('checked').next().removeClass('spanSelected')
     gender = @model.get 'gender'
-    console.log ['GENDER', gender]
     if gender
       @$('input.' + gender).attr('checked', 'checked').next().addClass('spanSelected')
 
