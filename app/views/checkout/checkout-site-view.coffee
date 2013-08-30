@@ -31,6 +31,8 @@ module.exports = class CheckoutSiteView extends View
     if payment
       @publishEvent 'orderProcessed', payment: payment
       @$("#showAddress").hide()
+      @$("div.slider").hide()
+      @$("span.legendCarrito").hide()
     else
       @$(".chk-step").hide()
     @$(selector).show()
