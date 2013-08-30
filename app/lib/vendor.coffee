@@ -245,7 +245,8 @@ module.exports =
   dropMenu : (options) ->
     $ = w$ # NO BORRAR - Fix desarrollo
     if $(options.obj).length
-      $(options.trigger).click ->
+      $(options.trigger).click (e) ->
+        e.stopPropagation()
         $(options.other).slideUp()
         $(options.obj).slideDown()
 

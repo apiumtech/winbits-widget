@@ -116,12 +116,14 @@ module.exports = class LoginUtil
     mediator.proxy.post
       action: "logout"
       params: [mediator.flags.fbConnect]
-
     util.deleteCookie config.apiTokenName
     @publishEvent "resetComponents"
     @publishEvent "showHeaderLogout"
     mediator.flags.loggedIn = false
     mediator.flags.fbConnect = false
+    $main = w$('main').first()
+    $main.children().hide()
+    $main.find('div.wrapper').first().show()
     $ = window.$ or w$
     $('#' + config.winbitsDivId).trigger 'loggedout', [logoutData]
 
