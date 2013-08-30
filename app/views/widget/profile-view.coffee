@@ -73,6 +73,18 @@ module.exports = class ProfileView extends View
       birthdate:
         dateISO: true
 
+    @$el.find('form#wbi-change-password-form').validate rules:
+      password:
+        required: true
+        minlength: 5
+      newPassword:
+        required: true
+        minlength: 5
+      passwordConfirm:
+        required: true
+        minlength: 5
+        equalTo: '[name=newPassword]'
+
     vendor.customSelect(@$('.select'))
     vendor.customRadio(@$(".divGender"))
 
@@ -272,10 +284,10 @@ module.exports = class ProfileView extends View
 
   cancelEditing: (e) ->
     $editProfileContainer = @$el.find(".editMiPerfil")
-    $editProfileContainer.find('form').get(0).reset()
+    $editProfileContainer.find('form').first().validate().resetForm()
     $editProfileContainer.slideUp()
     $changePasswordContainer = @$el.find(".changePassDiv")
-    $changePasswordContainer.find('form').get(0).reset()
+    $changePasswordContainer.find('form').first().validate().resetForm()
     $changePasswordContainer.slideUp()
     @$el.find(".miPerfil").slideDown()
 #    util.resetLocationSelect($editProfileForm.find("#wbi-profile-zip-code-info"))
@@ -290,20 +302,23 @@ module.exports = class ProfileView extends View
     $ = Backbone.$
     $form = $(e.currentTarget)
     formData = util.serializeForm($form)
-    that = @
     console.log "detach twitter account"
     $.ajax config.apiUrl + "/affiliation/change-password.json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify(formData)
+      context: {$form: $form, that: @}
+      beforeSend: ->
+        console.log ['BEFORE SENDING password-change']
+        this.$form.valid()
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
 
       success: (data) ->
         console.log "deleteAccount.json Success!"
-        that.cancelEditing()
+        this.that.cancelEditing()
 
       error: (xhr, textStatus, errorThrown) ->
         console.log "deleteAccount.json Error!"
