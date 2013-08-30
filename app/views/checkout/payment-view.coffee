@@ -52,7 +52,7 @@ module.exports = class PaymentView extends View
           payment = data.response.payments[0]
           if payment.status is 'PAID'
             that.publishEvent "setConfirm", data.response
-            that.publishEvent "showStep", ".checkoutSummaryContainer"
+            that.publishEvent "showStep", ".checkoutSummaryContainer", payment
           else
             alert payment.paymentCapture.mensaje
 
@@ -110,7 +110,7 @@ module.exports = class PaymentView extends View
       success: (data) ->
         console.log ["data", data]
         that.publishEvent "setConfirm", data.response
-        that.publishEvent "showStep", ".checkoutSummaryContainer"
+        that.publishEvent "showStep", ".checkoutSummaryContainer", data.response.payments[0]
 
 
       error: (xhr, textStatus, errorThrown) ->

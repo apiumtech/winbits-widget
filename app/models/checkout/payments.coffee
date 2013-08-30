@@ -5,6 +5,7 @@ module.exports = class Payments extends ChaplinModel
   initialize: (attributes, option) ->
     super
     @subscribeEvent "orderBitsUpdated", @updateBitsParser
+    @subscribeEvent "orderProcessed", @set
 
     #@fetch success: (collection, response) ->
       #collection.resolve()

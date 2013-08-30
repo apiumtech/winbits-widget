@@ -24,12 +24,16 @@ module.exports = class CheckoutSiteView extends View
     @$(".choosen-address").hide()
     @showStep(".shippingAddresses")
 
-  showStep: (selector)->
+  showStep: (selector, payment)->
     if selector is ".checkoutPaymentContainer"
       #display edit link
       @$("#showAddress").show()
-    @$(".chk-step").hide()
+    if payment
+      @publishEvent 'orderProcessed', payment: payment
+    else
+      @$(".chk-step").hide()
     @$(selector).show()
+
   hideAddress: ()->
     @$(".checkoutShipping").hide()
     @$("#circuledNumber2").html("1")
