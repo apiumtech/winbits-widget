@@ -1,0 +1,28 @@
+<ul>
+  {{#each orderDetails}}
+  <li class="order-detail-{{sku.id}}">
+    <a href="#"><img src="{{defaultThumbnail sku.thumbnail}}" width="28" height="36" alt="{{sku.name}}"></a>
+    <p>{{sku.name}}
+      <span>({{quantity}}) {{joinAttributes sku.mainAttribute sku.attributes}}</span>
+      <span style="font-weight: bold">${{amount}}</span>
+    </p>
+  </li>
+  {{/each}}
+</ul>
+<div class="checkoutSubtotal">
+  <span>PRECIO ORIGINAL</span>
+  <span>${{orderFullPrice}}</span>
+  <span>SUBTOTAL</span>
+  <span>${{itemsTotal}}</span>
+  <span>ENVIO</span>
+  <span>${{shippingTotal}}</span>
+  <span>GANAS</span>
+  <span><span class="icon winbits10px"></span>0</span>
+</div>
+<input type="text" value="{{bitsTotal}}" data-min="0" data-max="{{maxBits}}" data-step="2" class="slideInput">
+<span class="legendCarrito">Usa tus bits como dinero en esta compra <a href="#">learn more</a></span>
+<div class="checkoutTotal">
+  <span class="checkoutTitle">TOTAL</span>
+  <span class="checkoutDetail">${{cashTotal}}
+    <span class="note">Ahorro de ${{orderSaving}}</span></span>
+</div>

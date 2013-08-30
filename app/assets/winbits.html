@@ -1,0 +1,211 @@
+<!doctype html>
+
+<html xmlns:fb="http://ogp.me/ns/fb#">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=980" />
+  <title>Winbits</title>
+  <style type="text/css">
+    .icon {
+      background-color: transparent;
+      background-image: url("images/misc/icons.png");
+      background-position: 0 0;
+      background-repeat: no-repeat;
+      display: inline-block;
+      height: 20px;
+      line-height: 60px;
+      margin: 0;
+      overflow: hidden;
+      text-indent: 60px;
+      vertical-align: middle;
+      width: 20px;
+    }
+
+    .facebookWhite {
+      background-position: -20px -120px;
+    }
+
+    .btnFacebook .icon {
+      margin-right: 5px;
+    }
+
+    a {
+      color: #275D93;
+      text-decoration: none;
+      transition: all 0.3s ease 0s;
+    }
+
+    .btnFacebook {
+      color: #FFFFFF !important;
+      border: medium none;
+      outline: medium none;
+      font-family: Verdana, Helvetica;
+      background: #667cbc;
+      font-size: 11px;
+      padding: 5px 20px;
+      display: inline-block;
+      vertical-align: middle;
+      width: auto;
+      *display: inline;
+      /* IE7 inline-block hack */
+
+      *zoom: 1;
+      -webkit-transition: 0.3s;
+      -khtml-transition: 0.3s;
+      -moz-transition: 0.3s;
+      -ms-transition: 0.3s;
+      -o-transition: 0.3s;
+      transition: 0.3s;
+    }
+    .btnFacebook:hover {
+      background: #788bc4;
+      text-decoration: none;
+    }
+    .btnFacebook .icon {
+      margin-right: 5px;
+    }
+  </style>
+  <!--<script type="text/javascript" src="include/porthole/porthole.min.js"></script>-->
+  <script type="text/javascript" src="porthole.js"></script>
+
+  <script type="text/javascript">
+    var Winbits = {};
+    (function() {
+      Winbits.setCookie = function setCookie(c_name, value, exdays) {
+        exdays = exdays || 7;
+        var exdate = new Date();
+        exdate.setDate(exdate.getDate() + exdays);
+        var c_value = escape(value) + ((exdays === null) ? "" : "; path=/; expires=" + exdate.toUTCString());
+        document.cookie = c_name + "=" + c_value;
+      };
+
+      Winbits.getCookie = function getCookie(c_name) {
+        var c_value = document.cookie;
+        var c_start = c_value.indexOf(" " + c_name + "=");
+        if (c_start == -1) {
+          c_start = c_value.indexOf(c_name + "=");
+        }
+        if (c_start == -1) {
+          c_value = null;
+        }
+        else {
+          c_start = c_value.indexOf("=", c_start) + 1;
+          var c_end = c_value.indexOf(";", c_start);
+          if (c_end == -1) {
+            c_end = c_value.length;
+          }
+          c_value = unescape(c_value.substring(c_start, c_end));
+        }
+        return c_value;
+      };
+
+      Winbits.deleteCookie = function (name) {
+        document.cookie = name + '=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT';
+      };
+
+      window.onload=function(){
+        //Obteniendo el parametro de la url
+        var getUrlParams = function() {
+          var vars = [], hash;
+          var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+          for(var i = 0; i < hashes.length; i++) {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+          }
+          return vars;
+        };
+        var params = getUrlParams();
+        var origin = params.origin;
+
+        // Create a proxy window to send to and receive
+        // messages from the iFrame
+        windowProxy = new Porthole.WindowProxy(origin);
+
+        // Register an event handler to receive messages;
+        windowProxy.addEventListener(function (messageEvent) {
+          console.log(['Received message from vertical', messageEvent]);
+          var data = messageEvent.data;
+          var actionFn = Actions[data.action];
+          if (actionFn) {
+            actionFn.apply(this, data.params);
+          } else {
+            alert('Invalid action from Winbits');
+          }
+        });
+      };
+
+      var Actions = {
+        getTokens: function() {
+          var tokens = {};
+          var apiToken = Winbits.getCookie('_wb_api_token');
+          if (apiToken) {
+            tokens.apiToken = { cookieName: '_wb_api_token', value: apiToken, expireDays: 7 };
+          }
+          var vcartToken = Winbits.getCookie('_wb_vcart_token');
+          if (!vcartToken) {
+            vcartToken = '[]';
+            Winbits.setCookie('_wb_vcart_token', vcartToken, 7);
+          }
+          tokens.vcartToken = { cookieName: '_wb_vcart_token', value: vcartToken, expireDays: 7 };
+          console.log(['W: The tokens', tokens]);
+          windowProxy.post({action: 'getTokens', params: [tokens]});
+        },
+        saveApiToken: function(apiToken) {
+          console.log(['API Token from vertical', apiToken]);
+          Winbits.setCookie('_wb_api_token', apiToken, 7);
+        },
+        storeVirtualCart: function(vCart) {
+          Winbits.setCookie('_wb_vcart_token', vCart, 7);
+        },
+        logout: function(facebookLogout) {
+          console.log('Winbits: Logging out...');
+          Winbits.deleteCookie('_wb_api_token');
+          Winbits.setCookie('_wb_vcart_token', '[]', 7);
+          if (facebookLogout) {
+            console.log('Winbits: Facebook logging out...');
+            FB.logout(function(response) {
+              console.log(['Facebook logout', response]);
+            });
+          }
+        },
+        facebookStatus: function() {
+          console.log('About to call FB.getLoginStatus.');
+          FB.getLoginStatus(function(response) {
+            console.log(['FB.getLoginStatus', response]);
+            windowProxy.post({action: 'facebookStatus', params: [response]});
+           }, true);
+        },
+        facebookMe: function() {
+          console.log('Winbits: Requesting me profile...');
+          FB.api('/me', function(response){
+            console.log(['Facebook me response', response]);
+            windowProxy.post({action: 'facebookMe', params: [response]});
+          });
+        }
+      };
+
+      window.fbAsyncInit = function () {
+        FB.init({appId: '494663817271863', status: true, cookie: true, xfbml: true, oauth  : true });
+      };
+
+      var e = document.createElement('script');
+      e.async = true;
+      e.src = 'http://connect.facebook.net/en_US/all.js';
+      (document.getElementsByTagName('head')[0] || document.documentElement).appendChild(e);
+    })();
+
+    function sendLoginFB (){
+      FB.login(function(response) {
+        windowProxy.post({action: 'facebookLogin', params: [response]});
+      }, {scope: 'email,user_about_me,user_birthday,publish_actions'});
+    };
+  </script>
+</head>
+<body style="margin: 0px;background: none repeat scroll 0 0 #454545;">
+<div id="fb-root" style="text-align: center;">
+  <a id="facebook-btn" class="btnFacebook" href="#" onclick="sendLoginFB()"><span class="icon facebookWhite"></span>Log in with Facebook</a>
+</div>
+</body>
+</html>

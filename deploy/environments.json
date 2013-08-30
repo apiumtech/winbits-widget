@@ -1,0 +1,51 @@
+{
+  "version": "0.0.1",
+  "environments": [
+    {
+      "name": "dev",
+      "desc": "dev environment",
+      "config": {
+        "apiUrl": "http://apici.winbits.com/v1",
+        "baseUrl": "http://widgets.winbits.com/qa",
+        "loginRedirectUrl": "http://widgets.winbits.com/qa/ilogin.html"
+      }
+    },
+    {
+      "name": "ci",
+      "desc": "ci environment",
+      "config": {
+        "apiUrl": "http://apici.winbits.com/v1",
+        "baseUrl": "http://widgets.winbits.com/ci",
+        "loginRedirectUrl": "http://widgets.winbits.com/ci/ilogin.html"
+      }
+    },
+    {
+      "name": "qa",
+      "desc": "qa environment",
+      "config": {
+        "apiUrl": "http://apiqa.winbits.com/v1",
+        "baseUrl": "http://widgets.winbits.com/qa",
+        "loginRedirectUrl": "http://widgets.winbits.com/qa/ilogin.html"
+      }
+    },
+    {
+      "name": "staging",
+      "desc": "staging environment",
+      "config": {
+        "apiUrl": "http://apistaging.winbits.com/v1",
+        "baseUrl": "http://widgets.winbits.com/staging",
+        "loginRedirectUrl": "http://widgets.winbits.com/staging/ilogin.html"
+      }
+    },
+    {
+      "name": "prod",
+      "desc": "production environment",
+      "config": {
+        "apiUrl": "http://api.winbits.com/v1",
+        "baseUrl": "http://widgets.winbits.com/prod",
+        "loginRedirectUrl": "http://widgets.winbits.com/prod/ilogin.html"
+      }
+    }
+  ]
+}
+

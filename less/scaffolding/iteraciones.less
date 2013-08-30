@@ -1,0 +1,24 @@
+// Iteraciones
+.iIcons(@width, @item, @index, @top, @height) when (@index >= 0){
+	@tmp: ~".@{item}@{index}";
+	@{tmp} {
+		background-position: -(@index*@width) @top;
+		&:hover {
+			background-color: @white;
+			background-position: -(@index*@width) -(@top+@height);
+		}
+		&.current {
+			cursor: default;
+			background-color: @white;
+			background-position: -(@index*@width) -(@top+@height);
+		}
+	}
+	.iIcons(@width, @item, @index - 1, @top, @height);
+}
+.iWidth(@item, @index) when (@index >= 0){
+	@tmp : ~".@{item}@{index}";
+	@{tmp} {
+		width: ~"@{index}%";
+	}
+	.iWidth(@item, @index - 5);
+}

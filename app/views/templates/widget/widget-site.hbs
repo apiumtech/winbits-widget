@@ -1,0 +1,148 @@
+<div class="widgetWinbitsHeader">
+  <div class="knowmoreFolder">
+    <div class="wrapper">
+      <div class="knowMoreMax">
+        <a href="#" class="icon winbits22px">Logo Winbits</a>
+        <p>UNA SOLA CUENTA, UN SOLO CHECK OUT, <br>Y EN TODOS GANAS WINBITS.</p>
+        <ul>
+          <li>
+            <span class="icon shopCar">Shop Car</span>
+            <p>COMPRA<br>Y GANA WINBITS</p>
+          </li>
+          <li>
+            <a href="#" target="_blank" class="icon twitter" id="twitterShare">Twitter</a>
+            <a href="#" target="_blank" class="icon facebook" id="facebookShare">Facebook</a>
+            <p>COMPARTE<br>Y GANA WINBITS</p>
+          </li>
+          <li>
+            <span class="icon winbitsEqualToMoney">Winbits = Money</span><br>
+            <p>USA TUS WINBITS COMO<br>DINERO ELECTRÓNICO</p>
+          </li>
+        </ul>
+        <fieldset>
+          <label>INSCRIBETE AHORA</label>
+          <input type="text" placeholder="Email" class="emailJoinNow">
+          <a href="#register-lightbox" class="fancybox">
+            <span class="btn btnSmall">Join Now</span>
+          </a>
+        </fieldset>
+        <span class="icon closeFolder openClose"></span>
+      </div>
+      <div class="knowMoreMin">
+        <p>Compra en nuestro sitio y gana! <a href="#">Conoce mas.</a>
+          <span class="icon openFolder openClose"></span>
+      </div>
+    </div>
+  </div>
+  <div class="mainHeader">
+    <div class="wrapper">
+      <div class="language">
+        <span><a href="#" class="icon winbits23px">Logo Winbits</a></span>
+        <select class="select">
+          <option data-icon="icon usa" value="usa">u.s.a.</option>
+          <option data-icon="icon mex" value="mex">mex</option>
+        </select>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="http://looq.dreamcode.com.mx/" class="icon verticalItem vertical0 wb-vertical-2">Vertical 0</a></li>
+          <li><a href="http://sportlet.dreamcode.com.mx/" class="icon verticalItem vertical1 wb-vertical-3">Vertical 1</a></li>
+          <li><a href="http://promociones.dreamcode.com.mx/" class="icon verticalItem vertical2 wb-vertical-1">Vertical 2</a></li>
+          <li><a href="#" class="icon verticalItem vertical3">Vertical 3</a></li>
+          <li><a href="#" class="icon verticalItem vertical4">Vertical 4</a></li>
+        </ul>
+      </nav>
+        <div class="login miCuenta" id="headerNotLogin" style="display:block">
+          <ul>
+            <li class="link" id="viewVideoLink">Ver video</li>
+            <li class="link">
+              <a href="#register-layer" id="registerLink">Registrate</a>
+            </li>
+            <li class="cart-placeholder">
+                <span class="spanDropMenu"><span class="cart-items-count reseteable" data-reset-text="0">0</span><span class="icon shopCarMin"></span></span>
+            </li>
+            <li class="btn btnTopNav" id="btn-login">
+              <a href="#login-layer"  class="wb-login-btn" style="color: #ffffff;text-decoration: none;">Log in</a>
+            </li>
+          </ul>
+        </div>
+        <div class="miCuenta" id="" style="">
+          <ul>
+            <li class="cart-placeholder">
+                <div class="dropMenu miCarritoDiv" id="cart-container" style="display: none;">
+                </div>
+            </li>
+          </ul>
+        </div>
+        <div class="miCuenta miCuentaPanel" id="headerLogin" style="display: none;">
+          <ul>
+            <li class="drop-down-holder" id="liDisplayCuenta">
+              <span class="spanDropMenu link triggerMiCuenta">Mi Cuenta<span class="icon trigger"></span></span>
+              <div class="dropMenu miCuentaDiv">
+                <span class="icon triangle"></span>
+                <div class="wrapper">
+                  <div class="colum myProfile" id="headerProfile">
+                  </div>
+                  <div class="colum myAddress" id="headerAddress">
+                  </div>
+                  {{!wrapper}}
+                  <div class="colum mySuscription" id="subscription">
+                  </div>
+                  <div class="colum historyColumn" id="headerHistory">
+                  </div>
+                  <div class="logOut" id="winbits-logout-link">
+                    <input  type="button" class="btn" value="Log Out">
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="bits"><span class="wb-user-bits-balance reseteable" data-reset-text="0">0</span><span class="icon bit12px"></span></li>
+            <li class="cart-holder drop-down-holder">
+                <span class="spanDropMenu"><span class="cart-items-count reseteable" data-reset-text="0">0</span><span class="icon shopCarMin"></span></span>
+                <div class="dropMenu miCarritoDiv" id="cart-container" style="display: none;">
+                </div>
+            </li>
+            <li><input type="button" id="postCheckout" class="btn btnTopNav" value="Check Out"></li>
+          </ul>
+        </div>
+    </div>
+  </div>
+  </div>
+  <div id="layers-container" style="display: none;"></div>
+  <div id='login-modal' class="modal hide">
+      <i class="close-icon" id="close-login"></i>
+      <div class="modal-body reset-modal" id="login-modal-body" style="padding:0px;max-height: 400px;"></div>
+  </div>
+  <div id='view-video-modal' class="modal hide fade">
+      <i class="close-icon" id="close-login"></i>
+      <div class="modal-body reset-modal" style="padding:0px">
+        <iframe width="560" height="315" src="//www.youtube.com/embed/CTJvLVprGpU" frameborder="0" allowfullscreen></iframe>
+      </div>
+  </div>
+  <div id='register-modal' class="modal hide">
+      <i class="close-icon" id="close-login"></i>
+      <div class="modal-body reset-modal" id="register-modal-body">
+      </div>
+  </div>
+  <div id='register-confirm-modal' class="modal hide fade">
+      <i class="close-icon" id="close-login"></i>
+      <div class="modal-body gracias reset-modal">
+          <div class="contentModal" style="background-color:white">
+            <p>Gracias por registrarte con nosotros.</p>
+            <p>Un mensaje de confimación ha sido enviado a tu cuenta de correo.</p>
+          <input type="button" class="btn close-modal" value="Continuar">
+        </div>
+      </div>
+  </div>
+  {{!<div id="winbits-iframe-holder" style="position: fixed; top: -1000px;"></div>}}
+  <div id="winbits-iframe-holder" style="position: fixed;left:-1000px"></div>
+  <div id="hidden-stuff-holder" style="display: none;">
+    <a href="#register-confirm-layer" class="fancybox" />
+    <a href="#complete-register-layer" class="fancybox" />
+  </div>
+</div>
+<!--<form id="chk-form" method="POST" style="display:none">-->
+  <!--<input type="hidden" id="token" name="token"/>-->
+  <!--<input type="hidden" id="order_data" name="order_data"/>-->
+  <!--<input type="hidden" id="order_data" name="order_data"/>-->
+<!--</form>-->

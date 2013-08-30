@@ -1,0 +1,47 @@
+<?php
+$token = $_POST['token'];
+$order_data = $_POST['order_data'];
+$bits_balance = $_POST['bits_balance'];
+$verticalId = $_POST['vertical_id'];
+?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <noscript>
+      <meta http-equiv="Refresh" content="0;URL="include/disabledJavaScript.html">
+  </noscript> -->
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/vnd.microsoft.icon">
+  <link rel="icon" href="images/favicon.ico" type="image/vnd.microsoft.icon">
+  <link rel="author" href="humans.txt">
+  <title>Looq</title>
+  <link rel="stylesheet" href="{{baseUrl}}/stylesheets/checkout.css">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script type="text/javascript">
+    window.w$ = $.noConflict(true);
+  </script>
+  <script src="{{baseUrl}}/javascripts/vendor.js"></script>
+  <script type="text/javascript">
+    Backbone.$ = window.w$;
+    window.order_data='<?echo stripslashes($order_data)?>';
+    window.token= '<?echo $token?>';
+    window.bits_balance = '<?echo $bits_balance?>';
+    window.verticalId = '<?echo $verticalId?>';
+  </script>
+  <script src="{{baseUrl}}/javascripts/app.js"></script>
+  <script>
+    window.w$(document).ready(function($) {
+      var Application = require('application');
+      (new Application).initialize(true);
+    });
+  </script>
+</head>
+<body>
+  <div id="main"></div>
+</body>
+</html>
+

@@ -1,0 +1,178 @@
+// Ventanas modales
+.bodyModal {
+	background: transparent;
+	overflow: hidden;
+	height: auto;
+}
+.widgetWinbitsModal {
+	overflow: hidden !important;
+}
+.mainModal {
+	background: lighten(@black, 97%);
+	padding: 0;
+	width: 520px;
+	.center-block;
+	margin: 0 auto;
+	.widgetWinbitsFooter {
+		min-width: 520px;
+		padding: 20px 0;
+		text-align: center;
+		margin-top: 0;
+		width: 520px;
+	}
+}
+.completaRegistro {
+	.contentModal {
+		padding: 20px 10px;
+	}
+}
+.contentModal {
+	padding: 40px 10px;
+	fieldset {
+		padding: 30px 30px;
+		a {
+			color: @blueLink2;
+			text-decoration: underline;
+			&:hover{
+				color: lighten(@black, 72%);
+			}
+		}
+		h1 {
+			font-size: 15px;
+			line-height: 12px;
+			margin-bottom: 10px;
+			.font('OmnesRegular');
+		}
+		h2, h3 {
+			font-size: 12px;
+			margin-bottom: 20px;
+			.font('OmnesRegular');
+		}
+		h3 {
+			font-size: 11px;
+		}
+		input[type="text"], input[type="password"]{
+			margin: 3px 0;
+			padding: 5px;
+			width: 186px;
+		}
+		p {
+			font-size: 10px;
+			margin: 0;
+		}
+	}
+	.btn {
+		font-size: 11px;
+		padding: 10px 30px;
+	}
+	.leftModal {
+		border-right: 2px solid lighten(@black, 81%);
+		.inline-block(200px, top);
+		.divGender  {
+			margin: 2px 0 2px 0;
+			label {
+				width: 115px !important;
+			}
+		}
+		span.errorInputError {
+			font-size: 11px;
+		}
+		.terminosCondiciones {
+			margin: 30px 0 10px 0;	
+		}
+		.divBirthday {
+			position: relative;
+			input[type="text"]{
+				vertical-align: top;
+			}
+			input.errorInputError {
+				margin-bottom: 25px;
+			}
+			label {
+				margin-top: 10px;
+			}
+			span.errorInputError {
+				background: lighten(@black, 97%);
+				position: absolute;
+				top: 35px;
+			}
+		}
+	}
+	.asideModal {
+		padding: 60px 0 0 20px;
+		.inline-block(200px, top);
+		text-align: center;
+		li {
+			display: block;
+			padding: 0;
+			margin: 10px auto;
+		}
+		ul {
+			.margin-padding;
+		}
+		p {
+			font-size: 9px;
+			margin: 10px 0;
+			.font('OmnesMedium');
+		}
+	}
+}
+.gracias {
+	.contentModal {
+		padding: 70px 145px;
+		text-align: center;
+		p {
+			display: block;
+			font-size: 12px;
+			margin: 0;
+		}
+		.btn {
+			margin-top: 20px;
+		}
+	}
+}
+.login {
+	width: 330px;
+	fieldset {
+		padding-bottom: 10px;
+	}
+	h1 {
+		font-size: 12px;
+		text-align: center;
+		small {
+			display: block;
+		}
+	}
+	h2 {
+		font-size: 15px !important;
+		margin: 30px 0 10px 0 !important;
+	}
+	.btn {
+		padding:10px 35px;
+		margin-bottom: 20px;
+	}
+	.contentModal {
+		padding: 0 30px;
+		text-align: center;
+	}
+	.divCheckbox {
+		display: block;
+	}
+	.errorDiv {
+		height: 30px;
+		text-align: left;
+	}
+	.forgotRegister {
+		font-size: 12px;
+		margin: 5px 0;
+		a {
+			font-size: 11px;
+			.inline-block;
+		}
+	}
+	.widgetWinbitsFooter {
+		margin-top: 0;
+		min-width: 330px;
+		width: 330px;
+	}
+}

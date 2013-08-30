@@ -1,0 +1,46 @@
+<h2>SUSCRIPCIÓN</h2>
+<div class="miSuscripcion">
+  <h3>Esta cuenta está suscrita a los siguientes sitios:</h3>
+  <ul class="wb-subscriptions-list">
+    {{#each subscriptions}}
+      {{#if active}}
+        <li>{{name}}<a href="#" class="editLink">edit</a></li>
+      {{/if}}
+    {{/each}}
+  </ul>
+  <h3>Recibes:</h3>
+  <ul>
+    <li>{{getNewsletterFormatText}} <a href="#" class="editLink">edit</a></li>
+  </ul>
+  <h3>Recibes un correo:</h3>
+  <ul>
+    <li>{{getNewsletterPeriodicityText}} <a href="#" class="editLink">edit</a></li>
+  </ul>
+  <input type="submit" class="btn editBtn editLink" value="Editar">
+</div>
+
+<div class="editSuscription">
+  <form id="formUpdateSubscription" accept-charset="utf-8" action="#" method="post">
+    <fieldset>
+      <h3>¿De cuál de nuestros sitios te gustaría recibir información?</h3>
+      {{#each subscriptions}}
+        <div class="divCheckbox">
+          <input type="checkbox" name="{{name}}" id="{{id}}-chk" {{#if active}}checked="checked"{{/if}} class="checkbox" value="{{id}}">
+          <label class="checkboxLabel" for="{{id}}-chk">{{name}}</label>
+        </div>
+      {{/each}}
+      <h3>¿Cómo te gustaría recibir la información?</h3>
+      <p><input type="radio" value="unified" name="newsletterFormat" id="winbitsSuscription5" {{checkRadio newsletterFormat 'unified'}}>
+      <label for="winbitsSuscription5" class="reset-label" style="padding: 0;width: auto;">Todo en un correo</label></p>
+      <p></p><input type="radio" value="separated" name="newsletterFormat" id="winbitsSuscription6" {{checkRadio newsletterFormat 'separated'}}>
+      <label for="winbitsSuscription6" class="reset-label" style="padding: 0;width: auto;">Correos individuales</label></p>
+      <h3>¿Con qué frecuencia te gustaría recibir nuestros correos?</h3>
+      <p></p><input type="radio" value="daily" name="newsletterPeriodicity" id="winbitsSuscription7" {{checkRadio newsletterPeriodicity 'daily'}}>
+      <label for="winbitsSuscription7" class="reset-label" style="padding: 0;width: auto;">Todos los días</label></p>
+      <p></p><input type="radio" value="weekly" name="newsletterPeriodicity" id="winbitsSuscription8" {{checkRadio newsletterPeriodicity 'weekly'}}>
+      <label for="winbitsSuscription8" class="reset-label" style="padding: 0;width: auto;">Un correo por semana</label></p>
+      <input id="wbi-update-subscription" type="submit" class="btn editBtn" value="Guardar">
+      <a href="#" class="linkBack">Regresar</a>
+    </fieldset>
+  </form>
+</div>
