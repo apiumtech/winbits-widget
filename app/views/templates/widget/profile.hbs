@@ -29,16 +29,16 @@
         <div class="modal-body reset-modal" id="attach-twitter-account-modal-body" style="padding:0px"></div>
 </div>
 <div class="editMiPerfil">
-  <form id="update-profile-form">
+  <form id="wbi-update-profile-form">
   <fieldset>
     <input type="text" placeholder="Nombre" class="required" name="name" maxlength="75" value="{{name}}">
     <input type="text" placeholder="Apellido" class="required" name="lastName" maxlength="75" value="{{lastName}}">
     <!--<input type="text" placeholder="Correo Electrónico" value="rulas@hotmail" email="true">-->
     <div class="fieldsetDiv divBirthday">
       <label>Cumpleaños</label>
-      <input type="text" placeholder="dd" maxlength="2" class="required digits" name="day-input" value="{{substr birthdate start=8 length=2}}">
-      <input type="text" placeholder="mm" maxlength="2" class="required digits" name="month-input" value="{{substr birthdate start=5 length=2}}">
-      <input type="text" placeholder="aa" maxlength="2" class="required digits" name="year-input" value="{{substr birthdate start=2 length=2}}">
+      <input type="text" placeholder="dd" maxlength="2" name="day-input" value="{{substr birthdate start=8 length=2}}">
+      <input type="text" placeholder="mm" maxlength="2" name="month-input" value="{{substr birthdate start=5 length=2}}">
+      <input type="text" placeholder="aa" maxlength="2" name="year-input" value="{{substr birthdate start=2 length=2}}">
       <input type="hidden" name="birthdate" value="{{birthdate}}">
     </div>
     <div class="fieldsetDiv divGender">
@@ -51,7 +51,7 @@
     <select class="select" data-clase="selectRegister" data-inputselect="true" name="localidad" id="wbi-profile-zip-code-info">
       <option>Localidad</option>
     </select>
-    <input type="text" placeholder="Teléfono" name="phone" maxlength="15" value="{{phone}}">
+    <input type="text" placeholder="Teléfono" name="phone" maxlength="10" value="{{phone}}">
     <div class="errorDiv"><p></p></div>
     <input id="updateBtnProfile" type="button" class="btn editBtn" value="Guardar">
     <a href="#" class="linkBack">Regresar</a>
