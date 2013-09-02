@@ -21,6 +21,8 @@ module.exports = class LoginView extends View
     @delegate 'click', '#notRegisterLink', @showRegisterModal
     @delegate 'click', '#forgotPasswordLink', @showForgotPasswordModal
 
+    @subscribeEvent 'loginByFacebookEvent', @doLoginFacebook
+
   doLogin: (e)->
     e.preventDefault()
     e.stopPropagation()

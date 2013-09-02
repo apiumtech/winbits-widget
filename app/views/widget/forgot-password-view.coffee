@@ -14,6 +14,9 @@ module.exports = class ForgotPasswordView extends View
   initialize: ->
     super
     @delegate 'click', '#forgotPasswordSubmit', @sendEmail
+    @delegate 'click', '#goToRegisterLink', @goToRegisterLink
+    @delegate 'click', "#loginByFacebookLink", @loginByFacebookLink
+    @delegate 'click', "#goToLoginLink", @goToLoginLink
 
   attach: ()->
     super
@@ -51,3 +54,15 @@ module.exports = class ForgotPasswordView extends View
 
         complete: ->
           console.log "RecoverPasswordStatus.json Completed!"
+
+  goToRegisterLink: (e) ->
+    e.preventDefault()
+    @publishEvent 'showRegister'
+
+  loginByFacebookLink: (e) ->
+    console.log('Enviando a facebook login')
+    @publishEvent 'loginByFacebookEvent', e
+
+  goToLoginLink: (e) ->
+    @publishEvent 'cleanModal'
+    @publishEvent 'showLogin', e

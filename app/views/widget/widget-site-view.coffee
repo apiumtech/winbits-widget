@@ -39,6 +39,7 @@ module.exports = class WidgetSiteView extends View
     @subscribeEvent 'updateCartCounter', @updateCartCounter
     @subscribeEvent 'showConfirmation', @showConfirmation
     @subscribeEvent 'showRegister', @viewRegister
+    @subscribeEvent 'showLogin', @showLoginLayer
     @subscribeEvent 'applyLogin', @updateBitsBalanceWithProfile
     @subscribeEvent 'cartBitsUpdated', @updateBitsBalanceWithCart
     @subscribeEvent 'showForgotPassword', @forgotPassword
