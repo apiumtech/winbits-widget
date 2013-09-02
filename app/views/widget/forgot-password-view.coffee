@@ -64,5 +64,4 @@ module.exports = class ForgotPasswordView extends View
     @publishEvent 'loginByFacebookEvent', e
 
   goToLoginLink: (e) ->
-    @publishEvent 'cleanModal'
     @publishEvent 'showLogin', e

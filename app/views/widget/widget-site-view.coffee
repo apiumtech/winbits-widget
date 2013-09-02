@@ -51,6 +51,7 @@ module.exports = class WidgetSiteView extends View
 
   showLoginLayer: (e)->
     e.preventDefault()
+    @publishEvent 'cleanModal'
     console.log "WidgetSiteView#showLoginLayer"
     @$("#login-modal").modal( 'show' ).css {
       width: '330px',
