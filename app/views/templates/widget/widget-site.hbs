@@ -54,8 +54,10 @@
       </nav>
         <div class="login miCuenta" id="headerNotLogin" style="display:block">
           <ul>
-            <li class="link" id="viewVideoLink">Ver video</li>
-            <li class="link">
+            <li>
+              <a href="#video-layer" id="viewVideoLink">Ver video</a>
+            </li>
+            <li>
               <a href="#register-layer" id="registerLink">Registrate</a>
             </li>
             <li class="cart-placeholder">
@@ -134,6 +136,12 @@
         </div>
       </div>
   </div>
+  <div id='forgot-password-modal' class="modal hide">
+    <i class="close-icon" id="close-login"></i>
+    <div class="modal-body reset-modal forgot-password-modal" id="forgot-password-modal-body">
+    </div>
+  </div>
+
   {{!<div id="winbits-iframe-holder" style="position: fixed; top: -1000px;"></div>}}
   <div id="winbits-iframe-holder" style="position: fixed;left:-1000px"></div>
   <div id="hidden-stuff-holder" style="display: none;">

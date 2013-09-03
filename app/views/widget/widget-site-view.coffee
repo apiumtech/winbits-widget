@@ -39,8 +39,11 @@ module.exports = class WidgetSiteView extends View
     @subscribeEvent 'updateCartCounter', @updateCartCounter
     @subscribeEvent 'showConfirmation', @showConfirmation
     @subscribeEvent 'showRegister', @viewRegister
+    @subscribeEvent 'showLogin', @showLoginLayer
     @subscribeEvent 'applyLogin', @updateBitsBalanceWithProfile
     @subscribeEvent 'cartBitsUpdated', @updateBitsBalanceWithCart
+    @subscribeEvent 'showForgotPassword', @forgotPassword
+    @subscribeEvent 'cleanModal', @closeModal
 
   updateCartCounter: (count)->
     console.log ["WidgetSiteView#updateCartCounter " + count]
@@ -48,6 +51,7 @@ module.exports = class WidgetSiteView extends View
 
   showLoginLayer: (e)->
     e.preventDefault()
+    @publishEvent 'cleanModal'
     console.log "WidgetSiteView#showLoginLayer"
     @$("#login-modal").modal( 'show' ).css {
       width: '330px',
@@ -58,7 +62,7 @@ module.exports = class WidgetSiteView extends View
 
 
   viewRegister: (e)->
-    #e.preventDefault()
+    @$('.modal').modal 'hide'
     console.log "WidgetSiteView#viewRegister"
     that = @
     @$("#register-modal").modal( 'show' ).css {
@@ -253,3 +257,15 @@ module.exports = class WidgetSiteView extends View
 
       complete: ->
         console.log "share.json Completed!"
+
+  forgotPassword: (e) ->
+    console.log "WidgetSiteView#viewForgotPassword"
+    @$('.modal').modal 'hide'
+    that = @
+    @$("#forgot-password-modal").modal( 'show' ).css {
+      width: '330px',
+      'margin-left': -> -( that.$( this ).width() / 2 )
+      top: '50%',
+      'margin-top': -> -(  that.$( this ).height() / 2 )
+      'max-height': '370px'
+    }

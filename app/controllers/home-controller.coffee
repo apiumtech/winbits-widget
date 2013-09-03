@@ -24,6 +24,7 @@ WishListView = require "views/widget/account/wishList-view"
 ShippingAddress = require "models/shipping/shipping-address"
 ShippingAddressView = require "views/widget/shipping/shipping-address-view"
 ShippingMainView = require "views/widget/shipping/shipping-main-view"
+ForgotPasswordView = require "views/widget/forgot-password-view"
 mediator = require 'chaplin/mediator'
 util = require 'lib/util'
 config = require 'config'
@@ -38,6 +39,7 @@ module.exports = class HomeController extends ChaplinController
   index: ->
     that=this
     @view = new LoginView region: 'main'
+    @forgotPasswordView = new ForgotPasswordView
     @address = new Address
     @profile = new Profile
     @cart = new Cart
