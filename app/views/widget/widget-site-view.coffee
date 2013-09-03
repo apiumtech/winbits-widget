@@ -267,4 +267,5 @@ module.exports = class WidgetSiteView extends View
       'margin-left': -> -( that.$( this ).width() / 2 )
       top: '50%',
       'margin-top': -> -(  that.$( this ).height() / 2 )
+      'max-height': '370px'
     }
