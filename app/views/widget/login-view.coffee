@@ -18,6 +18,10 @@ module.exports = class LoginView extends View
     super
     @delegate 'click', '#form-login-btn', @doLogin
     @delegate 'click', '#login-by-facebook', @doLoginFacebook
+    @delegate 'click', '#notRegisterLink', @showRegisterModal
+    @delegate 'click', '#forgotPasswordLink', @showForgotPasswordModal
+
+    @subscribeEvent 'loginByFacebookEvent', @doLoginFacebook
 
   doLogin: (e)->
     e.preventDefault()
@@ -92,3 +96,10 @@ module.exports = class LoginView extends View
         that.publishEvent 'expressLogin'
     , 1000)
 
+  showRegisterModal: (e) ->
+    e.preventDefault()
+    @publishEvent 'showRegister'
+
+  showForgotPasswordModal: (e) ->
+    e.preventDefault()
+    @publishEvent 'showForgotPassword'

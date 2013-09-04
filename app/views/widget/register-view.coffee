@@ -16,6 +16,7 @@ module.exports = class RegisterView extends View
     @delegate "click", "#registerStep1", @registerStep1
     @delegate "click", "#registerStep2", @registerStep2
     @delegate 'click', '#register-by-facebook', @doRegisterWithFacebook
+    @delegate 'click', "#withAccountLink", @withAccountLink
 
     @subscribeEvent "showCompletaRegister", @showCompletaRegister
     @subscribeEvent 'showRegisterByReferredCode', @showRegisterByReferredCode
@@ -144,3 +145,6 @@ module.exports = class RegisterView extends View
         $(".modal").modal('hide')
         that.publishEvent 'expressLogin'
     , 1000)
+
+  withAccountLink: (e) ->
+    @publishEvent 'showLogin', e

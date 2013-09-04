@@ -7,7 +7,8 @@
       "config": {
         "apiUrl": "http://apici.winbits.com/v1",
         "baseUrl": "http://widgets.winbits.com/qa",
-        "loginRedirectUrl": "http://widgets.winbits.com/qa/ilogin.html"
+        "loginRedirectUrl": "http://widgets.winbits.com/qa/ilogin.html",
+        "facebookClientId": "486640894740634"
       }
     },
     {
@@ -16,7 +17,8 @@
       "config": {
         "apiUrl": "http://apici.winbits.com/v1",
         "baseUrl": "http://widgets.winbits.com/ci",
-        "loginRedirectUrl": "http://widgets.winbits.com/ci/ilogin.html"
+        "loginRedirectUrl": "http://widgets.winbits.com/ci/ilogin.html",
+        "facebookClientId": "486640894740634"
       }
     },
     {
@@ -25,7 +27,8 @@
       "config": {
         "apiUrl": "http://apiqa.winbits.com/v1",
         "baseUrl": "http://widgets.winbits.com/qa",
-        "loginRedirectUrl": "http://widgets.winbits.com/qa/ilogin.html"
+        "loginRedirectUrl": "http://widgets.winbits.com/qa/ilogin.html",
+        "facebookClientId": "494663817271863"
       }
     },
     {
@@ -34,7 +37,8 @@
       "config": {
         "apiUrl": "http://apistaging.winbits.com/v1",
         "baseUrl": "http://widgets.winbits.com/staging",
-        "loginRedirectUrl": "http://widgets.winbits.com/staging/ilogin.html"
+        "loginRedirectUrl": "http://widgets.winbits.com/staging/ilogin.html",
+        "facebookClientId": "1407560009467593"
       }
     },
     {
@@ -43,7 +47,8 @@
       "config": {
         "apiUrl": "http://api.winbits.com/v1",
         "baseUrl": "http://widgets.winbits.com/prod",
-        "loginRedirectUrl": "http://widgets.winbits.com/prod/ilogin.html"
+        "loginRedirectUrl": "http://widgets.winbits.com/prod/ilogin.html",
+        "facebookClientId": "468430606512928"
       }
     }
   ]

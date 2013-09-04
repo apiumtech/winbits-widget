@@ -30,3 +30,4 @@ node_modules/uglify-js-brunch
 app/config.coffee
 app/assets/index.html
 app/assets/winbits.js
+app/assets/winbits.html

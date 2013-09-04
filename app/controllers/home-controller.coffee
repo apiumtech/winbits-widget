@@ -24,6 +24,7 @@ WishListView = require "views/widget/account/wishList-view"
 ShippingAddress = require "models/shipping/shipping-address"
 ShippingAddressView = require "views/widget/shipping/shipping-address-view"
 ShippingMainView = require "views/widget/shipping/shipping-main-view"
+ForgotPasswordView = require "views/widget/forgot-password-view"
 mediator = require 'chaplin/mediator'
 util = require 'lib/util'
 config = require 'config'
@@ -38,6 +39,7 @@ module.exports = class HomeController extends ChaplinController
   index: ->
     that=this
     @view = new LoginView region: 'main'
+    @forgotPasswordView = new ForgotPasswordView
     @address = new Address
     @profile = new Profile
     @cart = new Cart
@@ -105,7 +107,7 @@ module.exports = class HomeController extends ChaplinController
         if socialAccounts.length is 0
           throw 'Twitter not connected!'
         w$.each socialAccounts, (i, account) ->
-          if account.providerId is 'twitter' and !account.linked
+          if account.providerId is 'twitter' and !account.available
             throw 'Twitter not connected!'
         message = options.message or 'Test message'
         Backbone.$.ajax config.apiUrl + "/affiliation/twitterPublish/updateStatus.json",
@@ -145,15 +147,17 @@ module.exports = class HomeController extends ChaplinController
         socialAccounts = window.Winbits.getSocialAccounts()
         if socialAccounts.length is 0
           throw 'Facebook not connected!'
+
         w$.each socialAccounts, (i, account) ->
-          if account.providerId is 'facebook' and !account.linked
+          console.log ['account', account]
+          if account.providerId is 'facebook' and !account.available
             throw 'Facebook not connected!'
         message = options.message or 'Test message'
         Backbone.$.ajax config.apiUrl + "/affiliation/facebookPublish/share.json",
           type: "POST"
           contentType: "application/json"
           dataType: "json"
-          data: JSON.stringify(message: 'Yo ya me registré en Winbits (facebook test)')
+          data: JSON.stringify(message: message)
           xhrFields:
             withCredentials: true
 

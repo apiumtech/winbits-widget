@@ -80,7 +80,7 @@ dataBindig = function(tmplFile, json) {
 
 cpTemplates = function() {
   var cmds;
-  cmds = ["cp -rf .tmp/deploy/resources/app/* app/"];
+  cmds = ["cp -rf --remove-destination .tmp/deploy/resources/app/* app/"];
   return jake.exec(cmds, (function() {
     console.log("resources populated and moved to -> /app");
     return complete();
