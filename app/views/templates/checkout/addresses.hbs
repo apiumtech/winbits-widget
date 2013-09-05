@@ -72,21 +72,21 @@
     <fieldset>
       <div class="column">
         <h3>CONTACTO</h3>
-        <input type="text" class="required" placeholder="Nombre" name="firstName" id="winbitsShippingName">
-        <input type="text" class="required" placeholder="Apellido(s)" name="lastName" id="winbitsShippingLastname">
-        <input type="text" placeholder="Teléfono a 10 dígitos" name="phone" id="winbitsShippingTel">
+        <input type="text" class="required" placeholder="Nombre" name="firstName" id="winbitsShippingName" maxlength="75">
+        <input type="text" class="required" placeholder="Apellido(s)" name="lastName" id="winbitsShippingLastname" maxlength="75">
+        <input type="text" placeholder="Teléfono" name="phone" id="winbitsShippingTel" maxlength="10">
       </div>
       <div class="column">
         <h3>DIRECCIÓN</h3>
         <input type="hidden" value="1" name="country">
         <textarea placeholder="Calle" class="required" name="street"></textarea>
         <div class="inputNumber">
-          <input type="text" placeholder="# ext" class="required" name="externalNumber">
-          <input type="text" placeholder="# int" name="internalNumber">
+          <input type="text" placeholder="# ext" class="required" name="externalNumber" maxlength="10">
+          <input type="text" placeholder="# int" name="internalNumber" maxlength="10">
         </div>
         <textarea placeholder="¿Entre qué calles?" class="required" name="betweenStreets"></textarea>
         <textarea placeholder="Referencias para llegar" class="required" name="indications"></textarea>
-        <input type="text" placeholder="Codigo Postal" class="required digits zipCode">
+        <input type="text" placeholder="Codigo Postal" class="required digits zipCode" name="zipCode">
         <input type="hidden" name="zipCodeInfoId" class="zipCodeInfoExtra">
         <select class="select zipCodeInfo" data-clase="selectRegister" placeholder="Localidad">
           <option>Colonia/Localidad:</option>

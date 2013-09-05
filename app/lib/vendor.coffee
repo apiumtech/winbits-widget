@@ -247,6 +247,9 @@ module.exports =
     if $(options.obj).length
       $(options.trigger).click (e) ->
         e.stopPropagation()
+        $possibleCartCounter = $(e.currentTarget).prev()
+        if $possibleCartCounter.hasClass('cart-items-count') and $possibleCartCounter.text().trim() is '0'
+          return
         $(options.other).slideUp()
         $(options.obj).slideDown()
 

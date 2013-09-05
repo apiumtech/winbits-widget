@@ -40,23 +40,21 @@ module.exports = class ProfileView extends View
     e.preventDefault()
     e.stopPropagation()
     console.log "ProfileView#saveProfile"
-    $form = @$el.find("#update-profile-form")
+    $form = @$el.find("#wbi-update-profile-form")
     day = $form.find("[name=day-input]").val()
     month = $form.find("[name=month-input]").val()
     year = $form.find("[name=year-input]").val()
     gender = $form.find("[name=gender][checked]").val()
     gender = if gender is 'H' then 'male' else 'female'
+    location = $form.find("[name=zipCodeInfoExtra]").val()
     if day or month or year
       $form.find("[name=birthdate]").val ((if year > 13 then "19" else "20")) + year + "-" + month + "-" + day
 
-    console.log $form.find("[name=birthdate]")
-    console.log $form.valid()
-    that = this
     if $form.valid()
       formData = { verticalId: config.verticalId }
       formData = util.serializeForm($form, formData)
       formData.gender = gender
-      console.log formData
+      formData.location = location
       @model.set formData
       @model.sync 'update', @model,
         error: ->
@@ -68,10 +66,22 @@ module.exports = class ProfileView extends View
 
   attach: ->
     super
-    $form = @$el.find("#update-profile-form")
-    $form.validate rules:
-      birthdate:
-        dateISO: true
+    @$el.find("#wbi-update-profile-form").validate
+      ignore: "",
+      rules:
+        name:
+          required: true
+          minlength: 2
+        lastName:
+          minlength: 2
+        zipCode:
+          minlength: 5
+          digits: true
+        phone:
+          minlength: 7
+          digits: true
+        birthdate:
+          dateISO: true
 
     @$el.find('form#wbi-change-password-form').validate rules:
       password:
@@ -97,7 +107,6 @@ module.exports = class ProfileView extends View
 
     @$('input[name=gender]').removeAttr('checked').next().removeClass('spanSelected')
     gender = @model.get 'gender'
-    console.log ['GENDER', gender]
     if gender
       @$('input.' + gender).attr('checked', 'checked').next().addClass('spanSelected')
 
@@ -310,7 +319,6 @@ module.exports = class ProfileView extends View
       data: JSON.stringify(formData)
       context: {$form: $form, that: @}
       beforeSend: ->
-        console.log ['BEFORE SENDING password-change']
         this.$form.valid()
       headers:
         "Accept-Language": "es"
