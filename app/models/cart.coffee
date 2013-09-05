@@ -54,8 +54,7 @@ module.exports = class Cart extends ChaplinModel
       complete: ->
         console.log "Request Completed!"
 
-  updateUserCartDetail : (id, quantity, bits) ->
-    console.log ["Updating cart detail..."]
+  updateUserCartDetail : (id, quantity, bits, $cartPanel) ->
     formData =
       quantity: quantity
       bits: bits or 0
@@ -70,8 +69,9 @@ module.exports = class Cart extends ChaplinModel
         "WB-Api-Token": util.getCookie(config.apiTokenName)
 
       success: (data) ->
-        console.log ["V: User cart", data.response]
         that.set that.completeCartModel data.response
+        if $cartPanel
+          $cartPanel.slideDown()
 
       error: (xhr, textStatus, errorThrown) ->
         error = JSON.parse(xhr.responseText)
@@ -80,8 +80,7 @@ module.exports = class Cart extends ChaplinModel
       complete: ->
         console.log "Request Completed!"
 
-  updateVirtualCartDetail: (id, quantity)->
-    console.log ["Updating cart detail..."]
+  updateVirtualCartDetail: (id, quantity, $cartPanel)->
     @url = config.apiUrl + "/orders/virtual-cart-items/" + id + ".json"
     formData = quantity: quantity
     that = @
@@ -95,10 +94,10 @@ module.exports = class Cart extends ChaplinModel
         "wb-vcart": util.getCookie(config.vcartTokenName)
 
       success: (data) ->
-        console.log ["V: Virtual cart", data.response]
         that.storeVirtualCart data.response
         that.set that.completeCartModel(data.response)
-
+        if $cartPanel
+          $cartPanel.slideDown()
 
       error: (xhr, textStatus, errorThrown) ->
         error = JSON.parse(xhr.responseText)
@@ -148,7 +147,7 @@ module.exports = class Cart extends ChaplinModel
         #that.$el.find(".myPerfil").slideDown()
           #that.$el.find(".editMiPerfil").slideUp()
 
-  addToUserCart : (id, quantity, bits) ->
+  addToUserCart : (id, quantity, bits, $cartPanel) ->
     console.log "Adding to user cart..."
     formData =
       skuProfileId: id
@@ -167,6 +166,8 @@ module.exports = class Cart extends ChaplinModel
       success: (data) ->
         console.log ["V: User cart", data.response]
         that.set that.completeCartModel data.response
+        if $cartPanel
+          $cartPanel.slideDown()
 
       error: (xhr, textStatus, errorThrown) ->
         error = JSON.parse(xhr.responseText)
@@ -175,7 +176,7 @@ module.exports = class Cart extends ChaplinModel
       complete: ->
         console.log "Request Completed!"
 
-  addToVirtualCart : (id, quantity) ->
+  addToVirtualCart : (id, quantity, $cartPanel) ->
     console.log "Adding to virtual cart..."
     formData =
       skuProfileId: id
@@ -195,6 +196,8 @@ module.exports = class Cart extends ChaplinModel
         console.log ["V: Virtual cart", data.response]
         that.storeVirtualCart data.response
         that.set that.completeCartModel(data.response)
+        if $cartPanel
+          $cartPanel.slideDown()
 
       error: (xhr, textStatus, errorThrown) ->
         error = JSON.parse(xhr.responseText)

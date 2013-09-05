@@ -32,7 +32,6 @@ module.exports = class PaymentView extends View
     paymentMethod =  $currentTarget.attr("id").split("-")[1]
 
     if $form.valid()
-      console.log ['valid', $form]
       formData = {paymentInfo : util.serializeForm($form)}
       formData.paymentInfo.currency = config.currency
       formData.paymentMethod = paymentMethod
@@ -50,7 +49,7 @@ module.exports = class PaymentView extends View
         success: (data) ->
           console.log ["data", data]
           payment = data.response.payments[0]
-          if payment.status is 'PAID'
+          if payment.status isnt 'FAILED' and payment.status isnt 'ERROR'
             that.publishEvent "setConfirm", data.response
             that.publishEvent "showStep", ".checkoutSummaryContainer", payment
           else
@@ -59,7 +58,7 @@ module.exports = class PaymentView extends View
         error: (xhr, textStatus, errorThrown) ->
           console.log xhr
           error = JSON.parse(xhr.responseText)
-          #that.renderLoginFormErrors $form, error
+          that.renderLoginFormErrors $form, error
 
         complete: ->
           console.log "Request Completed!"
@@ -109,14 +108,18 @@ module.exports = class PaymentView extends View
       headers:{ 'Accept-Language': 'es', 'WB-Api-Token': window.token }
       success: (data) ->
         console.log ["data", data]
-        that.publishEvent "setConfirm", data.response
-        that.publishEvent "showStep", ".checkoutSummaryContainer", data.response.payments[0]
+        payment = data.response.payments[0]
+        if payment.status isnt 'FAILED' and payment.status isnt 'ERROR'
+          that.publishEvent "setConfirm", data.response
+          that.publishEvent "showStep", ".checkoutSummaryContainer", payment
+        else
+          alert 'Error al procesar el pago, por favor intentalo más tarde'
 
 
       error: (xhr, textStatus, errorThrown) ->
         console.log xhr
         error = JSON.parse(xhr.responseText)
-        that.renderLoginFormErrors $form, error
+        alert error.meta.message
 
       complete: ->
         console.log "Request Completed!"
