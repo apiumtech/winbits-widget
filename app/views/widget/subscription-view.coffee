@@ -50,12 +50,13 @@ module.exports = class SubscriptionView extends View
     format = @$el.find('input[name=newsletterFormat]:checked').val()
     periodicity = @$el.find('input[name=newsletterPeriodicity]:checked').val()
 
-    that = @
+    link = @$el.find('#wbi-update-subscription').prop 'disabled', true
     Backbone.$.ajax config.apiUrl + "/affiliation/updateSubscriptions.json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify({subscriptions:sbs, newsletterFormat: format, newsletterPeriodicity: periodicity})
+      context: {$saveLink: link, that: @}
 
       headers:
         "Accept-Language": "es"
@@ -63,7 +64,7 @@ module.exports = class SubscriptionView extends View
 
       success: (data) ->
         console.log ["Subscription updated1", data.response]
-        that.publishEvent 'setSubscription', data.response
+        this.that.publishEvent 'setSubscription', data.response
 
       error: (xhr, textStatus, errorThrown) ->
         error = JSON.parse(xhr.responseText)
@@ -71,6 +72,7 @@ module.exports = class SubscriptionView extends View
 
       complete: ->
         console.log "Request Completed!"
+        this.$saveLink.prop 'disabled', false
 
   attach: ()->
     super

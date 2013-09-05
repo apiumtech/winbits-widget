@@ -267,6 +267,9 @@ Handlebars.registerHelper "getNewsletterPeriodicityText", () ->
 Handlebars.registerHelper "checkRadio", (value, radioValue) ->
   if value is radioValue then 'checked="checked"' else ''
 
+Handlebars.registerHelper "getSocialActionByState", (state) ->
+  if state is 'On' then 'Desligar' else 'Ligar'
+
 #******************************
 #Custom partial
 #******************************

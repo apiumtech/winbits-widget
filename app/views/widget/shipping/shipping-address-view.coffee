@@ -141,7 +141,46 @@ module.exports = class ShippingAddressView extends View
       unless $zipCode.val().length < 5
         vendor.customSelect($select)
 
-    vendor.customSelect(@$(".shippingNewAddress").find(".select"))
+    $form = @$el.find('form#shippingNewAddress')
+    vendor.customSelect($form.find(".select"))
+    $form.validate
+      groups:
+        addressNumber: 'externalNumber internalNumber'
+      errorPlacement: ($error, $element) ->
+        if $element.attr("name") is "externalNumber" or $element.attr("name") is "internalNumber"
+          $error.appendTo $element.parent()
+        else
+          $error.insertAfter $element
+      rules:
+        firstName:
+          required: true
+          minlength: 2
+        lastName:
+          required: true
+          minlength: 2
+        phone:
+          required: true
+          minlength: 7
+          digits: true
+        street:
+          required: true
+          minlength: 2
+        externalNumber:
+          required: true
+        internalNumber:
+          minlength: 1
+        betweenStreets:
+          required: true
+          minlength: 4
+        indications:
+          required: true
+          minlength: 2
+        zipCode:
+          required: true
+          minlength: 5
+          digits: true
+        location:
+          minlength: 2
 
   findZipcode: (event)->
     event.preventDefault()
