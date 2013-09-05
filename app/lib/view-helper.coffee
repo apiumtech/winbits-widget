@@ -270,6 +270,13 @@ Handlebars.registerHelper "checkRadio", (value, radioValue) ->
 Handlebars.registerHelper "getSocialActionByState", (state) ->
   if state is 'On' then 'Desligar' else 'Ligar'
 
+Handlebars.registerHelper "hasBitsBalanceInCheckout", (options) ->
+  if window.bits_balance > 0
+    options.fn this
+  else
+    options.inverse this
+
+
 #******************************
 #Custom partial
 #******************************

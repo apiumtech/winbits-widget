@@ -58,7 +58,7 @@ module.exports = class PaymentView extends View
         error: (xhr, textStatus, errorThrown) ->
           console.log xhr
           error = JSON.parse(xhr.responseText)
-          that.renderLoginFormErrors $form, error
+          alert error.meta.message
 
         complete: ->
           console.log "Request Completed!"

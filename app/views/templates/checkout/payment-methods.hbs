@@ -9,15 +9,21 @@
                             <span><strong>Monto mensual a pagar:</strong> $124.15</span>
                         </address> -->
   {{#compare payment.identifier 'cybersource.cc'}}
-  <address>
-    {{#with payment.paymentCapture}}
-      <span>{{creditCardHolder}}</span>
-      <span>{{cardType}},</span>
-      <span><strong>No de tarjeta:</strong> {{maskingCard}}</span>
-      <span><strong>Referencia bancaria:</strong> {{authorizationCode}}</span>
-      <span><strong>Monto a pagar:</strong> ${{amount}}</span>
-    {{/with}}
-  </address>
+    {{#compare payment.status 'REVIEW'}}
+      <address>
+        <span>Tu pago se encuentra en proceso de revisión</span>
+      </address>
+    {{else}}
+    <address>
+      {{#with payment.paymentCapture}}
+        <span>{{creditCardHolder}}</span>
+        <span>{{cardType}},</span>
+        <span><strong>No de tarjeta:</strong> {{maskingCard}}</span>
+        <span><strong>Referencia bancaria:</strong> {{authorizationCode}}</span>
+        <span><strong>Monto a pagar:</strong> ${{amount}}</span>
+      {{/with}}
+    </address>
+    {{/compare}}
   {{/compare}}
   {{#compare payment.identifier 'reference.hsbc'}}
   <address>
