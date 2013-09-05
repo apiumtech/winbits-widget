@@ -11,7 +11,8 @@
   {{#compare payment.identifier 'cybersource.cc'}}
     {{#compare payment.status 'REVIEW'}}
       <address>
-        <span>Tu pago se encuentra en proceso de revisión</span>
+        <span>Tu pago se encuentra en proceso de revisión.</span>
+        <span>Te notificaremos en un lapso no mayor de de 24hrs sí tu pago fue aprovado.</span>
       </address>
     {{else}}
     <address>
