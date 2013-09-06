@@ -29,7 +29,6 @@ module.exports = class CartView extends View
       @model.loadUserCart()
 
   addToCart : (cartItem)->
-    console.log ["Vertical request to add item to cart", cartItem]
     alert "Please specify a cart item object: {id: 1, quantity: 1}"  unless cartItem
     alert "Id required! Please specify a cart item object: {id: 1, quantity: 1}"  unless cartItem.id
     cartItem.id = parseInt(cartItem.id)
@@ -37,17 +36,16 @@ module.exports = class CartView extends View
       console.log "Setting default quantity (1)..."
       cartItem.quantity = 1
     cartItem.quantity = parseInt(cartItem.quantity)
-    console.log @
     cartDetail = @model.findCartDetail(cartItem.id)
+    $cartPanel = @$el.closest('.miCarritoDiv')
     if not cartDetail
       if mediator.flags.loggedIn
-        @model.addToUserCart cartItem.id, cartItem.quantity, cartItem.bits
+        @model.addToUserCart cartItem.id, cartItem.quantity, cartItem.bits, $cartPanel
       else
-        @model.addToVirtualCart cartItem.id, cartItem.quantity
+        @model.addToVirtualCart cartItem.id, cartItem.quantity, $cartPanel
     else
       qty = cartItem.quantity + cartDetail.quantity
-      @updateCartDetail cartItem.id, qty, cartItem.bits
-    @$el.closest('.miCarritoDiv').slideDown()
+      @updateCartDetail cartItem.id, qty, cartItem.bits, $cartPanel
 
 
   clickDeleteCartDetailLink: (e, model) ->
@@ -95,12 +93,12 @@ module.exports = class CartView extends View
 
     @$el.find('.wb-continue-shopping-link').click @closeCart
 
-  updateCartDetail : (id, quantity, bits) ->
+  updateCartDetail : (id, quantity, bits, $cartPanel) ->
     console.log ["updateCartDetail"]
     if mediator.flags.loggedIn
-      @model.updateUserCartDetail id, quantity, bits
+      @model.updateUserCartDetail id, quantity, bits, $cartPanel
     else
-      @model.updateVirtualCartDetail id, quantity
+      @model.updateVirtualCartDetail id, quantity, $cartPanel
 
   updateCartBits: (bits) ->
     if mediator.flags.loggedIn

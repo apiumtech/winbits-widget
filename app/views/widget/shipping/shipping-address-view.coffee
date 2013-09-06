@@ -24,7 +24,6 @@ module.exports = class ShippingAddressView extends View
     @delegate "click" , ".btnUpdate", @addressUpdate
     @delegate "click" , ".edit-address", @editAddress
     @delegate "click" , ".delete-address", @deleteAddress
-    @delegate "click" , ".shippingItem", @selectShipping
     @delegate 'keyup', '.zipCode', @findZipcode
 
   handlerModelReady: ->
@@ -43,14 +42,6 @@ module.exports = class ShippingAddressView extends View
       success: ->
         console.log "success"
         that.publishEvent 'showShippingAddresses'
-
-  selectShipping: (e)->
-    $currentTarget = @$(e.currentTarget)
-    console.log $currentTarget.attr("id")
-    id =  $currentTarget.attr("id").split("-")[1]
-    @$(".shippingItem").removeClass("shippingSelected")
-    $currentTarget.addClass("shippingSelected")
-    mediator.post_checkout.shippingAddress = id
 
   editAddress: (e)->
     e.principal

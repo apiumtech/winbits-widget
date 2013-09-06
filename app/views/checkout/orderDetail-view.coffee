@@ -18,9 +18,10 @@ module.exports = class OrderDetailView extends View
   attach: ->
     super
     that = @
-    vendor.customSlider(".slideInput").on 'slidechange', (e, ui) ->
+    if window.bits_balance > 0
+      vendor.customSlider(".slideInput").on 'slidechange', (e, ui) ->
 #      TODO: Create view OrderInfo and maintain slider out of that view
-      that.updateOrderBits ui.value
+        that.updateOrderBits ui.value
 
     if this.model.get("cashTotal") is 0
         console.log("ENTRO CASH TOTAL")

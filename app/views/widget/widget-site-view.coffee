@@ -152,12 +152,18 @@ module.exports = class WidgetSiteView extends View
 
     vendor.stickyFooter ".widgetWinbitsFooter"
 
+    Backbone.$.validator.addMethod 'validDate', ( (value, element) ->
+      date = Date.parse(value)
+      Object::toString.call(date) isnt "[object Date]" && !isNaN(date)
+    ), "La fecha debe de ser válida"
+
+
     @$el.find('.wb-vertical-' + config.verticalId).addClass('current');
 
   postCheckout: (e)->
     e.preventDefault()
     console.log "WidgetSiteView#postCheckout"
-    Backbone.$.ajax config.apiUrl + "/orders/checkout",
+    Backbone.$.ajax config.apiUrl + "/orders/checkout.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -173,6 +179,7 @@ module.exports = class WidgetSiteView extends View
       error: (xhr, textStatus, errorThrown) ->
         console.log xhr
         error = JSON.parse(xhr.responseText)
+        alert error.meta.message
 
       complete: ->
         console.log "Request Completed!"

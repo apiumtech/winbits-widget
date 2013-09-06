@@ -47,8 +47,10 @@ module.exports = class ProfileView extends View
     gender = $form.find("[name=gender][checked]").val()
     gender = if gender is 'H' then 'male' else 'female'
     location = $form.find("[name=zipCodeInfoExtra]").val()
+
     if day or month or year
-      $form.find("[name=birthdate]").val ((if year > 13 then "19" else "20")) + year + "-" + month + "-" + day
+      birthday = ((if year > 13 then "19" else "20") + year + "-" + month + "-" + day)
+      $form.find("[name=birthdate]").val birthday
 
     if $form.valid()
       formData = { verticalId: config.verticalId }
@@ -67,7 +69,7 @@ module.exports = class ProfileView extends View
   attach: ->
     super
     @$el.find("#wbi-update-profile-form").validate
-      ignore: "",
+      ignore: ""
       rules:
         name:
           required: true
@@ -82,6 +84,7 @@ module.exports = class ProfileView extends View
           digits: true
         birthdate:
           dateISO: true
+          validDate: true
 
     @$el.find('form#wbi-change-password-form').validate rules:
       password:
