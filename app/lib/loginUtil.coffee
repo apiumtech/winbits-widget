@@ -121,9 +121,7 @@ module.exports = class LoginUtil
     @publishEvent "showHeaderLogout"
     mediator.flags.loggedIn = false
     mediator.flags.fbConnect = false
-    $main = w$('main').first()
-    $main.children().hide()
-    $main.find('div.wrapper').first().show()
+    util.backToSite()
     $ = window.$ or w$
     $('#' + config.winbitsDivId).trigger 'loggedout', [logoutData]
 
