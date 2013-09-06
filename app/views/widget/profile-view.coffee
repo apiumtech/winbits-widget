@@ -84,6 +84,7 @@ module.exports = class ProfileView extends View
           digits: true
         birthdate:
           dateISO: true
+          validDate: true
 
     @$el.find('form#wbi-change-password-form').validate rules:
       password:

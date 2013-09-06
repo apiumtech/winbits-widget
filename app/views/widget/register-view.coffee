@@ -29,17 +29,8 @@ module.exports = class RegisterView extends View
     vendor.customSelect( @$('.select') )
     vendor.customRadio( @$(".divGender") )
 
-
-
     @$el.find("form#complete-register-form").validate
       ignore: ''
-      groups:
-        birthday: 'day-input month-input year-input'
-      errorPlacement: ($error, $element) ->
-        if $element.attr("name") is "day-input" or $element.attr("name") is "month-input" or $element.attr("name") is "year-input"
-          $error.appendTo $element.parent()
-        else
-          $error.insertAfter $element
       rules:
         name:
           minlength: 2
@@ -53,12 +44,8 @@ module.exports = class RegisterView extends View
           digits: true
         birthdate:
           dateISO: true
-        "day-input":
-          range: [1, 31]
-        "month-input":
-          range: [1, 12]
-        "year-input":
-          range: [0, 99]
+          validDate: true
+
 
     $select = Backbone.$('.select')
     $zipCode = Backbone.$('.zipCode')
