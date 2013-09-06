@@ -226,13 +226,15 @@ module.exports = class ProfileView extends View
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
 
       success: (data) ->
-        console.log "logout.json Success!"
+        console.log "accounts.json Success!"
         socialAccounts = data.response.socialAccounts
         facebook = (item for item in socialAccounts when item.providerId is "facebook"  and item.available)
         twitter = (item for item in socialAccounts when item.providerId is "twitter"  and item.available)
         facebookFlag = if facebook != null && facebook.length > 0  then "On" else "Off"
         twitterFlag = if twitter != null && twitter.length > 0 then "On" else "Off"
         that.publishEvent 'setProfile', {twitter: twitterFlag, facebook: facebookFlag}
+        mediator.profile.socialAccounts = socialAccounts
+        mediator.global.profile.socialAccounts = socialAccounts
 
       error: (xhr, textStatus, errorThrown) ->
         console.log "accounts.json Error!"
