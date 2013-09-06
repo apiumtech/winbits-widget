@@ -42,7 +42,7 @@
           </div>
           <textarea placeholder="¿Entre qué calles?" class="required" name="betweenStreets">{{betweenStreets}}</textarea>
           <textarea placeholder="Referencias para llegar" class="required" name="indications">{{indications}}</textarea>
-          <input type="text" placeholder="Codigo Postal" class="required digits zipCode" value="{{zipCodeInfo.zipCode}}">
+          <input type="text" placeholder="Codigo Postal" class="required digits zipCode" value="{{zipCodeInfo.zipCode}}" maxlength="5">
           <input type="hidden" name="zipCodeInfoId" class="zipCodeInfoExtra" value="{{zipCodeInfo.id}}">
           <select class="select zipCodeInfo" data-clase="selectRegister" placeholder="Localidad">
             <option>Localidad:</option>

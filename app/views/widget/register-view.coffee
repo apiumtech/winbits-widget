@@ -2,6 +2,8 @@ template = require 'views/templates/widget/register'
 View = require 'views/base/view'
 config = require 'config'
 util = require 'lib/util'
+vendor = require 'lib/vendor'
+zipCode = require 'lib/zipCode'
 
 module.exports = class RegisterView extends View
   autoRender: yes
@@ -20,10 +22,50 @@ module.exports = class RegisterView extends View
 
     @subscribeEvent "showCompletaRegister", @showCompletaRegister
     @subscribeEvent 'showRegisterByReferredCode', @showRegisterByReferredCode
+    @delegate 'keyup', '.zipCode', @findZipcode
 
-  attach: ()->
+  attach: ->
     super
-    @$el.find("#winbits-register-form").valid()
+    vendor.customSelect( @$('.select') )
+    vendor.customRadio( @$(".divGender") )
+
+
+
+    @$el.find("form#complete-register-form").validate
+      ignore: ''
+      groups:
+        birthday: 'day-input month-input year-input'
+      errorPlacement: ($error, $element) ->
+        if $element.attr("name") is "day-input" or $element.attr("name") is "month-input" or $element.attr("name") is "year-input"
+          $error.appendTo $element.parent()
+        else
+          $error.insertAfter $element
+      rules:
+        name:
+          minlength: 2
+        lastName:
+          minlength: 2
+        zipCode:
+          minlength: 5
+          digits: true
+        phone:
+          minlength: 7
+          digits: true
+        birthdate:
+          dateISO: true
+        "day-input":
+          range: [1, 31]
+        "month-input":
+          range: [1, 12]
+        "year-input":
+          range: [0, 99]
+
+    $select = Backbone.$('.select')
+    $zipCode = Backbone.$('.zipCode')
+    $zipCodeExtra = Backbone.$('.zipCodeInfoExtra')
+    zipCode(Backbone.$).find $zipCode.val(), $select, $zipCodeExtra.val()
+    unless $zipCode.val().length < 5
+      vendor.customSelect($select)
 
   showCompletaRegister: (algo)->
     console.log("En completa registro")
@@ -72,44 +114,54 @@ module.exports = class RegisterView extends View
 
   registerStep2: (e)->
     e.preventDefault()
-
+    that = @
     $form =  @$el.find("#complete-register-form")
-    $form.validate rules:
-      birthdate:
-        dateISO: true
+    console.log ['form', $form]
+    console.log ['form valid', $form.valid()]
 
-    day = $form.find("#day-input").val()
-    month = $form.find("#month-input").val()
-    year = $form.find("#year-input").val()
-    $form.find("[name=birthdate]").val ((if year > 13 then "19" else "20")) + year + "-" + month + "-" + day  if day or month or year
-    formData = verticalId: config.verticalId
-    formData = util.serializeForm($form, formData)
-    delete formData.location  if formData.location is $form.find("[name=location]").attr("placeholder")
-    formData.gender = (if formData.gender is "H" then "male" else "female")  if formData.gender
-    Backbone.$.ajax config.apiUrl + "/affiliation/profile.json",
-      type: "PUT"
-      contentType: "application/json"
-      dataType: "json"
-      data: JSON.stringify(formData)
-      context: $form
-      beforeSend: ->
-        util.validateForm this
+    day = $form.find(".day-input").val()
+    month = $form.find(".month-input").val()
+    year = $form.find(".year-input").val()
+    birthday = ''
+    if day or month or year
+      birthday = ((if year > 13 then "19" else "20") + year + "-" + month + "-" + day)
+      $form.find("[name=birthdate]").val(birthday)
+      console.log ['birthdate 1', $form.find("[name=birthdate]").val()]
 
-      headers:
-        "Accept-Language": "es"
-        "WB-Api-Token": util.getCookie(config.apiTokenName)
+    gender = $form.find("[name=gender][checked]").val()
+    gender = if gender is 'H' then 'male' else 'female'
+    location = $form.find("[name=zipCodeInfoExtra]").val()
 
-      success: (data) ->
-        console.log ["Profile updated", data.response]
-        Backbone.$('.modal').modal 'hide'
-        @publishEvent "setProfile", data.response
+    if $form.valid()
+      formData = verticalId: config.verticalId
+      formData = util.serializeForm($form, formData)
+      formData.gender = gender
+      formData.location = location
 
-      error: (xhr, textStatus, errorThrown) ->
-        error = JSON.parse(xhr.responseText)
-        alert "Error while updating profile"
+      Backbone.$.ajax config.apiUrl + "/affiliation/profile.json",
+        type: "PUT"
+        contentType: "application/json"
+        dataType: "json"
+        data: JSON.stringify(formData)
+        context: $form
+        beforeSend: ->
+          util.validateForm this
 
-      complete: ->
-        console.log "Request Completed!"
+        headers:
+          "Accept-Language": "es"
+          "WB-Api-Token": util.getCookie(config.apiTokenName)
+
+        success: (data) ->
+          console.log ["Profile updated", data.response]
+          Backbone.$('.modal').modal 'hide'
+          that.publishEvent "setProfile", data.response
+
+        error: (xhr, textStatus, errorThrown) ->
+          error = JSON.parse(xhr.responseText)
+          alert "Error while updating profile"
+
+        complete: ->
+          console.log "Request Completed!"
 
   renderRegisterFormErrors: ($form, error) ->
     code = error.code or error.meta.code
@@ -148,3 +200,10 @@ module.exports = class RegisterView extends View
 
   withAccountLink: (e) ->
     @publishEvent 'showLogin', e
+
+  findZipcode: (event)->
+    event.preventDefault()
+    console.log "find zipCode"
+    $currentTarget = @$(event.currentTarget)
+    $slt = $currentTarget.parent().find(".select")
+    zipCode(Backbone.$).find $currentTarget.val(), $slt
