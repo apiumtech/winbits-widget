@@ -4,6 +4,7 @@ config = require 'config'
 util = require 'lib/util'
 token = require 'lib/token'
 mediator = require 'chaplin/mediator'
+vendor = require 'lib/vendor'
 
 module.exports = class LoginView extends View
   autoRender: yes
@@ -22,6 +23,10 @@ module.exports = class LoginView extends View
     @delegate 'click', '#forgotPasswordLink', @showForgotPasswordModal
 
     @subscribeEvent 'loginByFacebookEvent', @doLoginFacebook
+
+  attach: ->
+    super
+    vendor.customCheckbox( @$('.checkbox') )
 
   doLogin: (e)->
     e.preventDefault()
