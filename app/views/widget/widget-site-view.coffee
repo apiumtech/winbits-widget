@@ -157,7 +157,7 @@ module.exports = class WidgetSiteView extends View
   postCheckout: (e)->
     e.preventDefault()
     console.log "WidgetSiteView#postCheckout"
-    Backbone.$.ajax config.apiUrl + "/orders/checkout",
+    Backbone.$.ajax config.apiUrl + "/orders/checkout.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -173,6 +173,7 @@ module.exports = class WidgetSiteView extends View
       error: (xhr, textStatus, errorThrown) ->
         console.log xhr
         error = JSON.parse(xhr.responseText)
+        alert error.meta.message
 
       complete: ->
         console.log "Request Completed!"
