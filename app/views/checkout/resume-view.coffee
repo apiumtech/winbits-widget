@@ -15,6 +15,7 @@ module.exports = class ResumeView extends View
 
   initialize: ->
     super
+    @delegate 'click', '.closeButton', @deleteItem
     @subscribeEvent 'showResume', @showResume
 
   attach: ->
@@ -25,4 +26,8 @@ module.exports = class ResumeView extends View
     $ = Backbone.$
     $main = $('main').first()
     $main.children().hide()
+    @publishEvent 'updateResumeModel', data
     @render()
+
+  deleteItem: ->
+    console.log('Eliminando el producto del carrito.')
