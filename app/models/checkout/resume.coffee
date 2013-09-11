@@ -7,6 +7,5 @@ module.exports = class Resume extends ChaplinModel
     @subscribeEvent 'updateResumeModel', @updateModel
 
   updateModel: (data) ->
-    model = data
-    @set model
+    @set data
     @publishEvent 'resumeReady'

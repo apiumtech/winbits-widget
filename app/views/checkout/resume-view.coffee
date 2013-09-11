@@ -50,8 +50,13 @@ module.exports = class ResumeView extends View
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
 
       success: (data) ->
-        console.log ['Order updated.', data]
-        @publishEvent 'updateResumeModel', data.response
+        resp = data.response
+        respMap = {
+          orderDetails: resp.orderDetails, itemsTotal: resp.itemsTotal,
+          shippingTotal: resp.shippingTotal, bitsTotal: resp.bitsTotal,
+          maxBits: resp.maxBits, cashTotal: resp.cashTotal
+        }
+        @publishEvent 'updateResumeModel', respMap
 
       error: (xhr, textStatus, errorThrown) ->
         console.log "delete item Error!"
