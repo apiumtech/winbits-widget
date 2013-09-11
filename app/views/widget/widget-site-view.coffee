@@ -163,18 +163,28 @@ module.exports = class WidgetSiteView extends View
   postCheckout: (e)->
     e.preventDefault()
     console.log "WidgetSiteView#postCheckout"
+    formData = verticalId: config.verticalId
     Backbone.$.ajax config.apiUrl + "/orders/checkout.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
       context: @
+      data: JSON.stringify(formData)
       headers:
         "Accept-Language": "es",
         "WB-Api-Token": util.getCookie(config.apiTokenName)
       success: (data) ->
         console.log "Checkout Success!"
         console.log ["data", data]
-        @postToCheckoutApp data.response
+        resp = data.response
+        warnings = resp.orderDetails? and (item for item in resp.orderDetails when item.warnings?)
+        withWarnings = if warnings != null && warnings.length > 0  then true else false
+        console.log ['With Warnings', withWarnings]
+        console.log ['Failed Cart Details', resp.failedCartDetails?]
+        if resp.failedCartDetails? or withWarnings
+          @publishEvent 'showResume', resp
+        else
+          @postToCheckoutApp resp
 
       error: (xhr, textStatus, errorThrown) ->
         console.log xhr
