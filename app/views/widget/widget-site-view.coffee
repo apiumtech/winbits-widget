@@ -44,6 +44,7 @@ module.exports = class WidgetSiteView extends View
     @subscribeEvent 'cartBitsUpdated', @updateBitsBalanceWithCart
     @subscribeEvent 'showForgotPassword', @forgotPassword
     @subscribeEvent 'cleanModal', @closeModal
+    @subscribeEvent 'postToCheckoutApp', @postToCheckoutApp
 
   updateCartCounter: (count)->
     console.log ["WidgetSiteView#updateCartCounter " + count]

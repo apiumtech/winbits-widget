@@ -17,11 +17,13 @@ module.exports = class ResumeView extends View
     super
     @delegate 'click', '.closeButton', @deleteItem
     @delegate 'click', '.linkBack', @backToSite
+    @delegate 'click', '#checkoutFromResume', @checkoutFromResume
     @subscribeEvent 'showResume', @showResume
     @subscribeEvent 'resumeReady', @handlerModelReady
 
   attach: ->
     super
+    vendor.customStepper(@$('.inputStepper'))
 
   showResume: (data) ->
     console.log ['Resume', data]
@@ -69,3 +71,6 @@ module.exports = class ResumeView extends View
 
   backToSite: (e) ->
     util.backToSite(e)
+
+  checkoutFromResume: (e) ->
+    @publishEvent 'postToCheckoutApp', @model.attributes
