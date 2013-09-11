@@ -9,3 +9,4 @@ module.exports = class Resume extends ChaplinModel
   updateModel: (data) ->
     model = data
     @set model
+    @publishEvent 'resumeReady'

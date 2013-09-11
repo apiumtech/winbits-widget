@@ -16,7 +16,9 @@ module.exports = class ResumeView extends View
   initialize: ->
     super
     @delegate 'click', '.closeButton', @deleteItem
+    @delegate 'click', '.linkBack', @backToSite
     @subscribeEvent 'showResume', @showResume
+    @subscribeEvent 'resumeReady', @handlerModelReady
 
   attach: ->
     super
@@ -27,7 +29,38 @@ module.exports = class ResumeView extends View
     $main = $('main').first()
     $main.children().hide()
     @publishEvent 'updateResumeModel', data
+
+  handlerModelReady: ->
     @render()
 
-  deleteItem: ->
-    console.log('Eliminando el producto del carrito.')
+  deleteItem: (e) ->
+    $currentTarget = @$(e.currentTarget)
+    skuProfileId =  $currentTarget.attr("id").split("-")[1]
+    console.log ['Eliminando el producto del carrito.', skuProfileId]
+    url = config.apiUrl + "/orders/order-items/" + skuProfileId + ".json"
+    Backbone.$.ajax url,
+      type: "DELETE"
+      contentType: "application/json"
+      dataType: "json"
+      xhrFields:
+        withCredentials: true
+      context: @
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+
+      success: (data) ->
+        console.log ['Order updated.', data]
+        @publishEvent 'updateResumeModel', data.response
+
+      error: (xhr, textStatus, errorThrown) ->
+        console.log "delete item Error!"
+        error = JSON.parse(xhr.responseText)
+        alert error.meta.message
+
+      complete: ->
+        console.log "delete item Completed!"
+
+
+  backToSite: (e) ->
+    util.backToSite(e)
