@@ -175,12 +175,10 @@ module.exports = class WidgetSiteView extends View
         "WB-Api-Token": util.getCookie(config.apiTokenName)
       success: (data) ->
         console.log "Checkout Success!"
-        console.log ["data", data]
         resp = data.response
         warnings = resp.orderDetails? and (item for item in resp.orderDetails when item.warnings?)
         withWarnings = if warnings != null && warnings.length > 0  then true else false
-        console.log ['With Warnings', withWarnings]
-        console.log ['Failed Cart Details', resp.failedCartDetails?]
+        @publishEvent 'restoreCart'
         if resp.failedCartDetails? or withWarnings
           @publishEvent 'showResume', resp
         else
