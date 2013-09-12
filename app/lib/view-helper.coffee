@@ -276,6 +276,11 @@ Handlebars.registerHelper "hasBitsBalanceInCheckout", (options) ->
   else
     options.inverse this
 
+Handlebars.registerHelper "hasBitsBalanceInResume", (options) ->
+  if mediator.profile.bitsBalance > 0
+    options.fn this
+  else
+    options.inverse this
 
 #******************************
 #Custom partial

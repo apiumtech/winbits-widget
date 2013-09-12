@@ -3,6 +3,7 @@ View = require 'views/base/view'
 util = require 'lib/util'
 config = require 'config'
 vendor = require 'lib/vendor'
+clock = require 'lib/clock'
 
 module.exports = class ResumeView extends View
   container: '.widgetWinbitsMain'
@@ -21,6 +22,7 @@ module.exports = class ResumeView extends View
   attach: ->
     super
     vendor.customStepper(@$('.inputStepper'))
+    clock.startCounter(@$el.find('#wb-resume-timer'))
 
   showResume: (data) ->
     console.log ['Resume', data]
@@ -75,3 +77,4 @@ module.exports = class ResumeView extends View
 
   calculateCashTotal: (itemsTotal, shippingTotal) ->
     itemsTotal + shippingTotal
+
