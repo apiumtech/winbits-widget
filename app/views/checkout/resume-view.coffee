@@ -4,13 +4,9 @@ util = require 'lib/util'
 config = require 'config'
 vendor = require 'lib/vendor'
 
-# Site view is a top-level view which is bound to body.
 module.exports = class ResumeView extends View
   container: '.widgetWinbitsMain'
   autoRender: false
-  #regions:
-  #'#header-container': 'header'
-  #'#page-container': 'main'
   template: template
 
   initialize: ->
@@ -38,39 +34,26 @@ module.exports = class ResumeView extends View
   deleteItem: (e) ->
     $currentTarget = @$(e.currentTarget)
     skuProfileId =  $currentTarget.attr("id").split("-")[1]
-    console.log ['Eliminando el producto del carrito.', skuProfileId]
-    url = config.apiUrl + "/orders/order-items/" + skuProfileId + ".json"
-    Backbone.$.ajax url,
-      type: "DELETE"
-      contentType: "application/json"
-      dataType: "json"
-      xhrFields:
-        withCredentials: true
-      context: @
-      headers:
-        "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
-
-      success: (data) ->
-        resp = data.response
-        respMap = {
-          orderDetails: resp.orderDetails, itemsTotal: resp.itemsTotal,
-          shippingTotal: resp.shippingTotal, bitsTotal: resp.bitsTotal,
-          maxBits: resp.maxBits, cashTotal: resp.cashTotal
-        }
-        @publishEvent 'updateResumeModel', respMap
-
-      error: (xhr, textStatus, errorThrown) ->
-        console.log "delete item Error!"
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
-
-      complete: ->
-        console.log "delete item Completed!"
-
+    orderDetails = @model.attributes.orderDetails
+    skuProfileIdInt = parseInt(skuProfileId)
+    items = orderDetails.filter (it) ->  it.sku.id isnt skuProfileIdInt
+    itemsTotal = @calculateItemsTotal items
+    cashTotal = @calculateCashTotal itemsTotal, @model.attributes.shippingTotal
+    respMap = {
+      orderDetails: items,
+      itemsTotal: itemsTotal,
+      cashTotal: cashTotal
+    }
+    @publishEvent 'updateResumeModel', respMap
 
   backToSite: (e) ->
     util.backToSite(e)
 
   checkoutFromResume: (e) ->
     @publishEvent 'postToCheckoutApp', @model.attributes
+
+  calculateItemsTotal: (orderDetails) ->
+    orderDetails.map( (a) -> a.amount * a.quantity ).reduce( (x, y) -> x + y )
+
+  calculateCashTotal: (itemsTotal, shippingTotal) ->
+    itemsTotal + shippingTotal
