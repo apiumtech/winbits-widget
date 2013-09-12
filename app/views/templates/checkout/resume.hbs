@@ -32,10 +32,18 @@
             {{#each sku.attributes}}
               <p>{{name}}: {{label}}</p>
             {{/each}}
+            {{#each warnings}}
+              <div class="productUnavailable">
+                <p>Lo sentimos, la cantidad</p>
+                <p>solicitada de {{quantityRequired}} no está disponible</p>
+              </div>
+            {{/each}}
           </td>
           <td class="column3">{{sku.vertical.name}}</td>
           <td class="column4">${{sku.price}}</td>
-          <td class="column5"><input type="text" value="{{quantity}}" class="inputStepper"></td>
+          <td class="column5">
+            <input type="text" value="{{quantity}}" class="inputStepper" id="quantityItem-{{sku.id}}">
+          </td>
           <td class="column6">${{amount}}</td>
           <td class="column7"><input type="submit" value="Quitar" class="icon closeButton" id="deleteItem-{{sku.id}}"></td>
         </tr>
