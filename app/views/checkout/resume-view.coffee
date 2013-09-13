@@ -56,15 +56,26 @@ module.exports = class ResumeView extends View
     items = orderDetails.filter (it) ->  it.sku.id isnt skuProfileIdInt
     @updateResumeView items
 
+  updateBitsTotal: (bitsTotal) ->
+    console.log ['update bits total', bitsTotal]
+
   updateResumeView: (items)->
     itemsTotal = @calculateItemsTotal items
-    cashTotal = @calculateCashTotal itemsTotal, @model.attributes.shippingTotal
-    respMap = {
+    shippingTotal = @calculateShippingTotal @model.attributes.shippingTotal, items
+    total = @calculateTotal itemsTotal, shippingTotal
+    cashTotal = @calculateCashTotal total, @model.attributes.bitsTotal
+    orderSaving = @calculateOrderSaving itemsTotal, items
+    maxBits = Math.min(total, mediator.profile.bitsBalance)
+    resultMap = {
       orderDetails: items,
       itemsTotal: itemsTotal,
-      cashTotal: cashTotal
+      shippingTotal: shippingTotal,
+      cashTotal: cashTotal,
+      total: total,
+      orderSaving: orderSaving,
+      maxBits: maxBits
     }
-    @publishEvent 'updateResumeModel', respMap
+    @publishEvent 'updateResumeModel', resultMap
 
   backToSite: (e) ->
     util.backToSite(e)
@@ -75,6 +86,19 @@ module.exports = class ResumeView extends View
   calculateItemsTotal: (orderDetails) ->
     orderDetails.map( (a) -> a.amount ).reduce( (x, y) -> x + y )
 
-  calculateCashTotal: (itemsTotal, shippingTotal) ->
+  calculateCashTotal: (total, bitsTotal) ->
+    total - bitsTotal
+
+  calculateTotal: (itemsTotal, shippingTotal) ->
     itemsTotal + shippingTotal
 
+  calculateShippingTotal: (shippingTotal, items) ->
+    requiredShippingItem = items.filter (it) ->  it.requiresShipping is true
+    if requiredShippingItem?
+      shippingTotal
+    else
+      0
+
+  calculateOrderSaving: (itemsTotal, items) ->
+    orderFullPrice = util.calculateOrderFullPrice(items)
+    orderFullPrice - itemsTotal
