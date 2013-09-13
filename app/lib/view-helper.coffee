@@ -276,6 +276,12 @@ Handlebars.registerHelper "hasBitsBalanceInCheckout", (options) ->
   else
     options.inverse this
 
+Handlebars.registerHelper "hasMSI", (options) ->
+  # TODO: Lógica para determinar si una tarjeta tiene MSI
+  options.inverse this
+
+Handlebars.registerHelper "getIndex", (index) ->
+  index + 1
 
 #******************************
 #Custom partial

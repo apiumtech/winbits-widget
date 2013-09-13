@@ -1,39 +1,32 @@
 <div class="creditcards">
   <ul>
+    {{#each cards}}
     <li class="creditcardItem">
+    {{!<li class="creditcardItem creditcardSelected">}}
       <div class="creditcardMenu">
-        <a href="#">edit</a>
+        <a class="wb-edit-card-link" href="#">edit</a>
         <span class="icon closeButton">cerrar</span>
       </div>
-      <h3>Tarjeta 1</h3>
+      <h3>Tarjeta {{getIndex @index}}</h3>
       <address>
-        <span>Master Card,</span>
-        <span>xxxxxxxxx-2327</span>
-        <span>06/13</span>
+        {{#with cardInfo.cardData}}
+        <span>{{cardType}},</span>
+        <span>{{accountNumber}}</span>
+        <span>{{expirationMonth}}/{{expirationYear}}</span>
+        {{/with}}
       </address>
       <span class="note send creditCardSend">Tu orden se pagará con esta tarjeta.</span>
       <span class="note hover">Da click aqui para establecer como tarjeta principal</span>
-      <input type="radio" name="winbitsCCRadio" class="creditcardRadio" id="winbitsCCRadio1">
-    </li>
-    <li class="creditcardItem creditcardSelected">
-      <div class="creditcardMenu">
-        <a href="#">edit</a>
-        <span class="icon closeButton">cerrar</span>
-      </div>
-      <h3>Tarjeta 2</h3>
-      <address>
-        <span>Master Card,</span>
-        <span>xxxxxxxxx-2327</span>
-        <span>06/13</span>
-      </address>
-      <span class="note send creditCardSend">Tu orden se pagará con esta tarjeta.</span>
-      <span class="note hover">Da click aqui para establecer como tarjeta principal</span>
+      {{#hasMSI}}
       <span class="mesesSinIntereses-box">MESES SIN INTERESES</span>
-      <input type="radio" name="winbitsCCRadio" class="creditcardRadio" id="winbitsCCRadio" checked="checked">
+      {{/hasMSI}}
+      <input type="radio" name="winbitsCCRadio" class="creditcardRadio" id="winbitsCCRadio1">
+      {{!<input type="radio" name="winbitsCCRadio" class="creditcardRadio" id="winbitsCCRadio" checked="checked">}}
     </li>
+    {{/each}}
     <li class="creditcardAdd">
       <h3>AGREGAR TARJETA +</h3>
-      <span>Da click para agregar</span>
+      <span id="wbi-add-new-card-link">Da click para agregar</span>
     </li>
   </ul>
 </div>
