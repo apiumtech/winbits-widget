@@ -73,13 +73,15 @@ module.exports = class ResumeView extends View
     itemsTotal = @calculateItemsTotal items
     shippingTotal = @calculateShippingTotal @model.attributes.shippingTotal, items
     total = @calculateTotal itemsTotal, shippingTotal
-    cashTotal = @calculateCashTotal total, @model.attributes.bitsTotal
+    bitsTotal = @calculateBitsTotal total, @model.attributes.bitsTotal
+    cashTotal = @calculateCashTotal total, bitsTotal
     orderSaving = @calculateOrderSaving itemsTotal, items
     maxBits = @calculateMaxBits total, mediator.profile.bitsBalance
     resultMap = {
       orderDetails: items,
       itemsTotal: itemsTotal,
       shippingTotal: shippingTotal,
+      bitsTotal: bitsTotal,
       cashTotal: cashTotal,
       total: total,
       orderSaving: orderSaving,
@@ -104,7 +106,7 @@ module.exports = class ResumeView extends View
 
   calculateShippingTotal: (shippingTotal, items) ->
     requiredShippingItem = items.filter (it) ->  it.requiresShipping is true
-    if requiredShippingItem?
+    if requiredShippingItem? and requiredShippingItem.length > 0
       shippingTotal
     else
       0
@@ -115,3 +117,6 @@ module.exports = class ResumeView extends View
 
   calculateMaxBits: (total, bitsBalance) ->
     Math.min(total, bitsBalance)
+
+  calculateBitsTotal: (total, bitsTotal) ->
+    Math.min(total, bitsTotal)
