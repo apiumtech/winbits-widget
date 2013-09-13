@@ -8,6 +8,8 @@ OrderDetailView = require "views/checkout/orderDetail-view"
 Payments = require "models/checkout/payments"
 Confirm = require "models/checkout/confirm"
 ConfirmView = require "views/checkout/confirm-view"
+Cards = require "models/checkout/cards"
+CardsView = require "views/checkout/cards-view"
 mediator = require 'chaplin/mediator'
 config = require 'config'
 util = require 'lib/util'
@@ -24,6 +26,7 @@ module.exports = class CheckoutController extends ChaplinController
     @orderDetails = new OrderDetails
     @payments = new Payments
     @confirm = new Confirm
+    @cards = new Cards
     @confirmView = new ConfirmView({model: @confirm})
     @addressManagerView = new AddressManagerView({model: @addressCK})
     @paymentView = new PaymentView({model: @payments})
@@ -42,6 +45,8 @@ module.exports = class CheckoutController extends ChaplinController
       console.log "here order details changeed"
       that.orderDetailView.render()
     @orderDetails.set @orderDetails.completeOrderModel @order_data, parseFloat(window.bits_balance)
+
+    @cardsView = new CardsView({model: @cards})
 
     @addressCK.on "change", ->
       if mediator.post_checkout

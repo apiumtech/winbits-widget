@@ -14,7 +14,7 @@ module.exports = class Cards extends ChaplinModel
   refresh : ()->
     @fetch
       error: ->
-        console.log "error cart",
-          headers:{ 'Accept-Language': 'es', "WB-Api-Token": util.getCookie(config.apiTokenName)}
-          success: ->
-        console.log "success load Virtual cart"
+        console.log "Error loading cards",
+      headers:{ 'Accept-Language': 'es', "WB-Api-Token": util.getCookie(config.apiTokenName)}
+      success: ->
+        console.log "Success loading cards"

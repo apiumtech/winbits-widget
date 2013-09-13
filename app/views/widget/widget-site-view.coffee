@@ -168,6 +168,7 @@ module.exports = class WidgetSiteView extends View
       contentType: "application/json"
       dataType: "json"
       context: @
+      data: JSON.stringify(verticalId: config.verticalId)
       headers:
         "Accept-Language": "es",
         "WB-Api-Token": util.getCookie(config.apiTokenName)
