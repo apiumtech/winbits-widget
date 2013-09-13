@@ -81,6 +81,9 @@ module.exports = class HomeController extends ChaplinController
     @address.on "change", ->
       console.log "addressChanged"
       that.addressView.render()
+    @cards.on 'change', ->
+      console.log "Cards model changed"
+      that.cardsView.render()
     #Exporting function
     window.Winbits.addToCart = (item)->
       that.cartView.addToCart(item)

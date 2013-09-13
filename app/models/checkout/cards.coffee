@@ -3,18 +3,25 @@ config = require 'config'
 util = require 'lib/util'
 module.exports = class Cards extends ChaplinModel
 
-  initialize: (attributes, option) ->
+  initialize: () ->
     super
-    @url = config.apiUrl + "/orders/card-subscription.json"
-    @refresh()
+    @subscribeEvent 'showCardsManager', @getCards
 
-  parse: (response) ->
-    cards : response.response
+  getCards: ()->
+    url = config.apiUrl + "/orders/card-subscription.json"
+    Backbone.$.ajax url,
+      type: "GET"
+      contentType: "application/json"
+      dataType: "json"
+      context: @
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token":  util.getCookie(config.apiTokenName)
 
-  refresh : ()->
-    @fetch
-      error: ->
-        console.log "Error loading cards",
-      headers:{ 'Accept-Language': 'es', "WB-Api-Token": util.getCookie(config.apiTokenName)}
-      success: ->
-        console.log "Success loading cards"
+      success: (data) ->
+        console.log 'Success loading cards'
+        this.set cards: data.response
+
+      error: (xhr, textStatus, errorThrown) ->
+        error = JSON.parse(xhr.responseText)
+        alert error.meta.message

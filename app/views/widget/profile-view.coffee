@@ -349,4 +349,4 @@ module.exports = class ProfileView extends View
       $main.children().hide()
       $cardsManagerContainer.parents().show()
       $cardsManagerContainer.show()
-#      @publishEvent 'showShippingAddresses'
+      @publishEvent 'showCardsManager'
