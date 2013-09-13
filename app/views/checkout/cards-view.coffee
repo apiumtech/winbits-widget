@@ -122,11 +122,12 @@ module.exports = class CardsView extends View
     $ = Backbone.$
     $form = $(e.currentTarget)
     newCardData = util.serializeForm($form)
+    $submitTriggers = $form.find('.wb-submit-trigger').prop('disabled', true)
     $.ajax config.apiUrl + "/orders/card-subscription.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
-      context: { that: @, $form: $form }
+      context: { that: @, $form: $form, $submitTriggers: $submitTriggers }
       data: JSON.stringify(paymentInfo: newCardData)
       headers:
         "Accept-Language": "es",
@@ -147,6 +148,7 @@ module.exports = class CardsView extends View
 
       complete: ->
         console.log "Request Completed!"
+        @$submitTriggers.prop('disabled', false)
 
   submitEditCardForm: (e) ->
     e.preventDefault()
@@ -154,11 +156,12 @@ module.exports = class CardsView extends View
     $form = $(e.currentTarget)
     currentCardData = $form.data('current-card-data')
     updatedCardData = util.serializeForm($form)
+    $submitTriggers = $form.find('.wb-submit-trigger').prop('disabled', true)
     $.ajax config.apiUrl + "/orders/card-subscription/" + currentCardData.subscriptionId + ".json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
-      context: { that: @, $form: $form }
+      context: { that: @, $form: $form, $submitTriggers: $submitTriggers }
       data: JSON.stringify(paymentInfo: updatedCardData)
       headers:
         "Accept-Language": "es",
@@ -180,6 +183,7 @@ module.exports = class CardsView extends View
 
       complete: ->
         console.log "Request Completed!"
+        $submitTriggers.prop('disabled', false)
 
   confirmDeleteCard: (e) ->
     e.preventDefault()
