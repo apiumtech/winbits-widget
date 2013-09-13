@@ -18,12 +18,9 @@ module.exports = class CardsView extends View
     @delegate "click" , "#wbi-add-new-card-link", @showNewCardForm
     @delegate "click" , ".wb-cancel-card-form-btn", @cancelSaveUpdateCard
     @delegate "click" , ".wb-edit-card-link", @showEditCardForm
-#    @delegate "click" , ".btnUpdate", @addressUpdate
-#    @delegate "click" , ".edit-address", @editAddress
-#    @delegate "click" , ".delete-address", @deleteAddress
-#    @delegate "click" , "#btnContinuar", @addressContinuar
-#    @delegate "click" , ".shippingItem", @selectShipping
-#    @delegate 'keyup', '.zipCode', @findZipcode
+    @delegate "submit" , "#wbi-new-card-form", @submitNewCardForm
+    @delegate "submit" , "#wbi-edit-card-form", @submitEditCardForm
+    @delegate "click", ".wb-delete-card-link", @confirmDeleteCard
 
   attach: ->
     super
@@ -94,6 +91,9 @@ module.exports = class CardsView extends View
 
   cancelSaveUpdateCard: (e) ->
     e.preventDefault()
+    @showCardsList()
+
+  showCardsList: () ->
     @$el.find('.wb-cards-subview').hide()
     @$el.find('#wbi-cards-list-holder').show()
 
@@ -101,7 +101,10 @@ module.exports = class CardsView extends View
     e.preventDefault()
     $form = @$el.find('form#wbi-edit-card-form')
     cardIndex = @$el.find(e.currentTarget).closest('li').index()
-    @fillEditCardForm $form, @model.get('cards')[cardIndex].cardInfo
+    cardInfo = @model.get('cards')[cardIndex].cardInfo
+    $form.data('current-card-data', cardInfo)
+    $form.data('current-card-index', cardIndex)
+    @fillEditCardForm $form, cardInfo
     @$el.find('#wbi-cards-list-holder').hide()
     $form.parent().show()
 
@@ -112,108 +115,96 @@ module.exports = class CardsView extends View
     if formData.expirationYear and formData.expirationYear.length
       formData.expirationYear = formData.expirationYear.slice(-2)
     $.each formData, (key, value) ->
-      console.log ['cardInfo Key, Val', key, value]
       $form.find('[name=' + key + ']').val value
 
-  deleteAddress: (e)->
-    console.log "deleting address"
-    $currentTarget = @$(e.currentTarget)
-    that = @
-    id =  $currentTarget.attr("id").split("-")[1]
-    @model.sync 'delete', @model,
-      url: config.apiUrl + "/affiliation/shipping-addresses/" + id,
-      error: ->
-        console.log "error",
-          headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
-          success: ->
-        console.log "success"
-        that.model.actualiza()
-
-  selectShipping: (e)->
-    $currentTarget = @$(e.currentTarget)
-    console.log $currentTarget.attr("id")
-    id =  $currentTarget.attr("id").split("-")[1]
-    @$(".shippingItem").removeClass("shippingSelected")
-    $currentTarget.addClass("shippingSelected")
-    mediator.post_checkout.shippingAddress = id
-
-
-  addressContinuar: (e)->
-    console.log "continuar"
-    $addresSelected = @$(".shippingSelected")
-    id = $addresSelected.attr("id").split("-")[1]
-    if id
-      mediator.post_checkout.shippingAddress = id
-    if mediator.post_checkout.shippingAddress
-      @publishEvent "showStep", ".checkoutPaymentContainer"
-      @$("#choosen-address-" + mediator.post_checkout.shippingAddress).show()
-
-
-  editAddress: (e)->
-    e.principal
-    $currentTarget = @$(e.currentTarget)
-    id =  $currentTarget.attr("id").split("-")[1]
-    $editAddress = @$("#shippingEditAddress-" + id)
-    @$(".shippingAddresses").hide()
-    $editAddress.show()
-  newAddress: (e)->
+  submitNewCardForm: (e) ->
     e.preventDefault()
-    @$(".shippingAddresses").hide()
-    @$("#shippingNewAddress").show()
+    $ = Backbone.$
+    $form = $(e.currentTarget)
+    newCardData = util.serializeForm($form)
+    $.ajax config.apiUrl + "/orders/card-subscription.json",
+      type: "POST"
+      contentType: "application/json"
+      dataType: "json"
+      context: { that: @, $form: $form }
+      data: JSON.stringify(paymentInfo: newCardData)
+      headers:
+        "Accept-Language": "es",
+        "WB-Api-Token": util.getCookie(config.apiTokenName)
+      beforeSend: ->
+        @$form.valid()
 
-  cancelEdit: (e)->
-    e.preventDefault()
-    @$(".shippingAddresses").show()
-    @$(".shippingNewAddress").hide()
-    @$(".shippingEditAddress").hide()
+      success: (data) ->
+        console.log ["Save new card success!", data]
+        cards = @that.model.get 'cards'
+        cards.push(cardInfo: data.response)
+        @that.showCardsList()
+        @that.render()
 
-  addressSubmit: (e)->
-    e.preventDefault()
-    console.log "AddressSubmit"
-    $form = @$el.find("#shippingNewAddress")
-    console.log $form.valid()
-    if $form.valid()
-      data: JSON.stringify(formData)
-      formData = util.serializeForm($form)
-      formData.country  = {"id": formData.country}
-      formData.zipCodeInfo  = {"id": formData.zipCodeInfoId}
-      formData.main = if formData.main then true else false
-      console.log formData
-      @model.set formData
+      error: (xhr) ->
+        error = JSON.parse(xhr.responseText)
+        alert error.meta.message
 
-      that = @
-      @model.sync 'create', @model,
-        error: ->
-          console.log "error",
-            headers: { 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
-            success: ->
-          console.log "success"
-          that.model.actualiza()
-  #that.$el.find(".myPerfil").slideDown()
-  #
-  addressUpdate: (e)->
+      complete: ->
+        console.log "Request Completed!"
+
+  submitEditCardForm: (e) ->
     e.preventDefault()
-    console.log "AddressUpdate"
-    $currentTarget = @$(e.currentTarget)
-    id =  $currentTarget.attr("id").split("-")[1]
-    $form = @$el.find("#shippingEditAddress-" + id)
-    if $form.valid()
-      formData = util.serializeForm($form)
-      formData.country  = {"id": formData.country}
-      formData.zipCodeInfo  = {"id": formData.zipCodeInfoId}
-      if formData.principal
-        formData.principal  = true
-      else
-        formData.principal = false
-      formData.contactName = formData.name + " " + formData.lastname
-      console.log formData
-      @model.set formData
-      that = @
-      @model.sync 'update', @model,
-        url: config.apiUrl + "/affiliation/shipping-addresses/" + formData.id,
-        error: ->
-          console.log "error",
-            headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
-            success: ->
-          console.log "success"
-          that.model.actualiza()
+    $ = Backbone.$
+    $form = $(e.currentTarget)
+    currentCardData = $form.data('current-card-data')
+    updatedCardData = util.serializeForm($form)
+    $.ajax config.apiUrl + "/orders/card-subscription/" + currentCardData.subscriptionId + ".json",
+      type: "PUT"
+      contentType: "application/json"
+      dataType: "json"
+      context: { that: @, $form: $form }
+      data: JSON.stringify(paymentInfo: updatedCardData)
+      headers:
+        "Accept-Language": "es",
+        "WB-Api-Token": util.getCookie(config.apiTokenName)
+      beforeSend: ->
+        @$form.valid()
+
+      success: (data) ->
+        console.log ["Update card success!", data]
+        cards = @that.model.get 'cards'
+        currentCardIndex = @$form.data('current-card-index')
+        cards.splice(currentCardIndex, 1, cardInfo: data.response)
+        @that.showCardsList()
+        @that.render()
+
+      error: (xhr) ->
+        error = JSON.parse(xhr.responseText)
+        alert error.meta.message
+
+      complete: ->
+        console.log "Request Completed!"
+
+  confirmDeleteCard: (e) ->
+    e.preventDefault()
+    $ = Backbone.$
+    cardIndex = @$el.find(e.currentTarget).index()
+    cardInfo = @model.get('cards')[cardIndex].cardInfo
+    answer = confirm '¿En verdad quieres eliminar la tarjeta ' + cardInfo.cardData.accountNumber + '?'
+    if answer
+      $.ajax config.apiUrl + "/orders/card-subscription/" + cardInfo.subscriptionId + ".json",
+        type: "DELETE"
+        dataType: "json"
+        context: { that: @, cardIndex: cardIndex }
+        headers:
+          "Accept-Language": "es",
+          "WB-Api-Token": util.getCookie(config.apiTokenName)
+
+        success: (data) ->
+          console.log ["Delete card success!", data]
+          cards = @that.model.get 'cards'
+          cards.splice(@cardIndex, 1)
+          @that.render()
+
+        error: (xhr) ->
+          error = JSON.parse(xhr.responseText)
+          alert error.meta.message
+
+        complete: ->
+          console.log "Request Completed!"

@@ -5,7 +5,7 @@
     {{!<li class="creditcardItem creditcardSelected">}}
       <div class="creditcardMenu">
         <a class="wb-edit-card-link" href="#">edit</a>
-        <span class="icon closeButton">cerrar</span>
+        <span class="icon closeButton wb-delete-card-link">cerrar</span>
       </div>
       <h3>Tarjeta {{getIndex @index}}</h3>
       <address>
@@ -52,12 +52,10 @@
         <h3>DIRECCIÓN</h3>
         <input type="text" placeholder="Calle" class="required" name="street1" id="winbitsPaymentNewCardStreet">
         <input type="text" placeholder="Número" class="inputMedium required" maxlength="10" name="number" id="winbitsPaymentNewCardNumero">
-        <input type="text" placeholder="Codigo Postal" name="postalCode" maxlength="5" id="winbitsPaymentNewCardCP">
         <input type="text" placeholder="Teléfono" name="phoneNumber" maxlength="10" id="winbitsPaymentNewCardTel">
-        <input type="text" placeholder="Estado" name="state" maxlength="40" id="winbitsPaymentNewCardState">
-        <input type="text" placeholder="Colonia" name="colony" maxlength="40" id="winbitsPaymentNewCardColony">
-        <input type="text" placeholder="Delegación o Municipio" maxlength="40" name="municipality" id="winbitsPaymentNewCardMunicipality">
+        <input type="text" placeholder="Codigo Postal" name="postalCode" maxlength="5" id="winbitsPaymentNewCardCP">
         <input type="text" placeholder="Ciudad" name="city" maxlength="40" id="winbitsPaymentNewCardCity">
+        <input type="text" placeholder="Estado" name="state" maxlength="40" id="winbitsPaymentNewCardState">
         <input type="hidden" placeholder="País" class="required" name="country" id="winbitsPaymentNewCardCountry" value="MX">
       </div>
       <div class="column columnLarge">
@@ -82,24 +80,22 @@
     <fieldset>
       <div class="column">
         <h3>NOMBRE</h3>
-        <input type="text" class="required" placeholder="Nombre" maxlength="30" name="firstName" id="winbitsPaymentNewCardName">
-        <input type="text" class="required" placeholder="Apellido(s)" maxlength="50" name="lastName" id="winbitsPaymentNewCardLastName">
+        <input type="text" class="required" placeholder="Nombre" maxlength="30" name="firstName" id="winbitsPaymentNewCardName" disabled="disabled">
+        <input type="text" class="required" placeholder="Apellido(s)" maxlength="50" name="lastName" id="winbitsPaymentNewCardLastName" disabled="disabled">
         <div class="divFechaExpiracion">
           <label>Fecha de vencimiento</label>
-          <input type="text" class="required digits" placeholder="dd" maxlength="2" name="expirationMonth" id="winbitsPaymentNewCardDD">
-          <input type="text" class="required digits" placeholder="aa" maxlength="2" name="expirationYear" id="winbitsPaymentNewCardAA">
+          <input type="text" class="required digits" placeholder="dd" maxlength="2" name="expirationMonth" id="winbitsPaymentNewCardDD" disabled="disabled">
+          <input type="text" class="required digits" placeholder="aa" maxlength="2" name="expirationYear" id="winbitsPaymentNewCardAA" disabled="disabled">
         </div>
       </div>
       <div class="column">
         <h3>DIRECCIÓN</h3>
         <input type="text" placeholder="Calle" class="required" name="street1" id="winbitsPaymentNewCardStreet">
         <input type="text" placeholder="Número" class="inputMedium required" maxlength="10" name="number" id="winbitsPaymentNewCardNumero">
-        <input type="text" placeholder="Codigo Postal" name="postalCode" maxlength="5" id="winbitsPaymentNewCardCP">
         <input type="text" placeholder="Teléfono" name="phoneNumber" maxlength="10" id="winbitsPaymentNewCardTel">
-        <input type="text" placeholder="Estado" name="state" maxlength="40" id="winbitsPaymentNewCardState">
-        <input type="text" placeholder="Colonia" name="colony" maxlength="40" id="winbitsPaymentNewCardColony">
-        <input type="text" placeholder="Delegación o Municipio" maxlength="40" name="municipality" id="winbitsPaymentNewCardMunicipality">
+        <input type="text" placeholder="Codigo Postal" name="postalCode" maxlength="5" id="winbitsPaymentNewCardCP">
         <input type="text" placeholder="Ciudad" name="city" maxlength="40" id="winbitsPaymentNewCardCity">
+        <input type="text" placeholder="Estado" name="state" maxlength="40" id="winbitsPaymentNewCardState">
         <input type="hidden" placeholder="País" class="required" name="country" id="winbitsPaymentNewCardCountry" value="MX">
       </div>
       <div class="column columnLarge">

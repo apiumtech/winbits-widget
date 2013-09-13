@@ -6,6 +6,7 @@ module.exports = class Cards extends ChaplinModel
   initialize: () ->
     super
     @subscribeEvent 'showCardsManager', @getCards
+    @subscribeEvent 'setCards', @set
 
   getCards: ()->
     url = config.apiUrl + "/orders/card-subscription.json"
@@ -20,7 +21,7 @@ module.exports = class Cards extends ChaplinModel
 
       success: (data) ->
         console.log 'Success loading cards'
-        this.set cards: data.response
+        @set cards: data.response
 
       error: (xhr, textStatus, errorThrown) ->
         error = JSON.parse(xhr.responseText)

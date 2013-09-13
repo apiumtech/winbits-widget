@@ -177,7 +177,7 @@ module.exports = class WidgetSiteView extends View
         console.log ["data", data]
         @postToCheckoutApp data.response
 
-      error: (xhr, textStatus, errorThrown) ->
+      error: (xhr) ->
         console.log xhr
         error = JSON.parse(xhr.responseText)
         alert error.meta.message
