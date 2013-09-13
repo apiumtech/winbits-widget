@@ -5,7 +5,7 @@ module.exports = class Cards extends ChaplinModel
 
   constructor: (args) ->
     super
-    console.log ['CART ITEM LEGEND', args]
+    args = args or {}
     @mainOnClick = args.mainOnClick is true
     if @mainOnClick
       @cardItemLegend = 'Establecer como tarjeta principal'

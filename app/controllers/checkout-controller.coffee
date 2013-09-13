@@ -36,6 +36,9 @@ module.exports = class CheckoutController extends ChaplinController
     @payments.set methods:@order_data.paymentMethods
 
     # @orderDetailView.render()
+    @cards.on 'change', ->
+      console.log "Cards model changed"
+      that.cardsView.render()
     @paymentView.render()
     @payments.on "change", ->
         console.log "on change payment"
@@ -63,4 +66,4 @@ module.exports = class CheckoutController extends ChaplinController
       @publishEvent "showStep", ".checkoutPaymentContainer"
       @publishEvent "hideAddress"
 
-
+    @publishEvent 'showCardsManager'
