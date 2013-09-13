@@ -25,6 +25,9 @@ ShippingAddress = require "models/shipping/shipping-address"
 ShippingAddressView = require "views/widget/shipping/shipping-address-view"
 ShippingMainView = require "views/widget/shipping/shipping-main-view"
 ForgotPasswordView = require "views/widget/forgot-password-view"
+Cards = require "models/checkout/cards"
+CardsView = require "views/checkout/cards-view"
+CardsManagerView = require "views/widget/account/cards-manager-view"
 mediator = require 'chaplin/mediator'
 util = require 'lib/util'
 config = require 'config'
@@ -44,6 +47,7 @@ module.exports = class HomeController extends ChaplinController
     @profile = new Profile
     @cart = new Cart
     @shippingAddress = new ShippingAddress
+    @cards = new Cards
     @subscription = new Subscription
     @registerfb = new RegisterFb
     @addressView = new AddressView(model: @address)
@@ -62,7 +66,9 @@ module.exports = class HomeController extends ChaplinController
     @wishListView = new WishListView(model: @wishList)
     @shippingMainView = new ShippingMainView
     @shippingAddressView = new ShippingAddressView(model: @shippingAddress)
-    @address.fetch()
+    @cardsManagerView = new CardsManagerView
+    @cardsView = new CardsView(model: @cards)
+    @address.fetch() # TODO: Checar porque se hace aquí un fetch
     @profile.on "change", ->
       that.profileView.render()
     @cart.on "change", ->
