@@ -25,6 +25,8 @@ ShippingAddress = require "models/shipping/shipping-address"
 ShippingAddressView = require "views/widget/shipping/shipping-address-view"
 ShippingMainView = require "views/widget/shipping/shipping-main-view"
 ForgotPasswordView = require "views/widget/forgot-password-view"
+Resume = require "models/checkout/resume"
+ResumeView = require "views/checkout/resume-view"
 mediator = require 'chaplin/mediator'
 util = require 'lib/util'
 config = require 'config'
@@ -62,6 +64,8 @@ module.exports = class HomeController extends ChaplinController
     @wishListView = new WishListView(model: @wishList)
     @shippingMainView = new ShippingMainView
     @shippingAddressView = new ShippingAddressView(model: @shippingAddress)
+    @resume = new Resume
+    @resumeView = new ResumeView(model: @resume)
     @address.fetch()
     @profile.on "change", ->
       that.profileView.render()
