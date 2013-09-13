@@ -1,111 +1,113 @@
-<div class="wrapper titleTable">
-  <div class="dataTable">
-    <table>
-      <thead>
-      <tr>
-        <th class="column1">Foto</th>
-        <th class="column2">Descripción de Producto</th>
-        <th class="column3">Comprado en</th>
-        <th class="column4">Precio</th>
-        <th class="column5">Cantidad</th>
-        <th class="column6">Subtotal</th>
-        <th class="column7">Quitar</th>
-      </tr>
-      </thead>
-    </table>
-  </div>
-</div>
-<div class="resumeCheckoutTable">
-  <div class="wrapper">
+<div class="wrapper subview">
+  <div class="wrapper titleTable">
     <div class="dataTable">
       <table>
-        <tbody>
-        {{#each orderDetails}}
+        <thead>
         <tr>
-          <td class="column1 imgProductTD">
-            <img src="{{sku.thumbnail.url}}" width="62" height="79" alt="{{sku.name}}" />
-          </td>
-          <td class="column2">
-            {{sku.name}}<br>
-            {{brand.name}}
-            <p>{{sku.mainAttribute.name}}: {{sku.mainAttribute.label}}</p>
-            {{#each sku.attributes}}
-              <p>{{name}}: {{label}}</p>
-            {{/each}}
-            {{#each warnings}}
-              <div class="productUnavailable">
-                <p>Lo sentimos, la cantidad</p>
-                <p>solicitada de {{quantityRequired}} no está disponible</p>
-              </div>
-            {{/each}}
-          </td>
-          <td class="column3">{{sku.vertical.name}}</td>
-          <td class="column4">${{sku.price}}</td>
-          <td class="column5">
-            <input type="text" value="{{quantity}}" class="inputStepper" id="quantityItem-{{sku.id}}">
-          </td>
-          <td class="column6">${{amount}}</td>
-          <td class="column7"><input type="submit" value="Quitar" class="icon closeButton" id="deleteItem-{{sku.id}}"></td>
+          <th class="column1">Foto</th>
+          <th class="column2">Descripción de Producto</th>
+          <th class="column3">Comprado en</th>
+          <th class="column4">Precio</th>
+          <th class="column5">Cantidad</th>
+          <th class="column6">Subtotal</th>
+          <th class="column7">Quitar</th>
         </tr>
-        {{/each}}
-        {{#each failedCartDetails}}
-        <tr>
-          <td class="column1 imgProductTD">
-            <img src="{{thumbnail.url}}" width="61" height="78" alt="{{name}}">
-          </td>
-          <td class="column2">
-            {{name}}<br>
-            {{brand.name}}
-            <p>{{mainAttribute.name}}: {{mainAttribute.label}}</p>
-            {{#each attributes}}
-              <p>{{name}}: {{label}}</p>
-            {{/each}}
-          </td>
-          <td class="column3">{{vertical.name}}</td>
-          <td class="column4" colspan="3">
-            <div class="productUnavailable">
-              <p>Lo sentimos</p>
-              <p>Este producto ya no esta disponible</p>
-            </div>
-          </td>
-          <td class="column7">&nbsp;</td>
-        </tr>
-        {{/each}}
-        </tbody>
+        </thead>
       </table>
     </div>
   </div>
-</div>
-<div class="wrapper">
-  <div class="totalCheckOutTemp">
-    <span class="totalCheckOutTemp-leyend">Recuerda que puede usar tus winbits como dinero en compras. Solo mueve la moneda para aumentar la cantidad de bits que utilizas.</span>
-    <div class="totalCheckOutTemp-total">
-      <div class="totalCheckOutTemp-timer">
-        <span class="timeCheckout"><em class="icon timer"></em><span id="wbi-resume-timer">30:00</span></span>
+  <div class="resumeCheckoutTable">
+    <div class="wrapper">
+      <div class="dataTable">
+        <table>
+          <tbody>
+          {{#each orderDetails}}
+          <tr>
+            <td class="column1 imgProductTD">
+              <img src="{{sku.thumbnail.url}}" width="62" height="79" alt="{{sku.name}}" />
+            </td>
+            <td class="column2">
+              {{sku.name}}<br>
+              {{brand.name}}
+              <p>{{sku.mainAttribute.name}}: {{sku.mainAttribute.label}}</p>
+              {{#each sku.attributes}}
+                <p>{{name}}: {{label}}</p>
+              {{/each}}
+              {{#each warnings}}
+                <div class="productUnavailable">
+                  <p>Lo sentimos, la cantidad</p>
+                  <p>solicitada de {{quantityRequired}} no está disponible</p>
+                </div>
+              {{/each}}
+            </td>
+            <td class="column3">{{sku.vertical.name}}</td>
+            <td class="column4">${{sku.price}}</td>
+            <td class="column5">
+              <input type="text" value="{{quantity}}" class="inputStepper" id="quantityItem-{{sku.id}}">
+            </td>
+            <td class="column6">${{amount}}</td>
+            <td class="column7"><input type="submit" value="Quitar" class="icon closeButton" id="deleteItem-{{sku.id}}"></td>
+          </tr>
+          {{/each}}
+          {{#each failedCartDetails}}
+          <tr>
+            <td class="column1 imgProductTD">
+              <img src="{{thumbnail.url}}" width="61" height="78" alt="{{name}}">
+            </td>
+            <td class="column2">
+              {{name}}<br>
+              {{brand.name}}
+              <p>{{mainAttribute.name}}: {{mainAttribute.label}}</p>
+              {{#each attributes}}
+                <p>{{name}}: {{label}}</p>
+              {{/each}}
+            </td>
+            <td class="column3">{{vertical.name}}</td>
+            <td class="column4" colspan="3">
+              <div class="productUnavailable">
+                <p>Lo sentimos</p>
+                <p>Este producto ya no esta disponible</p>
+              </div>
+            </td>
+            <td class="column7">&nbsp;</td>
+          </tr>
+          {{/each}}
+          </tbody>
+        </table>
       </div>
-      <div class="totalCheckOutTemp-subTotal">
-        <span>SUBTOTAL</span>
-        <span>${{itemsTotal}}</span>
-        <span>ENVIO</span>
-        <span>{{shippingTotal}}</span>
-        <span>GANA</span>
-        <span><em class="icon winbits10px"></em>0</span>
-      </div>
-      <div class="totalCheckOutTemp-slider">
-        {{#hasBitsBalanceInResume}}
-          <input type="text" value="{{bitsTotal}}" data-min="0" data-max="{{maxBits}}" data-step="2" class="slideInput" id="wbi-bits-slide-resume">
-          <span class="legendCarrito">Usa tus bits como dinero en esta compra <a href="#">learn more</a></span>
-        {{/hasBitsBalanceInResume}}
-      </div>
-      <div class="totalCheckOutTemp-totalTotal">
-        <span class="checkoutTitle">TOTAL</span>
-        <span class="checkoutDetail">${{cashTotal}}
-          <span class="note">Ahorro de ${{orderSaving}}</span>
-        </span>
-      </div>
-      <div class="totalCheckOutTemp-checkout">
-        <a href="#" class="linkBack"><em class="icon backBtn"></em> Regresar</a>
-        <input type="submit" value="CHECK OUT" class="btn" id="checkoutFromResume">
+    </div>
+  </div>
+  <div class="wrapper">
+    <div class="totalCheckOutTemp">
+      <span class="totalCheckOutTemp-leyend">Recuerda que puede usar tus winbits como dinero en compras. Solo mueve la moneda para aumentar la cantidad de bits que utilizas.</span>
+      <div class="totalCheckOutTemp-total">
+        <div class="totalCheckOutTemp-timer">
+          <span class="timeCheckout"><em class="icon timer"></em><span id="wbi-resume-timer">30:00</span></span>
+        </div>
+        <div class="totalCheckOutTemp-subTotal">
+          <span>SUBTOTAL</span>
+          <span>${{itemsTotal}}</span>
+          <span>ENVIO</span>
+          <span>{{shippingTotal}}</span>
+          <span>GANA</span>
+          <span><em class="icon winbits10px"></em>0</span>
+        </div>
+        <div class="totalCheckOutTemp-slider">
+          {{#hasBitsBalanceInResume}}
+            <input type="text" value="{{bitsTotal}}" data-min="0" data-max="{{maxBits}}" data-step="2" class="slideInput" id="wbi-bits-slide-resume">
+            <span class="legendCarrito">Usa tus bits como dinero en esta compra <a href="#">learn more</a></span>
+          {{/hasBitsBalanceInResume}}
+        </div>
+        <div class="totalCheckOutTemp-totalTotal">
+          <span class="checkoutTitle">TOTAL</span>
+          <span class="checkoutDetail">${{cashTotal}}
+            <span class="note">Ahorro de ${{orderSaving}}</span>
+          </span>
+        </div>
+        <div class="totalCheckOutTemp-checkout">
+          <a href="#" class="linkBack"><em class="icon backBtn"></em> Regresar</a>
+          <input type="submit" value="CHECK OUT" class="btn" id="checkoutFromResume">
+        </div>
       </div>
     </div>
   </div>
