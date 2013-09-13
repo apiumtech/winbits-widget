@@ -73,7 +73,7 @@ module.exports = class CartView extends View
         id = $cartDetailStepper.closest("li").attr("data-id")
         that.updateCartDetail id, val
 
-    vendor.customSlider(".slideInput").on 'slidechange', (e, ui) ->
+    vendor.customSlider("#wb-cart-bits-slider-account").on 'slidechange', (e, ui) ->
 #      TODO: Create view CartInfo and maintain slider out of that view
       maxBits = w$(ui.handle).closest('.slider-holder').slider('option', 'max')
       if maxBits > 0

@@ -218,7 +218,9 @@ module.exports =
               $newVal = $oldValue - 1
             else
               $newVal = 1
-          $button.parent().find("input").val($newVal).trigger "step", $oldValue # NO BORRAR - Fix desarrollo
+          $currentInput = $button.parent().find("input")
+          $currentInput.val($newVal).trigger "step", $oldValue # NO BORRAR - Fix desarrollo
+          $currentInput.trigger "change" # NO BORRAR - Fix desarrollo
 
         $this.find("input").keydown (e) ->
           keyCode = e.keyCode or e.which
@@ -234,6 +236,7 @@ module.exports =
             when arrow.down
               $newVal = $oldValue - 1
           $(this).val($newVal).trigger "step", $oldValue  if $newVal >= 1 # NO BORRAR - Fix desarrollo
+          $(this).trigger "change" # NO BORRAR - Fix desarrollo
     $(obj) # NO BORRAR - Fix desarrollo
 
 
