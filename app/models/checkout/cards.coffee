@@ -3,10 +3,18 @@ config = require 'config'
 util = require 'lib/util'
 module.exports = class Cards extends ChaplinModel
 
+  constructor: (args) ->
+    super
+    console.log ['CART ITEM LEGEND', args]
+    @mainOnClick = args.mainOnClick is true
+    if @mainOnClick
+      @cardItemLegend = 'Establecer como tarjeta principal'
+    else
+      @cardItemLegend = 'Paga con esta tarjeta'
+
   initialize: () ->
     super
     @subscribeEvent 'showCardsManager', @getCards
-    @subscribeEvent 'setCards', @set
 
   getCards: ()->
     url = config.apiUrl + "/orders/card-subscription.json"
@@ -21,7 +29,7 @@ module.exports = class Cards extends ChaplinModel
 
       success: (data) ->
         console.log 'Success loading cards'
-        @set cards: data.response
+        @set cards: data.response, cardItemLegend: @cardItemLegend
 
       error: (xhr, textStatus, errorThrown) ->
         error = JSON.parse(xhr.responseText)

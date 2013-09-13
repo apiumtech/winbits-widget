@@ -21,6 +21,7 @@ module.exports = class CardsView extends View
     @delegate "submit" , "#wbi-new-card-form", @submitNewCardForm
     @delegate "submit" , "#wbi-edit-card-form", @submitEditCardForm
     @delegate "click", ".wb-delete-card-link", @confirmDeleteCard
+    @delegate "click", ".wb-card-list-item", @selectCard
 
   attach: ->
     super
@@ -99,6 +100,7 @@ module.exports = class CardsView extends View
 
   showEditCardForm: (e) ->
     e.preventDefault()
+    e.stopPropagation()
     $form = @$el.find('form#wbi-edit-card-form')
     cardIndex = @$el.find(e.currentTarget).closest('li').index()
     cardInfo = @model.get('cards')[cardIndex].cardInfo
@@ -187,6 +189,7 @@ module.exports = class CardsView extends View
 
   confirmDeleteCard: (e) ->
     e.preventDefault()
+    e.stopPropagation()
     $ = Backbone.$
     cardIndex = @$el.find(e.currentTarget).index()
     cardInfo = @model.get('cards')[cardIndex].cardInfo
@@ -212,3 +215,19 @@ module.exports = class CardsView extends View
 
         complete: ->
           console.log "Request Completed!"
+
+  selectCard: (e) ->
+    e.preventDefault()
+    $selectedCard = @$el.find(e.currentTarget)
+    if not $selectedCard.is('.creditcardSelected')
+      $selectedCard.siblings('.creditcardSelected').removeClass('creditcardSelected')
+      $selectedCard.addClass('creditcardSelected')
+      cardIndex = $selectedCard.index()
+      cardInfo = @model.get('cards')[cardIndex].cardInfo
+      @publishEvent 'cardSelected', { cardIndex: cardIndex, cardInfo: cardInfo }
+      if @model.mainOnClick
+        @setMainCard cardInfo
+
+  setMainCard: (cardInfo) ->
+    console.log ['Setting main card', cardInfo]
+#    TODO: Integrar servicio para establecer tarjeta principal

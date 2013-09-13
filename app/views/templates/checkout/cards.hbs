@@ -1,7 +1,7 @@
 <div class="creditcards wb-cards-subview" id="wbi-cards-list-holder">
   <ul>
     {{#each cards}}
-    <li class="creditcardItem">
+    <li class="creditcardItem wb-card-list-item">
     {{!<li class="creditcardItem creditcardSelected">}}
       <div class="creditcardMenu">
         <a class="wb-edit-card-link" href="#">edit</a>
@@ -16,7 +16,7 @@
         {{/with}}
       </address>
       <span class="note send creditCardSend">Tu orden se pagará con esta tarjeta.</span>
-      <span class="note hover">Da click aqui para establecer como tarjeta principal</span>
+      <span class="note hover">{{../cardItemLegend}}</span>
       {{#hasMSI}}
       <span class="mesesSinIntereses-box">MESES SIN INTERESES</span>
       {{/hasMSI}}
