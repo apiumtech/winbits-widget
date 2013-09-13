@@ -1,4 +1,4 @@
-<div class="creditcards">
+<div class="creditcards" id="wbi-cards-list-holder">
   <ul>
     {{#each cards}}
     <li class="creditcardItem">
@@ -31,54 +31,48 @@
   </ul>
 </div>
 <div class="newCreditCard creditcardNew">
-  <form id="creditcardNew" accept-charset="utf-8" action="#" method="post">
+  <form id="wbi-card-form" accept-charset="utf-8" action="#" method="post">
     <fieldset>
       <div class="column">
         <h3>NOMBRE</h3>
-        <input type="text" class="required" placeholder="Nombre" name="winbitsCreditCardName" id="winbitsCreditCard">
-        <input type="text" class="required" placeholder="Apellido" name="winbitsCreditCardLastname" id="winbitsCreditCardLastname">
-        <input type="text" class="required" placeholder="Número de Tarjeta" name="winbitsCreditCardNumber" id="winbitsCreditCardNumber">
+        <input type="text" class="required" placeholder="Nombre" maxlength="30" name="firstName" id="winbitsPaymentNewCardName">
+        <input type="text" class="required" placeholder="Apellido(s)" maxlength="50" name="lastName" id="winbitsPaymentNewCardLastName">
+        <input type="text" class="required" placeholder="Número de Tarjeta" maxlength="17" name="accountNumber" id="winbitsPaymentNewCardNumber">
         <div class="divFechaExpiracion">
-          <label>Fecha de Expiración</label>
-          <input type="text" placeholder="dd" maxlength="2" class="required digits" name="winbitsCreditCardDD" id="winbitsCreditCardDD">
-          <input type="text" placeholder="aa" maxlength="2" class="required digits" name="winbitsCreditCardAA" id="winbitsCreditCardAA">
+          <label>Fecha de vencimiento</label>
+          <input type="text" class="required digits" placeholder="dd" maxlength="2" name="expirationMonth" id="winbitsPaymentNewCardDD">
+          <input type="text" class="required digits" placeholder="aa" maxlength="2" name="expirationYear" id="winbitsPaymentNewCardAA">
         </div>
         <div class="divNumSecurity">
-          <label for="winbitsCreditCardSecurity"># de Seguridad</label>
-          <input type="text" placeholder="###" maxlength="3" class="requiered digits" name="winbitsCreditCardSecurity" id="winbitsCreditCardSecurity">
+          <label for="winbitsPaymentNewCardSecurity"># de Seguridad</label>
+          <input type="text" class="required digits" placeholder="###" maxlength="4" name="cvNumber" id="winbitsPaymentNewCardSecurity">
         </div>
       </div>
       <div class="column">
         <h3>DIRECCIÓN</h3>
-        <select class="select" data-clase="selectRegister" name="winbitsCreditCardCountry" id="winbitsCreditCardCountry">
-          <option>País</option>
-          <option>México</option>
-          <option>USA</option>
-          <option>Puerto Rico</option>
-        </select>
-        <div class="numCalle">
-          <input type="text" placeholder="Calle" class="inputMedium required" name="winbitsCreditCardStreet" id="winbitsCreditCardStreet">
-          <input type="text" placeholder="##" class="inputSmall required" name="winbitsCreditCardNum" id="winbitsCreditCardNum">
-        </div>
-        <select class="select" data-clase="selectRegister" data-inputselect="true" name="winbitsCreditCardCol" id="winbitsCreditCardCol">
-          <option>Colonia</option>
-          <option>Anahuac</option>
-          <option>Roma</option>
-          <option>Lomas de Chapultepec</option>
-        </select>
-        <input type="text" placeholder="Ciudad" name="winbitsCreditCardCity" id="winbitsCreditCardCity">
-        <input type="text" placeholder="Codigo Postal" name="winbitsCreditCardCP" id="winbitsCreditCardCP">
-        <input type="text" placeholder="Teléfono" name="winbitsCreditCardTel" id="winbitsCreditCardTel">
+        <input type="text" placeholder="Calle" class="required" name="street1" id="winbitsPaymentNewCardStreet">
+        <input type="text" placeholder="Número" class="inputMedium required" maxlength="10" name="number" id="winbitsPaymentNewCardNumero">
+        <input type="text" placeholder="Codigo Postal" name="postalCode" maxlength="5" id="winbitsPaymentNewCardCP">
+        <input type="text" placeholder="Teléfono" name="phoneNumber" maxlength="10" id="winbitsPaymentNewCardTel">
+        <input type="text" placeholder="Estado" name="state" maxlength="40" id="winbitsPaymentNewCardState">
+        <input type="text" placeholder="Colonia" name="colony" maxlength="40" id="winbitsPaymentNewCardColony">
+        <input type="text" placeholder="Delegación o Municipio" maxlength="40" name="municipality" id="winbitsPaymentNewCardMunicipality">
+        <input type="text" placeholder="Ciudad" name="city" maxlength="40" id="winbitsPaymentNewCardCity">
+        <input type="hidden" placeholder="País" class="required" name="country" id="winbitsPaymentNewCardCountry" value="MX">
       </div>
       <div class="column columnLarge">
         <h3>OPCIONES</h3>
-        <input type="checkbox" class="checkbox" name="winbitsCreditCardPrincipal" id="winbitsCreditCardPrincipal">
-        <label for="winbitsCreditCardPrincipal" class="checkboxLabel">Hacer esta mi tarjeta principal</label>
+        <div class="divCheckbox">
+          <span class="icon spanCheckbox unselectCheckbox" id="spanCheckboxAsPrincipal"></span>
+          <input type="hidden" class="checkbox" name="cardPrincipal" id="cardPrincipal">
+          <label for="cardPrincipal" class="checkboxLabel">Hacer esta mi tarjeta principal</label>
+        </div>
         <p class="note">Winbits puede guardar tus tarjetas de credito por ti, para que tu proxima compra sea mucho más rápida.</p>
         <div class="errorDiv"><p></p></div>
         <div class="submitButton">
-          <span class="btn btnCancel">Cancelar</span>
-          <input type="submit" value="Pagar" class="btn">
+          <span class="btn btnCancel btnPaymentCancel" id="wbi-cancel-card-form-btn">Cancelar</span>
+          <input type="button" value="Guardar" class="btn submitCheckoutPaymentNewCard" id="wbi-save-card-form-btn">
+          <input type="button" value="Guardar" class="btn submitCheckoutPaymentNewCard" id="wbi-update-card-form-btn" style="display: none;">
         </div>
       </div>
     </fieldset>

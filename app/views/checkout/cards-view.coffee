@@ -15,8 +15,8 @@ module.exports = class CardsView extends View
   initialize: ->
     super
     console.log "CardsView#initialize"
-#    @delegate "click" , "#aNewAddress", @newAddress
-#    @delegate "click" , "#btnCancel", @cancelEdit
+    @delegate "click" , "#wbi-add-new-card-link", @showNewAddressForm
+    @delegate "click" , "#wbi-cancel-card-form-btn", @cancelSaveUpdateCard
 #    @delegate "click" , "#btnSubmit", @addressSubmit
 #    @delegate "click" , ".btnUpdate", @addressUpdate
 #    @delegate "click" , ".edit-address", @editAddress
@@ -24,6 +24,81 @@ module.exports = class CardsView extends View
 #    @delegate "click" , "#btnContinuar", @addressContinuar
 #    @delegate "click" , ".shippingItem", @selectShipping
 #    @delegate 'keyup', '.zipCode', @findZipcode
+
+  attach: ->
+    super
+    console.log "CardsView#attach"
+    @$el.find("#wbi-card-form").validate
+      groups:
+        cardExpiration: 'expirationMonth expirationYear'
+      errorPlacement: ($error, $element) ->
+        if $element.attr("name") is "expirationMonth" or $element.attr("name") is "expirationYear"
+          $error.appendTo $element.parent()
+        else
+          $error.insertAfter $element
+      rules:
+        firstName:
+          required: true
+          minlength: 2
+        lastName:
+          required: true
+          minlength: 2
+        accountNumber:
+          required: true
+          creditcard: true
+        expirationMonth:
+          required: true
+          minlength: 2
+          digits: true
+          range: [1, 12]
+        expirationYear:
+          required: true
+          minlength: 2
+          digits: true
+        cvNumber:
+          required: true
+          digits: true
+          minlength: 3
+        street1:
+          required: true
+          minlength: 2
+        number:
+          required: true
+        postalCode:
+          required: true
+          minlength: 5
+          digits: true
+        phone:
+          required: true
+          minlength: 7
+          digits: true
+        state:
+          required: true
+          minlength: 2
+        colony:
+          required: true
+          minlength: 2
+        municipality:
+          required: true
+          minlength: 2
+        city:
+          required: true
+          minlength: 2
+
+  showNewAddressForm: (e) ->
+    e.preventDefault()
+    $form = @$el.find('form#wbi-card-form')
+    $form.validate().resetForm()
+    @$el.find('#wbi-cards-list-holder').hide()
+    $form.find('#wbi-update-card-form-btn').hide()
+    $form.find('#wbi-save-card-form-btn').show()
+    $form.parent().show()
+
+  cancelSaveUpdateCard: (e) ->
+    e.preventDefault()
+    $form = @$el.find('form#wbi-card-form')
+    $form.parent().hide()
+    @$el.find('#wbi-cards-list-holder').show()
 
   deleteAddress: (e)->
     console.log "deleting address"
@@ -127,57 +202,3 @@ module.exports = class CardsView extends View
             success: ->
           console.log "success"
           that.model.actualiza()
-
-  attach: ->
-    super
-    console.log "CardsView#attach"
-#    vendor.customCheckbox(@$(".checkbox"))
-#    that = this
-#    @$(".shippingEditAddress").each ->
-#      $select = that.$(this).find('.select')
-#      $zipCode = that.$(this).find('.zipCode')
-#      $zipCodeExtra = that.$(this).find('.zipCodeInfoExtra')
-#      zipCode(Backbone.$).find $zipCode.val(), $select, $zipCodeExtra.val()
-#      unless $zipCode.val().length < 5
-#        vendor.customSelect($select)
-#
-#    vendor.customSelect(@$(".shippingNewAddress").find(".select"))
-#
-#    @$el.find('form#shippingNewAddress').validate
-#      groups:
-#        addressNumber: 'externalNumber internalNumber'
-#      errorPlacement: ($error, $element) ->
-#        if $element.attr("name") is "externalNumber" or $element.attr("name") is "internalNumber"
-#          $error.appendTo $element.parent()
-#        else
-#          $error.insertAfter $element
-#      rules:
-#        firstName:
-#          required: true
-#          minlength: 2
-#        lastName:
-#          required: true
-#          minlength: 2
-#        phone:
-#          required: true
-#          minlength: 7
-#          digits: true
-#        street:
-#          required: true
-#          minlength: 2
-#        externalNumber:
-#          required: true
-#        internalNumber:
-#          minlength: 1
-#        betweenStreets:
-#          required: true
-#          minlength: 4
-#        indications:
-#          required: true
-#          minlength: 2
-#        zipCode:
-#          required: true
-#          minlength: 5
-#          digits: true
-#        location:
-#          minlength: 2
