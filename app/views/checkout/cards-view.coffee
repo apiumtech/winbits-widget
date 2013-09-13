@@ -15,9 +15,9 @@ module.exports = class CardsView extends View
   initialize: ->
     super
     console.log "CardsView#initialize"
-    @delegate "click" , "#wbi-add-new-card-link", @showNewAddressForm
-    @delegate "click" , "#wbi-cancel-card-form-btn", @cancelSaveUpdateCard
-#    @delegate "click" , "#btnSubmit", @addressSubmit
+    @delegate "click" , "#wbi-add-new-card-link", @showNewCardForm
+    @delegate "click" , ".wb-cancel-card-form-btn", @cancelSaveUpdateCard
+    @delegate "click" , ".wb-edit-card-link", @showEditCardForm
 #    @delegate "click" , ".btnUpdate", @addressUpdate
 #    @delegate "click" , ".edit-address", @editAddress
 #    @delegate "click" , ".delete-address", @deleteAddress
@@ -28,7 +28,7 @@ module.exports = class CardsView extends View
   attach: ->
     super
     console.log "CardsView#attach"
-    @$el.find("#wbi-card-form").validate
+    @$el.find(".wb-card-form").validate
       groups:
         cardExpiration: 'expirationMonth expirationYear'
       errorPlacement: ($error, $element) ->
@@ -85,20 +85,35 @@ module.exports = class CardsView extends View
           required: true
           minlength: 2
 
-  showNewAddressForm: (e) ->
+  showNewCardForm: (e) ->
     e.preventDefault()
-    $form = @$el.find('form#wbi-card-form')
+    $form = @$el.find('form#wbi-new-card-form')
     $form.validate().resetForm()
     @$el.find('#wbi-cards-list-holder').hide()
-    $form.find('#wbi-update-card-form-btn').hide()
-    $form.find('#wbi-save-card-form-btn').show()
     $form.parent().show()
 
   cancelSaveUpdateCard: (e) ->
     e.preventDefault()
-    $form = @$el.find('form#wbi-card-form')
-    $form.parent().hide()
+    @$el.find('.wb-cards-subview').hide()
     @$el.find('#wbi-cards-list-holder').show()
+
+  showEditCardForm: (e) ->
+    e.preventDefault()
+    $form = @$el.find('form#wbi-edit-card-form')
+    cardIndex = @$el.find(e.currentTarget).closest('li').index()
+    @fillEditCardForm $form, @model.get('cards')[cardIndex].cardInfo
+    @$el.find('#wbi-cards-list-holder').hide()
+    $form.parent().show()
+
+  fillEditCardForm: ($form, cardInfo) ->
+    $ = Backbone.$
+    $form.validate().resetForm()
+    formData = $.extend {}, cardInfo.cardData, cardInfo.cardAddress
+    if formData.expirationYear and formData.expirationYear.length
+      formData.expirationYear = formData.expirationYear.slice(-2)
+    $.each formData, (key, value) ->
+      console.log ['cardInfo Key, Val', key, value]
+      $form.find('[name=' + key + ']').val value
 
   deleteAddress: (e)->
     console.log "deleting address"

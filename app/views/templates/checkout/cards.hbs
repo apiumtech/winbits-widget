@@ -1,4 +1,4 @@
-<div class="creditcards" id="wbi-cards-list-holder">
+<div class="creditcards wb-cards-subview" id="wbi-cards-list-holder">
   <ul>
     {{#each cards}}
     <li class="creditcardItem">
@@ -30,8 +30,8 @@
     </li>
   </ul>
 </div>
-<div class="newCreditCard creditcardNew">
-  <form id="wbi-card-form" accept-charset="utf-8" action="#" method="post">
+<div class="newCreditCard creditcardNew wb-cards-subview">
+  <form id="wbi-new-card-form" accept-charset="utf-8" action="#" method="post" class="wb-card-form">
     <fieldset>
       <div class="column">
         <h3>NOMBRE</h3>
@@ -70,9 +70,50 @@
         <p class="note">Winbits puede guardar tus tarjetas de credito por ti, para que tu proxima compra sea mucho más rápida.</p>
         <div class="errorDiv"><p></p></div>
         <div class="submitButton">
-          <span class="btn btnCancel btnPaymentCancel" id="wbi-cancel-card-form-btn">Cancelar</span>
-          <input type="button" value="Guardar" class="btn submitCheckoutPaymentNewCard" id="wbi-save-card-form-btn">
-          <input type="button" value="Guardar" class="btn submitCheckoutPaymentNewCard" id="wbi-update-card-form-btn" style="display: none;">
+          <span class="btn btnCancel btnPaymentCancel wb-cancel-card-form-btn">Cancelar</span>
+          <input type="submit" value="Guardar" class="btn submitCheckoutPaymentNewCard" id="wbi-save-card-form-btn">
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>
+<div class="newCreditCard creditcardNew wb-cards-subview">
+  <form id="wbi-edit-card-form" accept-charset="utf-8" action="#" method="post" class="wb-card-form">
+    <fieldset>
+      <div class="column">
+        <h3>NOMBRE</h3>
+        <input type="text" class="required" placeholder="Nombre" maxlength="30" name="firstName" id="winbitsPaymentNewCardName">
+        <input type="text" class="required" placeholder="Apellido(s)" maxlength="50" name="lastName" id="winbitsPaymentNewCardLastName">
+        <div class="divFechaExpiracion">
+          <label>Fecha de vencimiento</label>
+          <input type="text" class="required digits" placeholder="dd" maxlength="2" name="expirationMonth" id="winbitsPaymentNewCardDD">
+          <input type="text" class="required digits" placeholder="aa" maxlength="2" name="expirationYear" id="winbitsPaymentNewCardAA">
+        </div>
+      </div>
+      <div class="column">
+        <h3>DIRECCIÓN</h3>
+        <input type="text" placeholder="Calle" class="required" name="street1" id="winbitsPaymentNewCardStreet">
+        <input type="text" placeholder="Número" class="inputMedium required" maxlength="10" name="number" id="winbitsPaymentNewCardNumero">
+        <input type="text" placeholder="Codigo Postal" name="postalCode" maxlength="5" id="winbitsPaymentNewCardCP">
+        <input type="text" placeholder="Teléfono" name="phoneNumber" maxlength="10" id="winbitsPaymentNewCardTel">
+        <input type="text" placeholder="Estado" name="state" maxlength="40" id="winbitsPaymentNewCardState">
+        <input type="text" placeholder="Colonia" name="colony" maxlength="40" id="winbitsPaymentNewCardColony">
+        <input type="text" placeholder="Delegación o Municipio" maxlength="40" name="municipality" id="winbitsPaymentNewCardMunicipality">
+        <input type="text" placeholder="Ciudad" name="city" maxlength="40" id="winbitsPaymentNewCardCity">
+        <input type="hidden" placeholder="País" class="required" name="country" id="winbitsPaymentNewCardCountry" value="MX">
+      </div>
+      <div class="column columnLarge">
+        <h3>OPCIONES</h3>
+        <div class="divCheckbox">
+          <span class="icon spanCheckbox unselectCheckbox" id="spanCheckboxAsPrincipal"></span>
+          <input type="hidden" class="checkbox" name="cardPrincipal" id="cardPrincipal">
+          <label for="cardPrincipal" class="checkboxLabel">Hacer esta mi tarjeta principal</label>
+        </div>
+        <p class="note">Winbits puede guardar tus tarjetas de credito por ti, para que tu proxima compra sea mucho más rápida.</p>
+        <div class="errorDiv"><p></p></div>
+        <div class="submitButton">
+          <span class="btn btnCancel btnPaymentCancel wb-cancel-card-form-btn">Cancelar</span>
+          <input type="submit" value="Guardar" class="btn submitCheckoutPaymentNewCard">
         </div>
       </div>
     </fieldset>
