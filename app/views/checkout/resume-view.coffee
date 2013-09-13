@@ -4,6 +4,7 @@ util = require 'lib/util'
 config = require 'config'
 vendor = require 'lib/vendor'
 clock = require 'lib/clock'
+mediator = require 'chaplin/mediator'
 
 module.exports = class ResumeView extends View
   container: '.widgetWinbitsMain'
@@ -21,14 +22,21 @@ module.exports = class ResumeView extends View
 
   attach: ->
     super
+    that = @
     vendor.customStepper(@$('.inputStepper'))
-    clock.startCounter(@$el.find('#wb-resume-timer'))
+    clock.startCounter(@$el.find('#wbi-resume-timer'))
+
+    if mediator.profile.bitsBalance > 0
+      vendor.customSlider("#wbi-bits-slide-resume") .on 'slidechange', (e, ui) ->
+        that.updateBitsTotal ui.value
+
 
   showResume: (data) ->
     console.log ['Resume', data]
     $ = Backbone.$
     $main = $('main').first()
     $main.children().hide()
+    data.maxBits = @calculateMaxBits data.total, mediator.profile.bitsBalance
     @publishEvent 'updateResumeModel', data
 
   handlerModelReady: ->
@@ -58,6 +66,8 @@ module.exports = class ResumeView extends View
 
   updateBitsTotal: (bitsTotal) ->
     console.log ['update bits total', bitsTotal]
+    cashTotal = @calculateCashTotal @model.attributes.total, bitsTotal
+    @publishEvent 'updateResumeModel', {bitsTotal: bitsTotal, cashTotal: cashTotal}
 
   updateResumeView: (items)->
     itemsTotal = @calculateItemsTotal items
@@ -65,7 +75,7 @@ module.exports = class ResumeView extends View
     total = @calculateTotal itemsTotal, shippingTotal
     cashTotal = @calculateCashTotal total, @model.attributes.bitsTotal
     orderSaving = @calculateOrderSaving itemsTotal, items
-    maxBits = Math.min(total, mediator.profile.bitsBalance)
+    maxBits = @calculateMaxBits total, mediator.profile.bitsBalance
     resultMap = {
       orderDetails: items,
       itemsTotal: itemsTotal,
@@ -102,3 +112,6 @@ module.exports = class ResumeView extends View
   calculateOrderSaving: (itemsTotal, items) ->
     orderFullPrice = util.calculateOrderFullPrice(items)
     orderFullPrice - itemsTotal
+
+  calculateMaxBits: (total, bitsBalance) ->
+    Math.min(total, bitsBalance)
