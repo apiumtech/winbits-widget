@@ -44,6 +44,7 @@ module.exports = class WidgetSiteView extends View
     @subscribeEvent 'cartBitsUpdated', @updateBitsBalanceWithCart
     @subscribeEvent 'showForgotPassword', @forgotPassword
     @subscribeEvent 'cleanModal', @closeModal
+    @subscribeEvent 'postToCheckoutApp', @postToCheckoutApp
 
   updateCartCounter: (count)->
     console.log ["WidgetSiteView#updateCartCounter " + count]
@@ -168,15 +169,22 @@ module.exports = class WidgetSiteView extends View
       contentType: "application/json"
       dataType: "json"
       context: @
+      data: JSON.stringify(verticalId: config.verticalId)
       headers:
         "Accept-Language": "es",
         "WB-Api-Token": util.getCookie(config.apiTokenName)
       success: (data) ->
         console.log "Checkout Success!"
-        console.log ["data", data]
-        @postToCheckoutApp data.response
+        resp = data.response
+        warnings = resp.orderDetails? and (item for item in resp.orderDetails when item.warnings?)
+        withWarnings = if warnings != null && warnings.length > 0  then true else false
+        @publishEvent 'restoreCart'
+        if resp.failedCartDetails? or withWarnings
+          @publishEvent 'showResume', resp
+        else
+          @postToCheckoutApp resp
 
-      error: (xhr, textStatus, errorThrown) ->
+      error: (xhr) ->
         console.log xhr
         error = JSON.parse(xhr.responseText)
 #        alert error.meta.message

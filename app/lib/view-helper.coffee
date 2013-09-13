@@ -276,6 +276,17 @@ Handlebars.registerHelper "hasBitsBalanceInCheckout", (options) ->
   else
     options.inverse this
 
+Handlebars.registerHelper "hasBitsBalanceInResume", (options) ->
+  if mediator.profile.bitsBalance > 0
+    options.fn this
+  else
+    options.inverse this
+Handlebars.registerHelper "hasMSI", (options) ->
+  # TODO: Lógica para determinar si una tarjeta tiene MSI
+  options.inverse this
+
+Handlebars.registerHelper "getIndex", (index) ->
+  index + 1
 
 #******************************
 #Custom partial

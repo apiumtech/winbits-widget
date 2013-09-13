@@ -19,7 +19,7 @@ module.exports = class OrderDetailView extends View
     super
     that = @
     if window.bits_balance > 0
-      vendor.customSlider(".slideInput").on 'slidechange', (e, ui) ->
+      vendor.customSlider("#wbi-bits-slide-checkout").on 'slidechange', (e, ui) ->
 #      TODO: Create view OrderInfo and maintain slider out of that view
         that.updateOrderBits ui.value
 
