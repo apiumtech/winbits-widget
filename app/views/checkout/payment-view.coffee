@@ -22,7 +22,7 @@ module.exports = class PaymentView extends View
     @delegate "click", ".btnPaymentCancel", @linkBack
     @delegate "click", "#spanCheckboxSaveCard", @selectCheckboxOption
     @delegate "click", "#spanCheckboxAsPrincipal", @selectCheckboxOption
-    @delegate "click", ".submitCheckoutPaymentNewCard", @payWithCard
+    @delegate "click", ".wb-submit-card-payment", @payWithCard
 
   payWithCard: (e) ->
     e.preventDefault()

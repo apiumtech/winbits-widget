@@ -28,6 +28,7 @@ module.exports = class ProfileView extends View
     @delegate 'click', '#attachTwitterAccountOn', @viewDetachTwitterAccount
     @delegate 'click', '#attachFacebookAccountOn', @viewDetachFacebookAccount
     @delegate 'click', '#wbi-change-password-link', @changePassword
+    @delegate 'click', '#wbi-show-cards-manager-link', @showCardsManager
     @delegate 'submit', '#wbi-change-password-form', @requestPasswordChange
 
     @subscribeEvent 'updateSocialAccountsStatus', @updateSocialAccountsStatus
@@ -338,3 +339,14 @@ module.exports = class ProfileView extends View
 
       complete: ->
         console.log "deleteAccount.json Completed!"
+
+  showCardsManager: (e) ->
+    $ = Backbone.$
+    $main = $('main').first()
+    $('div.dropMenu').slideUp()
+    $cardsManagerContainer = $main.find('#wbi-cards-manager')
+    if $cardsManagerContainer.css('display') is 'none'
+      $main.children().hide()
+      $cardsManagerContainer.parents().show()
+      $cardsManagerContainer.show()
+      @publishEvent 'showCardsManager'

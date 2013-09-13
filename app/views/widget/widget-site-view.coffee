@@ -168,6 +168,7 @@ module.exports = class WidgetSiteView extends View
       contentType: "application/json"
       dataType: "json"
       context: @
+      data: JSON.stringify(verticalId: config.verticalId)
       headers:
         "Accept-Language": "es",
         "WB-Api-Token": util.getCookie(config.apiTokenName)
@@ -176,7 +177,7 @@ module.exports = class WidgetSiteView extends View
         console.log ["data", data]
         @postToCheckoutApp data.response
 
-      error: (xhr, textStatus, errorThrown) ->
+      error: (xhr) ->
         console.log xhr
         error = JSON.parse(xhr.responseText)
         alert error.meta.message
