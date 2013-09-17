@@ -41,6 +41,7 @@ module.exports = class ResumeView extends View
 
   handlerModelReady: ->
     @render()
+    util.showWarrapperView("#wbi-alternate-checkout-flow")
 
   updateQuantityItem: (e) ->
     $currentTarget = @$(e.currentTarget)
