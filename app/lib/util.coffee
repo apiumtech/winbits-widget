@@ -83,7 +83,7 @@ module.exports =
     $main.children().show()
     $main.find('div.wrapper.subview').hide()
 
-  showWarrapperView: (identifier) ->
+  showWrapperView: (identifier) ->
     $ = Backbone.$
     $main = $('main').first()
     $('div.dropMenu').slideUp()
