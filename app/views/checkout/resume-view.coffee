@@ -70,7 +70,15 @@ module.exports = class ResumeView extends View
     orderDetails = @model.attributes.orderDetails
     skuProfileIdInt = parseInt(skuProfileId)
     items = orderDetails.filter (it) ->  it.sku.id isnt skuProfileIdInt
-    @updateResumeView items
+    if items? and items.length > 0
+      @updateResumeView items
+    else
+      if confirm "Tu orden será cancelada al quitar el último \nartículo de tu carrito. ¿Deseas continuar?"
+        @cancelOrder @model.attributes.id
+        util.backToSite(e)
+
+  cancelOrder: (orderId) ->
+    console.log ['Order id', orderId]
 
   updateBitsTotal: (bitsTotal) ->
     console.log ['update bits total', bitsTotal]
