@@ -24,7 +24,10 @@ module.exports = class ResumeView extends View
     super
     that = @
     vendor.customStepper(@$('.inputStepper'))
-    clock.startCounter(@$el.find('#wbi-resume-timer'))
+    $timer = @$el.find('#wbi-resume-timer')
+    $timer.data('orderId', @model.attributes.id)
+    $timer.data('contentTimerId', "#wbi-alternate-checkout-flow")
+    clock.startCounter( $timer )
 
     if mediator.profile.bitsBalance > 0
       vendor.customSlider("#wbi-bits-slide-resume") .on 'slidechange', (e, ui) ->
@@ -41,6 +44,14 @@ module.exports = class ResumeView extends View
 
   handlerModelReady: ->
     @render()
+    util.showWrapperView("#wbi-alternate-checkout-flow")
+    $currentClock = @model.attributes.currentClock
+    if $currentClock?
+      $timer = @$el.find('#wbi-resume-timer')
+      data = $currentClock.split(":")
+      $timer.data('minutes', parseInt(data[0]) )
+      $timer.data('seconds', ( parseInt(data[1]) ) )
+      $timer.text $currentClock
 
   updateQuantityItem: (e) ->
     $currentTarget = @$(e.currentTarget)
@@ -62,7 +73,35 @@ module.exports = class ResumeView extends View
     orderDetails = @model.attributes.orderDetails
     skuProfileIdInt = parseInt(skuProfileId)
     items = orderDetails.filter (it) ->  it.sku.id isnt skuProfileIdInt
-    @updateResumeView items
+    if items? and items.length > 0
+      @updateResumeView items
+    else
+      if confirm "Tu orden será cancelada al quitar el último \nartículo de tu carrito. ¿Deseas continuar?"
+        @cancelOrder @model.attributes.id
+        @publishEvent 'restoreCart'
+        util.backToSite(e)
+
+  cancelOrder: (orderId) ->
+    url = config.apiUrl + "/orders/"+orderId+".json"
+    Backbone.$.ajax url,
+      type: "DELETE"
+      contentType: "application/json"
+      dataType: "json"
+      context: @
+      headers:
+        "Accept-Language": "es",
+        "WB-Api-Token": util.getCookie(config.apiTokenName)
+      success: (data) ->
+        console.log ["Cancel order Success!", data]
+
+      error: (xhr) ->
+        console.log xhr
+        error = JSON.parse(xhr.responseText)
+        alert error.meta.message
+
+      complete: ->
+        console.log "Request Completed!"
+
 
   updateBitsTotal: (bitsTotal) ->
     console.log ['update bits total', bitsTotal]
@@ -77,6 +116,7 @@ module.exports = class ResumeView extends View
     cashTotal = @calculateCashTotal total, bitsTotal
     orderSaving = @calculateOrderSaving itemsTotal, items
     maxBits = @calculateMaxBits total, mediator.profile.bitsBalance
+    currentClock = @$el.find('#wbi-resume-timer').text()
     resultMap = {
       orderDetails: items,
       itemsTotal: itemsTotal,
@@ -85,7 +125,8 @@ module.exports = class ResumeView extends View
       cashTotal: cashTotal,
       total: total,
       orderSaving: orderSaving,
-      maxBits: maxBits
+      maxBits: maxBits,
+      currentClock: currentClock
     }
     @publishEvent 'updateResumeModel', resultMap
 

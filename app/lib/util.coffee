@@ -83,6 +83,15 @@ module.exports =
     $main.children().show()
     $main.find('div.wrapper.subview').hide()
 
+  showWrapperView: (identifier) ->
+    $ = Backbone.$
+    $main = $('main').first()
+    $('div.dropMenu').slideUp()
+    $container = $main.find(identifier)
+    $main.children().hide()
+    $container.parents().show()
+    $container.show()
+
   resetLocationSelect: ($select) ->
     $select.html '<option>Localidad</option>'
     $select.parent().find('ul').html '<li rel="Localidad">Localidad</li>'
