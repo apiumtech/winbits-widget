@@ -24,7 +24,9 @@ module.exports = class ResumeView extends View
     super
     that = @
     vendor.customStepper(@$('.inputStepper'))
-    clock.startCounter(@$el.find('#wbi-resume-timer'))
+    $timer = @$el.find('#wbi-resume-timer')
+    $timer.data('orderId', @model.attributes.id)
+    clock.startCounter( $timer )
 
     if mediator.profile.bitsBalance > 0
       vendor.customSlider("#wbi-bits-slide-resume") .on 'slidechange', (e, ui) ->
@@ -78,7 +80,26 @@ module.exports = class ResumeView extends View
         util.backToSite(e)
 
   cancelOrder: (orderId) ->
-    console.log ['Order id', orderId]
+    url = config.apiUrl + "/orders/"+orderId+".json"
+    Backbone.$.ajax url,
+      type: "DELETE"
+      contentType: "application/json"
+      dataType: "json"
+      context: @
+      headers:
+        "Accept-Language": "es",
+        "WB-Api-Token": util.getCookie(config.apiTokenName)
+      success: (data) ->
+        console.log ["Cancel order Success!", data]
+
+      error: (xhr) ->
+        console.log xhr
+        error = JSON.parse(xhr.responseText)
+        alert error.meta.message
+
+      complete: ->
+        console.log "Request Completed!"
+
 
   updateBitsTotal: (bitsTotal) ->
     console.log ['update bits total', bitsTotal]

@@ -178,7 +178,6 @@ module.exports = class WidgetSiteView extends View
         resp = data.response
         warnings = resp.orderDetails? and (item for item in resp.orderDetails when item.warnings?)
         withWarnings = if warnings != null && warnings.length > 0  then true else false
-        @publishEvent 'restoreCart'
         if resp.failedCartDetails? or withWarnings
           @publishEvent 'showResume', resp
         else
@@ -209,6 +208,7 @@ module.exports = class WidgetSiteView extends View
     $('#' + config.winbitsDivId).trigger 'bitschanged', [{bitsBalance: bitsBalance, bitsTotal: bitsTotal}]
 
   postToCheckoutApp: (order) ->
+    @publishEvent 'restoreCart'
     $chkForm = w$('<form id="chk-form" method="POST" style="display:none"></form>')
     $chkForm.attr("action", config.baseUrl + "/checkout.php")
     $chkForm.append w$('<input type="hidden" name="token"/>').val(util.getCookie(config.apiTokenName))
