@@ -26,6 +26,7 @@ module.exports = class ResumeView extends View
     vendor.customStepper(@$('.inputStepper'))
     $timer = @$el.find('#wbi-resume-timer')
     $timer.data('orderId', @model.attributes.id)
+    $timer.data('contentTimerId', "#wbi-alternate-checkout-flow")
     clock.startCounter( $timer )
 
     if mediator.profile.bitsBalance > 0
@@ -77,6 +78,7 @@ module.exports = class ResumeView extends View
     else
       if confirm "Tu orden será cancelada al quitar el último \nartículo de tu carrito. ¿Deseas continuar?"
         @cancelOrder @model.attributes.id
+        @publishEvent 'restoreCart'
         util.backToSite(e)
 
   cancelOrder: (orderId) ->

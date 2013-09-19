@@ -11,6 +11,15 @@ module.exports =
     , 1000
 
   updateCheckoutTimer: ($timer, $interval) ->
+
+    $ = Backbone.$
+    $main = $('main').first()
+    $container = $main.find($timer.data('contentTimerId'))
+    if $container.css('display') is 'none'
+      console.log('clean clok')
+      @expireOrder $timer.data('orderId')
+      clearInterval $interval
+
     minutes = $timer.data('minutes')
     minutes = if minutes? then minutes else 30
     seconds = $timer.data('seconds') || 0
@@ -19,6 +28,7 @@ module.exports =
       console.log ['expire order', $timer.data('orderId')]
       @expireOrder $timer.data('orderId')
       clearInterval $interval
+      alert "Tu orden ha expirado"
     else
       if seconds < 0
         seconds = 59
@@ -44,7 +54,6 @@ module.exports =
       success: (data) ->
         console.log ["expire order Success!", data]
         util.backToSite()
-        alert "Tu orden ha expirado"
 
       error: (xhr) ->
         console.log xhr
