@@ -82,7 +82,7 @@ module.exports = class ResumeView extends View
         util.backToSite(e)
 
   cancelOrder: (orderId) ->
-    url = config.apiUrl + "/orders/"+orderId+".json"
+    url = config.apiUrl + "/orders/orders/"+orderId+".json"
     Backbone.$.ajax url,
       type: "DELETE"
       contentType: "application/json"
@@ -131,6 +131,7 @@ module.exports = class ResumeView extends View
     @publishEvent 'updateResumeModel', resultMap
 
   backToSite: (e) ->
+    clock.expireOrder @model.attributes.id
     util.backToSite(e)
 
   checkoutFromResume: (e) ->

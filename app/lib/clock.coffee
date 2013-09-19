@@ -16,8 +16,6 @@ module.exports =
     $main = $('main').first()
     $container = $main.find($timer.data('contentTimerId'))
     if $container.css('display') is 'none'
-      console.log('clean clok')
-      @expireOrder $timer.data('orderId')
       clearInterval $interval
 
     minutes = $timer.data('minutes')
