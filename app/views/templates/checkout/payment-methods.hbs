@@ -8,7 +8,7 @@
                             <span><strong>Mensualidades sin intereses:</strong> 12</span>
                             <span><strong>Monto mensual a pagar:</strong> $124.15</span>
                         </address> -->
-  {{#compare payment.identifier 'cybersource.cc'}}
+  {{#compare payment.identifier "cybersource\.\w+" operator="matches"}}
     {{#compare payment.status 'REVIEW'}}
       <address>
         <span>Tu pago se encuentra en proceso de revisión.</span>
@@ -57,7 +57,7 @@
   </address>
   {{/compare}}
 {{else}}
-<div class="checkoutPaymentCreditcard">
+<div class="checkoutPaymentCreditcard" id="wbi-main-payment-view">
   <p class="information">Por favor, escoge una de tus tarjetas de crédito. </p>
   <div id="wbi-cards"></div>
   <p class="information">O, escoge un método de pago. </p>
@@ -101,26 +101,7 @@
     {{/compare}}
     {{/methods}}
   </ul>
-  <input type="submit" class="btn btnCheckout" value="Continuar">
-</div>
-<div class="checkoutPaymentCreditValidate">
-  <form id="checkoutPaymentCreditValidate" accept-charset="utf-8" action="#" method="post">
-    <fieldset>
-      <div class="column">
-        <h3>VALIDACIÓN</h3>
-        <p>Para validar tu tarjeta es necesario que ingreses  el número de seguridad de tu tarjeta</p>
-        <label for="winbitsPaymentNumber"># de Seguridad</label>
-        <input type="text" class="required digits" placeholder="###" name="winbitsPaymentNumber" id="winbitsPaymentNumber">
-        <div class="errorDiv"><p></p></div>
-      </div>
-      <div class="column columExtralarge">
-        <div class="submitButton">
-          <span class="btn btnCancel">Cancelar</span>
-          <input type="submit" value="Pagar" class="btn">
-        </div>
-      </div>
-    </fieldset>
-  </form>
+  <input type="submit" class="btn btnCheckout" value="Continuar" id="wbi-card-token-payment-continue-btn">
 </div>
 {{#methods}}
   {{#compare identifier "reference.hsbc"}}
@@ -135,14 +116,14 @@
             <p>Acude a tu banco o accede a tu banco en linea. Realiza tu pago a la cuenta y número de referencia</p>
           </li>
         </ul>
-        <a href="#" class="btn submitOrder" id="submit-{{id}}">Pedir mi número de referencia</a>
+        <a href="#" class="btn submitOrder" id="submit-{{identifier}}">Pedir mi número de referencia</a>
         <a href="#" class="linkBack"><em class="icon backBtn"></em> Regresar</a>
       </div>
    {{/compare}}
    {{#compare identifier "paypal.latam"}}
       <div class="checkoutPaymentPayPal method-payment" id="method-{{replace identifier searchValue='.' replaceValue='_'}}">
         <p>Paga de forma rapida y segura con tu cuenta de PayPal</p>
-        <a href="#" class="submitOrder" id="submit-{{id}}"><span class="icon paypalLogo">Pay Pal</span></a>
+        <a href="#" class="submitOrder" id="submit-{{identifier}}"><span class="icon paypalLogo">Pay Pal</span></a>
         <a href="#" class="linkBack"><em class="icon backBtn"></em> Regresar</a>
       </div>
   {{/compare}}
@@ -162,7 +143,7 @@
             <p>Paga en efectivo</p>
           </li>
         </ul>
-        <a href="#" class="btn submitOrder" id="submit-{{id}}">Descargar ficha de pago</a>
+        <a href="#" class="btn submitOrder" id="submit-{{identifier}}">Descargar ficha de pago</a>
         <a href="#" class="linkBack" ><em class="icon backBtn"></em> Regresar</a>
       </div>
   {{/compare}}
@@ -225,7 +206,7 @@
             <h3>Concluye tu compra con bits</h3>
             <p>Al hacer clic en "CONTINUAR" acepto haber leído y comprendido los <a href="#">Términos y Condiciones</a></p>
             <span class="icon bitsMoney"></span>
-            <input type="button" value="Continuar" class="btn submitOrder" id="submit-{{id}}">
+            <input type="button" value="Continuar" class="btn submitOrder" id="submit-{{identifier}}">
             <!--<a href="#" class="linkBack"><em class="icon backBtn"></em> Regresar</a>-->
           </div>
   {{/compare}}

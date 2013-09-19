@@ -1,0 +1,26 @@
+<div class="checkoutPaymentCreditValidate" id="wbi-card-token-payment-view">
+  <form id="wbi-card-token-payment-form" accept-charset="utf-8" action="#" method="post">
+    <fieldset>
+      <div class="column">
+        <h3>VALIDACIÓN</h3>
+        <p>Para validar tu tarjeta es necesario que ingreses el número de seguridad de tu tarjeta</p>
+        <label for="winbitsPaymentNumber"># de Seguridad</label>
+        <input type="text" class="required digits" placeholder="###" name="cvNumber" id="winbitsPaymentNumber" maxlength="4">
+        {{#if cardInfo.hasMSI}}
+        <h3>MESES SIN INTERESES</h3>
+        <p>Esta compra aplica para meses sin intereses. Si así lo deseas seleccione la opción más conveniente</p>
+        <select class="select" data-clase="selectRegister" name="msi" id="mesesSinIntereses">
+          <option>Meses sin intereses</option>
+        </select>
+        {{/if}}
+        <div class="errorDiv"><p></p></div>
+      </div>
+      <div class="column columExtralarge">
+        <div class="submitButton">
+          <span class="btn btnCancel" id="wbi-cancel-card-token-payment-btn">Cancelar</span>
+          <input type="submit" value="Pagar" class="btn wb-submit-trigger">
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>

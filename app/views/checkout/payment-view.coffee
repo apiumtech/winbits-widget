@@ -3,14 +3,14 @@ template = require 'views/templates/checkout/payment-methods'
 util = require 'lib/util'
 config = require 'config'
 mediator = require 'chaplin/mediator'
+vendor = require 'lib/vendor'
+CardTokenPayment = require 'models/checkout/card-token-payment'
+CardTokenPaymentView = require 'views/checkout/card-token-payment-view'
 
 # Site view is a top-level view which is bound to body.
 module.exports = class PaymentView extends View
   container: '.checkoutPaymentContainer'
   autoRender: yes
-  #regions:
-  #'#header-container': 'header'
-  #'#page-container': 'main'
   template: template
 
   initialize: ->
@@ -18,11 +18,17 @@ module.exports = class PaymentView extends View
     @delegate "click" , ".li-method", @selectMethod
     @delegate "click" , ".submitOrder", @submitOrder
     @delegate "click", ".linkBack", @linkBack
-    @subscribeEvent "showBitsPayment", @showBitsPayment
     @delegate "click", ".btnPaymentCancel", @linkBack
     @delegate "click", "#spanCheckboxSaveCard", @selectCheckboxOption
     @delegate "click", "#spanCheckboxAsPrincipal", @selectCheckboxOption
     @delegate "click", ".wb-submit-card-payment", @payWithCard
+    @delegate 'click', '#wbi-card-token-payment-continue-btn', @onContinueWithCardTokenBtnClick
+    @subscribeEvent "showBitsPayment", @showBitsPayment
+    @subscribeEvent 'cardSelected', @onCardSelected
+    @subscribeEvent 'paymentFlowCancelled', @onPaymentFlowCancelled
+
+    cardTokenPayment = new CardTokenPayment
+    @cardTokenPaymentView = new CardTokenPaymentView(model: cardTokenPayment)
 
   payWithCard: (e) ->
     e.preventDefault()
@@ -76,9 +82,6 @@ module.exports = class PaymentView extends View
       $currentTarget.removeClass "unselectCheckbox"
       $currentTarget.addClass "selectCheckbox"
       checkboxInput.val("true")
-
-
-
 
   selectMethod: (e)->
     e.preventDefault()
@@ -195,3 +198,23 @@ module.exports = class PaymentView extends View
     @$(".method-payment").hide()
     @$(".checkoutPaymentCreditcard").hide()
     @$('#method-bits').show()
+
+  onContinueWithCardTokenBtnClick: (e) ->
+    e.preventDefault()
+    $cartItem = @$el.find('.wb-card-list-item.creditcardSelected')
+    if $cartItem.length > 0
+      @$el.children().hide()
+      @cardTokenPaymentView.render()
+      @cardTokenPaymentView.$el.find('#wbi-card-token-payment-view').show()
+    else
+      alert 'Para continuar elige una de tus tarjetas'
+
+  onCardSelected: (cardData) ->
+    cardInfo = cardData.cardInfo
+    mediator.post_checkout.paymentMethod = 'cybersource.token'
+    mediator.post_checkout.paymentInfo = subscriptionId: cardInfo.subscriptionId
+    @cardTokenPaymentView.model.set cardInfo: cardInfo
+
+  onPaymentFlowCancelled: (e) ->
+    @$el.children().hide()
+    @$el.find('#wbi-main-payment-view').show()

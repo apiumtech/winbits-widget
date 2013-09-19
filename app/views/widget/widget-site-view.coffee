@@ -186,7 +186,7 @@ module.exports = class WidgetSiteView extends View
       error: (xhr) ->
         console.log xhr
         error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+#        alert error.meta.message
 
       complete: ->
         console.log "Request Completed!"
