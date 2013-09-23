@@ -70,10 +70,8 @@ module.exports = class HomeController extends ChaplinController
     @shippingAddressView = new ShippingAddressView(model: @shippingAddress)
     @resume = new Resume
     @resumeView = new ResumeView(model: @resume)
-    @address.fetch()
     @cardsManagerView = new CardsManagerView
     @cardsView = new CardsView(model: @cards)
-    @address.fetch() # TODO: Checar porque se hace aquí un fetch
     @profile.on "change", ->
       that.profileView.render()
     @cart.on "change", ->
