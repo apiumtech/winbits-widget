@@ -29,6 +29,7 @@ module.exports = class ForgotPasswordView extends View
     if $form.valid()
       console.log "Recover password"
       formData = util.serializeForm($form)
+      formData.verticalId = config.verticalId
       Backbone.$.ajax config.apiUrl + "/affiliation/password/recover.json",
         data: JSON.stringify(formData)
         type: "POST"
@@ -44,7 +45,7 @@ module.exports = class ForgotPasswordView extends View
         success: (data) ->
           console.log ["RecoverPasswordStatus.json Success!", data]
           that.publishEvent 'cleanModal'
-          alert data.response.message
+          that.publishEvent 'showMessageConfirm', "#wbi-recover-password-confirm-modal"
 
         error: (xhr, textStatus, errorThrown) ->
           console.log "RecoverPasswordStatus.json Error!"

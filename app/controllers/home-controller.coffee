@@ -30,6 +30,8 @@ ResumeView = require "views/checkout/resume-view"
 Cards = require "models/checkout/cards"
 CardsView = require "views/checkout/cards-view"
 CardsManagerView = require "views/widget/account/cards-manager-view"
+ResetPassword = require "models/reset-password"
+ResetPasswordView = require "views/widget/reset-password-view"
 mediator = require 'chaplin/mediator'
 util = require 'lib/util'
 config = require 'config'
@@ -72,6 +74,8 @@ module.exports = class HomeController extends ChaplinController
     @resumeView = new ResumeView(model: @resume)
     @cardsManagerView = new CardsManagerView
     @cardsView = new CardsView(model: @cards)
+    @resetPassword = new ResetPassword
+    @resetPasswordView = new ResetPasswordView(model: @resetPassword)
     @profile.on "change", ->
       that.profileView.render()
     @cart.on "change", ->

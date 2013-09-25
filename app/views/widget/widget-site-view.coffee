@@ -38,6 +38,7 @@ module.exports = class WidgetSiteView extends View
     @subscribeEvent 'resetComponents', @resetComponents
     @subscribeEvent 'updateCartCounter', @updateCartCounter
     @subscribeEvent 'showConfirmation', @showConfirmation
+    @subscribeEvent 'showMessageConfirm', @showMessageConfirm
     @subscribeEvent 'showRegister', @viewRegister
     @subscribeEvent 'showLogin', @showLoginLayer
     @subscribeEvent 'applyLogin', @updateBitsBalanceWithProfile
@@ -45,6 +46,7 @@ module.exports = class WidgetSiteView extends View
     @subscribeEvent 'showForgotPassword', @forgotPassword
     @subscribeEvent 'cleanModal', @closeModal
     @subscribeEvent 'postToCheckoutApp', @postToCheckoutApp
+    @subscribeEvent 'showResetPassword', @resetPassword
 
   updateCartCounter: (count)->
     console.log ["WidgetSiteView#updateCartCounter " + count]
@@ -92,6 +94,14 @@ module.exports = class WidgetSiteView extends View
   showConfirmation: () ->
     console.log "WidgetSiteView#showConfirmation"
     Backbone.$("#register-confirm-modal").modal( 'show' ).css {
+      width: '625px',
+      'margin-left': -> -( Backbone.$( this ).width() / 2 )
+      top: '50%',
+      'margin-top': -> -(  Backbone.$( this ).height() / 2 )
+    }
+
+  showMessageConfirm: (modalId) ->
+    Backbone.$(modalId).modal( 'show' ).css {
       width: '625px',
       'margin-left': -> -( Backbone.$( this ).width() / 2 )
       top: '50%',
@@ -278,6 +288,18 @@ module.exports = class WidgetSiteView extends View
     @$('.modal').modal 'hide'
     that = @
     @$("#forgot-password-modal").modal( 'show' ).css {
+      width: '330px',
+      'margin-left': -> -( that.$( this ).width() / 2 )
+      top: '50%',
+      'margin-top': -> -(  that.$( this ).height() / 2 )
+      'max-height': '370px'
+    }
+
+  resetPassword: (e) ->
+    console.log "WidgetSiteView#viewResetPassword"
+    @$('.modal').modal 'hide'
+    that = @
+    @$("#wbi-reset-password-modal").modal( 'show' ).css {
       width: '330px',
       'margin-left': -> -( that.$( this ).width() / 2 )
       top: '50%',
