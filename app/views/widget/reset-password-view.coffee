@@ -59,9 +59,9 @@ module.exports = class ResetPasswordView extends View
 
         error: (xhr, textStatus, errorThrown) ->
           console.log "Reset Password Status Error!"
+          that.publishEvent 'cleanModal'
           error = JSON.parse(xhr.responseText)
           alert error.meta.message
-          that.publishEvent 'cleanModal'
 
         complete: ->
           console.log "Reset Password Status Completed!"
