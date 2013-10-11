@@ -1,3 +1,6 @@
+<?php
+$verticalUrl = $_GET['verticalUrl'];
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -76,10 +79,10 @@
         <div class="checkoutPayPal-container">
           <h4>Tu compra fué rechazada.</h4>
 
-          <p>Puedes revisar el estado de tu validación en el <a href="#">historial de tu cuenta</a></p>
+          <p>Puedes revisar el estado de tu validación en el <a href="<?echo $verticalUrl?>">historial de tu cuenta</a></p>
         </div>
         <div class="checkoutPayPal-submit">
-          <a href="#" class="btn">Volver a la tienda</a>
+          <a href="<?echo $verticalUrl?>" class="btn">Volver a la tienda</a>
         </div>
       </div>
     </div>

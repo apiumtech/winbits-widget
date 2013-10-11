@@ -113,8 +113,13 @@ module.exports = class PaymentView extends View
         console.log ["data", data]
         payment = data.response.payments[0]
         if payment.status isnt 'FAILED' and payment.status isnt 'ERROR'
-          that.publishEvent "setConfirm", data.response
-          that.publishEvent "showStep", ".checkoutSummaryContainer", payment
+          if paymentMethod is 'paypal.latam'
+            paymentCapture = payment.paymentCapture
+            params = paymentCapture.params
+            window.location = paymentCapture.url + '?cmd=' + params.cmd + '&token=' + params.token
+          else
+            that.publishEvent "setConfirm", data.response
+            that.publishEvent "showStep", ".checkoutSummaryContainer", payment
         else
           alert 'Error al procesar el pago, por favor intentalo más tarde'
 
