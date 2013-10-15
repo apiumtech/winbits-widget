@@ -57,15 +57,41 @@ module.exports = class ResumeView extends View
     $currentTarget = @$(e.currentTarget)
     skuProfileId =  $currentTarget.attr("id").split("-")[1]
     skuProfileIdInt = parseInt(skuProfileId)
-    orderDetails = @model.attributes.orderDetails
     quantity = parseInt $currentTarget.val()
-    items = orderDetails.map( (it) ->
-        if it.sku.id is skuProfileIdInt
-          it.quantity = quantity
-          it.amount = it.sku.price * quantity
-        it
-    )
-    @updateResumeView items
+    orderId = @model.attributes.id
+
+    data = {skuProfileId: skuProfileId, orderId: orderId, quantity: quantity}
+    url = config.apiUrl + "/orders/order-item/add.json"
+    Backbone.$.ajax url,
+      type: "POST"
+      contentType: "application/json"
+      dataType: "json"
+      context: @
+      data: JSON.stringify(data)
+      headers:
+        "Accept-Language": "es",
+        "WB-Api-Token": util.getCookie(config.apiTokenName)
+      success: (data) ->
+        console.log ["Add order item Success!", data]
+        orderDetails = @model.attributes.orderDetails
+        items = orderDetails.map( (it) ->
+          if it.sku.id is skuProfileIdInt
+            it.quantity = quantity
+            it.amount = it.sku.price * quantity
+          it
+        )
+        @updateResumeView items
+
+      error: (xhr) ->
+        @updateResumeView @model.attributes.orderDetails
+        console.log xhr
+        error = JSON.parse(xhr.responseText)
+        alert error.meta.message
+
+      complete: ->
+        console.log "Request Completed!"
+
+
 
   deleteItem: (e) ->
     $currentTarget = @$(e.currentTarget)
