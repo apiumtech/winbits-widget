@@ -1,14 +1,5 @@
 {{#if payment}}
-  <!-- MESES SIN INTERESES
-                        <address>
-                            <span>Raúl Sotomayor</span>
-                            <span>Master Card,</span>
-                            <span><strong>No de tarjeta:</strong> xxxxxxxxx-2327</span>
-                            <span><strong>Referencia bancaria:</strong> xxxxxxxxxx</span>
-                            <span><strong>Mensualidades sin intereses:</strong> 12</span>
-                            <span><strong>Monto mensual a pagar:</strong> $124.15</span>
-                        </address> -->
-  {{#compare payment.identifier "cybersource\.\w+" operator="matches"}}
+  {{#compare payment.identifier "cybersource\..+" operator="matches"}}
     {{#compare payment.status 'REVIEW'}}
       <address>
         <span>Tu pago se encuentra en proceso de revisión.</span>
@@ -21,10 +12,29 @@
         <span>{{cardType}},</span>
         <span><strong>No de tarjeta:</strong> {{maskingCard}}</span>
         <span><strong>Referencia bancaria:</strong> {{authorizationCode}}</span>
-        <span><strong>Monto a pagar:</strong> ${{amount}}</span>
+        <span><strong>Monto pagado:</strong> ${{amount}}</span>
       {{/with}}
+      {{#isMSIPayment payment}}
+        <span><strong>Mensualidades sin intereses:</strong> {{numberOfPayments}}</span>
+        <span><strong>Monto mensual a pagar:</strong> ${{monthlyPayment}}</span>
+      {{/isMSIPayment}}
     </address>
     {{/compare}}
+  {{/compare}}
+  {{#compare payment.identifier "amex\..+" operator="matches"}}
+    <address>
+      {{#with payment.paymentCapture}}
+        <span>{{customerName}}</span>
+        <span>American Express,</span>
+        <span><strong>No de tarjeta:</strong> XXXX-XXXXXX-X{{cardNumber}}</span>
+        <span><strong>Referencia bancaria:</strong> {{receiptNumber}}</span>
+      {{/with}}
+      <span><strong>Monto pagado:</strong> ${{payment.amount}}</span>
+      {{#isMSIPayment payment}}
+        <span><strong>Mensualidades sin intereses:</strong> {{numberOfPayments}}</span>
+        <span><strong>Monto mensual a pagar:</strong> ${{monthlyPayment}}</span>
+      {{/isMSIPayment}}
+    </address>
   {{/compare}}
   {{#compare payment.identifier 'reference.hsbc'}}
   <address>
@@ -46,7 +56,7 @@
     </address>
     {{/with}}
   {{/compare}}
-  {{#compare payment.identifier 'paypal.latam'}}
+  {{#compare payment.identifier 'paypal\..+'}}
   <address>
       <span>Cobro exitoso vía Pay Pal</span>
   </address>

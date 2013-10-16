@@ -22,7 +22,7 @@ css.setAttribute("type", "text/css");
 css.setAttribute("href", "{{baseUrl}}/stylesheets/app.css");
 head.appendChild(css);
 
-JavaScript.load('//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js', function() {
+JavaScript.load('//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js', function() {
   window.w$ = $.noConflict(true);
   JavaScript.load('{{baseUrl}}/javascripts/vendor.js', function() {
   Backbone.$ = window.w$;
