@@ -4,6 +4,8 @@
   <p class="caracItem">{{joinAttributes skuProfile.mainAttribute skuProfile.attributes}}</p>
   <label>Cantidad</label>
   <input type="text" class="inputStepper cart-detail-quantity" value="{{quantity}}">
+  <input type="hidden" value="{{max}}" class="inputStepperMax">
+  <input type="hidden" value="{{min}}" class="inputStepperMin">
   <p class="priceItem cart-detail-price">${{cartDetailTotal skuProfile.price quantity}}</p>
   <span class="icon looqLogoSmall">{{skuProfile.item.vertical.name}}</span>
   {{!--<span class="verticalName">Producto de <em class="cart-detail-vertical">{{skuProfile.item.vertical.name}}</em></span>--}}

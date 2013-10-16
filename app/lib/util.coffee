@@ -95,3 +95,51 @@ module.exports =
   resetLocationSelect: ($select) ->
     $select.html '<option>Localidad</option>'
     $select.parent().find('ul').html '<li rel="Localidad">Localidad</li>'
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#      CUSTOMSTEPPER: Sumar y restar valores del stepper
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  customStepper : (obj) ->
+    $ = w$ # NO BORRAR - Fix desarrollo
+    if $(obj).length
+      $(obj).each ->
+        $(this).wrap "<div class=\"stepper\"/>"
+        $this = $(this).parent()
+        $this.append "<span class=\"icon plus\"/><span class=\"icon minus\"/>"
+        $max = parseInt($this.parent().find(".inputStepperMax").val())
+        $min = parseInt($this.parent().find(".inputStepperMin").val())
+        $this.find(".icon").click ->
+          $newVal = undefined
+          $button = $(this)
+          $oldValue = parseInt($button.parent().find("input").val(), 10)
+          if $button.hasClass("plus")
+            $newVal = $oldValue + 1
+          else if $button.hasClass("minus")
+            if $oldValue >= 2
+              $newVal = $oldValue - 1
+            else
+              $newVal = 1
+
+          if $newVal >= $min and $newVal <= $max
+            $currentInput = $button.parent().find("input")
+            $currentInput.val($newVal).trigger "step", $oldValue # NO BORRAR - Fix desarrollo
+            $currentInput.trigger "change" # NO BORRAR - Fix desarrollo
+
+        $this.find("input").keydown (e) ->
+          keyCode = e.keyCode or e.which
+          arrow =
+            up: 38
+            down: 40
+
+          $newVal = undefined
+          $oldValue = parseInt($(this).val(), 10)
+          switch keyCode
+            when arrow.up
+              $newVal = $oldValue + 1
+            when arrow.down
+              $newVal = $oldValue - 1
+
+          if $newVal >= $min and $newVal <= $max
+            $(this).val($newVal).trigger "step", $oldValue  if $newVal >= 1 # NO BORRAR - Fix desarrollo
+            $(this).trigger "change" # NO BORRAR - Fix desarrollo
+    $(obj) # NO BORRAR - Fix desarrollo
