@@ -23,7 +23,7 @@ module.exports = class ResumeView extends View
   attach: ->
     super
     that = @
-    vendor.customStepper(@$('.inputStepper'))
+    util.customStepper(@$('.inputStepper'))
     $timer = @$el.find('#wbi-resume-timer')
     $timer.data('orderId', @model.attributes.id)
     $timer.data('contentTimerId', "#wbi-alternate-checkout-flow")

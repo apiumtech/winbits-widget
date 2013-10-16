@@ -44,6 +44,8 @@
             <td class="column4">${{sku.price}}</td>
             <td class="column5">
               <input type="text" value="{{quantity}}" class="inputStepper" id="quantityItem-{{sku.id}}">
+              <input type="hidden" value="{{max}}" class="inputStepperMax">
+              <input type="hidden" value="{{min}}" class="inputStepperMin">
             </td>
             <td class="column6">${{amount}}</td>
             <td class="column7"><input type="submit" value="Quitar" class="icon closeButton" id="deleteItem-{{sku.id}}"></td>
