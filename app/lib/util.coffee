@@ -27,7 +27,7 @@ module.exports =
 
   getUrlParams : ->
     vars = []
-    hash = undefined
+    hash = `undefined`
     hashes = window.location.href.slice(window.location.href.indexOf("?") + 1).split("&")
     i = 0
 
