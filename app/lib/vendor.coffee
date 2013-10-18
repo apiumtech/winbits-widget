@@ -61,7 +61,7 @@ module.exports =
     if $(obj).length
       $(obj).each ->
         $this = $(this)
-        $clase = undefined
+        $clase = `undefined`
         if $this.prop("checked")
           $clase = "selectCheckbox"
         else
@@ -120,7 +120,7 @@ module.exports =
       $(obj).each ->
         $this = $(this)
         numberOfOptions = $(this).children("option").length
-        selectContent = undefined
+        selectContent = `undefined`
         $this.addClass "selectHidden"
         $this.wrap "<div class=\"selectContainer\"/>"
         $this.parent().addClass $this.data("clase")  if $this.data("clase")
@@ -174,7 +174,7 @@ module.exports =
   #      CUSTOMSLIDER: Deslizar el rango para cambiar valor de bits
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   customSlider: (obj) ->
-    $slider = undefined # NO BORRAR - Fix desarrollo
+    $slider = `undefined` # NO BORRAR - Fix desarrollo
     $ = w$ # NO BORRAR - Fix desarrollo
     if $(obj).length
       $(obj).each ->
@@ -208,7 +208,7 @@ module.exports =
         $this = $(this).parent()
         $this.append "<span class=\"icon plus\"/><span class=\"icon minus\"/>"
         $this.find(".icon").click ->
-          $newVal = undefined
+          $newVal = `undefined`
           $button = $(this)
           $oldValue = parseInt($button.parent().find("input").val(), 10)
           if $button.hasClass("plus")
@@ -228,7 +228,7 @@ module.exports =
             up: 38
             down: 40
 
-          $newVal = undefined
+          $newVal = `undefined`
           $oldValue = parseInt($(this).val(), 10)
           switch keyCode
             when arrow.up
@@ -257,7 +257,7 @@ module.exports =
         $(options.obj).slideDown()
 
       $(options.obj).each ->
-        $objeto = undefined
+        $objeto = `undefined`
         if options.carro is true
           $objeto = $(this).find(".wrapper").children().eq(0)
         else

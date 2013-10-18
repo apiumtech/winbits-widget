@@ -90,7 +90,6 @@ module.exports = class RegisterView extends View
         w$('.modal').modal 'hide'
         that.publishEvent "showConfirmation"
 
-
       error: (xhr, textStatus, errorThrown) ->
         console.log xhr
         error = JSON.parse(xhr.responseText)

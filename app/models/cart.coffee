@@ -238,7 +238,7 @@ module.exports = class Cart extends ChaplinModel
 
   findCartDetail: (id) ->
     cartDetails = @get('cartDetails') || []
-    cartDetail = undefined
+    cartDetail = `undefined`
     w$.each cartDetails, (index, detail) ->
       if detail.skuProfile.id is id
         cartDetail = detail

@@ -1,38 +1,41 @@
 (function(){
-var JavaScript = {
-  load: function(src, callback) {
-    var script = document.createElement('script'),
-        loaded;
-    script.setAttribute('src', src);
-    if (callback) {
-      script.onreadystatechange = script.onload = function() {
-        if (!loaded) {
-          callback();
+  var JavaScript = {
+    load: function(src, callback) {
+      var script = document.createElement('script');
+      var loaded;
+      script.setAttribute("type","text/javascript");
+      script.setAttribute('src', src);
+      if (callback) {
+        if (script.readyState) {
+          script.onreadystatechange = function () { // For old versions of IE
+            if (this.readyState == 'complete' || this.readyState == 'loaded') {
+              callback();
+            }
+          };
+        } else { // Other browsers
+          script.onload = callback;
         }
-        loaded = true;
-      };
+      }
+      (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script);
     }
-    document.getElementsByTagName('head')[0].appendChild(script);
-  }
-};
-var head= document.getElementsByTagName('head')[0];
-var css= document.createElement('link');
-css.setAttribute("rel", "stylesheet");
-css.setAttribute("type", "text/css");
-css.setAttribute("href", "{{baseUrl}}/stylesheets/app.css");
-head.appendChild(css);
+  };
+  var head= document.getElementsByTagName('head')[0];
+  var css= document.createElement('link');
+  css.setAttribute("rel", "stylesheet");
+  css.setAttribute("type", "text/css");
+  css.setAttribute("href", "{{baseUrl}}/stylesheets/app.css");
+  head.appendChild(css);
 
-JavaScript.load('//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js', function() {
-  window.w$ = $.noConflict(true);
-  JavaScript.load('{{baseUrl}}/javascripts/vendor.js', function() {
-  Backbone.$ = window.w$;
+  JavaScript.load('//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js', function() {
+    window.w$ = $.noConflict(true);
+    JavaScript.load('{{baseUrl}}/javascripts/vendor.js', function() {
+      window.Backbone.$ = window.w$;
+      JavaScript.load('{{baseUrl}}/javascripts/app.js', function() {
+        window.w$(document).ready(function($) {
+          var Application = require('application');
+          (new Application).initialize();
+        });
+      });
+    });
   });
-  JavaScript.load('{{baseUrl}}/javascripts/app.js', function() {
-    window.w$(document).ready(function($) {
-    var Application = require('application');
-      (new Application).initialize();
-     });
-  });
-});
 })();
-

@@ -27,7 +27,7 @@ module.exports =
 
   getUrlParams : ->
     vars = []
-    hash = undefined
+    hash = `undefined`
     hashes = window.location.href.slice(window.location.href.indexOf("?") + 1).split("&")
     i = 0
 
@@ -95,3 +95,13 @@ module.exports =
   resetLocationSelect: ($select) ->
     $select.html '<option>Localidad</option>'
     $select.parent().find('ul').html '<li rel="Localidad">Localidad</li>'
+
+  showAjaxError: (jsonError) ->
+    error = JSON.parse(jsonError)
+    @showError(error.meta.message)
+
+  showError: (errorMsg) ->
+    $ = Backbone.$
+    $errorModal = $('#wbi-error-modal')
+    $errorModal.find('.error-msg').text(errorMsg)
+    $errorModal.modal('show')
