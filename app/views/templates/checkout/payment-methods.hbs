@@ -73,12 +73,6 @@
   <p class="information">O, escoge un método de pago. </p>
   <ul class="paymentMethod">
     {{#methods}}
-      {{#compare identifier "amex.cc"}}
-    <li class="debitCreditCard li-method" id="li-{{replace identifier searchValue='.' replaceValue='_'}}">
-      <span class="paymentIcon debitCard"></span>
-      <p>TARJETA DE DEBITO</p>
-    </li>
-      {{/compare}}
       {{#compare identifier "cybersource.cc"}}
     <li class="debitCreditCard li-method" id="li-{{replace identifier searchValue='.' replaceValue='_'}}">
       <span class="paymentIcon creditCard"></span>
