@@ -1,7 +1,7 @@
 {{!-- apiUrl: window.location.protocol.split(':')[0] + '://' + window.location.host + '/apiwb' --}}
 {{!-- apiUrl: "{{apiUrl}}" --}}
 module.exports =
-    apiUrl: "http://apistaging.winbits.com/v1"
+    apiUrl: window.location.protocol.split(':')[0] + '://' + window.location.host + '/apiwb'
     baseUrl: "{{baseUrl}}"
     loginRedirectUrl: "{{loginRedirectUrl}}"
     errorFormClass: "error-form"
