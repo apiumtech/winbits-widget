@@ -105,3 +105,4 @@ module.exports =
     $errorModal = $('#wbi-error-modal')
     $errorModal.find('.error-msg').text(errorMsg)
     $errorModal.modal('show')
+    
