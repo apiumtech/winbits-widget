@@ -31,3 +31,5 @@ app/config.coffee
 app/assets/index.html
 app/assets/winbits.js
 app/assets/winbits.html
+
+atlassian-ide-plugin.xml

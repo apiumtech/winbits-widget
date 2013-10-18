@@ -288,6 +288,15 @@ Handlebars.registerHelper "hasMSI", (options) ->
 Handlebars.registerHelper "getIndex", (index) ->
   index + 1
 
+Handlebars.registerHelper "isMSIPayment", (payment, options) ->
+  if payment.identifier.lastIndexOf('msi')
+    lastDotIndex = payment.identifier.lastIndexOf('.')
+    numberOfPayments = parseInt(payment.identifier.substr(lastDotIndex + 1))
+    monthlyPayment = payment.amount / numberOfPayments
+    options.fn [numberOfPayments: numberOfPayments, monthlyPayment: monthlyPayment]
+  else
+    options.inverse this
+
 #******************************
 #Custom partial
 #******************************

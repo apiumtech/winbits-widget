@@ -169,8 +169,12 @@ module.exports = class WidgetSiteView extends View
       Object::toString.call(date) isnt "[object Date]" && !isNaN(date)
     ), "La fecha debe de ser válida"
 
-
     @$el.find('.wb-vertical-' + config.verticalId).addClass('current');
+    $el = @$el
+    setTimeout(() ->
+      console.log 'DOING PLACEHOLDERS'
+      $el.find('input, textarea').placeholder()
+    , 500)
 
 
   postCheckout: (e)->

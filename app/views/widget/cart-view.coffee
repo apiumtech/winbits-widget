@@ -74,7 +74,7 @@ module.exports = class CartView extends View
         that.updateCartDetail id, val
 
     vendor.customSlider("#wb-cart-bits-slider-account").on 'slidechange', (e, ui) ->
-#      TODO: Create view CartInfo and maintain slider out of that view
+      # TODO: Create view CartInfo and maintain slider out of that view
       maxBits = w$(ui.handle).closest('.slider-holder').slider('option', 'max')
       if maxBits > 0
         that.updateCartBits ui.value

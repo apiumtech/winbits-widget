@@ -202,7 +202,7 @@ module.exports = class HomeController extends ChaplinController
 
     window.Winbits.getSkuProfileInfo = (options) ->
       options = options or {}
-      data = undefined
+      data = `undefined`
       if mediator.flags.loggedIn
         data = {userId: mediator.profile.userId}
       Backbone.$.ajax config.apiUrl + "/catalog/sku-profiles/" + options.id + "/info.json",
