@@ -19,6 +19,7 @@ module.exports = class ProxyInit
     $iframe = Backbone.$("<iframe id=\"winbits-iframe\" name=\"winbits-iframe\" height=\"30\" style=\"" + iframeStyle + "\" src=\"" + iframeSrc + "\"></iframe>").on("load", ->
       console.log "iframeLoaded"
       mediator.proxy = new Porthole.WindowProxy(config.baseUrl + "/proxy.html", "winbits-iframe")
+      that.publishEvent('proxyLoaded')
       mediator.proxy.addEventListener (messageEvent) ->
         console.log ["Message from Winibits", messageEvent]
         data = messageEvent.data
@@ -34,7 +35,6 @@ module.exports = class ProxyInit
       token.requestTokens($)
     )
     $widgetContainer.find("#winbits-iframe-holder").append $iframe
-
     # Create a proxy window to send to and receive
     # messages from the iFrame
 

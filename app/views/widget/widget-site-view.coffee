@@ -47,6 +47,7 @@ module.exports = class WidgetSiteView extends View
     @subscribeEvent 'cleanModal', @closeModal
     @subscribeEvent 'postToCheckoutApp', @postToCheckoutApp
     @subscribeEvent 'showResetPassword', @resetPassword
+    @subscribeEvent 'proxyLoaded', @proxyLoaded
 
   updateCartCounter: (count)->
     console.log ["WidgetSiteView#updateCartCounter " + count]
@@ -174,6 +175,7 @@ module.exports = class WidgetSiteView extends View
       console.log 'DOING PLACEHOLDERS'
       $el.find('input, textarea').placeholder()
     , 500)
+
 
   postCheckout: (e)->
     e.preventDefault()
@@ -310,3 +312,9 @@ module.exports = class WidgetSiteView extends View
       'margin-top': -> -(  that.$( this ).height() / 2 )
       'max-height': '370px'
     }
+
+  proxyLoaded: (e) ->
+    params = util.getUrlParams()
+    console.log ['PROXY LOADED', params ]
+    if params._wb_active is "true" and params._wb_register_confirm is "true"
+      @publishEvent 'expressLogin', params._wb_api_token

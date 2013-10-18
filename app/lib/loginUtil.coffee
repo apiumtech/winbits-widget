@@ -18,9 +18,9 @@ module.exports = class LoginUtil
     @subscribeEvent 'initLogout', @initLogout
     @subscribeEvent 'loginFacebook', @loginFacebook
 
-  expressLogin : () ->
+  expressLogin : (token) ->
     console.log "LoginUtil#expressLogin"
-    apiToken = util.getCookie(config.apiTokenName)
+    apiToken = if token? then token else util.getCookie(config.apiTokenName)
     console.log ["API Token", apiToken]
     that = @
     if apiToken
@@ -38,8 +38,11 @@ module.exports = class LoginUtil
         context: Backbone.$
         success: (data) ->
           console.log "express-login.json Success!"
-          console.log ["data", data]
+          console.log ["data", data.response]
           that.publishEvent 'applyLogin', data.response
+          if token?
+            that.publishEvent 'setRegisterFb', data.response.profile
+            that.publishEvent "showCompletaRegister", data.response
 
         error: (xhr, textStatus, errorThrown) ->
           console.log "express-login.json Error!"
