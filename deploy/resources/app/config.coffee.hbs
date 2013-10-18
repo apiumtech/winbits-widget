@@ -1,7 +1,7 @@
 {{!-- apiUrl: window.location.protocol.split(':')[0] + '://' + window.location.host + '/api' --}}
 {{!-- apiUrl: "{{apiUrl}}" --}}
 module.exports =
-    apiUrl: "{{apiUrl}}"
+    apiUrl: window.location.protocol.split(':')[0] + '://' + window.location.host + '/api'
     baseUrl: "{{baseUrl}}"
     loginRedirectUrl: "{{loginRedirectUrl}}"
     errorFormClass: "error-form"
