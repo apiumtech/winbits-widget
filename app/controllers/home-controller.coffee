@@ -1,3 +1,6 @@
+mediator = require 'chaplin/mediator'
+util = require 'lib/util'
+config = require 'config'
 ChaplinController = require 'chaplin/controller/controller'
 WidgetSiteView = require 'views/widget/widget-site-view'
 LoginView = require 'views/widget/login-view'
@@ -32,16 +35,13 @@ CardsView = require "views/checkout/cards-view"
 CardsManagerView = require "views/widget/account/cards-manager-view"
 ResetPassword = require "models/reset-password"
 ResetPasswordView = require "views/widget/reset-password-view"
-mediator = require 'chaplin/mediator'
-util = require 'lib/util'
-config = require 'config'
+
 
 module.exports = class HomeController extends ChaplinController
 
   initialize: ->
     super
     @widgetSiteView = new WidgetSiteView()
-    @widgetSiteView.render()
 
   index: ->
     that=this
