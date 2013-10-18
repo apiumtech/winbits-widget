@@ -295,9 +295,10 @@ amexOrCyberSource = (cardType)->
 
 Handlebars.registerHelper "hasMSI", (supportInstallments, methods, cardType) ->
   ac = amexOrCyberSource cardType
-  if (ac is null or supportInstallments is false)
-      return false
-  msi = (method.identifier.substring(ac.length, method.identifier.length) for method in methods when method.identifier.match ac).unique()
+
+  msi = ""
+  if (methods?)
+      msi = (method.identifier.substring(ac?.length, method?.identifier?.length) for method in methods when method.identifier.match ac).unique()
 
   if supportInstallments 
       return new Handlebars.SafeString("<span class='mesesSinIntereses-box'> #{msi} MESES SIN INTERESES</span>");
