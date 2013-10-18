@@ -48,8 +48,7 @@ module.exports = class Cart extends ChaplinModel
           params: ['[]']
 
       error: (xhr, textStatus, errorThrown) ->
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "Request Completed!"
@@ -74,8 +73,7 @@ module.exports = class Cart extends ChaplinModel
           $cartPanel.slideDown()
 
       error: (xhr, textStatus, errorThrown) ->
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "Request Completed!"
@@ -100,8 +98,7 @@ module.exports = class Cart extends ChaplinModel
           $cartPanel.slideDown()
 
       error: (xhr, textStatus, errorThrown) ->
-        error = JSON.parse(xhr.responseText)
-        console.log error.meta.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "Request Completed!"
@@ -129,8 +126,7 @@ module.exports = class Cart extends ChaplinModel
         console.log ["V: User cart", data.response]
         that.set that.completeCartModel data.response
       error: (xhr, textStatus, errorThrown) ->
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "Request Completed!"
@@ -170,8 +166,7 @@ module.exports = class Cart extends ChaplinModel
           $cartPanel.slideDown()
 
       error: (xhr, textStatus, errorThrown) ->
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "Request Completed!"
@@ -200,8 +195,7 @@ module.exports = class Cart extends ChaplinModel
           $cartPanel.slideDown()
 
       error: (xhr, textStatus, errorThrown) ->
-        error = JSON.parse(xhr.responseText)
-        console.log error.meta.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "Request Completed!"
@@ -262,5 +256,4 @@ module.exports = class Cart extends ChaplinModel
         @publishEvent('cartBitsUpdated', data.response)
 
       error: (xhr, textStatus, errorThrown) ->
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
