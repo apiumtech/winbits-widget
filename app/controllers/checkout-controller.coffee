@@ -36,9 +36,6 @@ module.exports = class CheckoutController extends ChaplinController
     @payments.set methods:@order_data.paymentMethods
 
     # @orderDetailView.render()
-    @cards.on 'change', ->
-      console.log "Cards model changed"
-      that.cardsView.render()
     @paymentView.render()
     @payments.on "change", ->
         console.log "on change payment"
@@ -48,8 +45,12 @@ module.exports = class CheckoutController extends ChaplinController
       console.log "here order details changeed"
       that.orderDetailView.render()
     @orderDetails.set @orderDetails.completeOrderModel @order_data, parseFloat(window.bits_balance)
-
+    @cards.set ({methods:@order_data.paymentMethods})
     @cardsView = new CardsView({model: @cards})
+
+    @cards.on 'change', ->
+      console.log "Cards model changed"
+      that.cardsView.render()
 
     @addressCK.on "change", ->
       if mediator.post_checkout

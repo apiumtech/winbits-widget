@@ -281,9 +281,26 @@ Handlebars.registerHelper "hasBitsBalanceInResume", (options) ->
     options.fn this
   else
     options.inverse this
-Handlebars.registerHelper "hasMSI", (options) ->
-  # TODO: Lógica para determinar si una tarjeta tiene MSI
-  options.inverse this
+
+Array::unique = ->
+      output = {}
+      output[@[key]] = @[key] for key in [0...@length]
+      value for key, value of output
+
+amexOrCyberSource = (cardType)->
+    if cardType in ["Visa","MasterCard"] 
+        return "cybersource.msi.token."
+    if cardType == "American Express"
+        return "amex.msi."
+
+Handlebars.registerHelper "hasMSI", (supportInstallments, methods, cardType) ->
+  ac = amexOrCyberSource cardType
+  if (ac is null or supportInstallments is false)
+      return false
+  msi = (method.identifier.substring(ac.length, method.identifier.length) for method in methods when method.identifier.match ac).unique()
+
+  if supportInstallments 
+      return new Handlebars.SafeString("<span class='mesesSinIntereses-box'> #{msi} MESES SIN INTERESES</span>");
 
 Handlebars.registerHelper "getIndex", (index) ->
   index + 1
