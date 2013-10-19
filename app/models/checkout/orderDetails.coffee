@@ -50,5 +50,4 @@ module.exports = class OrderDetails extends ChaplinModel
 
 
       error: (xhr, textStatus, errorThrown) ->
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)

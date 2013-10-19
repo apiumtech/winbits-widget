@@ -41,5 +41,4 @@ module.exports = class WishListView extends View
         @publishEvent 'completeWishList', modelData
 
       error: (xhr, textStatus, errorThrown) ->
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)

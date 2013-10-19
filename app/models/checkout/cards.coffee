@@ -32,5 +32,4 @@ module.exports = class Cards extends ChaplinModel
         @set cards: data.response, cardItemLegend: @cardItemLegend
 
       error: (xhr, textStatus, errorThrown) ->
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)

@@ -59,12 +59,11 @@ module.exports = class PaymentView extends View
             that.publishEvent "setConfirm", data.response
             that.publishEvent "showStep", ".checkoutSummaryContainer", payment
           else
-            alert payment.paymentCapture.mensaje
+            util.showError(payment.paymentCapture.mensaje)
 
         error: (xhr, textStatus, errorThrown) ->
           console.log xhr
-          error = JSON.parse(xhr.responseText)
-          alert error.meta.message
+          util.showAjaxError(xhr.responseText)
 
         complete: ->
           console.log "Request Completed!"
@@ -121,13 +120,11 @@ module.exports = class PaymentView extends View
             that.publishEvent "setConfirm", data.response
             that.publishEvent "showStep", ".checkoutSummaryContainer", payment
         else
-          alert 'Error al procesar el pago, por favor intentalo más tarde'
+          util.showError('Error al procesar el pago, por favor intentalo más tarde')
 
 
       error: (xhr, textStatus, errorThrown) ->
-        console.log xhr
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "Request Completed!"
@@ -212,7 +209,7 @@ module.exports = class PaymentView extends View
       @cardTokenPaymentView.render()
       @cardTokenPaymentView.$el.find('#wbi-card-token-payment-view').show()
     else
-      alert 'Para continuar elige una de tus tarjetas'
+      util.showError('Para continuar elige una de tus tarjetas')
 
   onCardSelected: (cardData) ->
     cardInfo = cardData.cardInfo

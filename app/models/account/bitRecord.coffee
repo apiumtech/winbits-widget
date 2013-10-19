@@ -37,9 +37,7 @@ module.exports = class BitRecord extends ChaplinModel
         @publishEvent 'bitRecordReady'
 
       error: (xhr, textStatus, errorThrown) ->
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
-
+        util.showAjaxError(xhr.responseText)
     console.log ["wee", args]
 
   completeBitRecord: (data) ->

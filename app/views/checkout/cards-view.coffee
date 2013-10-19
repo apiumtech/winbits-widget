@@ -145,8 +145,7 @@ module.exports = class CardsView extends View
         @that.render()
 
       error: (xhr) ->
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "Request Completed!"
@@ -180,8 +179,7 @@ module.exports = class CardsView extends View
         @that.render()
 
       error: (xhr) ->
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "Request Completed!"
@@ -211,8 +209,7 @@ module.exports = class CardsView extends View
           @that.render()
 
         error: (xhr) ->
-          error = JSON.parse(xhr.responseText)
-          alert error.meta.message
+          util.showAjaxError(xhr.responseText)
 
         complete: ->
           console.log "Request Completed!"

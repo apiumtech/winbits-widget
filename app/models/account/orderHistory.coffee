@@ -40,8 +40,7 @@ module.exports = class OrderHistory extends ChaplinModel
         @publishEvent 'orderRecordReady'
 
       error: (xhr, textStatus, errorThrown) ->
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
 
   completeOrdersHistory: (data) ->

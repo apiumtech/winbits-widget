@@ -31,8 +31,7 @@ module.exports = class WaitingList extends ChaplinModel
         @publishEvent 'completeWishList' , modelData
 
       error: (xhr, textStatus, errorThrown) ->
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
   completeWishList: (data) ->
     model = {}

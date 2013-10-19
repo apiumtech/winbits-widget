@@ -50,8 +50,7 @@ module.exports = class ForgotPasswordView extends View
         error: (xhr, textStatus, errorThrown) ->
           console.log "RecoverPasswordStatus.json Error!"
           that.publishEvent 'cleanModal'
-          error = JSON.parse(xhr.responseText)
-          alert error.meta.message
+          util.showAjaxError(xhr.responseText)
 
         complete: ->
           console.log "RecoverPasswordStatus.json Completed!"

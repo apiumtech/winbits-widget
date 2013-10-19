@@ -58,11 +58,10 @@ module.exports = class CardTokenPaymentView extends View
             @that.publishEvent "setConfirm", data.response
             @that.publishEvent "showStep", ".checkoutSummaryContainer", payment
           else
-            alert payment.paymentCapture.mensaje
+            util.showError(payment.paymentCapture.mensaje)
 
         error: (xhr) ->
-          error = JSON.parse(xhr.responseText)
-          alert error.meta.message
+          util.showAjaxError(xhr.responseText)
 
         complete: ->
           @$submitTriggers.prop('disabled', false)

@@ -85,8 +85,7 @@ module.exports = class ResumeView extends View
       error: (xhr) ->
         @updateResumeView @model.attributes.orderDetails
         console.log xhr
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "Request Completed!"
@@ -122,8 +121,7 @@ module.exports = class ResumeView extends View
 
       error: (xhr) ->
         console.log xhr
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "Request Completed!"

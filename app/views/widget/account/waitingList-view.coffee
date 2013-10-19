@@ -44,8 +44,7 @@ module.exports = class WaitingListView extends View
         @publishEvent 'completeWaitingList', modelData
 
       error: (xhr, textStatus, errorThrown) ->
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
   filterWaitingList: (e) ->
      e.preventDefault()

@@ -160,8 +160,7 @@ module.exports = class ProfileView extends View
         , 1000)
 
       error: (xhr, textStatus, errorThrown) ->
-        error = JSON.parse(xhr.responseText)
-        alert error.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "Request Completed!"
@@ -205,8 +204,7 @@ module.exports = class ProfileView extends View
         , 1000)
 
       error: (xhr, textStatus, errorThrown) ->
-        error = JSON.parse(xhr.responseText)
-        alert error.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "Request Completed!"
@@ -239,8 +237,7 @@ module.exports = class ProfileView extends View
 
       error: (xhr, textStatus, errorThrown) ->
         console.log "accounts.json Error!"
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "accounts.json Completed!"
@@ -264,8 +261,7 @@ module.exports = class ProfileView extends View
 
       error: (xhr, textStatus, errorThrown) ->
         console.log "deleteAccount.json Error!"
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "deleteAccount.json Completed!"
@@ -291,8 +287,7 @@ module.exports = class ProfileView extends View
 
       error: (xhr, textStatus, errorThrown) ->
         console.log "deleteAccount.json Error!"
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "deleteAccount.json Completed!"
@@ -336,8 +331,7 @@ module.exports = class ProfileView extends View
 
       error: (xhr, textStatus, errorThrown) ->
         console.log "deleteAccount.json Error!"
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "deleteAccount.json Completed!"

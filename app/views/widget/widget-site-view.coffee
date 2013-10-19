@@ -256,8 +256,7 @@ module.exports = class WidgetSiteView extends View
 
       error: (xhr, textStatus, errorThrown) ->
         console.log "updateStatus.json Error!"
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "updateStatus.json Completed!"
@@ -283,8 +282,7 @@ module.exports = class WidgetSiteView extends View
 
       error: (xhr, textStatus, errorThrown) ->
         console.log "share.json Error!"
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "share.json Completed!"

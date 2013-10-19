@@ -143,8 +143,7 @@ module.exports = class RegisterView extends View
           that.publishEvent "setProfile", data.response
 
         error: (xhr, textStatus, errorThrown) ->
-          error = JSON.parse(xhr.responseText)
-          alert "Error while updating profile"
+          util.showError("Error while updating profile")
 
         complete: ->
           console.log "Request Completed!"
