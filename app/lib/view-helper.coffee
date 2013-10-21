@@ -296,11 +296,12 @@ amexOrCyberSource = (cardType)->
 Handlebars.registerHelper "hasMSI", (supportInstallments, methods, cardType) ->
   ac = amexOrCyberSource cardType
 
+  console.log "entre #{methods} -  #{cardType}"
   msi = ""
   if (methods?)
       msi = (method.identifier.substring(ac?.length, method?.identifier?.length) for method in methods when method.identifier.match ac).unique()
 
-  if supportInstallments 
+  if (supportInstallments == true and (msi?.length or method == undefined))
       return new Handlebars.SafeString("<span class='mesesSinIntereses-box'> #{msi} MESES SIN INTERESES</span>");
 
 Handlebars.registerHelper "getIndex", (index) ->
