@@ -107,6 +107,7 @@ module.exports =
     $errorModal.modal('show')
 
   showAjaxIndicator: (message) ->
+    message = if message? then message else 'Cargando...'
     $ = Backbone.$
     $ajaxModal = $('#wbi-ajax-modal')
     $ajaxModal.find('.loading-msg').text(message)

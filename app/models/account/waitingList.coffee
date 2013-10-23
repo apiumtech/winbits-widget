@@ -25,6 +25,7 @@ module.exports = class WaitingList extends ChaplinModel
       siteWaitingList = formData.siteWaitingList
       url += "status=" + statusWaitingList + "&site=" + siteWaitingList
 
+    util.showAjaxIndicator()
     Backbone.$.ajax url,
       type: "GET"
       contentType: "application/json"
@@ -41,6 +42,8 @@ module.exports = class WaitingList extends ChaplinModel
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
 
+      complete: ->
+        util.hideAjaxIndicator()
 
   completeWaitingList: (data) ->
     model = {}

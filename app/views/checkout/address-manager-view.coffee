@@ -32,6 +32,7 @@ module.exports = class CheckoutSiteView extends View
     $currentTarget = @$(e.currentTarget)
     that = @
     id =  $currentTarget.attr("id").split("-")[1]
+    util.showAjaxIndicator()
     @model.sync 'delete', @model,
       url: config.apiUrl + "/affiliation/shipping-addresses/" + id,
       error: ->
@@ -40,6 +41,8 @@ module.exports = class CheckoutSiteView extends View
       success: ->
         console.log "success"
         that.model.actualiza()
+      complete: ->
+        util.hideAjaxIndicator()
 
   selectShipping: (e)->
     $currentTarget = @$(e.currentTarget)
@@ -85,6 +88,7 @@ module.exports = class CheckoutSiteView extends View
     $form = @$el.find("#shippingNewAddress")
     console.log $form.valid()
     if $form.valid()
+      button = @$el.find('#btnSubmit').prop 'disabled', true
       data: JSON.stringify(formData)
       formData = util.serializeForm($form)
       formData.country  = {"id": formData.country}
@@ -92,8 +96,8 @@ module.exports = class CheckoutSiteView extends View
       formData.main = if formData.main then true else false
       console.log formData
       @model.set formData
-
       that = @
+      util.showAjaxIndicator()
       @model.sync 'create', @model,
         error: ->
           console.log "error",
@@ -103,6 +107,10 @@ module.exports = class CheckoutSiteView extends View
           that.model.actualiza()
           #that.$el.find(".myPerfil").slideDown()
           #
+        complete: ->
+          util.hideAjaxIndicator()
+
+
   addressUpdate: (e)->
     e.preventDefault()
     console.log "AddressUpdate"
@@ -121,6 +129,7 @@ module.exports = class CheckoutSiteView extends View
       console.log formData
       @model.set formData
       that = @
+      util.showAjaxIndicator()
       @model.sync 'update', @model,
         url: config.apiUrl + "/affiliation/shipping-addresses/" + formData.id,
         error: ->
@@ -129,6 +138,8 @@ module.exports = class CheckoutSiteView extends View
         success: ->
           console.log "success"
           that.model.actualiza()
+        complete: ->
+          util.hideAjaxIndicator()
 
   attach: ->
     super
