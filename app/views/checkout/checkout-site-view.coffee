@@ -24,7 +24,7 @@ module.exports = class CheckoutSiteView extends View
     @$(".choosen-address").hide()
     @showStep(".shippingAddresses")
 
-  showStep: (selector, payment)->
+  showStep: (selector, payment, bitsPayment)->
     if selector is ".checkoutPaymentContainer"
       #display edit link
       @$("#showAddress").show()
@@ -33,6 +33,9 @@ module.exports = class CheckoutSiteView extends View
       @$("#showAddress").hide()
       @$("div.slider").hide()
       @$("span.legendCarrito").hide()
+      if bitsPayment
+        $bitsAmount = @$("span.bits-payment-data").show().filter('.bits-amount')
+        $bitsAmount.html($bitsAmount.html() + '-' + bitsPayment.amount)
     else
       @$(".chk-step").hide()
     @$(selector).show()
