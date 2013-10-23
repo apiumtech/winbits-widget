@@ -15,7 +15,6 @@ module.exports = class Cart extends ChaplinModel
 
   loadVirtualCart: ()->
     console.log "Loading virtual cart"
-    util.showAjaxIndicator()
     @url = config.apiUrl + "/orders/virtual-cart-items.json"
     that = @
     @fetch
@@ -26,7 +25,7 @@ module.exports = class Cart extends ChaplinModel
       success: ->
         console.log "success load Virtual cart"
       complete: ->
-        util.hideAjaxIndicator()
+        console.log "complete"
 
   transferVirtualCart: (virtualCart)->
     console.log ["transferVirtualCart"]
@@ -146,7 +145,6 @@ module.exports = class Cart extends ChaplinModel
 
   loadUserCart: ()->
     console.log ["loadUserCart"]
-    util.showAjaxIndicator()
     @url = config.apiUrl + "/orders/cart-items.json"
     @fetch
       error: ->
@@ -157,7 +155,7 @@ module.exports = class Cart extends ChaplinModel
         #that.$el.find(".myPerfil").slideDown()
           #that.$el.find(".editMiPerfil").slideUp()
       complete: ->
-        util.hideAjaxIndicator()
+        console.log "complete"
 
   addToUserCart : (id, quantity, bits, $cartPanel) ->
     console.log "Adding to user cart..."
