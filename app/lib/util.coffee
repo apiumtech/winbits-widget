@@ -103,16 +103,17 @@ module.exports =
   showError: (errorMsg) ->
     $ = Backbone.$
     $errorModal = $('#wbi-error-modal')
-    $errorModal.find('.loading-msg').text(errorMsg)
+    $errorModal.find('.error-msg').text(errorMsg)
     $errorModal.modal('show')
 
   showAjaxIndicator: (message) ->
+    $ = Backbone.$
     $ajaxModal = $('#wbi-ajax-modal')
-    $ajaxModal.find('.error-msg').text(message)
+    $ajaxModal.find('.loading-msg').text(message)
     $ajaxModal.modal('show')
 
   hideAjaxIndicator: () ->
-    $('#wbi-ajax-modal').modal('hide')
+    Backbone.$('#wbi-ajax-modal').modal('hide').find('.loading-msg').text('Cargando...')
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #      CUSTOMSTEPPER: Sumar y restar valores del stepper

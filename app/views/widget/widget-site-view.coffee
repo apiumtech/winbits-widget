@@ -176,6 +176,8 @@ module.exports = class WidgetSiteView extends View
       $el.find('input, textarea').placeholder()
     , 500)
 
+    @$el.find('#wbi-ajax-modal').modal({backdrop: 'static', keyboard: false, show: false})
+
 
   postCheckout: (e)->
     e.preventDefault()
