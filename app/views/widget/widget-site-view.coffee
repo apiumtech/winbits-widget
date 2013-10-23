@@ -180,6 +180,7 @@ module.exports = class WidgetSiteView extends View
   postCheckout: (e)->
     e.preventDefault()
     console.log "WidgetSiteView#postCheckout"
+    util.showAjaxIndicator('Generando Orden...')
     Backbone.$.ajax config.apiUrl + "/orders/checkout.json",
       type: "POST"
       contentType: "application/json"
@@ -205,7 +206,7 @@ module.exports = class WidgetSiteView extends View
 #        alert error.meta.message
 
       complete: ->
-        console.log "Request Completed!"
+        util.hideAjaxIndicator()
 
   placeFacebookFrame: (e) ->
     console.log "Facebook Frame disable!"
