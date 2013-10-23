@@ -88,7 +88,6 @@ module.exports = class CheckoutSiteView extends View
     $form = @$el.find("#shippingNewAddress")
     console.log $form.valid()
     if $form.valid()
-      button = @$el.find('#btnSubmit').prop 'disabled', true
       data: JSON.stringify(formData)
       formData = util.serializeForm($form)
       formData.country  = {"id": formData.country}
@@ -96,9 +95,10 @@ module.exports = class CheckoutSiteView extends View
       formData.main = if formData.main then true else false
       console.log formData
       @model.set formData
+      submitButton = $form.find("#btnSubmit").prop('disabled', true)
       that = @
-      util.showAjaxIndicator()
       @model.sync 'create', @model,
+        context: {$submitButton: submitButton}
         error: ->
           console.log "error",
         headers: { 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
@@ -108,7 +108,7 @@ module.exports = class CheckoutSiteView extends View
           #that.$el.find(".myPerfil").slideDown()
           #
         complete: ->
-          util.hideAjaxIndicator()
+          this.$submitButton.prop('disabled', false)
 
 
   addressUpdate: (e)->
@@ -129,8 +129,9 @@ module.exports = class CheckoutSiteView extends View
       console.log formData
       @model.set formData
       that = @
-      util.showAjaxIndicator()
+      submitUpdate = $form.find('.btnUpdate').prop('disabled', true)
       @model.sync 'update', @model,
+        context: {$submitUpdate: submitUpdate}
         url: config.apiUrl + "/affiliation/shipping-addresses/" + formData.id,
         error: ->
           console.log "error",
@@ -139,7 +140,7 @@ module.exports = class CheckoutSiteView extends View
           console.log "success"
           that.model.actualiza()
         complete: ->
-          util.hideAjaxIndicator()
+          this.$submitUpdate.prop('disabled', false)
 
   attach: ->
     super
