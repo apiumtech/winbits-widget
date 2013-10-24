@@ -30,6 +30,7 @@ module.exports = class ForgotPasswordView extends View
       console.log "Recover password"
       formData = util.serializeForm($form)
       formData.verticalId = config.verticalId
+      submitButton = @$(e.currentTarget).prop('disabled', true)
       Backbone.$.ajax config.apiUrl + "/affiliation/password/recover.json",
         data: JSON.stringify(formData)
         type: "POST"
@@ -37,7 +38,7 @@ module.exports = class ForgotPasswordView extends View
         dataType: "json"
         xhrFields:
           withCredentials: true
-
+        context: {$submitButton: submitButton}
         headers:
           "Accept-Language": "es"
           "WB-Api-Token":  util.getCookie(config.apiTokenName)
@@ -54,6 +55,7 @@ module.exports = class ForgotPasswordView extends View
 
         complete: ->
           console.log "RecoverPasswordStatus.json Completed!"
+          this.$submitButton.prop('disabled', false)
 
   goToRegisterLink: (e) ->
     e.preventDefault()
