@@ -26,7 +26,7 @@ module.exports =
       console.log ['expire order', $timer.data('orderId')]
       @expireOrder $timer.data('orderId')
       clearInterval $interval
-      alert "Tu orden ha expirado"
+      util.showError("Tu orden ha expirado")
     else
       if seconds < 0
         seconds = 59
@@ -54,9 +54,7 @@ module.exports =
         util.backToSite()
 
       error: (xhr) ->
-        console.log xhr
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "Request Completed!"

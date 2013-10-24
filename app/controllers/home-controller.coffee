@@ -221,7 +221,7 @@ module.exports = class HomeController extends ChaplinController
           if options.success
             options.success.call({}, [data.response])
 
-        error: (xhr, textStatus, errorThrown) ->
+        error: (xhr) ->
           console.log "info.json Error!"
           error = JSON.parse(xhr.responseText)
           console.log ['Error', error.meta.message]
@@ -232,6 +232,62 @@ module.exports = class HomeController extends ChaplinController
           console.log "info.json Completed!"
           if options.complete
             options.complete.call({}, [])
+
+    window.Winbits.getSkuProfilesInfo = (options) ->
+      options = options or {}
+      if not options.ids
+        throw "Argument 'ids' is required!"
+      data = {ids: options.ids.join()}
+      if mediator.flags.loggedIn
+        data.userId =mediator.profile.userId
+      Backbone.$.ajax config.apiUrl + "/catalog/sku-profiles-info.json",
+        type: "POST"
+        dataType: "json"
+        data: data
+        xhrFields:
+          withCredentials: true
+
+        headers:
+          "Accept-Language": "es"
+          "WB-Api-Token":  util.getCookie(config.apiTokenName)
+
+        success: (data) ->
+          console.log "info.json Success!"
+          options.success.call({}, [data.response]) if typeof options.success is 'function'
+
+        error: (xhr) ->
+          console.log "info.json Error!"
+          error = JSON.parse(xhr.responseText)
+          console.log ['Error', error.meta.message]
+          options.error.call({}, [error.response]) if typeof options.error is 'function'
+
+        complete: ->
+          console.log "info.json Completed!"
+          options.complete.call({}, []) if typeof options.complete is 'function'
+
+    window.Winbits.getWishListItems = () ->
+      options = options or {}
+      if !mediator.flags.loggedIn
+        throw 'Not available if not logged in!'
+
+      Backbone.$.ajax config.apiUrl + "/affiliation/wish-list-items.json",
+        contentType: "application/json"
+        dataType: "json"
+        xhrFields:
+          withCredentials: true
+        headers:
+          "Accept-Language": "es"
+          "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        success: (data) ->
+          console.log "info.json Success!"
+          options.success.call({}, [data.response]) if typeof options.success is 'function'
+        error: (xhr) ->
+          console.log "info.json Error!"
+          error = JSON.parse(xhr.responseText)
+          options.error.call({}, [error.response]) if typeof options.error is 'function'
+        complete: ->
+          console.log "info.json Completed!"
+          options.complete.call({}, []) if typeof options.complete is 'function'
 
     window.Winbits.addToWishList = (options) ->
       options = options or {}

@@ -54,18 +54,21 @@ module.exports = class ProfileView extends View
       $form.find("[name=birthdate]").val birthday
 
     if $form.valid()
+      button = @$el.find('#updateBtnProfile').prop 'disabled', true
       formData = { verticalId: config.verticalId }
       formData = util.serializeForm($form, formData)
       formData.gender = gender
       formData.location = location
       @model.set formData
       @model.sync 'update', @model,
+        context: {$saveButton: button}
         error: ->
           console.log "error",
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
         success: ->
           console.log "success"
-
+        complete: ->
+          this.$saveButton.prop 'disabled', false
 
   attach: ->
     super
@@ -160,8 +163,7 @@ module.exports = class ProfileView extends View
         , 1000)
 
       error: (xhr, textStatus, errorThrown) ->
-        error = JSON.parse(xhr.responseText)
-        alert error.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "Request Completed!"
@@ -205,8 +207,7 @@ module.exports = class ProfileView extends View
         , 1000)
 
       error: (xhr, textStatus, errorThrown) ->
-        error = JSON.parse(xhr.responseText)
-        alert error.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "Request Completed!"
@@ -239,8 +240,7 @@ module.exports = class ProfileView extends View
 
       error: (xhr, textStatus, errorThrown) ->
         console.log "accounts.json Error!"
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "accounts.json Completed!"
@@ -264,8 +264,7 @@ module.exports = class ProfileView extends View
 
       error: (xhr, textStatus, errorThrown) ->
         console.log "deleteAccount.json Error!"
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "deleteAccount.json Completed!"
@@ -291,8 +290,7 @@ module.exports = class ProfileView extends View
 
       error: (xhr, textStatus, errorThrown) ->
         console.log "deleteAccount.json Error!"
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "deleteAccount.json Completed!"
@@ -336,8 +334,7 @@ module.exports = class ProfileView extends View
 
       error: (xhr, textStatus, errorThrown) ->
         console.log "deleteAccount.json Error!"
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "deleteAccount.json Completed!"

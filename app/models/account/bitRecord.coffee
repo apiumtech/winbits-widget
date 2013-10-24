@@ -17,7 +17,8 @@ module.exports = class BitRecord extends ChaplinModel
   render: ->
     super
 
-  getHistorical: (args) -> 
+  getHistorical: (args) ->
+    util.showAjaxIndicator()
     Backbone.$.ajax config.apiUrl + "/affiliation/bits/transactions.json",
       type: "GET"
       contentType: "application/json"
@@ -37,8 +38,10 @@ module.exports = class BitRecord extends ChaplinModel
         @publishEvent 'bitRecordReady'
 
       error: (xhr, textStatus, errorThrown) ->
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
+
+      complete: ->
+        util.hideAjaxIndicator()
 
     console.log ["wee", args]
 

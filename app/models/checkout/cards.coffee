@@ -18,6 +18,7 @@ module.exports = class Cards extends ChaplinModel
 
   getCards: ()->
     url = config.apiUrl + "/orders/card-subscription.json"
+    util.showAjaxIndicator()
     Backbone.$.ajax url,
       type: "GET"
       contentType: "application/json"
@@ -32,5 +33,7 @@ module.exports = class Cards extends ChaplinModel
         @set cards: data.response, cardItemLegend: @cardItemLegend
 
       error: (xhr, textStatus, errorThrown) ->
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
+
+      complete: ->
+        util.hideAjaxIndicator()

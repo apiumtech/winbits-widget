@@ -46,8 +46,7 @@ module.exports = class LoginUtil
 
         error: (xhr, textStatus, errorThrown) ->
           console.log "express-login.json Error!"
-          error = JSON.parse(xhr.responseText)
-          alert error.meta.message
+          util.showAjaxError(xhr.responseText)
 
     else
       @expressFacebookLogin Backbone.$
@@ -107,8 +106,7 @@ module.exports = class LoginUtil
 
       error: (xhr, textStatus, errorThrown) ->
         console.log "logout.json Error!"
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "logout.json Completed!"
@@ -175,5 +173,4 @@ module.exports = class LoginUtil
 
       error: (xhr, textStatus, errorThrown) ->
         console.log "facebook.json error!"
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)

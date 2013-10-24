@@ -40,6 +40,7 @@ module.exports = class ResetPasswordView extends View
     if $form.valid()
       formData = util.serializeForm($form)
       formData.hash = @model.attributes.salt
+      submitButton = @$(e.currentTarget).prop('disabled', true)
       Backbone.$.ajax config.apiUrl + "/affiliation/password/reset.json",
         data: JSON.stringify(formData)
         type: "POST"
@@ -47,7 +48,7 @@ module.exports = class ResetPasswordView extends View
         dataType: "json"
         xhrFields:
           withCredentials: true
-
+        context: {$submitButton: submitButton}
         headers:
           "Accept-Language": "es"
           "WB-Api-Token":  util.getCookie(config.apiTokenName)
@@ -60,8 +61,8 @@ module.exports = class ResetPasswordView extends View
         error: (xhr, textStatus, errorThrown) ->
           console.log "Reset Password Status Error!"
           that.publishEvent 'cleanModal'
-          error = JSON.parse(xhr.responseText)
-          alert error.meta.message
+          util.showAjaxError(xhr.responseText)
 
         complete: ->
           console.log "Reset Password Status Completed!"
+          this.$submitButton.prop('disabled', false)

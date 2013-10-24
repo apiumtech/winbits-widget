@@ -26,12 +26,14 @@ module.exports = class CheckoutSiteView extends View
     @delegate "click" , "#btnContinuar", @addressContinuar
     @delegate "click" , ".shippingItem", @selectShipping
     @delegate 'keyup', '.zipCode', @findZipcode
+    @delegate 'change', 'select.zipCodeInfo', @changeZipCodeInfo
 
   deleteAddress: (e)->
     console.log "deleting address"
     $currentTarget = @$(e.currentTarget)
     that = @
     id =  $currentTarget.attr("id").split("-")[1]
+    util.showAjaxIndicator()
     @model.sync 'delete', @model,
       url: config.apiUrl + "/affiliation/shipping-addresses/" + id,
       error: ->
@@ -40,6 +42,8 @@ module.exports = class CheckoutSiteView extends View
       success: ->
         console.log "success"
         that.model.actualiza()
+      complete: ->
+        util.hideAjaxIndicator()
 
   selectShipping: (e)->
     $currentTarget = @$(e.currentTarget)
@@ -68,6 +72,7 @@ module.exports = class CheckoutSiteView extends View
     $editAddress = @$("#shippingEditAddress-" + id)
     @$(".shippingAddresses").hide()
     $editAddress.show()
+
   newAddress: (e)->
     e.preventDefault()
     @$(".shippingAddresses").hide()
@@ -88,21 +93,25 @@ module.exports = class CheckoutSiteView extends View
       data: JSON.stringify(formData)
       formData = util.serializeForm($form)
       formData.country  = {"id": formData.country}
-      formData.zipCodeInfo  = {"id": formData.zipCodeInfoId}
-      formData.main = if formData.main then true else false
+      if formData.zipCodeInfo and formData.zipCodeInfo > 0
+        formData.zipCodeInfo  = {"id": formData.zipCodeInfo}
+      formData.main = formData.main is true or formData.main is 'on'
       console.log formData
       @model.set formData
-
+      submitButton = $form.find("#btnSubmit").prop('disabled', true)
       that = @
       @model.sync 'create', @model,
+        context: {$submitButton: submitButton}
         error: ->
           console.log "error",
         headers: { 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
         success: ->
           console.log "success"
           that.model.actualiza()
-          #that.$el.find(".myPerfil").slideDown()
-          #
+        complete: ->
+          this.$submitButton.prop('disabled', false)
+
+
   addressUpdate: (e)->
     e.preventDefault()
     console.log "AddressUpdate"
@@ -112,38 +121,41 @@ module.exports = class CheckoutSiteView extends View
     if $form.valid()
       formData = util.serializeForm($form)
       formData.country  = {"id": formData.country}
-      formData.zipCodeInfo  = {"id": formData.zipCodeInfoId}
-      if formData.principal
-        formData.principal  = true
-      else
-        formData.principal = false
-      formData.contactName = formData.name + " " + formData.lastname
+      if formData.zipCodeInfo and formData.zipCodeInfo > 0
+        formData.zipCodeInfo  = {"id": formData.zipCodeInfo}
+      formData.main = formData.main is true or formData.main is 'on'
       console.log formData
       @model.set formData
       that = @
+      submitUpdate = $form.find('.btnUpdate').prop('disabled', true)
       @model.sync 'update', @model,
-        url: config.apiUrl + "/affiliation/shipping-addresses/" + formData.id,
+        context: {$submitUpdate: submitUpdate}
+        url: config.apiUrl + "/affiliation/shipping-addresses/" + formData.id + '.json',
         error: ->
           console.log "error",
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
         success: ->
           console.log "success"
           that.model.actualiza()
+        complete: ->
+          this.$submitUpdate.prop('disabled', false)
 
   attach: ->
     super
-    console.log "CheckoutSiteView#attach"
+    console.log "AddressManagerView#attach"
     vendor.customCheckbox(@$(".checkbox"))
     that = this
-    @$(".shippingEditAddress").each ->
-      $select = that.$(this).find('.select')
-      $zipCode = that.$(this).find('.zipCode')
-      $zipCodeExtra = that.$(this).find('.zipCodeInfoExtra')
+    @$("form.shippingEditAddress").each ->
+      $form = that.$(this)
+      $select = $form.find('.select')
+      $zipCode = $form.find('.zipCode')
+      $zipCodeExtra = $form.find('.zipCodeInfoExtra')
       zipCode(Backbone.$).find $zipCode.val(), $select, $zipCodeExtra.val()
       unless $zipCode.val().length < 5
         vendor.customSelect($select)
 
-    vendor.customSelect(@$(".shippingNewAddress").find(".select"))
+    $form = @$el.find('form.shippingNewAddress')
+    vendor.customSelect($form.find(".select"))
 
     @$el.find('form#shippingNewAddress').validate
       groups:
@@ -181,7 +193,18 @@ module.exports = class CheckoutSiteView extends View
           required: true
           minlength: 5
           digits: true
+        zipCodeInfo:
+          required: (e) ->
+            $form = Backbone.$(e).closest 'form'
+            $form.find('[name=location]').is(':hidden')
         location:
+          required: '[name=location]:visible'
+          minlength: 2
+        county:
+          required: '[name=location]:visible'
+          minlength: 2
+        state:
+          required: '[name=location]:visible'
           minlength: 2
 
   findZipcode: (event)->
@@ -190,3 +213,22 @@ module.exports = class CheckoutSiteView extends View
     $currentTarget = @$(event.currentTarget)
     $slt = $currentTarget.parent().find(".select")
     zipCode(Backbone.$).find $currentTarget.val(), $slt
+
+  changeZipCodeInfo: (e) ->
+    $ = Backbone.$
+    $select = $(e.currentTarget)
+    zipCodeInfoId = $select.val()
+    $form = $select.closest('form')
+    $fields = $form.find('[name=location], [name=county], [name=state]')
+    if !zipCodeInfoId
+      $fields.show().val('').attr('readonly', '').filter('[name=location]').hide()
+    else if zipCodeInfoId is '-1'
+      $fields.show().removeAttr('readonly')
+    else
+      $fields.show().attr('readonly', '').filter('[name=location]').hide()
+    $option = $select.children('[value=' + zipCodeInfoId + ']')
+    zipCodeInfo = $option.data 'zip-code-info'
+    if zipCodeInfo
+      $form.find('input.zipCode').val zipCodeInfo.zipCode
+      $fields.filter('[name=county]').val zipCodeInfo.county
+      $fields.filter('[name=state]').val zipCodeInfo.state

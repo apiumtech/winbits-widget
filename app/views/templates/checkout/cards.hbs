@@ -17,8 +17,8 @@
       </address>
       <span class="note send creditCardSend">Tu orden se pagará con esta tarjeta.</span>
       <span class="note hover">{{../cardItemLegend}}</span>
-      {{#hasMSI}}
-      <span class="mesesSinIntereses-box">MESES SIN INTERESES</span>
+      {{#hasMSI cardInfo.supportInstallments ../methods cardInfo.cardData.cardType}}
+      <!--<span class="mesesSinIntereses-box"> 3, 6, 9 MESES SIN INTERESES</span>-->
       {{/hasMSI}}
       <input type="radio" name="winbitsCCRadio" class="creditcardRadio" id="winbitsCCRadio1">
       {{!<input type="radio" name="winbitsCCRadio" class="creditcardRadio" id="winbitsCCRadio" checked="checked">}}
@@ -82,6 +82,7 @@
         <h3>NOMBRE</h3>
         <input type="text" class="required" placeholder="Nombre" maxlength="30" name="firstName" id="winbitsPaymentNewCardName" disabled="disabled">
         <input type="text" class="required" placeholder="Apellido(s)" maxlength="50" name="lastName" id="winbitsPaymentNewCardLastName" disabled="disabled">
+        <input type="text" class="required" placeholder="Número de Tarjeta" maxlength="17" name="accountNumber" id="winbitsPaymentNewCardNumber" disabled="disabled">
         <div class="divFechaExpiracion">
           <label>Fecha de vencimiento</label>
           <input type="text" class="required digits" placeholder="dd" maxlength="2" name="expirationMonth" id="winbitsPaymentNewCardDD" disabled="disabled">

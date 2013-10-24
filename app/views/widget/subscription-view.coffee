@@ -67,8 +67,7 @@ module.exports = class SubscriptionView extends View
         this.that.publishEvent 'setSubscription', data.response
 
       error: (xhr, textStatus, errorThrown) ->
-        error = JSON.parse(xhr.responseText)
-        alert "Error while updating subscription"
+        util.showError("Error while updating subscription")
 
       complete: ->
         console.log "Request Completed!"

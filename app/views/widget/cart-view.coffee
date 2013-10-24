@@ -29,8 +29,8 @@ module.exports = class CartView extends View
       @model.loadUserCart()
 
   addToCart : (cartItem)->
-    alert "Please specify a cart item object: {id: 1, quantity: 1}"  unless cartItem
-    alert "Id required! Please specify a cart item object: {id: 1, quantity: 1}"  unless cartItem.id
+    util.showError("Please specify a cart item object: {id: 1, quantity: 1}")  unless cartItem
+    util.showError("Id required! Please specify a cart item object: {id: 1, quantity: 1}")  unless cartItem.id
     cartItem.id = parseInt(cartItem.id)
     if not cartItem.quantity or cartItem.quantity < 1
       console.log "Setting default quantity (1)..."
@@ -92,6 +92,9 @@ module.exports = class CartView extends View
       carro: true
 
     @$el.find('.wb-continue-shopping-link').click @closeCart
+    @$el.find('.wb-checkout-btn').click (e)->
+      e.preventDefault()
+      that.publishEvent 'doCheckout'
 
   updateCartDetail : (id, quantity, bits, $cartPanel) ->
     console.log ["updateCartDetail"]

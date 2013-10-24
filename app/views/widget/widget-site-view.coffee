@@ -48,6 +48,7 @@ module.exports = class WidgetSiteView extends View
     @subscribeEvent 'postToCheckoutApp', @postToCheckoutApp
     @subscribeEvent 'showResetPassword', @resetPassword
     @subscribeEvent 'proxyLoaded', @proxyLoaded
+    @subscribeEvent 'doCheckout', @doCheckout
 
   updateCartCounter: (count)->
     console.log ["WidgetSiteView#updateCartCounter " + count]
@@ -172,40 +173,46 @@ module.exports = class WidgetSiteView extends View
     @$el.find('.wb-vertical-' + config.verticalId).addClass('current');
     $el = @$el
     setTimeout(() ->
-      console.log 'DOING PLACEHOLDERS'
       $el.find('input, textarea').placeholder()
     , 500)
+
+    @$el.find('#wbi-ajax-modal').modal({backdrop: 'static', keyboard: false, show: false})
 
 
   postCheckout: (e)->
     e.preventDefault()
-    console.log "WidgetSiteView#postCheckout"
-    Backbone.$.ajax config.apiUrl + "/orders/checkout.json",
-      type: "POST"
-      contentType: "application/json"
-      dataType: "json"
-      context: @
-      data: JSON.stringify(verticalId: config.verticalId)
-      headers:
-        "Accept-Language": "es",
-        "WB-Api-Token": util.getCookie(config.apiTokenName)
-      success: (data) ->
-        console.log "Checkout Success!"
-        resp = data.response
-        warnings = resp.orderDetails? and (item for item in resp.orderDetails when item.warnings?)
-        withWarnings = if warnings != null && warnings.length > 0  then true else false
-        if resp.failedCartDetails? or withWarnings
-          @publishEvent 'showResume', resp
-        else
-          @postToCheckoutApp resp
+    @doCheckout()
 
-      error: (xhr) ->
-        console.log xhr
-        error = JSON.parse(xhr.responseText)
-#        alert error.meta.message
+  doCheckout: () ->
+    $ = Backbone.$
+    if $('.wb-cart-detail-list').children().length > 0
+      util.showAjaxIndicator('Generando Orden...')
+      Backbone.$.ajax config.apiUrl + "/orders/checkout.json",
+        type: "POST"
+        contentType: "application/json"
+        dataType: "json"
+        context: @
+        data: JSON.stringify(verticalId: config.verticalId)
+        headers:
+          "Accept-Language": "es",
+          "WB-Api-Token": util.getCookie(config.apiTokenName)
+        success: (data) ->
+          console.log "Checkout Success!"
+          resp = data.response
+          warnings = resp.orderDetails? and (item for item in resp.orderDetails when item.warnings?)
+          withWarnings = if warnings != null && warnings.length > 0  then true else false
+          if resp.failedCartDetails? or withWarnings
+            @publishEvent 'showResume', resp
+          else
+            @postToCheckoutApp resp
 
-      complete: ->
-        console.log "Request Completed!"
+        error: (xhr) ->
+          console.log xhr
+          error = JSON.parse(xhr.responseText)
+  #        alert error.meta.message
+
+        complete: ->
+          util.hideAjaxIndicator()
 
   placeFacebookFrame: (e) ->
     console.log "Facebook Frame disable!"
@@ -256,8 +263,7 @@ module.exports = class WidgetSiteView extends View
 
       error: (xhr, textStatus, errorThrown) ->
         console.log "updateStatus.json Error!"
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "updateStatus.json Completed!"
@@ -283,8 +289,7 @@ module.exports = class WidgetSiteView extends View
 
       error: (xhr, textStatus, errorThrown) ->
         console.log "share.json Error!"
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "share.json Completed!"

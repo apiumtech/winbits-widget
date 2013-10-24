@@ -35,8 +35,7 @@ module.exports = class ShippingAddress extends ChaplinModel
         that.publishEvent 'shippingReady'
 
       error: (xhr, textStatus, errorThrown) ->
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
   completeShippingAddress: (data) ->
     console.log 'refrescando'

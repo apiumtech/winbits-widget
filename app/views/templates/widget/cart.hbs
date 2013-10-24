@@ -4,7 +4,7 @@
     <div class="carritoDivLeft" style="width: 339px;">
       <div class="carritoContainer scrollPanel" data-content="carritoContent">
         <div class="carritoContent">
-          <ul class="cart-details-list reseteable" id="detail-cart" data-reset-unload="">
+          <ul class="cart-details-list reseteable wb-cart-detail-list" id="detail-cart" data-reset-unload="">
             {{#each cartDetails}}
               {{> cartDetail}}
             {{/each}}
@@ -24,7 +24,7 @@
       <div class="winSave wb-bits-control">
         <span>WIN</span>
         <em class="icon winbits10px"></em>
-        <label class="cart-bits-total reseteable" data-reset-text="0">0</label>
+        <label class="cart-bits-cashback reseteable" data-reset-text="0">{{cashback}}</label>
         <span>save</span>
         <label class="cart-saving reseteable" data-reset-text="0%">{{cartSaving total bitsTotal}}%</label>
       </div>
@@ -32,7 +32,7 @@
              data-max="{{maxBits}}" data-step="1" class="slideInput wb-bits-control">
       <span class="legendCarrito">Usa tus bits como dinero en esta compra <a href="#">learn more</a></span>
       <a href="#" class="continueShoping wb-continue-shopping-link">CONTINUE SHOPPING</a>
-      <input type="submit" class="btn" value="Check Out">
+      <input type="submit" class="btn wb-checkout-btn" value="Check Out">
       <div class="condicionesCompra">
         <p>Aplica para esta compra:</p>
         <p>

@@ -62,6 +62,7 @@ module.exports = class ResumeView extends View
 
     data = {skuProfileId: skuProfileId, orderId: orderId, quantity: quantity}
     url = config.apiUrl + "/orders/order-item/add.json"
+    util.showAjaxIndicator()
     Backbone.$.ajax url,
       type: "POST"
       contentType: "application/json"
@@ -85,12 +86,11 @@ module.exports = class ResumeView extends View
       error: (xhr) ->
         @updateResumeView @model.attributes.orderDetails
         console.log xhr
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "Request Completed!"
-
+        util.hideAjaxIndicator()
 
 
   deleteItem: (e) ->
@@ -109,6 +109,7 @@ module.exports = class ResumeView extends View
 
   cancelOrder: (orderId) ->
     url = config.apiUrl + "/orders/orders/"+orderId+".json"
+    util.showAjaxIndicator()
     Backbone.$.ajax url,
       type: "DELETE"
       contentType: "application/json"
@@ -122,12 +123,11 @@ module.exports = class ResumeView extends View
 
       error: (xhr) ->
         console.log xhr
-        error = JSON.parse(xhr.responseText)
-        alert error.meta.message
+        util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "Request Completed!"
-
+        util.hideAjaxIndicator()
 
   updateBitsTotal: (bitsTotal) ->
     console.log ['update bits total', bitsTotal]
