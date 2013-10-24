@@ -17,8 +17,20 @@
   <ul>
     <li><a href="#" id="wbi-change-password-link" class="changePassBtn"><span class="icon changePasword"></span>Cambiar Password</a></li>
     <li><a href="#" id="wbi-show-cards-manager-link"><span class="icon creditCard"></span>Editar Tarjetas de Crédito </a></li>
-    <li><a href="#" id="attachFacebookAccount{{facebook}}"><span class="icon facebookCircle"></span> <span class="socialProvider{{facebook}}">{{getSocialActionByState facebook}} tu cuenta de Facebook </span></a></li>
-    <li><a href="#" id="attachTwitterAccount{{twitter}}"><span class="icon twitterCircle"></span> <span class="socialProvider{{twitter}}">{{getSocialActionByState twitter}} tu cuenta de Twitter </span></a></li>
+    <li>
+      <a href="#" id="attachFacebookAccount{{facebook}}">
+        <span class="icon facebookCircle{{facebook}}"></span>
+        <span class="socialProvider{{facebook}}">
+          {{getSocialActionByState facebook}} tu cuenta de Facebook
+        </span>
+      </a>
+    </li>
+    <li>
+      <a href="#" id="attachTwitterAccount{{twitter}}">
+        <span class="icon twitterCircle{{twitter}}"></span>
+        <span class="socialProvider{{twitter}}">{{getSocialActionByState twitter}} tu cuenta de Twitter </span>
+      </a>
+    </li>
   </ul>
   <input class="btn editBtn" id="editBtnProfile" value="Editar">
 </div>
