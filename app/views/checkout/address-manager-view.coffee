@@ -72,6 +72,7 @@ module.exports = class CheckoutSiteView extends View
     $editAddress = @$("#shippingEditAddress-" + id)
     @$(".shippingAddresses").hide()
     $editAddress.show()
+
   newAddress: (e)->
     e.preventDefault()
     @$(".shippingAddresses").hide()
