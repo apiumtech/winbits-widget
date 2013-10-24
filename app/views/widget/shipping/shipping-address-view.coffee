@@ -74,7 +74,7 @@ module.exports = class ShippingAddressView extends View
       formData.country  = {"id": formData.country}
       if formData.zipCodeInfo and formData.zipCodeInfo > 0
         formData.zipCodeInfo  = {"id": formData.zipCodeInfo}
-      formData.main = if formData.main then true else false
+      formData.main = formData.main is true or formData.main is 'on'
       console.log formData
       @model.set formData
 
@@ -88,53 +88,48 @@ module.exports = class ShippingAddressView extends View
         success: ->
               console.log "success"
               that.publishEvent 'showShippingAddresses'
-  #that.$el.find(".myPerfil").slideDown()
-  #
+
   addressUpdate: (e)->
     e.preventDefault()
-    console.log "AddressUpdate"
     $currentTarget = @$(e.currentTarget)
     id =  $currentTarget.attr("id").split("-")[1]
     $form = @$el.find("#shippingEditAddress-" + id)
     if $form.valid()
       formData = util.serializeForm($form)
       formData.country  = {"id": formData.country}
-      formData.zipCodeInfo  = {"id": formData.zipCodeInfoId}
-      if formData.principal
-        formData.principal  = true
-      else
-        formData.principal = false
-      formData.contactName = formData.name + " " + formData.lastname
+      if formData.zipCodeInfo and formData.zipCodeInfo > 0
+        formData.zipCodeInfo  = {"id": formData.zipCodeInfo}
+      formData.main = formData.main is true or formData.main is 'on'
       console.log formData
       @model.set formData
       that = @
       @model.sync 'update', @model,
-        url: config.apiUrl + "/affiliation/shipping-addresses/" + formData.id,
+        url: config.apiUrl + "/affiliation/shipping-addresses/" + formData.id + ".json",
         error: ->
           console.log "error",
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
         success: ->
           console.log "success"
           that.publishEvent 'showShippingAddresses'
-          @$(".shippingAddresses").show()
-          @$($currentTarget).hide()
 
   attach: ->
     super
-    console.log "CheckoutSiteView#attach"
     vendor.customCheckbox(@$(".checkbox"))
     that = this
-    @$(".shippingEditAddress").each ->
-      $select = that.$(this).find('.select')
-      $zipCode = that.$(this).find('.zipCode')
-      $zipCodeExtra = that.$(this).find('.zipCodeInfoExtra')
+    $editForms = @$("form.shippingEditAddress")
+    $editForms.each ->
+      $form = that.$(this)
+      $select = $form.find('.select')
+      $zipCode = $form.find('.zipCode')
+      $zipCodeExtra = $form.find('.zipCodeInfoExtra')
       zipCode(Backbone.$).find $zipCode.val(), $select, $zipCodeExtra.val()
       unless $zipCode.val().length < 5
         vendor.customSelect($select)
 
     $form = @$el.find('form#shippingNewAddress')
     vendor.customSelect($form.find(".select"))
-    $form.validate
+
+    $editForms.add($form).validate
       groups:
         addressNumber: 'externalNumber internalNumber'
       errorPlacement: ($error, $element) ->
