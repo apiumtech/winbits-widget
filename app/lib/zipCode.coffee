@@ -6,7 +6,6 @@ module.exports = ($)->
   find : (cp, element, itemSelected, callback) ->
     that = @
     unless cp.length is 5
-      #@showDefault element
       return
     $.ajax
       url: config.apiUrl + "/affiliation/locations/" + cp + ".json"
@@ -30,7 +29,8 @@ module.exports = ($)->
         else
           values.push "<option value='#{response.id}'>#{response.locationName}</value>"
     else
-        values.push "<option value=\"\">Lo sentimos no encontramos tu codigo posta, por favor ingresa tu colonia en el campo de localidad</option>"
+      values.push "<option value=\"-1\">Otro...</option>"
+      $form.find('[name=location], [name=county], [name=state]').removeAttr('readonly')
 
     if not itemSelected and data.response.length > 0
       response = data.response[0]

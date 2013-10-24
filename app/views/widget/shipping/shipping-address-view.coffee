@@ -25,6 +25,7 @@ module.exports = class ShippingAddressView extends View
     @delegate "click" , ".edit-address", @editAddress
     @delegate "click" , ".delete-address", @deleteAddress
     @delegate 'keyup', '.zipCode', @findZipcode
+    @delegate 'change', 'select.zipCodeInfo', @changeZipCodeInfo
 
   handlerModelReady: ->
     @render()
@@ -179,3 +180,12 @@ module.exports = class ShippingAddressView extends View
     $currentTarget = @$(event.currentTarget)
     $slt = $currentTarget.parent().find(".select")
     zipCode(Backbone.$).find $currentTarget.val(), $slt
+
+  changeZipCodeInfo: (e) ->
+    $ = Backbone.$
+    $select = $(e.currentTarget)
+    zipCodeInfoId = $select.val()
+    $fields = $select.closest('form').find('[name=location], [name=county], [name=state]')
+    $fields.val('').attr('readonly', 'true').filter('[name=location]').hide()
+    if !zipCodeInfoId or zipCodeInfoId is '-1'
+      $fields.show().removeAttr('readonly')

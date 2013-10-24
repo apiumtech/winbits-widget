@@ -27,9 +27,9 @@
       <fieldset>
         <div class="column">
           <h3>CONTACTO</h3>
-          <input type="text" class="required" placeholder="Nombre" name="firstName" value="{{firstName}}"  id="winbitsShippingName">
-          <input type="text" class="required" placeholder="Apellido(s)" name="lastName" value="{{lastName}}"  id="winbitsShippingLastname">
-          <input type="text" placeholder="Teléfono a 10 dígitos" name="phone" id="winbitsShippingTel" value="{{phone}}">
+          <input type="text" class="required" placeholder="Nombre" name="firstName" value="{{firstName}}"  id="winbitsShippingName" maxlength="30">
+          <input type="text" class="required" placeholder="Apellido(s)" name="lastName" value="{{lastName}}"  id="winbitsShippingLastname" maxlength="50">
+          <input type="text" placeholder="Teléfono a 10 dígitos" name="phone" id="winbitsShippingTel" value="{{phone}}" maxlength="50">
         </div>
         <div class="column">
           <h3>DIRECCIÓN</h3>
@@ -42,10 +42,10 @@
           </div>
           <textarea placeholder="¿Entre qué calles?" class="required" name="betweenStreets">{{betweenStreets}}</textarea>
           <textarea placeholder="Referencias para llegar" class="required" name="indications">{{indications}}</textarea>
-          <input type="text" placeholder="Codigo Postal" class="required digits zipCode" value="{{zipCodeInfo.zipCode}}" maxlength="5">
-          <input type="hidden" name="zipCodeInfoId" class="zipCodeInfoExtra" value="{{zipCodeInfo.id}}">
-          <select class="select zipCodeInfo" data-clase="selectRegister" placeholder="Localidad">
-            <option>Localidad:</option>
+          <input type="text" placeholder="Código Postal" class="required digits zipCode" value="{{zipCodeInfo.zipCode}}" maxlength="5">
+          <input type="hidden" class="zipCodeInfoExtra" value="{{zipCodeInfo.id}}">
+          <select class="select zipCodeInfo" data-clase="selectRegister" placeholder="Localidad" name="zipCodeInfoId">
+            <option>Colonia/Asentamiento:</option>
           </select>
           <input type="text" placeholder="Colonia" name="location" value="{{zipCodeInfo.locationName}}">
           <input type="text" placeholder="Delegación o Municipio" value="{{zipCodeInfo.county}}" readonly="true">
@@ -69,9 +69,9 @@
     <fieldset>
       <div class="column">
         <h3>CONTACTO</h3>
-        <input type="text" class="required" placeholder="Nombre" name="firstName" id="winbitsShippingName">
-        <input type="text" class="required" placeholder="Apellido(s)" name="lastName" id="winbitsShippingLastname">
-        <input type="text" placeholder="Teléfono" name="phone" id="winbitsShippingTel">
+        <input type="text" class="required" placeholder="Nombre" name="firstName" id="winbitsShippingName" maxlength="30">
+        <input type="text" class="required" placeholder="Apellido(s)" name="lastName" id="winbitsShippingLastname" maxlength="50">
+        <input type="text" placeholder="Teléfono" name="phone" id="winbitsShippingTel" maxlength="15">
       </div>
       <div class="column">
         <h3>DIRECCIÓN</h3>
@@ -83,14 +83,15 @@
         </div>
         <textarea placeholder="¿Entre qué calles?" class="required" name="betweenStreets"></textarea>
         <textarea placeholder="Referencias para llegar" class="required" name="indications"></textarea>
-        <input type="text" placeholder="Codigo Postal" class="required digits zipCode">
-        <input type="hidden" name="zipCodeInfoId" class="zipCodeInfoExtra">
-        <select class="select zipCodeInfo" data-clase="selectRegister" placeholder="Localidad">
-          <option>Colonia/Localidad:</option>
+        <input type="text" placeholder="Código Postal" class="required digits zipCode" maxlength="5">
+        <input type="hidden" class="zipCodeInfoExtra">
+        <select class="select zipCodeInfo" data-clase="selectRegister" placeholder="Localidad" name="zipCodeInfoId">
+          <option>Colonia/Asentamiento:</option>
+          <option value="-1">Otro...</option>
         </select>
         <input type="text" placeholder="Colonia" name="location" style="display: none;">
-        <input type="text" placeholder="Delegación o Municipio" id="winbitsShippingCounty" readonly="true">
-        <input type="text" placeholder="Estado" id="winbitsShippingState" readonly="true">
+        <input type="text" placeholder="Delegación o Municipio" id="winbitsShippingCounty" name="county" readonly="true">
+        <input type="text" placeholder="Estado" id="winbitsShippingState" name="state" readonly="true">
       </div>
       <div class="column columnLarge">
         <h3>OPCIONES</h3>

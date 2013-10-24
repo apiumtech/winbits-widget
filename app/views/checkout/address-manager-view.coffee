@@ -26,6 +26,7 @@ module.exports = class CheckoutSiteView extends View
     @delegate "click" , "#btnContinuar", @addressContinuar
     @delegate "click" , ".shippingItem", @selectShipping
     @delegate 'keyup', '.zipCode', @findZipcode
+    @delegate 'change', 'select.zipCodeInfo', @changeZipCodeInfo
 
   deleteAddress: (e)->
     console.log "deleting address"
@@ -132,7 +133,7 @@ module.exports = class CheckoutSiteView extends View
 
   attach: ->
     super
-    console.log "CheckoutSiteView#attach"
+    console.log "AddressManagerView#attach"
     vendor.customCheckbox(@$(".checkbox"))
     that = this
     @$(".shippingEditAddress").each ->
@@ -190,3 +191,12 @@ module.exports = class CheckoutSiteView extends View
     $currentTarget = @$(event.currentTarget)
     $slt = $currentTarget.parent().find(".select")
     zipCode(Backbone.$).find $currentTarget.val(), $slt
+
+  changeZipCodeInfo: (e) ->
+    alert 'Changed'
+    $ = Backbone.$
+    $select = $(e.currentTarget)
+    zipCodeInfoId = $select.val()
+    console.log [zipCodeInfoId, 'ZIPCODE INFO ID']
+    if !zipCodeInfoId or zipCodeInfoId is '-1'
+      $select.closest('form').find('[name=location], [name=county], [name=state]').show().removeAttr('readonly')
