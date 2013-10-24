@@ -23,6 +23,7 @@ module.exports = class OrderDetails extends ChaplinModel
     model.total = order.total
     model.cashTotal = order.cashTotal
     model.itemsTotal = order.itemsTotal
+    model.cashback = order.cashback
     orderFullPrice = util.calculateOrderFullPrice(order.orderDetails)
     model.orderFullPrice = orderFullPrice
     model.orderSaving = orderFullPrice - order.itemsTotal

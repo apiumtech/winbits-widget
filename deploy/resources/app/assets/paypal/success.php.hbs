@@ -159,12 +159,12 @@ $totalDiscount = $totalFullPrice - $order['itemsTotal'];
                 <span><? echo "$".$order['itemsTotal']?></span>
                 <span>ENVIO</span>
                 <span><? echo $order['shippingTotal']=='0' ? "GRATIS" : "$".$order['shippingTotal']; ?></span>
+                <span>GANAS</span>
+                <span><span class="icon winbits10px"></span><? echo $order['cashback'] ?></span>
                 <? if (!empty($order['bitsTotal'])) { ?>
                 <span>PAGO EN BITS</span>
                 <span><span class="icon winbits10px"></span><? echo "-".$order['bitsTotal'] ?></span>
                 <? } ?>
-                <span>GANAS</span>
-                <span><span class="icon winbits10px"></span><? echo $order['cashback'] ?></span>
             </div>
             <div class="checkoutTotal">
                 <span class="checkoutTitle">TOTAL</span>
