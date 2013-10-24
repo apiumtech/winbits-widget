@@ -185,7 +185,17 @@ module.exports = class ShippingAddressView extends View
     $ = Backbone.$
     $select = $(e.currentTarget)
     zipCodeInfoId = $select.val()
-    $fields = $select.closest('form').find('[name=location], [name=county], [name=state]')
-    $fields.val('').attr('readonly', 'true').filter('[name=location]').hide()
-    if !zipCodeInfoId or zipCodeInfoId is '-1'
+    $form = $select.closest('form')
+    $fields = $form.find('[name=location], [name=county], [name=state]')
+    if !zipCodeInfoId
+      $fields.show().val('').attr('readonly', '').filter('[name=location]').hide()
+    else if zipCodeInfoId is '-1'
       $fields.show().removeAttr('readonly')
+    else
+      $fields.show().attr('readonly', '').filter('[name=location]').hide()
+    $option = $select.children('[value=' + zipCodeInfoId + ']')
+    zipCodeInfo = $option.data 'zip-code-info'
+    if zipCodeInfo
+      $form.find('input.zipCode').val zipCodeInfo.zipCode
+      $fields.filter('[name=county]').val zipCodeInfo.county
+      $fields.filter('[name=state]').val zipCodeInfo.state

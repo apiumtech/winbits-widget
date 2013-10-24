@@ -45,7 +45,7 @@
           <input type="text" placeholder="Código Postal" class="required digits zipCode" value="{{zipCodeInfo.zipCode}}" maxlength="5">
           <input type="hidden" class="zipCodeInfoExtra" value="{{zipCodeInfo.id}}">
           <select class="select zipCodeInfo" data-clase="selectRegister" placeholder="Localidad" name="zipCodeInfoId">
-            <option>Colonia/Asentamiento:</option>
+            <option value="">Colonia/Asentamiento:</option>
           </select>
           <input type="text" placeholder="Colonia" name="location" value="{{zipCodeInfo.locationName}}">
           <input type="text" placeholder="Delegación o Municipio" value="{{zipCodeInfo.county}}" readonly="true">
