@@ -124,6 +124,7 @@ module.exports = class Cart extends ChaplinModel
         console.log "success deleteVirtaulCart"
         that.storeVirtualCart data.response
         that.set that.completeCartModel(data.response)
+        that.closeCartIfEmpty()
       complete: ->
         util.hideAjaxIndicator()
 
@@ -136,6 +137,7 @@ module.exports = class Cart extends ChaplinModel
       success: (data) ->
         console.log ["V: User cart", data.response]
         that.set that.completeCartModel data.response
+        that.closeCartIfEmpty()
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
 
@@ -279,3 +281,9 @@ module.exports = class Cart extends ChaplinModel
 
       complete: ->
         util.hideAjaxIndicator()
+        
+  closeCartIfEmpty: () ->
+    $ = Backbone.$
+    $cartDetailList = $('.wb-cart-detail-list')
+    if $cartDetailList.children().length is 0
+      $cartDetailList.closest('.dropMenu').slideUp()
