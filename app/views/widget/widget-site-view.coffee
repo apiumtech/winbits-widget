@@ -215,8 +215,6 @@ module.exports = class WidgetSiteView extends View
 
         complete: ->
           util.hideAjaxIndicator()
-    else
-      console.log 'Cannot checkout empty Cart!'
 
   placeFacebookFrame: (e) ->
     console.log "Facebook Frame disable!"
