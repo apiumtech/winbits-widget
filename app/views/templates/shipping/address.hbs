@@ -10,7 +10,7 @@
         <address>
           <span>{{getContactName}},</span>
           <span>{{street}} {{externalNumber}}, {{getLocation}},</span>
-          <span>{{zipCodeInfo.county}}, {{getZipCode}}</span>
+          <span>{{county}}, {{getZipCode}}</span>
         </address>
         <input type="radio" name="winbitsShippingRadio" class="shippingRadio" id="winbitsShippingRadio1">
       </li>
@@ -42,14 +42,14 @@
           </div>
           <textarea placeholder="¿Entre qué calles?" class="required" name="betweenStreets">{{betweenStreets}}</textarea>
           <textarea placeholder="Referencias para llegar" class="required" name="indications">{{indications}}</textarea>
-          <input type="text" placeholder="Código Postal" class="required digits zipCode" value="{{zipCodeInfo.zipCode}}" maxlength="5">
-          <input type="hidden" class="zipCodeInfoExtra" value="{{zipCodeInfo.id}}">
+          <input type="text" name="zipCode" placeholder="Código Postal" class="required digits zipCode" value="{{zipCode}}" maxlength="5">
+          <input type="hidden" class="zipCodeInfoExtra" value="{{getZipCodeInfoId}}">
           <select class="select zipCodeInfo" data-clase="selectRegister" placeholder="Localidad" name="zipCodeInfoId">
             <option value="">Colonia/Asentamiento:</option>
           </select>
-          <input type="text" placeholder="Colonia" name="location" value="{{zipCodeInfo.locationName}}">
-          <input type="text" placeholder="Delegación o Municipio" value="{{zipCodeInfo.county}}" readonly="true">
-          <input type="text" placeholder="Estado" value="{{zipCodeInfo.state}}" readonly="true">
+          <input type="text" placeholder="Colonia" name="location" value="{{location}}">
+          <input type="text" placeholder="Delegación o Municipio" value="{{county}}" readonly="true">
+          <input type="text" placeholder="Estado" value="{{state}}" readonly="true">
         </div>
         <div class="column columnLarge">
           <h3>OPCIONES</h3>
@@ -83,9 +83,9 @@
         </div>
         <textarea placeholder="¿Entre qué calles?" class="required" name="betweenStreets"></textarea>
         <textarea placeholder="Referencias para llegar" class="required" name="indications"></textarea>
-        <input type="text" placeholder="Código Postal" class="required digits zipCode" maxlength="5">
+        <input type="text" placeholder="Código Postal" class="required digits zipCode" maxlength="5" name="zipCode">
         <input type="hidden" class="zipCodeInfoExtra">
-        <select class="select zipCodeInfo" data-clase="selectRegister" placeholder="Localidad" name="zipCodeInfoId">
+        <select class="select zipCodeInfo" data-clase="selectRegister" placeholder="Localidad" name="zipCodeInfo">
           <option>Colonia/Asentamiento:</option>
           <option value="-1">Otro...</option>
         </select>

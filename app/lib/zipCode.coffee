@@ -48,5 +48,4 @@ module.exports = ($)->
       $selectedOption = $element.children().eq(1)
       $selectedOption.attr('selected', '')
     vendor.customSelect($element)
-    console.log ['OPTION LIU', 'li[rel=' + $selectedOption.attr('value') + ']']
     $element.parent().find('li[rel=' + $selectedOption.attr('value') + ']').click()

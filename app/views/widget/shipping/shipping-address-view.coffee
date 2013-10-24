@@ -72,7 +72,8 @@ module.exports = class ShippingAddressView extends View
       data: JSON.stringify(formData)
       formData = util.serializeForm($form)
       formData.country  = {"id": formData.country}
-      formData.zipCodeInfo  = {"id": formData.zipCodeInfoId}
+      if formData.zipCodeInfo and formData.zipCodeInfo > 0
+        formData.zipCodeInfo  = {"id": formData.zipCodeInfo}
       formData.main = if formData.main then true else false
       console.log formData
       @model.set formData
@@ -87,8 +88,6 @@ module.exports = class ShippingAddressView extends View
         success: ->
               console.log "success"
               that.publishEvent 'showShippingAddresses'
-              @$(".shippingAddresses").show()
-              @$("#shippingNewAddress").hide()
   #that.$el.find(".myPerfil").slideDown()
   #
   addressUpdate: (e)->
@@ -139,7 +138,7 @@ module.exports = class ShippingAddressView extends View
       groups:
         addressNumber: 'externalNumber internalNumber'
       errorPlacement: ($error, $element) ->
-        if $element.attr("name") is "externalNumber" or $element.attr("name") is "internalNumber"
+        if $element.attr("name") in ["externalNumber", "internalNumber", 'zipCodeInfo']
           $error.appendTo $element.parent()
         else
           $error.insertAfter $element
@@ -171,7 +170,18 @@ module.exports = class ShippingAddressView extends View
           required: true
           minlength: 5
           digits: true
+        zipCodeInfo:
+          required: (e) ->
+            $form = Backbone.$(e).closest 'form'
+            $form.find('[name=location]').is(':hidden')
         location:
+          required: '[name=location]:visible'
+          minlength: 2
+        county:
+          required: '[name=location]:visible'
+          minlength: 2
+        state:
+          required: '[name=location]:visible'
           minlength: 2
 
   findZipcode: (event)->
