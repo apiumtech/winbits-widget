@@ -48,6 +48,7 @@ module.exports = class WidgetSiteView extends View
     @subscribeEvent 'postToCheckoutApp', @postToCheckoutApp
     @subscribeEvent 'showResetPassword', @resetPassword
     @subscribeEvent 'proxyLoaded', @proxyLoaded
+    @subscribeEvent 'doCheckout', @doCheckout
 
   updateCartCounter: (count)->
     console.log ["WidgetSiteView#updateCartCounter " + count]
@@ -181,34 +182,41 @@ module.exports = class WidgetSiteView extends View
 
   postCheckout: (e)->
     e.preventDefault()
-    console.log "WidgetSiteView#postCheckout"
-    util.showAjaxIndicator('Generando Orden...')
-    Backbone.$.ajax config.apiUrl + "/orders/checkout.json",
-      type: "POST"
-      contentType: "application/json"
-      dataType: "json"
-      context: @
-      data: JSON.stringify(verticalId: config.verticalId)
-      headers:
-        "Accept-Language": "es",
-        "WB-Api-Token": util.getCookie(config.apiTokenName)
-      success: (data) ->
-        console.log "Checkout Success!"
-        resp = data.response
-        warnings = resp.orderDetails? and (item for item in resp.orderDetails when item.warnings?)
-        withWarnings = if warnings != null && warnings.length > 0  then true else false
-        if resp.failedCartDetails? or withWarnings
-          @publishEvent 'showResume', resp
-        else
-          @postToCheckoutApp resp
+    @doCheckout()
 
-      error: (xhr) ->
-        console.log xhr
-        error = JSON.parse(xhr.responseText)
-#        alert error.meta.message
+  doCheckout: () ->
+    console.log "WidgetSiteView#doCheckout"
+    $ = Backbone.$
+    if $('.wb-cart-detail-list').children().length > 0
+      util.showAjaxIndicator('Generando Orden...')
+      Backbone.$.ajax config.apiUrl + "/orders/checkout.json",
+        type: "POST"
+        contentType: "application/json"
+        dataType: "json"
+        context: @
+        data: JSON.stringify(verticalId: config.verticalId)
+        headers:
+          "Accept-Language": "es",
+          "WB-Api-Token": util.getCookie(config.apiTokenName)
+        success: (data) ->
+          console.log "Checkout Success!"
+          resp = data.response
+          warnings = resp.orderDetails? and (item for item in resp.orderDetails when item.warnings?)
+          withWarnings = if warnings != null && warnings.length > 0  then true else false
+          if resp.failedCartDetails? or withWarnings
+            @publishEvent 'showResume', resp
+          else
+            @postToCheckoutApp resp
 
-      complete: ->
-        util.hideAjaxIndicator()
+        error: (xhr) ->
+          console.log xhr
+          error = JSON.parse(xhr.responseText)
+  #        alert error.meta.message
+
+        complete: ->
+          util.hideAjaxIndicator()
+    else
+      console.log 'Cannot checkout empty Cart!'
 
   placeFacebookFrame: (e) ->
     console.log "Facebook Frame disable!"
