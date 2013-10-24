@@ -37,36 +37,35 @@ module.exports = class LoginView extends View
     formData = util.serializeForm($form, formData)
     console.log ["Login Data", formData]
     that = @
-    Backbone.$.ajax config.apiUrl + "/affiliation/login.json",
-      type: "POST"
-      contentType: "application/json"
-      dataType: "json"
-      data: JSON.stringify(formData)
-      xhrFields:
-        withCredentials: true
-
-      context: $form
-      beforeSend: ->
-        util.validateForm $form
-
-      headers:
-        "Accept-Language": "es"
-      success: (data) ->
-        console.log "Request Success!"
-        console.log ["data", data]
-        that.publishEvent "applyLogin", data.response
-        #$.fancybox.close()
-        #@loginModalPanel.fadeOut()
-        Backbone.$('.modal').modal 'hide'
+    if $form.valid()
+      submitButton = @$(e.currentTarget).prop('disabled', true)
+      Backbone.$.ajax config.apiUrl + "/affiliation/login.json",
+        type: "POST"
+        contentType: "application/json"
+        dataType: "json"
+        data: JSON.stringify(formData)
+        xhrFields:
+          withCredentials: true
+        context: {$submitButton: submitButton}
+        headers:
+          "Accept-Language": "es"
+        success: (data) ->
+          console.log "Request Success!"
+          console.log ["data", data]
+          that.publishEvent "applyLogin", data.response
+          #$.fancybox.close()
+          #@loginModalPanel.fadeOut()
+          Backbone.$('.modal').modal 'hide'
 
 
-      error: (xhr, textStatus, errorThrown) ->
-        console.log xhr
-        error = JSON.parse(xhr.responseText)
-        that.renderLoginFormErrors $form, error
+        error: (xhr, textStatus, errorThrown) ->
+          console.log xhr
+          error = JSON.parse(xhr.responseText)
+          that.renderLoginFormErrors $form, error
 
-      complete: ->
-        console.log "Request Completed!"
+        complete: ->
+          console.log "Request Completed!"
+          this.$submitButton.prop('disabled', false)
 
 #todo put this on template
   renderLoginFormErrors : ($form, error) ->
@@ -90,12 +89,15 @@ module.exports = class LoginView extends View
     e.preventDefault()
     $ = Backbone.$
     that = @
+    fbButton = @$(e.currentTarget).prop('disabled', true)
     popup = window.open(config.apiUrl + "/affiliation/facebook-login/connect?verticalId=" + config.verticalId,
         "facebook", "menubar=0,resizable=0,width=800,height=500")
     popup.postMessage
     popup.focus()
+
     timer = setInterval(->
       if popup.closed
+        fbButton.prop('disabled', false)
         clearInterval timer
         $(".modal").modal('hide')
         that.publishEvent 'expressLogin'

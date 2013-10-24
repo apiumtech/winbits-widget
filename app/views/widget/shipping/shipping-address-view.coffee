@@ -35,6 +35,7 @@ module.exports = class ShippingAddressView extends View
     $currentTarget = @$(e.currentTarget)
     that = @
     id =  $currentTarget.attr("id").split("-")[1]
+    util.showAjaxIndicator()
     @model.sync 'delete', @model,
       url: config.apiUrl + "/affiliation/shipping-addresses/" + id,
       error: ->
@@ -43,6 +44,8 @@ module.exports = class ShippingAddressView extends View
       success: ->
         console.log "success"
         that.publishEvent 'showShippingAddresses'
+      complete: ->
+        util.hideAjaxIndicator()
 
   editAddress: (e)->
     e.principal
@@ -77,9 +80,10 @@ module.exports = class ShippingAddressView extends View
       formData.main = formData.main is true or formData.main is 'on'
       console.log formData
       @model.set formData
-
+      submitButton = $form.find("#btnSubmit").prop('disabled', true)
       that = @
       @model.sync 'create', @model,
+        context: {$submitButton: submitButton}
         error: ->
           console.log "error",
         headers:
@@ -88,6 +92,8 @@ module.exports = class ShippingAddressView extends View
         success: ->
               console.log "success"
               that.publishEvent 'showShippingAddresses'
+        complete: ->
+              this.$submitButton.prop('disabled', false)
 
   addressUpdate: (e)->
     e.preventDefault()
@@ -103,7 +109,9 @@ module.exports = class ShippingAddressView extends View
       console.log formData
       @model.set formData
       that = @
+      submitUpdate = $form.find('.btnUpdate').prop('disabled', true)
       @model.sync 'update', @model,
+        context: {$submitUpdate: submitUpdate}
         url: config.apiUrl + "/affiliation/shipping-addresses/" + formData.id + ".json",
         error: ->
           console.log "error",
@@ -111,6 +119,8 @@ module.exports = class ShippingAddressView extends View
         success: ->
           console.log "success"
           that.publishEvent 'showShippingAddresses'
+        complete: ->
+          this.$submitUpdate.prop('disabled', false)
 
   attach: ->
     super

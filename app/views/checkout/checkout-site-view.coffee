@@ -17,6 +17,13 @@ module.exports = class CheckoutSiteView extends View
     @subscribeEvent "showStep", @showStep
     @subscribeEvent "hideAddress", @hideAddress
     @delegate "click","#showAddress", @showAddress
+    @delegate 'click', '.close-modal', @closeModal
+    @delegate 'click', 'i.close-icon', @closeModal
+
+  closeModal: (event) ->
+    event?.preventDefault()
+    event?.stopPropagation()
+    @$('.modal').modal 'hide'
 
   showAddress: (e)->
     e.preventDefault()

@@ -24,11 +24,13 @@ module.exports = class Cart extends ChaplinModel
       #headers:{ 'Accept-Language': 'es', "WB-Api-Token": util.getCookie(config.apiTokenName)}
       success: ->
         console.log "success load Virtual cart"
-
+      complete: ->
+        console.log "complete"
 
   transferVirtualCart: (virtualCart)->
     console.log ["transferVirtualCart"]
     that = @
+    util.showAjaxIndicator()
     formData = virtualCartData: JSON.parse(virtualCart)
     Backbone.$.ajax config.apiUrl + "/orders/assign-virtual-cart.json",
       type: "POST"
@@ -52,12 +54,14 @@ module.exports = class Cart extends ChaplinModel
 
       complete: ->
         console.log "Request Completed!"
+        util.hideAjaxIndicator()
 
   updateUserCartDetail : (id, quantity, bits, $cartPanel) ->
     formData =
       quantity: quantity
       bits: bits or 0
     that = @
+    util.showAjaxIndicator()
     Backbone.$.ajax config.apiUrl + "/orders/cart-items/" + id + ".json",
       type: "PUT"
       contentType: "application/json"
@@ -77,11 +81,13 @@ module.exports = class Cart extends ChaplinModel
 
       complete: ->
         console.log "Request Completed!"
+        util.hideAjaxIndicator()
 
   updateVirtualCartDetail: (id, quantity, $cartPanel)->
     @url = config.apiUrl + "/orders/virtual-cart-items/" + id + ".json"
     formData = quantity: quantity
     that = @
+    util.showAjaxIndicator()
     Backbone.$.ajax config.apiUrl + "/orders/virtual-cart-items/" + id + ".json",
       type: "PUT"
       contentType: "application/json"
@@ -102,11 +108,13 @@ module.exports = class Cart extends ChaplinModel
 
       complete: ->
         console.log "Request Completed!"
+        util.hideAjaxIndicator()
 
 
   deleteVirtualCartDetail: (id)->
     console.log ["deleteVirtualCartDetail"]
     that = @
+    util.showAjaxIndicator()
     @url = config.apiUrl + "/orders/virtual-cart-items/" + id + ".json"
     @sync 'delete', @,
       error: ->
@@ -117,9 +125,12 @@ module.exports = class Cart extends ChaplinModel
         that.storeVirtualCart data.response
         that.set that.completeCartModel(data.response)
         that.closeCartIfEmpty()
+      complete: ->
+        util.hideAjaxIndicator()
 
   deleteUserCartDetail : (id) ->
     that = @
+    util.showAjaxIndicator()
     @url = config.apiUrl + "/orders/cart-items/" + id + ".json"
     @sync 'delete', @,
       headers:{ 'Accept-Language': 'es', "WB-Api-Token": util.getCookie(config.apiTokenName) }
@@ -132,6 +143,7 @@ module.exports = class Cart extends ChaplinModel
 
       complete: ->
         console.log "Request Completed!"
+        util.hideAjaxIndicator()
 
   loadUserCart: ()->
     console.log ["loadUserCart"]
@@ -144,6 +156,8 @@ module.exports = class Cart extends ChaplinModel
         console.log "success loadUserCart"
         #that.$el.find(".myPerfil").slideDown()
           #that.$el.find(".editMiPerfil").slideUp()
+      complete: ->
+        console.log "complete"
 
   addToUserCart : (id, quantity, bits, $cartPanel) ->
     console.log "Adding to user cart..."
@@ -152,6 +166,7 @@ module.exports = class Cart extends ChaplinModel
       quantity: quantity
       bits: bits
     that = this
+    util.showAjaxIndicator()
     Backbone.$.ajax config.apiUrl + "/orders/cart-items.json",
       type: "POST"
       contentType: "application/json"
@@ -172,6 +187,7 @@ module.exports = class Cart extends ChaplinModel
 
       complete: ->
         console.log "Request Completed!"
+        util.hideAjaxIndicator()
 
   addToVirtualCart : (id, quantity, $cartPanel) ->
     console.log "Adding to virtual cart..."
@@ -180,6 +196,7 @@ module.exports = class Cart extends ChaplinModel
       quantity: quantity
       bits: 0
     that = this
+    util.showAjaxIndicator()
     Backbone.$.ajax config.apiUrl + "/orders/virtual-cart-items.json",
       type: "POST"
       contentType: "application/json"
@@ -201,6 +218,7 @@ module.exports = class Cart extends ChaplinModel
 
       complete: ->
         console.log "Request Completed!"
+        util.hideAjaxIndicator()
 
   storeVirtualCart : (cart) ->
     console.log ["Storing virtual cart...", cart]
@@ -242,6 +260,7 @@ module.exports = class Cart extends ChaplinModel
     cartDetail
 
   updateCartBits: (bits) ->
+    util.showAjaxIndicator()
     Backbone.$.ajax config.apiUrl + "/orders/update-cart-bits.json",
       type: "PUT"
       contentType: "application/json"
@@ -260,6 +279,9 @@ module.exports = class Cart extends ChaplinModel
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
 
+      complete: ->
+        util.hideAjaxIndicator()
+        
   closeCartIfEmpty: () ->
     $ = Backbone.$
     $cartDetailList = $('.wb-cart-detail-list')

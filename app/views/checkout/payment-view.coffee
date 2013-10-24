@@ -44,7 +44,7 @@ module.exports = class PaymentView extends View
       formData.order = mediator.post_checkout.order
       formData.vertical = window.verticalId
       formData.shippingAddress = mediator.post_checkout.shippingAddress
-
+      util.showAjaxIndicator()
       Backbone.$.ajax config.apiUrl + "/orders/payment.json",
         type: "POST"
         contentType: "application/json"
@@ -67,6 +67,7 @@ module.exports = class PaymentView extends View
 
         complete: ->
           console.log "Request Completed!"
+          util.hideAjaxIndicator()
 
   selectCheckboxOption: (e)->
     e.preventDefault()
@@ -100,7 +101,7 @@ module.exports = class PaymentView extends View
 
     formData = mediator.post_checkout
     formData.vertical = window.verticalId
-
+    util.showAjaxIndicator()
     Backbone.$.ajax config.apiUrl + "/orders/payment.json",
       type: "POST"
       contentType: "application/json"
@@ -128,6 +129,7 @@ module.exports = class PaymentView extends View
 
       complete: ->
         console.log "Request Completed!"
+        util.hideAjaxIndicator()
 
 
   linkBack: (e) ->

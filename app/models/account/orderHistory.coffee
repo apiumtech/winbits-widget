@@ -25,6 +25,7 @@ module.exports = class OrderHistory extends ChaplinModel
       sort = formData.sort
       url += "status=" + status + "&sort=" + sort
 
+    util.showAjaxIndicator()
     Backbone.$.ajax url,
       type: "GET"
       contentType: "application/json"
@@ -41,6 +42,9 @@ module.exports = class OrderHistory extends ChaplinModel
 
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
+
+      complete: ->
+        util.hideAjaxIndicator()
 
 
   completeOrdersHistory: (data) ->

@@ -33,6 +33,7 @@ module.exports = class CheckoutSiteView extends View
     $currentTarget = @$(e.currentTarget)
     that = @
     id =  $currentTarget.attr("id").split("-")[1]
+    util.showAjaxIndicator()
     @model.sync 'delete', @model,
       url: config.apiUrl + "/affiliation/shipping-addresses/" + id,
       error: ->
@@ -41,6 +42,8 @@ module.exports = class CheckoutSiteView extends View
       success: ->
         console.log "success"
         that.model.actualiza()
+      complete: ->
+        util.hideAjaxIndicator()
 
   selectShipping: (e)->
     $currentTarget = @$(e.currentTarget)
@@ -88,22 +91,25 @@ module.exports = class CheckoutSiteView extends View
     if $form.valid()
       data: JSON.stringify(formData)
       formData = util.serializeForm($form)
-      formData = util.serializeForm($form)
       formData.country  = {"id": formData.country}
       if formData.zipCodeInfo and formData.zipCodeInfo > 0
         formData.zipCodeInfo  = {"id": formData.zipCodeInfo}
       formData.main = formData.main is true or formData.main is 'on'
       console.log formData
       @model.set formData
-
+      submitButton = $form.find("#btnSubmit").prop('disabled', true)
       that = @
       @model.sync 'create', @model,
+        context: {$submitButton: submitButton}
         error: ->
           console.log "error",
         headers: { 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
         success: ->
           console.log "success"
           that.model.actualiza()
+        complete: ->
+          this.$submitButton.prop('disabled', false)
+
 
   addressUpdate: (e)->
     e.preventDefault()
@@ -120,7 +126,9 @@ module.exports = class CheckoutSiteView extends View
       console.log formData
       @model.set formData
       that = @
+      submitUpdate = $form.find('.btnUpdate').prop('disabled', true)
       @model.sync 'update', @model,
+        context: {$submitUpdate: submitUpdate}
         url: config.apiUrl + "/affiliation/shipping-addresses/" + formData.id + '.json',
         error: ->
           console.log "error",
@@ -128,6 +136,8 @@ module.exports = class CheckoutSiteView extends View
         success: ->
           console.log "success"
           that.model.actualiza()
+        complete: ->
+          this.$submitUpdate.prop('disabled', false)
 
   attach: ->
     super
