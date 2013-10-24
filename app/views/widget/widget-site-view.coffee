@@ -173,7 +173,6 @@ module.exports = class WidgetSiteView extends View
     @$el.find('.wb-vertical-' + config.verticalId).addClass('current');
     $el = @$el
     setTimeout(() ->
-      console.log 'DOING PLACEHOLDERS'
       $el.find('input, textarea').placeholder()
     , 500)
 
@@ -185,7 +184,6 @@ module.exports = class WidgetSiteView extends View
     @doCheckout()
 
   doCheckout: () ->
-    console.log "WidgetSiteView#doCheckout"
     $ = Backbone.$
     if $('.wb-cart-detail-list').children().length > 0
       util.showAjaxIndicator('Generando Orden...')
