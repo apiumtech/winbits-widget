@@ -38,10 +38,10 @@
     <div class="wrapper">
       <div class="language">
         <span><a href="#" class="icon winbits23px">Logo Winbits</a></span>
-        <select class="select">
-          <option data-icon="icon usa" value="usa">u.s.a.</option>
-          <option data-icon="icon mex" value="mex">mex</option>
-        </select>
+        <!--<select class="select">-->
+          <!--<option data-icon="icon usa" value="usa">u.s.a.</option>-->
+          <!--<option data-icon="icon mex" value="mex">mex</option>-->
+        <!--</select>-->
       </div>
       <nav>
         <ul>
@@ -140,11 +140,21 @@
     <i class="close-icon" id="close-login"></i>
     <div class="modal-body gracias reset-modal">
       <div class="contentModal" style="background-color:white">
-        <p class="error-msg">Gracias por registrarte con nosotros.</p>
+        <p class="error-msg">Error inesperado!</p>
         <input type="button" class="btn close-modal" value="Cerrar">
       </div>
     </div>
   </div>
+<div id='wbi-ajax-modal' class="modal hide fade">
+  <div class="modal-body gracias reset-modal">
+    <div class="contentModal" style="background-color:white">
+      <p class="loading-msg">Cargando...</p>
+      <p style="text-align: center;">
+        <img src="https://s3.amazonaws.com/media.hipstore.com/ajax_loader.gif" alt="Cargando..."/>
+      </p>
+    </div>
+  </div>
+</div>
   <div id='forgot-password-modal' class="modal hide">
     <i class="close-icon" id="close-login"></i>
     <div class="modal-body reset-modal forgot-password-modal" id="forgot-password-modal-body">

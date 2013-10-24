@@ -16,6 +16,7 @@ module.exports = class WaitingList extends ChaplinModel
     super
 
   getWishList: ->
+    util.showAjaxIndicator()
     url = config.apiUrl + "/affiliation/wish-list-items.json?"
     Backbone.$.ajax url,
       type: "GET"
@@ -32,6 +33,9 @@ module.exports = class WaitingList extends ChaplinModel
 
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
+
+      complete: ->
+        util.hideAjaxIndicator()
 
   completeWishList: (data) ->
     model = {}

@@ -70,33 +70,33 @@ module.exports = class RegisterView extends View
     formData = verticalId: config.verticalId
     formData = util.serializeForm($form, formData)
     console.log ["Register Data", formData]
-    Backbone.$.ajax config.apiUrl + "/affiliation/register.json",
-      type: "POST"
-      contentType: "application/json"
-      dataType: "json"
-      data: JSON.stringify(formData)
-      xhrFields:
-        withCredentials: true
 
-      context: $form
-      beforeSend: ->
-        util.validateForm $form
+    if $form.valid()
+      submitButton = @$(e.currentTarget).prop('disabled', true)
+      Backbone.$.ajax config.apiUrl + "/affiliation/register.json",
+        type: "POST"
+        contentType: "application/json"
+        dataType: "json"
+        data: JSON.stringify(formData)
+        xhrFields:
+          withCredentials: true
+        context: {$submitButton: submitButton}
+        headers:
+          "Accept-Language": "es"
+        success: (data) ->
+          console.log "Request Success!"
+          console.log ["data", data]
+          w$('.modal').modal 'hide'
+          that.publishEvent "showConfirmation"
 
-      headers:
-        "Accept-Language": "es"
-      success: (data) ->
-        console.log "Request Success!"
-        console.log ["data", data]
-        w$('.modal').modal 'hide'
-        that.publishEvent "showConfirmation"
+        error: (xhr, textStatus, errorThrown) ->
+          console.log xhr
+          error = JSON.parse(xhr.responseText)
+          that.renderRegisterFormErrors $form, error
 
-      error: (xhr, textStatus, errorThrown) ->
-        console.log xhr
-        error = JSON.parse(xhr.responseText)
-        that.renderRegisterFormErrors $form, error
-
-      complete: ->
-        console.log "Request Completed!"
+        complete: ->
+          console.log "Request Completed!"
+          this.$submitButton.prop('disabled', false)
 
   registerStep2: (e)->
     e.preventDefault()
@@ -170,6 +170,7 @@ module.exports = class RegisterView extends View
     e.preventDefault()
     $ = Backbone.$
     that = @
+    fbButton = @$(e.currentTarget).prop('disabled', true)
     referredBy = $("#referredById")[0].value
     popup = window.open(config.apiUrl + "/affiliation/facebook-login/connect?verticalId=" + config.verticalId +
         "&referredBy=" + referredBy,
@@ -178,6 +179,7 @@ module.exports = class RegisterView extends View
     popup.focus()
     timer = setInterval(->
       if popup.closed
+        fbButton.prop('disabled', false)
         clearInterval timer
         $(".modal").modal('hide')
         that.publishEvent 'expressLogin'

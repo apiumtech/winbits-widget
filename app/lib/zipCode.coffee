@@ -6,7 +6,6 @@ module.exports = ($)->
   find : (cp, element, itemSelected, callback) ->
     that = @
     unless cp.length is 5
-      #@showDefault element
       return
     $.ajax
       url: config.apiUrl + "/affiliation/locations/" + cp + ".json"
@@ -23,20 +22,30 @@ module.exports = ($)->
 
     $form = $element.closest('form')
     values = new Array()
+    values.push "<option value=\"\">Colonia/Asentamiento:</option>"
     if data.response.length > 0
       for response in data.response
+        $option = ''
         if itemSelected and parseInt(itemSelected) is response.id
-          values.push "<option selected value='#{response.id}'>#{response.locationName}</value>"
+          $option = $("<option selected value='#{response.id}'>#{response.locationName}</value>")
         else
-          values.push "<option value='#{response.id}'>#{response.locationName}</value>"
+          $option = $("<option value='#{response.id}'>#{response.locationName}</value>")
+        $option.data 'zip-code-info', response
+        values.push $option
+      values.push "<option value=\"-1\">Otro...</option>"
     else
-        values.push "<option value=\"\">Lo sentimos no encontramos tu codigo posta, por favor ingresa tu colonia en el campo de localidad</option>"
+      values.push "<option selected value=\"-1\">Otro...</option>"
 
-    if not itemSelected and data.response.length > 0
-      response = data.response[0]
-      $form.find('#winbitsShippingCounty').val(response.county)
-      $form.find('#winbitsShippingState').val(response.state)
-      $form.find('.zipCodeInfoExtra').val(response.id)
+#    if not itemSelected and data.response.length > 0
+#      response = data.response[0]
+#      $form.find('#winbitsShippingCounty').val(response.county)
+#      $form.find('#winbitsShippingState').val(response.state)
+#      $form.find('.zipCodeInfoExtra').val(response.id)
 
     $element.html(values)
+    $selectedOption = $element.find('option[selected]')
+    if $selectedOption.length is 0
+      $selectedOption = $element.children().eq(1)
+      $selectedOption.attr('selected', '')
     vendor.customSelect($element)
+    $element.parent().find('li[rel=' + $selectedOption.attr('value') + ']').click()

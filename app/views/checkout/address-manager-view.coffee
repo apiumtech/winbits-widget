@@ -26,12 +26,14 @@ module.exports = class CheckoutSiteView extends View
     @delegate "click" , "#btnContinuar", @addressContinuar
     @delegate "click" , ".shippingItem", @selectShipping
     @delegate 'keyup', '.zipCode', @findZipcode
+    @delegate 'change', 'select.zipCodeInfo', @changeZipCodeInfo
 
   deleteAddress: (e)->
     console.log "deleting address"
     $currentTarget = @$(e.currentTarget)
     that = @
     id =  $currentTarget.attr("id").split("-")[1]
+    util.showAjaxIndicator()
     @model.sync 'delete', @model,
       url: config.apiUrl + "/affiliation/shipping-addresses/" + id,
       error: ->
@@ -40,6 +42,8 @@ module.exports = class CheckoutSiteView extends View
       success: ->
         console.log "success"
         that.model.actualiza()
+      complete: ->
+        util.hideAjaxIndicator()
 
   selectShipping: (e)->
     $currentTarget = @$(e.currentTarget)
@@ -92,9 +96,10 @@ module.exports = class CheckoutSiteView extends View
       formData.main = if formData.main then true else false
       console.log formData
       @model.set formData
-
+      submitButton = $form.find("#btnSubmit").prop('disabled', true)
       that = @
       @model.sync 'create', @model,
+        context: {$submitButton: submitButton}
         error: ->
           console.log "error",
         headers: { 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
@@ -103,6 +108,10 @@ module.exports = class CheckoutSiteView extends View
           that.model.actualiza()
           #that.$el.find(".myPerfil").slideDown()
           #
+        complete: ->
+          this.$submitButton.prop('disabled', false)
+
+
   addressUpdate: (e)->
     e.preventDefault()
     console.log "AddressUpdate"
@@ -121,7 +130,9 @@ module.exports = class CheckoutSiteView extends View
       console.log formData
       @model.set formData
       that = @
+      submitUpdate = $form.find('.btnUpdate').prop('disabled', true)
       @model.sync 'update', @model,
+        context: {$submitUpdate: submitUpdate}
         url: config.apiUrl + "/affiliation/shipping-addresses/" + formData.id,
         error: ->
           console.log "error",
@@ -129,10 +140,12 @@ module.exports = class CheckoutSiteView extends View
         success: ->
           console.log "success"
           that.model.actualiza()
+        complete: ->
+          this.$submitUpdate.prop('disabled', false)
 
   attach: ->
     super
-    console.log "CheckoutSiteView#attach"
+    console.log "AddressManagerView#attach"
     vendor.customCheckbox(@$(".checkbox"))
     that = this
     @$(".shippingEditAddress").each ->
@@ -190,3 +203,12 @@ module.exports = class CheckoutSiteView extends View
     $currentTarget = @$(event.currentTarget)
     $slt = $currentTarget.parent().find(".select")
     zipCode(Backbone.$).find $currentTarget.val(), $slt
+
+  changeZipCodeInfo: (e) ->
+    alert 'Changed'
+    $ = Backbone.$
+    $select = $(e.currentTarget)
+    zipCodeInfoId = $select.val()
+    console.log [zipCodeInfoId, 'ZIPCODE INFO ID']
+    if !zipCodeInfoId or zipCodeInfoId is '-1'
+      $select.closest('form').find('[name=location], [name=county], [name=state]').show().removeAttr('readonly')

@@ -54,18 +54,21 @@ module.exports = class ProfileView extends View
       $form.find("[name=birthdate]").val birthday
 
     if $form.valid()
+      button = @$el.find('#updateBtnProfile').prop 'disabled', true
       formData = { verticalId: config.verticalId }
       formData = util.serializeForm($form, formData)
       formData.gender = gender
       formData.location = location
       @model.set formData
       @model.sync 'update', @model,
+        context: {$saveButton: button}
         error: ->
           console.log "error",
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
         success: ->
           console.log "success"
-
+        complete: ->
+          this.$saveButton.prop 'disabled', false
 
   attach: ->
     super

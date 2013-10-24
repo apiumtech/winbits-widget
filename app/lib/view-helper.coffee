@@ -234,10 +234,13 @@ Handlebars.registerHelper "getContactName", () ->
   (this.firstName + ' ' + this.lastName).trim()
 
 Handlebars.registerHelper "getLocation", () ->
-  this.location or this.zipCodeInfo.locationName
+  this.location
 
 Handlebars.registerHelper "getZipCode", () ->
-  this.zipCodeInfo.zipCode or this.zipCodeInfo.id
+  this.zipCode
+
+Handlebars.registerHelper "getZipCodeInfoId", () ->
+  if this.zipCodeInfo then this.zipCodeInfo.id else ''
 
 Handlebars.registerHelper "formatAddressNumber", () ->
   addressNumber = this.externalNumber

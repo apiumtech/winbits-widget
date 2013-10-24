@@ -10,7 +10,7 @@
         <address>
           <span>{{getContactName}},</span>
           <span>{{street}} {{externalNumber}}, {{getLocation}},</span>
-          <span>{{zipCodeInfo.county}}, {{getZipCode}}</span>
+          <span>{{county}}, {{getZipCode}}</span>
         </address>
         <span class="note send direccionSend">Tu paquete será enviado a esta dirección</span>
         <input type="radio" name="winbitsShippingRadio" class="shippingRadio" id="winbitsShippingRadio1">
@@ -44,14 +44,15 @@
         </div>
         <textarea placeholder="¿Entre qué calles?" class="required" name="betweenStreets">{{betweenStreets}}</textarea>
         <textarea placeholder="Referencias para llegar" class="required" name="indications">{{indications}}</textarea>
-        <input type="text" placeholder="Codigo Postal" class="required digits zipCode" value="{{zipCodeInfo.zipCode}}">
-        <input type="hidden" name="zipCodeInfoId" class="zipCodeInfoExtra" value="{{zipCodeInfo.id}}">
+        <input type="text" placeholder="Codigo Postal" class="required digits zipCode" value="{{zipCode}}">
+        <input type="hidden" name="zipCodeInfoId" class="zipCodeInfoExtra" value="{{getZipCodeInfoId}}">
         <select class="select zipCodeInfo" data-clase="selectRegister" placeholder="Localidad">
-          <option>Localidad:</option>
+          <option>Colonia/Asentamiento:</option>
+          <option value="-1">Otro...</option>
         </select>
-        <input type="text" placeholder="Colonia" name="location" value="{{zipCodeInfo.locationName}}">
-        <input type="text" placeholder="Delegación o Municipio" value="{{zipCodeInfo.county}}" readonly="true">
-        <input type="text" placeholder="Estado" value="{{zipCodeInfo.state}}" readonly="true">
+        <input type="text" placeholder="Colonia" name="location" value="{{location}}">
+        <input type="text" placeholder="Delegación o Municipio" value="{{county}}" readonly="true">
+        <input type="text" placeholder="Estado" value="{{state}}" readonly="true">
       </div>
       <div class="column columnLarge">
         <h3>OPCIONES</h3>
@@ -112,6 +113,6 @@
 <address class="choosen-address" id="choosen-address-{{id}}" style="display:none">
   <span>{{getContactName}}</span>
     <span>{{street}} {{externalNumber}}, {{getLocation}},</span>
-    <span>{{zipCodeInfo.county}}, {{getZipCode}}</span>
+    <span>{{county}}, {{getZipCode}}</span>
   </address>
 {{/each}}

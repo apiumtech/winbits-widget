@@ -92,6 +92,9 @@ module.exports = class CartView extends View
       carro: true
 
     @$el.find('.wb-continue-shopping-link').click @closeCart
+    @$el.find('.wb-checkout-btn').click (e)->
+      e.preventDefault()
+      that.publishEvent 'doCheckout'
 
   updateCartDetail : (id, quantity, bits, $cartPanel) ->
     console.log ["updateCartDetail"]
