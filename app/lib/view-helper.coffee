@@ -320,7 +320,6 @@ Handlebars.registerHelper "isMSIPayment", (payment, options) ->
 
 Handlebars.registerHelper "paymentMethodSupported", (identifier, options) ->
   supported = no
-  console.log ['PM', @paymentMethods]
   Backbone.$.each @paymentMethods, (index, paymentMethod) ->
     supported = paymentMethod.identifier.indexOf(identifier) isnt -1
     not supported
