@@ -1,7 +1,7 @@
 <div class="creditcards wb-cards-subview" id="wbi-cards-list-holder">
   <ul>
     {{#each cards}}
-    <li class="creditcardItem wb-card-list-item">
+    <li class="creditcardItem wb-card-list-item {{#if cardInfo.cardPrincipal}}creditcardSelected{{/if}}">
     {{!<li class="creditcardItem creditcardSelected">}}
       <div class="creditcardMenu">
         <a class="wb-edit-card-link" href="#">edit</a>
@@ -60,11 +60,8 @@
       </div>
       <div class="column columnLarge">
         <h3>OPCIONES</h3>
-        <div class="divCheckbox">
-          <span class="icon spanCheckbox unselectCheckbox" id="spanCheckboxAsPrincipal"></span>
-          <input type="hidden" class="checkbox" name="cardPrincipal" id="cardPrincipal">
-          <label for="cardPrincipal" class="checkboxLabel">Hacer esta mi tarjeta principal</label>
-        </div>
+        <input type="checkbox" class="checkbox" name="cardPrincipal" id="cardPrincipalNew">
+        <label for="cardPrincipal" class="checkboxLabel">Hacer esta mi tarjeta principal</label>
         <p class="note">Winbits puede guardar tus tarjetas de credito por ti, para que tu proxima compra sea mucho más rápida.</p>
         <div class="errorDiv"><p></p></div>
         <div class="submitButton">
@@ -101,11 +98,8 @@
       </div>
       <div class="column columnLarge">
         <h3>OPCIONES</h3>
-        <div class="divCheckbox">
-          <span class="icon spanCheckbox unselectCheckbox" id="spanCheckboxAsPrincipal"></span>
-          <input type="hidden" class="checkbox" name="cardPrincipal" id="cardPrincipal">
-          <label for="cardPrincipal" class="checkboxLabel">Hacer esta mi tarjeta principal</label>
-        </div>
+        <input type="checkbox" class="checkbox" name="cardPrincipal" id="cardPrincipalUpdate">
+        <label for="cardPrincipal" class="checkboxLabel">Hacer esta mi tarjeta principal</label>
         <p class="note">Winbits puede guardar tus tarjetas de credito por ti, para que tu proxima compra sea mucho más rápida.</p>
         <div class="errorDiv"><p></p></div>
         <div class="submitButton">

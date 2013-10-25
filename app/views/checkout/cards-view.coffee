@@ -124,6 +124,7 @@ module.exports = class CardsView extends View
     $ = Backbone.$
     $form = $(e.currentTarget)
     newCardData = util.serializeForm($form)
+    newCardData.cardPrincipal = newCardData.cardPrincipal is true or newCardData.cardPrincipal is 'on'
     $submitTriggers = $form.find('.wb-submit-trigger').prop('disabled', true)
     $.ajax config.apiUrl + "/orders/card-subscription.json",
       type: "POST"
@@ -157,6 +158,7 @@ module.exports = class CardsView extends View
     $form = $(e.currentTarget)
     currentCardData = $form.data('current-card-data')
     updatedCardData = util.serializeForm($form)
+    updatedCardData.cardPrincipal = updatedCardData.cardPrincipal is true or updatedCardData.cardPrincipal is 'on'
     $submitTriggers = $form.find('.wb-submit-trigger').prop('disabled', true)
     $.ajax config.apiUrl + "/orders/card-subscription/" + currentCardData.subscriptionId + ".json",
       type: "PUT"
