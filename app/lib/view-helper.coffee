@@ -318,6 +318,29 @@ Handlebars.registerHelper "isMSIPayment", (payment, options) ->
   else
     options.inverse this
 
+Handlebars.registerHelper "paymentMethodSupported", (identifier, options) ->
+  supported = no
+  console.log ['PM', @paymentMethods]
+  Backbone.$.each @paymentMethods, (index, paymentMethod) ->
+    supported = paymentMethod.identifier.indexOf(identifier) isnt -1
+    not supported
+  if supported then options.fn this else options.inverse this
+
+Handlebars.registerHelper "withMsiPayments", (options) ->
+  $ = Backbone.$
+  msiIdentifiers = []
+  msiPayments = []
+  allMsiPayments = $.grep @.paymentMethods, (paymentMethod) ->
+    paymentMethod.identifier.indexOf('.msi') isnt -1
+
+  $.each allMsiPayments, (index, msiPayment) ->
+    identifier = msiPayment.identifier.substring 0, msiPayment.identifier.indexOf('.')
+    if msiIdentifiers.indexOf(identifier) is -1
+      msiIdentifiers.push identifier
+      msiPayments.push msiPayment
+
+  if msiPayments.length > 0 then options.fn(msiPayments: msiPayments) else options.inverse this
+
 #******************************
 #Custom partial
 #******************************
