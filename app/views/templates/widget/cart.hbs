@@ -35,18 +35,43 @@
       <input type="submit" class="btn wb-checkout-btn" value="Check Out">
       <div class="condicionesCompra">
         <p>Aplica para esta compra:</p>
+        {{#if paymentMethods}}
         <p>
-          <span class="icon paypalCC">Pay Pal</span>
-          <span class="icon oxxoCC">OXXO</span>
-          <span class="icon depositoCC">Depósito Bancario</span>
+            {{#paymentMethodSupported 'cybersource.'}}
+              <span class="icon mastercardCC">Master Card</span>
+              <span class="icon visaCC">VISA</span>
+            {{/paymentMethodSupported}}
+            {{#paymentMethodSupported 'amex.'}}
+              <span class="icon amexCC">American Express</span>
+            {{/paymentMethodSupported}}
+            {{#paymentMethodSupported 'paypal.'}}
+              <span class="icon paypalCC">Pay Pal</span>
+            {{/paymentMethodSupported}}
+            {{#paymentMethodSupported 'oxxo.bc'}}
+              <span class="icon oxxoCC">OXXO</span>
+            {{/paymentMethodSupported}}
+            {{#paymentMethodSupported 'reference.hsbc'}}
+              <span class="icon depositoCC">Depósito Bancario</span>
+            {{/paymentMethodSupported}}
         </p>
-        <p>Meses sin intereses con:</p>
-        <p>
-          <span class="icon mastercardCC">Master Card</span>
-          <span class="icon visaCC">VISA</span>
-          <span class="icon amexCC">American Express</span>
-          <span class="icon paypalCC">Pay Pal</span>
-        </p>
+          {{#withMsiPayments}}
+          <p>Meses sin intereses con:</p>
+          <p>
+            {{#each msiPayments}}
+              {{#compare identifier 'cybersource.+' operator='matches'}}
+                <span class="icon mastercardCC">Master Card</span>
+                <span class="icon visaCC">VISA</span>
+              {{/compare}}
+              {{#compare identifier 'amex.+' operator='matches'}}
+                <span class="icon amexCC">American Express</span>
+              {{/compare}}
+              {{#compare identifier 'paypal.+' operator='matches'}}
+                <span class="icon paypalCC">Pay Pal</span>
+              {{/compare}}
+            {{/each}}
+          </p>
+        {{/withMsiPayments}}
+      {{/if}}
       </div>
     </div>
   </div>
