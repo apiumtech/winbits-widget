@@ -320,6 +320,5 @@ module.exports = class WidgetSiteView extends View
 
   proxyLoaded: (e) ->
     params = util.getUrlParams()
-    console.log ['PROXY LOADED', params ]
     if params._wb_active is "true" and params._wb_register_confirm is "true"
       @publishEvent 'expressLogin', params._wb_api_token

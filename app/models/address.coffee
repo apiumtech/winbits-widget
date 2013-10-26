@@ -13,5 +13,3 @@ module.exports = class Address extends ChaplinModel
     response
   set: (args) ->
     super
-    console.log ["wee", args]
-
