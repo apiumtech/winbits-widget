@@ -120,6 +120,8 @@ module.exports = class CardsView extends View
       formData.expirationYear = formData.expirationYear.slice(-2)
     $.each formData, (key, value) ->
       $form.find('[name=' + key + ']').val value
+    cardType = cardInfo.cardData.cardType.toLowerCase()
+    $form.find('span.wb-card-logo').removeAttr('class').attr('class', 'wb-card-logo icon ' + cardType + 'CC')
 
   submitNewCardForm: (e) ->
     e.preventDefault()
