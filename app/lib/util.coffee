@@ -163,3 +163,26 @@ module.exports =
             $(this).val($newVal).trigger "step", $oldValue  if $newVal >= 1 # NO BORRAR - Fix desarrollo
             $(this).trigger "change" # NO BORRAR - Fix desarrollo
     $(obj) # NO BORRAR - Fix desarrollo
+
+  getCreditCardType: (cardNumber) ->
+    #start without knowing the credit card type
+    result = "unknown"
+
+    if cardNumber and cardNumber.length > 14
+      Winbits = window.Winbits;
+      Winbits.visaRegExp = Winbits.visaRegExp or /^4[0-9]{12}(?:[0-9]{3})?$/
+      Winbits.masterCardRegExp = Winbits.masterCardRegExp or /^5[1-5][0-9]{14}$/
+      Winbits.amexRegExp = Winbits.amexRegExp or /^3[47][0-9]{13}$/
+
+      #first check for Visa
+      if Winbits.visaRegExp.test(cardNumber)
+        result = "visa"
+
+      #then check for MasterCard
+      else if Winbits.masterCardRegExp.test(cardNumber)
+        result = "mastercard"
+
+      #then check for AmEx
+      else result = "amex"  if Winbits.amexRegExp.test(cardNumber)
+
+      result

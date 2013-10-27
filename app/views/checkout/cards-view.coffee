@@ -22,6 +22,8 @@ module.exports = class CardsView extends View
     @delegate "submit" , "#wbi-edit-card-form", @submitEditCardForm
     @delegate "click", ".wb-delete-card-link", @confirmDeleteCard
     @delegate "click", ".wb-card-list-item", @selectCard
+    @delegate "keyup", ".wb-card-number-input", @showCardType
+    @delegate "blur", ".wb-card-number-input", @showCardType
 
   attach: ->
     super
@@ -30,7 +32,7 @@ module.exports = class CardsView extends View
       groups:
         cardExpiration: 'expirationMonth expirationYear'
       errorPlacement: ($error, $element) ->
-        if $element.attr("name") is "expirationMonth" or $element.attr("name") is "expirationYear"
+        if $element.attr("name") in ["expirationMonth", "expirationYear", 'accountNumber']
           $error.appendTo $element.parent()
         else
           $error.insertAfter $element
@@ -233,3 +235,10 @@ module.exports = class CardsView extends View
   setMainCard: (cardInfo) ->
     console.log ['Setting main card', cardInfo]
 #    TODO: Integrar servicio para establecer tarjeta principal
+
+  showCardType: (e) ->
+    $input = Backbone.$(e.currentTarget)
+    cardType = util.getCreditCardType($input.val())
+
+    console.log ['CARD TYPE', cardType]
+    $input.next().removeAttr('class').attr('class', 'wb-card-logo icon ' + cardType + 'CC')

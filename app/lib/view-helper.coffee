@@ -8,6 +8,7 @@
 # -----------
 cartDetail = require 'views/templates/widget/cartDetail'
 mediator = require 'chaplin/mediator'
+util = require 'lib/util'
 
 # Make 'with' behave a little more mustachey.
 Handlebars.registerHelper 'with', (context, options) ->
@@ -339,6 +340,10 @@ Handlebars.registerHelper "withMsiPayments", (options) ->
       msiPayments.push msiPayment
 
   if msiPayments.length > 0 then options.fn(msiPayments: msiPayments) else options.inverse this
+
+Handlebars.registerHelper "getCreditCardType", (cardNumber) ->
+  util.getCreditCardType(cardNumber)
+
 
 #******************************
 #Custom partial
