@@ -37,10 +37,13 @@
         <h3>NOMBRE</h3>
         <input type="text" class="required" placeholder="Nombre" maxlength="30" name="firstName" id="winbitsPaymentNewCardName">
         <input type="text" class="required" placeholder="Apellido(s)" maxlength="50" name="lastName" id="winbitsPaymentNewCardLastName">
-        <input type="text" class="required" placeholder="Número de Tarjeta" maxlength="17" name="accountNumber" id="winbitsPaymentNewCardNumber">
-        <div class="divFechaExpiracion">
+        <div class="wb-card-number-panel">
+          <input type="text" class="required wb-card-number-input" placeholder="Número de Tarjeta" maxlength="16" name="accountNumber" id="winbitsPaymentNewCardNumber">
+          <span class="wb-card-logo icon"/>
+        </div>
+        <div class="divFechaExpiracion wb-expiration-date-div">
           <label>Fecha de vencimiento</label>
-          <input type="text" class="required digits" placeholder="dd" maxlength="2" name="expirationMonth" id="winbitsPaymentNewCardDD">
+          <input type="text" class="required digits" placeholder="mm" maxlength="2" name="expirationMonth" id="winbitsPaymentNewCardDD">
           <input type="text" class="required digits" placeholder="aa" maxlength="2" name="expirationYear" id="winbitsPaymentNewCardAA">
         </div>
         <div class="divNumSecurity">
@@ -79,10 +82,13 @@
         <h3>NOMBRE</h3>
         <input type="text" class="required" placeholder="Nombre" maxlength="30" name="firstName" id="winbitsPaymentNewCardName" disabled="disabled">
         <input type="text" class="required" placeholder="Apellido(s)" maxlength="50" name="lastName" id="winbitsPaymentNewCardLastName" disabled="disabled">
-        <input type="text" class="required" placeholder="Número de Tarjeta" maxlength="17" name="accountNumber" id="winbitsPaymentNewCardNumber" disabled="disabled">
-        <div class="divFechaExpiracion">
+        <div class="wb-card-number-panel">
+          <input type="text" class="required wb-card-number-input" placeholder="Número de Tarjeta" maxlength="16" name="accountNumber" id="winbitsPaymentNewCardNumber" disabled="disabled">
+          <span class="wb-card-logo icon"/>
+        </div>
+        <div class="divFechaExpiracion wb-expiration-date-div">
           <label>Fecha de vencimiento</label>
-          <input type="text" class="required digits" placeholder="dd" maxlength="2" name="expirationMonth" id="winbitsPaymentNewCardDD" disabled="disabled">
+          <input type="text" class="required digits" placeholder="mm" maxlength="2" name="expirationMonth" id="winbitsPaymentNewCardDD" disabled="disabled">
           <input type="text" class="required digits" placeholder="aa" maxlength="2" name="expirationYear" id="winbitsPaymentNewCardAA" disabled="disabled">
         </div>
       </div>

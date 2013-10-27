@@ -22,6 +22,8 @@ module.exports = class CardsView extends View
     @delegate "submit" , "#wbi-edit-card-form", @submitEditCardForm
     @delegate "click", ".wb-delete-card-link", @confirmDeleteCard
     @delegate "click", ".wb-card-list-item", @selectCard
+    @delegate "keyup", ".wb-card-number-input", @showCardType
+    @delegate "blur", ".wb-card-number-input", @showCardType
 
   attach: ->
     super
@@ -30,7 +32,7 @@ module.exports = class CardsView extends View
       groups:
         cardExpiration: 'expirationMonth expirationYear'
       errorPlacement: ($error, $element) ->
-        if $element.attr("name") is "expirationMonth" or $element.attr("name") is "expirationYear"
+        if $element.attr("name") in ["expirationMonth", "expirationYear", 'accountNumber']
           $error.appendTo $element.parent()
         else
           $error.insertAfter $element
@@ -118,6 +120,8 @@ module.exports = class CardsView extends View
       formData.expirationYear = formData.expirationYear.slice(-2)
     $.each formData, (key, value) ->
       $form.find('[name=' + key + ']').val value
+    cardType = cardInfo.cardData.cardType.toLowerCase()
+    $form.find('span.wb-card-logo').removeAttr('class').attr('class', 'wb-card-logo icon ' + cardType + 'CC')
 
   submitNewCardForm: (e) ->
     e.preventDefault()
@@ -194,7 +198,6 @@ module.exports = class CardsView extends View
     e.stopPropagation()
     $ = Backbone.$
     cardIndex = @$el.find(e.currentTarget).closest('li').index()
-    console.log ['CARD INDEX', cardIndex]
     cardInfo = @model.get('cards')[cardIndex].cardInfo
     answer = confirm '¿En verdad quieres eliminar la tarjeta ' + cardInfo.cardData.accountNumber + '?'
     if answer
@@ -233,3 +236,9 @@ module.exports = class CardsView extends View
   setMainCard: (cardInfo) ->
     console.log ['Setting main card', cardInfo]
 #    TODO: Integrar servicio para establecer tarjeta principal
+
+  showCardType: (e) ->
+    $input = Backbone.$(e.currentTarget)
+    cardType = util.getCreditCardType($input.val())
+
+    $input.next().removeAttr('class').attr('class', 'wb-card-logo icon ' + cardType + 'CC')
