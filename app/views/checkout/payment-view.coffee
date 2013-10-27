@@ -37,13 +37,12 @@ module.exports = class PaymentView extends View
   payWithCard: (e) ->
     e.preventDefault()
     that = @
-    $form = @$el.find("#wbi-credit-card-payment-form")
     $currentTarget = @$(e.currentTarget)
+    $form = $currentTarget.closest('form.wb-card-form')
     paymentMethod =  $currentTarget.attr("id").split("-")[1]
 
     if $form.valid()
-      formData = {paymentInfo : util.serializeForm($form)}
-      formData.paymentInfo.currency = config.currency
+      formData = paymentInfo : util.serializeForm($form)
       formData.paymentMethod = paymentMethod
       formData.order = mediator.post_checkout.order
       formData.vertical = window.verticalId
@@ -65,12 +64,10 @@ module.exports = class PaymentView extends View
           else
             util.showError(payment.paymentCapture.mensaje)
 
-        error: (xhr, textStatus, errorThrown) ->
-          console.log xhr
+        error: (xhr) ->
           util.showAjaxError(xhr.responseText)
 
         complete: ->
-          console.log "Request Completed!"
           util.hideAjaxIndicator()
 
   selectCheckboxOption: (e)->
@@ -149,7 +146,7 @@ module.exports = class PaymentView extends View
       groups:
         cardExpiration: 'expirationMonth expirationYear'
       errorPlacement: ($error, $element) ->
-        if $element.attr("name") is "expirationMonth" or $element.attr("name") is "expirationYear"
+        if $element.attr("name") in ["expirationMonth", "expirationYear"]
           $error.appendTo $element.parent()
         else
           $error.insertAfter $element
@@ -199,6 +196,57 @@ module.exports = class PaymentView extends View
           required: true
           minlength: 2
         city:
+          required: true
+          minlength: 2
+
+    @$el.find("#wbi-amex-card-payment-form").validate
+      groups:
+        cardExpiration: 'expirationMonth expirationYear'
+      errorPlacement: ($error, $element) ->
+        if $element.attr("name") in ["expirationMonth", "expirationYear"]
+          $error.appendTo $element.parent()
+        else
+          $error.insertAfter $element
+      rules:
+        firstName:
+          required: true
+          minlength: 2
+        lastName:
+          required: true
+          minlength: 2
+        cardNumber:
+          required: true
+          creditcard: true
+        expirationMonth:
+          required: true
+          minlength: 2
+          digits: true
+          range: [1, 12]
+        expirationYear:
+          required: true
+          minlength: 2
+          digits: true
+        cvv2Number:
+          required: true
+          digits: true
+          minlength: 3
+        street:
+          required: true
+          minlength: 2
+        number:
+          required: true
+        zipCode:
+          required: true
+          minlength: 4
+          digits: true
+        phone:
+          required: true
+          minlength: 7
+          digits: true
+        city:
+          required: true
+          minlength: 2
+        state:
           required: true
           minlength: 2
 

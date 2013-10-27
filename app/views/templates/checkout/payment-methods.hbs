@@ -154,6 +154,7 @@
   {{#compare identifier "cybersource.cc"}}
       <div class="checkoutPaymentNewCard method-payment creditcardNew" id="method-{{replace identifier searchValue='.' replaceValue='_'}}">
         <form id="wbi-credit-card-payment-form" accept-charset="utf-8" action="#" method="post" class="wb-card-form">
+          <input type="hidden" name="currency" value="MXN">
             <fieldset>
               <div class="column">
                 <h3>NOMBRE</h3>
@@ -194,7 +195,7 @@
                 </div>
                 <div class="divCheckbox">
                   <span class="icon spanCheckbox unselectCheckbox" id="spanCheckboxAsPrincipal"></span>
-                  <input type="hidden" class="checkbox" name="cardPrincipal" id="cardPrincipal">
+                  <input type="hidden" class="checkbox" name="cardPrincipal" id="cardPrincipal" value="false">
                   <label for="cardPrincipal" class="checkboxLabel">Hacer esta mi tarjeta principal</label>
                 </div>
                 <p class="note">Winbits puede guardar tus tarjetas de credito por ti, para que tu proxima compra sea mucho más rápida.</p>
@@ -247,7 +248,7 @@
             </div>
             <div class="divCheckbox">
               <span class="icon spanCheckbox unselectCheckbox" id="spanCheckboxAsPrincipal"></span>
-              <input type="hidden" class="checkbox" name="cardPrincipal" id="cardPrincipal">
+              <input type="hidden" class="checkbox" name="cardPrincipal" id="cardPrincipal" value="false">
               <label for="cardPrincipal" class="checkboxLabel">Hacer esta mi tarjeta principal</label>
             </div>
             <p class="note">Winbits puede guardar tus tarjetas de credito por ti, para que tu proxima compra sea mucho más rápida.</p>

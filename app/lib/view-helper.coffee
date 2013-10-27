@@ -311,7 +311,7 @@ Handlebars.registerHelper "getIndex", (index) ->
   index + 1
 
 Handlebars.registerHelper "isMSIPayment", (payment, options) ->
-  if payment.identifier.lastIndexOf('msi')
+  if payment.identifier.lastIndexOf('msi') isnt -1
     lastDotIndex = payment.identifier.lastIndexOf('.')
     numberOfPayments = parseInt(payment.identifier.substr(lastDotIndex + 1))
     monthlyPayment = payment.amount / numberOfPayments
