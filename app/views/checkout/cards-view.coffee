@@ -198,7 +198,6 @@ module.exports = class CardsView extends View
     e.stopPropagation()
     $ = Backbone.$
     cardIndex = @$el.find(e.currentTarget).closest('li').index()
-    console.log ['CARD INDEX', cardIndex]
     cardInfo = @model.get('cards')[cardIndex].cardInfo
     answer = confirm '¿En verdad quieres eliminar la tarjeta ' + cardInfo.cardData.accountNumber + '?'
     if answer
