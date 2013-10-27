@@ -242,5 +242,4 @@ module.exports = class CardsView extends View
     $input = Backbone.$(e.currentTarget)
     cardType = util.getCreditCardType($input.val())
 
-    console.log ['CARD TYPE', cardType]
     $input.next().removeAttr('class').attr('class', 'wb-card-logo icon ' + cardType + 'CC')

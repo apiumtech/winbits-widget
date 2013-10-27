@@ -23,9 +23,13 @@ module.exports = class PaymentView extends View
     @delegate "click", "#spanCheckboxAsPrincipal", @selectCheckboxOption
     @delegate "click", ".wb-submit-card-payment", @payWithCard
     @delegate 'click', '#wbi-card-token-payment-continue-btn', @onContinueWithCardTokenBtnClick
+    @delegate "keyup", ".wb-card-number-input", @showCardType
+    @delegate "blur", ".wb-card-number-input", @showCardType
+
     @subscribeEvent "showBitsPayment", @showBitsPayment
     @subscribeEvent 'cardSelected', @onCardSelected
     @subscribeEvent 'paymentFlowCancelled', @onPaymentFlowCancelled
+    @subscribeEvent 'cardTypeChanged', @onCardTypeChanged
 
     cardTokenPayment = new CardTokenPayment
     @cardTokenPaymentView = new CardTokenPaymentView(model: cardTokenPayment)
@@ -222,3 +226,14 @@ module.exports = class PaymentView extends View
   onPaymentFlowCancelled: (e) ->
     @$el.children().hide()
     @$el.find('#wbi-main-payment-view').show()
+
+  showCardType: (e) ->
+    $input = Backbone.$(e.currentTarget)
+    cardType = util.getCreditCardType($input.val())
+    $input.next().removeAttr('class').attr('class', 'wb-card-logo icon ' + cardType + 'CC')
+
+  onCardTypeChanged: (cardType, $form) ->
+    if cardType is 'amex'
+      $form.find('[name=location], [name=county]').hide().val('').prop('disabled', yes)
+    else
+      $form.find('[name=location], [name=county]').show().val('').prop('disabled', no)

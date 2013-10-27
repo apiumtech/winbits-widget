@@ -79,6 +79,12 @@
       <p>TARJETA DE CRÉDITO</p>
     </li>
       {{/compare}}
+      {{#compare identifier "amex.cc"}}
+        <li class="debitCreditCard li-method" id="li-{{replace identifier searchValue='.' replaceValue='_'}}">
+          <span class="paymentIcon amexCard"></span>
+          <p>AMERICAN EXPRESS</p>
+        </li>
+      {{/compare}}
       {{#compare identifier "reference.hsbc"}}
     <li class="cashDeposit li-method" id="li-{{replace identifier searchValue='.' replaceValue='_'}}">
       <span class="paymentIcon cash"></span>
@@ -147,16 +153,19 @@
   {{/compare}}
   {{#compare identifier "cybersource.cc"}}
       <div class="checkoutPaymentNewCard method-payment creditcardNew" id="method-{{replace identifier searchValue='.' replaceValue='_'}}">
-        <form id="wbi-credit-card-payment-form" accept-charset="utf-8" action="#" method="post">
+        <form id="wbi-credit-card-payment-form" accept-charset="utf-8" action="#" method="post" class="wb-card-form">
             <fieldset>
               <div class="column">
                 <h3>NOMBRE</h3>
                 <input type="text" class="required" placeholder="Nombre" maxlength="30" name="firstName" id="winbitsPaymentNewCardName">
                 <input type="text" class="required" placeholder="Apellido(s)" maxlength="50" name="lastName" id="winbitsPaymentNewCardLastName">
-                <input type="text" class="required" placeholder="Número de Tarjeta" maxlength="17" name="accountNumber" id="winbitsPaymentNewCardNumber">
+                <div class="wb-card-number-panel">
+                  <input type="text" class="required wb-card-number-input" placeholder="Número de Tarjeta" maxlength="16" name="accountNumber" id="winbitsPaymentNewCardNumber">
+                  <span class="wb-card-logo icon"/>
+                </div>
                 <div class="divFechaExpiracion">
                   <label>Fecha de vencimiento</label>
-                  <input type="text" class="required digits" placeholder="dd" maxlength="2" name="expirationMonth" id="winbitsPaymentNewCardDD">
+                  <input type="text" class="required digits" placeholder="mm" maxlength="2" name="expirationMonth" id="winbitsPaymentNewCardDD">
                   <input type="text" class="required digits" placeholder="aa" maxlength="2" name="expirationYear" id="winbitsPaymentNewCardAA">
                 </div>
                 <div class="divNumSecurity">
@@ -201,16 +210,19 @@
   {{/compare}}
   {{#compare identifier "amex.cc"}}
     <div class="checkoutPaymentNewCard method-payment creditcardNew" id="method-{{replace identifier searchValue='.' replaceValue='_'}}">
-      <form id="wbi-amex-card-payment-form" accept-charset="utf-8" action="#" method="post">
+      <form id="wbi-amex-card-payment-form" accept-charset="utf-8" action="#" method="post" class="wb-card-form">
         <fieldset>
           <div class="column">
             <h3>NOMBRE</h3>
             <input type="text" class="required" placeholder="Nombre" maxlength="30" name="firstName" id="winbitsPaymentNewCardName">
             <input type="text" class="required" placeholder="Apellido(s)" maxlength="50" name="lastName" id="winbitsPaymentNewCardLastName">
-            <input type="text" class="required" placeholder="Número de Tarjeta" maxlength="17" name="cardNumber" id="winbitsPaymentNewCardNumber">
+            <div class="wb-card-number-panel">
+              <input type="text" class="required" placeholder="Número de Tarjeta" maxlength="15" name="cardNumber" id="winbitsPaymentNewCardNumber">
+              <span class="wb-card-logo icon amexCC"/>
+            </div>
             <div class="divFechaExpiracion">
               <label>Fecha de vencimiento</label>
-              <input type="text" class="required digits" placeholder="dd" maxlength="2" name="expirationMonth" id="winbitsPaymentNewCardDD">
+              <input type="text" class="required digits" placeholder="mm" maxlength="2" name="expirationMonth" id="winbitsPaymentNewCardDD">
               <input type="text" class="required digits" placeholder="aa" maxlength="2" name="expirationYear" id="winbitsPaymentNewCardAA">
             </div>
             <div class="divNumSecurity">
@@ -224,8 +236,6 @@
             <input type="text" placeholder="Número" class="inputMedium required" maxlength="10" name="number" id="winbitsPaymentNewCardNumero">
             <input type="text" placeholder="Teléfono" name="phone" maxlength="10" id="winbitsPaymentNewCardTel">
             <input type="text" placeholder="Codigo Postal" name="zipCode" maxlength="5" id="winbitsPaymentNewCardCP">
-            <!--<input type="text" placeholder="Colonia" name="location" maxlength="40" id="winbitsPaymentNewCardColony">-->
-            <!--<input type="text" placeholder="Delegación o Municipio" maxlength="40" name="county" id="winbitsPaymentNewCardMunicipality">-->
             <input type="text" placeholder="Ciudad" name="city" maxlength="40" id="winbitsPaymentNewCardCity">
             <input type="text" placeholder="Estado" name="state" maxlength="40" id="winbitsPaymentNewCardState">
           </div>
