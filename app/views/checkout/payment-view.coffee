@@ -29,7 +29,6 @@ module.exports = class PaymentView extends View
     @subscribeEvent "showBitsPayment", @showBitsPayment
     @subscribeEvent 'cardSelected', @onCardSelected
     @subscribeEvent 'paymentFlowCancelled', @onPaymentFlowCancelled
-    @subscribeEvent 'cardTypeChanged', @onCardTypeChanged
 
     cardTokenPayment = new CardTokenPayment
     @cardTokenPaymentView = new CardTokenPaymentView(model: cardTokenPayment)
@@ -131,11 +130,6 @@ module.exports = class PaymentView extends View
         util.showAjaxError(xhr.responseText)
         util.hideAjaxIndicator()
 
-#      complete: ->
-#        console.log "Request Completed!"
-#        util.hideAjaxIndicator()
-
-
   linkBack: (e) ->
     e.preventDefault()
     @$(".checkoutPaymentCreditcard").show()
@@ -149,7 +143,7 @@ module.exports = class PaymentView extends View
       groups:
         cardExpiration: 'expirationMonth expirationYear'
       errorPlacement: ($error, $element) ->
-        if $element.attr("name") in ["expirationMonth", "expirationYear"]
+        if $element.attr("name") in ["expirationMonth", "expirationYear", 'accountNumber']
           $error.appendTo $element.parent()
         else
           $error.insertAfter $element
@@ -163,6 +157,7 @@ module.exports = class PaymentView extends View
         accountNumber:
           required: true
           creditcard: true
+          minlength: 16
         expirationMonth:
           required: true
           minlength: 2
@@ -185,9 +180,9 @@ module.exports = class PaymentView extends View
           required: true
           minlength: 5
           digits: true
-        phone:
+        phoneNumber:
           required: true
-          minlength: 7
+          minlength: 10
           digits: true
         state:
           required: true
@@ -244,7 +239,7 @@ module.exports = class PaymentView extends View
           digits: true
         phone:
           required: true
-          minlength: 7
+          minlength: 10
           digits: true
         city:
           required: true
@@ -280,11 +275,8 @@ module.exports = class PaymentView extends View
 
   showCardType: (e) ->
     $input = Backbone.$(e.currentTarget)
-    cardType = util.getCreditCardType($input.val())
-    $input.next().removeAttr('class').attr('class', 'wb-card-logo icon ' + cardType + 'CC')
-
-  onCardTypeChanged: (cardType, $form) ->
-    if cardType is 'amex'
-      $form.find('[name=location], [name=county]').hide().val('').prop('disabled', yes)
-    else
-      $form.find('[name=location], [name=county]').show().val('').prop('disabled', no)
+    cardNumber = $input.val() or ''
+    if cardNumber.length > 14
+      cardType = util.getCreditCardType(cardNumber)
+      cardType = 'unknown' if cardType is 'amex'
+      $input.next().removeAttr('class').attr('class', 'wb-card-logo icon ' + cardType + 'CC')
