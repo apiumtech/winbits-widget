@@ -229,7 +229,7 @@ module.exports = class PaymentView extends View
         cvv2Number:
           required: true
           digits: true
-          minlength: 3
+          minlength: 4
         street:
           required: true
           minlength: 2
