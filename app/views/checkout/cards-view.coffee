@@ -119,6 +119,13 @@ module.exports = class CardsView extends View
     $.each formData, (key, value) ->
       $form.find('[name=' + key + ']').val value
 
+    cardPrincipal = cardInfo.cardPrincipal
+    cardPrincipalCheckbox = $form.find('[name=cardPrincipal]')
+
+    if cardPrincipal? and (cardPrincipal ^ cardPrincipalCheckbox.prop("checked"))
+      cardPrincipalCheckbox.trigger('click')
+
+
   submitNewCardForm: (e) ->
     e.preventDefault()
     $ = Backbone.$
@@ -231,5 +238,25 @@ module.exports = class CardsView extends View
         @setMainCard cardInfo
 
   setMainCard: (cardInfo) ->
-    console.log ['Setting main card', cardInfo]
-#    TODO: Integrar servicio para establecer tarjeta principal
+    $ = Backbone.$
+    util.showAjaxIndicator()
+    url = config.apiUrl + "/orders/card-subscription/" + cardInfo.subscriptionId + "/main.json"
+    $.ajax url,
+      type: "PUT"
+      contentType: "application/json"
+      dataType: "json"
+      context: { that: @ }
+      headers:
+        "Accept-Language": "es",
+        "WB-Api-Token": util.getCookie(config.apiTokenName)
+
+      success: (data) ->
+        console.log ["Update main card success!", data]
+        @that.publishEvent 'showCardsManager'
+
+      error: (xhr) ->
+        util.showAjaxError(xhr.responseText)
+
+      complete: ->
+        console.log "Request Completed!"
+        util.hideAjaxIndicator()
