@@ -131,11 +131,6 @@ module.exports = class PaymentView extends View
         util.showAjaxError(xhr.responseText)
         util.hideAjaxIndicator()
 
-#      complete: ->
-#        console.log "Request Completed!"
-#        util.hideAjaxIndicator()
-
-
   linkBack: (e) ->
     e.preventDefault()
     @$(".checkoutPaymentCreditcard").show()
@@ -185,9 +180,9 @@ module.exports = class PaymentView extends View
           required: true
           minlength: 5
           digits: true
-        phone:
+        phoneNumber:
           required: true
-          minlength: 7
+          minlength: 10
           digits: true
         state:
           required: true
@@ -244,7 +239,7 @@ module.exports = class PaymentView extends View
           digits: true
         phone:
           required: true
-          minlength: 7
+          minlength: 10
           digits: true
         city:
           required: true
