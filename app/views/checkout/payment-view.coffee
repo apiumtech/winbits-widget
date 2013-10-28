@@ -45,6 +45,8 @@ module.exports = class PaymentView extends View
       formData.paymentMethod = paymentMethod
       formData.order = mediator.post_checkout.order
       formData.vertical = window.verticalId
+      formData.cardSave = formData.cardSave in ['true', 'on']
+      formData.cardPrincipal = formData.cardPrincipal in ['true', 'on']
       formData.shippingAddress = mediator.post_checkout.shippingAddress
       util.showAjaxIndicator()
       Backbone.$.ajax config.apiUrl + "/orders/payment.json",
