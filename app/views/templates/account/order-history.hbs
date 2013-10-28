@@ -23,9 +23,10 @@
     <div class="dataTable-header">
       <span class="dataTable-desc">DESCRIPCIÓN</span>
       <span class="dataTable-photo">FOTO</span>
-      <span class="dataTable-prod">DESCRIPCIÓN DEL PRODUCTO</span>
+      <span class="dataTable-prod">PRODUCTO</span>
       <span class="dataTable-cant">CANT.</span>
       <span class="dataTable-status">ESTATUS</span>
+      {{!<span class="dataTable-deliveryDate"># FECHA ESTIMADA DE ENTREGA</span>}}
       <span class="dataTable-num"># DE RASTREO</span>
       <span class="dataTable-site">SITIO</span>
     </div>
@@ -33,7 +34,7 @@
     <div class="dataTable-fila">
       <div class="dataTable-desc">
         <p>Orden: {{orderNumber}}</p>
-        <p>Fecha de compra: {{dateOfPurchase}}</p>
+        <p>Fecha de compra: {{toDefaultDateFormat dateOfPurchase}}</p>
         <p>Estatus: {{status}} </p>
         <p>Total: {{total}} </p>
       </div>
@@ -58,15 +59,21 @@
             {{!--status--}}
             En Almacén
           </div>
+          {{!--<div class="dataTable-deliveryDate">
+            <a href="#">{{toDefaultDateFormat estimatedDeliveryDate}}</a>
+          </div>--}}
           <div class="dataTable-num">
             <a href="#">{{tracingNumber}}</a>
           </div>
           <div class="dataTable-site">
-            <a class="icon" href="{{vertical.baseUrl}}">
               {{#if vertical.logo}}
-                <img src="{{vertical.logo}}"  alt="{{vertical.name}}" />
+                <a class="icon" href="{{vertical.baseUrl}}">
+                  <img src="{{vertical.logo}}"  alt="{{vertical.name}}" />
+                </a>
               {{else}}
+                <a href="{{vertical.baseUrl}}">
                 {{vertical.name}}
+                </a>
               {{/if}}
             </a>
           </div>
