@@ -40,12 +40,12 @@ module.exports = class CartView extends View
     $cartPanel = @$el.closest('.miCarritoDiv')
     if not cartDetail
       if mediator.flags.loggedIn
-        @model.addToUserCart cartItem.id, cartItem.quantity, cartItem.bits, $cartPanel
+        @model.addToUserCart cartItem, $cartPanel
       else
-        @model.addToVirtualCart cartItem.id, cartItem.quantity, $cartPanel
+        @model.addToVirtualCart cartItem, $cartPanel
     else
       qty = cartItem.quantity + cartDetail.quantity
-      @updateCartDetail cartItem.id, qty, cartItem.bits, $cartPanel
+      @updateCartDetail cartItem, $cartPanel
 
 
   clickDeleteCartDetailLink: (e, model) ->
@@ -96,12 +96,12 @@ module.exports = class CartView extends View
       e.preventDefault()
       that.publishEvent 'doCheckout'
 
-  updateCartDetail : (id, quantity, bits, $cartPanel) ->
+  updateCartDetail : (cartItem, $cartPanel) ->
     console.log ["updateCartDetail"]
     if mediator.flags.loggedIn
-      @model.updateUserCartDetail id, quantity, bits, $cartPanel
+      @model.updateUserCartDetail cartItem, $cartPanel
     else
-      @model.updateVirtualCartDetail id, quantity, $cartPanel
+      @model.updateVirtualCartDetail cartItem, $cartPanel
 
   updateCartBits: (bits) ->
     if mediator.flags.loggedIn

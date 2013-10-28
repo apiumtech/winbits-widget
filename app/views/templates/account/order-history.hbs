@@ -26,7 +26,6 @@
       <span class="dataTable-prod">PRODUCTO</span>
       <span class="dataTable-cant">CANT.</span>
       <span class="dataTable-status">ESTATUS</span>
-      {{!<span class="dataTable-deliveryDate"># FECHA ESTIMADA DE ENTREGA</span>}}
       <span class="dataTable-num"># DE RASTREO</span>
       <span class="dataTable-site">SITIO</span>
     </div>
@@ -51,6 +50,7 @@
             {{#each attributes}}
               <p>{{name}}: {{label}}</p>
             {{/each}}
+            <p>Entrega estimada: {{toDefaultDateFormat estimatedDeliveryDate}} </p>
           </div>
           <div class="dataTable-cant">
             {{quantity}}

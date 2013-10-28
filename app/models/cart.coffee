@@ -56,17 +56,18 @@ module.exports = class Cart extends ChaplinModel
         console.log "Request Completed!"
         util.hideAjaxIndicator()
 
-  updateUserCartDetail : (id, quantity, bits, $cartPanel) ->
+  updateUserCartDetail : (cartItem, $cartPanel) ->
     formData =
-      quantity: quantity
-      bits: bits or 0
+      quantity: cartItem.quantity
+      bits: cartItem.bits or 0
     that = @
     util.showAjaxIndicator()
-    Backbone.$.ajax config.apiUrl + "/orders/cart-items/" + id + ".json",
+    Backbone.$.ajax config.apiUrl + "/orders/cart-items/" + cartItem.id + ".json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify(formData)
+      context: cartItem
       headers:
         "Accept-Language": "es"
         "WB-Api-Token": util.getCookie(config.apiTokenName)
@@ -75,20 +76,22 @@ module.exports = class Cart extends ChaplinModel
         that.set that.completeCartModel data.response
         if $cartPanel
           $cartPanel.slideDown()
+        this.success.apply(this, arguments) if typeof this.success is 'function'
 
-      error: (xhr, textStatus, errorThrown) ->
+      error: (xhr) ->
         util.showAjaxError(xhr.responseText)
+        this.error.apply(this, arguments) if typeof this.error is 'function'
 
       complete: ->
-        console.log "Request Completed!"
         util.hideAjaxIndicator()
+        this.complete.apply(this, arguments) if typeof this.complete is 'function'
 
-  updateVirtualCartDetail: (id, quantity, $cartPanel)->
-    @url = config.apiUrl + "/orders/virtual-cart-items/" + id + ".json"
-    formData = quantity: quantity
+  updateVirtualCartDetail: (cartItem, $cartPanel)->
+    @url = config.apiUrl + "/orders/virtual-cart-items/" + cartItem.id + ".json"
+    formData = quantity: cartItem.quantity
     that = @
     util.showAjaxIndicator()
-    Backbone.$.ajax config.apiUrl + "/orders/virtual-cart-items/" + id + ".json",
+    Backbone.$.ajax config.apiUrl + "/orders/virtual-cart-items/" + cartItem.id + ".json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
@@ -102,14 +105,15 @@ module.exports = class Cart extends ChaplinModel
         that.set that.completeCartModel(data.response)
         if $cartPanel
           $cartPanel.slideDown()
+        this.success.apply(this, arguments) if typeof this.success is 'function'
 
-      error: (xhr, textStatus, errorThrown) ->
+      error: (xhr) ->
         util.showAjaxError(xhr.responseText)
+        this.error.apply(this, arguments) if typeof this.error is 'function'
 
       complete: ->
-        console.log "Request Completed!"
         util.hideAjaxIndicator()
-
+        this.complete.apply(this, arguments) if typeof this.complete is 'function'
 
   deleteVirtualCartDetail: (id)->
     console.log ["deleteVirtualCartDetail"]
@@ -159,19 +163,20 @@ module.exports = class Cart extends ChaplinModel
       complete: ->
         console.log "complete"
 
-  addToUserCart : (id, quantity, bits, $cartPanel) ->
+  addToUserCart : (cartItem, $cartPanel) ->
     console.log "Adding to user cart..."
     formData =
-      skuProfileId: id
-      quantity: quantity
-      bits: bits
+      skuProfileId: cartItem.id
+      quantity: cartItem.quantity
+      bits: cartItem.bits or 0
     that = this
-    util.showAjaxIndicator()
+    util.showAjaxIndicator('Agregando a carrito...')
     Backbone.$.ajax config.apiUrl + "/orders/cart-items.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify(formData)
+      context: cartItem
       headers:
         "Accept-Language": "es"
         "WB-Api-Token": util.getCookie(config.apiTokenName)
@@ -181,19 +186,22 @@ module.exports = class Cart extends ChaplinModel
         that.set that.completeCartModel data.response
         if $cartPanel
           $cartPanel.slideDown()
+        this.success.apply(this, arguments) if typeof this.success is 'function'
 
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
+        this.error.apply(this, arguments) if typeof this.error is 'function'
 
       complete: ->
         console.log "Request Completed!"
         util.hideAjaxIndicator()
+        this.complete.apply(this, arguments) if typeof this.complete is 'function'
 
-  addToVirtualCart : (id, quantity, $cartPanel) ->
+  addToVirtualCart : (cartItem, $cartPanel) ->
     console.log "Adding to virtual cart..."
     formData =
-      skuProfileId: id
-      quantity: quantity
+      skuProfileId: cartItem.id
+      quantity: cartItem.quantity
       bits: 0
     that = this
     util.showAjaxIndicator()
@@ -202,6 +210,7 @@ module.exports = class Cart extends ChaplinModel
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify(formData)
+      context: cartItem
       headers:
         "Accept-Language": "es"
         "wb-vcart": util.getCookie(config.vcartTokenName)
@@ -212,13 +221,16 @@ module.exports = class Cart extends ChaplinModel
         that.set that.completeCartModel(data.response)
         if $cartPanel
           $cartPanel.slideDown()
+        this.success.apply(this, arguments) if typeof this.success is 'function'
 
-      error: (xhr, textStatus, errorThrown) ->
+      error: (xhr) ->
         util.showAjaxError(xhr.responseText)
+        this.error.apply(this, arguments) if typeof this.error is 'function'
 
       complete: ->
         console.log "Request Completed!"
         util.hideAjaxIndicator()
+        this.complete.apply(this, arguments) if typeof this.complete is 'function'
 
   storeVirtualCart : (cart) ->
     console.log ["Storing virtual cart...", cart]
