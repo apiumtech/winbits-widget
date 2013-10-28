@@ -21,6 +21,10 @@ module.exports = class CheckoutSiteView extends View
     @delegate 'click', 'i.close-icon', @closeModal
     @delegate 'click', '#wbi-winbits-logo', @onWinbitsLogoClick
 
+#    Backbone.$.validator.addMethod "cyberSourceCard", (value, element) ->
+#      @optional(element) or util.getCreditCardType(value) in ['visa', 'mastercard']
+#    , "Introduce una tarjeta VISA ó MasterCard"
+
   closeModal: (event) ->
     event?.preventDefault()
     event?.stopPropagation()
