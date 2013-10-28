@@ -22,6 +22,8 @@ module.exports = class CardsView extends View
     @delegate "submit" , "#wbi-edit-card-form", @submitEditCardForm
     @delegate "click", ".wb-delete-card-link", @confirmDeleteCard
     @delegate "click", ".wb-card-list-item", @selectCard
+    @delegate "keyup", ".wb-card-number-input", @showCardType
+    @delegate "blur", ".wb-card-number-input", @showCardType
 
   attach: ->
     super
@@ -30,7 +32,7 @@ module.exports = class CardsView extends View
       groups:
         cardExpiration: 'expirationMonth expirationYear'
       errorPlacement: ($error, $element) ->
-        if $element.attr("name") is "expirationMonth" or $element.attr("name") is "expirationYear"
+        if $element.attr("name") in ["expirationMonth", "expirationYear", 'accountNumber']
           $error.appendTo $element.parent()
         else
           $error.insertAfter $element
@@ -118,13 +120,17 @@ module.exports = class CardsView extends View
       formData.expirationYear = formData.expirationYear.slice(-2)
     $.each formData, (key, value) ->
       $form.find('[name=' + key + ']').val value
+    cardType = cardInfo.cardData.cardType.toLowerCase()
+    $form.find('span.wb-card-logo').removeAttr('class').attr('class', 'wb-card-logo icon ' + cardType + 'CC')
 
   submitNewCardForm: (e) ->
     e.preventDefault()
     $ = Backbone.$
     $form = $(e.currentTarget)
     newCardData = util.serializeForm($form)
+    newCardData.cardPrincipal = newCardData.cardPrincipal is true or newCardData.cardPrincipal is 'on'
     $submitTriggers = $form.find('.wb-submit-trigger').prop('disabled', true)
+    util.showAjaxIndicator()
     $.ajax config.apiUrl + "/orders/card-subscription.json",
       type: "POST"
       contentType: "application/json"
@@ -139,10 +145,7 @@ module.exports = class CardsView extends View
 
       success: (data) ->
         console.log ["Save new card success!", data]
-        cards = @that.model.get 'cards'
-        cards.push(cardInfo: data.response)
-        @that.showCardsList()
-        @that.render()
+        @that.publishEvent 'showCardsManager'
 
       error: (xhr) ->
         util.showAjaxError(xhr.responseText)
@@ -150,6 +153,7 @@ module.exports = class CardsView extends View
       complete: ->
         console.log "Request Completed!"
         @$submitTriggers.prop('disabled', false)
+        util.hideAjaxIndicator()
 
   submitEditCardForm: (e) ->
     e.preventDefault()
@@ -157,7 +161,9 @@ module.exports = class CardsView extends View
     $form = $(e.currentTarget)
     currentCardData = $form.data('current-card-data')
     updatedCardData = util.serializeForm($form)
+    updatedCardData.cardPrincipal = updatedCardData.cardPrincipal is true or updatedCardData.cardPrincipal is 'on'
     $submitTriggers = $form.find('.wb-submit-trigger').prop('disabled', true)
+    util.showAjaxIndicator()
     $.ajax config.apiUrl + "/orders/card-subscription/" + currentCardData.subscriptionId + ".json",
       type: "PUT"
       contentType: "application/json"
@@ -172,11 +178,12 @@ module.exports = class CardsView extends View
 
       success: (data) ->
         console.log ["Update card success!", data]
-        cards = @that.model.get 'cards'
-        currentCardIndex = @$form.data('current-card-index')
-        cards.splice(currentCardIndex, 1, cardInfo: data.response)
-        @that.showCardsList()
-        @that.render()
+        @that.publishEvent 'showCardsManager'
+        #cards = @that.model.get 'cards'
+        #currentCardIndex = @$form.data('current-card-index')
+        #cards.splice(currentCardIndex, 1, cardInfo: data.response)
+        #@that.showCardsList()
+        #@that.render()
 
       error: (xhr) ->
         util.showAjaxError(xhr.responseText)
@@ -184,13 +191,13 @@ module.exports = class CardsView extends View
       complete: ->
         console.log "Request Completed!"
         $submitTriggers.prop('disabled', false)
+        util.hideAjaxIndicator()
 
   confirmDeleteCard: (e) ->
     e.preventDefault()
     e.stopPropagation()
     $ = Backbone.$
     cardIndex = @$el.find(e.currentTarget).closest('li').index()
-    console.log ['CARD INDEX', cardIndex]
     cardInfo = @model.get('cards')[cardIndex].cardInfo
     answer = confirm '¿En verdad quieres eliminar la tarjeta ' + cardInfo.cardData.accountNumber + '?'
     if answer
@@ -229,3 +236,9 @@ module.exports = class CardsView extends View
   setMainCard: (cardInfo) ->
     console.log ['Setting main card', cardInfo]
 #    TODO: Integrar servicio para establecer tarjeta principal
+
+  showCardType: (e) ->
+    $input = Backbone.$(e.currentTarget)
+    cardType = util.getCreditCardType($input.val())
+
+    $input.next().removeAttr('class').attr('class', 'wb-card-logo icon ' + cardType + 'CC')

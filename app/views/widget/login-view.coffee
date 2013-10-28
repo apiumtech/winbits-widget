@@ -26,7 +26,6 @@ module.exports = class LoginView extends View
 
   attach: ->
     super
-    vendor.customCheckbox( @$('.checkbox') )
 
   doLogin: (e)->
     e.preventDefault()
