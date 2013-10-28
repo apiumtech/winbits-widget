@@ -19,6 +19,7 @@ module.exports = class CheckoutSiteView extends View
     @delegate "click","#showAddress", @showAddress
     @delegate 'click', '.close-modal', @closeModal
     @delegate 'click', 'i.close-icon', @closeModal
+    @delegate 'click', '#wbi-winbits-logo', @onWinbitsLogoClick
 
   closeModal: (event) ->
     event?.preventDefault()
@@ -80,3 +81,6 @@ module.exports = class CheckoutSiteView extends View
 
   formatTime: (time) ->
     ('0' + time).slice(-2)
+
+  onWinbitsLogoClick: (e) ->
+    window.history.back()
