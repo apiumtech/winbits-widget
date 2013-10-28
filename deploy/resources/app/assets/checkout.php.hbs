@@ -1,10 +1,11 @@
-<?php
-$token = $_POST['token'];
-$order_data = $_POST['order_data'];
-$bits_balance = $_POST['bits_balance'];
-$verticalId = $_POST['vertical_id'];
-?>
 <!DOCTYPE html>
+<?php
+  $token = $_POST['token'];
+  $order_data = $_POST['order_data'];
+  $bits_balance = $_POST['bits_balance'];
+  $verticalId = $_POST['vertical_id'];
+  if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($token) && isset($order_data) && isset($verticalId)) {
+?>
 <html lang="es">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -44,4 +45,11 @@ $verticalId = $_POST['vertical_id'];
   <div id="main"></div>
 </body>
 </html>
-
+<? } else { ?>
+<html lang="es">
+  <head>
+    <meta http-equiv="refresh" content="0;URL='http://www.winbits.com/'" />
+  </head>
+  <body>Redireccionando a Winbits...</body>
+</html>
+<? } ?>
