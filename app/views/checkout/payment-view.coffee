@@ -263,7 +263,7 @@ module.exports = class PaymentView extends View
       @cardTokenPaymentView.render()
       @cardTokenPaymentView.$el.find('#wbi-card-token-payment-view').show()
     else
-      util.showError('Para continuar elige una de tus tarjetas')
+      util.showError('Selecciona un medio de pago para continuar')
 
   onCardSelected: (cardData) ->
     cardInfo = cardData.cardInfo
