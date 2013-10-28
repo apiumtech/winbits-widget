@@ -102,7 +102,7 @@ module.exports = class PaymentView extends View
 
     formData = mediator.post_checkout
     formData.vertical = window.verticalId
-    util.showAjaxIndicator()
+    util.showAjaxIndicator('Procesando tu pago...')
     Backbone.$.ajax config.apiUrl + "/orders/payment.json",
       type: "POST"
       contentType: "application/json"
@@ -114,23 +114,26 @@ module.exports = class PaymentView extends View
         console.log ["data", data]
         payment = data.response.payments[0]
         if payment.status isnt 'FAILED' and payment.status isnt 'ERROR'
-          if paymentMethod is 'paypal.latam'
+          if payment.identifier is 'paypal.latam'
+            util.showAjaxIndicator('Redireccionando a PayPal...')
             paymentCapture = payment.paymentCapture
             params = paymentCapture.params
             window.location = paymentCapture.url + '?cmd=' + params.cmd + '&token=' + params.token
           else
+            util.hideAjaxIndicator()
             that.publishEvent "setConfirm", data.response
             that.publishEvent "showStep", ".checkoutSummaryContainer", payment
         else
           util.showError('Error al procesar el pago, por favor intentalo más tarde')
-
+          util.hideAjaxIndicator()
 
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
-
-      complete: ->
-        console.log "Request Completed!"
         util.hideAjaxIndicator()
+
+#      complete: ->
+#        console.log "Request Completed!"
+#        util.hideAjaxIndicator()
 
 
   linkBack: (e) ->
@@ -263,7 +266,7 @@ module.exports = class PaymentView extends View
       @cardTokenPaymentView.render()
       @cardTokenPaymentView.$el.find('#wbi-card-token-payment-view').show()
     else
-      util.showError('Para continuar elige una de tus tarjetas')
+      util.showError('Selecciona un medio de pago para continuar')
 
   onCardSelected: (cardData) ->
     cardInfo = cardData.cardInfo

@@ -102,8 +102,6 @@ module.exports = class RegisterView extends View
     e.preventDefault()
     that = @
     $form =  @$el.find("#complete-register-form")
-    console.log ['form', $form]
-    console.log ['form valid', $form.valid()]
 
     day = $form.find(".day-input").val()
     month = $form.find(".month-input").val()
@@ -124,6 +122,7 @@ module.exports = class RegisterView extends View
       formData.gender = gender
       formData.location = location
 
+      Backbone.$(e.currentTarget).val('Guardando...').prop('disabled', true)
       Backbone.$.ajax config.apiUrl + "/affiliation/profile.json",
         type: "PUT"
         contentType: "application/json"
@@ -146,7 +145,7 @@ module.exports = class RegisterView extends View
           util.showError("Error while updating profile")
 
         complete: ->
-          console.log "Request Completed!"
+          this.find('#registerStep2').val('Guardar').prop('disabled', false)
 
   renderRegisterFormErrors: ($form, error) ->
     code = error.code or error.meta.code

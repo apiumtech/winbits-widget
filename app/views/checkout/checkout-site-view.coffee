@@ -56,6 +56,7 @@ module.exports = class CheckoutSiteView extends View
   attach: () ->
     super
     @startCounter()
+    @$el.find('#wbi-ajax-modal').modal({backdrop: 'static', keyboard: false, show: false})
 
   startCounter: () ->
     that = @
