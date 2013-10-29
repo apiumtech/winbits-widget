@@ -263,3 +263,9 @@ module.exports = class CardsView extends View
       complete: ->
         console.log "Request Completed!"
         util.hideAjaxIndicator()
+
+  showCardType: (e) ->
+    $input = Backbone.$(e.currentTarget)
+    cardType = util.getCreditCardType($input.val())
+
+    $input.next().removeAttr('class').attr('class', 'wb-card-logo icon ' + cardType + 'CC')
