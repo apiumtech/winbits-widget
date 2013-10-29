@@ -96,6 +96,7 @@ module.exports = class Cart extends ChaplinModel
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify(formData)
+      context: cartItem
       headers:
         "Accept-Language": "es"
         "wb-vcart": util.getCookie(config.vcartTokenName)
@@ -108,6 +109,7 @@ module.exports = class Cart extends ChaplinModel
         this.success.apply(this, arguments) if typeof this.success is 'function'
 
       error: (xhr) ->
+        console.log ['PROBLEMS', xhr.responseText]
         util.showAjaxError(xhr.responseText)
         this.error.apply(this, arguments) if typeof this.error is 'function'
 
