@@ -44,7 +44,7 @@ module.exports = class CartView extends View
       else
         @model.addToVirtualCart cartItem, $cartPanel
     else
-      qty = cartItem.quantity + cartDetail.quantity
+      cartItem.quantity = cartItem.quantity + cartDetail.quantity
       @updateCartDetail cartItem, $cartPanel
 
 
@@ -94,7 +94,11 @@ module.exports = class CartView extends View
     @$el.find('.wb-continue-shopping-link').click @closeCart
     @$el.find('.wb-checkout-btn').click (e)->
       e.preventDefault()
-      that.publishEvent 'doCheckout'
+#      that.publishEvent 'doCheckout'
+      if mediator.flags.loggedIn
+        that.publishEvent 'doCheckout'
+      else
+        util.showError('Por favor haz login para completar tu compra')
 
   updateCartDetail : (cartItem, $cartPanel) ->
     console.log ["updateCartDetail"]

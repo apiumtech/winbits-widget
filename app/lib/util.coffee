@@ -38,6 +38,9 @@ module.exports =
       i++
     vars
 
+  redirectToVertical : (url)->
+    window.location.href = url
+
   validateForm : (form) ->
     $form = Backbone.$(form)
     $form.find(".errors").html ""

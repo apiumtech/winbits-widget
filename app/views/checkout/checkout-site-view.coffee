@@ -67,21 +67,29 @@ module.exports = class CheckoutSiteView extends View
     that = @
     $timer = @$el.find('#wb-checkout-timer')
     console.log(["The timer", $timer])
-    setInterval () ->
-      that.updateCheckoutTimer($timer)
+    $interval = setInterval () ->
+      that.updateCheckoutTimer($timer, $interval)
     , 1000
 
-  updateCheckoutTimer: ($timer) ->
-    minutes = $timer.data('minutes') || 30
+  updateCheckoutTimer: ($timer, $interval) ->
+    minutes = $timer.data('minutes')
+    minutes = if minutes? then minutes else 30
     seconds = $timer.data('seconds') || 0
     seconds = seconds - 1
-    if seconds < 0
-      seconds = 59
-      minutes = minutes - 1
-    minutes = if minutes < 0 then 0 else minutes
-    $timer.data('minutes', minutes)
-    $timer.data('seconds', seconds)
-    $timer.text @formatTime(minutes) + ':' + @formatTime(seconds)
+    if minutes is 0 and seconds < 0
+      console.log('expire order')
+      clearInterval $interval
+      util.showError("Tu orden ha expirado")
+      setInterval () ->
+        util.redirectToVertical(window.verticalUrl)
+      , 3000
+    else
+      if seconds < 0
+        seconds = 59
+        minutes = minutes - 1
+      $timer.data('minutes', minutes)
+      $timer.data('seconds', seconds)
+      $timer.text @formatTime(minutes) + ':' + @formatTime(seconds)
 
   formatTime: (time) ->
     ('0' + time).slice(-2)
