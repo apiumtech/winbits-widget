@@ -246,6 +246,12 @@ module.exports = class PaymentView extends View
         city:
           required: true
           minlength: 2
+        location:
+          required: true
+          minlength: 2
+        county:
+          required: true
+          minlength: 2
         state:
           required: true
           minlength: 2
