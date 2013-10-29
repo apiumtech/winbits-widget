@@ -95,4 +95,5 @@ module.exports = class CheckoutSiteView extends View
     ('0' + time).slice(-2)
 
   onWinbitsLogoClick: (e) ->
+    e.preventDefault()
     window.history.back()
