@@ -89,7 +89,7 @@ module.exports = class LoginView extends View
     $ = Backbone.$
     that = @
     fbButton = @$(e.currentTarget).prop('disabled', true)
-    popup = window.open(config.apiUrl + "/affiliation/facebook-login/connect?verticalId=" + config.verticalId,
+    popup = window.open(config.apiUrlBase + "/affiliation/facebook-login/connect?verticalId=" + config.verticalId,
         "facebook", "menubar=0,resizable=0,width=800,height=500")
     popup.postMessage
     popup.focus()
