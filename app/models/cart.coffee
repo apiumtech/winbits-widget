@@ -42,18 +42,19 @@ module.exports = class Cart extends ChaplinModel
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
 
       success: (data) ->
-        console.log ["V: User cart", data.response]
         util.setCookie config.vcartTokenName, '[]', 7
         that.set that.completeCartModel(data.response)
         mediator.proxy.post
           action: "storeVirtualCart"
           params: ['[]']
+        if mediator.flags.autoCheckout
+          @publishEvent 'doCheckout'
 
-      error: (xhr, textStatus, errorThrown) ->
+      error: (xhr) ->
         util.showAjaxError(xhr.responseText)
 
       complete: ->
-        console.log "Request Completed!"
+        mediator.flags.autoCheckout = false
 #        util.hideAjaxIndicator()
 
   updateUserCartDetail : (cartItem, $cartPanel) ->

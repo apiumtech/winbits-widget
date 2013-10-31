@@ -93,11 +93,11 @@ module.exports = class CartView extends View
     @$el.find('.wb-continue-shopping-link').click @closeCart
     @$el.find('.wb-checkout-btn').click (e)->
       e.preventDefault()
-#      that.publishEvent 'doCheckout'
       if mediator.flags.loggedIn
         that.publishEvent 'doCheckout'
       else
-        util.showError('Por favor haz login para completar tu compra')
+        mediator.flags.autoCheckout = true
+        that.publishEvent 'showLogin'
 
   updateCartDetail : (cartItem, $cartPanel) ->
     console.log ["updateCartDetail"]
