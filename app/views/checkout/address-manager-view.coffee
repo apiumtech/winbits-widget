@@ -59,9 +59,10 @@ module.exports = class CheckoutSiteView extends View
     id = $addresSelected.attr("id").split("-")[1]
     if id
       mediator.post_checkout.shippingAddress = id
-    if mediator.post_checkout.shippingAddress
       @publishEvent "showStep", ".checkoutPaymentContainer"
       @$("#choosen-address-" + mediator.post_checkout.shippingAddress).show()
+    else
+      util.showError('Selecciona una dirección de envío para continuar')
 
 
   editAddress: (e)->
@@ -205,6 +206,9 @@ module.exports = class CheckoutSiteView extends View
         state:
           required: '[name=location]:visible'
           minlength: 2
+
+    $shippingAddresses = @$el.find('li.wb-shipping-address')
+    $shippingAddresses.first().addClass('shippingSelected') if $shippingAddresses.filter('.shippingSelected').length is 0
 
   findZipcode: (event)->
     event.preventDefault()
