@@ -35,7 +35,7 @@ module.exports = class CheckoutSiteView extends View
     id =  $currentTarget.attr("id").split("-")[1]
     util.showAjaxIndicator()
     @model.sync 'delete', @model,
-      url: config.apiUrl + "/affiliation/shipping-addresses/" + id,
+      url: config.apiUrl + "/affiliation/shipping-addresses/" + id + '.json',
       error: ->
         console.log "error",
       headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
@@ -55,7 +55,6 @@ module.exports = class CheckoutSiteView extends View
 
 
   addressContinuar: (e)->
-    console.log "continuar"
     $addresSelected = @$(".shippingSelected")
     id = $addresSelected.attr("id").split("-")[1]
     if id

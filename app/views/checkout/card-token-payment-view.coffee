@@ -42,12 +42,12 @@ module.exports = class CardTokenPaymentView extends View
       paymentData.vertical = window.verticalId
       formData = util.serializeForm($form)
       $.extend paymentData.paymentInfo, formData
-      $submitTriggers =  $('.wb-submit-trigger').prop('disabled', true)
+      util.showAjaxIndicator('Procesando tu pago...')
       $.ajax config.apiUrl + "/orders/payment.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
-        context: { that: @, $submitTriggers: $submitTriggers}
+        context: { that: @}
         data: JSON.stringify(paymentData)
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': window.token }
         success: (data) ->
@@ -64,4 +64,4 @@ module.exports = class CardTokenPaymentView extends View
           util.showAjaxError(xhr.responseText)
 
         complete: ->
-          @$submitTriggers.prop('disabled', false)
+          util.hideAjaxIndicator()

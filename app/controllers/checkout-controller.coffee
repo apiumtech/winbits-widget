@@ -46,7 +46,8 @@ module.exports = class CheckoutController extends ChaplinController
       that.orderDetailView.render()
     @orderDetails.set @orderDetails.completeOrderModel @order_data, parseFloat(window.bits_balance)
     @cards.set ({methods:@order_data.paymentMethods})
-    @cardsView = new CardsView({model: @cards})
+    @cardsView = new CardsView(model: @cards)
+    @paymentView.cardsView = @cardsView
 
     @cards.on 'change', ->
       console.log "Cards model changed"
