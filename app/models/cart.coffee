@@ -30,7 +30,7 @@ module.exports = class Cart extends ChaplinModel
   transferVirtualCart: (virtualCart)->
     console.log ["transferVirtualCart"]
     that = @
-    util.showAjaxIndicator()
+#    util.showAjaxIndicator()
     formData = virtualCartData: JSON.parse(virtualCart)
     Backbone.$.ajax config.apiUrl + "/orders/assign-virtual-cart.json",
       type: "POST"
@@ -42,26 +42,27 @@ module.exports = class Cart extends ChaplinModel
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
 
       success: (data) ->
-        console.log ["V: User cart", data.response]
         util.setCookie config.vcartTokenName, '[]', 7
         that.set that.completeCartModel(data.response)
         mediator.proxy.post
           action: "storeVirtualCart"
           params: ['[]']
+        if mediator.flags.autoCheckout
+          @publishEvent 'doCheckout'
 
-      error: (xhr, textStatus, errorThrown) ->
+      error: (xhr) ->
         util.showAjaxError(xhr.responseText)
 
       complete: ->
-        console.log "Request Completed!"
-        util.hideAjaxIndicator()
+        mediator.flags.autoCheckout = false
+#        util.hideAjaxIndicator()
 
   updateUserCartDetail : (cartItem, $cartPanel) ->
     formData =
       quantity: cartItem.quantity
       bits: cartItem.bits or 0
     that = @
-    util.showAjaxIndicator()
+    util.showAjaxIndicator('Actualizando carrito...')
     Backbone.$.ajax config.apiUrl + "/orders/cart-items/" + cartItem.id + ".json",
       type: "PUT"
       contentType: "application/json"
@@ -90,11 +91,12 @@ module.exports = class Cart extends ChaplinModel
     @url = config.apiUrl + "/orders/virtual-cart-items/" + cartItem.id + ".json"
     formData = quantity: cartItem.quantity
     that = @
-    util.showAjaxIndicator()
+    util.showAjaxIndicator('Actualizando carrito...')
     Backbone.$.ajax config.apiUrl + "/orders/virtual-cart-items/" + cartItem.id + ".json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
+      context: cartItem
       data: JSON.stringify(formData)
       context: cartItem
       headers:
@@ -120,7 +122,7 @@ module.exports = class Cart extends ChaplinModel
   deleteVirtualCartDetail: (id)->
     console.log ["deleteVirtualCartDetail"]
     that = @
-    util.showAjaxIndicator()
+    util.showAjaxIndicator('Eliminando artículo...')
     @url = config.apiUrl + "/orders/virtual-cart-items/" + id + ".json"
     @sync 'delete', @,
       error: ->
@@ -136,7 +138,7 @@ module.exports = class Cart extends ChaplinModel
 
   deleteUserCartDetail : (id) ->
     that = @
-    util.showAjaxIndicator()
+    util.showAjaxIndicator('Eliminando artículo...')
     @url = config.apiUrl + "/orders/cart-items/" + id + ".json"
     @sync 'delete', @,
       headers:{ 'Accept-Language': 'es', "WB-Api-Token": util.getCookie(config.apiTokenName) }
@@ -172,7 +174,7 @@ module.exports = class Cart extends ChaplinModel
       quantity: cartItem.quantity
       bits: cartItem.bits or 0
     that = this
-    util.showAjaxIndicator('Agregando a carrito...')
+    util.showAjaxIndicator('Agregando artículo...')
     Backbone.$.ajax config.apiUrl + "/orders/cart-items.json",
       type: "POST"
       contentType: "application/json"
@@ -206,7 +208,7 @@ module.exports = class Cart extends ChaplinModel
       quantity: cartItem.quantity
       bits: 0
     that = this
-    util.showAjaxIndicator()
+    util.showAjaxIndicator('Agregando artículo...')
     Backbone.$.ajax config.apiUrl + "/orders/virtual-cart-items.json",
       type: "POST"
       contentType: "application/json"
@@ -274,7 +276,7 @@ module.exports = class Cart extends ChaplinModel
     cartDetail
 
   updateCartBits: (bits) ->
-    util.showAjaxIndicator()
+#    util.showAjaxIndicator('Actualizando bits...')
     Backbone.$.ajax config.apiUrl + "/orders/update-cart-bits.json",
       type: "PUT"
       contentType: "application/json"
@@ -294,7 +296,7 @@ module.exports = class Cart extends ChaplinModel
         util.showAjaxError(xhr.responseText)
 
       complete: ->
-        util.hideAjaxIndicator()
+#        util.hideAjaxIndicator()
         
   closeCartIfEmpty: () ->
     $ = Backbone.$

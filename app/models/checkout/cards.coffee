@@ -6,7 +6,8 @@ module.exports = class Cards extends ChaplinModel
   constructor: (args) ->
     super
     args = args or {}
-    @mainOnClick = args.mainOnClick is true
+    @loadingIndicator = args.loadingIndicator is yes
+    @mainOnClick = args.mainOnClick is yes
     if @mainOnClick
       @cardItemLegend = 'Establecer como tarjeta principal'
     else
@@ -18,7 +19,7 @@ module.exports = class Cards extends ChaplinModel
 
   getCards: ()->
     url = config.apiUrl + "/orders/card-subscription.json"
-    util.showAjaxIndicator()
+    util.showAjaxIndicator('Cargando tarjetas guardadas...') if @loadingIndicator
     Backbone.$.ajax url,
       type: "GET"
       contentType: "application/json"
@@ -32,8 +33,8 @@ module.exports = class Cards extends ChaplinModel
         console.log 'Success loading cards'
         @set cards: data.response, cardItemLegend: @cardItemLegend
 
-      error: (xhr, textStatus, errorThrown) ->
+      error: (xhr) ->
         util.showAjaxError(xhr.responseText)
 
       complete: ->
-        util.hideAjaxIndicator()
+        util.hideAjaxIndicator() if @loadingIndicator

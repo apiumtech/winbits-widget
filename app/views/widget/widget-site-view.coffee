@@ -19,10 +19,10 @@ module.exports = class WidgetSiteView extends View
 
   initialize: ->
     super
-    @delegate 'click', '#btn-login', @showLoginLayer
+    @delegate 'click', '#btn-login', @loginBtnClick
     @delegate 'click', '.close-modal', @closeModal
     @delegate 'click', 'i.close-icon', @closeModal
-    @delegate 'click', '#registerLink', @viewRegister
+    @delegate 'click', '#registerLink', @registerLinkClick
     @delegate 'click', '#viewVideoLink', @viewVideo
     @delegate 'click', '#postCheckout', @postCheckout
 
@@ -54,8 +54,12 @@ module.exports = class WidgetSiteView extends View
     console.log ["WidgetSiteView#updateCartCounter " + count]
     @$el.find(".cart-items-count").html(count)
 
-  showLoginLayer: (e)->
+  loginBtnClick: (e) ->
     e.preventDefault()
+    mediator.flags.autoCheckout = false
+    @showLoginLayer()
+
+  showLoginLayer: ()->
     @publishEvent 'cleanModal'
     console.log "WidgetSiteView#showLoginLayer"
     @$("#login-modal").modal( 'show' ).css {
@@ -65,8 +69,12 @@ module.exports = class WidgetSiteView extends View
       'margin-top': -> -(  Backbone.$( this ).height() / 2 )
     }
 
+  registerLinkClick: (e) ->
+    e.preventDefault()
+    mediator.flags.autoCheckout = false
+    @viewRegister()
 
-  viewRegister: (e)->
+  viewRegister: ()->
     @$('.modal').modal 'hide'
     console.log "WidgetSiteView#viewRegister"
     that = @
@@ -202,6 +210,7 @@ module.exports = class WidgetSiteView extends View
           warnings = resp.orderDetails? and (item for item in resp.orderDetails when item.warnings?)
           withWarnings = if warnings != null && warnings.length > 0  then true else false
           if resp.failedCartDetails? or withWarnings
+            util.hideAjaxIndicator()
             @publishEvent 'showResume', resp
           else
             @postToCheckoutApp resp
@@ -209,10 +218,13 @@ module.exports = class WidgetSiteView extends View
         error: (xhr) ->
           console.log xhr
           error = JSON.parse(xhr.responseText)
+          util.hideAjaxIndicator()
   #        alert error.meta.message
 
         complete: ->
-          util.hideAjaxIndicator()
+#          util.hideAjaxIndicator()
+    else
+      util.showError('Agrega algo a tu carrito para que lo puedas comprar')
 
   placeFacebookFrame: (e) ->
     console.log "Facebook Frame disable!"

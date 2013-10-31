@@ -69,7 +69,6 @@ module.exports = class CartView extends View
       $cartDetailStepper = that.$(this)
       val = parseInt($cartDetailStepper.val())
       unless previous is val
-        console.log ["previous", "current", previous, val]
         id = $cartDetailStepper.closest("li").attr("data-id")
         that.updateCartDetail id, val
 
@@ -94,11 +93,11 @@ module.exports = class CartView extends View
     @$el.find('.wb-continue-shopping-link').click @closeCart
     @$el.find('.wb-checkout-btn').click (e)->
       e.preventDefault()
-#      that.publishEvent 'doCheckout'
       if mediator.flags.loggedIn
         that.publishEvent 'doCheckout'
       else
-        util.showError('Por favor haz login para completar tu compra')
+        mediator.flags.autoCheckout = true
+        that.publishEvent 'showLogin'
 
   updateCartDetail : (cartItem, $cartPanel) ->
     console.log ["updateCartDetail"]
