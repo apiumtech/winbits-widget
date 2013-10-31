@@ -27,7 +27,6 @@ module.exports = class PaymentView extends View
     @delegate "blur", ".wb-card-number-input", @showCardType
 
     @subscribeEvent "showBitsPayment", @showBitsPayment
-    @subscribeEvent 'cardSelected', @onCardSelected
     @subscribeEvent 'paymentFlowCancelled', @onPaymentFlowCancelled
 
     cardTokenPayment = new CardTokenPayment
@@ -48,7 +47,7 @@ module.exports = class PaymentView extends View
       formData.cardSave = formData.cardSave in ['true', 'on']
       formData.cardPrincipal = formData.cardPrincipal in ['true', 'on']
       formData.shippingAddress = mediator.post_checkout.shippingAddress
-      util.showAjaxIndicator()
+      util.showAjaxIndicator('Procesando tu pago...')
       Backbone.$.ajax config.apiUrl + "/orders/payment.json",
         type: "POST"
         contentType: "application/json"
@@ -263,19 +262,22 @@ module.exports = class PaymentView extends View
 
   onContinueWithCardTokenBtnClick: (e) ->
     e.preventDefault()
-    $cartItem = @$el.find('.wb-card-list-item.creditcardSelected')
+    $cartItem = @$el.find('.wb-card-list-item.creditcardSelected:visible')
     if $cartItem.length > 0
       @$el.children().hide()
-      @cardTokenPaymentView.render()
-      @cardTokenPaymentView.$el.find('#wbi-card-token-payment-view').show()
+      cardData = @cardsView.getCardDataAt $cartItem.index()
+      console.log ['CARD DATA', cardData]
+      @setupPaymentWithToken cardData
     else
       util.showError('Selecciona un medio de pago para continuar')
 
-  onCardSelected: (cardData) ->
+  setupPaymentWithToken: (cardData) ->
     cardInfo = cardData.cardInfo
     mediator.post_checkout.paymentMethod = 'cybersource.token'
     mediator.post_checkout.paymentInfo = subscriptionId: cardInfo.subscriptionId
     @cardTokenPaymentView.model.set cardInfo: cardInfo
+    @cardTokenPaymentView.render()
+    @cardTokenPaymentView.$el.find('#wbi-card-token-payment-view').show()
 
   onPaymentFlowCancelled: (e) ->
     @$el.children().hide()

@@ -345,6 +345,18 @@ Handlebars.registerHelper "withMsiPayments", (options) ->
 Handlebars.registerHelper "getCreditCardType", (cardNumber) ->
   util.getCreditCardType(cardNumber)
 
+Handlebars.registerHelper "getCardTypeClass", (cardType) ->
+  cardType = cardType.toLowerCase()
+  if cardType is 'amex' then 'wb-amex-card' else 'wb-cybersource-card'
+
+Handlebars.registerHelper "options", (min, max, options) ->
+  result = ''
+  i = min
+  console.log ['MIN', min, 'MAX', max]
+  while i <= max
+    result += options.fn(value: i, text: i)
+    i++
+  result
 
 #******************************
 #Custom partial

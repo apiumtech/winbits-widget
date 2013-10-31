@@ -69,7 +69,6 @@ module.exports = class CartView extends View
       $cartDetailStepper = that.$(this)
       val = parseInt($cartDetailStepper.val())
       unless previous is val
-        console.log ["previous", "current", previous, val]
         id = $cartDetailStepper.closest("li").attr("data-id")
         that.updateCartDetail id, val
 
