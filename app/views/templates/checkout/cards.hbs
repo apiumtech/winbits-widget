@@ -1,8 +1,7 @@
 <div class="creditcards wb-cards-subview" id="wbi-cards-list-holder">
   <ul>
     {{#each cards}}
-    <li class="creditcardItem wb-card-list-item {{#if cardInfo.cardPrincipal}}creditcardSelected{{/if}}">
-    {{!<li class="creditcardItem creditcardSelected">}}
+    <li class="creditcardItem wb-card-list-item {{getCardTypeClass cardInfo.cardData.cardType}} {{#if cardInfo.cardPrincipal}}creditcardSelected{{/if}}">
       <div class="creditcardMenu">
         <a class="wb-edit-card-link" href="#">edit</a>
         <span class="icon closeButton wb-delete-card-link">cerrar</span>

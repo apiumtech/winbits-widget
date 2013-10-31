@@ -345,6 +345,10 @@ Handlebars.registerHelper "withMsiPayments", (options) ->
 Handlebars.registerHelper "getCreditCardType", (cardNumber) ->
   util.getCreditCardType(cardNumber)
 
+Handlebars.registerHelper "getCardTypeClass", (cardType) ->
+  cardType = cardType.toLowerCase()
+  if cardType is 'amex' then 'wb-amex-card' else 'wb-cybersource-card'
+
 
 #******************************
 #Custom partial

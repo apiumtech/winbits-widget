@@ -26,12 +26,16 @@ module.exports = class CheckoutController extends ChaplinController
     @orderDetails = new OrderDetails
     @payments = new Payments
     @confirm = new Confirm
-    @cards = new Cards
     @confirmView = new ConfirmView({model: @confirm})
     @addressManagerView = new AddressManagerView({model: @addressCK})
     @paymentView = new PaymentView({model: @payments})
     @orderDetailView = new OrderDetailView({model: @orderDetails})
     @order_data = JSON.parse(window.order_data)
+
+    amexSupported = @isPaymentMethodSupported @order_data.paymentMethods, 'amex.'
+    cybersourceSupported = @isPaymentMethodSupported @order_data.paymentMethods, 'cybersource.token'
+    if amexSupported or cybersourceSupported
+      @cards = new Cards
 
     @payments.set methods:@order_data.paymentMethods
 
@@ -45,9 +49,12 @@ module.exports = class CheckoutController extends ChaplinController
       console.log "here order details changeed"
       that.orderDetailView.render()
     @orderDetails.set @orderDetails.completeOrderModel @order_data, parseFloat(window.bits_balance)
-    @cards.set ({methods:@order_data.paymentMethods})
-    @cardsView = new CardsView(model: @cards)
-    @paymentView.cardsView = @cardsView
+    if @cards?
+      @cards.set(methods: @order_data.paymentMethods)
+      @cardsView = new CardsView(model: @cards)
+      @cardsView.amexSupported = amexSupported
+      @cardsView.cybersourceSupported = cybersourceSupported
+      @paymentView.cardsView = @cardsView
 
     @cards.on 'change', ->
       console.log "Cards model changed"
@@ -69,3 +76,9 @@ module.exports = class CheckoutController extends ChaplinController
       @publishEvent "hideAddress"
 
     @publishEvent 'showCardsManager'
+
+  isPaymentMethodSupported: (paymentMethods, identifier) ->
+    $ = Backbone.$
+    result = $.grep paymentMethods, (paymentMethod) ->
+      paymentMethod.identifier.indexOf(identifier) is 0
+    result.length isnt 0

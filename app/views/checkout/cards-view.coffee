@@ -11,6 +11,8 @@ module.exports = class CardsView extends View
   containerMethod: 'prepend'
   autoRender: yes
   template: template
+  amexSupported: yes
+  cybersourceSupported: yes
 
   initialize: ->
     super
@@ -27,7 +29,6 @@ module.exports = class CardsView extends View
 
   attach: ->
     super
-    console.log "CardsView#attach"
     @$el.find(".wb-card-form").validate
       groups:
         cardExpiration: 'expirationMonth expirationYear'
@@ -84,6 +85,8 @@ module.exports = class CardsView extends View
         city:
           required: true
           minlength: 2
+    @$el.find('li.wb-amex-card').hide() if not @amexSupported
+    @$el.find('li.wb-cybersource-card').hide() if not @cybersourceSupported
 
   showNewCardForm: (e) ->
     e.preventDefault()
