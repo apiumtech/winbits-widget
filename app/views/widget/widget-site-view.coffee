@@ -202,6 +202,7 @@ module.exports = class WidgetSiteView extends View
           warnings = resp.orderDetails? and (item for item in resp.orderDetails when item.warnings?)
           withWarnings = if warnings != null && warnings.length > 0  then true else false
           if resp.failedCartDetails? or withWarnings
+            util.hideAjaxIndicator()
             @publishEvent 'showResume', resp
           else
             @postToCheckoutApp resp
@@ -209,10 +210,11 @@ module.exports = class WidgetSiteView extends View
         error: (xhr) ->
           console.log xhr
           error = JSON.parse(xhr.responseText)
+          util.hideAjaxIndicator()
   #        alert error.meta.message
 
         complete: ->
-          util.hideAjaxIndicator()
+#          util.hideAjaxIndicator()
 
   placeFacebookFrame: (e) ->
     console.log "Facebook Frame disable!"
