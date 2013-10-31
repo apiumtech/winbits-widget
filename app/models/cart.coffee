@@ -95,6 +95,7 @@ module.exports = class Cart extends ChaplinModel
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
+      context: cartItem
       data: JSON.stringify(formData)
       headers:
         "Accept-Language": "es"
