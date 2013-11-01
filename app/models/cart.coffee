@@ -16,12 +16,10 @@ module.exports = class Cart extends ChaplinModel
   loadVirtualCart: ()->
     console.log "Loading virtual cart"
     @url = config.apiUrl + "/orders/virtual-cart-items.json"
-    that = @
     @fetch
       error: ->
         console.log "error",
       headers:{ 'Accept-Language': 'es', 'wb-vcart': util.getCookie(config.vcartTokenName)}
-      #headers:{ 'Accept-Language': 'es', "WB-Api-Token": util.getCookie(config.apiTokenName)}
       success: ->
         console.log "success load Virtual cart"
       complete: ->
@@ -142,14 +140,12 @@ module.exports = class Cart extends ChaplinModel
     @sync 'delete', @,
       headers:{ 'Accept-Language': 'es', "WB-Api-Token": util.getCookie(config.apiTokenName) }
       success: (data) ->
-        console.log ["V: User cart", data.response]
         that.set that.completeCartModel data.response
         that.closeCartIfEmpty()
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
 
       complete: ->
-        console.log "Request Completed!"
         util.hideAjaxIndicator()
 
   loadUserCart: ()->
@@ -185,7 +181,6 @@ module.exports = class Cart extends ChaplinModel
         "WB-Api-Token": util.getCookie(config.apiTokenName)
 
       success: (data) ->
-        console.log ["V: User cart", data.response]
         that.set that.completeCartModel data.response
         if $cartPanel
           $cartPanel.slideDown()
@@ -196,7 +191,6 @@ module.exports = class Cart extends ChaplinModel
         this.error.apply(this, arguments) if typeof this.error is 'function'
 
       complete: ->
-        console.log "Request Completed!"
         util.hideAjaxIndicator()
         this.complete.apply(this, arguments) if typeof this.complete is 'function'
 
@@ -219,7 +213,6 @@ module.exports = class Cart extends ChaplinModel
         "wb-vcart": util.getCookie(config.vcartTokenName)
 
       success: (data) ->
-        console.log ["V: Virtual cart", data.response]
         that.storeVirtualCart data.response
         that.set that.completeCartModel(data.response)
         if $cartPanel
@@ -231,7 +224,6 @@ module.exports = class Cart extends ChaplinModel
         this.error.apply(this, arguments) if typeof this.error is 'function'
 
       complete: ->
-        console.log "Request Completed!"
         util.hideAjaxIndicator()
         this.complete.apply(this, arguments) if typeof this.complete is 'function'
 
@@ -287,7 +279,6 @@ module.exports = class Cart extends ChaplinModel
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
 
       success: (data) ->
-        console.log ["Success: Update cart bits", data.response]
         @set 'bitsTotal', data.response.bitsTotal
         @publishEvent('cartBitsUpdated', data.response)
 

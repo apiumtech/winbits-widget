@@ -101,17 +101,13 @@ module.exports = class LoginUtil
         "Accept-Language": "es"
 
       success: (data) ->
-        console.log "logout.json Success!"
         that.applyLogout data.response
 
-      error: (xhr, textStatus, errorThrown) ->
-        console.log "logout.json Error!"
+      error: (xhr) ->
         util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "logout.json Completed!"
-
-
 
   applyLogout : (logoutData) ->
     mediator.proxy.post
@@ -163,7 +159,6 @@ module.exports = class LoginUtil
 
       success: (data) ->
         console.log "facebook.json success!"
-        console.log ["data", data]
         that.publishEvent 'applyLogin', data.response
         if 201 is data.meta.status
           console.log ["Facebook registered", data.response.profile]
@@ -171,6 +166,6 @@ module.exports = class LoginUtil
           that.publishEvent "showCompletaRegister", data.response.profile
 
 
-      error: (xhr, textStatus, errorThrown) ->
+      error: (xhr) ->
         console.log "facebook.json error!"
         util.showAjaxError(xhr.responseText)

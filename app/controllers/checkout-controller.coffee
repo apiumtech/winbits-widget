@@ -42,8 +42,8 @@ module.exports = class CheckoutController extends ChaplinController
     # @orderDetailView.render()
     @paymentView.render()
     @payments.on "change", ->
-        console.log "on change payment"
-        that.paymentView.render()
+      console.log "on change payment"
+      that.paymentView.render()
     console.log @order_data
     @orderDetails.on "change", ->
       console.log "here order details changeed"

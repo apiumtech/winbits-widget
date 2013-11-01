@@ -139,19 +139,15 @@ module.exports = class HomeController extends ChaplinController
             "WB-Api-Token":  util.getCookie(config.apiTokenName)
 
           success: (data) ->
-            console.log "info.json Success!"
             if options.success
               options.success.call({}, [data.response])
 
           error: (xhr, textStatus, errorThrown) ->
-            console.log "info.json Error!"
             error = JSON.parse(xhr.responseText)
-            console.log ['Error', error.meta.message]
             if options.error
               options.error.call({}, [error.response])
 
           complete: ->
-            console.log "info.json Completed!"
             if options.complete
               options.complete.call({}, [])
       else
@@ -182,19 +178,15 @@ module.exports = class HomeController extends ChaplinController
             "WB-Api-Token":  util.getCookie(config.apiTokenName)
 
           success: (data) ->
-            console.log "info.json Success!"
             if options.success
               options.success.call({}, [data.response])
 
           error: (xhr, textStatus, errorThrown) ->
-            console.log "info.json Error!"
             error = JSON.parse(xhr.responseText)
-            console.log ['Error', error.meta.message]
             if options.error
               options.error.call({}, [error.response])
 
           complete: ->
-            console.log "info.json Completed!"
             if options.complete
               options.complete.call({}, [])
       else
@@ -217,19 +209,15 @@ module.exports = class HomeController extends ChaplinController
           "WB-Api-Token":  util.getCookie(config.apiTokenName)
 
         success: (data) ->
-          console.log "info.json Success!"
           if options.success
             options.success.call({}, [data.response])
 
         error: (xhr) ->
-          console.log "info.json Error!"
           error = JSON.parse(xhr.responseText)
-          console.log ['Error', error.meta.message]
           if options.error
             options.error.call({}, [error.response])
 
         complete: ->
-          console.log "info.json Completed!"
           if options.complete
             options.complete.call({}, [])
 
@@ -252,17 +240,13 @@ module.exports = class HomeController extends ChaplinController
           "WB-Api-Token":  util.getCookie(config.apiTokenName)
 
         success: (data) ->
-          console.log "info.json Success!"
           options.success.call({}, [data.response]) if typeof options.success is 'function'
 
         error: (xhr) ->
-          console.log "info.json Error!"
           error = JSON.parse(xhr.responseText)
-          console.log ['Error', error.meta.message]
           options.error.call({}, [error.response]) if typeof options.error is 'function'
 
         complete: ->
-          console.log "info.json Completed!"
           options.complete.call({}, []) if typeof options.complete is 'function'
 
     window.Winbits.getWishListItems = () ->
@@ -279,14 +263,11 @@ module.exports = class HomeController extends ChaplinController
           "Accept-Language": "es"
           "WB-Api-Token":  util.getCookie(config.apiTokenName)
         success: (data) ->
-          console.log "info.json Success!"
           options.success.call({}, [data.response]) if typeof options.success is 'function'
         error: (xhr) ->
-          console.log "info.json Error!"
           error = JSON.parse(xhr.responseText)
           options.error.call({}, [error.response]) if typeof options.error is 'function'
         complete: ->
-          console.log "info.json Completed!"
           options.complete.call({}, []) if typeof options.complete is 'function'
 
     window.Winbits.addToWishList = (options) ->
@@ -307,19 +288,15 @@ module.exports = class HomeController extends ChaplinController
           "WB-Api-Token":  util.getCookie(config.apiTokenName)
 
         success: (data) ->
-          console.log "info.json Success!"
           if options.success
             options.success.call({}, [data.response])
 
         error: (xhr, textStatus, errorThrown) ->
-          console.log "info.json Error!"
           error = JSON.parse(xhr.responseText)
-          console.log ['Error', error.meta.message]
           if options.error
             options.error.call({}, [error.response])
 
         complete: ->
-          console.log "info.json Completed!"
           if options.complete
             options.complete.call({}, [])
 
@@ -339,19 +316,15 @@ module.exports = class HomeController extends ChaplinController
           "WB-Api-Token":  util.getCookie(config.apiTokenName)
 
         success: (data) ->
-          console.log "info.json Success!"
           if options.success
             options.success.call({}, [data.response])
 
-        error: (xhr, textStatus, errorThrown) ->
-          console.log "info.json Error!"
+        error: (xhr) ->
           error = JSON.parse(xhr.responseText)
-          console.log ['Error', error.meta.message]
           if options.error
             options.error.call({}, [error.response])
 
         complete: ->
-          console.log "info.json Completed!"
           if options.complete
             options.complete.call({}, [])
 
@@ -372,19 +345,15 @@ module.exports = class HomeController extends ChaplinController
           "WB-Api-Token":  util.getCookie(config.apiTokenName)
 
         success: (data) ->
-          console.log "info.json Success!"
           if options.success
             options.success.call({}, [data.response])
 
         error: (xhr, textStatus, errorThrown) ->
-          console.log "info.json Error!"
           error = JSON.parse(xhr.responseText)
-          console.log ['Error', error.meta.message]
           if options.error
             options.error.call({}, [error.response])
 
         complete: ->
-          console.log "info.json Completed!"
           if options.complete
             options.complete.call({}, [])
 
@@ -404,18 +373,14 @@ module.exports = class HomeController extends ChaplinController
           "WB-Api-Token":  util.getCookie(config.apiTokenName)
 
         success: (data) ->
-          console.log "info.json Success!"
           if options.success
             options.success.call({}, [data.response])
 
         error: (xhr, textStatus, errorThrown) ->
-          console.log "info.json Error!"
           error = JSON.parse(xhr.responseText)
-          console.log ['Error', error.meta.message]
           if options.error
             options.error.call({}, [error.response])
 
         complete: ->
-          console.log "info.json Completed!"
           if options.complete
             options.complete.call({}, [])
