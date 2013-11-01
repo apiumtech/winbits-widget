@@ -47,8 +47,7 @@ module.exports = class Cart extends ChaplinModel
         mediator.proxy.post
           action: "storeVirtualCart"
           params: ['[]']
-        if mediator.flags.autoCheckout
-          @publishEvent 'doCheckout'
+        that.publishEvent 'doCheckout' if mediator.flags.autoCheckout
 
       error: (xhr) ->
         util.showAjaxError(xhr.responseText)

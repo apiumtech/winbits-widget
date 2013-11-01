@@ -92,7 +92,7 @@ module.exports = class CartView extends View
 
     @$el.find('.wb-continue-shopping-link').click @closeCart
     @$el.find('.wb-checkout-btn').click (e)->
-      e.preventDefault()
+      that.closeCart(e)
       if mediator.flags.loggedIn
         that.publishEvent 'doCheckout'
       else
