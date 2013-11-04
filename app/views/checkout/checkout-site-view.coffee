@@ -20,6 +20,9 @@ module.exports = class CheckoutSiteView extends View
     @delegate 'click', '.close-modal', @closeModal
     @delegate 'click', 'i.close-icon', @closeModal
     @delegate 'click', '#wbi-winbits-logo', @onWinbitsLogoClick
+    @delegate 'click', '.expire-close-modal', @closeExpireOrderModal
+    @delegate 'click', '#expire-close-login', @closeExpireOrderModal
+
 
 #    Backbone.$.validator.addMethod "cyberSourceCard", (value, element) ->
 #      @optional(element) or util.getCreditCardType(value) in ['visa', 'mastercard']
@@ -71,6 +74,11 @@ module.exports = class CheckoutSiteView extends View
       that.updateCheckoutTimer($timer, $interval)
     , 1000
 
+
+  closeExpireOrderModal: () ->
+    @$('.modal').modal 'hide'
+    util.redirectToVertical(window.verticalUrl)
+
   updateCheckoutTimer: ($timer, $interval) ->
     minutes = $timer.data('minutes')
     minutes = if minutes? then minutes else 30
@@ -78,11 +86,8 @@ module.exports = class CheckoutSiteView extends View
     seconds = seconds - 1
     if minutes is 0 and seconds < 0
       console.log('expire order')
+      Backbone.$('#wbi-expire-modal').modal('show')
       clearInterval $interval
-      util.showError("Tu orden ha expirado")
-      setInterval () ->
-        util.redirectToVertical(window.verticalUrl)
-      , 3000
     else
       if seconds < 0
         seconds = 59
