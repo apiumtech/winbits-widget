@@ -250,7 +250,7 @@ module.exports = class WidgetSiteView extends View
     $chkForm.append w$('<input type="hidden" name="order_data"/>').val(JSON.stringify(order))
     $chkForm.append w$('<input type="hidden" name="bits_balance"/>').val(mediator.profile.bitsBalance)
     $chkForm.append w$('<input type="hidden" name="vertical_id"/>').val(config.verticalId)
-    $chkForm.append w$('<input type="hidden" name="vertical_url"/>').val(window.location.href)
+    $chkForm.append w$('<input type="hidden" name="vertical_url"/>').val(order.vertical.url)
 
     @$el.append $chkForm
     $chkForm.submit()
