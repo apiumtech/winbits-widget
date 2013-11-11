@@ -25,7 +25,7 @@ module.exports = class CheckoutSiteView extends View
     @delegate "click" , ".delete-address", @deleteAddress
     @delegate "click" , "#btnContinuar", @addressContinuar
     @delegate "click" , ".shippingItem", @selectShipping
-    @delegate 'keyup', '.zipCode', @findZipcode
+    @delegate 'textchange', '.zipCode', @findZipcode
     @delegate 'change', 'select.zipCodeInfo', @changeZipCodeInfo
 
   deleteAddress: (e)->

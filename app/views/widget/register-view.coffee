@@ -22,7 +22,7 @@ module.exports = class RegisterView extends View
 
     @subscribeEvent "showCompletaRegister", @showCompletaRegister
     @subscribeEvent 'showRegisterByReferredCode', @showRegisterByReferredCode
-    @delegate 'keyup', '.zipCode', @findZipcode
+    @delegate 'textchange', '.zipCode', @findZipcode
 
   attach: ->
     super

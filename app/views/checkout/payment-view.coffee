@@ -23,7 +23,7 @@ module.exports = class PaymentView extends View
     @delegate "click", "#spanCheckboxAsPrincipal", @selectCheckboxOption
     @delegate "click", ".wb-submit-card-payment", @payWithCard
     @delegate 'click', '#wbi-card-token-payment-continue-btn', @onContinueWithCardTokenBtnClick
-    @delegate "keyup", ".wb-card-number-input", @showCardType
+    @delegate "textchange", ".wb-card-number-input", @showCardType
     @delegate "blur", ".wb-card-number-input", @showCardType
 
     @subscribeEvent "showBitsPayment", @showBitsPayment

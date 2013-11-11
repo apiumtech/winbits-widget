@@ -24,7 +24,7 @@ module.exports = class ShippingAddressView extends View
     @delegate "click" , ".btnUpdate", @addressUpdate
     @delegate "click" , ".edit-address", @editAddress
     @delegate "click" , ".delete-address", @deleteAddress
-    @delegate 'keyup', '.zipCode', @findZipcode
+    @delegate 'textchange', '.zipCode', @findZipcode
     @delegate 'change', 'select.zipCodeInfo', @changeZipCodeInfo
 
   handlerModelReady: ->

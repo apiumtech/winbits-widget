@@ -18,7 +18,6 @@ module.exports = class ProfileView extends View
     @delegate 'click', '#updateBtnProfile', @saveProfile
     @delegate 'click', '#editBtnProfile', @editProfile
     @delegate 'click', '.linkBack', @cancelEditing
-    @delegate 'keyup', '.zipCode', @findZipcode
     @delegate 'click', '#attachTwitterAccountOff', @viewAttachTwitterAccount
     @delegate 'click', '#attachFacebookAccountOff', @viewAttachFacebookAccount
     @delegate 'click', '#attachTwitterAccountOn', @viewDetachTwitterAccount
@@ -26,6 +25,8 @@ module.exports = class ProfileView extends View
     @delegate 'click', '#wbi-change-password-link', @changePassword
     @delegate 'click', '#wbi-show-cards-manager-link', @showCardsManager
     @delegate 'submit', '#wbi-change-password-form', @requestPasswordChange
+    @delegate 'textchange', '.zipCode', @findZipcode
+    @delegate 'change', 'select.zipCodeInfo', @changeZipCodeInfo
 
     @subscribeEvent 'updateSocialAccountsStatus', @updateSocialAccountsStatus
 
@@ -114,14 +115,6 @@ module.exports = class ProfileView extends View
     gender = @model.get 'gender'
     if gender
       @$('input.' + gender).attr('checked', 'checked').next().addClass('spanSelected')
-
-
-  findZipcode: (e)->
-    e.preventDefault()
-    console.log "find zipCode"
-    $currentTarget = @$(e.currentTarget)
-    $slt = @$el.find("#wbi-profile-zip-code-info")
-    zipCode(Backbone.$).find $currentTarget.val(), $slt
 
   viewAttachTwitterAccount: (e)->
     that = @
@@ -347,3 +340,29 @@ module.exports = class ProfileView extends View
       $cardsManagerContainer.parents().show()
       $cardsManagerContainer.show()
       @publishEvent 'showCardsManager'
+
+  findZipcode: (event)->
+    event.preventDefault()
+    console.log "find zipCode"
+    $currentTarget = @$(event.currentTarget)
+    $slt = $currentTarget.parent().find(".select")
+    zipCode(Backbone.$).find $currentTarget.val(), $slt
+
+  changeZipCodeInfo: (e) ->
+    $ = Backbone.$
+    $select = $(e.currentTarget)
+    zipCodeInfoId = $select.val()
+    $form = $select.closest('form')
+    $fields = $form.find('[name=location], [name=county], [name=state]')
+    if !zipCodeInfoId
+      $fields.show().val('').attr('readonly', '').filter('[name=location]').hide()
+    else if zipCodeInfoId is '-1'
+      $fields.show().removeAttr('readonly')
+    else
+      $fields.show().attr('readonly', '').filter('[name=location]').hide()
+    $option = $select.children('[value=' + zipCodeInfoId + ']')
+    zipCodeInfo = $option.data 'zip-code-info'
+    if zipCodeInfo
+      $form.find('input.zipCode').val zipCodeInfo.zipCode
+      $fields.filter('[name=county]').val zipCodeInfo.county
+      $fields.filter('[name=state]').val zipCodeInfo.state

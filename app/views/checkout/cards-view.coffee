@@ -24,7 +24,7 @@ module.exports = class CardsView extends View
     @delegate "submit" , "#wbi-edit-card-form", @submitEditCardForm
     @delegate "click", ".wb-delete-card-link", @confirmDeleteCard
     @delegate "click", ".wb-card-list-item", @selectCard
-    @delegate "keyup", ".wb-card-number-input", @showCardType
+    @delegate "textchange", ".wb-card-number-input", @showCardType
     @delegate "blur", ".wb-card-number-input", @showCardType
 
   attach: ->
