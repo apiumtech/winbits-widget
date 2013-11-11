@@ -189,11 +189,6 @@ module.exports = class CardsView extends View
       success: (data) ->
         console.log ["Update card success!", data]
         @that.publishEvent 'showCardsManager'
-        #cards = @that.model.get 'cards'
-        #currentCardIndex = @$form.data('current-card-index')
-        #cards.splice(currentCardIndex, 1, cardInfo: data.response)
-        #@that.showCardsList()
-        #@that.render()
 
       error: (xhr) ->
         util.showAjaxError(xhr.responseText)

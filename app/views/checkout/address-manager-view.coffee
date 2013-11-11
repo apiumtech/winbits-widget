@@ -33,17 +33,19 @@ module.exports = class CheckoutSiteView extends View
     $currentTarget = @$(e.currentTarget)
     that = @
     id =  $currentTarget.attr("id").split("-")[1]
-    util.showAjaxIndicator()
-    @model.sync 'delete', @model,
-      url: config.apiUrl + "/affiliation/shipping-addresses/" + id + '.json',
-      error: ->
-        console.log "error",
-      headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
-      success: ->
-        console.log "success"
-        that.model.actualiza()
-      complete: ->
-        util.hideAjaxIndicator()
+    answer = confirm '¿En verdad quieres eliminar esta dirección de envío?'
+    if answer
+      util.showAjaxIndicator('Eliminando dirección de envío...')
+      @model.sync 'delete', @model,
+        url: config.apiUrl + "/affiliation/shipping-addresses/" + id + '.json',
+        error: ->
+          console.log "error",
+        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
+        success: ->
+          console.log "success"
+          that.model.actualiza()
+        complete: ->
+          util.hideAjaxIndicator()
 
   selectShipping: (e)->
     $currentTarget = @$(e.currentTarget)

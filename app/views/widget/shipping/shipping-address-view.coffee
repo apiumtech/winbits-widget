@@ -35,17 +35,19 @@ module.exports = class ShippingAddressView extends View
     $currentTarget = @$(e.currentTarget)
     that = @
     id =  $currentTarget.attr("id").split("-")[1]
-    util.showAjaxIndicator()
-    @model.sync 'delete', @model,
-      url: config.apiUrl + "/affiliation/shipping-addresses/" + id,
-      error: ->
-        console.log "error",
-      headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
-      success: ->
-        console.log "success"
-        that.publishEvent 'showShippingAddresses'
-      complete: ->
-        util.hideAjaxIndicator()
+    answer = confirm '¿En verdad quieres eliminar esta dirección de envío?'
+    if answer
+      util.showAjaxIndicator('Eliminando dirección de envío...')
+      @model.sync 'delete', @model,
+        url: config.apiUrl + "/affiliation/shipping-addresses/" + id,
+        error: ->
+          console.log "error",
+        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
+        success: ->
+          console.log "success"
+          that.publishEvent 'showShippingAddresses'
+        complete: ->
+          util.hideAjaxIndicator()
 
   editAddress: (e)->
     e.principal
