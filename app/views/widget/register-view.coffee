@@ -103,11 +103,14 @@ module.exports = class RegisterView extends View
     that = @
     $form =  @$el.find("#complete-register-form")
 
-    day = util.padLeft($form.find(".day-input").val(), 2, '0')
-    month = util.padLeft($form.find(".month-input").val(), 2, '0')
-    year = util.padLeft($form.find(".year-input").val(), 2, '0')
+    day = $form.find(".day-input").val()
+    month = $form.find(".month-input").val()
+    year = $form.find(".year-input").val()
     birthday = ''
     if day or month or year
+      day = util.padLeft(day, 2, '0')
+      month = util.padLeft(month, 2, '0')
+      year = util.padLeft(year, 2, '0')
       currentYear = parseInt(moment().format('YYYY').slice(-2))
       birthday = ((if year > currentYear then "19" else "20") + year + "-" + month + "-" + day)
       $form.find("[name=birthdate]").val(birthday)
@@ -139,9 +142,9 @@ module.exports = class RegisterView extends View
         success: (data) ->
           console.log ["Profile updated", data.response]
           Backbone.$('.modal').modal 'hide'
-          that.publishEvent "setProfile", data.response
+          that.publishEvent "setProfile", data.response.profile
 
-        error: (xhr, textStatus, errorThrown) ->
+        error: (xhr) ->
           util.showError("Error while updating profile")
 
         complete: ->

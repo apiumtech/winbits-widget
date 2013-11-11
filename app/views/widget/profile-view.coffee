@@ -13,10 +13,6 @@ module.exports = class ProfileView extends View
   container: '#headerProfile'
   template: template
 
-  render: ->
-    super
-
-
   initialize: ->
     super
     @delegate 'click', '#updateBtnProfile', @saveProfile

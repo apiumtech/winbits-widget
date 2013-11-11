@@ -209,7 +209,10 @@ module.exports = class WidgetSiteView extends View
     vendor.stickyFooter ".widgetWinbitsFooter"
 
     Backbone.$.validator.addMethod 'validDate', (value) ->
-      moment(value, 'YYYY-MM-DD').isValid()
+      if value
+        moment(value, 'YYYY-MM-DD').isValid()
+      else
+        true
     , "La fecha debe de ser válida"
 
     @$el.find('.wb-vertical-' + config.verticalId).addClass('current');
