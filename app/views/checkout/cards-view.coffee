@@ -211,6 +211,7 @@ module.exports = class CardsView extends View
     cardInfo = @model.get('cards')[cardIndex].cardInfo
     answer = confirm '¿En verdad quieres eliminar la tarjeta ' + cardInfo.cardData.accountNumber + '?'
     if answer
+      util.showAjaxIndicator('Eliminando tarjeta...')
       $.ajax config.apiUrl + "/orders/card-subscription/" + cardInfo.subscriptionId + ".json",
         type: "DELETE"
         dataType: "json"
@@ -229,7 +230,7 @@ module.exports = class CardsView extends View
           util.showAjaxError(xhr.responseText)
 
         complete: ->
-          console.log "Request Completed!"
+          util.hideAjaxIndicator()
 
   selectCard: (e) ->
     e.preventDefault()
