@@ -44,7 +44,7 @@ module.exports = class LoginUtil
             that.publishEvent 'setRegisterFb', data.response.profile
             that.publishEvent "showCompletaRegister", data.response
 
-        error: (xhr, textStatus, errorThrown) ->
+        error: (xhr) ->
           console.log "express-login.json Error!"
           util.showAjaxError(xhr.responseText)
 
