@@ -6,7 +6,6 @@ module.exports = class Profile extends ChaplinModel
     super
     @url = config.apiUrl + "/affiliation/profile.json"
     @subscribeEvent 'setProfile', @set
-    #@fetch success: (collection, response) ->
-      #collection.resolve()
+
   parse: (response) ->
     response

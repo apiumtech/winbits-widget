@@ -189,3 +189,8 @@ module.exports =
       else result = "amex"  if Winbits.amexRegExp.test(cardNumber)
 
       result
+
+  padLeft: (str, length, fillChar) ->
+    fillChar = fillChar or ' '
+    fillStr = new Array(length + 1).join(fillChar)
+    (fillStr + str).slice(length * -1)
