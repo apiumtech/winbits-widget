@@ -103,14 +103,14 @@ module.exports = class RegisterView extends View
     that = @
     $form =  @$el.find("#complete-register-form")
 
-    day = $form.find(".day-input").val()
-    month = $form.find(".month-input").val()
-    year = $form.find(".year-input").val()
+    day = util.padLeft($form.find(".day-input").val(), 2, '0')
+    month = util.padLeft($form.find(".month-input").val(), 2, '0')
+    year = util.padLeft($form.find(".year-input").val(), 2, '0')
     birthday = ''
     if day or month or year
-      birthday = ((if year > 13 then "19" else "20") + year + "-" + month + "-" + day)
+      currentYear = parseInt(moment().format('YYYY').slice(-2))
+      birthday = ((if year > currentYear then "19" else "20") + year + "-" + month + "-" + day)
       $form.find("[name=birthdate]").val(birthday)
-      console.log ['birthdate 1', $form.find("[name=birthdate]").val()]
 
     gender = $form.find("[name=gender][checked]").val()
     gender = if gender is 'H' then 'male' else 'female'
