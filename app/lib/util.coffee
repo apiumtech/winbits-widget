@@ -212,10 +212,10 @@ module.exports =
     year
 
   getDateValue: ($form, selector) ->
-    day = $form.find(selector).val()
-    if day
-      day = @padLeft(day, 2, '0')
-    day
+    value = $form.find(selector).val()
+    if value
+      value = @padLeft(day, 2, '0')
+    value
 
   getGender: ($form) ->
     gender = $form.find("[name=gender][checked]").val()
