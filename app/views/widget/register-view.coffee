@@ -19,6 +19,7 @@ module.exports = class RegisterView extends View
     @delegate "click", "#registerStep2", @registerStep2
     @delegate 'click', '#register-by-facebook', @doRegisterWithFacebook
     @delegate 'click', "#withAccountLink", @withAccountLink
+    @delegate 'click', ".wb-close-complete-profile-layer-link", @closeCompleteRegisterModal
     @delegate 'textchange', '.zipCode', @findZipcode
     @delegate 'change', 'select.zipCodeInfo', @changeZipCodeInfo
 
@@ -190,6 +191,10 @@ module.exports = class RegisterView extends View
 
   withAccountLink: (e) ->
     @publishEvent 'showLogin', e
+
+  closeCompleteRegisterModal: (e) ->
+    e.preventDefault()
+    Backbone.$(e.currentTarget).closest('#register-modal').modal('hide')
 
   findZipcode: (event)->
     event.preventDefault()

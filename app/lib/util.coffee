@@ -214,7 +214,7 @@ module.exports =
   getDateValue: ($form, selector) ->
     value = $form.find(selector).val()
     if value
-      value = @padLeft(day, 2, '0')
+      value = @padLeft(value, 2, '0')
     value
 
   getGender: ($form) ->
