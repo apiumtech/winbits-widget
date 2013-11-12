@@ -39,17 +39,10 @@ module.exports = class ProfileView extends View
     e.stopPropagation()
     console.log "ProfileView#saveProfile"
     $form = @$el.find("#wbi-update-profile-form")
-    day = util.padLeft($form.find(".day-input").val(), 2, '0')
-    month = util.padLeft($form.find(".month-input").val(), 2, '0')
-    year = util.padLeft($form.find(".year-input").val(), 2, '0')
 
-    gender = $form.find("[name=gender][checked]").val()
-    gender = if gender is 'H' then 'male' else 'female'
-
-    if day or month or year
-      currentYear = parseInt(moment().format('YYYY').slice(-2))
-      birthday = ((if year > currentYear then "19" else "20") + year + "-" + month + "-" + day)
-      $form.find("[name=birthdate]").val birthday
+    birthday = util.getBirthday($form)
+    $form.find("[name=birthdate]").val(birthday)
+    gender = util.getGender($form)
 
     if $form.valid()
       formData = util.serializeForm($form)
@@ -75,6 +68,11 @@ module.exports = class ProfileView extends View
     super
     @$el.find("#wbi-update-profile-form").validate
       ignore: ""
+      errorPlacement: ($error, $element) ->
+        if $element.attr("name") in ['zipCodeInfo']
+          $error.appendTo $element.parent()
+        else
+          $error.insertAfter $element
       rules:
         name:
           required: true
@@ -363,7 +361,6 @@ module.exports = class ProfileView extends View
     zipCodeInfoId = $select.val()
     $form = $select.closest('form')
     $fields = $form.find('[name=location], [name=county], [name=state]')
-    console.log ['FIELDS', $fields, zipCodeInfoId]
     if !zipCodeInfoId
       $fields.show().val('').attr('readonly', '').filter('[name=location]').hide()
     else if zipCodeInfoId is '-1'

@@ -194,3 +194,31 @@ module.exports =
     fillChar = fillChar or ' '
     fillStr = new Array(length + 1).join(fillChar)
     (fillStr + str).slice(length * -1)
+
+  getBirthday: ($form) ->
+    @getYear($form) + '-' + @getMonth($form) + '-' + @getDay($form)
+
+  getDay: ($form) ->
+    @getDateValue($form, ".day-input") or ''
+
+  getMonth: ($form) ->
+    @getDateValue($form, ".month-input") or ''
+
+  getYear: ($form) ->
+    year = @getDateValue($form, ".year-input") or ''
+    if year.length
+      currentYear = parseInt(moment().format('YYYY').slice(-2))
+      year =  (if year > currentYear then "19" else "20") + year
+    year
+
+  getDateValue: ($form, selector) ->
+    day = $form.find(selector).val()
+    if day
+      day = @padLeft(day, 2, '0')
+    day
+
+  getGender: ($form) ->
+    gender = $form.find("[name=gender][checked]").val()
+    if gender
+      gender = if gender is 'H' then 'male' else 'female'
+    gender

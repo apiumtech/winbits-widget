@@ -19,10 +19,11 @@ module.exports = class RegisterView extends View
     @delegate "click", "#registerStep2", @registerStep2
     @delegate 'click', '#register-by-facebook', @doRegisterWithFacebook
     @delegate 'click', "#withAccountLink", @withAccountLink
+    @delegate 'textchange', '.zipCode', @findZipcode
+    @delegate 'change', 'select.zipCodeInfo', @changeZipCodeInfo
 
     @subscribeEvent "showCompletaRegister", @showCompletaRegister
     @subscribeEvent 'showRegisterByReferredCode', @showRegisterByReferredCode
-    @delegate 'textchange', '.zipCode', @findZipcode
 
   attach: ->
     super
@@ -31,6 +32,11 @@ module.exports = class RegisterView extends View
 
     @$el.find("form#complete-register-form").validate
       ignore: ''
+      errorPlacement: ($error, $element) ->
+        if $element.attr("name") in ['zipCodeInfo']
+          $error.appendTo $element.parent()
+        else
+          $error.insertAfter $element
       rules:
         name:
           minlength: 2
@@ -45,7 +51,13 @@ module.exports = class RegisterView extends View
         birthdate:
           dateISO: true
           validDate: true
-
+        zipCodeInfo:
+          required: (e) ->
+            $form = Backbone.$(e).closest 'form'
+            $form.find('[name=location]').is(':hidden')
+        location:
+          required: '[name=location]:visible'
+          minlength: 2
 
     $select = Backbone.$('.select')
     $zipCode = Backbone.$('.zipCode')
@@ -89,7 +101,7 @@ module.exports = class RegisterView extends View
           w$('.modal').modal 'hide'
           that.publishEvent "showConfirmation"
 
-        error: (xhr, textStatus, errorThrown) ->
+        error: (xhr) ->
           console.log xhr
           error = JSON.parse(xhr.responseText)
           that.renderRegisterFormErrors $form, error
@@ -100,40 +112,29 @@ module.exports = class RegisterView extends View
 
   registerStep2: (e)->
     e.preventDefault()
-    that = @
     $form =  @$el.find("#complete-register-form")
 
-    day = $form.find(".day-input").val()
-    month = $form.find(".month-input").val()
-    year = $form.find(".year-input").val()
-    birthday = ''
-    if day or month or year
-      day = util.padLeft(day, 2, '0')
-      month = util.padLeft(month, 2, '0')
-      year = util.padLeft(year, 2, '0')
-      currentYear = parseInt(moment().format('YYYY').slice(-2))
-      birthday = ((if year > currentYear then "19" else "20") + year + "-" + month + "-" + day)
-      $form.find("[name=birthdate]").val(birthday)
-
-    gender = $form.find("[name=gender][checked]").val()
-    gender = if gender is 'H' then 'male' else 'female'
-    location = $form.find("[name=zipCodeInfoExtra]").val()
+    birthday = util.getBirthday($form)
+    $form.find("[name=birthdate]").val(birthday)
+    gender = util.getGender($form)
 
     if $form.valid()
-      formData = verticalId: config.verticalId
-      formData = util.serializeForm($form, formData)
+      formData = util.serializeForm($form)
+      if formData.zipCodeInfo and formData.zipCodeInfo > 0
+        formData.zipCodeInfo  = {id: formData.zipCodeInfo}
+      else
+        delete formData.zipCodeInfo
       formData.gender = gender
-      formData.location = location
 
-      Backbone.$(e.currentTarget).val('Guardando...').prop('disabled', true)
+      $saveButton = Backbone.$(e.currentTarget).val('Guardando...').prop('disabled', true)
       Backbone.$.ajax config.apiUrl + "/affiliation/profile.json",
         type: "PUT"
         contentType: "application/json"
         dataType: "json"
         data: JSON.stringify(formData)
-        context: $form
+        context: { view: @, $form: $form, $saveButton: $saveButton }
         beforeSend: ->
-          util.validateForm this
+          util.validateForm @$form
 
         headers:
           "Accept-Language": "es"
@@ -142,13 +143,13 @@ module.exports = class RegisterView extends View
         success: (data) ->
           console.log ["Profile updated", data.response]
           Backbone.$('.modal').modal 'hide'
-          that.publishEvent "setProfile", data.response.profile
+          @view.publishEvent "setProfile", data.response.profile
 
         error: (xhr) ->
           util.showError("Error while updating profile")
 
         complete: ->
-          this.find('#registerStep2').val('Guardar').prop('disabled', false)
+          @$saveButton.val('Guardar').prop('disabled', false)
 
   renderRegisterFormErrors: ($form, error) ->
     code = error.code or error.meta.code
@@ -196,3 +197,22 @@ module.exports = class RegisterView extends View
     $currentTarget = @$(event.currentTarget)
     $slt = $currentTarget.parent().find(".select")
     zipCode(Backbone.$).find $currentTarget.val(), $slt
+
+  changeZipCodeInfo: (e) ->
+    $ = Backbone.$
+    $select = $(e.currentTarget)
+    zipCodeInfoId = $select.val()
+    $form = $select.closest('form')
+    $fields = $form.find('[name=location], [name=county], [name=state]')
+    if !zipCodeInfoId
+      $fields.show().val('').attr('readonly', '').filter('[name=location]').hide()
+    else if zipCodeInfoId is '-1'
+      $fields.show().removeAttr('readonly')
+    else
+      $fields.show().attr('readonly', '').filter('[name=location]').hide()
+    $option = $select.children('[value=' + zipCodeInfoId + ']')
+    zipCodeInfo = $option.data 'zip-code-info'
+    if zipCodeInfo
+      $form.find('input.zipCode').val zipCodeInfo.zipCode
+      $fields.filter('[name=county]').val zipCodeInfo.county
+      $fields.filter('[name=state]').val zipCodeInfo.state
