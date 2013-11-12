@@ -45,7 +45,6 @@ module.exports = class ProfileView extends View
 
     gender = $form.find("[name=gender][checked]").val()
     gender = if gender is 'H' then 'male' else 'female'
-    location = $form.find("[name=zipCodeInfoExtra]").val()
 
     if day or month or year
       currentYear = parseInt(moment().format('YYYY').slice(-2))
@@ -53,19 +52,22 @@ module.exports = class ProfileView extends View
       $form.find("[name=birthdate]").val birthday
 
     if $form.valid()
-      button = @$el.find('#updateBtnProfile').prop 'disabled', true
-      formData = { verticalId: config.verticalId }
-      formData = util.serializeForm($form, formData)
+      formData = util.serializeForm($form)
+      if formData.zipCodeInfo and formData.zipCodeInfo > 0
+        formData.zipCodeInfo  = {"id": formData.zipCodeInfo}
       formData.gender = gender
-      formData.location = location
-      @model.set formData
-      @model.sync 'update', @model,
-        context: {$saveButton: button}
-        error: ->
-          console.log "error",
+      button = @$el.find('#updateBtnProfile').prop 'disabled', true
+      Backbone.$.ajax @model.url,
+        type: "PUT"
+        contentType: "application/json"
+        dataType: "json"
+        data: JSON.stringify(formData)
+        context: {model: @model, $saveButton: button}
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
-        success: ->
-          console.log "success"
+        error: ->
+          console.log "error"
+        success: (data) ->
+          @model.set data.response.profile
         complete: ->
           this.$saveButton.prop 'disabled', false
 
@@ -88,6 +90,13 @@ module.exports = class ProfileView extends View
         birthdate:
           dateISO: true
           validDate: true
+        zipCodeInfo:
+          required: (e) ->
+            $form = Backbone.$(e).closest 'form'
+            $form.find('[name=location]').is(':hidden')
+        location:
+          required: '[name=location]:visible'
+          minlength: 2
 
     @$el.find('form#wbi-change-password-form').validate rules:
       password:
@@ -354,6 +363,7 @@ module.exports = class ProfileView extends View
     zipCodeInfoId = $select.val()
     $form = $select.closest('form')
     $fields = $form.find('[name=location], [name=county], [name=state]')
+    console.log ['FIELDS', $fields, zipCodeInfoId]
     if !zipCodeInfoId
       $fields.show().val('').attr('readonly', '').filter('[name=location]').hide()
     else if zipCodeInfoId is '-1'
