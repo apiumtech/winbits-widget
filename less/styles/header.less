@@ -1,3 +1,6 @@
+main {
+  margin: 130px auto 0 auto;
+}
 .widgetWinbitsHeader {
 	min-width: @widthLayout;
 	position: fixed;
@@ -44,7 +47,7 @@
 			}
 			input[type="text"]{
 				border: none;
-				font-size: 10px;
+				font-size: 11px;
 				margin-right: 5px;
 				padding: 3px 10px;
 				width: 150px;
@@ -54,30 +57,37 @@
 			}
 		}
 		.knowMoreMin {
-			//display: none;
+      margin-left: 510px;
 			padding: 5px 0 0;
+      position: relative;
 			.openFolder {
-				margin-left: -10px;
 				position: absolute;
-				left: 50%;
+				left: -40px;
 			}
 			a {
 				margin-left: 5px;
 			}
+      .language {
+        left: -510px;
+        position: absolute;
+        top: 0;
+      }
 		}
 	}
 	.mainHeader {
 		background: lighten(@black, 97%);
 		position: relative;
+    //.box-shadow(1px 1px 2px rgba(0,0,0,0.1));
 		.wrapper {
+      padding-top: 10px;
 			width: 960px;
 		}
-		.language {
+		/*.language {
 			margin: 5px 0 10px 0;
 			.selectContainer {
 				margin: 10px 0 0 10px;
 			}
-		}
+		}*/
 		nav {
 			float: left;
 			.no-list;
@@ -130,7 +140,7 @@
 			}
 			.editBtn {
 				bottom: 10px;
-				font-size: 10px;
+				font-size: 11px;
 				position: absolute;
 				width: 80px;
 				.font('HelveticaNeueBold');
@@ -147,7 +157,7 @@
 				display: none;
 				font-size: 12px;
 				left: 0;
-				top: 102px;
+				top: 70px;
 				width: 100%;
 				//width: 960px;
 				.box-shadow(0 5px 5px rgba(0,0,0,0.3));
@@ -188,7 +198,7 @@
 					}
 					label {
 						color: lighten(@black, 50%);
-						font-size: 10px;
+						font-size: 11px;
 						padding-top: 5px;
 						.inline-block(61px, top);
 					}
@@ -263,7 +273,7 @@
 						}
 					}
 					span.errorInputError {
-						font-size: 10px;
+						font-size: 11px;
 					}
 				}
 				.miDireccion {
@@ -302,7 +312,7 @@
 					.btn {
 						background: @red;
 						color: @white;
-						font-size: 10px;
+						font-size: 11px;
 						.font('HelveticaNeueBold');
 						width: 100px;
 						&:hover{
@@ -312,13 +322,13 @@
 				}
 				.triangle {
 					left: 50%;
-					margin: -19px 0 0 175px;
+					margin: -19px 0 0 198px;
 					position: absolute;
 				}
 				.mySuscription {
 					font-size: 11px;
 					a {
-						font-size: 9px;
+						font-size: 11px;
 						margin-left: 5px;
 					}
 					 ul {
@@ -343,12 +353,12 @@
 			.miCarritoDiv {
 				display: none;
 				font-size: 12px;
-				top: 102px;
+				top: 60px;
 				left: 0;
 				width: 100%;
 				.triangle2 {
 					left: 50%;
-					margin: -19px 0 0 300px;
+					margin: -9px 0 0 300px;
 					position: absolute;
 				}
 				.wrapper {
@@ -370,7 +380,7 @@
 						}
 					}
 					h3 {
-						font-size: 10px;
+						font-size: 11px;
 						span {
 							font-size: 12px;
 							.font('OmnesMedium');
@@ -392,6 +402,30 @@
 						margin-top: 10px;
 						overflow: hidden;
 					}
+          .carritoContent {
+            .selectContainer {
+              margin: 0 0 0 10px;
+            }
+            .selectContent {
+              font-size: 11px;
+              margin: 0;
+              padding: 1px 10px 1px 1px;
+              text-align: center;
+              width: 15px;
+            }
+            .selectTrigger {
+              right: 3px;
+              top: 5px;
+            }
+            .selectOptions {
+              width: 25px !important;
+              li {
+                display: block;
+                padding: 2px;
+                text-align: center;
+              }
+            }
+          }
 					.caracItem {
 						font-size: 13px;
 					}
@@ -403,7 +437,7 @@
 
 					.deleteItem {
 						bottom: 5px;
-						font-size: 9px;
+						font-size: 11px;
 						right: 5px;
 						position: absolute;
 					}
@@ -471,7 +505,7 @@
 					}
 					.legendCarrito {
 						display: block;
-						font-size: 10px;
+						font-size: 11px;
 						padding: 10px 0;
 						a {
 							display: block;
@@ -505,6 +539,11 @@
 					}
 				}
 			}
+      .slider {
+        .amount {
+          margin-top: -13px;
+        }
+      }
 			.trigger {
 				margin-left: 5px;
 			}

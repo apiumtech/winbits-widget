@@ -58,7 +58,7 @@
 			width: 186px;
 		}
 		p {
-			font-size: 10px;
+			font-size: 11px;
 			margin: 0;
 		}
 	}
@@ -112,11 +112,108 @@
 			.margin-padding;
 		}
 		p {
-			font-size: 9px;
+			font-size: 11px;
 			margin: 10px 0;
 			.font('OmnesMedium');
 		}
 	}
+}
+.inviteFriend {
+  padding: 40px 90px;
+  width: 395px;
+  h2 {
+    font-size: 16px;
+    text-align: center;
+    .font('OmnesRegular');
+  }
+  p {
+    color: lighten(@black, 50%);
+    font-size: 12px;
+    margin: 5px 70px;
+    text-align: center;
+  }
+  span.errorInputError {
+    font-size: 11px;
+  }
+  .inviteFriend-email {
+    border-bottom: 2px solid lighten(@black, 80%);
+    padding: 10px 0 10px 90px;
+    position: relative;
+    .icon {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+    input[type="text"], textarea{
+      font-size: 11px;
+      padding: 5px;
+      width: 280px;
+    }
+    .noteLabel {
+      color: lighten(@black, 60%);
+      display: block;
+      font-size: 11px;
+      margin: 3px 10px 10px 10px;
+    }
+    .btn {
+      font-size: 11px;
+      margin: 10px 0;
+      padding: 7px 25px;
+    }
+  }
+  .inviteFriend-share {
+    border-bottom: 2px solid lighten(@black, 80%);
+    padding: 10px 0 10px 90px;
+    position: relative;
+    .icon {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+    .linkShare {
+      background: @white;
+      border: @inputBorder;
+      font-size: 11px;
+      margin-right: 10px;
+      padding: 7px 10px;
+      .inline-block(170px);
+      .border-radius(@inputBorderRadius);
+    }
+    .btn {
+      font-size: 11px;
+      margin: 10px 0;
+      padding: 7px 25px;
+    }
+  }
+  .inviteFriend-social {
+    padding: 20px 0 0 90px;
+    position: relative;
+    text-align: left;
+    .icon {
+      position: absolute;
+      left: 10px;
+    }
+    .facebookLink, .twitterLink {
+      color: @white;
+      display: block;
+      font-size: 15px;
+      padding: 13px;
+      text-align: center;
+      width: 264px;
+      .font('OmnesLight');
+      &:hover {
+        text-decoration: none;
+        .opacity(50);
+      }
+    }
+    .facebookLink {
+      background: #4E5DFA;
+      margin-bottom: 20px;
+    }
+    .twitterLink {
+      background: #75A886;
+    }
+  }
 }
 .gracias {
 	.contentModal {
