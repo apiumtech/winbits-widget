@@ -216,11 +216,6 @@ module.exports = class WidgetSiteView extends View
     , "La fecha debe de ser válida"
 
     @$el.find('.wb-vertical-' + config.verticalId).addClass('current');
-    $el = @$el
-    setTimeout(() ->
-      $el.find('input, textarea').placeholder()
-    , 500)
-
     @$el.find('#wbi-ajax-modal').modal({backdrop: 'static', keyboard: false, show: false})
 
 
