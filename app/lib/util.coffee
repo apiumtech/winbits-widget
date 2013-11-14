@@ -4,26 +4,13 @@ module.exports =
   $ : window.w$
   setCookie : setCookie = (c_name, value, exdays) ->
     exdays = exdays or 7
-    exdate = new Date()
-    exdate.setDate exdate.getDate() + exdays
-    c_value = escape(value) + ((if (exdays is null) then "" else "; path=/; expires=" + exdate.toUTCString()))
-    document.cookie = c_name + "=" + c_value
+    localStorage[c_name] = value
 
   getCookie : getCookie = (c_name) ->
-    c_value = document.cookie
-    c_start = c_value.indexOf(" " + c_name + "=")
-    c_start = c_value.indexOf(c_name + "=")  if c_start is -1
-    if c_start is -1
-      c_value = null
-    else
-      c_start = c_value.indexOf("=", c_start) + 1
-      c_end = c_value.indexOf(";", c_start)
-      c_end = c_value.length  if c_end is -1
-      c_value = unescape(c_value.substring(c_start, c_end))
-    c_value
+    localStorage[c_name]
 
   deleteCookie : (name) ->
-    document.cookie = name + "=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT"
+    localStorage[name] = undefined
 
   getUrlParams : ->
     vars = []
