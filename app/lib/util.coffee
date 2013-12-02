@@ -33,11 +33,16 @@ module.exports =
     $form.find(".errors").html ""
     $form.valid()
 
+  resetForm : (form) ->
+    $form = Backbone.$(form)
+    $form.validate().resetForm()
+    $form.get(0).reset()
+    $form.find(".errors").html ""
+    $form.valid()
 
   alertErrors : ($) ->
     params = util.getUrlParams()
     alert params._wb_error  if params._wb_error
-
 
   serializeForm : ($form, context) ->
     formData = context or {}

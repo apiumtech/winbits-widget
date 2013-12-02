@@ -37,13 +37,10 @@ module.exports = class LoginView extends View
   doLogin: (e)->
     e.preventDefault()
     e.stopPropagation()
-    console.log "Do Login:"
     $form = @$(e.currentTarget).parents("form")
     formData = verticalId: config.verticalId
     formData = util.serializeForm($form, formData)
-    console.log ["Login Data", formData]
-    that = @
-    if $form.valid()
+    if util.validateForm($form)
       submitButton = @$(e.currentTarget).prop('disabled', true)
       Backbone.$.ajax config.apiUrl + "/affiliation/login.json",
         type: "POST"
@@ -52,26 +49,19 @@ module.exports = class LoginView extends View
         data: JSON.stringify(formData)
         xhrFields:
           withCredentials: true
-        context: {$submitButton: submitButton}
+        context: {view: @, $submitButton: submitButton}
         headers:
           "Accept-Language": "es"
         success: (data) ->
-          console.log "Request Success!"
-          console.log ["data", data]
-          that.publishEvent "applyLogin", data.response
-          #$.fancybox.close()
-          #@loginModalPanel.fadeOut()
+          @view.publishEvent "applyLogin", data.response
           Backbone.$('.modal').modal 'hide'
 
-
-        error: (xhr, textStatus, errorThrown) ->
-          console.log xhr
+        error: (xhr) ->
           error = JSON.parse(xhr.responseText)
-          that.renderLoginFormErrors $form, error
+          @view.renderLoginFormErrors $form, error
 
         complete: ->
-          console.log "Request Completed!"
-          this.$submitButton.prop('disabled', false)
+          @$submitButton.prop('disabled', false)
 
 #todo put this on template
   renderLoginFormErrors : ($form, error) ->

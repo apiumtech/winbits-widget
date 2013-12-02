@@ -360,5 +360,4 @@ module.exports = class WidgetSiteView extends View
 
   resetForm: (e) ->
     $form = Backbone.$(e.currentTarget).find('form')
-    $form.validate().resetForm()
-    $form.get(0).reset()
+    util.resetForm($form)
