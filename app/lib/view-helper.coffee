@@ -192,7 +192,7 @@ Handlebars.registerHelper "replace", (context, options) ->
     new Handlebars.SafeString(theString)
   else
     ""
-Handlebars.registerHelper "cartShipping", (total, shippingTotal, bitsTotal) ->
+Handlebars.registerHelper "cartShipping", (total, shippingTotal) ->
   if shippingTotal
     '$' + shippingTotal
   else
@@ -201,8 +201,14 @@ Handlebars.registerHelper "cartShipping", (total, shippingTotal, bitsTotal) ->
 Handlebars.registerHelper "cartTotal", (total, bitsTotal) ->
   total - bitsTotal
 
-Handlebars.registerHelper "cartSaving", (total, bitsTotal) ->
-  if total then Math.round(bitsTotal * 100 / total) else 0
+Handlebars.registerHelper "calculateCartSaving", (cartDetails, bitsTotal, itemsTotal, shippingTotal) ->
+  if cartDetails
+    cartFullPrice = util.calculateCartFullPrice(cartDetails) + shippingTotal
+    cartPrice = itemsTotal  + shippingTotal
+    totalSaved = cartFullPrice - cartPrice - bitsTotal
+    Math.round(totalSaved * 100 / cartFullPrice)
+  else
+    0
 
 Handlebars.registerHelper "cartDetailTotal", (unitPrice, quantity) ->
   unitPrice * quantity

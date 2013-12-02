@@ -76,6 +76,12 @@ module.exports =
       orderFullPrice += detail.sku.fullPrice * detail.quantity
     orderFullPrice
 
+  calculateCartFullPrice: (cartDetails) ->
+    cartFullPrice = 0.0
+    w$.each cartDetails, (index, detail) ->
+      cartFullPrice += detail.skuProfile.fullPrice * detail.quantity
+    cartFullPrice
+
   backToSite: (e) ->
     $ = Backbone.$
     $main = $('main').first()

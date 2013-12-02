@@ -26,7 +26,7 @@
         <em class="icon winbits10px"></em>
         <label class="cart-bits-cashback reseteable" data-reset-text="0">{{cashback}}</label>
         <span>save</span>
-        <label class="cart-saving reseteable" data-reset-text="0%">{{cartSaving total bitsTotal}}%</label>
+        <label class="cart-saving reseteable" data-reset-text="0%">{{calculateCartSaving cartDetails bitsTotal itemsTotal shippingTotal}}%</label>
       </div>
       <input id="wb-cart-bits-slider-account" data-reset-val="0" type="text" value="{{bitsTotal}}" data-min="0"
              data-max="{{total}}" data-step="1" class="slideInput wb-bits-control" data-max-selection="{{getBitsMaxSelection total}}">
