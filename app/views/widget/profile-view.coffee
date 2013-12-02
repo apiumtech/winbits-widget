@@ -342,7 +342,7 @@ module.exports = class ProfileView extends View
     $main = $('main').first()
     $('div.dropMenu').slideUp()
     $cardsManagerContainer = $main.find('#wbi-cards-manager')
-    if $cardsManagerContainer.css('display') is 'none'
+    if $cardsManagerContainer.is(':hidden')
       $main.children().hide()
       $cardsManagerContainer.parents().show()
       $cardsManagerContainer.show()

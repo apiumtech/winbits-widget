@@ -15,7 +15,7 @@ module.exports =
     $ = Backbone.$
     $main = $('main').first()
     $container = $main.find($timer.data('contentTimerId'))
-    if $container.css('display') is 'none'
+    if $container.is(':hidden')
       clearInterval $interval
 
     minutes = $timer.data('minutes')

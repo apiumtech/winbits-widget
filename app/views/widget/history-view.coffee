@@ -45,7 +45,7 @@ module.exports = class HistoryView extends View
     $main = $('main').first()
     $('div.dropMenu').slideUp()
     $historicalContainer = $main.find('div.wrapper.historical')
-    if $historicalContainer.css('display') is 'none'
+    if $historicalContainer.is(':hidden')
       $main.children().hide()
       $historicalContainer.find('.accordeonContent').hide()
       $historicalContainer.parents().show()
