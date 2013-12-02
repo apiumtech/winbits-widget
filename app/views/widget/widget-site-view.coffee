@@ -341,13 +341,12 @@ module.exports = class WidgetSiteView extends View
     console.log "WidgetSiteView#viewResetPassword"
     @$('.modal').modal 'hide'
     that = @
-    @$("#wbi-reset-password-modal").modal( 'show' ).css {
-      width: '330px',
+    @$("#wbi-reset-password-modal").modal( 'show' ).css
+      width: '330px'
       'margin-left': -> -( that.$( this ).width() / 2 )
-      top: '50%',
+      top: '50%'
       'margin-top': -> -(  that.$( this ).height() / 2 )
       'max-height': '370px'
-    }
 
   proxyLoaded: () ->
     params = util.getUrlParams()
@@ -356,7 +355,7 @@ module.exports = class WidgetSiteView extends View
 
   requestFocus: (e) ->
     $form = Backbone.$(e.currentTarget).find('form')
-    $form.find('input:visible:not([disabled]), textarea:visible:not([disabled])').first().focus()
+    util.focusForm($form)
 
   resetForm: (e) ->
     $form = Backbone.$(e.currentTarget).find('form')

@@ -25,12 +25,14 @@ module.exports = class ProfileView extends View
     @delegate 'click', '#wbi-change-password-link', @changePassword
     @delegate 'click', '#wbi-show-cards-manager-link', @showCardsManager
     @delegate 'submit', '#wbi-change-password-form', @requestPasswordChange
+    @delegate 'click', '#wbi-profile-email', @editProfile
     @delegate 'textchange', '.zipCode', @findZipcode
     @delegate 'change', 'select.zipCodeInfo', @changeZipCodeInfo
 
     @subscribeEvent 'updateSocialAccountsStatus', @updateSocialAccountsStatus
 
   editProfile: (e)->
+    e.preventDefault()
     @$el.find(".miPerfil").slideUp()
     @$el.find(".editMiPerfil").slideDown()
 

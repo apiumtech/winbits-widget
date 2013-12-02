@@ -33,12 +33,16 @@ module.exports =
     $form.find(".errors").html ""
     $form.valid()
 
-  resetForm : (form) ->
+  resetForm: (form) ->
     $form = Backbone.$(form)
     $form.validate().resetForm()
     $form.get(0).reset()
     $form.find(".errors").html ""
     $form.valid()
+
+  focusForm:  (form) ->
+    $form = Backbone.$(form)
+    $form.find('input:visible:not([disabled]), textarea:visible:not([disabled])').first().focus()
 
   alertErrors : ($) ->
     params = util.getUrlParams()
