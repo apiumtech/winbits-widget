@@ -74,12 +74,12 @@ module.exports = class CartView extends View
 
     vendor.customSlider("#wb-cart-bits-slider-account").on 'slidechange', (e, ui) ->
       # TODO: Create view CartInfo and maintain slider out of that view
-      maxBits = w$(ui.handle).closest('.slider-holder').slider('option', 'max')
+      maxBits = w$(@).slider('option', 'max')
       if maxBits > 0
         that.updateCartBits ui.value
 
     that = @
-    @$el.find('.wb-cart-detail-delete-link').click (e) ->
+    @$el.find('.wb-cart-detail-delete-link').click (  e) ->
       that.clickDeleteCartDetailLink(e, that.model)
 
     vendor.scrollpane ".scrollPanel", ".miCarritoDiv"

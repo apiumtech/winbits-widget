@@ -29,7 +29,7 @@
         <label class="cart-saving reseteable" data-reset-text="0%">{{cartSaving total bitsTotal}}%</label>
       </div>
       <input id="wb-cart-bits-slider-account" data-reset-val="0" type="text" value="{{bitsTotal}}" data-min="0"
-             data-max="{{maxBits}}" data-step="1" class="slideInput wb-bits-control">
+             data-max="{{total}}" data-step="1" class="slideInput wb-bits-control" data-max-selection="{{getBitsMaxSelection total}}">
       <span class="legendCarrito">Usa tus bits como dinero en esta compra <a href="#">learn more</a></span>
       <a href="#" class="continueShoping wb-continue-shopping-link">CONTINUE SHOPPING</a>
       <input type="submit" class="btn wb-checkout-btn" value="Check Out">

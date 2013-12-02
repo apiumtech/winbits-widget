@@ -189,9 +189,18 @@ module.exports =
           min: +$this.data("min")
           max: +$this.data("max")
           slide: (event, ui) ->
-            $this.val ui.value
-            $this.parent().find(".amount em").text ui.value
+            maxSelection = parseInt($this.data('max-selection') or '0')
+            value = Math.min(maxSelection, ui.value)
+            previousValue = $this.val()
+            $this.val value
+            $this.parent().find(".amount em").text value
 
+            console.log ['Value', ui.value, 'Max', maxSelection]
+
+            if ui.value > maxSelection
+              if previousValue != maxSelection
+                $(@).slider('value', maxSelection)
+              false
           step: $this.data("step")
     $slider # NO BORRAR - Fix desarrollo
 

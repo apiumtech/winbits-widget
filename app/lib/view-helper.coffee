@@ -263,6 +263,12 @@ Handlebars.registerHelper "getProfileEmail", () ->
   else
     ''
 
+Handlebars.registerHelper "getProfileEmail", () ->
+  if mediator.global and mediator.global.profile
+    mediator.global.profile.email
+  else
+    ''
+
 Handlebars.registerHelper "getNewsletterFormatText", () ->
   if this.newsletterFormat is 'unified' then 'Un solo correo' else 'Correos individuales'
 
@@ -357,6 +363,12 @@ Handlebars.registerHelper "options", (min, max, options) ->
     result += options.fn(value: i, text: i)
     i++
   result
+
+Handlebars.registerHelper "getBitsMaxSelection", (defaultMax) ->
+  if mediator.global and mediator.global.profile
+    mediator.global.profile.bitsBalance
+  else
+    defaultMax
 
 #******************************
 #Custom partial
