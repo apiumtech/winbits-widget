@@ -15,8 +15,9 @@ module.exports =
       $(options.obj).find(options.trigger).click ->
         $(this).next(options.contenedor).slideToggle() #.siblings(options.contenedor+':visible').slideUp()
         $(this).toggleClass(options.claseActivo).find(".icon").toggleClass options.minusIcon
-        $(this).siblings(options.trigger).removeClass(options.claseActivo).find(".icon").removeClass options.minusIcon
-
+#        $(this).siblings(options.trigger).removeClass(options.claseActivo).find(".icon").removeClass options.minusIcon
+        event = if $(this).is('.' + options.claseActivo) then 'expanded' else 'collapsed'
+        $(options.obj).trigger event, [$(this)]
 
 
   # ++++++++++++++++++++++++++++++++

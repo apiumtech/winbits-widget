@@ -20,33 +20,32 @@ module.exports = class HistoryView extends View
     @delegate 'click', '#wishListTable', @showWishList
 
   showBitsRecord: (e)->
-    console.log "ENTRE A SHOWBITSRECORD"
     e.preventDefault()
-    @showHistoryView()
-    Backbone.$(".accordeonWinbits").find("h2")[1].click()
+    @showAccordionPanel('bitsHistoryHId')
 
   showOrdersRecord: (e) ->
     e.preventDefault()
-    @showHistoryView()
-    Backbone.$(".accordeonWinbits").find("h2")[0].click()
+    @showAccordionPanel('ordersHistoryHId')
 
   showWaitingList: (e) ->
     e.preventDefault()
-    @showHistoryView()
-    Backbone.$(".accordeonWinbits").find("h2")[2].click()
+    @showAccordionPanel('waitingListHId')
 
   showWishList: (e) ->
     e.preventDefault()
+    @showAccordionPanel('wishListHId')
+
+  showAccordionPanel: (panelId)->
     @showHistoryView()
-    Backbone.$(".accordeonWinbits").find("h2")[3].click()
+    Backbone.$(".accordeonWinbits").children('h2#' + panelId).click()
 
   showHistoryView: () ->
     $ = Backbone.$
     $main = $('main').first()
     $('div.dropMenu').slideUp()
     $historicalContainer = $main.find('div.wrapper.historical')
-    if $historicalContainer.is(':hidden')
-      $main.children().hide()
-      $historicalContainer.find('.accordeonContent').hide()
-      $historicalContainer.parents().show()
-      $historicalContainer.show()
+    $main.children().hide()
+    $historicalContainer.find('h2').attr('class', '').find('.icon').removeClass('minusIcon')
+    $historicalContainer.find('.accordeonContent').hide()
+    $historicalContainer.parents().show()
+    $historicalContainer.show()

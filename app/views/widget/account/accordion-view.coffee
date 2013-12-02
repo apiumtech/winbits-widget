@@ -17,7 +17,7 @@ module.exports = class AccordionView extends View
     console.log 'Inicializando acordeon'
     @subscribeEvent 'renderAccordionOption', @renderAccordionOption
     @delegate 'click', '.btnBackToSite', @backToSite
-    @delegate 'click', '.accordeonWinbits h2', @renderAccordionOption
+    @delegate 'expanded', '.accordeonWinbits', @renderAccordionOption
 
   attach: ->
     super
@@ -35,22 +35,18 @@ module.exports = class AccordionView extends View
   backToSite: (e) ->
     util.backToSite(e)
 
-  renderAccordionOption: (e)->
-    op = Backbone.$(e.target)
-    console.log ['Option', op.attr("id")]
-    optionId = op.attr("id")
-    if optionId == 'ordersHistoryHId'
-      @publishEvent 'showOrdersHistory'
-      Backbone.$("#ordersHistoryContent").show()
+  renderAccordionOption: (e, $option)->
+    optionId = $option.attr("id")
+    $optionContent = $option.next()
+    optionsMap =
+      ordersHistoryHId:
+        event: 'showOrdersHistory'
+      bitsHistoryHId:
+        event: 'showBitsHistory'
+      waitingListHId:
+        event: 'showWaitingList'
+      wishListHId:
+        event: 'showWishList'
 
-    if optionId == 'bitsHistoryHId'
-      @publishEvent 'showBitsHistory'
-      Backbone.$("#bitRecordContent").show()
-
-    if optionId == 'waitingListHId'
-      @publishEvent 'showWaitingList'
-      Backbone.$("#waitingListContent").show()
-
-    if optionId == 'wishListHId'
-      @publishEvent 'showWishList'
-      Backbone.$("#wishListContent").show()
+    @publishEvent optionsMap[optionId].event
+    $optionContent.show()
