@@ -31,6 +31,14 @@ module.exports = class RegisterView extends View
     vendor.customSelect( @$('.select') )
     vendor.customRadio( @$(".divGender") )
 
+    @$el.find('#winbits-register-form').validate
+      rules:
+        email:
+          required: true
+          email: true
+        password:
+          required: true
+
     @$el.find("form#complete-register-form").validate
       ignore: ''
       errorPlacement: ($error, $element) ->
@@ -72,8 +80,6 @@ module.exports = class RegisterView extends View
     @publishEvent 'showRegister'
     @$el.find("#winbits-register-form").hide()
     @$el.find("#complete-register-layer").show()
-
-
 
   registerStep1: (e)->
     e.preventDefault()

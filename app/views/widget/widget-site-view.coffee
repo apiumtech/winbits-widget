@@ -29,9 +29,12 @@ module.exports = class WidgetSiteView extends View
     @delegate 'click', '#twitterShare', @twitterShare
     @delegate 'click', '#facebookShare', @facebookShare
 
-    #@delegate 'shown', '#login-modal', @placeFacebookFrame
-    @delegate 'shown', '#register-modal', @placeFacebookFrame
-
+    @delegate 'shown', '#login-modal', @requestFocus
+    @delegate 'hidden', '#login-modal', @resetForm
+    @delegate 'shown', '#register-modal', @requestFocus
+    @delegate 'hidden', '#register-modal', @resetForm
+    @delegate 'shown', '#forgot-password-modal', @requestFocus
+    @delegate 'hidden', '#forgot-password-modal', @resetForm
 
     @subscribeEvent 'showHeaderLogin', @showHeaderLogin
     @subscribeEvent 'showHeaderLogout', @showHeaderLogout
@@ -97,12 +100,11 @@ module.exports = class WidgetSiteView extends View
   showLoginLayer: ()->
     @publishEvent 'cleanModal'
     console.log "WidgetSiteView#showLoginLayer"
-    @$("#login-modal").modal( 'show' ).css {
-      width: '330px',
+    @$("#login-modal").modal( 'show' ).css
+      width: '330px'
       'margin-left': -> -( Backbone.$( this ).width() / 2 )
-      top: '50%',
+      top: '50%'
       'margin-top': -> -(  Backbone.$( this ).height() / 2 )
-    }
 
   registerLinkClick: (e) ->
     e.preventDefault()
@@ -113,12 +115,11 @@ module.exports = class WidgetSiteView extends View
     @$('.modal').modal 'hide'
     console.log "WidgetSiteView#viewRegister"
     that = @
-    @$("#register-modal").modal( 'show' ).css {
-      width: '520px',
+    @$("#register-modal").modal( 'show' ).css
+      width: '520px'
       'margin-left': -> -( that.$( this ).width() / 2 )
-      top: '50%',
+      top: '50%'
       'margin-top': -> -(  that.$( this ).height() / 2 )
-    }
 
   viewVideo: (e)->
     e.preventDefault()
@@ -177,18 +178,9 @@ module.exports = class WidgetSiteView extends View
     super
     console.log "WidgetSiteView#attach"
     @proxyInit = new ProxyInit()
-    that = this
-    @$el.find("#winbits-logout-link").on("click",  (e)->
-      that.logout(e)
-    )
     that = @
-#    TODO: Ask why this does not work
-    @$("#login-modal").on "shown", ->
-      that.placeFacebookFrame()
-
-    @$("#login-modal, #register-modal").on "hide", ->
-      console.log "close"
-      that.$("#winbits-iframe-holder").offset top: -1000
+    @$el.find("#winbits-logout-link").on "click",  (e)->
+      that.logout(e)
 
     vendor.dropMenu
       obj: ".miCuentaDiv"
@@ -258,9 +250,6 @@ module.exports = class WidgetSiteView extends View
     else
       util.showError('Agrega algo a tu carrito para que lo puedas comprar')
 
-  placeFacebookFrame: (e) ->
-    console.log "Facebook Frame disable!"
-
   updateBitsBalanceWithProfile: (profile) ->
     @updateBitsBalance profile.bitsBalance
 
@@ -289,7 +278,6 @@ module.exports = class WidgetSiteView extends View
 
   twitterShare: (e) ->
     e.preventDefault()
-    that = @
     console.log "twitter update status"
     Backbone.$.ajax config.apiUrl + "/affiliation/twitterPublish/updateStatus.json",
       type: "POST"
@@ -315,7 +303,6 @@ module.exports = class WidgetSiteView extends View
 
   facebookShare: (e) ->
     e.preventDefault()
-    that = @
     console.log "facebook share"
     Backbone.$.ajax config.apiUrl + "/affiliation/facebookPublish/share.json",
       type: "POST"
@@ -332,24 +319,23 @@ module.exports = class WidgetSiteView extends View
       success: (data) ->
         console.log "share.json Success!"
 
-      error: (xhr, textStatus, errorThrown) ->
+      error: (xhr) ->
         console.log "share.json Error!"
         util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "share.json Completed!"
 
-  forgotPassword: (e) ->
+  forgotPassword: () ->
     console.log "WidgetSiteView#viewForgotPassword"
     @$('.modal').modal 'hide'
     that = @
-    @$("#forgot-password-modal").modal( 'show' ).css {
-      width: '330px',
+    @$("#forgot-password-modal").modal( 'show' ).css
+      width: '330px'
       'margin-left': -> -( that.$( this ).width() / 2 )
-      top: '50%',
+      top: '50%'
       'margin-top': -> -(  that.$( this ).height() / 2 )
       'max-height': '370px'
-    }
 
   resetPassword: (e) ->
     console.log "WidgetSiteView#viewResetPassword"
@@ -363,7 +349,16 @@ module.exports = class WidgetSiteView extends View
       'max-height': '370px'
     }
 
-  proxyLoaded: (e) ->
+  proxyLoaded: () ->
     params = util.getUrlParams()
     if params._wb_active is "true" and params._wb_register_confirm is "true"
       @publishEvent 'expressLogin', params._wb_api_token
+
+  requestFocus: (e) ->
+    $form = Backbone.$(e.currentTarget).find('form')
+    $form.find('input:visible:not([disabled]), textarea:visible:not([disabled])').first().focus()
+
+  resetForm: (e) ->
+    $form = Backbone.$(e.currentTarget).find('form')
+    $form.validate().resetForm()
+    $form.get(0).reset()

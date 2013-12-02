@@ -20,6 +20,11 @@ module.exports = class ForgotPasswordView extends View
 
   attach: ()->
     super
+    @$el.find('#recoverPsw').validate
+      rules:
+        email:
+          required: true
+          email: true
 
   sendEmail: (e) ->
     e.preventDefault()

@@ -26,6 +26,13 @@ module.exports = class LoginView extends View
 
   attach: ->
     super
+    @$el.find('#login-form').validate
+      rules:
+        email:
+          required: true
+          email: true
+        password:
+          required: true
 
   doLogin: (e)->
     e.preventDefault()
