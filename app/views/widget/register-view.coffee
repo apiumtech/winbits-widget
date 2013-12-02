@@ -38,6 +38,7 @@ module.exports = class RegisterView extends View
           email: true
         password:
           required: true
+          minlength: 5
 
     @$el.find("form#complete-register-form").validate
       ignore: ''

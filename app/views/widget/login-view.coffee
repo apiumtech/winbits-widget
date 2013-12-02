@@ -33,6 +33,7 @@ module.exports = class LoginView extends View
           email: true
         password:
           required: true
+          minlength: 5
 
   doLogin: (e)->
     e.preventDefault()
