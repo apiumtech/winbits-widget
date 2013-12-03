@@ -195,8 +195,6 @@ module.exports =
             $this.val value
             $this.parent().find(".amount em").text value
 
-            console.log ['Value', ui.value, 'Max', maxSelection]
-
             if ui.value > maxSelection
               if previousValue != maxSelection
                 $(@).slider('value', maxSelection)
