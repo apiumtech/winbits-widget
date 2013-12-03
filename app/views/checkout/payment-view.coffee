@@ -40,19 +40,20 @@ module.exports = class PaymentView extends View
     paymentMethod =  $currentTarget.attr("id").split("-")[1]
 
     if $form.valid()
-      formData = paymentInfo : util.serializeForm($form)
-      formData.paymentMethod = paymentMethod
-      formData.order = mediator.post_checkout.order
-      formData.vertical = window.verticalId
+      formData = util.serializeForm($form)
       formData.cardSave = formData.cardSave in ['true', 'on']
       formData.cardPrincipal = formData.cardPrincipal in ['true', 'on']
-      formData.shippingAddress = mediator.post_checkout.shippingAddress
+      postData = paymentInfo : formData
+      postData.paymentMethod = paymentMethod
+      postData.order = mediator.post_checkout.order
+      postData.vertical = window.verticalId
+      postData.shippingAddress = mediator.post_checkout.shippingAddress
       util.showAjaxIndicator('Procesando tu pago...')
       Backbone.$.ajax config.apiUrl + "/orders/payment.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
-        data: JSON.stringify(formData)
+        data: JSON.stringify(postData)
 
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': window.token }
         success: (data) ->
