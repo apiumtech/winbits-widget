@@ -23,7 +23,7 @@ $totalFullPrice = 0;
 foreach ($orderDetails as $detail ) {
 	$totalFullPrice+= $detail['quantity'] * $detail['sku']['fullPrice'];
 }
-$totalDiscount = $totalFullPrice - $order['itemsTotal'];
+$totalDiscount = $totalFullPrice - $order['itemsTotal'] - $order['bitsTotal'];
 
 ?>
 <!DOCTYPE html>
