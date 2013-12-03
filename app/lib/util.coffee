@@ -249,3 +249,17 @@ module.exports =
     shippingTotal = cartModel.get 'shippingTotal'
     cartSaving = @calculateCartSaving(cartDetails, bitsTotal, itemsTotal, shippingTotal)
     $cartInfoView.find('.cart-saving').text(cartSaving + '%')
+
+  updateOrderDetailView: (orderModel, value, $slider) ->
+    maxSelection = $slider.find('input').data('max-selection')
+    bitsTotal = Math.min(value, maxSelection)
+    $orderDetailView = $slider.closest('#order-detail')
+    total = orderModel.get 'total'
+    cashTotal = total - bitsTotal
+    $orderDetailView.find('.wb-order-cash-total').text(cashTotal)
+    itemsTotal = orderModel.get 'itemsTotal'
+    shippingTotal = orderModel.get 'shippingTotal'
+    orderDetails = orderModel.get 'orderDetails'
+    orderFullPrice = @calculateOrderFullPrice(orderDetails) + shippingTotal
+    totalSaved = orderFullPrice - total - bitsTotal
+    $orderDetailView.find('.wb-order-saving').text(totalSaved)

@@ -8,9 +8,6 @@ vendor = require 'lib/vendor'
 module.exports = class OrderDetailView extends View
   container: '#order-detail'
   autoRender: false
-  #regions:
-  #'#header-container': 'header'
-  #'#page-container': 'main'
   template: template
 
   initialize: ->
@@ -19,12 +16,15 @@ module.exports = class OrderDetailView extends View
     super
     that = @
     if window.bits_balance > 0
-      vendor.customSlider("#wbi-bits-slide-checkout").on 'slidechange', (e, ui) ->
+      vendor.customSlider("#wbi-bits-slide-checkout").on('slidechange', (e, ui) ->
 #      TODO: Create view OrderInfo and maintain slider out of that view
+        util.updateOrderDetailView(that.model, ui.value, Backbone.$(@))
         that.updateOrderBits ui.value
+      ).on('slide', (e, ui) ->
+        util.updateOrderDetailView(that.model, ui.value, Backbone.$(@))
+      )
 
     if this.model.get("cashTotal") is 0
-        console.log("ENTRO CASH TOTAL")
         @publishEvent "showBitsPayment"
 
 

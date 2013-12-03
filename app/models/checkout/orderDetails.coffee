@@ -26,7 +26,7 @@ module.exports = class OrderDetails extends ChaplinModel
     model.cashback = order.cashback
     orderFullPrice = util.calculateOrderFullPrice(order.orderDetails)
     model.orderFullPrice = orderFullPrice
-    model.orderSaving = orderFullPrice - order.itemsTotal
+    model.orderSaving = orderFullPrice - order.itemsTotal - order.bitsTotal
     model.maxBits = Math.min(order.total, bitsBalance)
     model
 
