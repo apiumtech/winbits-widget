@@ -199,16 +199,10 @@ Handlebars.registerHelper "cartShipping", (total, shippingTotal) ->
     'GRATIS'
 
 Handlebars.registerHelper "cartTotal", (total, bitsTotal) ->
-  total - bitsTotal
+  util.calculateCartTotal(total, bitsTotal)
 
 Handlebars.registerHelper "calculateCartSaving", (cartDetails, bitsTotal, itemsTotal, shippingTotal) ->
-  if cartDetails
-    cartFullPrice = util.calculateCartFullPrice(cartDetails) + shippingTotal
-    cartPrice = itemsTotal  + shippingTotal
-    totalSaved = cartFullPrice - cartPrice - bitsTotal
-    Math.round(totalSaved * 100 / cartFullPrice)
-  else
-    0
+  util.calculateCartSaving(cartDetails, bitsTotal, itemsTotal, shippingTotal)
 
 Handlebars.registerHelper "cartDetailTotal", (unitPrice, quantity) ->
   unitPrice * quantity

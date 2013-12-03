@@ -72,13 +72,18 @@ module.exports = class CartView extends View
         id = $cartDetailStepper.closest("li").attr("data-id")
         that.updateCartDetail id, val
 
-    vendor.customSlider("#wb-cart-bits-slider-account").on 'slidechange', (e, ui) ->
-      # TODO: Create view CartInfo and maintain slider out of that view
-      maxBits = w$(@).slider('option', 'max')
-      if maxBits > 0
-        that.updateCartBits ui.value
-
     that = @
+    vendor.customSlider("#wb-cart-bits-slider-account").on('slidechange', (e, ui) ->
+      # TODO: Create view CartInfo and maintain slider out of that view
+      $slider = Backbone.$(@)
+      maxBits = $slider.slider('option', 'max')
+      if maxBits > 0
+        util.updateCartInfoView(that.model, ui.value, $slider)
+        that.updateCartBits ui.value
+    ).on('slide', (e, ui) ->
+      util.updateCartInfoView(that.model, ui.value, Backbone.$(@))
+    )
+
     @$el.find('.wb-cart-detail-delete-link').click (  e) ->
       that.clickDeleteCartDetailLink(e, that.model)
 

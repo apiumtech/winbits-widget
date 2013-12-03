@@ -224,3 +224,28 @@ module.exports =
     if gender
       gender = if gender is 'H' then 'male' else 'female'
     gender
+
+  calculateCartTotal: (total, bitsTotal) ->
+    total - bitsTotal
+
+  calculateCartSaving: (cartDetails, bitsTotal, itemsTotal, shippingTotal) ->
+    if cartDetails
+      cartFullPrice = @calculateCartFullPrice(cartDetails) + shippingTotal
+      cartPrice = itemsTotal  + shippingTotal
+      totalSaved = cartFullPrice - cartPrice - bitsTotal
+      Math.round(totalSaved * 100 / cartFullPrice)
+    else
+      0
+
+  updateCartInfoView: (cartModel, value, $slider) ->
+    maxSelection = $slider.find('input').data('max-selection')
+    bitsTotal = Math.min(value, maxSelection)
+    $cartInfoView = $slider.closest('.cart-info')
+    total = cartModel.get 'total'
+    cartTotal = @calculateCartTotal(total, bitsTotal)
+    $cartInfoView.find('.cart-total').text('$' + cartTotal)
+    cartDetails = cartModel.get 'cartDetails'
+    itemsTotal = cartModel.get 'itemsTotal'
+    shippingTotal = cartModel.get 'shippingTotal'
+    cartSaving = @calculateCartSaving(cartDetails, bitsTotal, itemsTotal, shippingTotal)
+    $cartInfoView.find('.cart-saving').text(cartSaving + '%')
