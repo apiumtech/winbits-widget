@@ -79,7 +79,7 @@ module.exports = class ShippingAddressView extends View
       formData.country  = {"id": formData.country}
       if formData.zipCodeInfo and formData.zipCodeInfo > 0
         formData.zipCodeInfo  = {"id": formData.zipCodeInfo}
-      formData.main = formData.main is true or formData.main is 'on'
+      formData.main = formData.hasOwnProperty('main')
       console.log formData
       @model.set formData
       submitButton = $form.find("#btnSubmit").prop('disabled', true)
@@ -126,8 +126,7 @@ module.exports = class ShippingAddressView extends View
 
   attach: ->
     super
-    vendor.customCheckbox(@$(".checkbox"))
-    that = this
+    that = @
     $editForms = @$("form.shippingEditAddress")
     $editForms.each ->
       $form = that.$(this)
