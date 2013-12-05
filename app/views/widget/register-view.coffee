@@ -109,6 +109,7 @@ module.exports = class RegisterView extends View
           w$('.modal').modal 'hide'
           that.publishEvent "showConfirmation"
 
+       #
         error: (xhr) ->
           console.log xhr
           error = JSON.parse(xhr.responseText)
@@ -163,7 +164,12 @@ module.exports = class RegisterView extends View
     code = error.code or error.meta.code
     if code is "AFER001"
       message = error.message or error.meta.message
-      $form.find(".errors").html "<p>" + message + "</p>"
+
+#      $link = w$("<a></a>").click(->
+#        console.log 'CLICK'
+#      )
+#      $paragraph = w$("<p>" + message + "</p>").append($link)
+#      $form.find(".errors").html "<p>" + message + "</p>"
 
   showRegisterByReferredCode: (e) ->
     params = window.location.search.substr(1).split('&')
