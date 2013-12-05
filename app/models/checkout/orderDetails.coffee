@@ -13,7 +13,6 @@ module.exports = class OrderDetails extends ChaplinModel
     response
 
   completeOrderModel: (order, bitsBalance) ->
-#    bitsBalance = bitsBalance || mediator.profile.bitsBalance
     bitsBalance = bitsBalance || parseFloat(window.bits_balance)
     model = {}
     model.orderId = order.id
@@ -24,9 +23,9 @@ module.exports = class OrderDetails extends ChaplinModel
     model.cashTotal = order.cashTotal
     model.itemsTotal = order.itemsTotal
     model.cashback = order.cashback
-    orderFullPrice = util.calculateOrderFullPrice(order.orderDetails)
+    orderFullPrice = util.calculateOrderFullPrice(order.orderDetails) + order.shippingTotal
     model.orderFullPrice = orderFullPrice
-    model.orderSaving = orderFullPrice - order.itemsTotal - order.bitsTotal
+    model.orderSaving = orderFullPrice - order.total + order.bitsTotal
     model.maxBits = Math.min(order.total, bitsBalance)
     model
 

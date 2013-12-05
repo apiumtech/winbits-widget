@@ -232,7 +232,7 @@ module.exports =
     if cartDetails
       cartFullPrice = @calculateCartFullPrice(cartDetails) + shippingTotal
       cartPrice = itemsTotal  + shippingTotal
-      totalSaved = cartFullPrice - cartPrice - bitsTotal
+      totalSaved = cartFullPrice - cartPrice + bitsTotal
       Math.round(totalSaved * 100 / cartFullPrice)
     else
       0
@@ -261,5 +261,5 @@ module.exports =
     shippingTotal = orderModel.get 'shippingTotal'
     orderDetails = orderModel.get 'orderDetails'
     orderFullPrice = @calculateOrderFullPrice(orderDetails) + shippingTotal
-    totalSaved = orderFullPrice - total - bitsTotal
+    totalSaved = orderFullPrice - total + bitsTotal
     $orderDetailView.find('.wb-order-saving').text(totalSaved)
