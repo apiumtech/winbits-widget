@@ -36,6 +36,7 @@ CardsView = require "views/checkout/cards-view"
 CardsManagerView = require "views/widget/account/cards-manager-view"
 ResetPassword = require "models/reset-password"
 ResetPasswordView = require "views/widget/reset-password-view"
+AlreadyExistsUserView = require "views/widget/already-exists-user-view"
 
 
 module.exports = class HomeController extends ChaplinController
@@ -78,6 +79,8 @@ module.exports = class HomeController extends ChaplinController
     @resetPassword = new ResetPassword
     @resetPasswordView = new ResetPasswordView(model: @resetPassword)
     @resendConfirmationView = new ResendConfirmationView()
+    @alreadyExistUser = new AlreadyExistsUserView()
+
     @profile.on "change", ->
       that.profileView.render()
     @cart.on "change", ->
