@@ -4,6 +4,7 @@ config = require 'config'
 ChaplinController = require 'chaplin/controller/controller'
 WidgetSiteView = require 'views/widget/widget-site-view'
 LoginView = require 'views/widget/login-view'
+ResendConfirmationView = require 'views/widget/resend-confirmation-view'
 AddressView = require 'views/widget/addressView'
 ProfileView = require 'views/widget/profile-view'
 CartView = require 'views/widget/cart-view'
@@ -76,6 +77,7 @@ module.exports = class HomeController extends ChaplinController
     @cardsView = new CardsView(model: @cards)
     @resetPassword = new ResetPassword
     @resetPasswordView = new ResetPasswordView(model: @resetPassword)
+    @resendConfirmationView = new ResendConfirmationView()
     @profile.on "change", ->
       that.profileView.render()
     @cart.on "change", ->
