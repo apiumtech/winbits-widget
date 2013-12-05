@@ -67,17 +67,7 @@ module.exports = class LoginView extends View
 #todo put this on template
   renderLoginFormErrors : ($form, error) ->
     if error.meta.code is "AFER004"
-      $resendConfirmLink = Backbone.$("<a href=\"" + error.response.resendConfirmUrl + "\">Reenviar correo de confirmaci&oacute;n</a>")
-      $resendConfirmLink.click (e) ->
-        e.preventDefault()
-        #Winbits.resendConfirmLink Ba$, e.target
-
-      $errorMessageHolder = Backbone.$("<p>" + error.meta.message + ". <span class=\"link-holder\"></span></p>")
-      $errorMessageHolder.find(".link-holder").append $resendConfirmLink
-      message = error.message or error.meta.message
-      $errors = $form.find(".errors")
-      $errors.children().remove()
-      $errors.append $errorMessageHolder
+      @publishEvent 'userNotConfirmed', error.response.resendConfirmUrl
     else
       message = error.message or error.meta.message
       $form.find(".errors").html "<p>" + message + "</p>"
