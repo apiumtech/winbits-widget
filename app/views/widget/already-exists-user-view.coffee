@@ -7,12 +7,12 @@ vendor = require 'lib/vendor'
 
 module.exports = class AlreadyExistsUserView extends View
   autoRender: yes
-  container: '#wbi-resend-confirmation-modal'
-  template: require 'views/templates/widget/reset-password'
+  container: '#wbi-already-exist-user-modal'
+  template: require 'views/templates/widget/already-exist-user'
 
   initialize: ->
     super
-    @delegate 'click', '#wbi-reset-form-login-btn', @onResendResetPasswordLinkClick
+    @delegate 'click', '#wbi-already-exist-user-link', @onResendResetPasswordLinkClick
     @subscribeEvent 'alreadyexistuser', @onUserNotConfirmed
 
   attach: ->
@@ -22,7 +22,14 @@ module.exports = class AlreadyExistsUserView extends View
 
   onUserNotConfirmed: ->
     console.log("AFTER EVENT!!!!")
-
+    w$('.modal').modal('hide')
+    @$el.find('.modal').modal('show').css(
+      width: '625px',
+      'margin-left': -> -( Backbone.$( this ).width() / 2 )
+      top: '50%'
+      'margin-top': -> -(  Backbone.$( this ).height() / 2 )
+    ).closest('.wb-modal-holder').show()
+    @$el.find('#wbi-already-exist-user-link')
 
 
   onRensendConfirmationLinkClick: (e) ->
