@@ -12,16 +12,15 @@ module.exports = class AlreadyExistsUserView extends View
 
   initialize: ->
     super
-    @delegate 'click', '#wbi-already-exist-user-link', @onResendResetPasswordLinkClick
+    @delegate 'click', '#wbi-already-exist-user-link', @onAlreadyExistUserLinkClick
     @subscribeEvent 'alreadyexistuser', @onUserNotConfirmed
 
   attach: ->
     super
-    @$el.find('.winbits-register-form').modal(show: false)
-
+    console.log ['MODAL', @$el]
+    @$el.find('.modal').modal(show: false)
 
   onUserNotConfirmed: ->
-    console.log("AFTER EVENT!!!!")
     w$('.modal').modal('hide')
     @$el.find('.modal').modal('show').css(
       width: '625px',
@@ -29,14 +28,8 @@ module.exports = class AlreadyExistsUserView extends View
       top: '50%'
       'margin-top': -> -(  Backbone.$( this ).height() / 2 )
     ).closest('.wb-modal-holder').show()
-    @$el.find('#wbi-already-exist-user-link')
 
-
-  onRensendConfirmationLinkClick: (e) ->
+  onAlreadyExistUserLinkClick: (e) ->
     e.preventDefault()
-    @resendConfirmationMail()
-
-  onResendResetPasswordLinkClick: () ->
-
-  resendConfirmationMail: ->
-    console.log("Send email password reset")
+    @$el.closest('.wb-modal-holder').hide()
+    @publishEvent 'showForgotPassword'

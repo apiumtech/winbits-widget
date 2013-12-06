@@ -45,7 +45,7 @@ module.exports = class ResendConfirmationView extends View
       headers:
         "Accept-Language": "es"
       success: () ->
-        @view.$el.find('.modal').modal('hide')
+        @view.$el.find('.modal').modal('hide').closest('.wb-modal-holder').hide()
         @view.publishEvent 'showConfirmation'
 
       complete: ->
