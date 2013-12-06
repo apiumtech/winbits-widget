@@ -46,8 +46,8 @@
       "desc": "production environment",
       "config": {
         "apiUrl": "http://api.winbits.com/v1",
-        "baseUrl": "http://widget.winbits.com/prod",
-        "loginRedirectUrl": "http://widget.winbits.com/prod/ilogin.html",
+        "baseUrl": "http://widget.winbits.com",
+        "loginRedirectUrl": "http://widget.winbits.com/ilogin.html",
         "facebookClientId": "468430606512928"
       }
     }
