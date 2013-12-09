@@ -251,17 +251,21 @@ module.exports = class WidgetSiteView extends View
       util.showError('Agrega algo a tu carrito para que lo puedas comprar')
 
   updateBitsBalanceWithProfile: (profile) ->
+    console.log ['Updating bits balance with profile', profile.bitsBalance]
     @updateBitsBalance profile.bitsBalance
 
   updateBitsBalance: (bitsBalance) ->
-    @$el.find('.wb-user-bits-balance').text bitsBalance
+    console.log ['Updating bits balance', bitsBalance]
+    @$el.find('.wb-user-bits-balance').text(bitsBalance or 0)
 
   updateBitsBalanceWithCart: (cart) ->
     bitsBalance = mediator.profile.bitsBalance
-    bitsTotal = cart.bitsTotal
-    @updateBitsBalance bitsBalance - bitsTotal
-    $ = window.$ or w$
-    $('#' + config.winbitsDivId).trigger 'bitschanged', [{bitsBalance: bitsBalance, bitsTotal: bitsTotal}]
+    console.log ['Updating bits balance with cart', bitsBalance]
+    if bitsBalance?
+      bitsTotal = cart.bitsTotal or 0
+      @updateBitsBalance(bitsBalance - bitsTotal)
+      $ = window.$ or w$
+      $('#' + config.winbitsDivId).trigger 'bitschanged', [{bitsBalance: bitsBalance, bitsTotal: bitsTotal}]
 
   postToCheckoutApp: (order) ->
     @publishEvent 'restoreCart'
