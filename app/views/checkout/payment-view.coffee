@@ -68,7 +68,7 @@ module.exports = class PaymentView extends View
             util.showError(cardErrorMessage or 'Tu tarjeta fue rechazada por el banco emisor. Por favor revisa la información y vuelve a intentarlo')
 
         error: (xhr) ->
-          util.showAjaxError(xhr.responseText)
+          util.showAjaxError('El servicio de pagos no se encuentra disponible. Por favor intántalo más tarde')
 
         complete: ->
           util.hideAjaxIndicator()
@@ -131,7 +131,7 @@ module.exports = class PaymentView extends View
           util.hideAjaxIndicator()
 
       error: (xhr) ->
-        util.showAjaxError(xhr.responseText)
+        util.showAjaxError('El servicio de pagos no se encuentra disponible. Por favor intántalo más tarde')
         util.hideAjaxIndicator()
 
   linkBack: (e) ->

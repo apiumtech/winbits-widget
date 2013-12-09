@@ -61,7 +61,7 @@ module.exports = class CardTokenPaymentView extends View
             util.showError(payment.paymentCapture.mensaje || payment.paymentCapture.message)
 
         error: (xhr) ->
-          util.showAjaxError(xhr.responseText)
+          util.showAjaxError('El servicio de pagos no se encuentra disponible. Por favor intántalo más tarde')
 
         complete: ->
           util.hideAjaxIndicator()
