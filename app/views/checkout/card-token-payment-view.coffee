@@ -58,7 +58,7 @@ module.exports = class CardTokenPaymentView extends View
             @that.publishEvent "setConfirm", data.response
             @that.publishEvent "showStep", ".checkoutSummaryContainer", payment
           else
-            util.showError(payment.paymentCapture.mensaje)
+            util.showError(payment.paymentCapture.mensaje || payment.paymentCapture.message)
 
         error: (xhr) ->
           util.showAjaxError(xhr.responseText)

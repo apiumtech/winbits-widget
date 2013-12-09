@@ -64,7 +64,8 @@ module.exports = class PaymentView extends View
             that.publishEvent "setConfirm", data.response
             that.publishEvent "showStep", ".checkoutSummaryContainer", payment
           else
-            util.showError(payment.paymentCapture.mensaje)
+            cardErrorMessage = payment.paymentCapture.mensaje or payment.paymentCapture.message
+            util.showError(cardErrorMessage or 'Tu tarjeta fue rechazada por el banco emisor. Por favor revisa la información y vuelve a intentarlo')
 
         error: (xhr) ->
           util.showAjaxError(xhr.responseText)
