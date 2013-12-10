@@ -15,6 +15,8 @@ module.exports = class ResendConfirmationView extends View
     @delegate 'click', '#wbi-resend-confirmation-link', @onRensendConfirmationLinkClick
 
     @subscribeEvent 'userNotConfirmed', @onUserNotConfirmed
+    @subscribeEvent 'alreadyexistusernotconfirmed', @onUserNotConfirmed
+
 
   attach: ->
     super
