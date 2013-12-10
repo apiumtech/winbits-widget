@@ -60,9 +60,10 @@ module.exports = class PaymentView extends View
         success: (data) ->
           console.log ["data", data]
           payment = data.response.payments[0]
+          bitsPayment = data.response.payments[1]
           if payment.status isnt 'FAILED' and payment.status isnt 'ERROR'
             that.publishEvent "setConfirm", data.response
-            that.publishEvent "showStep", ".checkoutSummaryContainer", payment
+            that.publishEvent "showStep", ".checkoutSummaryContainer", payment, bitsPayment
           else
             cardErrorMessage = payment.paymentCapture.mensaje or payment.paymentCapture.message
             util.showError(cardErrorMessage or 'Tu tarjeta fue rechazada por el banco emisor. Por favor revisa la información y vuelve a intentarlo')
@@ -116,6 +117,7 @@ module.exports = class PaymentView extends View
       success: (data) ->
         console.log ["data", data]
         payment = data.response.payments[0]
+        bitsPayment = data.response.payments[1]
         if payment.status isnt 'FAILED' and payment.status isnt 'ERROR'
           if payment.identifier is 'paypal.latam'
             util.showAjaxIndicator('Redireccionando a PayPal...')
@@ -125,7 +127,7 @@ module.exports = class PaymentView extends View
           else
             util.hideAjaxIndicator()
             that.publishEvent "setConfirm", data.response
-            that.publishEvent "showStep", ".checkoutSummaryContainer", payment
+            that.publishEvent "showStep", ".checkoutSummaryContainer", payment, bitsPayment
         else
           util.showError('Error al procesar el pago, por favor intentalo más tarde')
           util.hideAjaxIndicator()
