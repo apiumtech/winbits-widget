@@ -70,7 +70,6 @@ module.exports = class CartView extends View
       $cartDetailStepper = Backbone.$(@)
       val = parseInt($cartDetailStepper.val())
       id = $cartDetailStepper.closest("li").data("id")
-      console.log ['UPDATING CART DETAIL', id, val]
       that.updateCartDetail id: id, quantity: val
 
     that = @
