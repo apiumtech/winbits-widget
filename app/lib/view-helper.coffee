@@ -355,12 +355,15 @@ Handlebars.registerHelper "getCardTypeClass", (cardType) ->
   cardType = cardType.toLowerCase()
   if cardType is 'amex' then 'wb-amex-card' else 'wb-cybersource-card'
 
-Handlebars.registerHelper "options", (min, max, options) ->
+Handlebars.registerHelper "quantityOptions", (min, max, quantity, options) ->
   result = ''
-  i = min
   console.log ['MIN', min, 'MAX', max]
-  while i <= max
-    result += options.fn(value: i, text: i)
+  minAvailable = Math.min(min, quantity)
+  maxAvailable = Math.max(max, quantity)
+  i = minAvailable
+  console.log ['FIXED MIN', minAvailable, 'FIXED MAX', maxAvailable]
+  while i <= maxAvailable
+    result += options.fn(value: i, text: i, selected: i is quantity)
     i++
   result
 
