@@ -132,19 +132,21 @@ module.exports = class WidgetSiteView extends View
       'margin-top': -> -(  that.$( this ).height() / 2 )
     }
 
-  closeModal: (event) ->
-    event?.preventDefault()
-    event?.stopPropagation()
-    @$('.modal').modal 'hide'
+  closeModal: (e) ->
+    if e?
+      e.preventDefault()
+      e.stopPropagation()
+      @$(e.currentTarget).closest('.modal').modal 'hide'
+    else
+      @$('.modal').modal 'hide'
 
   showConfirmation: () ->
     console.log "WidgetSiteView#showConfirmation"
-    Backbone.$("#register-confirm-modal").modal( 'show' ).css {
-      width: '625px',
+    Backbone.$("#register-confirm-modal").modal( 'show' ).css
+      width: '625px'
       'margin-left': -> -( Backbone.$( this ).width() / 2 )
-      top: '50%',
+      top: '50%'
       'margin-top': -> -(  Backbone.$( this ).height() / 2 )
-    }
 
   showMessageConfirm: (modalId) ->
     Backbone.$(modalId).modal( 'show' ).css {
@@ -336,6 +338,7 @@ module.exports = class WidgetSiteView extends View
       top: '50%'
       'margin-top': -> -(  that.$( this ).height() / 2 )
       'max-height': '370px'
+    console.log ['AFTER FORGOT']
 
   resetPassword: (e) ->
     console.log "WidgetSiteView#viewResetPassword"
