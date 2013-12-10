@@ -117,59 +117,44 @@ module.exports =
 # +++++++++++++++++++++++++++++++++++++++++++
   customSelect: (obj) ->
     $ = w$ # NO BORRAR - Fix desarrollo
-    if $(obj).length
-      $(obj).each ->
-        $this = $(this)
-        numberOfOptions = $(this).children("option").length
-        selectContent = `undefined`
-        $this.addClass "selectHidden"
-        $this.wrap "<div class=\"selectContainer\"/>"
-        $this.parent().addClass $this.data("clase")  if $this.data("clase")
-        if $this.data("inputselect")
-          selectContent = "<input type=\"text\" class=\"selectContent\">"
-        else
-          selectContent = "<span class=\"selectContent\"/>"
-        $this.after selectContent + "<span class=\"icon selectTrigger\"/>"
-        $styledSelect = $this.next(".selectContent")
-        if $this.data("inputselect")
-          $styledSelect.attr("placeholder", $this.children("option").eq(0).text()).addClass $this.children("option").eq(0).data("icon")
-        else
-          $styledSelect.text($this.children("option").eq(0).text()).addClass $this.children("option").eq(0).data("icon")
-        $list = $("<ul />",
-          class: "selectOptions"
-        ).insertAfter($this.parent().find("span.selectTrigger"))
-        i = 0
-
-        while i < numberOfOptions
-          $("<li />",
-            text: $this.children("option").eq(i).text()
-            rel: $this.children("option").eq(i).val()
-            "data-class": $this.children("option").eq(i).data("icon")
-          ).appendTo $list
-          i++
-        $listItems = $list.children("li")
-        $this.parent().find("span.selectTrigger").click (e) ->
+    $obj = $(obj)
+    if $obj.length
+      $obj.each ->
+        $this = $(this).wrap('<div class="selectContainer"/>').addClass "selectHidden"
+        $parent = $this.parent()
+        $parent.addClass($this.data("clase")) if $this.data("clase")
+        $firstOption = $this.children().first()
+        $styledSelect = $('<span class="selectContent selectActive"/>').text($firstOption.text()).addClass($firstOption.data("icon")).appendTo $parent
+        $('<span class="icon selectTrigger"/>').appendTo($parent).click (e) ->
           e.stopPropagation()
-          $("div.styledSelect.active").each ->
-            $(this).removeClass("active").next("ul.selectOptions").hide()
+          $trigger = $(this)
+          $selectContent = $trigger.prev()
+          $("span.selectContent.active").not($selectContent).each ->
+            $(this).removeClass("active").nextAll("ul.selectOptions").hide()
+          $selectContent.toggleClass("active")
+          $trigger.next("ul.selectOptions").toggle()
 
-          $(this).toggleClass("active").next("ul.selectOptions").toggle()
+        $list = $("<ul />", class: "selectOptions").appendTo($parent)
 
-        $listItems.click (e) ->
-          e.stopPropagation()
-          if $this.data("inputselect")
-            $styledSelect.val($(this).text()).removeClass("active").removeClass().addClass "selectActive selectContent " + $(this).data("class")
-          else
-            $styledSelect.text($(this).text()).removeClass("active").removeClass().addClass "selectActive selectContent " + $(this).data("class")
-          $this.val($(this).attr("rel")).trigger('change') # NO BORRAR - Fix desarrollo
-          $list.hide()
-
+        $this.children().each (i, option) ->
+          $option = $(option)
+          $li = $("<li />",
+            text: $option.text()
+            rel: $option.val()
+            "data-class": $option.data("icon")
+          ).appendTo($list).click (e) ->
+            e.stopPropagation()
+            $liOption = $(this)
+            $selectContainer = $liOption.closest('.selectContainer')
+            $selectContainer.children('.selectContent').text($liOption.text()).removeClass("active").addClass $liOption.data("class")
+            $selectContainer.children('select').val($liOption.attr("rel")).change()
+            $liOption.parent().hide()
+          if $option.attr('selected')
+            $styledSelect.text($li.text()).removeClass("active").addClass $li.data("class")
         $(document).click ->
           $styledSelect.removeClass "active"
           $list.hide()
-    $(obj)
-
-
+    $obj
 
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   #      CUSTOMSLIDER: Deslizar el rango para cambiar valor de bits
