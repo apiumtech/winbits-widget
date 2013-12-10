@@ -7,7 +7,7 @@ mediator = require 'chaplin/mediator'
 
 # Site view is a top-level view which is bound to body.
 module.exports = class CardsManagerView extends View
-  container: '.widgetWinbitsMain'
+  container: 'main'
   autoRender: yes
   template: template
 

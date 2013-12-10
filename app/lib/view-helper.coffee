@@ -357,11 +357,9 @@ Handlebars.registerHelper "getCardTypeClass", (cardType) ->
 
 Handlebars.registerHelper "quantityOptions", (min, max, quantity, options) ->
   result = ''
-  console.log ['MIN', min, 'MAX', max]
   minAvailable = Math.min(min, quantity)
   maxAvailable = Math.max(max, quantity)
   i = minAvailable
-  console.log ['FIXED MIN', minAvailable, 'FIXED MAX', maxAvailable]
   while i <= maxAvailable
     result += options.fn(value: i, text: i, selected: i is quantity)
     i++

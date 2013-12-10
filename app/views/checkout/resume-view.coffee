@@ -7,7 +7,7 @@ clock = require 'lib/clock'
 mediator = require 'chaplin/mediator'
 
 module.exports = class ResumeView extends View
-  container: '.widgetWinbitsMain'
+  container: 'main'
   autoRender: false
   template: template
 

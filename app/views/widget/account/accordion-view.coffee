@@ -6,7 +6,7 @@ vendor = require 'lib/vendor'
 
 module.exports = class AccordionView extends View
   autoRender: yes
-  container: '.widgetWinbitsMain'
+  container: 'main'
   template: template
 
   render: ->
