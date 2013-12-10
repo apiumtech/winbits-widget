@@ -167,7 +167,7 @@ module.exports =
         $(document).click ->
           $styledSelect.removeClass "active"
           $list.hide()
-
+    $(obj)
 
 
 
