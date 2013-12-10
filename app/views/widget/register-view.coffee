@@ -163,13 +163,9 @@ module.exports = class RegisterView extends View
   renderRegisterFormErrors: ($form, error) ->
     code = error.code or error.meta.code
     if code is "AFER001"
-      console.log("ALREADY EXISTS USER")
-    # here show modal to send reset password
       @publishEvent ('alreadyexistuser')
-#      message = error.message or error.meta.message
-#      console.log(message  + '  ERROR')
-#      $paragraph = w$("<p>" + message + "</p>")
-#      $form.find(".errors").html $paragraph
+    if code is "AFER026"
+      @publishEvent ('alreadyexistusernotconfirmed'), error.response.resendConfirmUrl
 
   showRegisterByReferredCode: (e) ->
     params = window.location.search.substr(1).split('&')
