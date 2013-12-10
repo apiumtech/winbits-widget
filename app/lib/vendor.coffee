@@ -147,7 +147,10 @@ module.exports =
             $liOption = $(this)
             $selectContainer = $liOption.closest('.selectContainer')
             $selectContainer.children('.selectContent').text($liOption.text()).removeClass("active").addClass $liOption.data("class")
-            $selectContainer.children('select').val($liOption.attr("rel")).change()
+            $select = $selectContainer.children('select')
+            selectedValue = $liOption.attr("rel")
+            if $select.val() != selectedValue
+              $select.val(selectedValue).change()
             $liOption.parent().hide()
           if $option.attr('selected')
             $styledSelect.text($li.text()).removeClass("active").addClass $li.data("class")
