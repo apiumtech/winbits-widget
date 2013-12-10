@@ -140,7 +140,7 @@ module.exports = class ResumeView extends View
     total = @calculateTotal itemsTotal, shippingTotal
     bitsTotal = @calculateBitsTotal total, @model.attributes.bitsTotal
     cashTotal = @calculateCashTotal total, bitsTotal
-    orderSaving = @calculateOrderSaving itemsTotal, items
+    orderSaving = @calculateOrderSaving total, items, bitsTotal, shippingTotal
     maxBits = @calculateMaxBits total, mediator.profile.bitsBalance
     currentClock = @$el.find('#wbi-resume-timer').text()
     resultMap = {
@@ -179,9 +179,9 @@ module.exports = class ResumeView extends View
     else
       0
 
-  calculateOrderSaving: (itemsTotal, items) ->
-    orderFullPrice = util.calculateOrderFullPrice(items)
-    orderFullPrice - itemsTotal
+  calculateOrderSaving: (total, items, bitsTotal, shippingTotal) ->
+    orderFullPrice = util.calculateOrderFullPrice(items) + shippingTotal
+    orderFullPrice - total + bitsTotal
 
   calculateMaxBits: (total, bitsBalance) ->
     Math.min(total, bitsBalance)

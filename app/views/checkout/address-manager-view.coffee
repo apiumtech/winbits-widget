@@ -97,7 +97,7 @@ module.exports = class CheckoutSiteView extends View
       formData.country  = {"id": formData.country}
       if formData.zipCodeInfo and formData.zipCodeInfo > 0
         formData.zipCodeInfo  = {"id": formData.zipCodeInfo}
-      formData.main = formData.main is true or formData.main is 'on'
+      formData.main = formData.hasOwnProperty('main')
       console.log formData
       @model.set formData
       submitButton = $form.find("#btnSubmit").prop('disabled', true)
@@ -125,7 +125,7 @@ module.exports = class CheckoutSiteView extends View
       formData.country  = {"id": formData.country}
       if formData.zipCodeInfo and formData.zipCodeInfo > 0
         formData.zipCodeInfo  = {"id": formData.zipCodeInfo}
-      formData.main = formData.main is true or formData.main is 'on'
+      formData.main = formData.hasOwnProperty('main')
       console.log formData
       @model.set formData
       that = @
@@ -145,8 +145,7 @@ module.exports = class CheckoutSiteView extends View
   attach: ->
     super
     console.log "AddressManagerView#attach"
-    vendor.customCheckbox(@$(".checkbox"))
-    that = this
+    that = @
     @$("form.shippingEditAddress").each ->
       $form = that.$(this)
       $select = $form.find('.select')

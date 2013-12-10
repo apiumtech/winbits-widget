@@ -7,7 +7,6 @@ module.exports = class Cart extends ChaplinModel
   initialize: (attributes, option) ->
     super
     @subscribeEvent 'loadVirtualCart', @loadVirtualCart
-    #@subscribeEvent 'fetchCart', @fetch
 
   parse: (response) ->
     console.log "Cart#parse"
@@ -58,63 +57,60 @@ module.exports = class Cart extends ChaplinModel
     formData =
       quantity: cartItem.quantity
       bits: cartItem.bits or 0
-    that = @
     util.showAjaxIndicator('Actualizando carrito...')
     Backbone.$.ajax config.apiUrl + "/orders/cart-items/" + cartItem.id + ".json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify(formData)
-      context: cartItem
+      context: { cartItem: cartItem, $cartPanel: $cartPanel, model: @ }
       headers:
         "Accept-Language": "es"
         "WB-Api-Token": util.getCookie(config.apiTokenName)
 
       success: (data) ->
-        that.set that.completeCartModel data.response
-        if $cartPanel
-          $cartPanel.slideDown()
-        this.success.apply(this, arguments) if typeof this.success is 'function'
+        @model.set @model.completeCartModel data.response
+        if @$cartPanel
+          @$cartPanel.slideDown()
+        @cartItem.success.apply(@cartItem, arguments) if typeof @cartItem.success is 'function'
 
       error: (xhr) ->
         util.showAjaxError(xhr.responseText)
-        this.error.apply(this, arguments) if typeof this.error is 'function'
+        @cartItem.error.apply(@cartItem, arguments) if typeof @cartItem.error is 'function'
 
       complete: ->
         util.hideAjaxIndicator()
-        this.complete.apply(this, arguments) if typeof this.complete is 'function'
+        @cartItem.complete.apply(@cartItem, arguments) if typeof @cartItem.complete is 'function'
 
   updateVirtualCartDetail: (cartItem, $cartPanel)->
     @url = config.apiUrl + "/orders/virtual-cart-items/" + cartItem.id + ".json"
     formData = quantity: cartItem.quantity
-    that = @
     util.showAjaxIndicator('Actualizando carrito...')
     Backbone.$.ajax config.apiUrl + "/orders/virtual-cart-items/" + cartItem.id + ".json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
-      context: cartItem
       data: JSON.stringify(formData)
-      context: cartItem
+      context: { cartItem: cartItem, $cartPanel: $cartPanel, model: @ }
       headers:
         "Accept-Language": "es"
         "wb-vcart": util.getCookie(config.vcartTokenName)
 
       success: (data) ->
-        that.storeVirtualCart data.response
-        that.set that.completeCartModel(data.response)
-        if $cartPanel
-          $cartPanel.slideDown()
-        this.success.apply(this, arguments) if typeof this.success is 'function'
+        @model.storeVirtualCart data.response
+        @model.set @model.completeCartModel(data.response)
+        if @$cartPanel
+          @$cartPanel.slideDown()
+        @cartItem.success.apply(@cartItem, arguments) if typeof @cartItem.success is 'function'
 
       error: (xhr) ->
         console.log ['PROBLEMS', xhr.responseText]
         util.showAjaxError(xhr.responseText)
-        this.error.apply(this, arguments) if typeof this.error is 'function'
+        @cartItem.error.apply(@cartItem, arguments) if typeof @cartItem.error is 'function'
 
       complete: ->
         util.hideAjaxIndicator()
-        this.complete.apply(this, arguments) if typeof this.complete is 'function'
+        @cartItem.complete.apply(@cartItem, arguments) if typeof @cartItem.complete is 'function'
 
   deleteVirtualCartDetail: (id)->
     console.log ["deleteVirtualCartDetail"]

@@ -76,8 +76,9 @@ module.exports = class RegisterView extends View
     unless $zipCode.val().length < 5
       vendor.customSelect($select)
 
-  showCompletaRegister: (algo)->
+  showCompletaRegister: () ->
     console.log("En completa registro")
+    w$('a#wbi-dummy-link').get(0).click()
     @publishEvent 'showRegister'
     @$el.find("#winbits-register-form").hide()
     @$el.find("#complete-register-layer").show()

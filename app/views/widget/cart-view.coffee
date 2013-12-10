@@ -29,6 +29,7 @@ module.exports = class CartView extends View
       @model.loadUserCart()
 
   addToCart : (cartItem)->
+    console.log ['Add to cart object', cartItem]
     util.showError("Please specify a cart item object: {id: 1, quantity: 1}")  unless cartItem
     util.showError("Id required! Please specify a cart item object: {id: 1, quantity: 1}")  unless cartItem.id
     cartItem.id = parseInt(cartItem.id)
@@ -65,12 +66,11 @@ module.exports = class CartView extends View
     console.log "CartView#attach"
     that = @
     @publishEvent "updateCartCounter", @model.get("itemsCount")
-    util.customStepper(@$el.find(".cart-detail-quantity")).on "step", (e, previous) ->
-      $cartDetailStepper = that.$(this)
+    vendor.customSelect(@$el.find(".wb-cart-detail-quantity")).on "change", (e, previous) ->
+      $cartDetailStepper = Backbone.$(@)
       val = parseInt($cartDetailStepper.val())
-      unless previous is val
-        id = $cartDetailStepper.closest("li").attr("data-id")
-        that.updateCartDetail id, val
+      id = $cartDetailStepper.closest("li").data("id")
+      that.updateCartDetail id: id, quantity: val
 
     that = @
     vendor.customSlider("#wb-cart-bits-slider-account").on('slidechange', (e, ui) ->

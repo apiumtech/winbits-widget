@@ -253,17 +253,21 @@ module.exports = class WidgetSiteView extends View
       util.showError('Agrega algo a tu carrito para que lo puedas comprar')
 
   updateBitsBalanceWithProfile: (profile) ->
+    console.log ['Updating bits balance with profile', profile.bitsBalance]
     @updateBitsBalance profile.bitsBalance
 
   updateBitsBalance: (bitsBalance) ->
-    @$el.find('.wb-user-bits-balance').text bitsBalance
+    console.log ['Updating bits balance', bitsBalance]
+    @$el.find('.wb-user-bits-balance').text(bitsBalance or 0)
 
   updateBitsBalanceWithCart: (cart) ->
     bitsBalance = mediator.profile.bitsBalance
-    bitsTotal = cart.bitsTotal
-    @updateBitsBalance bitsBalance - bitsTotal
-    $ = window.$ or w$
-    $('#' + config.winbitsDivId).trigger 'bitschanged', [{bitsBalance: bitsBalance, bitsTotal: bitsTotal}]
+    console.log ['Updating bits balance with cart', bitsBalance]
+    if bitsBalance?
+      bitsTotal = cart.bitsTotal or 0
+      @updateBitsBalance(bitsBalance - bitsTotal)
+      $ = window.$ or w$
+      $('#' + config.winbitsDivId).trigger 'bitschanged', [{bitsBalance: bitsBalance, bitsTotal: bitsTotal}]
 
   postToCheckoutApp: (order) ->
     @publishEvent 'restoreCart'
@@ -352,9 +356,11 @@ module.exports = class WidgetSiteView extends View
       'max-height': '370px'
 
   proxyLoaded: () ->
-    params = util.getUrlParams()
-    if params._wb_active is "true" and params._wb_register_confirm is "true"
-      @publishEvent 'expressLogin', params._wb_api_token
+    hash = location.hash
+    console.log ['HASH', hash]
+    hashParts = hash.split('-')
+    if hashParts[0] is '#complete' and hashParts[1] is 'register'
+      @publishEvent 'expressLogin', hashParts[2]
 
   requestFocus: (e) ->
     $form = Backbone.$(e.currentTarget).find('form')

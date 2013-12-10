@@ -34,8 +34,8 @@ module.exports = class CheckoutController extends ChaplinController
 
     amexSupported = @isPaymentMethodSupported @order_data.paymentMethods, 'amex.'
     cybersourceSupported = @isPaymentMethodSupported @order_data.paymentMethods, 'cybersource.token'
-    if amexSupported or cybersourceSupported
-      @cards = new Cards
+#    if amexSupported or cybersourceSupported
+    @cards = new Cards
 
     @payments.set methods:@order_data.paymentMethods
 
@@ -49,12 +49,11 @@ module.exports = class CheckoutController extends ChaplinController
       console.log "here order details changeed"
       that.orderDetailView.render()
     @orderDetails.set @orderDetails.completeOrderModel @order_data, parseFloat(window.bits_balance)
-    if @cards?
-      @cards.set(methods: @order_data.paymentMethods)
-      @cardsView = new CardsView(model: @cards)
-      @cardsView.amexSupported = amexSupported
-      @cardsView.cybersourceSupported = cybersourceSupported
-      @paymentView.cardsView = @cardsView
+    @cards.set(methods: @order_data.paymentMethods)
+    @cardsView = new CardsView(model: @cards)
+    @cardsView.amexSupported = amexSupported
+    @cardsView.cybersourceSupported = cybersourceSupported
+    @paymentView.cardsView = @cardsView
 
     @cards.on 'change', ->
       console.log "Cards model changed"

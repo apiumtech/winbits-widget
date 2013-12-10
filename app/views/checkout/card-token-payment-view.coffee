@@ -53,15 +53,16 @@ module.exports = class CardTokenPaymentView extends View
         success: (data) ->
           console.log ["data", data]
           payment = data.response.payments[0]
+          bitsPayment = data.response.payments[1]
           if payment.status isnt 'FAILED' and payment.status isnt 'ERROR'
             @that.$el.hide()
             @that.publishEvent "setConfirm", data.response
-            @that.publishEvent "showStep", ".checkoutSummaryContainer", payment
+            @that.publishEvent "showStep", ".checkoutSummaryContainer", payment, bitsPayment
           else
-            util.showError(payment.paymentCapture.mensaje)
+            util.showError(payment.paymentCapture.mensaje || payment.paymentCapture.message)
 
         error: (xhr) ->
-          util.showAjaxError(xhr.responseText)
+          util.showAjaxError('El servicio de pagos no se encuentra disponible. Por favor intántalo más tarde')
 
         complete: ->
           util.hideAjaxIndicator()

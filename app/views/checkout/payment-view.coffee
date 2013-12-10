@@ -25,6 +25,7 @@ module.exports = class PaymentView extends View
     @delegate 'click', '#wbi-card-token-payment-continue-btn', @onContinueWithCardTokenBtnClick
     @delegate "textchange", ".wb-card-number-input", @showCardType
     @delegate "blur", ".wb-card-number-input", @showCardType
+    @delegate 'change', '.wb-card-save-checkbox', @onCardSaveChange
 
     @subscribeEvent "showBitsPayment", @showBitsPayment
     @subscribeEvent 'paymentFlowCancelled', @onPaymentFlowCancelled
@@ -41,8 +42,8 @@ module.exports = class PaymentView extends View
 
     if $form.valid()
       formData = util.serializeForm($form)
-      formData.cardSave = formData.cardSave in ['true', 'on']
-      formData.cardPrincipal = formData.cardPrincipal in ['true', 'on']
+      formData.cardSave = formData.hasOwnProperty('cardSave')
+      formData.cardPrincipal = formData.hasOwnProperty('cardPrincipal')
       postData = paymentInfo : formData
       postData.paymentMethod = paymentMethod
       postData.order = mediator.post_checkout.order
@@ -59,14 +60,16 @@ module.exports = class PaymentView extends View
         success: (data) ->
           console.log ["data", data]
           payment = data.response.payments[0]
+          bitsPayment = data.response.payments[1]
           if payment.status isnt 'FAILED' and payment.status isnt 'ERROR'
             that.publishEvent "setConfirm", data.response
-            that.publishEvent "showStep", ".checkoutSummaryContainer", payment
+            that.publishEvent "showStep", ".checkoutSummaryContainer", payment, bitsPayment
           else
-            util.showError(payment.paymentCapture.mensaje)
+            cardErrorMessage = payment.paymentCapture.mensaje or payment.paymentCapture.message
+            util.showError(cardErrorMessage or 'Tu tarjeta fue rechazada por el banco emisor. Por favor revisa la información y vuelve a intentarlo')
 
         error: (xhr) ->
-          util.showAjaxError(xhr.responseText)
+          util.showAjaxError('El servicio de pagos no se encuentra disponible. Por favor intántalo más tarde')
 
         complete: ->
           util.hideAjaxIndicator()
@@ -114,6 +117,7 @@ module.exports = class PaymentView extends View
       success: (data) ->
         console.log ["data", data]
         payment = data.response.payments[0]
+        bitsPayment = data.response.payments[1]
         if payment.status isnt 'FAILED' and payment.status isnt 'ERROR'
           if payment.identifier is 'paypal.latam'
             util.showAjaxIndicator('Redireccionando a PayPal...')
@@ -123,13 +127,13 @@ module.exports = class PaymentView extends View
           else
             util.hideAjaxIndicator()
             that.publishEvent "setConfirm", data.response
-            that.publishEvent "showStep", ".checkoutSummaryContainer", payment
+            that.publishEvent "showStep", ".checkoutSummaryContainer", payment, bitsPayment
         else
           util.showError('Error al procesar el pago, por favor intentalo más tarde')
           util.hideAjaxIndicator()
 
-      error: (xhr, textStatus, errorThrown) ->
-        util.showAjaxError(xhr.responseText)
+      error: (xhr) ->
+        util.showAjaxError('El servicio de pagos no se encuentra disponible. Por favor intántalo más tarde')
         util.hideAjaxIndicator()
 
   linkBack: (e) ->
@@ -291,3 +295,8 @@ module.exports = class PaymentView extends View
       cardType = util.getCreditCardType(cardNumber)
       cardType = 'unknown' if cardType is 'amex'
       $input.next().removeAttr('class').attr('class', 'wb-card-logo icon ' + cardType + 'CC')
+
+  onCardSaveChange: (e) ->
+    $checkbox = Backbone.$(e.currentTarget)
+    checked = $checkbox.is ':checked'
+    $checkbox.closest('form').find('.wb-card-principal-checkbox').prop('disabled', !checked).prop('checked', false)

@@ -126,19 +126,14 @@ module.exports = class CardsView extends View
     cardType = cardInfo.cardData.cardType.toLowerCase()
     $form.find('span.wb-card-logo').removeAttr('class').attr('class', 'wb-card-logo icon ' + cardType + 'CC')
 
-    cardPrincipal = cardInfo.cardPrincipal
-    cardPrincipalCheckbox = $form.find('[name=cardPrincipal]')
-
-    if cardPrincipal? and (cardPrincipal ^ cardPrincipalCheckbox.prop("checked"))
-      cardPrincipalCheckbox.trigger('click')
-
+    $form.find('[name=cardPrincipal]').prop 'checked', cardInfo.cardPrincipal is true
 
   submitNewCardForm: (e) ->
     e.preventDefault()
     $ = Backbone.$
     $form = $(e.currentTarget)
     newCardData = util.serializeForm($form)
-    newCardData.cardPrincipal = newCardData.cardPrincipal is true or newCardData.cardPrincipal is 'on'
+    newCardData.cardPrincipal = newCardData.hasOwnProperty('cardPrincipal')
     $submitTriggers = $form.find('.wb-submit-trigger').prop('disabled', true)
     util.showAjaxIndicator()
     $.ajax config.apiUrl + "/orders/card-subscription.json",
@@ -171,7 +166,7 @@ module.exports = class CardsView extends View
     $form = $(e.currentTarget)
     currentCardData = $form.data('current-card-data')
     updatedCardData = util.serializeForm($form)
-    updatedCardData.cardPrincipal = updatedCardData.cardPrincipal is true or updatedCardData.cardPrincipal is 'on'
+    updatedCardData.cardPrincipal = updatedCardData.hasOwnProperty('cardPrincipal')
     $submitTriggers = $form.find('.wb-submit-trigger').prop('disabled', true)
     util.showAjaxIndicator()
     $.ajax config.apiUrl + "/orders/card-subscription/" + currentCardData.subscriptionId + ".json",
@@ -241,7 +236,7 @@ module.exports = class CardsView extends View
 
   setMainCard: (cardInfo) ->
     $ = Backbone.$
-    util.showAjaxIndicator()
+    util.showAjaxIndicator('Estableciendo tarjeta principal...')
     url = config.apiUrl + "/orders/card-subscription/" + cardInfo.subscriptionId + "/main.json"
     $.ajax url,
       type: "PUT"
