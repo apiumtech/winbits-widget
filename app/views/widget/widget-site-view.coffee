@@ -353,9 +353,11 @@ module.exports = class WidgetSiteView extends View
       'max-height': '370px'
 
   proxyLoaded: () ->
-    params = util.getUrlParams()
-    if params._wb_active is "true" and params._wb_register_confirm is "true"
-      @publishEvent 'expressLogin', params._wb_api_token
+    hash = location.hash
+    console.log ['HASH', hash]
+    hashParts = hash.split('-')
+    if hashParts[0] is '#complete' and hashParts[1] is 'register'
+      @publishEvent 'expressLogin', hashParts[2]
 
   requestFocus: (e) ->
     $form = Backbone.$(e.currentTarget).find('form')
