@@ -6,7 +6,7 @@ vendor = require 'lib/vendor'
 
 module.exports = class ShippingMainView extends View
   autoRender: yes
-  container: 'main'
+  container: '.widgetWinbitsMain'
   template: template
 
   render: ->
