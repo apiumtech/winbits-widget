@@ -116,13 +116,12 @@ module.exports = class LoginUtil
     util.deleteCookie config.apiTokenName
     @publishEvent "resetComponents"
     @publishEvent "showHeaderLogout"
+    @publishEvent "loggedOut"
     mediator.flags.loggedIn = false
     mediator.flags.fbConnect = false
     util.backToSite()
     $ = window.$ or w$
     $('#' + config.winbitsDivId).trigger 'loggedout', [logoutData]
-
-
 
   loginFacebook : (me) ->
     $ = Backbone.$

@@ -30,6 +30,11 @@ module.exports = class ProfileView extends View
     @delegate 'change', 'select.zipCodeInfo', @changeZipCodeInfo
 
     @subscribeEvent 'updateSocialAccountsStatus', @updateSocialAccountsStatus
+    @subscribeEvent 'loggedOut', @resetView
+
+  resetView: ->
+    @model.clear()
+    @render()
 
   editProfile: (e)->
     e.preventDefault()

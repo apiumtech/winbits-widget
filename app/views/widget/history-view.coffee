@@ -19,6 +19,13 @@ module.exports = class HistoryView extends View
     @delegate 'click', '#waitingListTable', @showWaitingList
     @delegate 'click', '#wishListTable', @showWishList
 
+    @subscribeEvent 'loggedOut', @resetView
+
+  resetView: ->
+    if @model?
+      @model.clear()
+    @render()
+
   showBitsRecord: (e)->
     e.preventDefault()
     @showAccordionPanel('bitsHistoryHId')
