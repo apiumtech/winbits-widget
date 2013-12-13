@@ -30,6 +30,7 @@ module.exports = class ProfileView extends View
     @delegate 'change', 'select.zipCodeInfo', @changeZipCodeInfo
 
     @subscribeEvent 'updateSocialAccountsStatus', @updateSocialAccountsStatus
+    @subscribeEvent 'profileUpdated', @onProfileUpdated
 
   editProfile: (e)->
     e.preventDefault()
@@ -57,14 +58,17 @@ module.exports = class ProfileView extends View
         contentType: "application/json"
         dataType: "json"
         data: JSON.stringify(formData)
-        context: {model: @model, $saveButton: button}
+        context: {view: @, $saveButton: button}
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
         error: ->
           console.log "error"
+
         success: (data) ->
-          @model.set data.response.profile
+          @view.onProfileUpdated data.response
+
         complete: ->
-          this.$saveButton.prop 'disabled', false
+          @$saveButton.prop 'disabled', false
+
 
   attach: ->
     super
@@ -375,3 +379,10 @@ module.exports = class ProfileView extends View
       $form.find('input.zipCode').val zipCodeInfo.zipCode
       $fields.filter('[name=county]').val zipCodeInfo.county
       $fields.filter('[name=state]').val zipCodeInfo.state
+
+  onProfileUpdated: (profile) ->
+    @publishEvent "setProfile", profile.profile
+    @publishEvent 'setBitsBalance', profile.bitsBalance
+    console.log profile.cashback
+    if (profile.cashback > 0 )
+      @publishEvent 'completeRegister', profile.cashback

@@ -5,31 +5,32 @@ token = require 'lib/token'
 mediator = require 'chaplin/mediator'
 vendor = require 'lib/vendor'
 
-module.exports = class AlreadyExistsUserView extends View
+module.exports = class CompleteRegisterView extends View
   autoRender: yes
   container: '#wbi-modals-holder'
-  template: require 'views/templates/widget/already-exist-user'
+  template: require 'views/templates/widget/complete-register-tranfer-bits'
 
   initialize: ->
     super
-    @delegate 'click', '#wbi-already-exist-user-link', @onAlreadyExistUserLinkClick
-    @subscribeEvent 'alreadyexistuser', @onUserNotConfirmed
+    @subscribeEvent 'completeRegister', @showCompleteRegisterModal
+    @delegate 'click', '#wbi-close-complete-register', @onCloseCompleteRegister
 
   attach: ->
     super
     console.log ['MODAL', @$el]
     @$el.find('.modal').modal(show: false)
 
-  onUserNotConfirmed: ->
+
+  showCompleteRegisterModal: (cashback) ->
+    Backbone.$('div.dropMenu').slideUp()
     w$('.modal').modal('hide')
+
     @$el.find('.modal').modal('show').css(
       width: '625px',
       'margin-left': -> -( Backbone.$( this ).width() / 2 )
       top: '50%'
       'margin-top': -> -(  Backbone.$( this ).height() / 2 )
-    ).closest('.wb-modal-holder').show()
+    ).find('.wb-cashback').text(cashback).closest('.wb-modal-holder').show()
 
-  onAlreadyExistUserLinkClick: (e) ->
-    e.preventDefault()
+  onCloseCompleteRegister: ->
     @$el.closest('.wb-modal-holder').hide()
-    @publishEvent 'showForgotPassword'

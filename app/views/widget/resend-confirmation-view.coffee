@@ -7,7 +7,7 @@ vendor = require 'lib/vendor'
 
 module.exports = class ResendConfirmationView extends View
   autoRender: yes
-  container: '#wbi-resend-confirmation-modal'
+  container: '#wbi-modals-holder'
   template: require 'views/templates/widget/resend-confirmation'
 
   initialize: ->
