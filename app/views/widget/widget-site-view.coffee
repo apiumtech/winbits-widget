@@ -52,6 +52,7 @@ module.exports = class WidgetSiteView extends View
     @subscribeEvent 'showResetPassword', @resetPassword
     @subscribeEvent 'proxyLoaded', @proxyLoaded
     @subscribeEvent 'doCheckout', @doCheckout
+    @subscribeEvent 'setBitsBalance', @updateBitsBalance
     @initMomentTimeZone()
 
   initMomentTimeZone: ->
