@@ -151,10 +151,8 @@ module.exports = class RegisterView extends View
           "WB-Api-Token": util.getCookie(config.apiTokenName)
 
         success: (data) ->
-          console.log ["Profile updated", data.response]
           Backbone.$('.modal').modal 'hide'
           @view.publishEvent "profileUpdated", data.response
-
 
         error: (xhr) ->
           util.showError("Error while updating profile")

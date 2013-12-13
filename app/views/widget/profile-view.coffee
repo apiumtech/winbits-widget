@@ -65,7 +65,6 @@ module.exports = class ProfileView extends View
 
         success: (data) ->
           @view.onProfileUpdated data.response
-          @view.publishEvent 'completeRegister', data.response.cashback
 
         complete: ->
           @$saveButton.prop 'disabled', false
@@ -384,5 +383,6 @@ module.exports = class ProfileView extends View
   onProfileUpdated: (profile) ->
     @publishEvent "setProfile", profile.profile
     @publishEvent 'setBitsBalance', profile.bitsBalance
-    if (profile.profile.cashback > 0 )
-      @publishEvent 'completeRegisterAddBits', profile.profile.cashback
+    console.log profile.cashback
+    if (profile.cashback > 0 )
+      @publishEvent 'completeRegister', profile.cashback

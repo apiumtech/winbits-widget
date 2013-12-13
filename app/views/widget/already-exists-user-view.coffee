@@ -7,7 +7,7 @@ vendor = require 'lib/vendor'
 
 module.exports = class AlreadyExistsUserView extends View
   autoRender: yes
-  container: '#wbi-already-exist-user-modal'
+  container: '#wbi-modals-holder'
   template: require 'views/templates/widget/already-exist-user'
 
   initialize: ->
