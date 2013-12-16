@@ -19,6 +19,12 @@ module.exports = class SubscriptionView extends View
     @delegate 'click', '#wbi-update-subscription', @saveSubscription
     @delegate 'click', '#cancelEditSubscription', @cancelEditSubscription
 
+    @subscribeEvent 'loggedOut', @resetView
+
+  resetView: ->
+    @model.clear()
+    @render()
+
   editSubscription: (e)->
     @$el.find(".miSuscripcion").slideUp()
     @$el.find(".editSuscription").slideDown()

@@ -16,6 +16,13 @@ module.exports = class CardsManagerView extends View
     console.log "CardsManagerView#initialize"
     @delegate 'click', '.wb-back-to-site', @backToSite
 
+    @subscribeEvent 'loggedOut', @resetView
+
+  resetView: ->
+    if @model?
+      @model.clear()
+    @render()
+
   attach: ->
     super
     console.log "CardsManagerView#attach"

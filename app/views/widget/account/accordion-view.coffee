@@ -19,6 +19,13 @@ module.exports = class AccordionView extends View
     @delegate 'click', '.btnBackToSite', @backToSite
     @delegate 'expanded', '.accordeonWinbits', @renderAccordionOption
 
+    @subscribeEvent 'loggedOut', @resetView
+
+  resetView: ->
+    if @model?
+      @model.clear()
+    @render()
+
   attach: ->
     super
     console.log 'attach acordeon'

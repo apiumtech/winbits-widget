@@ -358,7 +358,6 @@ module.exports = class WidgetSiteView extends View
 
   proxyLoaded: () ->
     hash = location.hash
-    console.log ['HASH', hash]
     hashParts = hash.split('-')
     if hashParts[0] is '#complete' and hashParts[1] is 'register'
       @publishEvent 'expressLogin', hashParts[2]

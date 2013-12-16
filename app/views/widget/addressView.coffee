@@ -17,6 +17,12 @@ module.exports = class AddressView extends View
     @delegate 'click', '#editBtnAddress', @editAddress
     @delegate 'click', ".changeAddressBtn", @changeAddress
 
+    @subscribeEvent 'loggedOut', @resetView
+
+  resetView: ->
+    @model.clear()
+    @render()
+
   editAddress: (e)->
     @$el.find(".miDireccion").slideUp()
     @$el.find(".editMiDireccion").slideDown()

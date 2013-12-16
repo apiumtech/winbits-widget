@@ -16,7 +16,6 @@ module.exports = class ShippingMainView extends View
     super
     @delegate 'click', '.btnBackToSite', @backToSite
 
-
   attach: ->
     super
     Backbone.$("#shippingAddressMain").hide()

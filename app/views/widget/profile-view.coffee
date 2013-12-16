@@ -31,6 +31,11 @@ module.exports = class ProfileView extends View
 
     @subscribeEvent 'updateSocialAccountsStatus', @updateSocialAccountsStatus
     @subscribeEvent 'profileUpdated', @onProfileUpdated
+    @subscribeEvent 'loggedOut', @resetView
+
+  resetView: ->
+    @model.clear()
+    @render()
 
   editProfile: (e)->
     e.preventDefault()
