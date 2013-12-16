@@ -56,6 +56,8 @@ module.exports = class LoginView extends View
         success: (data) ->
           @view.publishEvent "applyLogin", data.response
           Backbone.$('.modal').modal 'hide'
+          if data.response.showRemainder == true
+            @view.publishEvent 'completeProfileRemainder'
 
         error: (xhr) ->
           error = JSON.parse(xhr.responseText)

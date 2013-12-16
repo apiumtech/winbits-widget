@@ -38,6 +38,7 @@ ResetPassword = require "models/reset-password"
 ResetPasswordView = require "views/widget/reset-password-view"
 AlreadyExistsUserView = require "views/widget/already-exists-user-view"
 CompleteRegisterView = require "views/widget/complete-register-view"
+CompleteProfileRemainderView = require "views/widget/complete-profile-remainder-view"
 
 
 module.exports = class HomeController extends ChaplinController
@@ -82,6 +83,7 @@ module.exports = class HomeController extends ChaplinController
     @resendConfirmationView = new ResendConfirmationView()
     @alreadyExistUser = new AlreadyExistsUserView()
     @completeRegisterView = new CompleteRegisterView()
+    @completeProfileRemainderView = new CompleteProfileRemainderView()
 
     @profile.on "change", ->
       that.profileView.render()
