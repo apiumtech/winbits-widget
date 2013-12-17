@@ -18,7 +18,7 @@ module.exports = class CartView extends View
   initialize: () ->
     super
     @subscribeEvent 'restoreCart', @restoreCart
-    @subscribeEvent 'addToCart', @addToCart
+#    @subscribeEvent 'addToCart', @addToCart
 
   restoreCart: ()->
     console.log ["CartView#restoreCart"]
@@ -28,8 +28,9 @@ module.exports = class CartView extends View
     else
       @model.loadUserCart()
 
-  addToCart : (cartItem)->
+  addToCart : (cartItem, options)->
     console.log ['Add to cart object', cartItem]
+    options = success: cartItem.success, error: cartItem.error, complete: cartItem.complete unless options
     cartItems = if w$.isArray(cartItem) then cartItem else [cartItem]
     ok = yes
     w$.each cartItems, (index, cartItem) ->
@@ -50,9 +51,9 @@ module.exports = class CartView extends View
     if ok
       $cartPanel = @$el.closest('.miCarritoDiv')
       if mediator.flags.loggedIn
-        @model.addToUserCart cartItems, $cartPanel
+        @model.addToUserCart cartItems, $cartPanel, options
       else
-        @model.addToVirtualCart cartItems, $cartPanel
+        @model.addToVirtualCart cartItems, $cartPanel, options
     ok
 
   clickDeleteCartDetailLink: (e, model) ->
