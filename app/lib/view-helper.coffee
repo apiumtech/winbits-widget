@@ -371,6 +371,10 @@ Handlebars.registerHelper "getBitsMaxSelection", (defaultMax) ->
   else
     defaultMax
 
+Handlebars.registerHelper "generateTicketPaymentDownloadUrl", (paymentCapture) ->
+  capture = JSON.parse (paymentCapture)
+  capture.downloadUrl
+
 #******************************
 #Custom partial
 #******************************

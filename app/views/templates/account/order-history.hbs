@@ -36,6 +36,13 @@
         <p>Fecha de compra: {{toDefaultDateFormat dateOfPurchase}}</p>
         <p>Estatus: {{status}} </p>
         <p>Total: {{total}} </p>
+        {{#each ticketPayments}}
+        <p>
+          <a href="{{generateTicketPaymentDownloadUrl paymentCapture}}" target="_blank">
+            Descargar ficha de pago {{#compare identifier 'oxxo.bc'}}OXXO{{else}}HSBC{{/compare}}
+          </a>
+        </p>
+        {{/each}}
       </div>
       <div class="dataTable-bodyItems">
         {{#each details}}
