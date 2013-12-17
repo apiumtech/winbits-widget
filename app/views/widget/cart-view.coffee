@@ -30,24 +30,30 @@ module.exports = class CartView extends View
 
   addToCart : (cartItem)->
     console.log ['Add to cart object', cartItem]
-    util.showError("Please specify a cart item object: {id: 1, quantity: 1}")  unless cartItem
-    util.showError("Id required! Please specify a cart item object: {id: 1, quantity: 1}")  unless cartItem.id
-    cartItem.id = parseInt(cartItem.id)
-    if not cartItem.quantity or cartItem.quantity < 1
-      console.log "Setting default quantity (1)..."
-      cartItem.quantity = 1
-    cartItem.quantity = parseInt(cartItem.quantity)
-    cartDetail = @model.findCartDetail(cartItem.id)
-    $cartPanel = @$el.closest('.miCarritoDiv')
-    if not cartDetail
-      if mediator.flags.loggedIn
-        @model.addToUserCart cartItem, $cartPanel
-      else
-        @model.addToVirtualCart cartItem, $cartPanel
-    else
-      cartItem.quantity = cartItem.quantity + cartDetail.quantity
-      @updateCartDetail cartItem, $cartPanel
+    cartItems = if w$.isArray(cartItem) then cartItem else [cartItem]
+    ok = yes
+    w$.each cartItems, (index, cartItem) ->
+      if not cartItem
+        util.showError("Please specify a cart item object: {id: 1, quantity: 1}")
+        ok = no
 
+      if not cartItem.id
+        util.showError("Id required! Please specify a cart item object: {id: 1, quantity: 1}")  unless cartItem.id
+        ok = no
+
+      cartItem.id = parseInt(cartItem.id)
+      if not cartItem.quantity or cartItem.quantity < 1
+        console.log "Setting default quantity (1)..."
+        cartItem.quantity = 1
+      cartItem.quantity = parseInt(cartItem.quantity)
+
+    if ok
+      $cartPanel = @$el.closest('.miCarritoDiv')
+      if mediator.flags.loggedIn
+        @model.addToUserCart cartItems, $cartPanel
+      else
+        @model.addToVirtualCart cartItems, $cartPanel
+    ok
 
   clickDeleteCartDetailLink: (e, model) ->
     e.preventDefault()
