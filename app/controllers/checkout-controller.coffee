@@ -19,8 +19,26 @@ module.exports = class CheckoutController extends ChaplinController
   initialize: ->
     super
     @checkoutSiteView = new CheckoutSiteView()
-
   index: ->
+    orderId = window.order_id
+    @order_id = orderId
+    util.showAjaxIndicator('Inicializando checkout...')
+    w$.ajax config.apiUrl + "/orders/orders/"+ orderId + "/checkoutInfo.json",
+      dataType: "json"
+      context: { controller: @}
+      headers:{ 'Accept-Language': 'es', 'WB-Api-Token': window.token }
+      success: (data) ->
+        @controller.initCheckout data.response
+        util.hideAjaxIndicator()
+
+      error: ->
+        util.showAjaxIndicator("La orden NO puede ser procesada." + "<br/> Se redireccionará en 5 segundos")
+        setTimeout () ->
+          window.location.href = window.verticalUrl
+        , 5000
+
+
+  initCheckout: (orderData)->
     that=this
     @addressCK = new AddressCK
     @orderDetails = new OrderDetails
@@ -30,7 +48,7 @@ module.exports = class CheckoutController extends ChaplinController
     @addressManagerView = new AddressManagerView({model: @addressCK})
     @paymentView = new PaymentView({model: @payments})
     @orderDetailView = new OrderDetailView({model: @orderDetails})
-    @order_data = JSON.parse(window.order_data)
+    @order_data = orderData
 
     amexSupported = @isPaymentMethodSupported @order_data.paymentMethods, 'amex.'
     cybersourceSupported = @isPaymentMethodSupported @order_data.paymentMethods, 'cybersource.token'

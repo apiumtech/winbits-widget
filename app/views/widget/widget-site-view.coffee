@@ -276,7 +276,7 @@ module.exports = class WidgetSiteView extends View
     $chkForm = w$('<form id="chk-form" method="POST" style="display:none"></form>')
     $chkForm.attr("action", config.baseUrl + "/checkout.php")
     $chkForm.append w$('<input type="hidden" name="token"/>').val(util.getCookie(config.apiTokenName))
-    $chkForm.append w$('<input type="hidden" name="order_data"/>').val(JSON.stringify(order))
+    $chkForm.append w$('<input type="hidden" name="order_id"/>').val(order.id)
     $chkForm.append w$('<input type="hidden" name="bits_balance"/>').val(mediator.profile.bitsBalance)
     $chkForm.append w$('<input type="hidden" name="vertical_id"/>').val(config.verticalId)
     $chkForm.append w$('<input type="hidden" name="vertical_url"/>').val(order.vertical.url)
