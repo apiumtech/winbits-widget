@@ -221,7 +221,7 @@ module.exports = class WidgetSiteView extends View
   doCheckout: () ->
     $ = Backbone.$
     if $('.wb-cart-detail-list').children().length > 0
-      util.showAjaxIndicator('Generando Orden...')
+      util.showAjaxIndicator('Generando tu Orden...')
       Backbone.$.ajax config.apiUrl + "/orders/checkout.json",
         type: "POST"
         contentType: "application/json"
@@ -231,6 +231,7 @@ module.exports = class WidgetSiteView extends View
         headers:
           "Accept-Language": "es",
           "WB-Api-Token": util.getCookie(config.apiTokenName)
+
         success: (data) ->
           console.log "Checkout Success!"
           resp = data.response
