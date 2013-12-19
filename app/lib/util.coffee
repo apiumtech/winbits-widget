@@ -42,7 +42,8 @@ module.exports =
 
   focusForm:  (form) ->
     $form = Backbone.$(form)
-    $form.find('input:visible:not([disabled]), textarea:visible:not([disabled])').first().focus()
+    if not w$.browser.msie or /10.*/.test(w$.browser.version)
+      $form.find('input:visible:not([disabled]), textarea:visible:not([disabled])').first().focus()
 
   alertErrors : ($) ->
     params = util.getUrlParams()
