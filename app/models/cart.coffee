@@ -158,7 +158,8 @@ module.exports = class Cart extends ChaplinModel
 
   addToUserCart : (cartItems, $cartPanel, options) ->
     console.log "Adding to user cart..."
-    @addToCart cartItems: cartItems
+    @addToCart
+      cartItems: cartItems
       $cartPanel: $cartPanel
       options: options
       url: "/orders/cart-items.json"
@@ -171,7 +172,7 @@ module.exports = class Cart extends ChaplinModel
     formData = cartItems: []
     w$.each cartItems, (index, cartItem) ->
       formData.cartItems.push skuProfileId: cartItem.id, quantity: cartItem.quantity, bits: cartItem.bits or 0
-    util.showAjaxIndicator('Agregando artículo...')
+    util.showAjaxIndicator('Agregando artículo(s)...')
     headers = w$.extend {"Accept-Language": "es"}, data.headers
     Backbone.$.ajax config.apiUrl + data.url,
       type: "POST"
@@ -195,9 +196,10 @@ module.exports = class Cart extends ChaplinModel
         util.hideAjaxIndicator()
         @options.complete.apply(@cartItems, arguments) if w$.isFunction @options.complete
 
-  addToVirtualCart : (cartItem, $cartPanel, options) ->
+  addToVirtualCart : (cartItems, $cartPanel, options) ->
     console.log "Adding to virtual cart..."
-    @addToCart cartItems: cartItems
+    @addToCart
+      cartItems: cartItems
       $cartPanel: $cartPanel
       options: options
       url: "/orders/virtual-cart-items.json"
