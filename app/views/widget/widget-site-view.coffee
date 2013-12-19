@@ -28,6 +28,7 @@ module.exports = class WidgetSiteView extends View
 
     @delegate 'click', '#twitterShare', @twitterShare
     @delegate 'click', '#facebookShare', @facebookShare
+    @delegate 'hide', '#register-modal', @verifyNullFields
 
     @delegate 'shown', '#login-modal', @requestFocus
     @delegate 'hidden', '#login-modal', @resetForm
@@ -370,3 +371,20 @@ module.exports = class WidgetSiteView extends View
   resetForm: (e) ->
     $form = Backbone.$(e.currentTarget).find('form')
     util.resetForm($form)
+
+  verifyNullFields: (e) ->
+    $registerModal = w$(e.currentTarget)
+    $completeRegisterLayer = $registerModal.find('#complete-register-layer')
+    if $completeRegisterLayer.is(':visible')
+      $registerModal.find("#complete-register-layer").hide()
+      $registerModal.find("#winbits-register-form").show()
+      $form =  @$el.find("#complete-register-form")
+      formData = util.serializeForm($form)
+      bandera = false
+      w$.each(formData, (i, value) ->
+        if not value
+          bandera = true
+          return false
+      )
+      if bandera == true
+        @publishEvent ('completeProfileRemainder')
