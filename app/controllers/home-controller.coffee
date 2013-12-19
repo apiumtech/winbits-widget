@@ -101,8 +101,8 @@ module.exports = class HomeController extends ChaplinController
       console.log "Cards model changed"
       that.cardsView.render()
     #Exporting function
-    window.Winbits.addToCart = (item)->
-      that.cartView.addToCart(item)
+    window.Winbits.addToCart = (item, options)->
+      that.cartView.addToCart(item, options)
 
     window.Winbits.getUserProfile = () ->
       if mediator.flags.loggedIn
