@@ -41,7 +41,8 @@ module.exports = class ResendConfirmationView extends View
     $resendConfirmLink = @$el.find('#wbi-resend-confirmation-link')
     resendConfirmUrl = $resendConfirmLink.data('resend-confirm-url')
     $resendConfirmLink.prop('disabled', true)
-    Backbone.$.ajax config.apiUrl + resendConfirmUrl.substring(resendConfirmUrl.indexOf('/affiliation')),
+    encodeComponent = encodeURI(resendConfirmUrl.substring(resendConfirmUrl.indexOf('/affiliation')))
+    Backbone.$.ajax config.apiUrl +  encodeComponent,
       dataType: "json"
       context: {view: @, $submitButton: $resendConfirmLink}
       headers:
