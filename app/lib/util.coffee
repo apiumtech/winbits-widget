@@ -234,7 +234,7 @@ module.exports =
       cartFullPrice = @calculateCartFullPrice(cartDetails) + shippingTotal
       cartPrice = itemsTotal  + shippingTotal
       totalSaved = cartFullPrice - cartPrice + bitsTotal
-      Math.round(totalSaved * 100 / cartFullPrice)
+      Math.floor(totalSaved * 100 / cartFullPrice)
     else
       0
 
