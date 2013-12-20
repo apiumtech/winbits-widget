@@ -362,7 +362,8 @@ module.exports = class WidgetSiteView extends View
     hash = location.hash
     hashParts = hash.split('-')
     if hashParts[0] is '#complete' and hashParts[1] is 'register'
-      @publishEvent 'expressLogin', hashParts[2]
+      apiToken = hashParts[2].substring(0, 64)
+      @publishEvent 'expressLogin', apiToken
 
   requestFocus: (e) ->
     $form = Backbone.$(e.currentTarget).find('form')
