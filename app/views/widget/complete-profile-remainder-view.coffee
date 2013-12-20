@@ -22,6 +22,7 @@ module.exports = class CompleteProfileRemainderView extends View
 
   onCompleteProfileRemainder:->
       w$('.modal').modal('hide')
+
       @$el.find('.modal').modal('show').css(
         width: '625px',
         'margin-left': -> -( Backbone.$( this ).width() / 2 )
