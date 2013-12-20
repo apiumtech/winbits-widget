@@ -152,8 +152,7 @@ module.exports = class RegisterView extends View
 
         success: (data) ->
           @view.publishEvent "profileUpdated", data.response
-          Backbone.$('.modal').modal 'hide'
-          console.log ("PROFILE CASHBACK IN RESPONSE --->> " + data)
+          Backbone.$('#register-modal').modal 'hide'
 
         error: (xhr) ->
           util.showError("Error while updating profile")

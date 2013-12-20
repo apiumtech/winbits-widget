@@ -21,7 +21,6 @@ module.exports = class CompleteProfileRemainderView extends View
     @$el.find('.modal').modal(show: false)
 
   onCompleteProfileRemainder:->
-      w$('.modal').modal('hide')
 
       @$el.find('.modal').modal('show').css(
         width: '625px',
