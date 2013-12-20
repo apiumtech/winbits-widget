@@ -42,7 +42,8 @@ module.exports =
 
   focusForm:  (form) ->
     $form = Backbone.$(form)
-    $form.find('input:visible:not([disabled]), textarea:visible:not([disabled])').first().focus()
+    if not w$.browser.msie or /10.*/.test(w$.browser.version)
+      $form.find('input:visible:not([disabled]), textarea:visible:not([disabled])').first().focus()
 
   alertErrors : ($) ->
     params = util.getUrlParams()
@@ -233,7 +234,7 @@ module.exports =
       cartFullPrice = @calculateCartFullPrice(cartDetails) + shippingTotal
       cartPrice = itemsTotal  + shippingTotal
       totalSaved = cartFullPrice - cartPrice + bitsTotal
-      Math.round(totalSaved * 100 / cartFullPrice)
+      Math.floor(totalSaved * 100 / cartFullPrice)
     else
       0
 
