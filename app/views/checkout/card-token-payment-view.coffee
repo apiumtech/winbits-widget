@@ -35,6 +35,9 @@ module.exports = class CardTokenPaymentView extends View
 
   onCardTokenPaymentFormSubmitted: (e) ->
     e.preventDefault()
+    # Stop timer
+    @publishEvent 'StopIntervalTimer'
+    #
     $ = Backbone.$
     $form = $(e.currentTarget)
     if $form.valid()

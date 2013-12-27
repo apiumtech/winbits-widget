@@ -16,6 +16,7 @@ module.exports = class CheckoutSiteView extends View
     super
     @subscribeEvent "showStep", @showStep
     @subscribeEvent "hideAddress", @hideAddress
+    @subscribeEvent "StopIntervalTimer", @intervalStop
     @delegate "click","#showAddress", @showAddress
     @delegate 'click', '.close-modal', @closeModal
     @delegate 'click', 'i.close-icon', @closeModal
@@ -72,7 +73,7 @@ module.exports = class CheckoutSiteView extends View
     $timer = @$el.find('#wb-checkout-timer')
     nowTime = new Date().getTime()
     timeUp =  nowTime - window.timestamp
-    expireTime = 30 * 60 * 1000
+    expireTime = 1 * 60 * 1000
     if (timeUp <= expireTime)
       timeLeft = expireTime - timeUp
       minutesLeft = Math.floor(timeLeft / 1000 / 60)
@@ -87,6 +88,7 @@ module.exports = class CheckoutSiteView extends View
       @.timerInterval = $interval
     else
       util.showAjaxIndicator("La orden ha expirado")
+      @intervalStop
       setTimeout () ->
         window.location.href = window.verticalUrl
       , 4000
@@ -104,7 +106,7 @@ module.exports = class CheckoutSiteView extends View
     if minutes is 0 and seconds < 0
       console.log('expire order')
       Backbone.$('#wbi-expire-modal').modal('show')
-      clearInterval $interval
+      @intervalStop
     else
 
       if seconds < 0
@@ -116,6 +118,10 @@ module.exports = class CheckoutSiteView extends View
 
   formatTime: (time) ->
     ('0' + time).slice(-2)
+
+  intervalStop: ()->
+    console.log 'Inteval Timer Stop !'
+    clearInterval(@.timerInterval)
 
   onWinbitsLogoClick: (e) ->
     e.preventDefault()
