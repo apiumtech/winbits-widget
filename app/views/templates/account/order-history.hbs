@@ -62,15 +62,18 @@
           <div class="dataTable-cant">
             {{quantity}}
           </div>
-          <div class="dataTable-status">
-            {{!--status--}}
-            En Almacén
+          <div class="dataTable-status" style="text-align: center;">
+            {{#each status}}
+              <p>{{status}} ({{quantity}})</p>
+            {{/each}}
           </div>
           {{!--<div class="dataTable-deliveryDate">
             <a href="#">{{toDefaultDateFormat estimatedDeliveryDate}}</a>
           </div>--}}
-          <div class="dataTable-num">
-            <a href="#">{{tracingNumber}}</a>
+          <div class="dataTable-num" style="text-align: center;">
+            {{#each tracingNumber}}
+            <p>  <a href="#">{{this}}</a> </p>
+            {{/each}}
           </div>
           <div class="dataTable-site">
               {{#if vertical.logo}}

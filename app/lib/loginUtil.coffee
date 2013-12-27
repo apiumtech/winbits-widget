@@ -23,7 +23,7 @@ module.exports = class LoginUtil
     apiToken = if token? then token else util.getCookie(config.apiTokenName)
     console.log ["API Token", apiToken]
     that = @
-    if apiToken
+    if apiToken and apiToken isnt "undefined"
       Backbone.$.ajax config.apiUrl + "/affiliation/express-login.json",
         type: "POST"
         contentType: "application/json"
