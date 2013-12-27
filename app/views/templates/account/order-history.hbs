@@ -62,7 +62,7 @@
           <div class="dataTable-cant">
             {{quantity}}
           </div>
-          <div class="dataTable-status">
+          <div class="dataTable-status" style="text-align: center;">
             {{#each status}}
               <p>{{status}} ({{quantity}})</p>
             {{/each}}
@@ -70,9 +70,9 @@
           {{!--<div class="dataTable-deliveryDate">
             <a href="#">{{toDefaultDateFormat estimatedDeliveryDate}}</a>
           </div>--}}
-          <div class="dataTable-num">
+          <div class="dataTable-num" style="text-align: center;">
             {{#each tracingNumber}}
-              <a href="#">{{this}}</a>
+            <p>  <a href="#">{{this}}</a> </p>
             {{/each}}
           </div>
           <div class="dataTable-site">
