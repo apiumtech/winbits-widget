@@ -5,6 +5,8 @@
   $bits_balance = $_POST['bits_balance'];
   $verticalId = $_POST['vertical_id'];
   $verticalUrl = $_POST['vertical_url'];
+  $timestamp = $_POST['timestamp'];
+
   if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($token) && isset($order_id) && isset($verticalId)) {
 ?>
 <html lang="es">
@@ -34,6 +36,7 @@
     window.bits_balance = '<?echo $bits_balance?>';
     window.verticalId = '<?echo $verticalId?>';
     window.verticalUrl = '<?echo $verticalUrl?>';
+    window.timestamp = '<?echo $timestamp?>';
   </script>
   <script src="{{baseUrl}}/javascripts/app.js"></script>
   <script>

@@ -65,14 +65,27 @@ module.exports = class CheckoutSiteView extends View
     super
     @startCounter()
     @$el.find('#wbi-ajax-modal').modal({backdrop: 'static', keyboard: false, show: false})
+    Backbone.$('#wbi-expire-modal').modal({backdrop: 'static', keyboard: false, show: false})
 
   startCounter: () ->
     that = @
     $timer = @$el.find('#wb-checkout-timer')
-    console.log(["The timer", $timer])
-    $interval = setInterval () ->
-      that.updateCheckoutTimer($timer, $interval)
-    , 1000
+    nowTime = new Date().getTime()
+    timeUp =  nowTime - window.timestamp
+    expireTime = 5 * 60 * 1000
+    if (timeUp <= expireTime)
+      timeLeft = expireTime - timeUp
+      minutesLeft = Math.floor(timeLeft / 1000 / 60)
+      minutesLeftMillis = minutesLeft * 1000 * 60
+      secondsLeft = Math.floor((timeLeft - minutesLeftMillis) / 1000)
+      $timer.data('minutes', minutesLeft)
+      $timer.data('seconds', secondsLeft)
+
+      $interval = setInterval () ->
+        that.updateCheckoutTimer($timer, $interval)
+      , 1000
+    else
+      Backbone.$('#wbi-expire-modal').modal('show')
 
 
   closeExpireOrderModal: () ->
@@ -84,11 +97,13 @@ module.exports = class CheckoutSiteView extends View
     minutes = if minutes? then minutes else 30
     seconds = $timer.data('seconds') || 0
     seconds = seconds - 1
+
     if minutes is 0 and seconds < 0
       console.log('expire order')
       Backbone.$('#wbi-expire-modal').modal('show')
       clearInterval $interval
     else
+
       if seconds < 0
         seconds = 59
         minutes = minutes - 1
