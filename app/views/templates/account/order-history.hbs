@@ -63,14 +63,17 @@
             {{quantity}}
           </div>
           <div class="dataTable-status">
-            {{!--status--}}
-            En Almacén
+            {{#each status}}
+              <p>{{status}} ({{quantity}})</p>
+            {{/each}}
           </div>
           {{!--<div class="dataTable-deliveryDate">
             <a href="#">{{toDefaultDateFormat estimatedDeliveryDate}}</a>
           </div>--}}
           <div class="dataTable-num">
-            <a href="#">{{tracingNumber}}</a>
+            {{#each tracingNumber}}
+              <a href="#">{{this}}</a>
+            {{/each}}
           </div>
           <div class="dataTable-site">
               {{#if vertical.logo}}
