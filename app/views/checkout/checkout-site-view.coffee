@@ -84,7 +84,7 @@ module.exports = class CheckoutSiteView extends View
       $interval = setInterval () ->
         that.updateCheckoutTimer($timer, $interval)
       , 1000
-
+      @.timerInterval = $interval
     else
       util.showAjaxIndicator("La orden ha expirado")
       setTimeout () ->
