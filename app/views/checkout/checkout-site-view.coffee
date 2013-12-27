@@ -16,6 +16,7 @@ module.exports = class CheckoutSiteView extends View
     super
     @subscribeEvent "showStep", @showStep
     @subscribeEvent "hideAddress", @hideAddress
+    @subscribeEvent "StopIntervalTimer", @intervalStop
     @delegate "click","#showAddress", @showAddress
     @delegate 'click', '.close-modal', @closeModal
     @delegate 'click', 'i.close-icon', @closeModal
@@ -65,15 +66,32 @@ module.exports = class CheckoutSiteView extends View
     super
     @startCounter()
     @$el.find('#wbi-ajax-modal').modal({backdrop: 'static', keyboard: false, show: false})
+    Backbone.$('#wbi-expire-modal').modal({backdrop: 'static', keyboard: false, show: false})
 
   startCounter: () ->
     that = @
     $timer = @$el.find('#wb-checkout-timer')
-    console.log(["The timer", $timer])
-    $interval = setInterval () ->
-      that.updateCheckoutTimer($timer, $interval)
-    , 1000
+    nowTime = new Date().getTime()
+    timeUp =  nowTime - window.timestamp
+    expireTime = 30 * 60 * 1000
+    if (timeUp <= expireTime)
+      timeLeft = expireTime - timeUp
+      minutesLeft = Math.floor(timeLeft / 1000 / 60)
+      minutesLeftMillis = minutesLeft * 1000 * 60
+      secondsLeft = Math.floor((timeLeft - minutesLeftMillis) / 1000)
+      $timer.data('minutes', minutesLeft)
+      $timer.data('seconds', secondsLeft)
 
+      $interval = setInterval () ->
+        that.updateCheckoutTimer($timer, $interval)
+      , 1000
+      @.timerInterval = $interval
+    else
+      util.showAjaxIndicator("La orden ha expirado")
+      @intervalStop
+      setTimeout () ->
+        window.location.href = window.verticalUrl
+      , 4000
 
   closeExpireOrderModal: () ->
     @$('.modal').modal 'hide'
@@ -84,11 +102,13 @@ module.exports = class CheckoutSiteView extends View
     minutes = if minutes? then minutes else 30
     seconds = $timer.data('seconds') || 0
     seconds = seconds - 1
+
     if minutes is 0 and seconds < 0
       console.log('expire order')
       Backbone.$('#wbi-expire-modal').modal('show')
-      clearInterval $interval
+      @intervalStop
     else
+
       if seconds < 0
         seconds = 59
         minutes = minutes - 1
@@ -98,6 +118,10 @@ module.exports = class CheckoutSiteView extends View
 
   formatTime: (time) ->
     ('0' + time).slice(-2)
+
+  intervalStop: ()->
+    console.log 'Inteval Timer Stop !'
+    clearInterval(@.timerInterval)
 
   onWinbitsLogoClick: (e) ->
     e.preventDefault()

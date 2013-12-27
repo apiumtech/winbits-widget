@@ -91,6 +91,7 @@ module.exports = class PaymentView extends View
   selectMethod: (e)->
     e.preventDefault()
     $currentTarget = @$(e.currentTarget)
+    console.log ('Selected method ' + $currentTarget.attr("id").split("-")[1])
     methodName =  $currentTarget.attr("id").split("-")[1]
     selector = "#method-" + methodName
     @$(selector).show()
@@ -99,6 +100,7 @@ module.exports = class PaymentView extends View
   submitOrder: (e)->
     e.preventDefault()
     console.log "submit order"
+    @publishEvent 'StopIntervalTimer'
     that = @
     $currentTarget = @$(e.currentTarget)
     paymentMethod =  $currentTarget.attr("id").split("-")[1]
