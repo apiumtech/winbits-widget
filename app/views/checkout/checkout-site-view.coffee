@@ -72,7 +72,7 @@ module.exports = class CheckoutSiteView extends View
     $timer = @$el.find('#wb-checkout-timer')
     nowTime = new Date().getTime()
     timeUp =  nowTime - window.timestamp
-    expireTime = 5 * 60 * 1000
+    expireTime = 30 * 60 * 1000
     if (timeUp <= expireTime)
       timeLeft = expireTime - timeUp
       minutesLeft = Math.floor(timeLeft / 1000 / 60)
@@ -84,9 +84,12 @@ module.exports = class CheckoutSiteView extends View
       $interval = setInterval () ->
         that.updateCheckoutTimer($timer, $interval)
       , 1000
-    else
-      Backbone.$('#wbi-expire-modal').modal('show')
 
+    else
+      util.showAjaxIndicator("La orden ha expirado")
+      setTimeout () ->
+        window.location.href = window.verticalUrl
+      , 4000
 
   closeExpireOrderModal: () ->
     @$('.modal').modal 'hide'
