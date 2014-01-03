@@ -264,3 +264,4 @@ module.exports =
     orderFullPrice = @calculateOrderFullPrice(orderDetails) + shippingTotal
     totalSaved = orderFullPrice - total + bitsTotal
     $orderDetailView.find('.wb-order-saving').text(totalSaved)
+

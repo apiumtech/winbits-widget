@@ -56,6 +56,7 @@ module.exports = class Cart extends ChaplinModel
       quantity: cartItem.quantity
       bits: cartItem.bits or 0
     util.showAjaxIndicator('Actualizando carrito...')
+    that = @
     Backbone.$.ajax config.apiUrl + "/orders/cart-items/" + cartItem.id + ".json",
       type: "PUT"
       contentType: "application/json"
@@ -67,18 +68,18 @@ module.exports = class Cart extends ChaplinModel
         "WB-Api-Token": util.getCookie(config.apiTokenName)
 
       success: (data) ->
-        @model.set @model.completeCartModel data.response
-        if @$cartPanel
-          @$cartPanel.slideDown()
-        @cartItem.success.apply(@cartItem, arguments) if w$.isFunction @cartItem.success
+        that.set that.completeCartModel data.response
+        if $cartPanel
+          $cartPanel.slideDown()
+        cartItem.success.apply(cartItem, arguments) if w$.isFunction cartItem.success
 
       error: (xhr) ->
         util.showAjaxError(xhr.responseText)
-        @cartItem.error.apply(@cartItem, arguments) if w$.isFunction @cartItem.error
+        cartItem.error.apply(cartItem, arguments) if w$.isFunction cartItem.error
 
       complete: ->
         util.hideAjaxIndicator()
-        @cartItem.complete.apply(@cartItem, arguments) if w$.isFunction @cartItem.complete
+        cartItem.complete.apply(cartItem, arguments) if w$.isFunction cartItem.complete
 
   updateVirtualCartDetail: (cartItem, $cartPanel)->
     @url = config.apiUrl + "/orders/virtual-cart-items/" + cartItem.id + ".json"
