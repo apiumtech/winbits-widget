@@ -5,7 +5,7 @@
         <h3>VALIDACIÓN</h3>
         <p>Para validar tu tarjeta es necesario que ingreses el número de seguridad de tu tarjeta</p>
         <label for="winbitsPaymentNumber"># de Seguridad</label>
-        <input type="text" class="required digits" placeholder="###" name="cvNumber" id="winbitsPaymentNumber" maxlength="3">
+        <input type="text" class="required digits" placeholder="{{cardInfo.securityNumberPlaceholder}}" name="cvNumber" id="winbitsPaymentNumber" maxlength="{{cardInfo.maxSecurityNumber}}">
         {{#if cardInfo.hasMSI}}
         <h3>MESES SIN INTERESES</h3>
         <p>Esta compra aplica para meses sin intereses. Si así lo deseas seleccione la opción más conveniente</p>
