@@ -21,7 +21,6 @@ module.exports = class LoginUtil
   expressLogin : (token) ->
     console.log "LoginUtil#expressLogin"
     apiToken = if token? then token else util.getCookie(config.apiTokenName)
-    console.log ["API Token", apiToken]
     that = @
     if apiToken and apiToken isnt "undefined"
       Backbone.$.ajax config.apiUrl + "/affiliation/express-login.json",
@@ -38,11 +37,12 @@ module.exports = class LoginUtil
         context: Backbone.$
         success: (data) ->
           console.log "express-login.json Success!"
-          console.log ["data", data.response]
           that.publishEvent 'applyLogin', data.response
-          if token?
+          if token? and data.response.profile?
             that.publishEvent 'setRegisterFb', data.response.profile
             that.publishEvent "showCompletaRegister", data.response
+          else
+            that.expressFacebookLogin Backbone.$
 
         error: (xhr) ->
           console.log "express-login.json Error!"
