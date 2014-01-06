@@ -50,13 +50,14 @@ module.exports = class PaymentView extends View
       postData.vertical = window.verticalId
       postData.shippingAddress = mediator.post_checkout.shippingAddress
       util.showAjaxIndicator('Procesando tu pago...')
-      Backbone.$.ajax config.apiUrl + "/orders/payment.json",
+
+      util.ajaxRequest( config.apiUrl + "/orders/payment.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
         data: JSON.stringify(postData)
-
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': window.token }
+      )
         success: (data) ->
           console.log ["data", data]
           payment = data.response.payments[0]
@@ -109,13 +110,16 @@ module.exports = class PaymentView extends View
     formData = mediator.post_checkout
     formData.vertical = window.verticalId
     util.showAjaxIndicator('Procesando tu pago...')
-    Backbone.$.ajax config.apiUrl + "/orders/payment.json",
+
+    util.ajaxRequest( config.apiUrl + "/orders/payment.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify(formData)
 
       headers:{ 'Accept-Language': 'es', 'WB-Api-Token': window.token }
+    )
+
       success: (data) ->
         console.log ["data", data]
         payment = data.response.payments[0]

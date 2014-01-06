@@ -28,7 +28,7 @@ module.exports = class Cart extends ChaplinModel
     console.log ["transferVirtualCart"]
     that = @
     formData = virtualCartData: JSON.parse(virtualCart)
-    Backbone.$.ajax config.apiUrl + "/orders/assign-virtual-cart.json",
+    util.ajaxRequest( config.apiUrl + "/orders/assign-virtual-cart.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -36,7 +36,7 @@ module.exports = class Cart extends ChaplinModel
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
-
+    )
       success: (data) ->
         util.setCookie config.vcartTokenName, '[]', 7
         that.set that.completeCartModel(data.response)
@@ -57,7 +57,7 @@ module.exports = class Cart extends ChaplinModel
       bits: cartItem.bits or 0
     util.showAjaxIndicator('Actualizando carrito...')
     that = @
-    Backbone.$.ajax config.apiUrl + "/orders/cart-items/" + cartItem.id + ".json",
+    util.ajaxRequest( config.apiUrl + "/orders/cart-items/" + cartItem.id + ".json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
@@ -66,7 +66,7 @@ module.exports = class Cart extends ChaplinModel
       headers:
         "Accept-Language": "es"
         "WB-Api-Token": util.getCookie(config.apiTokenName)
-
+    )
       success: (data) ->
         that.set that.completeCartModel data.response
         if $cartPanel
@@ -85,7 +85,7 @@ module.exports = class Cart extends ChaplinModel
     @url = config.apiUrl + "/orders/virtual-cart-items/" + cartItem.id + ".json"
     formData = quantity: cartItem.quantity
     util.showAjaxIndicator('Actualizando carrito...')
-    Backbone.$.ajax config.apiUrl + "/orders/virtual-cart-items/" + cartItem.id + ".json",
+    util.ajaxRequest( config.apiUrl + "/orders/virtual-cart-items/" + cartItem.id + ".json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
@@ -94,7 +94,7 @@ module.exports = class Cart extends ChaplinModel
       headers:
         "Accept-Language": "es"
         "wb-vcart": util.getCookie(config.vcartTokenName)
-
+    )
       success: (data) ->
         @model.storeVirtualCart data.response
         @model.set @model.completeCartModel(data.response)

@@ -265,3 +265,9 @@ module.exports =
     totalSaved = orderFullPrice - total + bitsTotal
     $orderDetailView.find('.wb-order-saving').text(totalSaved)
 
+   ajaxRequest:(url, options) ->
+     if not w$.browser.msie or /10.*/.test(w$.browser.version)
+      console.info ('Normal')
+      w$.ajax(url,options)
+     else
+      console.info ('Using easyXDM')

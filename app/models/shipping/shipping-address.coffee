@@ -19,15 +19,14 @@ module.exports = class ShippingAddress extends ChaplinModel
   getShippingAddressList: ->
     that = @
     url = config.apiUrl + "/affiliation/shipping-addresses.json"
-    Backbone.$.ajax url,
+    util.ajaxRequest( url,
       type: "GET"
       contentType: "application/json"
       dataType: "json"
-      context: @
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
-
+    )
       success: (data) ->
         model = {}
         model.addresses = data.response

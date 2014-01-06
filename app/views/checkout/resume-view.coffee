@@ -63,28 +63,30 @@ module.exports = class ResumeView extends View
     data = {skuProfileId: skuProfileId, orderId: orderId, quantity: quantity}
     url = config.apiUrl + "/orders/order-item/add.json"
     util.showAjaxIndicator()
-    Backbone.$.ajax url,
+    that = @
+    util.ajaxRequest( url,
       type: "POST"
       contentType: "application/json"
       dataType: "json"
-      context: @
+#      context: @
       data: JSON.stringify(data)
       headers:
         "Accept-Language": "es",
         "WB-Api-Token": util.getCookie(config.apiTokenName)
+    )
       success: (data) ->
         console.log ["Add order item Success!", data]
-        orderDetails = @model.attributes.orderDetails
+        orderDetails = that.model.attributes.orderDetails
         items = orderDetails.map( (it) ->
           if it.sku.id is skuProfileIdInt
             it.quantity = quantity
             it.amount = it.sku.price * quantity
           it
         )
-        @updateResumeView items
+        that.updateResumeView items
 
       error: (xhr) ->
-        @updateResumeView @model.attributes.orderDetails
+        that.updateResumeView that.model.attributes.orderDetails
         console.log xhr
         util.showAjaxError(xhr.responseText)
 
@@ -110,14 +112,15 @@ module.exports = class ResumeView extends View
   cancelOrder: (orderId) ->
     url = config.apiUrl + "/orders/orders/"+orderId+".json"
     util.showAjaxIndicator()
-    Backbone.$.ajax url,
+    util.ajaxRequest( url,
       type: "DELETE"
       contentType: "application/json"
       dataType: "json"
-      context: @
+#      context: @
       headers:
         "Accept-Language": "es",
         "WB-Api-Token": util.getCookie(config.apiTokenName)
+    )
       success: (data) ->
         console.log ["Cancel order Success!", data]
 

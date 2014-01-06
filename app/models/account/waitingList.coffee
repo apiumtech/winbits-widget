@@ -26,18 +26,18 @@ module.exports = class WaitingList extends ChaplinModel
       url += "status=" + statusWaitingList + "&site=" + siteWaitingList
 
     util.showAjaxIndicator()
-    Backbone.$.ajax url,
+    that = @
+    util.ajaxRequest( url,
       type: "GET"
       contentType: "application/json"
       dataType: "json"
-      context: @
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
-
+    )
       success: (data) ->
         modelData = {waitingListItems: data.response, status: statusWaitingList, site: siteWaitingList}
-        @publishEvent 'completeWaitingList', modelData
+        that.publishEvent 'completeWaitingList', modelData
 
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)

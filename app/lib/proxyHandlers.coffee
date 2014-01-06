@@ -32,18 +32,17 @@ module.exports = class ProxyHandlers
 
       that = @
       mediator.flags.fbConnect = true
-      Backbone.$.ajax config.apiUrl + "/affiliation/express-facebook-login.json",
+      util.ajaxRequest( config.apiUrl + "/affiliation/express-facebook-login.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
         data: JSON.stringify(facebookId: response[0].authResponse.userID)
         headers:
           "Accept-Language": "es"
-
         xhrFields:
           withCredentials: true
+      )
 
-        context: Backbone.$
         success: (data) ->
           console.log "express-facebook-login.json Success!"
           console.log ["data", data]

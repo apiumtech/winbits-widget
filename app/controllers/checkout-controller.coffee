@@ -23,12 +23,13 @@ module.exports = class CheckoutController extends ChaplinController
     orderId = window.order_id
     @order_id = orderId
     util.showAjaxIndicator('Inicializando checkout...')
-    w$.ajax config.apiUrl + "/orders/orders/"+ orderId + "/checkoutInfo.json",
+    that= @
+    util.ajaxRequest( config.apiUrl + "/orders/orders/"+ orderId + "/checkoutInfo.json",
       dataType: "json"
-      context: { controller: @}
       headers:{ 'Accept-Language': 'es', 'WB-Api-Token': window.token }
+    )
       success: (data) ->
-        @controller.initCheckout data.response
+        that.controller.initCheckout data.response
         util.hideAjaxIndicator()
 
       error: ->

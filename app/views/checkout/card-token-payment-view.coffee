@@ -46,21 +46,22 @@ module.exports = class CardTokenPaymentView extends View
       formData = util.serializeForm($form)
       $.extend paymentData.paymentInfo, formData
       util.showAjaxIndicator('Procesando tu pago...')
-      $.ajax config.apiUrl + "/orders/payment.json",
+      that=@
+      util.ajaxRequest( config.apiUrl + "/orders/payment.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
-        context: { that: @}
         data: JSON.stringify(paymentData)
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': window.token }
+      )
         success: (data) ->
           console.log ["data", data]
           payment = data.response.payments[0]
           bitsPayment = data.response.payments[1]
           if payment.status isnt 'FAILED' and payment.status isnt 'ERROR'
-            @that.$el.hide()
-            @that.publishEvent "setConfirm", data.response
-            @that.publishEvent "showStep", ".checkoutSummaryContainer", payment, bitsPayment
+            that.$el.hide()
+            that.publishEvent "setConfirm", data.response
+            that.publishEvent "showStep", ".checkoutSummaryContainer", payment, bitsPayment
           else
             util.showError(payment.paymentCapture.mensaje || payment.paymentCapture.message)
 

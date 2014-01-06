@@ -24,7 +24,7 @@ module.exports = class LoginUtil
     console.log ["API Token", apiToken]
     that = @
     if apiToken and apiToken isnt "undefined"
-      Backbone.$.ajax config.apiUrl + "/affiliation/express-login.json",
+      util.ajaxRequest( config.apiUrl + "/affiliation/express-login.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
@@ -35,7 +35,8 @@ module.exports = class LoginUtil
         xhrFields:
           withCredentials: true
 
-        context: Backbone.$
+#        context: Backbone.$
+      )
         success: (data) ->
           console.log "express-login.json Success!"
           console.log ["data", data.response]
@@ -90,7 +91,7 @@ module.exports = class LoginUtil
   initLogout : () ->
     that = this
     console.log "initLogout"
-    Backbone.$.ajax config.apiUrl + "/affiliation/logout.json",
+    util.ajaxRequest( config.apiUrl + "/affiliation/logout.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -99,7 +100,7 @@ module.exports = class LoginUtil
 
       headers:
         "Accept-Language": "es"
-
+    )
       success: (data) ->
         that.applyLogout data.response
 
@@ -145,7 +146,7 @@ module.exports = class LoginUtil
       profileUrl: profileUrl
       imageUrl: imageUrl
 
-    $.ajax config.apiUrl + "/affiliation/facebook",
+    util.ajaxRequest( config.apiUrl + "/affiliation/facebook",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -155,7 +156,7 @@ module.exports = class LoginUtil
 
       headers:
         "Accept-Language": "es"
-
+    )
       success: (data) ->
         console.log "facebook.json success!"
         that.publishEvent 'applyLogin', data.response
@@ -163,7 +164,6 @@ module.exports = class LoginUtil
           console.log ["Facebook registered", data.response.profile]
           that.publishEvent("setRegisterFb", data.response.profile)
           that.publishEvent "showCompletaRegister", data.response.profile
-
 
       error: (xhr) ->
         console.log "facebook.json error!"

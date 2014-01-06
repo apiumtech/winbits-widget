@@ -135,18 +135,19 @@ module.exports = class HomeController extends ChaplinController
           if account.providerId is 'twitter' and !account.available
             throw 'Twitter not connected!'
         message = options.message or 'Test message'
-        Backbone.$.ajax config.apiUrl + "/affiliation/twitterPublish/updateStatus.json",
+
+        util.ajaxRequest(
+          config.apiUrl + "/affiliation/twitterPublish/updateStatus.json",
           type: "POST"
           contentType: "application/json"
           dataType: "json"
           data: JSON.stringify(message: message)
           xhrFields:
             withCredentials: true
-
           headers:
             "Accept-Language": "es"
             "WB-Api-Token":  util.getCookie(config.apiTokenName)
-
+        )
           success: (data) ->
             if options.success
               options.success.call({}, [data.response])
@@ -206,7 +207,8 @@ module.exports = class HomeController extends ChaplinController
       data = `undefined`
       if mediator.flags.loggedIn
         data = {userId: mediator.profile.userId}
-      Backbone.$.ajax config.apiUrl + "/catalog/sku-profiles/" + options.id + "/info.json",
+
+      util.ajaxRequest( config.apiUrl + "/catalog/sku-profiles/" + options.id + "/info.json",
         type: "POST"
         dataType: "json"
         data: data
@@ -216,6 +218,7 @@ module.exports = class HomeController extends ChaplinController
         headers:
           "Accept-Language": "es"
           "WB-Api-Token":  util.getCookie(config.apiTokenName)
+      )
 
         success: (data) ->
           if options.success
@@ -237,7 +240,8 @@ module.exports = class HomeController extends ChaplinController
       data = {ids: options.ids.join()}
       if mediator.flags.loggedIn
         data.userId =mediator.profile.userId
-      Backbone.$.ajax config.apiUrl + "/catalog/sku-profiles-info.json",
+
+      util.ajaxRequest(config.apiUrl + "/catalog/sku-profiles-info.json",
         type: "POST"
         dataType: "json"
         data: data
@@ -247,6 +251,7 @@ module.exports = class HomeController extends ChaplinController
         headers:
           "Accept-Language": "es"
           "WB-Api-Token":  util.getCookie(config.apiTokenName)
+      )
 
         success: (data) ->
           options.success.call({}, [data.response]) if typeof options.success is 'function'
@@ -263,7 +268,7 @@ module.exports = class HomeController extends ChaplinController
       if !mediator.flags.loggedIn
         throw 'Not available if not logged in!'
 
-      Backbone.$.ajax config.apiUrl + "/affiliation/wish-list-items.json",
+      util.ajaxRequest( config.apiUrl + "/affiliation/wish-list-items.json",
         contentType: "application/json"
         dataType: "json"
         xhrFields:
@@ -271,6 +276,7 @@ module.exports = class HomeController extends ChaplinController
         headers:
           "Accept-Language": "es"
           "WB-Api-Token":  util.getCookie(config.apiTokenName)
+      )
         success: (data) ->
           options.success.call({}, [data.response]) if typeof options.success is 'function'
         error: (xhr) ->
@@ -284,7 +290,7 @@ module.exports = class HomeController extends ChaplinController
       if !mediator.flags.loggedIn
         throw 'Not available if not logged in!'
 
-      Backbone.$.ajax config.apiUrl + "/affiliation/wish-list-items.json",
+      util.ajaxRequest( config.apiUrl + "/affiliation/wish-list-items.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
@@ -295,6 +301,7 @@ module.exports = class HomeController extends ChaplinController
         headers:
           "Accept-Language": "es"
           "WB-Api-Token":  util.getCookie(config.apiTokenName)
+      )
 
         success: (data) ->
           if options.success
@@ -314,7 +321,7 @@ module.exports = class HomeController extends ChaplinController
       if !mediator.flags.loggedIn
         throw 'Not available if not logged in!'
 
-      Backbone.$.ajax config.apiUrl + "/affiliation/wish-list-items/" + options.brandId + "/.json",
+      util.ajaxRequest( config.apiUrl + "/affiliation/wish-list-items/" + options.brandId + "/.json",
         type: "DELETE"
         dataType: "json"
         xhrFields:
@@ -323,7 +330,7 @@ module.exports = class HomeController extends ChaplinController
         headers:
           "Accept-Language": "es"
           "WB-Api-Token":  util.getCookie(config.apiTokenName)
-
+      )
         success: (data) ->
           if options.success
             options.success.call({}, [data.response])
@@ -341,7 +348,7 @@ module.exports = class HomeController extends ChaplinController
       options = options or {}
       if !mediator.flags.loggedIn
         throw 'Not available if not logged in!'
-      Backbone.$.ajax config.apiUrl + "/affiliation/waiting-list-items.json",
+      util.ajaxRequest( config.apiUrl + "/affiliation/waiting-list-items.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
@@ -352,7 +359,7 @@ module.exports = class HomeController extends ChaplinController
         headers:
           "Accept-Language": "es"
           "WB-Api-Token":  util.getCookie(config.apiTokenName)
-
+      )
         success: (data) ->
           if options.success
             options.success.call({}, [data.response])
@@ -371,7 +378,7 @@ module.exports = class HomeController extends ChaplinController
       if !mediator.flags.loggedIn
         throw 'Not available if not logged in!'
 
-      Backbone.$.ajax config.apiUrl + "/affiliation/wish-list-items/" + options.id + "/.json",
+      util.ajaxRequest( config.apiUrl + "/affiliation/wish-list-items/" + options.id + "/.json",
         type: "DELETE"
         dataType: "json"
         xhrFields:
@@ -380,7 +387,7 @@ module.exports = class HomeController extends ChaplinController
         headers:
           "Accept-Language": "es"
           "WB-Api-Token":  util.getCookie(config.apiTokenName)
-
+      )
         success: (data) ->
           if options.success
             options.success.call({}, [data.response])

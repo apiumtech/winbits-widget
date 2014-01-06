@@ -136,28 +136,30 @@ module.exports = class CardsView extends View
     newCardData.cardPrincipal = newCardData.hasOwnProperty('cardPrincipal')
     $submitTriggers = $form.find('.wb-submit-trigger').prop('disabled', true)
     util.showAjaxIndicator()
-    $.ajax config.apiUrl + "/orders/card-subscription.json",
+    that = @
+    util.ajaxRequest( config.apiUrl + "/orders/card-subscription.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
-      context: { that: @, $form: $form, $submitTriggers: $submitTriggers }
       data: JSON.stringify(paymentInfo: newCardData)
       headers:
         "Accept-Language": "es",
         "WB-Api-Token": util.getCookie(config.apiTokenName)
+    )
+
       beforeSend: ->
-        @$form.valid()
+        $form.valid()
 
       success: (data) ->
         console.log ["Save new card success!", data]
-        @that.publishEvent 'showCardsManager'
+        that.publishEvent 'showCardsManager'
 
       error: (xhr) ->
         util.showAjaxError(xhr.responseText)
 
       complete: ->
         console.log "Request Completed!"
-        @$submitTriggers.prop('disabled', false)
+        $submitTriggers.prop('disabled', false)
         util.hideAjaxIndicator()
 
   submitEditCardForm: (e) ->
@@ -169,21 +171,24 @@ module.exports = class CardsView extends View
     updatedCardData.cardPrincipal = updatedCardData.hasOwnProperty('cardPrincipal')
     $submitTriggers = $form.find('.wb-submit-trigger').prop('disabled', true)
     util.showAjaxIndicator()
-    $.ajax config.apiUrl + "/orders/card-subscription/" + currentCardData.subscriptionId + ".json",
+    that = @
+
+    util.ajaxRequest( config.apiUrl + "/orders/card-subscription/" + currentCardData.subscriptionId + ".json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
-      context: { that: @, $form: $form, $submitTriggers: $submitTriggers }
+#      context: { that: @, $form: $form, $submitTriggers: $submitTriggers }
       data: JSON.stringify(paymentInfo: updatedCardData)
       headers:
         "Accept-Language": "es",
         "WB-Api-Token": util.getCookie(config.apiTokenName)
+    )
       beforeSend: ->
-        @$form.valid()
+        $form.valid()
 
       success: (data) ->
         console.log ["Update card success!", data]
-        @that.publishEvent 'showCardsManager'
+        that.publishEvent 'showCardsManager'
 
       error: (xhr) ->
         util.showAjaxError(xhr.responseText)
@@ -202,19 +207,20 @@ module.exports = class CardsView extends View
     answer = confirm '¿En verdad quieres eliminar la tarjeta ' + cardInfo.cardData.accountNumber + '?'
     if answer
       util.showAjaxIndicator('Eliminando tarjeta...')
-      $.ajax config.apiUrl + "/orders/card-subscription/" + cardInfo.subscriptionId + ".json",
+      that = @
+      util.ajaxRequest( config.apiUrl + "/orders/card-subscription/" + cardInfo.subscriptionId + ".json",
         type: "DELETE"
         dataType: "json"
-        context: { that: @, cardIndex: cardIndex }
+#        context: { that: @, cardIndex: cardIndex }
         headers:
           "Accept-Language": "es",
           "WB-Api-Token": util.getCookie(config.apiTokenName)
-
+      )
         success: (data) ->
           console.log ["Delete card success!", data]
-          cards = @that.model.get 'cards'
-          cards.splice(@cardIndex, 1)
-          @that.render()
+          cards = that.model.get 'cards'
+          cards.splice(cardIndex, 1)
+          that.render()
 
         error: (xhr) ->
           util.showAjaxError(xhr.responseText)
@@ -237,19 +243,20 @@ module.exports = class CardsView extends View
   setMainCard: (cardInfo) ->
     $ = Backbone.$
     util.showAjaxIndicator('Estableciendo tarjeta principal...')
+    that = @
     url = config.apiUrl + "/orders/card-subscription/" + cardInfo.subscriptionId + "/main.json"
-    $.ajax url,
+    util.ajaxRequest( url,
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
-      context: { that: @ }
+#      context: { that: @ }
       headers:
         "Accept-Language": "es",
         "WB-Api-Token": util.getCookie(config.apiTokenName)
-
+    )
       success: (data) ->
         console.log ["Update main card success!", data]
-        @that.publishEvent 'showCardsManager'
+        that.publishEvent 'showCardsManager'
 
       error: (xhr) ->
         util.showAjaxError(xhr.responseText)
