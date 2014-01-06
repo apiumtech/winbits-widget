@@ -223,16 +223,17 @@ module.exports = class WidgetSiteView extends View
     $ = Backbone.$
     if $('.wb-cart-detail-list').children().length > 0
       util.showAjaxIndicator('Generando tu Orden...')
-      Backbone.$.ajax config.apiUrl + "/orders/checkout.json",
+      that = @
+      util.ajaxRequest( config.apiUrl + "/orders/checkout.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
-        context: @
+#        context: @
         data: JSON.stringify(verticalId: config.verticalId)
         headers:
           "Accept-Language": "es",
           "WB-Api-Token": util.getCookie(config.apiTokenName)
-
+      )
         success: (data) ->
           console.log "Checkout Success!"
           resp = data.response
@@ -240,9 +241,9 @@ module.exports = class WidgetSiteView extends View
           withWarnings = if warnings != null && warnings.length > 0  then true else false
           if resp.failedCartDetails? or withWarnings
             util.hideAjaxIndicator()
-            @publishEvent 'showResume', resp
+            that.publishEvent 'showResume', resp
           else
-            @postToCheckoutApp resp
+            that.postToCheckoutApp resp
 
         error: (xhr) ->
           console.log xhr
@@ -289,7 +290,7 @@ module.exports = class WidgetSiteView extends View
   twitterShare: (e) ->
     e.preventDefault()
     console.log "twitter update status"
-    Backbone.$.ajax config.apiUrl + "/affiliation/twitterPublish/updateStatus.json",
+    util.ajaxRequest( config.apiUrl + "/affiliation/twitterPublish/updateStatus.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -300,7 +301,7 @@ module.exports = class WidgetSiteView extends View
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
-
+    )
       success: (data) ->
         console.log "updateStatus.json Success!"
 
@@ -314,7 +315,7 @@ module.exports = class WidgetSiteView extends View
   facebookShare: (e) ->
     e.preventDefault()
     console.log "facebook share"
-    Backbone.$.ajax config.apiUrl + "/affiliation/facebookPublish/share.json",
+    util.ajaxRequest( config.apiUrl + "/affiliation/facebookPublish/share.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -325,7 +326,7 @@ module.exports = class WidgetSiteView extends View
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
-
+    )
       success: (data) ->
         console.log "share.json Success!"
 

@@ -29,7 +29,7 @@ module.exports = class CheckoutController extends ChaplinController
       headers:{ 'Accept-Language': 'es', 'WB-Api-Token': window.token }
     )
       success: (data) ->
-        that.controller.initCheckout data.response
+        that.initCheckout data.response
         util.hideAjaxIndicator()
 
       error: ->

@@ -94,7 +94,7 @@ module.exports = class RegisterView extends View
 
     if $form.valid()
       submitButton = @$(e.currentTarget).prop('disabled', true)
-      Backbone.$.ajax config.apiUrl + "/affiliation/register.json",
+      util.ajaxRequest(config.apiUrl + "/affiliation/register.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
@@ -104,13 +104,13 @@ module.exports = class RegisterView extends View
         context: {$submitButton: submitButton}
         headers:
           "Accept-Language": "es"
+      )
         success: (data) ->
           console.log "Request Success!"
           console.log ["data", data]
           w$('.modal').modal 'hide'
           that.publishEvent "showConfirmation"
 
-       #
         error: (xhr) ->
           console.log xhr
           error = JSON.parse(xhr.responseText)
@@ -137,28 +137,29 @@ module.exports = class RegisterView extends View
       formData.gender = gender
 
       $saveButton = Backbone.$(e.currentTarget).val('Guardando...').prop('disabled', true)
-      Backbone.$.ajax config.apiUrl + "/affiliation/profile.json",
+      that=@
+      util.ajaxRequest(config.apiUrl + "/affiliation/profile.json",
         type: "PUT"
         contentType: "application/json"
         dataType: "json"
         data: JSON.stringify(formData)
-        context: { view: @, $form: $form, $saveButton: $saveButton }
+#        context: { view: @, $form: $form, $saveButton: $saveButton }
+      )
         beforeSend: ->
           util.validateForm @$form
-
         headers:
           "Accept-Language": "es"
           "WB-Api-Token": util.getCookie(config.apiTokenName)
 
         success: (data) ->
-          @view.publishEvent "profileUpdated", data.response
+          that.publishEvent "profileUpdated", data.response
           Backbone.$('#register-modal').modal 'hide'
 
         error: (xhr) ->
           util.showError("Error while updating profile")
 
         complete: ->
-          @$saveButton.val('Guardar').prop('disabled', false)
+          $saveButton.val('Guardar').prop('disabled', false)
 
   renderRegisterFormErrors: ($form, error) ->
     code = error.code or error.meta.code

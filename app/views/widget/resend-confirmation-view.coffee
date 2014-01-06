@@ -42,14 +42,16 @@ module.exports = class ResendConfirmationView extends View
     resendConfirmUrl = $resendConfirmLink.data('resend-confirm-url')
     $resendConfirmLink.prop('disabled', true)
     encodeComponent = encodeURI(resendConfirmUrl.substring(resendConfirmUrl.indexOf('/affiliation')))
-    Backbone.$.ajax config.apiUrl +  encodeComponent,
+    that = @
+    util.ajaxRequest(config.apiUrl +  encodeComponent,
       dataType: "json"
-      context: {view: @, $submitButton: $resendConfirmLink}
+#      context: {view: @, $submitButton: $resendConfirmLink}
       headers:
         "Accept-Language": "es"
+    )
       success: () ->
-        @view.$el.find('.modal').modal('hide').closest('.wb-modal-holder').hide()
-        @view.publishEvent 'showConfirmation'
+        that.$el.find('.modal').modal('hide').closest('.wb-modal-holder').hide()
+        that.publishEvent 'showConfirmation'
 
       complete: ->
-        @$submitButton.prop('disabled', false)
+        $resendConfirmLink.prop('disabled', false)

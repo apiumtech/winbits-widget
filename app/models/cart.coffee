@@ -67,6 +67,7 @@ module.exports = class Cart extends ChaplinModel
         "Accept-Language": "es"
         "WB-Api-Token": util.getCookie(config.apiTokenName)
     )
+
       success: (data) ->
         that.set that.completeCartModel data.response
         if $cartPanel
@@ -80,6 +81,8 @@ module.exports = class Cart extends ChaplinModel
       complete: ->
         util.hideAjaxIndicator()
         cartItem.complete.apply(cartItem, arguments) if w$.isFunction cartItem.complete
+
+
 
   updateVirtualCartDetail: (cartItem, $cartPanel)->
     @url = config.apiUrl + "/orders/virtual-cart-items/" + cartItem.id + ".json"
@@ -175,27 +178,28 @@ module.exports = class Cart extends ChaplinModel
       formData.cartItems.push skuProfileId: cartItem.id, quantity: cartItem.quantity, bits: cartItem.bits or 0
     util.showAjaxIndicator('Agregando artículo(s)...')
     headers = w$.extend {"Accept-Language": "es"}, data.headers
-    Backbone.$.ajax config.apiUrl + data.url,
+    that =@
+    util.ajaxRequest( config.apiUrl + data.url,
       type: "POST"
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify(formData)
-      context: model: @, cartItems: cartItems, options: options, $cartPanel: $cartPanel
+#      context: model: @, cartItems: cartItems, options: options, $cartPanel: $cartPanel
       headers: headers
-
+    )
       success: (data) ->
-        @model.set @model.completeCartModel data.response
-        if @$cartPanel
-          @$cartPanel.slideDown()
-        @options.success.apply(@cartItems, arguments) if w$.isFunction @options.success
+        that.set that.completeCartModel data.response
+        if $cartPanel
+          $cartPanel.slideDown()
+        options.success.apply(cartItems, arguments) if w$.isFunction options.success
 
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
-        @options.error.apply(@cartItems, arguments) if w$.isFunction @options.error
+        options.error.apply(cartItems, arguments) if w$.isFunction options.error
 
       complete: ->
         util.hideAjaxIndicator()
-        @options.complete.apply(@cartItems, arguments) if w$.isFunction @options.complete
+        options.complete.apply(cartItems, arguments) if w$.isFunction options.complete
 
   addToVirtualCart : (cartItems, $cartPanel, options) ->
     console.log "Adding to virtual cart..."
@@ -247,19 +251,20 @@ module.exports = class Cart extends ChaplinModel
 
   updateCartBits: (bits) ->
 #    util.showAjaxIndicator('Actualizando bits...')
-    Backbone.$.ajax config.apiUrl + "/orders/update-cart-bits.json",
+    that = @
+    util.ajaxRequest( config.apiUrl + "/orders/update-cart-bits.json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify({bitsTotal: bits})
-      context: @
+#      context: @
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
-
+    )
       success: (data) ->
-        @set 'bitsTotal', data.response.bitsTotal
-        @publishEvent('cartBitsUpdated', data.response)
+        that.set 'bitsTotal', data.response.bitsTotal
+        that.publishEvent('cartBitsUpdated', data.response)
 
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)

@@ -58,22 +58,23 @@ module.exports = class ProfileView extends View
         formData.zipCodeInfo  = {"id": formData.zipCodeInfo}
       formData.gender = gender
       button = @$el.find('#updateBtnProfile').prop 'disabled', true
-      Backbone.$.ajax @model.url,
+      that=@
+      util.ajaxRequest( @model.url,
         type: "PUT"
         contentType: "application/json"
         dataType: "json"
         data: JSON.stringify(formData)
-        context: {view: @, $saveButton: button}
+#        context: {view: @, $saveButton: button}
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
+      )
         error: ->
           console.log "error"
 
         success: (data) ->
-          @view.onProfileUpdated data.response
+          that.onProfileUpdated data.response
 
         complete: ->
-          @$saveButton.prop 'disabled', false
-
+          button.prop 'disabled', false
 
   attach: ->
     super
@@ -152,7 +153,7 @@ module.exports = class ProfileView extends View
     popup = window.open("", "twitter", "menubar=0,resizable=0,width=800,height=500")
     popup.postMessage
 
-    Backbone.$.ajax config.apiUrl + "/affiliation/connect/twitter",
+    util.ajaxRequest(config.apiUrl + "/affiliation/connect/twitter",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -160,7 +161,7 @@ module.exports = class ProfileView extends View
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
-
+    )
       success: (data) ->
         popup.window.location.href = data.response.socialUrl
         popup.focus()
@@ -196,7 +197,7 @@ module.exports = class ProfileView extends View
     popup = window.open("", "facebook", "menubar=0,resizable=0,width=800,height=500")
     popup.postMessage
 
-    Backbone.$.ajax config.apiUrl + "/affiliation/connect/facebook",
+    util.ajaxRequest( config.apiUrl + "/affiliation/connect/facebook",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -204,7 +205,7 @@ module.exports = class ProfileView extends View
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
-
+    )
       success: (data) ->
         popup.window.location.href = data.response.socialUrl
         popup.focus()
@@ -225,7 +226,7 @@ module.exports = class ProfileView extends View
   updateSocialAccountsStatus : () ->
     that = @
     console.log "update social accounts"
-    Backbone.$.ajax config.apiUrl + "/affiliation/social-accounts.json",
+    util.ajaxRequest(config.apiUrl + "/affiliation/social-accounts.json",
       type: "GET"
       contentType: "application/json"
       dataType: "json"
@@ -235,7 +236,7 @@ module.exports = class ProfileView extends View
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
-
+    )
       success: (data) ->
         console.log "accounts.json Success!"
         socialAccounts = data.response.socialAccounts
@@ -257,7 +258,7 @@ module.exports = class ProfileView extends View
   viewDetachFacebookAccount: (e) ->
     that = @
     console.log "detach facebook account"
-    Backbone.$.ajax config.apiUrl + "/affiliation/social-account/facebook.json",
+    util.ajaxRequest( config.apiUrl + "/affiliation/social-account/facebook.json",
       type: "DELETE"
       contentType: "application/json"
       dataType: "json"
@@ -267,7 +268,7 @@ module.exports = class ProfileView extends View
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
-
+    )
       success: (data) ->
         that.publishEvent 'updateSocialAccountsStatus'
 
@@ -281,7 +282,7 @@ module.exports = class ProfileView extends View
   viewDetachTwitterAccount: (e) ->
     that = @
     console.log "detach twitter account"
-    Backbone.$.ajax config.apiUrl + "/affiliation/social-account/twitter.json",
+    util.ajaxRequest( config.apiUrl + "/affiliation/social-account/twitter.json",
       type: "DELETE"
       contentType: "application/json"
       dataType: "json"
@@ -292,7 +293,7 @@ module.exports = class ProfileView extends View
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
-
+    )
       success: (data) ->
         console.log "deleteAccount.json Success!"
         that.publishEvent 'updateSocialAccountsStatus'
@@ -325,12 +326,13 @@ module.exports = class ProfileView extends View
     $form = $(e.currentTarget)
     formData = util.serializeForm($form)
     console.log "detach twitter account"
-    $.ajax config.apiUrl + "/affiliation/change-password.json",
+    util.ajaxRequest( config.apiUrl + "/affiliation/change-password.json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify(formData)
       context: {$form: $form, that: @}
+    )
       beforeSend: ->
         this.$form.valid()
       headers:
