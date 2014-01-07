@@ -53,17 +53,15 @@ module.exports = class ResetPasswordView extends View
         headers:
           "Accept-Language": "es"
           "WB-Api-Token":  util.getCookie(config.apiTokenName)
-      )
         success: (data) ->
           console.log ["Reset Password Status Success!", data]
           that.publishEvent 'cleanModal'
           that.publishEvent 'showMessageConfirm', "#wbi-reset-password-confirm-modal"
-
         error: (xhr, textStatus, errorThrown) ->
           console.log "Reset Password Status Error!"
           that.publishEvent 'cleanModal'
           util.showAjaxError(xhr.responseText)
-
         complete: ->
           console.log "Reset Password Status Completed!"
           submitButton.prop('disabled', false)
+      )

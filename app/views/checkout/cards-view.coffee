@@ -145,22 +145,18 @@ module.exports = class CardsView extends View
       headers:
         "Accept-Language": "es",
         "WB-Api-Token": util.getCookie(config.apiTokenName)
-    )
-
       beforeSend: ->
         $form.valid()
-
       success: (data) ->
         console.log ["Save new card success!", data]
         that.publishEvent 'showCardsManager'
-
       error: (xhr) ->
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         console.log "Request Completed!"
         $submitTriggers.prop('disabled', false)
         util.hideAjaxIndicator()
+    )
 
   submitEditCardForm: (e) ->
     e.preventDefault()
@@ -182,21 +178,18 @@ module.exports = class CardsView extends View
       headers:
         "Accept-Language": "es",
         "WB-Api-Token": util.getCookie(config.apiTokenName)
-    )
       beforeSend: ->
         $form.valid()
-
       success: (data) ->
         console.log ["Update card success!", data]
         that.publishEvent 'showCardsManager'
-
       error: (xhr) ->
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         console.log "Request Completed!"
         $submitTriggers.prop('disabled', false)
         util.hideAjaxIndicator()
+    )
 
   confirmDeleteCard: (e) ->
     e.preventDefault()
@@ -215,18 +208,16 @@ module.exports = class CardsView extends View
         headers:
           "Accept-Language": "es",
           "WB-Api-Token": util.getCookie(config.apiTokenName)
-      )
         success: (data) ->
           console.log ["Delete card success!", data]
           cards = that.model.get 'cards'
           cards.splice(cardIndex, 1)
           that.render()
-
         error: (xhr) ->
           util.showAjaxError(xhr.responseText)
-
         complete: ->
           util.hideAjaxIndicator()
+      )
 
   selectCard: (e) ->
     e.preventDefault()
@@ -253,18 +244,15 @@ module.exports = class CardsView extends View
       headers:
         "Accept-Language": "es",
         "WB-Api-Token": util.getCookie(config.apiTokenName)
-    )
       success: (data) ->
         console.log ["Update main card success!", data]
         that.publishEvent 'showCardsManager'
-
       error: (xhr) ->
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         console.log "Request Completed!"
         util.hideAjaxIndicator()
-
+    )
   showCardType: (e) ->
     $input = Backbone.$(e.currentTarget)
     cardType = util.getCreditCardType($input.val())

@@ -66,15 +66,13 @@ module.exports = class ProfileView extends View
         data: JSON.stringify(formData)
 #        context: {view: @, $saveButton: button}
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
-      )
         error: ->
           console.log "error"
-
         success: (data) ->
           that.onProfileUpdated data.response
-
         complete: ->
           button.prop 'disabled', false
+      )
 
   attach: ->
     super
@@ -161,7 +159,6 @@ module.exports = class ProfileView extends View
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
-    )
       success: (data) ->
         popup.window.location.href = data.response.socialUrl
         popup.focus()
@@ -171,12 +168,11 @@ module.exports = class ProfileView extends View
               Backbone.$(".modal").modal('hide')
               that.publishEvent 'updateSocialAccountsStatus'
         , 1000)
-
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         console.log "Request Completed!"
+    )
 
 
   viewAttachFacebookAccount: (e)->
@@ -205,7 +201,6 @@ module.exports = class ProfileView extends View
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
-    )
       success: (data) ->
         popup.window.location.href = data.response.socialUrl
         popup.focus()
@@ -215,13 +210,11 @@ module.exports = class ProfileView extends View
             Backbone.$(".modal").modal('hide')
             that.publishEvent 'updateSocialAccountsStatus'
         , 1000)
-
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         console.log "Request Completed!"
-
+    )
 
   updateSocialAccountsStatus : () ->
     that = @
@@ -232,11 +225,9 @@ module.exports = class ProfileView extends View
       dataType: "json"
       xhrFields:
         withCredentials: true
-
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
-    )
       success: (data) ->
         console.log "accounts.json Success!"
         socialAccounts = data.response.socialAccounts
@@ -247,13 +238,12 @@ module.exports = class ProfileView extends View
         that.publishEvent 'setProfile', {twitter: twitterFlag, facebook: facebookFlag}
         mediator.profile.socialAccounts = socialAccounts
         mediator.global.profile.socialAccounts = socialAccounts
-
       error: (xhr, textStatus, errorThrown) ->
         console.log "accounts.json Error!"
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         console.log "accounts.json Completed!"
+    )
 
   viewDetachFacebookAccount: (e) ->
     that = @
@@ -264,20 +254,17 @@ module.exports = class ProfileView extends View
       dataType: "json"
       xhrFields:
         withCredentials: true
-
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
-    )
       success: (data) ->
         that.publishEvent 'updateSocialAccountsStatus'
-
       error: (xhr, textStatus, errorThrown) ->
         console.log "deleteAccount.json Error!"
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         console.log "deleteAccount.json Completed!"
+    )
 
   viewDetachTwitterAccount: (e) ->
     that = @
@@ -289,21 +276,18 @@ module.exports = class ProfileView extends View
       data: {id: 'twitter'}
       xhrFields:
         withCredentials: true
-
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
-    )
       success: (data) ->
         console.log "deleteAccount.json Success!"
         that.publishEvent 'updateSocialAccountsStatus'
-
       error: (xhr, textStatus, errorThrown) ->
         console.log "deleteAccount.json Error!"
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         console.log "deleteAccount.json Completed!"
+    )
 
   cancelEditing: (e) ->
     $editProfileContainer = @$el.find(".editMiPerfil")
@@ -332,23 +316,20 @@ module.exports = class ProfileView extends View
       dataType: "json"
       data: JSON.stringify(formData)
       context: {$form: $form, that: @}
-    )
       beforeSend: ->
         this.$form.valid()
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
-
       success: (data) ->
         console.log "deleteAccount.json Success!"
         this.that.cancelEditing()
-
       error: (xhr, textStatus, errorThrown) ->
         console.log "deleteAccount.json Error!"
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         console.log "deleteAccount.json Completed!"
+    )
 
   showCardsManager: (e) ->
     $ = Backbone.$

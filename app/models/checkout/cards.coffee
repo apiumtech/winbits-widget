@@ -28,13 +28,11 @@ module.exports = class Cards extends ChaplinModel
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
-    )
       success: (data) ->
         console.log 'Success loading cards'
         that.set cards: data.response, cardItemLegend: that.cardItemLegend
-
       error: (xhr) ->
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         util.hideAjaxIndicator() if that.loadingIndicator
+    )

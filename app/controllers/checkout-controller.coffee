@@ -27,16 +27,15 @@ module.exports = class CheckoutController extends ChaplinController
     util.ajaxRequest( config.apiUrl + "/orders/orders/"+ orderId + "/checkoutInfo.json",
       dataType: "json"
       headers:{ 'Accept-Language': 'es', 'WB-Api-Token': window.token }
-    )
       success: (data) ->
         that.initCheckout data.response
         util.hideAjaxIndicator()
-
       error: ->
         util.showAjaxIndicator("La orden NO puede ser procesada." + "<br/> Se redireccionará en 5 segundos")
         setTimeout () ->
           window.location.href = window.verticalUrl
         , 5000
+    )
 
 
   initCheckout: (orderData)->

@@ -54,19 +54,17 @@ module.exports = class LoginView extends View
 #        context: {view: @, $submitButton: submitButton}
         headers:
           "Accept-Language": "es"
-      )
         success: (data) ->
           that.publishEvent "applyLogin", data.response
           Backbone.$('.modal').modal 'hide'
           if data.response.showRemainder == true
             that.publishEvent 'completeProfileRemainder'
-
         error: (xhr) ->
           error = JSON.parse(xhr.responseText)
           that.renderLoginFormErrors $form, error
-
         complete: ->
           submitButton.prop('disabled', false)
+      )
 
 #todo put this on template
   renderLoginFormErrors : ($form, error) ->

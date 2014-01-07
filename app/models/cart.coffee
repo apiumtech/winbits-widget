@@ -62,7 +62,7 @@ module.exports = class Cart extends ChaplinModel
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify(formData)
-      context: { cartItem: cartItem, $cartPanel: $cartPanel, model: @ }
+#      context: { cartItem: cartItem, $cartPanel: $cartPanel, model: @ }
       headers:
         "Accept-Language": "es"
         "WB-Api-Token": util.getCookie(config.apiTokenName)
@@ -83,36 +83,36 @@ module.exports = class Cart extends ChaplinModel
         cartItem.complete.apply(cartItem, arguments) if w$.isFunction cartItem.complete
 
 
-
   updateVirtualCartDetail: (cartItem, $cartPanel)->
     @url = config.apiUrl + "/orders/virtual-cart-items/" + cartItem.id + ".json"
     formData = quantity: cartItem.quantity
     util.showAjaxIndicator('Actualizando carrito...')
+    that = @
     util.ajaxRequest( config.apiUrl + "/orders/virtual-cart-items/" + cartItem.id + ".json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify(formData)
-      context: { cartItem: cartItem, $cartPanel: $cartPanel, model: @ }
+#      context: { cartItem: cartItem, $cartPanel: $cartPanel, model: @ }
       headers:
         "Accept-Language": "es"
         "wb-vcart": util.getCookie(config.vcartTokenName)
     )
       success: (data) ->
-        @model.storeVirtualCart data.response
-        @model.set @model.completeCartModel(data.response)
-        if @$cartPanel
-          @$cartPanel.slideDown()
-        @cartItem.success.apply(@cartItem, arguments) if w$.isFunction @cartItem.success
+        that.storeVirtualCart data.response
+        that.set that.completeCartModel(data.response)
+        if $cartPanel
+          $cartPanel.slideDown()
+        cartItem.success.apply(cartItem, arguments) if w$.isFunction cartItem.success
 
       error: (xhr) ->
         console.log ['PROBLEMS', xhr.responseText]
         util.showAjaxError(xhr.responseText)
-        @cartItem.error.apply(@cartItem, arguments) if w$.isFunction @cartItem.error
+        cartItem.error.apply(cartItem, arguments) if w$.isFunction cartItem.error
 
       complete: ->
         util.hideAjaxIndicator()
-        @cartItem.complete.apply(@cartItem, arguments) if w$.isFunction @cartItem.complete
+        cartItem.complete.apply(cartItem, arguments) if w$.isFunction cartItem.complete
 
   deleteVirtualCartDetail: (id)->
     console.log ["deleteVirtualCartDetail"]
@@ -149,16 +149,19 @@ module.exports = class Cart extends ChaplinModel
   loadUserCart: ()->
     console.log ["loadUserCart"]
     @url = config.apiUrl + "/orders/cart-items.json"
+    console.log "LOADING USER CART COOKIE ->>> "+util.getCookie(config.apiTokenName)
     @fetch
+      headers:{ 'Accept-Language': 'es', "WB-Api-Token": util.getCookie(config.apiTokenName)}
       error: ->
-        console.log "error",
-      headers:{ 'Accept-Language': 'es', "WB-Api-Token": util.getCookie(config.apiTokenName)},
+      console.log "error in load user cart"
+
       success: ->
         console.log "success loadUserCart"
         #that.$el.find(".myPerfil").slideDown()
           #that.$el.find(".editMiPerfil").slideUp()
+
       complete: ->
-        console.log "complete"
+        console.log "complete transaction"
 
   addToUserCart : (cartItems, $cartPanel, options) ->
     console.log "Adding to user cart..."
@@ -186,20 +189,18 @@ module.exports = class Cart extends ChaplinModel
       data: JSON.stringify(formData)
 #      context: model: @, cartItems: cartItems, options: options, $cartPanel: $cartPanel
       headers: headers
-    )
       success: (data) ->
         that.set that.completeCartModel data.response
         if $cartPanel
           $cartPanel.slideDown()
         options.success.apply(cartItems, arguments) if w$.isFunction options.success
-
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
         options.error.apply(cartItems, arguments) if w$.isFunction options.error
-
       complete: ->
         util.hideAjaxIndicator()
         options.complete.apply(cartItems, arguments) if w$.isFunction options.complete
+    )
 
   addToVirtualCart : (cartItems, $cartPanel, options) ->
     console.log "Adding to virtual cart..."

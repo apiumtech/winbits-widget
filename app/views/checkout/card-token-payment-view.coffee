@@ -53,7 +53,6 @@ module.exports = class CardTokenPaymentView extends View
         dataType: "json"
         data: JSON.stringify(paymentData)
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': window.token }
-      )
         success: (data) ->
           console.log ["data", data]
           payment = data.response.payments[0]
@@ -64,9 +63,8 @@ module.exports = class CardTokenPaymentView extends View
             that.publishEvent "showStep", ".checkoutSummaryContainer", payment, bitsPayment
           else
             util.showError(payment.paymentCapture.mensaje || payment.paymentCapture.message)
-
         error: (xhr) ->
           util.showAjaxError('El servicio de pagos no se encuentra disponible. Por favor intántalo más tarde')
-
         complete: ->
           util.hideAjaxIndicator()
+      )

@@ -73,7 +73,6 @@ module.exports = class ResumeView extends View
       headers:
         "Accept-Language": "es",
         "WB-Api-Token": util.getCookie(config.apiTokenName)
-    )
       success: (data) ->
         console.log ["Add order item Success!", data]
         orderDetails = that.model.attributes.orderDetails
@@ -84,15 +83,14 @@ module.exports = class ResumeView extends View
           it
         )
         that.updateResumeView items
-
       error: (xhr) ->
         that.updateResumeView that.model.attributes.orderDetails
         console.log xhr
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         console.log "Request Completed!"
         util.hideAjaxIndicator()
+    )
 
 
   deleteItem: (e) ->
@@ -120,17 +118,15 @@ module.exports = class ResumeView extends View
       headers:
         "Accept-Language": "es",
         "WB-Api-Token": util.getCookie(config.apiTokenName)
-    )
       success: (data) ->
         console.log ["Cancel order Success!", data]
-
       error: (xhr) ->
         console.log xhr
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         console.log "Request Completed!"
         util.hideAjaxIndicator()
+    )
 
   updateBitsTotal: (bitsTotal) ->
     console.log ['update bits total', bitsTotal]

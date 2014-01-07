@@ -104,21 +104,19 @@ module.exports = class RegisterView extends View
         context: {$submitButton: submitButton}
         headers:
           "Accept-Language": "es"
-      )
         success: (data) ->
           console.log "Request Success!"
           console.log ["data", data]
           w$('.modal').modal 'hide'
           that.publishEvent "showConfirmation"
-
         error: (xhr) ->
           console.log xhr
           error = JSON.parse(xhr.responseText)
           that.renderRegisterFormErrors $form, error
-
         complete: ->
           console.log "Request Completed!"
           this.$submitButton.prop('disabled', false)
+      )
 
   registerStep2: (e)->
     e.preventDefault()
@@ -144,22 +142,19 @@ module.exports = class RegisterView extends View
         dataType: "json"
         data: JSON.stringify(formData)
 #        context: { view: @, $form: $form, $saveButton: $saveButton }
-      )
         beforeSend: ->
           util.validateForm @$form
         headers:
           "Accept-Language": "es"
           "WB-Api-Token": util.getCookie(config.apiTokenName)
-
         success: (data) ->
           that.publishEvent "profileUpdated", data.response
           Backbone.$('#register-modal').modal 'hide'
-
         error: (xhr) ->
           util.showError("Error while updating profile")
-
-        complete: ->
+       complete: ->
           $saveButton.val('Guardar').prop('disabled', false)
+      )
 
   renderRegisterFormErrors: ($form, error) ->
     code = error.code or error.meta.code

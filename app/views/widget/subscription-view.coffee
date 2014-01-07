@@ -64,21 +64,18 @@ module.exports = class SubscriptionView extends View
       dataType: "json"
       data: JSON.stringify({subscriptions:sbs, newsletterFormat: format, newsletterPeriodicity: periodicity})
 #      context: {$saveLink: link, that: @}
-
       headers:
         "Accept-Language": "es"
         "WB-Api-Token": util.getCookie(config.apiTokenName)
-    )
       success: (data) ->
         console.log ["Subscription updated1", data.response]
         that.publishEvent 'setSubscription', data.response
-
       error: (xhr, textStatus, errorThrown) ->
         util.showError("Error while updating subscription")
-
       complete: ->
         console.log "Request Completed!"
         link.prop 'disabled', false
+    )
 
   attach: ()->
     super

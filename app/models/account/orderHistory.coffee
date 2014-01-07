@@ -34,18 +34,15 @@ module.exports = class OrderHistory extends ChaplinModel
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
-    )
       success: (data) ->
         modelData = {orders: data.response, status: status, sort: sort}
         that.set that.completeOrdersHistory(modelData)
         that.publishEvent 'orderRecordReady'
-
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         util.hideAjaxIndicator()
-
+    )
 
   completeOrdersHistory: (data) ->
     model = {}

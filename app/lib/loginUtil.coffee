@@ -31,24 +31,20 @@ module.exports = class LoginUtil
         data: JSON.stringify(apiToken: apiToken)
         headers:
           "Accept-Language": "es"
-
         xhrFields:
           withCredentials: true
-
 #        context: Backbone.$
-      )
         success: (data) ->
           console.log "express-login.json Success!"
           console.log ["data", data.response]
           that.publishEvent 'applyLogin', data.response
           if token?
-            that.publishEvent 'setRegisterFb', data.response.profile
-            that.publishEvent "showCompletaRegister", data.response
-
+            Backbone.$.publishEvent 'setRegisterFb', data.response.profile
+            Backbone.$.publishEvent "showCompletaRegister", data.response
         error: (xhr) ->
           console.log "express-login.json Error!"
           util.showAjaxError(xhr.responseText)
-
+      )
     else
       @expressFacebookLogin Backbone.$
 
@@ -97,18 +93,15 @@ module.exports = class LoginUtil
       dataType: "json"
       xhrFields:
         withCredentials: true
-
       headers:
         "Accept-Language": "es"
-    )
       success: (data) ->
         that.applyLogout data.response
-
       error: (xhr) ->
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         console.log "logout.json Completed!"
+    )
 
   applyLogout : (logoutData) ->
     mediator.proxy.post
@@ -153,10 +146,8 @@ module.exports = class LoginUtil
       data: JSON.stringify(payLoad)
       xhrFields:
         withCredentials: true
-
       headers:
         "Accept-Language": "es"
-    )
       success: (data) ->
         console.log "facebook.json success!"
         that.publishEvent 'applyLogin', data.response
@@ -164,7 +155,7 @@ module.exports = class LoginUtil
           console.log ["Facebook registered", data.response.profile]
           that.publishEvent("setRegisterFb", data.response.profile)
           that.publishEvent "showCompletaRegister", data.response.profile
-
       error: (xhr) ->
         console.log "facebook.json error!"
         util.showAjaxError(xhr.responseText)
+    )

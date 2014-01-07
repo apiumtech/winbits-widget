@@ -267,7 +267,8 @@ module.exports =
 
    ajaxRequest:(url, options) ->
      if not w$.browser.msie or /10.*/.test(w$.browser.version)
-      console.info ('Normal')
+      console.info ('No IE transaction')
       w$.ajax(url,options)
      else
       console.info ('Using easyXDM')
+      mediator.rpc.request(url, options, options.success, options.error, options.complete)

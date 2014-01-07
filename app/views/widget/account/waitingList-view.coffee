@@ -38,13 +38,12 @@ module.exports = class WaitingListView extends View
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
-    )
       success: (data) ->
         modelData = {waitingListItems: data.response}
         that.publishEvent 'completeWaitingList', modelData
-
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
+    )
 
   filterWaitingList: (e) ->
      e.preventDefault()

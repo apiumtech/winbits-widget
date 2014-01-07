@@ -35,10 +35,9 @@ module.exports = class WishListView extends View
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
-    )
       success: (data) ->
         modelData = {brands: data.response}
         that.publishEvent 'completeWishList', modelData
-
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
+    )

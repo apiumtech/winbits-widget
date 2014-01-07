@@ -147,7 +147,6 @@ module.exports = class HomeController extends ChaplinController
           headers:
             "Accept-Language": "es"
             "WB-Api-Token":  util.getCookie(config.apiTokenName)
-        )
           success: (data) ->
             if options.success
               options.success.call({}, [data.response])
@@ -160,6 +159,7 @@ module.exports = class HomeController extends ChaplinController
           complete: ->
             if options.complete
               options.complete.call({}, [])
+        )
       else
         throw 'Not available if not logged in!'
 
@@ -175,30 +175,27 @@ module.exports = class HomeController extends ChaplinController
           if account.providerId is 'facebook' and !account.available
             throw 'Facebook not connected!'
         message = options.message or 'Test message'
-        Backbone.$.ajax config.apiUrl + "/affiliation/facebookPublish/share.json",
+        util.ajaxRequest( config.apiUrl + "/affiliation/facebookPublish/share.json",
           type: "POST"
           contentType: "application/json"
           dataType: "json"
           data: JSON.stringify(message: message)
           xhrFields:
             withCredentials: true
-
           headers:
             "Accept-Language": "es"
             "WB-Api-Token":  util.getCookie(config.apiTokenName)
-
           success: (data) ->
             if options.success
               options.success.call({}, [data.response])
-
           error: (xhr, textStatus, errorThrown) ->
             error = JSON.parse(xhr.responseText)
             if options.error
               options.error.call({}, [error.response])
-
           complete: ->
             if options.complete
               options.complete.call({}, [])
+        )
       else
         throw 'Not available if not logged in!'
 
@@ -214,25 +211,20 @@ module.exports = class HomeController extends ChaplinController
         data: data
         xhrFields:
           withCredentials: true
-
         headers:
           "Accept-Language": "es"
           "WB-Api-Token":  util.getCookie(config.apiTokenName)
-      )
-
         success: (data) ->
           if options.success
             options.success.call({}, [data.response])
-
         error: (xhr) ->
           error = JSON.parse(xhr.responseText)
           if options.error
             options.error.call({}, [error.response])
-
         complete: ->
           if options.complete
             options.complete.call({}, [])
-
+      )
     window.Winbits.getSkuProfilesInfo = (options) ->
       options = options or {}
       if not options.ids
@@ -247,21 +239,17 @@ module.exports = class HomeController extends ChaplinController
         data: data
         xhrFields:
           withCredentials: true
-
         headers:
           "Accept-Language": "es"
           "WB-Api-Token":  util.getCookie(config.apiTokenName)
-      )
-
         success: (data) ->
           options.success.call({}, [data.response]) if typeof options.success is 'function'
-
         error: (xhr) ->
           error = JSON.parse(xhr.responseText)
           options.error.call({}, [error.response]) if typeof options.error is 'function'
-
         complete: ->
           options.complete.call({}, []) if typeof options.complete is 'function'
+      )
 
     window.Winbits.getWishListItems = () ->
       options = options or {}
@@ -276,7 +264,6 @@ module.exports = class HomeController extends ChaplinController
         headers:
           "Accept-Language": "es"
           "WB-Api-Token":  util.getCookie(config.apiTokenName)
-      )
         success: (data) ->
           options.success.call({}, [data.response]) if typeof options.success is 'function'
         error: (xhr) ->
@@ -284,6 +271,7 @@ module.exports = class HomeController extends ChaplinController
           options.error.call({}, [error.response]) if typeof options.error is 'function'
         complete: ->
           options.complete.call({}, []) if typeof options.complete is 'function'
+      )
 
     window.Winbits.addToWishList = (options) ->
       options = options or {}
@@ -297,24 +285,20 @@ module.exports = class HomeController extends ChaplinController
         data: JSON.stringify {brandId: options.brandId}
         xhrFields:
           withCredentials: true
-
         headers:
           "Accept-Language": "es"
           "WB-Api-Token":  util.getCookie(config.apiTokenName)
-      )
-
         success: (data) ->
           if options.success
             options.success.call({}, [data.response])
-
         error: (xhr, textStatus, errorThrown) ->
           error = JSON.parse(xhr.responseText)
           if options.error
             options.error.call({}, [error.response])
-
         complete: ->
           if options.complete
             options.complete.call({}, [])
+      )
 
     window.Winbits.deleteFromWishList = (options) ->
       options = options or {}
@@ -326,23 +310,20 @@ module.exports = class HomeController extends ChaplinController
         dataType: "json"
         xhrFields:
           withCredentials: true
-
         headers:
           "Accept-Language": "es"
           "WB-Api-Token":  util.getCookie(config.apiTokenName)
-      )
         success: (data) ->
           if options.success
             options.success.call({}, [data.response])
-
         error: (xhr) ->
           error = JSON.parse(xhr.responseText)
           if options.error
             options.error.call({}, [error.response])
-
         complete: ->
           if options.complete
             options.complete.call({}, [])
+      )
 
     window.Winbits.addToWaitingList = (options) ->
       options = options or {}
@@ -355,23 +336,20 @@ module.exports = class HomeController extends ChaplinController
         data: JSON.stringify {skuProfileId: options.id}
         xhrFields:
           withCredentials: true
-
         headers:
           "Accept-Language": "es"
           "WB-Api-Token":  util.getCookie(config.apiTokenName)
-      )
         success: (data) ->
           if options.success
             options.success.call({}, [data.response])
-
         error: (xhr, textStatus, errorThrown) ->
           error = JSON.parse(xhr.responseText)
           if options.error
             options.error.call({}, [error.response])
-
         complete: ->
           if options.complete
             options.complete.call({}, [])
+      )
 
     window.Winbits.deleteFromWaitingList = (options) ->
       options = options or {}
@@ -383,20 +361,17 @@ module.exports = class HomeController extends ChaplinController
         dataType: "json"
         xhrFields:
           withCredentials: true
-
         headers:
           "Accept-Language": "es"
           "WB-Api-Token":  util.getCookie(config.apiTokenName)
-      )
         success: (data) ->
           if options.success
             options.success.call({}, [data.response])
-
         error: (xhr, textStatus, errorThrown) ->
           error = JSON.parse(xhr.responseText)
           if options.error
             options.error.call({}, [error.response])
-
         complete: ->
           if options.complete
             options.complete.call({}, [])
+      )

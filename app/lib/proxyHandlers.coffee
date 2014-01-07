@@ -2,6 +2,7 @@ mediator = require 'chaplin/mediator'
 EventBroker = require 'chaplin/lib/event_broker'
 token = require 'lib/token'
 config = require 'config'
+util = require 'lib/util'
 
 module.exports = class ProxyHandlers
 
@@ -41,8 +42,6 @@ module.exports = class ProxyHandlers
           "Accept-Language": "es"
         xhrFields:
           withCredentials: true
-      )
-
         success: (data) ->
           console.log "express-facebook-login.json Success!"
           console.log ["data", data]
@@ -51,11 +50,10 @@ module.exports = class ProxyHandlers
             console.log ["Show Complete Register.", data.response.profile]
             that.publishEvent("setRegisterFb", data.response.profile)
             that.publishEvent "showCompletaRegister", data.response.profile
-
         error: (xhr, textStatus, errorThrown) ->
           console.log "express-facebook-login.json Error!"
           that.publishEvent 'showRegisterByReferredCode'
-
+      )
     else
       console.log "calling loadVirtualCart"
       @publishEvent "loadVirtualCart"

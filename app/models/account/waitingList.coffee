@@ -34,16 +34,14 @@ module.exports = class WaitingList extends ChaplinModel
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
-    )
       success: (data) ->
         modelData = {waitingListItems: data.response, status: statusWaitingList, site: siteWaitingList}
         that.publishEvent 'completeWaitingList', modelData
-
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         util.hideAjaxIndicator()
+    )
 
   completeWaitingList: (data) ->
     model = {}

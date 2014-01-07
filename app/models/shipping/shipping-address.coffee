@@ -26,15 +26,14 @@ module.exports = class ShippingAddress extends ChaplinModel
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
-    )
       success: (data) ->
         model = {}
         model.addresses = data.response
         that.set model
         that.publishEvent 'shippingReady'
-
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
+    )
 
   completeShippingAddress: (data) ->
     console.log 'refrescando'

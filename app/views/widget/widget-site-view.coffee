@@ -233,7 +233,6 @@ module.exports = class WidgetSiteView extends View
         headers:
           "Accept-Language": "es",
           "WB-Api-Token": util.getCookie(config.apiTokenName)
-      )
         success: (data) ->
           console.log "Checkout Success!"
           resp = data.response
@@ -244,15 +243,11 @@ module.exports = class WidgetSiteView extends View
             that.publishEvent 'showResume', resp
           else
             that.postToCheckoutApp resp
-
         error: (xhr) ->
           console.log xhr
           error = JSON.parse(xhr.responseText)
           util.hideAjaxIndicator()
-  #        alert error.meta.message
-
-        complete: ->
-#          util.hideAjaxIndicator()
+      )
     else
       util.showError('Agrega algo a tu carrito para que lo puedas comprar')
 
@@ -322,21 +317,17 @@ module.exports = class WidgetSiteView extends View
       data: JSON.stringify(message: 'Yo ya me registré en Winbits (facebook test)')
       xhrFields:
         withCredentials: true
-
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
-    )
       success: (data) ->
         console.log "share.json Success!"
-
       error: (xhr) ->
         console.log "share.json Error!"
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         console.log "share.json Completed!"
-
+    )
   forgotPassword: () ->
     console.log "WidgetSiteView#viewForgotPassword"
     @$('.modal').modal 'hide'

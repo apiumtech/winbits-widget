@@ -48,10 +48,9 @@ module.exports = class ResendConfirmationView extends View
 #      context: {view: @, $submitButton: $resendConfirmLink}
       headers:
         "Accept-Language": "es"
-    )
       success: () ->
         that.$el.find('.modal').modal('hide').closest('.wb-modal-holder').hide()
         that.publishEvent 'showConfirmation'
-
       complete: ->
         $resendConfirmLink.prop('disabled', false)
+    )

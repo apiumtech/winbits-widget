@@ -47,20 +47,18 @@ module.exports = class ForgotPasswordView extends View
         headers:
           "Accept-Language": "es"
           "WB-Api-Token":  util.getCookie(config.apiTokenName)
-      )
         success: (data) ->
           console.log ["RecoverPasswordStatus.json Success!", data]
           that.publishEvent 'cleanModal'
           that.publishEvent 'showMessageConfirm', "#wbi-recover-password-confirm-modal"
-
         error: (xhr, textStatus, errorThrown) ->
           console.log "RecoverPasswordStatus.json Error!"
           that.publishEvent 'cleanModal'
           util.showAjaxError(xhr.responseText)
-
         complete: ->
           console.log "RecoverPasswordStatus.json Completed!"
           this.$submitButton.prop('disabled', false)
+      )
 
   goToRegisterLink: (e) ->
     e.preventDefault()

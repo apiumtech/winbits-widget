@@ -28,21 +28,18 @@ module.exports = class BitRecord extends ChaplinModel
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.getCookie(config.apiTokenName)
-    )
       success: (data) ->
         console.log ["Success: Update  bits", data.response]
         that.set that.completeBitRecord(data.response)
         #@publishEvent('orderBitsUpdated', data.response)
         #if data.response.cashTotal is 0 
         #    @publishEvent('showBitsPayment')
-        @publishEvent 'bitRecordReady'
-
+        that.publishEvent 'bitRecordReady'
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         util.hideAjaxIndicator()
-
+    )
     console.log ["wee", args]
 
   completeBitRecord: (data) ->

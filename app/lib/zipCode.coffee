@@ -8,13 +8,12 @@ module.exports = ($)->
     unless cp.length is 5
       return
     util.ajaxRequest(
-      url: config.apiUrl + "/affiliation/locations/" + cp + ".json"
+      url: config.apiUrl + "/affiliation/locations/" + cp + ".json",
       dataType: "json"
-    )
       success: (data) ->
         that.renderData element, data, itemSelected
         callback()  if typeof callback is "function"
-
+    )
   renderData : ($element, data, itemSelected) ->
     $element.unwrap()
     $element.parent().find(".selectContent").remove()
