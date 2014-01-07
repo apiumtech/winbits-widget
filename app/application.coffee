@@ -20,8 +20,9 @@ module.exports = class Application
     #console.log window.Winbits
 
     if not checkout
+      console.log ['WINBITS', window.Winbits]
       w$.extend config, Winbits.userConfig or {}
-      window.Winbits = {}
+#      window.Winbits = {}
       @initHomeControllers()
     else
       @initChkControllers()
