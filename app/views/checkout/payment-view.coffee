@@ -282,6 +282,14 @@ module.exports = class PaymentView extends View
     cardInfo = cardData.cardInfo
     mediator.post_checkout.paymentMethod = 'cybersource.token'
     mediator.post_checkout.paymentInfo = subscriptionId: cardInfo.subscriptionId
+
+    if cardInfo.cardData.cardType is "American Express"
+      cardInfo.maxSecurityNumber = 4
+      cardInfo.securityNumberPlaceholder = "\#\#\#\#"
+    else
+      cardInfo.maxSecurityNumber = 3
+      cardInfo.securityNumberPlaceholder = "\#\#\#"
+
     @cardTokenPaymentView.model.set cardInfo: cardInfo
     @cardTokenPaymentView.render()
     @cardTokenPaymentView.$el.find('#wbi-card-token-payment-view').show()
