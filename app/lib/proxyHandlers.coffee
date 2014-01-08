@@ -20,13 +20,13 @@ module.exports = class ProxyHandlers
     @subscribeEvent 'facebookMeHandler', @facebookMeHandler
 
   getTokensHandler: (tokensDef) ->
-    console.log ["getTokensHandler", tokensDef]
+    console.log ["Handle response for: getTokensHandler...", tokensDef]
     token.segregateTokens tokensDef
     @publishEvent 'expressLogin'
 
 
   facebookStatusHandler: (response) ->
-    console.log ["Facebook status", response]
+    console.log ["Handle response for: facebookStatus...", response]
 
     if response[0].status is "connected"
 
@@ -63,7 +63,7 @@ module.exports = class ProxyHandlers
       @publishEvent 'showRegisterByReferredCode'
 
   facebookLoginHandler: (response) ->
-    console.log ["Facebook Login", response]
+    console.log ["Handle response for: facebookLogin...", response]
     if response[0].authResponse
       console.log "Requesting facebook profile..."
       mediator.facebook.accessToken = response[0].authResponse.accessToken
@@ -72,6 +72,7 @@ module.exports = class ProxyHandlers
       console.log "Facebook login failed!"
 
   facebookMeHandler: (response) ->
+    console.log ["Handle response for: facebookMe...", response]
     Backbone.$('.modal').modal 'hide'
     if response[0].email
       @publishEvent "loginFacebook", response[0]
