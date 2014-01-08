@@ -19,8 +19,9 @@ module.exports = class LoginUtil
     @subscribeEvent 'loginFacebook', @loginFacebook
 
   expressLogin : (token) ->
+    console.log "Doing express login"
     console.log "LoginUtil#expressLogin"
-    apiToken = if token? then token else util.getCookie(config.apiTokenName)
+    apiToken = if token? then token else util.retrieveKey(config.apiTokenName)
     that = @
     if apiToken and apiToken isnt "undefined"
       Backbone.$.ajax config.apiUrl + "/affiliation/express-login.json",
@@ -113,7 +114,7 @@ module.exports = class LoginUtil
 
   applyLogout : (logoutData) ->
     Winbits.rpc.logout(mediator.flags.fbConnect)
-    util.deleteCookie config.apiTokenName
+    util.deleteKey config.apiTokenName
     @publishEvent "resetComponents"
     @publishEvent "showHeaderLogout"
     @publishEvent "loggedOut"

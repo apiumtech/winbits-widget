@@ -4,6 +4,8 @@ ChaplinMediator = require 'chaplin/mediator'
 LoginUtil = require 'lib/loginUtil'
 ProxyHandlers = require 'lib/proxyHandlers'
 config = require 'config'
+EventBroker = require 'chaplin/lib/event_broker'
+token = require 'lib/token'
 
 #routes = require 'routes'
 #_ = require 'underscore'
@@ -16,8 +18,9 @@ module.exports = class Application
   #title: 'Brunch example application'
 
   initialize: (checkout)->
-    #console.log config
-    #console.log window.Winbits
+    Winbits.$(window.document).on 'winbitsrpcready', () ->
+      console.log 'Publishing event proxyLoaded'
+      EventBroker.publishEvent('proxyLoaded')
 
     if not checkout
       console.log ['WINBITS', window.Winbits]
@@ -32,6 +35,8 @@ module.exports = class Application
     @initMediator()
 
     Object.freeze? this
+
+    token.requestTokens(Winbits.$)
 
   # Create additional mediator properties.
   initMediator: ->

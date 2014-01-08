@@ -18,7 +18,7 @@ module.exports = class Cart extends ChaplinModel
     @fetch
       error: ->
         console.log "error",
-      headers:{ 'Accept-Language': 'es', 'wb-vcart': util.getCookie(config.vcartTokenName)}
+      headers:{ 'Accept-Language': 'es', 'wb-vcart': util.retrieveKey(config.vcartTokenName)}
       success: ->
         console.log "success load Virtual cart"
       complete: ->
@@ -35,10 +35,10 @@ module.exports = class Cart extends ChaplinModel
       data: JSON.stringify(formData)
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
-        util.setCookie config.vcartTokenName, '[]', 7
+        util.storeKey config.vcartTokenName, '[]', 7
         that.set that.completeCartModel(data.response)
         Winbits.rpc.storeVirtualCart('[]')
         that.publishEvent 'doCheckout' if mediator.flags.autoCheckout
@@ -63,7 +63,7 @@ module.exports = class Cart extends ChaplinModel
       context: { cartItem: cartItem, $cartPanel: $cartPanel, model: @ }
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token": util.getCookie(config.apiTokenName)
+        "WB-Api-Token": util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
         that.set that.completeCartModel data.response
@@ -91,7 +91,7 @@ module.exports = class Cart extends ChaplinModel
       context: { cartItem: cartItem, $cartPanel: $cartPanel, model: @ }
       headers:
         "Accept-Language": "es"
-        "wb-vcart": util.getCookie(config.vcartTokenName)
+        "wb-vcart": util.retrieveKey(config.vcartTokenName)
 
       success: (data) ->
         @model.storeVirtualCart data.response
@@ -117,7 +117,7 @@ module.exports = class Cart extends ChaplinModel
     @sync 'delete', @,
       error: ->
         console.log "error",
-      headers:{ 'Accept-Language': 'es', 'wb-vcart': util.getCookie(config.vcartTokenName) }
+      headers:{ 'Accept-Language': 'es', 'wb-vcart': util.retrieveKey(config.vcartTokenName) }
       success: (data)->
         console.log "success deleteVirtaulCart"
         that.storeVirtualCart data.response
@@ -131,7 +131,7 @@ module.exports = class Cart extends ChaplinModel
     util.showAjaxIndicator('Eliminando artículo...')
     @url = config.apiUrl + "/orders/cart-items/" + id + ".json"
     @sync 'delete', @,
-      headers:{ 'Accept-Language': 'es', "WB-Api-Token": util.getCookie(config.apiTokenName) }
+      headers:{ 'Accept-Language': 'es', "WB-Api-Token": util.retrieveKey(config.apiTokenName) }
       success: (data) ->
         that.set that.completeCartModel data.response
         that.closeCartIfEmpty()
@@ -147,7 +147,7 @@ module.exports = class Cart extends ChaplinModel
     @fetch
       error: ->
         console.log "error",
-      headers:{ 'Accept-Language': 'es', "WB-Api-Token": util.getCookie(config.apiTokenName)},
+      headers:{ 'Accept-Language': 'es', "WB-Api-Token": util.retrieveKey(config.apiTokenName)},
       success: ->
         console.log "success loadUserCart"
         #that.$el.find(".myPerfil").slideDown()
@@ -162,7 +162,7 @@ module.exports = class Cart extends ChaplinModel
       $cartPanel: $cartPanel
       options: options
       url: "/orders/cart-items.json"
-      headers: "WB-Api-Token": util.getCookie(config.apiTokenName)
+      headers: "WB-Api-Token": util.retrieveKey(config.apiTokenName)
 
   addToCart : (data) ->
     cartItems = data.cartItems
@@ -202,7 +202,7 @@ module.exports = class Cart extends ChaplinModel
       $cartPanel: $cartPanel
       options: options
       url: "/orders/virtual-cart-items.json"
-      headers: "wb-vcart": util.getCookie(config.vcartTokenName)
+      headers: "wb-vcart": util.retrieveKey(config.vcartTokenName)
 
   storeVirtualCart : (cart) ->
     console.log ["Storing virtual cart...", cart]
@@ -214,7 +214,7 @@ module.exports = class Cart extends ChaplinModel
 
     vCartToken = JSON.stringify(vCart)
     console.log ["vCartToken", vCartToken]
-    util.setCookie config.vcartTokenName, vCartToken, 7
+    util.storeKey config.vcartTokenName, vCartToken, 7
     Winbits.rpc.storeVirtualCart(vCartToken)
 
   completeCartModel: (model) ->
@@ -251,7 +251,7 @@ module.exports = class Cart extends ChaplinModel
       context: @
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
         @set 'bitsTotal', data.response.bitsTotal

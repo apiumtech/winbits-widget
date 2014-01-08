@@ -228,7 +228,7 @@ module.exports = class WidgetSiteView extends View
         data: JSON.stringify(verticalId: config.verticalId)
         headers:
           "Accept-Language": "es",
-          "WB-Api-Token": util.getCookie(config.apiTokenName)
+          "WB-Api-Token": util.retrieveKey(config.apiTokenName)
 
         success: (data) ->
           console.log "Checkout Success!"
@@ -273,7 +273,7 @@ module.exports = class WidgetSiteView extends View
     @publishEvent 'restoreCart'
     $chkForm = w$('<form id="chk-form" method="POST" style="display:none"></form>')
     $chkForm.attr("action", config.baseUrl + "/checkout.php")
-    $chkForm.append w$('<input type="hidden" name="token"/>').val(util.getCookie(config.apiTokenName))
+    $chkForm.append w$('<input type="hidden" name="token"/>').val(util.retrieveKey(config.apiTokenName))
     $chkForm.append w$('<input type="hidden" name="order_id"/>').val(order.id)
     $chkForm.append w$('<input type="hidden" name="bits_balance"/>').val(mediator.profile.bitsBalance)
     $chkForm.append w$('<input type="hidden" name="vertical_id"/>').val(config.verticalId)
@@ -296,7 +296,7 @@ module.exports = class WidgetSiteView extends View
 
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
         console.log "updateStatus.json Success!"
@@ -321,7 +321,7 @@ module.exports = class WidgetSiteView extends View
 
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
         console.log "share.json Success!"
@@ -357,6 +357,7 @@ module.exports = class WidgetSiteView extends View
       'max-height': '370px'
 
   proxyLoaded: () ->
+    console.log('Proxy Loaded Handler...')
     hash = location.hash
     hashParts = hash.split('-')
     if hashParts[0] is '#complete' and hashParts[1] is 'register'

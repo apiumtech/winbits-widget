@@ -2,15 +2,14 @@ vendor = require 'lib/vendor'
 
 module.exports =
   $ : window.w$
-  setCookie : setCookie = (c_name, value, exdays) ->
-    exdays = exdays or 7
-    localStorage[c_name] = value
+  storeKey : (key, value) ->
+    localStorage[key] = value
 
-  getCookie : getCookie = (c_name) ->
-    localStorage[c_name]
+  retrieveKey : (key) ->
+    localStorage[key]
 
-  deleteCookie : (name) ->
-    localStorage[name] = undefined
+  deleteKey : (key) ->
+    localStorage[key] = undefined
 
   getUrlParams : ->
     vars = []

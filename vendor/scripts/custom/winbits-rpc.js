@@ -2,8 +2,8 @@
   Winbits.rpc = new easyXDM.Rpc({
     remote: Winbits.userConfig.providerUrl, // the path to the provider
     onReady: function() {
-      console.log('XDM Communication Ready!')
-
+      console.log('Triggering event winbitsrpcready');
+      Winbits.$(window.document).trigger('winbitsrpcready');
     }
   },  {
     remote: {

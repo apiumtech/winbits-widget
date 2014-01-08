@@ -40,7 +40,7 @@ module.exports = class CheckoutSiteView extends View
         url: config.apiUrl + "/affiliation/shipping-addresses/" + id + '.json',
         error: ->
           console.log "error",
-        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
+        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
         success: ->
           console.log "success"
           that.model.actualiza()
@@ -106,7 +106,7 @@ module.exports = class CheckoutSiteView extends View
         context: {$submitButton: submitButton}
         error: ->
           console.log "error",
-        headers: { 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
+        headers: { 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
         success: ->
           console.log "success"
           that.model.actualiza()
@@ -135,7 +135,7 @@ module.exports = class CheckoutSiteView extends View
         url: config.apiUrl + "/affiliation/shipping-addresses/" + formData.id + '.json',
         error: ->
           console.log "error",
-        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
+        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
         success: ->
           console.log "success"
           that.model.actualiza()

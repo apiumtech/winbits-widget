@@ -16,15 +16,15 @@
     (function(){
       var Winbits = {};
 
-      Winbits.store = function store(c_name, value) {
+      Winbits.storeKey = function (c_name, value) {
         return localStorage[c_name] = value;
       };
 
-      Winbits.retrieve = function retrieve(c_name) {
+      Winbits.retrieveKey = function (c_name) {
         return localStorage[c_name];
       };
 
-      Winbits.delete = function (name) {
+      Winbits.deleteKey = function (name) {
         return localStorage[name] = undefined;
       };
 
@@ -59,16 +59,16 @@
               },
               getTokens: function() {
                 var tokens = {};
-                var apiToken = Winbits.retrieve('_wb_api_token');
+                var apiToken = Winbits.retrieveKey('_wb_api_token');
                 if (apiToken) {
-                  tokens.apiToken = { cookieName: '_wb_api_token', value: apiToken};
+                  tokens.apiToken = { entryName: '_wb_api_token', value: apiToken};
                 }
-                var vcartToken = Winbits.retrieve('_wb_vcart_token');
+                var vcartToken = Winbits.retrieveKey('_wb_vcart_token');
                 if (!vcartToken) {
                   vcartToken = '[]';
-                  Winbits.store('_wb_vcart_token', vcartToken, 7);
+                  Winbits.storeKey('_wb_vcart_token', vcartToken, 7);
                 }
-                tokens.vcartToken = { cookieName: '_wb_vcart_token', value: vcartToken};
+                tokens.vcartToken = { entryName: '_wb_vcart_token', value: vcartToken};
                 console.log(['W: The tokens', tokens]);
 
                return tokens;
@@ -76,15 +76,15 @@
               },
               saveApiToken: function(apiToken) {
                 console.log(['API Token from vertical', apiToken]);
-                Winbits.store('_wb_api_token', apiToken);
+                Winbits.storeKey('_wb_api_token', apiToken);
               },
               storeVirtualCart: function(vCart) {
-                Winbits.store('_wb_vcart_token', vCart);
+                Winbits.storeKey('_wb_vcart_token', vCart);
               },
               logout: function(facebookLogout) {
                 console.log('Winbits: Logging out...');
-                Winbits.delete('_wb_api_token');
-                Winbits.store('_wb_vcart_token', '[]');
+                Winbits.deleteKey('_wb_api_token');
+                Winbits.storeKey('_wb_vcart_token', '[]');
                 if (facebookLogout) {
                   console.log('Winbits: Facebook logging out...');
                   FB.logout(function(response) {

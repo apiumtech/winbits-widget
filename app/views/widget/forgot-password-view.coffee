@@ -46,7 +46,7 @@ module.exports = class ForgotPasswordView extends View
         context: {$submitButton: submitButton}
         headers:
           "Accept-Language": "es"
-          "WB-Api-Token":  util.getCookie(config.apiTokenName)
+          "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
         success: (data) ->
           console.log ["RecoverPasswordStatus.json Success!", data]
