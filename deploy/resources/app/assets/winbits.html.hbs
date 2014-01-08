@@ -67,116 +67,106 @@
       margin-right: 5px;
     }
   </style>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/easyXDM/2.4.18.25/easyXDM.debug.js"></script>
-  <script type="text/javascript">
-    easyXDM.DomHelper.requiresJSON("http://cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js");
-  </script>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.js"></script>
+  <script type="text/javascript" src="http://blogs.sitepointstatic.com/examples/tech/json-serialization/json-serialization.js"></script>
+  <script type="text/javascript" src="porthole.js"></script>
 
   <script type="text/javascript">
-    (function(){
-      var Winbits = {};
-
-      Winbits.store = function store(c_name, value) {
+    var Winbits = {};
+    (function() {
+      Winbits.setCookie = function setCookie(c_name, value, exdays) {
+        exdays = exdays || 7;
         return localStorage[c_name] = value;
       };
 
-      Winbits.retrieve = function retrieve(c_name) {
+      Winbits.getCookie = function getCookie(c_name) {
         return localStorage[c_name];
       };
 
-      Winbits.delete = function (name) {
+      Winbits.deleteCookie = function (name) {
         return localStorage[name] = undefined;
       };
 
-      var rpc = new easyXDM.Rpc({},
-        {
-            local: {
-              request: function(url, options, success, error, complete){
-                if (options && options.context) {
-                  console.log('In RPC mode is not secure to use callbackas with context!');
-                  delete options.context;
-                }
-                var config = {
-                  type: 'GET',
-                  success: function() {
-                    if (typeof success === 'function') {
-                      success.apply(this, arguments);
-                    }
-                  },
-                  error: function() {
-                    if (typeof error === 'function') {
-                      error.apply(this, arguments);
-                    }
-                  },
-                  complete: function() {
-                    if (typeof complete === 'function') {
-                      complete.apply(this, arguments);
-                    }
-                  }
-                };
-                $.extend(config, options);
-                $.ajax(url, config);
-              },
-              getTokens: function() {
-                var tokens = {};
-                var apiToken = Winbits.retrieve('_wb_api_token');
-                if (apiToken) {
-                  tokens.apiToken = { cookieName: '_wb_api_token', value: apiToken};
-                }
-                var vcartToken = Winbits.retrieve('_wb_vcart_token');
-                if (!vcartToken) {
-                  vcartToken = '[]';
-                  Winbits.store('_wb_vcart_token', vcartToken, 7);
-                }
-                tokens.vcartToken = { cookieName: '_wb_vcart_token', value: vcartToken};
-                console.log(['W: The tokens', tokens]);
+      window.onload=function(){
+        //Obteniendo el parametro de la url
+        var getUrlParams = function() {
+          var vars = [], hash;
+          var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+          for(var i = 0; i < hashes.length; i++) {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+          }
+          return vars;
+        };
+        var params = getUrlParams();
+        var origin = params.origin;
 
-               return tokens;
+        // Create a proxy window to send to and receive
+        // messages from the iFrame
+        windowProxy = new Porthole.WindowProxy(origin);
 
-              },
-              saveApiToken: function(apiToken) {
-                console.log(['API Token from vertical', apiToken]);
-                Winbits.store('_wb_api_token', apiToken);
-              },
-              storeVirtualCart: function(vCart) {
-                Winbits.store('_wb_vcart_token', vCart);
-              },
-              logout: function(facebookLogout) {
-                console.log('Winbits: Logging out...');
-                Winbits.delete('_wb_api_token');
-                Winbits.store('_wb_vcart_token', '[]');
-                if (facebookLogout) {
-                  console.log('Winbits: Facebook logging out...');
-                  FB.logout(function(response) {
-                    console.log(['Facebook logout', response]);
-                  });
-                }
-              },
-              facebookStatus: function(success) {
-                console.log('About to call FB.getLoginStatus.');
-                FB.getLoginStatus(function(response) {
-                 console.log(['FB.getLoginStatus', response]);
-                 success(response);
-                }, true);
-              },
-              facebookMe: function(success) {
-                console.log('Winbits: Requesting me profile...');
-                FB.api('/me', function(response){
-                  console.log(['Facebook me response', response]);
-                  success(response);
-                });
-              }
-            },
-            remote: {
-              request:{},
-              getTokens:{},
-              saveApiToken:{},
-              storeVirtualCart:{},
-              facebookStatus:{} ,
-              facebookMe:{}
-            }
+        // Register an event handler to receive messages;
+        windowProxy.addEventListener(function (messageEvent) {
+          console.log(['Received message from vertical', messageEvent]);
+          var data = messageEvent.data;
+          var actionFn = Actions[data.action];
+          if (actionFn) {
+            actionFn.apply(this, data.params);
+          } else {
+            alert('Invalid action from Winbits');
+          }
+        });
+      };
+
+      var Actions = {
+        getTokens: function() {
+          var tokens = {};
+          var apiToken = Winbits.getCookie('_wb_api_token');
+          if (apiToken) {
+            tokens.apiToken = { cookieName: '_wb_api_token', value: apiToken, expireDays: 7 };
+          }
+          var vcartToken = Winbits.getCookie('_wb_vcart_token');
+          if (!vcartToken) {
+            vcartToken = '[]';
+            Winbits.setCookie('_wb_vcart_token', vcartToken, 7);
+          }
+          tokens.vcartToken = { cookieName: '_wb_vcart_token', value: vcartToken, expireDays: 7 };
+          console.log(['W: The tokens', tokens]);
+          windowProxy.post({action: 'getTokens', params: [tokens]});
+        },
+        saveApiToken: function(apiToken) {
+          console.log(['API Token from vertical', apiToken]);
+          Winbits.setCookie('_wb_api_token', apiToken, 7);
+        },
+        storeVirtualCart: function(vCart) {
+          Winbits.setCookie('_wb_vcart_token', vCart, 7);
+        },
+        logout: function(facebookLogout) {
+          console.log('Winbits: Logging out...');
+          Winbits.deleteCookie('_wb_api_token');
+          Winbits.setCookie('_wb_vcart_token', '[]', 7);
+          if (facebookLogout) {
+            console.log('Winbits: Facebook logging out...');
+            FB.logout(function(response) {
+              console.log(['Facebook logout', response]);
+            });
+          }
+        },
+        facebookStatus: function() {
+          console.log('About to call FB.getLoginStatus.');
+          FB.getLoginStatus(function(response) {
+            console.log(['FB.getLoginStatus', response]);
+            windowProxy.post({action: 'facebookStatus', params: [response]});
+          }, true);
+        },
+        facebookMe: function() {
+          console.log('Winbits: Requesting me profile...');
+          FB.api('/me', function(response){
+            console.log(['Facebook me response', response]);
+            windowProxy.post({action: 'facebookMe', params: [response]});
           });
+        }
+      };
 
       window.fbAsyncInit = function () {
         FB.init({appId: '486640894740634', status: true, cookie: true, xfbml: true, oauth  : true });

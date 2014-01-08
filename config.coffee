@@ -12,6 +12,7 @@ exports.config =
         # even if they aren't specified in order.before.
         before: [
           'vendor/scripts/xtra/easyXDM-2.4.18.25.js',
+          'vendor/scripts/json2.js',
           'vendor/scripts/console-polyfill.js',
           'vendor/scripts/jquery-ui-1.10.3.custom.js',
           'vendor/scripts/lodash-1.2.0.js',

@@ -28,7 +28,8 @@
 
   JavaScript.load('//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js', function() {
     var $winbitsScript = $("script[src$='winbits.js']");
-    var userConfig = { verticalId: $winbitsScript.data('vertical'), proxyUrl: $winbitsScript.data('proxy')}
+    var userConfig = { verticalId: $winbitsScript.data('vertical'), proxyUrl: $winbitsScript.data('proxy')};
+    userConfig.providerUrl = "{{providerUrl}}";
     var Winbits = { userConfig: userConfig };
     Winbits.$ = $.noConflict(true);
     window.Winbits = Winbits;
