@@ -1,6 +1,7 @@
 util = require 'lib/util'
 config = require 'config'
 mediator = require 'chaplin/mediator'
+EventBroker = require 'chaplin/lib/event_broker'
 token = {}
 
 token.saveApiToken = (apiToken) ->
@@ -11,7 +12,7 @@ token.saveApiToken = (apiToken) ->
 token.requestTokens = ($) ->
   console.log "Requesting tokens"
   Winbits.rpc.getTokens (response) ->
-    @publishEvent 'getTokensHandler', response
+    EventBroker.publishEvent 'getTokensHandler', response
 
 token.segregateTokens = (tokensDef) ->
   console.log ["tokensDef", tokensDef]
