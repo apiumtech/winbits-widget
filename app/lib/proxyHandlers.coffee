@@ -20,15 +20,15 @@ module.exports = class ProxyHandlers
     @subscribeEvent 'facebookMeHandler', @facebookMeHandler
 
   getTokensHandler: (tokensDef) ->
-    console.log ["getTokensHandler", tokensDef]
+    console.log ["Handle response for: getTokensHandler...", tokensDef]
     token.segregateTokens tokensDef
     @publishEvent 'expressLogin'
 
 
   facebookStatusHandler: (response) ->
-    console.log ["Facebook status", response]
+    console.log ["Handle response for: facebookStatus...", response]
 
-    if response[0].status is "connected"
+    if response.status is "connected"
 
       that = @
       mediator.flags.fbConnect = true
@@ -36,7 +36,7 @@ module.exports = class ProxyHandlers
         type: "POST"
         contentType: "application/json"
         dataType: "json"
-        data: JSON.stringify(facebookId: response[0].authResponse.userID)
+        data: JSON.stringify(facebookId: response.authResponse.userID)
         headers:
           "Accept-Language": "es"
 
@@ -63,15 +63,16 @@ module.exports = class ProxyHandlers
       @publishEvent 'showRegisterByReferredCode'
 
   facebookLoginHandler: (response) ->
-    console.log ["Facebook Login", response]
-    if response[0].authResponse
+    console.log ["Handle response for: facebookLogin...", response]
+    if response.authResponse
       console.log "Requesting facebook profile..."
-      mediator.facebook.accessToken = response[0].authResponse.accessToken
-      mediator.proxy.post action: "facebookMe"
+      mediator.facebook.accessToken = response.authResponse.accessToken
+      Winbits.rpc.facebookMe(@facebookMeHandler)
     else
       console.log "Facebook login failed!"
 
   facebookMeHandler: (response) ->
+    console.log ["Handle response for: facebookMe...", response]
     Backbone.$('.modal').modal 'hide'
-    if response[0].email
-      @publishEvent "loginFacebook", response[0]
+    if response.email
+      @publishEvent "loginFacebook", response

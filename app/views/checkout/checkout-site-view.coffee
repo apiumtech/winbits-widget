@@ -72,7 +72,7 @@ module.exports = class CheckoutSiteView extends View
     that = @
     $timer = @$el.find('#wb-checkout-timer')
     nowTime = new Date().getTime()
-    timeUp =  nowTime - window.timestamp
+    timeUp =  nowTime - Winbits.checkoutConfig.timestamp
     expireTime = 30 * 60 * 1000
     if (timeUp <= expireTime)
       timeLeft = expireTime - timeUp
@@ -90,12 +90,12 @@ module.exports = class CheckoutSiteView extends View
       util.showAjaxIndicator("La orden ha expirado")
       @intervalStop
       setTimeout () ->
-        window.location.href = window.verticalUrl
+        window.location.href = Winbits.checkoutConfig.verticalUrl
       , 4000
 
   closeExpireOrderModal: () ->
     @$('.modal').modal 'hide'
-    util.redirectToVertical(window.verticalUrl)
+    util.redirectToVertical(Winbits.checkoutConfig.verticalUrl)
 
   updateCheckoutTimer: ($timer, $interval) ->
     minutes = $timer.data('minutes')

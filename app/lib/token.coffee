@@ -1,27 +1,27 @@
 util = require 'lib/util'
 config = require 'config'
 mediator = require 'chaplin/mediator'
+EventBroker = require 'chaplin/lib/event_broker'
 token = {}
 
 token.saveApiToken = (apiToken) ->
-  util.setCookie config.apiTokenName, apiToken, 7
+  util.storeKey config.apiTokenName, apiToken, 7
   console.log ["About to save API Token on app", apiToken]
-  mediator.proxy.post
-    action: "saveApiToken"
-    params: [apiToken]
+  Winbits.rpc.saveApiToken(apiToken)
 
 token.requestTokens = ($) ->
   console.log "Requesting tokens"
-  mediator.proxy.post action: "getTokens"
+  Winbits.rpc.getTokens (response) ->
+    EventBroker.publishEvent 'getTokensHandler', response
 
 token.segregateTokens = (tokensDef) ->
   console.log ["tokensDef", tokensDef]
   #console.log _.keys(tokensDef)
-  vcartTokenDef = tokensDef['0'].vcartToken
-  util.setCookie vcartTokenDef.cookieName, vcartTokenDef.value, vcartTokenDef.expireDays
-  apiTokenDef = tokensDef["0"].apiToken
+  vcartTokenDef = tokensDef.vcartToken
+  util.storeKey vcartTokenDef.entryName, vcartTokenDef.value
+  apiTokenDef = tokensDef.apiToken
   if apiTokenDef
-    util.setCookie apiTokenDef.cookieName, apiTokenDef.value, apiTokenDef.expireDays
+    util.storeKey apiTokenDef.entryName, apiTokenDef.value
   else
-    util.deleteCookie config.apiTokenName
+    util.deleteKey config.apiTokenName
 module.exports = token

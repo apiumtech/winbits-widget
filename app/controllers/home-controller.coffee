@@ -145,7 +145,7 @@ module.exports = class HomeController extends ChaplinController
 
           headers:
             "Accept-Language": "es"
-            "WB-Api-Token":  util.getCookie(config.apiTokenName)
+            "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
           success: (data) ->
             if options.success
@@ -184,7 +184,7 @@ module.exports = class HomeController extends ChaplinController
 
           headers:
             "Accept-Language": "es"
-            "WB-Api-Token":  util.getCookie(config.apiTokenName)
+            "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
           success: (data) ->
             if options.success
@@ -215,7 +215,7 @@ module.exports = class HomeController extends ChaplinController
 
         headers:
           "Accept-Language": "es"
-          "WB-Api-Token":  util.getCookie(config.apiTokenName)
+          "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
         success: (data) ->
           if options.success
@@ -246,7 +246,7 @@ module.exports = class HomeController extends ChaplinController
 
         headers:
           "Accept-Language": "es"
-          "WB-Api-Token":  util.getCookie(config.apiTokenName)
+          "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
         success: (data) ->
           options.success.call({}, [data.response]) if typeof options.success is 'function'
@@ -270,7 +270,7 @@ module.exports = class HomeController extends ChaplinController
           withCredentials: true
         headers:
           "Accept-Language": "es"
-          "WB-Api-Token":  util.getCookie(config.apiTokenName)
+          "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
         success: (data) ->
           options.success.call({}, [data.response]) if typeof options.success is 'function'
         error: (xhr) ->
@@ -294,7 +294,7 @@ module.exports = class HomeController extends ChaplinController
 
         headers:
           "Accept-Language": "es"
-          "WB-Api-Token":  util.getCookie(config.apiTokenName)
+          "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
         success: (data) ->
           if options.success
@@ -322,7 +322,7 @@ module.exports = class HomeController extends ChaplinController
 
         headers:
           "Accept-Language": "es"
-          "WB-Api-Token":  util.getCookie(config.apiTokenName)
+          "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
         success: (data) ->
           if options.success
@@ -351,7 +351,7 @@ module.exports = class HomeController extends ChaplinController
 
         headers:
           "Accept-Language": "es"
-          "WB-Api-Token":  util.getCookie(config.apiTokenName)
+          "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
         success: (data) ->
           if options.success
@@ -379,7 +379,7 @@ module.exports = class HomeController extends ChaplinController
 
         headers:
           "Accept-Language": "es"
-          "WB-Api-Token":  util.getCookie(config.apiTokenName)
+          "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
         success: (data) ->
           if options.success
