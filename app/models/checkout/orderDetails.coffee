@@ -13,7 +13,7 @@ module.exports = class OrderDetails extends ChaplinModel
     response
 
   completeOrderModel: (order, bitsBalance) ->
-    bitsBalance = bitsBalance || parseFloat(window.bits_balance)
+    bitsBalance = bitsBalance || parseFloat(Winbits.checkoutConfig.bitsBalance)
     model = {}
     model.orderId = order.id
     model.orderDetails = order.orderDetails

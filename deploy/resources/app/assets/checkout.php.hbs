@@ -26,19 +26,19 @@
   <link rel="stylesheet" href="{{baseUrl}}/stylesheets/checkout.css">
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <script type="text/javascript">
-    Winbits = {};
+    Winbits = { checkoutConfig: {} };
     Winbits.$ = $.noConflict(true);
     window.w$ = Winbits.$;
   </script>
   <script src="{{baseUrl}}/javascripts/vendor.js"></script>
   <script type="text/javascript">
     Backbone.$ = Winbits.$;
-    window.order_id='<?echo $order_id?>';
+    Winbits.checkoutConfig.orderId='<?echo $order_id?>';
     Winbits.token= '<?echo $token?>';
-    window.bits_balance = '<?echo $bits_balance?>';
-    window.verticalId = '<?echo $verticalId?>';
-    window.verticalUrl = '<?echo $verticalUrl?>';
-    window.timestamp = '<?echo $timestamp?>';
+    Winbits.checkoutConfig.bitsBalance = '<?echo $bits_balance?>';
+    Winbits.checkoutConfig.verticalId = '<?echo $verticalId?>';
+    Winbits.checkoutConfig.verticalUrl = '<?echo $verticalUrl?>';
+    Winbits.checkoutConfig.timestamp = '<?echo $timestamp?>';
   </script>
   <script src="{{baseUrl}}/javascripts/app.js"></script>
   <script>

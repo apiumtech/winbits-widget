@@ -42,7 +42,7 @@ module.exports = class CardTokenPaymentView extends View
     $form = $(e.currentTarget)
     if $form.valid()
       paymentData = mediator.post_checkout
-      paymentData.vertical = window.verticalId
+      paymentData.vertical = Winbits.checkoutConfig.verticalId
       formData = util.serializeForm($form)
       $.extend paymentData.paymentInfo, formData
       util.showAjaxIndicator('Procesando tu pago...')
