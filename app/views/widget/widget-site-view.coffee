@@ -3,7 +3,6 @@ template = require 'views/templates/widget/widget-site'
 util = require 'lib/util'
 vendor = require 'lib/vendor'
 config = require 'config'
-ProxyInit = require 'lib/proxyInit'
 mediator = require 'chaplin/mediator'
 
 # Site view is a top-level view which is bound to body.
@@ -15,7 +14,6 @@ module.exports = class WidgetSiteView extends View
   #'#page-container': 'main'
   id: "widgetSiteView"
   template: template
-  proxyInit: null
 
   initialize: ->
     super
@@ -181,7 +179,6 @@ module.exports = class WidgetSiteView extends View
   attach: ->
     super
     console.log "WidgetSiteView#attach"
-    @proxyInit = new ProxyInit()
     that = @
     @$el.find("#winbits-logout-link").on "click",  (e)->
       that.logout(e)

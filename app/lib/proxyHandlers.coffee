@@ -67,7 +67,7 @@ module.exports = class ProxyHandlers
     if response[0].authResponse
       console.log "Requesting facebook profile..."
       mediator.facebook.accessToken = response[0].authResponse.accessToken
-      mediator.proxy.post action: "facebookMe"
+      Winbits.rpc.facebookMe(@facebookMeHandler)
     else
       console.log "Facebook login failed!"
 

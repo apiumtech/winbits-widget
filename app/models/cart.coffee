@@ -40,9 +40,7 @@ module.exports = class Cart extends ChaplinModel
       success: (data) ->
         util.setCookie config.vcartTokenName, '[]', 7
         that.set that.completeCartModel(data.response)
-        mediator.proxy.post
-          action: "storeVirtualCart"
-          params: ['[]']
+        Winbits.rpc.storeVirtualCart('[]')
         that.publishEvent 'doCheckout' if mediator.flags.autoCheckout
 
       error: (xhr) ->
@@ -217,9 +215,7 @@ module.exports = class Cart extends ChaplinModel
     vCartToken = JSON.stringify(vCart)
     console.log ["vCartToken", vCartToken]
     util.setCookie config.vcartTokenName, vCartToken, 7
-    mediator.proxy.post
-      action: "storeVirtualCart"
-      params: [vCartToken]
+    Winbits.rpc.storeVirtualCart(vCartToken)
 
   completeCartModel: (model) ->
     total = model.itemsTotal + model.shippingTotal

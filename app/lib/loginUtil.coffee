@@ -53,7 +53,9 @@ module.exports = class LoginUtil
 
   expressFacebookLogin : ($) ->
     console.log "Trying to login with facebook"
-    mediator.proxy.post action: "facebookStatus"
+    that = @
+    Winbits.rpc.facebookStatus (response) ->
+      that.publishEvent 'facebookStatusHandler', response
 
   applyLogin : (profile) ->
     console.log ["LoginUtil#applyLogin",profile]
@@ -110,9 +112,7 @@ module.exports = class LoginUtil
         console.log "logout.json Completed!"
 
   applyLogout : (logoutData) ->
-    mediator.proxy.post
-      action: "logout"
-      params: [mediator.flags.fbConnect]
+    Winbits.rpc.logout(mediator.flags.fbConnect)
     util.deleteCookie config.apiTokenName
     @publishEvent "resetComponents"
     @publishEvent "showHeaderLogout"
