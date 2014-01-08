@@ -26,13 +26,15 @@
   <link rel="stylesheet" href="{{baseUrl}}/stylesheets/checkout.css">
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <script type="text/javascript">
-    window.w$ = $.noConflict(true);
+    Winbits = {};
+    Winbits.$ = $.noConflict(true);
+    window.w$ = Winbits.$;
   </script>
   <script src="{{baseUrl}}/javascripts/vendor.js"></script>
   <script type="text/javascript">
-    Backbone.$ = window.w$;
+    Backbone.$ = Winbits.$;
     window.order_id='<?echo $order_id?>';
-    window.token= '<?echo $token?>';
+    Winbits.token= '<?echo $token?>';
     window.bits_balance = '<?echo $bits_balance?>';
     window.verticalId = '<?echo $verticalId?>';
     window.verticalUrl = '<?echo $verticalUrl?>';

@@ -4,6 +4,7 @@ ChaplinMediator = require 'chaplin/mediator'
 LoginUtil = require 'lib/loginUtil'
 ProxyHandlers = require 'lib/proxyHandlers'
 config = require 'config'
+util = require 'lib/util'
 EventBroker = require 'chaplin/lib/event_broker'
 token = require 'lib/token'
 
@@ -18,10 +19,6 @@ module.exports = class Application
   #title: 'Brunch example application'
 
   initialize: (checkout)->
-    Winbits.$(window.document).on 'winbitsrpcready', () ->
-      console.log 'Publishing event proxyLoaded'
-      EventBroker.publishEvent('proxyLoaded')
-
     if not checkout
       console.log ['WINBITS', window.Winbits]
       w$.extend config, Winbits.userConfig or {}
@@ -35,8 +32,6 @@ module.exports = class Application
     @initMediator()
 
     Object.freeze? this
-
-    token.requestTokens(Winbits.$)
 
   # Create additional mediator properties.
   initMediator: ->
@@ -52,13 +47,19 @@ module.exports = class Application
     ChaplinMediator.seal()
 
   initHomeControllers: ->
+    Winbits.$(window.document).on 'winbitsrpcready', () ->
+      console.log 'Publishing event proxyLoaded'
+      EventBroker.publishEvent('proxyLoaded')
     # These controllers are active during the whole application runtime.
     @loginUtil = new LoginUtil()
     @proxyHandlers = new ProxyHandlers()
     @homeController = new HomeController()
     @homeController.index()
+    token.requestTokens(Winbits.$)
 
   initChkControllers: ->
+    util.storeKey(config.apiTokenName, Winbits.token)
+    delete Winbits.token
     # These controllers are active during the whole application runtime.
     @chkController = new ChkController()
     @chkController.index()

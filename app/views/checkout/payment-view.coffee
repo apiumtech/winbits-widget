@@ -56,7 +56,7 @@ module.exports = class PaymentView extends View
         dataType: "json"
         data: JSON.stringify(postData)
 
-        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': window.token }
+        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
         success: (data) ->
           console.log ["data", data]
           payment = data.response.payments[0]
@@ -115,7 +115,7 @@ module.exports = class PaymentView extends View
       dataType: "json"
       data: JSON.stringify(formData)
 
-      headers:{ 'Accept-Language': 'es', 'WB-Api-Token': window.token }
+      headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
       success: (data) ->
         console.log ["data", data]
         payment = data.response.payments[0]

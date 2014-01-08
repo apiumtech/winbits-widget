@@ -36,6 +36,23 @@
     window.w$ = Winbits.$;
     JavaScript.load('{{baseUrl}}/javascripts/vendor.js', function() {
       window.Backbone.$ = Winbits.$;
+      Winbits.rpc = new easyXDM.Rpc({
+        remote: Winbits.userConfig.providerUrl, // the path to the provider
+        onReady: function() {
+          console.log('Triggering event winbitsrpcready');
+          Winbits.$(window.document).trigger('winbitsrpcready');
+        }
+      }, {
+        remote: {
+          request:{},
+          getTokens:{},
+          saveApiToken:{},
+          storeVirtualCart:{},
+          logout:{},
+          facebookStatus:{} ,
+          facebookMe:{}
+        }
+      });
       JavaScript.load('{{baseUrl}}/javascripts/app.js', function() {
         // TODO: No esperar a que se cargue todo el DOM para renderizar el widget. Esperar a que se rederize el container del widget.
         Winbits.$(document).ready(function($) {

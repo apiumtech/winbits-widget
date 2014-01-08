@@ -52,7 +52,7 @@ module.exports = class CardTokenPaymentView extends View
         dataType: "json"
         context: { that: @}
         data: JSON.stringify(paymentData)
-        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': window.token }
+        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
         success: (data) ->
           console.log ["data", data]
           payment = data.response.payments[0]
