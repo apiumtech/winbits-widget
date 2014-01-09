@@ -23,7 +23,7 @@ module.exports = class CompleteRegisterView extends View
 
   showCompleteRegisterModal: (cashback) ->
     Winbits.$('div.dropMenu').slideUp()
-    w$('.modal').modal('hide')
+    Winbits.$('.modal').modal('hide')
 
     @$el.find('.modal').modal('show').css(
       width: '625px',

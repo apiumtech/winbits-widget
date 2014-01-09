@@ -78,7 +78,7 @@ module.exports = class RegisterView extends View
 
   showCompletaRegister: () ->
     console.log("En completa registro")
-    w$('a#wbi-dummy-link').get(0).click()
+    Winbits.$('a#wbi-dummy-link').get(0).click()
     @publishEvent 'showRegister'
     @$el.find("#winbits-register-form").hide()
     @$el.find("#complete-register-layer").show()
@@ -107,7 +107,7 @@ module.exports = class RegisterView extends View
         success: (data) ->
           console.log "Request Success!"
           console.log ["data", data]
-          w$('.modal').modal 'hide'
+          Winbits.$('.modal').modal 'hide'
           that.publishEvent "showConfirmation"
         error: (xhr) ->
           console.log xhr

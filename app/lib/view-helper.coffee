@@ -209,7 +209,7 @@ Handlebars.registerHelper "cartDetailTotal", (unitPrice, quantity) ->
 
 Handlebars.registerHelper "joinAttributes", (mainAttribute, attributes) ->
   attrLabels = [mainAttribute.label]
-  w$.each attributes, (index, attribute) ->
+  Winbits.$.each attributes, (index, attribute) ->
     attrLabels.push attribute.label
   attrLabels.join ', '
 

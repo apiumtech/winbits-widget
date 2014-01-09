@@ -21,7 +21,7 @@ module.exports = class Application
   initialize: (checkout)->
     if not checkout
       console.log ['WINBITS', window.Winbits]
-      w$.extend config, Winbits.userConfig or {}
+      Winbits.$.extend config, Winbits.userConfig or {}
 #      window.Winbits = {}
       @initHomeControllers()
     else

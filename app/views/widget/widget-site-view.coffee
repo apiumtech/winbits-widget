@@ -262,19 +262,19 @@ module.exports = class WidgetSiteView extends View
     if bitsBalance?
       bitsTotal = cart.bitsTotal or 0
       @updateBitsBalance(bitsBalance - bitsTotal)
-      $ = window.$ or w$
+      $ = window.$ or Winbits.$
       $('#' + config.winbitsDivId).trigger 'bitschanged', [{bitsBalance: bitsBalance, bitsTotal: bitsTotal}]
 
   postToCheckoutApp: (order) ->
     @publishEvent 'restoreCart'
-    $chkForm = w$('<form id="chk-form" method="POST" style="display:none"></form>')
+    $chkForm = Winbits.$('<form id="chk-form" method="POST" style="display:none"></form>')
     $chkForm.attr("action", config.baseUrl + "/checkout.php")
-    $chkForm.append w$('<input type="hidden" name="token"/>').val(util.retrieveKey(config.apiTokenName))
-    $chkForm.append w$('<input type="hidden" name="order_id"/>').val(order.id)
-    $chkForm.append w$('<input type="hidden" name="bits_balance"/>').val(mediator.profile.bitsBalance)
-    $chkForm.append w$('<input type="hidden" name="vertical_id"/>').val(config.verticalId)
-    $chkForm.append w$('<input type="hidden" name="vertical_url"/>').val(order.vertical.url)
-    $chkForm.append w$('<input type="hidden" name="timestamp"/>').val(new Date().getTime())
+    $chkForm.append Winbits.$('<input type="hidden" name="token"/>').val(util.retrieveKey(config.apiTokenName))
+    $chkForm.append Winbits.$('<input type="hidden" name="order_id"/>').val(order.id)
+    $chkForm.append Winbits.$('<input type="hidden" name="bits_balance"/>').val(mediator.profile.bitsBalance)
+    $chkForm.append Winbits.$('<input type="hidden" name="vertical_id"/>').val(config.verticalId)
+    $chkForm.append Winbits.$('<input type="hidden" name="vertical_url"/>').val(order.vertical.url)
+    $chkForm.append Winbits.$('<input type="hidden" name="timestamp"/>').val(new Date().getTime())
 
     @$el.append $chkForm
     $chkForm.submit()
@@ -366,7 +366,7 @@ module.exports = class WidgetSiteView extends View
     util.resetForm($form)
 
   verifyNullFields: (e) ->
-    $registerModal = w$(e.currentTarget)
+    $registerModal = Winbits.$(e.currentTarget)
     $completeRegisterLayer = $registerModal.find('#complete-register-layer')
     if $completeRegisterLayer.is(':visible')
       $registerModal.find("#complete-register-layer").hide()
@@ -374,7 +374,7 @@ module.exports = class WidgetSiteView extends View
       $form =  @$el.find("#complete-register-form")
       formData = util.serializeForm($form)
       bandera = false
-      w$.each(formData, (i, value) ->
+      Winbits.$.each(formData, (i, value) ->
         if not value
           bandera = true
           return false

@@ -30,6 +30,6 @@ module.exports = class CompleteProfileRemainderView extends View
       ).closest('.wb-modal-holder').show()
 
   onOpenProfileToEdit:->
-    w$('.spanDropMenu').click()
-    w$('#editBtnProfile').click()
+    Winbits.$('.spanDropMenu').click()
+    Winbits.$('#editBtnProfile').click()
 

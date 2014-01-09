@@ -31,9 +31,9 @@ module.exports = class CartView extends View
   addToCart : (cartItem, options)->
     console.log ['Add to cart object', cartItem]
     options = success: cartItem.success, error: cartItem.error, complete: cartItem.complete unless options
-    cartItems = if w$.isArray(cartItem) then cartItem else [cartItem]
+    cartItems = if Winbits.$.isArray(cartItem) then cartItem else [cartItem]
     ok = yes
-    w$.each cartItems, (index, cartItem) ->
+    Winbits.$.each cartItems, (index, cartItem) ->
       if not cartItem
         util.showError("Please specify a cart item object: {id: 1, quantity: 1}")
         ok = no
@@ -59,7 +59,7 @@ module.exports = class CartView extends View
   clickDeleteCartDetailLink: (e, model) ->
     e.preventDefault()
     console.log ["deleting Item from cart"]
-    $cartDetail = w$(e.target).closest("li")
+    $cartDetail = Winbits.$(e.target).closest("li")
     console.log $cartDetail
     id = $cartDetail.attr("data-id")
     if mediator.flags.loggedIn
@@ -126,4 +126,4 @@ module.exports = class CartView extends View
 
   closeCart: (e) ->
     e.preventDefault()
-    w$(e.currentTarget).closest('.dropMenu').slideUp()
+    Winbits.$(e.currentTarget).closest('.dropMenu').slideUp()

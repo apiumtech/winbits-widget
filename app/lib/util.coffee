@@ -1,7 +1,7 @@
 vendor = require 'lib/vendor'
 
 module.exports =
-  $ : window.w$
+  $ : window.Winbits.$
   storeKey : (key, value) ->
     localStorage[key] = value
 
@@ -41,7 +41,7 @@ module.exports =
 
   focusForm:  (form) ->
     $form = Winbits.$(form)
-    if not w$.browser.msie or /10.*/.test(w$.browser.version)
+    if not Winbits.$.browser.msie or /10.*/.test(Winbits.$.browser.version)
       $form.find('input:visible:not([disabled]), textarea:visible:not([disabled])').first().focus()
 
   alertErrors : ($) ->
@@ -72,13 +72,13 @@ module.exports =
 
   calculateOrderFullPrice: (details) ->
     orderFullPrice = 0.0
-    w$.each details, (index, detail) ->
+    Winbits.$.each details, (index, detail) ->
       orderFullPrice += detail.sku.fullPrice * detail.quantity
     orderFullPrice
 
   calculateCartFullPrice: (cartDetails) ->
     cartFullPrice = 0.0
-    w$.each cartDetails, (index, detail) ->
+    Winbits.$.each cartDetails, (index, detail) ->
       cartFullPrice += detail.skuProfile.fullPrice * detail.quantity
     cartFullPrice
 
@@ -125,7 +125,7 @@ module.exports =
 #      CUSTOMSTEPPER: Sumar y restar valores del stepper
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   customStepper : (obj) ->
-    $ = w$ # NO BORRAR - Fix desarrollo
+    $ = Winbits.$ # NO BORRAR - Fix desarrollo
     if $(obj).length
       $(obj).each ->
         $(this).wrap "<div class=\"stepper\"/>"
@@ -265,9 +265,9 @@ module.exports =
     $orderDetailView.find('.wb-order-saving').text(totalSaved)
 
    ajaxRequest:(url, options) ->
-     if not w$.browser.msie or /10.*/.test(w$.browser.version)
+     if not Winbits.$.browser.msie or /10.*/.test(Winbits.$.browser.version)
       console.info ('No IE transaction')
-      w$.ajax(url,options)
+      Winbits.$.ajax(url,options)
      else
       console.info ('Using easyXDM')
       mediator.rpc.request(url, options, options.success, options.error, options.complete)

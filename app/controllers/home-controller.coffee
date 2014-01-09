@@ -131,7 +131,7 @@ module.exports = class HomeController extends ChaplinController
         socialAccounts = window.Winbits.getSocialAccounts()
         if socialAccounts.length is 0
           throw 'Twitter not connected!'
-        w$.each socialAccounts, (i, account) ->
+        Winbits.$.each socialAccounts, (i, account) ->
           if account.providerId is 'twitter' and !account.available
             throw 'Twitter not connected!'
         message = options.message or 'Test message'
@@ -171,7 +171,7 @@ module.exports = class HomeController extends ChaplinController
         if socialAccounts.length is 0
           throw 'Facebook not connected!'
 
-        w$.each socialAccounts, (i, account) ->
+        Winbits.$.each socialAccounts, (i, account) ->
           console.log ['account', account]
           if account.providerId is 'facebook' and !account.available
             throw 'Facebook not connected!'

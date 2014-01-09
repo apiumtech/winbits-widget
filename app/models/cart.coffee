@@ -69,15 +69,15 @@ module.exports = class Cart extends ChaplinModel
         that.set that.completeCartModel data.response
         if $cartPanel
           $cartPanel.slideDown()
-        cartItem.success.apply(cartItem, arguments) if w$.isFunction cartItem.success
+        cartItem.success.apply(cartItem, arguments) if Winbits.$.isFunction cartItem.success
 
       error: (xhr) ->
         util.showAjaxError(xhr.responseText)
-        cartItem.error.apply(cartItem, arguments) if w$.isFunction cartItem.error
+        cartItem.error.apply(cartItem, arguments) if Winbits.$.isFunction cartItem.error
 
       complete: ->
         util.hideAjaxIndicator()
-        cartItem.complete.apply(cartItem, arguments) if w$.isFunction cartItem.complete
+        cartItem.complete.apply(cartItem, arguments) if Winbits.$.isFunction cartItem.complete
 
 
   updateVirtualCartDetail: (cartItem, $cartPanel)->
@@ -100,16 +100,16 @@ module.exports = class Cart extends ChaplinModel
         that.set that.completeCartModel(data.response)
         if $cartPanel
           $cartPanel.slideDown()
-        cartItem.success.apply(cartItem, arguments) if w$.isFunction cartItem.success
+        cartItem.success.apply(cartItem, arguments) if Winbits.$.isFunction cartItem.success
 
       error: (xhr) ->
         console.log ['PROBLEMS', xhr.responseText]
         util.showAjaxError(xhr.responseText)
-        cartItem.error.apply(cartItem, arguments) if w$.isFunction cartItem.error
+        cartItem.error.apply(cartItem, arguments) if Winbits.$.isFunction cartItem.error
 
       complete: ->
         util.hideAjaxIndicator()
-        cartItem.complete.apply(cartItem, arguments) if w$.isFunction cartItem.complete
+        cartItem.complete.apply(cartItem, arguments) if Winbits.$.isFunction cartItem.complete
 
   deleteVirtualCartDetail: (id)->
     console.log ["deleteVirtualCartDetail"]
@@ -146,7 +146,7 @@ module.exports = class Cart extends ChaplinModel
   loadUserCart: ()->
     console.log ["loadUserCart"]
     @url = config.apiUrl + "/orders/cart-items.json"
-    console.log "LOADING USER CART COOKIE ->>> "+util.getCookie(config.apiTokenName)
+    console.log "LOADING USER CART COOKIE ->>> "+util.retrieveKey(config.apiTokenName)
     @fetch
       headers:{ 'Accept-Language': 'es', "WB-Api-Token": util.retrieveKey(config.apiTokenName)},
       error: ->
@@ -173,10 +173,10 @@ module.exports = class Cart extends ChaplinModel
     $cartPanel = data.$cartPanel
     options = data.options
     formData = cartItems: []
-    w$.each cartItems, (index, cartItem) ->
+    Winbits.$.each cartItems, (index, cartItem) ->
       formData.cartItems.push skuProfileId: cartItem.id, quantity: cartItem.quantity, bits: cartItem.bits or 0
     util.showAjaxIndicator('Agregando artículo(s)...')
-    headers = w$.extend {"Accept-Language": "es"}, data.headers
+    headers = Winbits.$.extend {"Accept-Language": "es"}, data.headers
     that =@
     util.ajaxRequest( config.apiUrl + data.url,
       type: "POST"
@@ -189,13 +189,13 @@ module.exports = class Cart extends ChaplinModel
         that.set that.completeCartModel data.response
         if $cartPanel
           $cartPanel.slideDown()
-        options.success.apply(cartItems, arguments) if w$.isFunction options.success
+        options.success.apply(cartItems, arguments) if Winbits.$.isFunction options.success
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
-        options.error.apply(cartItems, arguments) if w$.isFunction options.error
+        options.error.apply(cartItems, arguments) if Winbits.$.isFunction options.error
       complete: ->
         util.hideAjaxIndicator()
-        options.complete.apply(cartItems, arguments) if w$.isFunction options.complete
+        options.complete.apply(cartItems, arguments) if Winbits.$.isFunction options.complete
     )
 
   addToVirtualCart : (cartItems, $cartPanel, options) ->
@@ -238,7 +238,7 @@ module.exports = class Cart extends ChaplinModel
   findCartDetail: (id) ->
     cartDetails = @get('cartDetails') || []
     cartDetail = `undefined`
-    w$.each cartDetails, (index, detail) ->
+    Winbits.$.each cartDetails, (index, detail) ->
       if detail.skuProfile.id is id
         cartDetail = detail
         return false

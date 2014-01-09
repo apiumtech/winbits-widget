@@ -24,7 +24,7 @@ module.exports = class ResendConfirmationView extends View
 
 
   onUserNotConfirmed: (resendConfirmUrl) ->
-    w$('.modal').modal('hide')
+    Winbits.$('.modal').modal('hide')
     @$el.find('.modal').modal('show').css(
       width: '625px',
       'margin-left': -> -( Winbits.$( this ).width() / 2 )

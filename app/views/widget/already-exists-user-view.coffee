@@ -21,7 +21,7 @@ module.exports = class AlreadyExistsUserView extends View
     @$el.find('.modal').modal(show: false)
 
   onUserNotConfirmed: ->
-    w$('.modal').modal('hide')
+    Winbits.$('.modal').modal('hide')
     @$el.find('.modal').modal('show').css(
       width: '625px',
       'margin-left': -> -( Winbits.$( this ).width() / 2 )
