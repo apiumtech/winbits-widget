@@ -44,10 +44,10 @@ module.exports = class HistoryView extends View
 
   showAccordionPanel: (panelId)->
     @showHistoryView()
-    Backbone.$(".accordeonWinbits").children('h2#' + panelId).click()
+    Winbits.$(".accordeonWinbits").children('h2#' + panelId).click()
 
   showHistoryView: () ->
-    $ = Backbone.$
+    $ = Winbits.$
     $main = $('main').first()
     $('div.dropMenu').slideUp()
     $historicalContainer = $main.find('div.wrapper.historical')

@@ -56,7 +56,7 @@ module.exports = class LoginView extends View
           "Accept-Language": "es"
         success: (data) ->
           that.publishEvent "applyLogin", data.response
-          Backbone.$('.modal').modal 'hide'
+          Winbits.$('.modal').modal 'hide'
           if data.response.showRemainder == true
             that.publishEvent 'completeProfileRemainder'
         error: (xhr) ->
@@ -76,7 +76,7 @@ module.exports = class LoginView extends View
 
   doLoginFacebook: (e) ->
     e.preventDefault()
-    $ = Backbone.$
+    $ = Winbits.$
     that = @
     fbButton = @$(e.currentTarget).prop('disabled', true)
     popup = window.open(config.apiUrlBase + "/affiliation/facebook-login/connect?verticalId=" + config.verticalId,

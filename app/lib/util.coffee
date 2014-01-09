@@ -28,19 +28,19 @@ module.exports =
     window.location.href = url
 
   validateForm : (form) ->
-    $form = Backbone.$(form)
+    $form = Winbits.$(form)
     $form.find(".errors").html ""
     $form.valid()
 
   resetForm: (form) ->
-    $form = Backbone.$(form)
+    $form = Winbits.$(form)
     $form.validate().resetForm()
     $form.get(0).reset()
     $form.find(".errors").html ""
     $form.valid()
 
   focusForm:  (form) ->
-    $form = Backbone.$(form)
+    $form = Winbits.$(form)
     if not w$.browser.msie or /10.*/.test(w$.browser.version)
       $form.find('input:visible:not([disabled]), textarea:visible:not([disabled])').first().focus()
 
@@ -50,7 +50,7 @@ module.exports =
 
   serializeForm : ($form, context) ->
     formData = context or {}
-    Backbone.$.each $form.serializeArray(), (i, f) ->
+    Winbits.$.each $form.serializeArray(), (i, f) ->
       formData[f.name] = f.value
 
     formData
@@ -83,13 +83,13 @@ module.exports =
     cartFullPrice
 
   backToSite: (e) ->
-    $ = Backbone.$
+    $ = Winbits.$
     $main = $('main').first()
     $main.children().show()
     $main.find('div.wrapper.subview').hide()
 
   showWrapperView: (identifier) ->
-    $ = Backbone.$
+    $ = Winbits.$
     $main = $('main').first()
     $('div.dropMenu').slideUp()
     $container = $main.find(identifier)
@@ -106,20 +106,20 @@ module.exports =
     @showError(error.meta.message)
 
   showError: (errorMsg) ->
-    $ = Backbone.$
+    $ = Winbits.$
     $errorModal = $('#wbi-error-modal')
     $errorModal.find('.error-msg').text(errorMsg)
     $errorModal.modal('show')
 
   showAjaxIndicator: (message) ->
     message = if message? then message else 'Cargando...'
-    $ = Backbone.$
+    $ = Winbits.$
     $ajaxModal = $('#wbi-ajax-modal')
     $ajaxModal.find('.loading-msg').html(message)
     $ajaxModal.modal('show')
 
   hideAjaxIndicator: () ->
-    Backbone.$('#wbi-ajax-modal').modal('hide').find('.loading-msg').text('Cargando...')
+    Winbits.$('#wbi-ajax-modal').modal('hide').find('.loading-msg').text('Cargando...')
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #      CUSTOMSTEPPER: Sumar y restar valores del stepper

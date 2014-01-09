@@ -70,6 +70,6 @@ module.exports = class ProxyHandlers
 
   facebookMeHandler: (response) ->
     console.log ["Handle response for: facebookMe...", response]
-    Backbone.$('.modal').modal 'hide'
+    Winbits.$('.modal').modal 'hide'
     if response.email
       @publishEvent "loginFacebook", response

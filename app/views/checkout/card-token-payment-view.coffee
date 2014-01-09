@@ -38,7 +38,7 @@ module.exports = class CardTokenPaymentView extends View
     # Stop timer
     @publishEvent 'StopIntervalTimer'
     #
-    $ = Backbone.$
+    $ = Winbits.$
     $form = $(e.currentTarget)
     if $form.valid()
       paymentData = mediator.post_checkout

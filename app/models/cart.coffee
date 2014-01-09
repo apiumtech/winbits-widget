@@ -210,7 +210,7 @@ module.exports = class Cart extends ChaplinModel
   storeVirtualCart : (cart) ->
     console.log ["Storing virtual cart...", cart]
     vCart = []
-    Backbone.$.each cart.cartDetails or [], (i, cartDetail) ->
+    Winbits.$.each cart.cartDetails or [], (i, cartDetail) ->
       vCartDetail = {}
       vCartDetail[cartDetail.skuProfile.id] = cartDetail.quantity
       vCart.push vCartDetail
@@ -268,7 +268,7 @@ module.exports = class Cart extends ChaplinModel
 #        util.hideAjaxIndicator()
         
   closeCartIfEmpty: () ->
-    $ = Backbone.$
+    $ = Winbits.$
     $cartDetailList = $('.wb-cart-detail-list')
     if $cartDetailList.children().length is 0
       $cartDetailList.closest('.dropMenu').slideUp()

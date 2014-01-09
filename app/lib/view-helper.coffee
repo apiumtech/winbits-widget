@@ -328,13 +328,13 @@ Handlebars.registerHelper "isMSIPayment", (payment, options) ->
 
 Handlebars.registerHelper "paymentMethodSupported", (identifier, options) ->
   supported = no
-  Backbone.$.each @paymentMethods, (index, paymentMethod) ->
+  Winbits.$.each @paymentMethods, (index, paymentMethod) ->
     supported = paymentMethod.identifier.indexOf(identifier) isnt -1
     not supported
   if supported then options.fn this else options.inverse this
 
 Handlebars.registerHelper "withMsiPayments", (options) ->
-  $ = Backbone.$
+  $ = Winbits.$
   msiIdentifiers = []
   msiPayments = []
   allMsiPayments = $.grep @.paymentMethods, (paymentMethod) ->

@@ -116,7 +116,7 @@ module.exports = class CardsView extends View
     $form.parent().show()
 
   fillEditCardForm: ($form, cardInfo) ->
-    $ = Backbone.$
+    $ = Winbits.$
     $form.validate().resetForm()
     formData = $.extend {}, cardInfo.cardData, cardInfo.cardAddress
     if formData.expirationYear and formData.expirationYear.length
@@ -130,7 +130,7 @@ module.exports = class CardsView extends View
 
   submitNewCardForm: (e) ->
     e.preventDefault()
-    $ = Backbone.$
+    $ = Winbits.$
     $form = $(e.currentTarget)
     newCardData = util.serializeForm($form)
     newCardData.cardPrincipal = newCardData.hasOwnProperty('cardPrincipal')
@@ -160,7 +160,7 @@ module.exports = class CardsView extends View
 
   submitEditCardForm: (e) ->
     e.preventDefault()
-    $ = Backbone.$
+    $ = Winbits.$
     $form = $(e.currentTarget)
     currentCardData = $form.data('current-card-data')
     updatedCardData = util.serializeForm($form)
@@ -194,7 +194,7 @@ module.exports = class CardsView extends View
   confirmDeleteCard: (e) ->
     e.preventDefault()
     e.stopPropagation()
-    $ = Backbone.$
+    $ = Winbits.$
     cardIndex = @$el.find(e.currentTarget).closest('li').index()
     cardInfo = @model.get('cards')[cardIndex].cardInfo
     answer = confirm '¿En verdad quieres eliminar la tarjeta ' + cardInfo.cardData.accountNumber + '?'
@@ -233,7 +233,7 @@ module.exports = class CardsView extends View
         @setMainCard cardInfo
 
   setMainCard: (cardInfo) ->
-    $ = Backbone.$
+    $ = Winbits.$
     util.showAjaxIndicator('Estableciendo tarjeta principal...')
     that = @
     url = config.apiUrl + "/orders/card-subscription/" + cardInfo.subscriptionId + "/main.json"
@@ -256,7 +256,7 @@ module.exports = class CardsView extends View
         util.hideAjaxIndicator()
     )
   showCardType: (e) ->
-    $input = Backbone.$(e.currentTarget)
+    $input = Winbits.$(e.currentTarget)
     cardType = util.getCreditCardType($input.val())
     $input.next().removeAttr('class').attr('class', 'wb-card-logo icon ' + cardType + 'CC')
 

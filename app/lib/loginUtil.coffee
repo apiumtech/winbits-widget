@@ -40,14 +40,14 @@ module.exports = class LoginUtil
             that.publishEvent 'setRegisterFb', data.response.profile
             that.publishEvent "showCompletaRegister", data.response
           else
-            that.expressFacebookLogin Backbone.$
+            that.expressFacebookLogin Winbits.$
 
         error: (xhr) ->
           console.log "express-login.json Error!"
           util.showAjaxError(xhr.responseText)
       )
     else
-      @expressFacebookLogin Backbone.$
+      @expressFacebookLogin Winbits.$
 
   expressFacebookLogin : ($) ->
     console.log "Trying to login with facebook"
@@ -119,7 +119,7 @@ module.exports = class LoginUtil
     $('#' + config.winbitsDivId).trigger 'loggedout', [logoutData]
 
   loginFacebook : (me) ->
-    $ = Backbone.$
+    $ = Winbits.$
     that = @
     myBirthdayDate = new Date(me.birthday)
     birthday = myBirthdayDate.getFullYear() + "-" + myBirthdayDate.getMonth() + "-" + myBirthdayDate.getDate()

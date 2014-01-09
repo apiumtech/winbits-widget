@@ -24,9 +24,9 @@ module.exports = class AlreadyExistsUserView extends View
     w$('.modal').modal('hide')
     @$el.find('.modal').modal('show').css(
       width: '625px',
-      'margin-left': -> -( Backbone.$( this ).width() / 2 )
+      'margin-left': -> -( Winbits.$( this ).width() / 2 )
       top: '50%'
-      'margin-top': -> -(  Backbone.$( this ).height() / 2 )
+      'margin-top': -> -(  Winbits.$( this ).height() / 2 )
     ).closest('.wb-modal-holder').show()
 
   onAlreadyExistUserLinkClick: (e) ->

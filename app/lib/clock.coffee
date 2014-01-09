@@ -12,7 +12,7 @@ module.exports =
 
   updateCheckoutTimer: ($timer, $interval) ->
 
-    $ = Backbone.$
+    $ = Winbits.$
     $main = $('main').first()
     $container = $main.find($timer.data('contentTimerId'))
     if $container.is(':hidden')

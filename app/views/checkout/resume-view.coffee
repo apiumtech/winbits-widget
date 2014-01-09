@@ -36,7 +36,7 @@ module.exports = class ResumeView extends View
 
   showResume: (data) ->
     console.log ['Resume', data]
-    $ = Backbone.$
+    $ = Winbits.$
     $main = $('main').first()
     $main.children().hide()
     data.maxBits = @calculateMaxBits data.total, mediator.profile.bitsBalance

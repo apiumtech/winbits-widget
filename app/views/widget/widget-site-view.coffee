@@ -102,9 +102,9 @@ module.exports = class WidgetSiteView extends View
     console.log "WidgetSiteView#showLoginLayer"
     @$("#login-modal").modal( 'show' ).css
       width: '330px'
-      'margin-left': -> -( Backbone.$( this ).width() / 2 )
+      'margin-left': -> -( Winbits.$( this ).width() / 2 )
       top: '50%'
-      'margin-top': -> -(  Backbone.$( this ).height() / 2 )
+      'margin-top': -> -(  Winbits.$( this ).height() / 2 )
 
   registerLinkClick: (e) ->
     e.preventDefault()
@@ -142,18 +142,18 @@ module.exports = class WidgetSiteView extends View
 
   showConfirmation: () ->
     console.log "WidgetSiteView#showConfirmation"
-    Backbone.$("#register-confirm-modal").modal( 'show' ).css
+    Winbits.$("#register-confirm-modal").modal( 'show' ).css
       width: '625px'
-      'margin-left': -> -( Backbone.$( this ).width() / 2 )
+      'margin-left': -> -( Winbits.$( this ).width() / 2 )
       top: '50%'
-      'margin-top': -> -(  Backbone.$( this ).height() / 2 )
+      'margin-top': -> -(  Winbits.$( this ).height() / 2 )
 
   showMessageConfirm: (modalId) ->
-    Backbone.$(modalId).modal( 'show' ).css {
+    Winbits.$(modalId).modal( 'show' ).css {
       width: '625px',
-      'margin-left': -> -( Backbone.$( this ).width() / 2 )
+      'margin-left': -> -( Winbits.$( this ).width() / 2 )
       top: '50%',
-      'margin-top': -> -(  Backbone.$( this ).height() / 2 )
+      'margin-top': -> -(  Winbits.$( this ).height() / 2 )
     }
 
   showHeaderLogin: () ->
@@ -201,7 +201,7 @@ module.exports = class WidgetSiteView extends View
 
     vendor.stickyFooter ".widgetWinbitsFooter"
 
-    Backbone.$.validator.addMethod 'validDate', (value) ->
+    Winbits.$.validator.addMethod 'validDate', (value) ->
       if value
         moment(value, 'YYYY-MM-DD').isValid()
       else
@@ -217,7 +217,7 @@ module.exports = class WidgetSiteView extends View
     @doCheckout()
 
   doCheckout: () ->
-    $ = Backbone.$
+    $ = Winbits.$
     if $('.wb-cart-detail-list').children().length > 0
       util.showAjaxIndicator('Generando tu Orden...')
       that = @
@@ -358,11 +358,11 @@ module.exports = class WidgetSiteView extends View
       @publishEvent 'expressLogin', apiToken
 
   requestFocus: (e) ->
-    $form = Backbone.$(e.currentTarget).find('form')
+    $form = Winbits.$(e.currentTarget).find('form')
     util.focusForm($form)
 
   resetForm: (e) ->
-    $form = Backbone.$(e.currentTarget).find('form')
+    $form = Winbits.$(e.currentTarget).find('form')
     util.resetForm($form)
 
   verifyNullFields: (e) ->

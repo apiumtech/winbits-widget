@@ -100,7 +100,7 @@ module.exports = class ProfileView extends View
           validDate: true
         zipCodeInfo:
           required: (e) ->
-            $form = Backbone.$(e).closest 'form'
+            $form = Winbits.$(e).closest 'form'
             $form.find('[name=location]').is(':hidden')
         location:
           required: '[name=location]:visible'
@@ -124,7 +124,7 @@ module.exports = class ProfileView extends View
     $select = @$('.select')
     $zipCode = @$('.zipCode')
     $zipCodeExtra = @$('.zipCodeInfoExtra')
-    zipCode(Backbone.$).find $zipCode.val(), $select, $zipCodeExtra.val()
+    zipCode(Winbits.$).find $zipCode.val(), $select, $zipCodeExtra.val()
     unless $zipCode.val().length < 5
       vendor.customSelect($select)
 
@@ -136,16 +136,16 @@ module.exports = class ProfileView extends View
   viewAttachTwitterAccount: (e)->
     that = @
     console.log "attach-twitter-account"
-    maxHeight = Backbone.$(window).height() - 200
+    maxHeight = Winbits.$(window).height() - 200
     @$("#attach-twitter-account-modal .modal-body").css("max-height", maxHeight)
     @$("#attach-twitter-account-modal").modal( 'show' ).css {
       'background-color': 'transparent',
       float: 'left',
       width: '330px',
-      'margin-left': -> -( Backbone.$( this ).width() / 2 )
+      'margin-left': -> -( Winbits.$( this ).width() / 2 )
       top: '50%',
       'max-height': maxHeight,
-      'margin-top': -> -(  Backbone.$( this ).height() / 2 )
+      'margin-top': -> -(  Winbits.$( this ).height() / 2 )
     }
 
     popup = window.open("", "twitter", "menubar=0,resizable=0,width=800,height=500")
@@ -166,7 +166,7 @@ module.exports = class ProfileView extends View
         timer = setInterval(->
             if popup.closed
               clearInterval timer
-              Backbone.$(".modal").modal('hide')
+              Winbits.$(".modal").modal('hide')
               that.publishEvent 'updateSocialAccountsStatus'
         , 1000)
       error: (xhr, textStatus, errorThrown) ->
@@ -179,16 +179,16 @@ module.exports = class ProfileView extends View
   viewAttachFacebookAccount: (e)->
     that = @
     console.log "attach-facebook-account"
-    maxHeight = Backbone.$(window).height() - 200
+    maxHeight = Winbits.$(window).height() - 200
     @$("#attach-facebook-account-modal .modal-body").css("max-height", maxHeight)
     @$("#attach-facebook-account-modal").modal( 'show' ).css {
       'background-color': 'transparent',
       float: 'left',
       width: '330px',
-      'margin-left': -> -( Backbone.$( this ).width() / 2 )
+      'margin-left': -> -( Winbits.$( this ).width() / 2 )
       top: '50%',
       'max-height': maxHeight,
-      'margin-top': -> -(  Backbone.$( this ).height() / 2 )
+      'margin-top': -> -(  Winbits.$( this ).height() / 2 )
     }
 
     popup = window.open("", "facebook", "menubar=0,resizable=0,width=800,height=500")
@@ -209,7 +209,7 @@ module.exports = class ProfileView extends View
         timer = setInterval(->
           if popup.closed
             clearInterval timer
-            Backbone.$(".modal").modal('hide')
+            Winbits.$(".modal").modal('hide')
             that.publishEvent 'updateSocialAccountsStatus'
         , 1000)
       error: (xhr, textStatus, errorThrown) ->
@@ -311,7 +311,7 @@ module.exports = class ProfileView extends View
 
   requestPasswordChange: (e) ->
     e.preventDefault()
-    $ = Backbone.$
+    $ = Winbits.$
     $form = $(e.currentTarget)
     formData = util.serializeForm($form)
     console.log "detach twitter account"
@@ -338,7 +338,7 @@ module.exports = class ProfileView extends View
     )
 
   showCardsManager: (e) ->
-    $ = Backbone.$
+    $ = Winbits.$
     $main = $('main').first()
     $('div.dropMenu').slideUp()
     $cardsManagerContainer = $main.find('#wbi-cards-manager')
@@ -353,10 +353,10 @@ module.exports = class ProfileView extends View
     console.log "find zipCode"
     $currentTarget = @$(event.currentTarget)
     $slt = $currentTarget.parent().find(".select")
-    zipCode(Backbone.$).find $currentTarget.val(), $slt
+    zipCode(Winbits.$).find $currentTarget.val(), $slt
 
   changeZipCodeInfo: (e) ->
-    $ = Backbone.$
+    $ = Winbits.$
     $select = $(e.currentTarget)
     zipCodeInfoId = $select.val()
     $form = $select.closest('form')

@@ -63,16 +63,16 @@ module.exports = class RegisterView extends View
           validDate: true
         zipCodeInfo:
           required: (e) ->
-            $form = Backbone.$(e).closest 'form'
+            $form = Winbits.$(e).closest 'form'
             $form.find('[name=location]').is(':hidden')
         location:
           required: '[name=location]:visible'
           minlength: 2
 
-    $select = Backbone.$('.select')
-    $zipCode = Backbone.$('.zipCode')
-    $zipCodeExtra = Backbone.$('.zipCodeInfoExtra')
-    zipCode(Backbone.$).find $zipCode.val(), $select, $zipCodeExtra.val()
+    $select = Winbits.$('.select')
+    $zipCode = Winbits.$('.zipCode')
+    $zipCodeExtra = Winbits.$('.zipCodeInfoExtra')
+    zipCode(Winbits.$).find $zipCode.val(), $select, $zipCodeExtra.val()
     unless $zipCode.val().length < 5
       vendor.customSelect($select)
 
@@ -134,7 +134,7 @@ module.exports = class RegisterView extends View
         delete formData.zipCodeInfo
       formData.gender = gender
 
-      $saveButton = Backbone.$(e.currentTarget).val('Guardando...').prop('disabled', true)
+      $saveButton = Winbits.$(e.currentTarget).val('Guardando...').prop('disabled', true)
       that=@
       util.ajaxRequest(config.apiUrl + "/affiliation/profile.json",
         type: "PUT"
@@ -150,7 +150,7 @@ module.exports = class RegisterView extends View
 
         success: (data) ->
           that.publishEvent "profileUpdated", data.response
-          Backbone.$('#register-modal').modal 'hide'
+          Winbits.$('#register-modal').modal 'hide'
         error: (xhr) ->
           util.showError("Error while updating profile")
        complete: ->
@@ -178,7 +178,7 @@ module.exports = class RegisterView extends View
 
   doRegisterWithFacebook: (e) ->
     e.preventDefault()
-    $ = Backbone.$
+    $ = Winbits.$
     that = @
     fbButton = @$(e.currentTarget).prop('disabled', true)
     referredBy = $("#referredById")[0].value
@@ -200,17 +200,17 @@ module.exports = class RegisterView extends View
 
   closeCompleteRegisterModal: (e) ->
     e.preventDefault()
-    Backbone.$(e.currentTarget).closest('#register-modal').modal('hide')
+    Winbits.$(e.currentTarget).closest('#register-modal').modal('hide')
 
   findZipcode: (event)->
     event.preventDefault()
     console.log "find zipCode"
     $currentTarget = @$(event.currentTarget)
     $slt = $currentTarget.parent().find(".select")
-    zipCode(Backbone.$).find $currentTarget.val(), $slt
+    zipCode(Winbits.$).find $currentTarget.val(), $slt
 
   changeZipCodeInfo: (e) ->
-    $ = Backbone.$
+    $ = Winbits.$
     $select = $(e.currentTarget)
     zipCodeInfoId = $select.val()
     $form = $select.closest('form')

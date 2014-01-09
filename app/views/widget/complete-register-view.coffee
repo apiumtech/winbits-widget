@@ -22,14 +22,14 @@ module.exports = class CompleteRegisterView extends View
 
 
   showCompleteRegisterModal: (cashback) ->
-    Backbone.$('div.dropMenu').slideUp()
+    Winbits.$('div.dropMenu').slideUp()
     w$('.modal').modal('hide')
 
     @$el.find('.modal').modal('show').css(
       width: '625px',
-      'margin-left': -> -( Backbone.$( this ).width() / 2 )
+      'margin-left': -> -( Winbits.$( this ).width() / 2 )
       top: '50%'
-      'margin-top': -> -(  Backbone.$( this ).height() / 2 )
+      'margin-top': -> -(  Winbits.$( this ).height() / 2 )
     ).find('.wb-cashback').text(cashback).closest('.wb-modal-holder').show()
 
   onCloseCompleteRegister: ->

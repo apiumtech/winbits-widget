@@ -300,7 +300,7 @@ module.exports = class PaymentView extends View
     @$el.find('#wbi-main-payment-view').show()
 
   showCardType: (e) ->
-    $input = Backbone.$(e.currentTarget)
+    $input = Winbits.$(e.currentTarget)
     cardNumber = $input.val() or ''
     if cardNumber.length > 14
       cardType = util.getCreditCardType(cardNumber)
@@ -308,6 +308,6 @@ module.exports = class PaymentView extends View
       $input.next().removeAttr('class').attr('class', 'wb-card-logo icon ' + cardType + 'CC')
 
   onCardSaveChange: (e) ->
-    $checkbox = Backbone.$(e.currentTarget)
+    $checkbox = Winbits.$(e.currentTarget)
     checked = $checkbox.is ':checked'
     $checkbox.closest('form').find('.wb-card-principal-checkbox').prop('disabled', !checked).prop('checked', false)

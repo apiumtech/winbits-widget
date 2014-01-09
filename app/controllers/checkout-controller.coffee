@@ -95,7 +95,7 @@ module.exports = class CheckoutController extends ChaplinController
     @publishEvent 'showCardsManager'
 
   isPaymentMethodSupported: (paymentMethods, identifier) ->
-    $ = Backbone.$
+    $ = Winbits.$
     result = $.grep paymentMethods, (paymentMethod) ->
       paymentMethod.identifier.indexOf(identifier) is 0
     result.length isnt 0
