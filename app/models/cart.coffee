@@ -38,7 +38,7 @@ module.exports = class Cart extends ChaplinModel
         "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
-        util.storeKey config.vcartTokenName, '[]', 7
+        util.storeKey config.vcartTokenName, '[]'
         that.set that.completeCartModel(data.response)
         Winbits.rpc.storeVirtualCart('[]')
         that.publishEvent 'doCheckout' if mediator.flags.autoCheckout
@@ -217,7 +217,7 @@ module.exports = class Cart extends ChaplinModel
 
     vCartToken = JSON.stringify(vCart)
     console.log ["vCartToken", vCartToken]
-    util.storeKey config.vcartTokenName, vCartToken, 7
+    util.storeKey config.vcartTokenName, vCartToken
     Winbits.rpc.storeVirtualCart(vCartToken)
 
   completeCartModel: (model) ->

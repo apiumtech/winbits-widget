@@ -265,9 +265,20 @@ module.exports =
     $orderDetailView.find('.wb-order-saving').text(totalSaved)
 
    ajaxRequest:(url, options) ->
+     $ = Winbits.$
+     options = options or {}
      if not Winbits.$.browser.msie or /10.*/.test(Winbits.$.browser.version)
       console.info ('No IE transaction')
       Winbits.$.ajax(url,options)
      else
-      console.info ('Using easyXDM')
-      mediator.rpc.request(url, options, options.success, options.error, options.complete)
+      console.info ('Using easyXDM -> ' + url)
+      context = options.context or @
+      Winbits.rpc.request(url, options, () ->
+        console.log ('success')
+        options.success.apply(context, arguments) if $.isFunction options.success
+        options.complete.call(context) if $.isFunction options.complete
+      , () ->
+        console.log ('error')
+        options.error.apply(context, arguments) if $.isFunction options.error
+        options.complete.call(context) if $.isFunction options.complete
+      )

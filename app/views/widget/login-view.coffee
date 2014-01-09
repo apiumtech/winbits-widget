@@ -44,14 +44,15 @@ module.exports = class LoginView extends View
     if util.validateForm($form)
       submitButton = @$(e.currentTarget).prop('disabled', true)
       that=@
-      util.ajaxRequest( config.apiUrl + "/affiliation/login.json",
+      console.log ('DO LOGIN!!!!')
+      util.ajaxRequest(
+        config.apiUrl + "/affiliation/login.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
         data: JSON.stringify(formData)
         xhrFields:
           withCredentials: true
-#        context: {view: @, $submitButton: submitButton}
         headers:
           "Accept-Language": "es"
         success: (data) ->
