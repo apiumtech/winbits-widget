@@ -312,7 +312,6 @@ module.exports = class ProfileView extends View
     $changePasswordContainer.find('form').first().validate().resetForm()
     $changePasswordContainer.slideUp()
     @$el.find(".miPerfil").slideDown()
-#    util.resetLocationSelect($editProfileForm.find("#wbi-profile-zip-code-info"))
 
   changePassword: (e) ->
     e.preventDefault()
