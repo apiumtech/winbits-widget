@@ -8,9 +8,8 @@ vendor = require 'lib/vendor'
 module.exports = class CartView extends View
   autoRender: yes
   #className: 'home-page'
-  container: '#cart-container'
+  container: '.wb-cart-container'
   template: template
-  id: "cart-view"
 
   render: ->
     super
@@ -80,7 +79,7 @@ module.exports = class CartView extends View
       that.updateCartDetail id: id, quantity: val
 
     that = @
-    vendor.customSlider("#wb-cart-bits-slider-account").on('slidechange', (e, ui) ->
+    vendor.customSlider(".wb-cart-bits-slider-account").on('slidechange', (e, ui) ->
       # TODO: Create view CartInfo and maintain slider out of that view
       $slider = Winbits.$(@)
       maxBits = $slider.slider('option', 'max')
