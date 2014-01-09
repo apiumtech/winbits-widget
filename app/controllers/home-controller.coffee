@@ -146,7 +146,8 @@ module.exports = class HomeController extends ChaplinController
             withCredentials: true
           headers:
             "Accept-Language": "es"
-            "WB-Api-Token":  util.getCookie(config.apiTokenName)
+            "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
+
           success: (data) ->
             if options.success
               options.success.call({}, [data.response])
@@ -184,7 +185,8 @@ module.exports = class HomeController extends ChaplinController
             withCredentials: true
           headers:
             "Accept-Language": "es"
-            "WB-Api-Token":  util.getCookie(config.apiTokenName)
+            "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
+
           success: (data) ->
             if options.success
               options.success.call({}, [data.response])
@@ -213,7 +215,8 @@ module.exports = class HomeController extends ChaplinController
           withCredentials: true
         headers:
           "Accept-Language": "es"
-          "WB-Api-Token":  util.getCookie(config.apiTokenName)
+          "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
+
         success: (data) ->
           if options.success
             options.success.call({}, [data.response])
@@ -239,9 +242,11 @@ module.exports = class HomeController extends ChaplinController
         data: data
         xhrFields:
           withCredentials: true
+
         headers:
           "Accept-Language": "es"
-          "WB-Api-Token":  util.getCookie(config.apiTokenName)
+          "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
+
         success: (data) ->
           options.success.call({}, [data.response]) if typeof options.success is 'function'
         error: (xhr) ->
@@ -263,7 +268,7 @@ module.exports = class HomeController extends ChaplinController
           withCredentials: true
         headers:
           "Accept-Language": "es"
-          "WB-Api-Token":  util.getCookie(config.apiTokenName)
+          "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
         success: (data) ->
           options.success.call({}, [data.response]) if typeof options.success is 'function'
         error: (xhr) ->
@@ -287,7 +292,8 @@ module.exports = class HomeController extends ChaplinController
           withCredentials: true
         headers:
           "Accept-Language": "es"
-          "WB-Api-Token":  util.getCookie(config.apiTokenName)
+          "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
+
         success: (data) ->
           if options.success
             options.success.call({}, [data.response])
@@ -312,7 +318,8 @@ module.exports = class HomeController extends ChaplinController
           withCredentials: true
         headers:
           "Accept-Language": "es"
-          "WB-Api-Token":  util.getCookie(config.apiTokenName)
+          "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
+
         success: (data) ->
           if options.success
             options.success.call({}, [data.response])
@@ -338,7 +345,8 @@ module.exports = class HomeController extends ChaplinController
           withCredentials: true
         headers:
           "Accept-Language": "es"
-          "WB-Api-Token":  util.getCookie(config.apiTokenName)
+          "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
+
         success: (data) ->
           if options.success
             options.success.call({}, [data.response])
@@ -363,7 +371,8 @@ module.exports = class HomeController extends ChaplinController
           withCredentials: true
         headers:
           "Accept-Language": "es"
-          "WB-Api-Token":  util.getCookie(config.apiTokenName)
+          "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
+
         success: (data) ->
           if options.success
             options.success.call({}, [data.response])

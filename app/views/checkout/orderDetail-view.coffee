@@ -15,7 +15,7 @@ module.exports = class OrderDetailView extends View
   attach: ->
     super
     that = @
-    if window.bits_balance > 0
+    if Winbits.checkoutConfig.bitsBalance > 0
       vendor.customSlider("#wbi-bits-slide-checkout").on('slidechange', (e, ui) ->
 #      TODO: Create view OrderInfo and maintain slider out of that view
         util.updateOrderDetailView(that.model, ui.value, Backbone.$(@))

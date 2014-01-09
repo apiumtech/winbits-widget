@@ -19,9 +19,9 @@ module.exports = class LoginUtil
     @subscribeEvent 'loginFacebook', @loginFacebook
 
   expressLogin : (token) ->
+    console.log "Doing express login"
     console.log "LoginUtil#expressLogin"
-    apiToken = if token? then token else util.getCookie(config.apiTokenName)
-    console.log ["API Token", apiToken]
+    apiToken = if token? then token else util.retrieveKey(config.apiTokenName)
     that = @
     if apiToken and apiToken isnt "undefined"
       util.ajaxRequest( config.apiUrl + "/affiliation/express-login.json",
@@ -33,14 +33,15 @@ module.exports = class LoginUtil
           "Accept-Language": "es"
         xhrFields:
           withCredentials: true
-#        context: Backbone.$
         success: (data) ->
           console.log "express-login.json Success!"
-          console.log ["data", data.response]
           that.publishEvent 'applyLogin', data.response
-          if token?
-            Backbone.$.publishEvent 'setRegisterFb', data.response.profile
-            Backbone.$.publishEvent "showCompletaRegister", data.response
+          if token? and data.response.profile?
+            that.publishEvent 'setRegisterFb', data.response.profile
+            that.publishEvent "showCompletaRegister", data.response
+          else
+            that.expressFacebookLogin Backbone.$
+
         error: (xhr) ->
           console.log "express-login.json Error!"
           util.showAjaxError(xhr.responseText)
@@ -50,7 +51,9 @@ module.exports = class LoginUtil
 
   expressFacebookLogin : ($) ->
     console.log "Trying to login with facebook"
-    mediator.proxy.post action: "facebookStatus"
+    that = @
+    Winbits.rpc.facebookStatus (response) ->
+      that.publishEvent 'facebookStatusHandler', response
 
   applyLogin : (profile) ->
     console.log ["LoginUtil#applyLogin",profile]
@@ -104,10 +107,8 @@ module.exports = class LoginUtil
     )
 
   applyLogout : (logoutData) ->
-    mediator.proxy.post
-      action: "logout"
-      params: [mediator.flags.fbConnect]
-    util.deleteCookie config.apiTokenName
+    Winbits.rpc.logout(mediator.flags.fbConnect)
+    util.deleteKey config.apiTokenName
     @publishEvent "resetComponents"
     @publishEvent "showHeaderLogout"
     @publishEvent "loggedOut"

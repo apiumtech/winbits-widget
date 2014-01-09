@@ -27,7 +27,8 @@ module.exports = class Cards extends ChaplinModel
       dataType: "json"
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
+
       success: (data) ->
         console.log 'Success loading cards'
         that.set cards: data.response, cardItemLegend: that.cardItemLegend

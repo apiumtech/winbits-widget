@@ -144,7 +144,7 @@ module.exports = class CardsView extends View
       data: JSON.stringify(paymentInfo: newCardData)
       headers:
         "Accept-Language": "es",
-        "WB-Api-Token": util.getCookie(config.apiTokenName)
+        "WB-Api-Token": util.retrieveKey(config.apiTokenName)
       beforeSend: ->
         $form.valid()
       success: (data) ->
@@ -177,7 +177,7 @@ module.exports = class CardsView extends View
       data: JSON.stringify(paymentInfo: updatedCardData)
       headers:
         "Accept-Language": "es",
-        "WB-Api-Token": util.getCookie(config.apiTokenName)
+        "WB-Api-Token": util.retrieveKey(config.apiTokenName)
       beforeSend: ->
         $form.valid()
       success: (data) ->
@@ -207,7 +207,8 @@ module.exports = class CardsView extends View
 #        context: { that: @, cardIndex: cardIndex }
         headers:
           "Accept-Language": "es",
-          "WB-Api-Token": util.getCookie(config.apiTokenName)
+          "WB-Api-Token": util.retrieveKey(config.apiTokenName)
+
         success: (data) ->
           console.log ["Delete card success!", data]
           cards = that.model.get 'cards'
@@ -243,7 +244,8 @@ module.exports = class CardsView extends View
 #      context: { that: @ }
       headers:
         "Accept-Language": "es",
-        "WB-Api-Token": util.getCookie(config.apiTokenName)
+        "WB-Api-Token": util.retrieveKey(config.apiTokenName)
+
       success: (data) ->
         console.log ["Update main card success!", data]
         that.publishEvent 'showCardsManager'

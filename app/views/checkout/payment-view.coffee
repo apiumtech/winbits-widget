@@ -47,7 +47,7 @@ module.exports = class PaymentView extends View
       postData = paymentInfo : formData
       postData.paymentMethod = paymentMethod
       postData.order = mediator.post_checkout.order
-      postData.vertical = window.verticalId
+      postData.vertical = Winbits.checkoutConfig.verticalId
       postData.shippingAddress = mediator.post_checkout.shippingAddress
       util.showAjaxIndicator('Procesando tu pago...')
 
@@ -56,7 +56,8 @@ module.exports = class PaymentView extends View
         contentType: "application/json"
         dataType: "json"
         data: JSON.stringify(postData)
-        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': window.token }
+
+        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
         success: (data) ->
           console.log ["data", data]
           payment = data.response.payments[0]
@@ -106,7 +107,7 @@ module.exports = class PaymentView extends View
     mediator.post_checkout.paymentMethod = paymentMethod
 
     formData = mediator.post_checkout
-    formData.vertical = window.verticalId
+    formData.vertical = Winbits.checkoutConfig.verticalId
     util.showAjaxIndicator('Procesando tu pago...')
 
     util.ajaxRequest( config.apiUrl + "/orders/payment.json",
@@ -114,7 +115,8 @@ module.exports = class PaymentView extends View
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify(formData)
-      headers:{ 'Accept-Language': 'es', 'WB-Api-Token': window.token }
+
+      headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
       success: (data) ->
         console.log ["data", data]
         payment = data.response.payments[0]
@@ -281,6 +283,14 @@ module.exports = class PaymentView extends View
     cardInfo = cardData.cardInfo
     mediator.post_checkout.paymentMethod = 'cybersource.token'
     mediator.post_checkout.paymentInfo = subscriptionId: cardInfo.subscriptionId
+
+    if cardInfo.cardData.cardType is "American Express"
+      cardInfo.maxSecurityNumber = 4
+      cardInfo.securityNumberPlaceholder = "\#\#\#\#"
+    else
+      cardInfo.maxSecurityNumber = 3
+      cardInfo.securityNumberPlaceholder = "\#\#\#"
+
     @cardTokenPaymentView.model.set cardInfo: cardInfo
     @cardTokenPaymentView.render()
     @cardTokenPaymentView.$el.find('#wbi-card-token-payment-view').show()

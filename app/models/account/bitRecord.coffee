@@ -27,7 +27,8 @@ module.exports = class BitRecord extends ChaplinModel
       #data: JSON.stringify(updateData)
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
+
       success: (data) ->
         console.log ["Success: Update  bits", data.response]
         that.set that.completeBitRecord(data.response)

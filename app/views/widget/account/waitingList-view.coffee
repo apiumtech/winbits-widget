@@ -37,7 +37,8 @@ module.exports = class WaitingListView extends View
 #      context: @
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
+
       success: (data) ->
         modelData = {waitingListItems: data.response}
         that.publishEvent 'completeWaitingList', modelData

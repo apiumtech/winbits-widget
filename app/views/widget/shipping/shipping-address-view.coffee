@@ -42,7 +42,7 @@ module.exports = class ShippingAddressView extends View
         url: config.apiUrl + "/affiliation/shipping-addresses/" + id,
         error: ->
           console.log "error",
-        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
+        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
         success: ->
           console.log "success"
           that.publishEvent 'showShippingAddresses'
@@ -90,7 +90,7 @@ module.exports = class ShippingAddressView extends View
           console.log "error",
         headers:
               "Accept-Language": "es"
-              "WB-Api-Token":  util.getCookie(config.apiTokenName)
+              "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
         success: ->
               console.log "success"
               that.publishEvent 'showShippingAddresses'
@@ -117,7 +117,7 @@ module.exports = class ShippingAddressView extends View
         url: config.apiUrl + "/affiliation/shipping-addresses/" + formData.id + ".json",
         error: ->
           console.log "error",
-        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
+        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
         success: ->
           console.log "success"
           that.publishEvent 'showShippingAddresses'

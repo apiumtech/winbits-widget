@@ -18,7 +18,7 @@ module.exports = class Cart extends ChaplinModel
     @fetch
       error: ->
         console.log "error",
-      headers:{ 'Accept-Language': 'es', 'wb-vcart': util.getCookie(config.vcartTokenName)}
+      headers:{ 'Accept-Language': 'es', 'wb-vcart': util.retrieveKey(config.vcartTokenName)}
       success: ->
         console.log "success load Virtual cart"
       complete: ->
@@ -28,21 +28,19 @@ module.exports = class Cart extends ChaplinModel
     console.log ["transferVirtualCart"]
     that = @
     formData = virtualCartData: JSON.parse(virtualCart)
-    util.ajaxRequest( config.apiUrl + "/orders/assign-virtual-cart.json",
+    util.ajaxRequest config.apiUrl + "/orders/assign-virtual-cart.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify(formData)
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
-    )
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
+
       success: (data) ->
-        util.setCookie config.vcartTokenName, '[]', 7
+        util.storeKey config.vcartTokenName, '[]', 7
         that.set that.completeCartModel(data.response)
-        mediator.proxy.post
-          action: "storeVirtualCart"
-          params: ['[]']
+        Winbits.rpc.storeVirtualCart('[]')
         that.publishEvent 'doCheckout' if mediator.flags.autoCheckout
 
       error: (xhr) ->
@@ -65,8 +63,7 @@ module.exports = class Cart extends ChaplinModel
 #      context: { cartItem: cartItem, $cartPanel: $cartPanel, model: @ }
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token": util.getCookie(config.apiTokenName)
-    )
+        "WB-Api-Token": util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
         that.set that.completeCartModel data.response
@@ -88,7 +85,7 @@ module.exports = class Cart extends ChaplinModel
     formData = quantity: cartItem.quantity
     util.showAjaxIndicator('Actualizando carrito...')
     that = @
-    util.ajaxRequest( config.apiUrl + "/orders/virtual-cart-items/" + cartItem.id + ".json",
+    util.ajaxRequest config.apiUrl + "/orders/virtual-cart-items/" + cartItem.id + ".json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
@@ -96,8 +93,8 @@ module.exports = class Cart extends ChaplinModel
 #      context: { cartItem: cartItem, $cartPanel: $cartPanel, model: @ }
       headers:
         "Accept-Language": "es"
-        "wb-vcart": util.getCookie(config.vcartTokenName)
-    )
+        "wb-vcart": util.retrieveKey(config.vcartTokenName)
+
       success: (data) ->
         that.storeVirtualCart data.response
         that.set that.completeCartModel(data.response)
@@ -122,7 +119,7 @@ module.exports = class Cart extends ChaplinModel
     @sync 'delete', @,
       error: ->
         console.log "error",
-      headers:{ 'Accept-Language': 'es', 'wb-vcart': util.getCookie(config.vcartTokenName) }
+      headers:{ 'Accept-Language': 'es', 'wb-vcart': util.retrieveKey(config.vcartTokenName) }
       success: (data)->
         console.log "success deleteVirtaulCart"
         that.storeVirtualCart data.response
@@ -136,7 +133,7 @@ module.exports = class Cart extends ChaplinModel
     util.showAjaxIndicator('Eliminando artículo...')
     @url = config.apiUrl + "/orders/cart-items/" + id + ".json"
     @sync 'delete', @,
-      headers:{ 'Accept-Language': 'es', "WB-Api-Token": util.getCookie(config.apiTokenName) }
+      headers:{ 'Accept-Language': 'es', "WB-Api-Token": util.retrieveKey(config.apiTokenName) }
       success: (data) ->
         that.set that.completeCartModel data.response
         that.closeCartIfEmpty()
@@ -151,10 +148,9 @@ module.exports = class Cart extends ChaplinModel
     @url = config.apiUrl + "/orders/cart-items.json"
     console.log "LOADING USER CART COOKIE ->>> "+util.getCookie(config.apiTokenName)
     @fetch
-      headers:{ 'Accept-Language': 'es', "WB-Api-Token": util.getCookie(config.apiTokenName)}
+      headers:{ 'Accept-Language': 'es', "WB-Api-Token": util.retrieveKey(config.apiTokenName)},
       error: ->
-      console.log "error in load user cart"
-
+        console.log "error",
       success: ->
         console.log "success loadUserCart"
         #that.$el.find(".myPerfil").slideDown()
@@ -170,7 +166,7 @@ module.exports = class Cart extends ChaplinModel
       $cartPanel: $cartPanel
       options: options
       url: "/orders/cart-items.json"
-      headers: "WB-Api-Token": util.getCookie(config.apiTokenName)
+      headers: "WB-Api-Token": util.retrieveKey(config.apiTokenName)
 
   addToCart : (data) ->
     cartItems = data.cartItems
@@ -209,7 +205,7 @@ module.exports = class Cart extends ChaplinModel
       $cartPanel: $cartPanel
       options: options
       url: "/orders/virtual-cart-items.json"
-      headers: "wb-vcart": util.getCookie(config.vcartTokenName)
+      headers: "wb-vcart": util.retrieveKey(config.vcartTokenName)
 
   storeVirtualCart : (cart) ->
     console.log ["Storing virtual cart...", cart]
@@ -221,10 +217,8 @@ module.exports = class Cart extends ChaplinModel
 
     vCartToken = JSON.stringify(vCart)
     console.log ["vCartToken", vCartToken]
-    util.setCookie config.vcartTokenName, vCartToken, 7
-    mediator.proxy.post
-      action: "storeVirtualCart"
-      params: [vCartToken]
+    util.storeKey config.vcartTokenName, vCartToken, 7
+    Winbits.rpc.storeVirtualCart(vCartToken)
 
   completeCartModel: (model) ->
     total = model.itemsTotal + model.shippingTotal
@@ -253,7 +247,7 @@ module.exports = class Cart extends ChaplinModel
   updateCartBits: (bits) ->
 #    util.showAjaxIndicator('Actualizando bits...')
     that = @
-    util.ajaxRequest( config.apiUrl + "/orders/update-cart-bits.json",
+    util.ajaxRequest config.apiUrl + "/orders/update-cart-bits.json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
@@ -261,8 +255,8 @@ module.exports = class Cart extends ChaplinModel
 #      context: @
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
-    )
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
+
       success: (data) ->
         that.set 'bitsTotal', data.response.bitsTotal
         that.publishEvent('cartBitsUpdated', data.response)

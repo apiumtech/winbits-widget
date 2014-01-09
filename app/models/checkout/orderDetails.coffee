@@ -13,7 +13,7 @@ module.exports = class OrderDetails extends ChaplinModel
     response
 
   completeOrderModel: (order, bitsBalance) ->
-    bitsBalance = bitsBalance || parseFloat(window.bits_balance)
+    bitsBalance = bitsBalance || parseFloat(Winbits.checkoutConfig.bitsBalance)
     model = {}
     model.orderId = order.id
     model.orderDetails = order.orderDetails
@@ -39,7 +39,8 @@ module.exports = class OrderDetails extends ChaplinModel
       data: JSON.stringify(updateData)
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
+
       success: (data) ->
         console.log ["Success: Update cart bits", data.response]
         that.set that.completeOrderModel(data.response)

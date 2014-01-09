@@ -146,7 +146,8 @@ module.exports = class RegisterView extends View
           util.validateForm @$form
         headers:
           "Accept-Language": "es"
-          "WB-Api-Token": util.getCookie(config.apiTokenName)
+          "WB-Api-Token": util.retrieveKey(config.apiTokenName)
+
         success: (data) ->
           that.publishEvent "profileUpdated", data.response
           Backbone.$('#register-modal').modal 'hide'

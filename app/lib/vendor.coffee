@@ -163,7 +163,7 @@ module.exports =
   #      CUSTOMSLIDER: Deslizar el rango para cambiar valor de bits
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   customSlider: (obj) ->
-    $slider = `undefined` # NO BORRAR - Fix desarrollo
+    $slider = w$()
     $ = w$ # NO BORRAR - Fix desarrollo
     if $(obj).length
       $(obj).each ->

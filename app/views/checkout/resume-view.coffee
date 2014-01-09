@@ -72,7 +72,7 @@ module.exports = class ResumeView extends View
       data: JSON.stringify(data)
       headers:
         "Accept-Language": "es",
-        "WB-Api-Token": util.getCookie(config.apiTokenName)
+        "WB-Api-Token": util.retrieveKey(config.apiTokenName)
       success: (data) ->
         console.log ["Add order item Success!", data]
         orderDetails = that.model.attributes.orderDetails
@@ -117,7 +117,7 @@ module.exports = class ResumeView extends View
 #      context: @
       headers:
         "Accept-Language": "es",
-        "WB-Api-Token": util.getCookie(config.apiTokenName)
+        "WB-Api-Token": util.retrieveKey(config.apiTokenName)
       success: (data) ->
         console.log ["Cancel order Success!", data]
       error: (xhr) ->

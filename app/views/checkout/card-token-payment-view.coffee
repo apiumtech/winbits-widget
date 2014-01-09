@@ -42,7 +42,7 @@ module.exports = class CardTokenPaymentView extends View
     $form = $(e.currentTarget)
     if $form.valid()
       paymentData = mediator.post_checkout
-      paymentData.vertical = window.verticalId
+      paymentData.vertical = Winbits.checkoutConfig.verticalId
       formData = util.serializeForm($form)
       $.extend paymentData.paymentInfo, formData
       util.showAjaxIndicator('Procesando tu pago...')
@@ -52,7 +52,7 @@ module.exports = class CardTokenPaymentView extends View
         contentType: "application/json"
         dataType: "json"
         data: JSON.stringify(paymentData)
-        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': window.token }
+        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
         success: (data) ->
           console.log ["data", data]
           payment = data.response.payments[0]

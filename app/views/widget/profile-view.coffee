@@ -64,8 +64,8 @@ module.exports = class ProfileView extends View
         contentType: "application/json"
         dataType: "json"
         data: JSON.stringify(formData)
-#        context: {view: @, $saveButton: button}
-        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
+        context: {view: @, $saveButton: button}
+        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
         error: ->
           console.log "error"
         success: (data) ->
@@ -158,7 +158,8 @@ module.exports = class ProfileView extends View
       data: {}
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
+
       success: (data) ->
         popup.window.location.href = data.response.socialUrl
         popup.focus()
@@ -200,7 +201,8 @@ module.exports = class ProfileView extends View
       data: {}
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
+
       success: (data) ->
         popup.window.location.href = data.response.socialUrl
         popup.focus()
@@ -227,7 +229,8 @@ module.exports = class ProfileView extends View
         withCredentials: true
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
+
       success: (data) ->
         console.log "accounts.json Success!"
         socialAccounts = data.response.socialAccounts
@@ -256,7 +259,8 @@ module.exports = class ProfileView extends View
         withCredentials: true
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
+
       success: (data) ->
         that.publishEvent 'updateSocialAccountsStatus'
       error: (xhr, textStatus, errorThrown) ->
@@ -278,7 +282,8 @@ module.exports = class ProfileView extends View
         withCredentials: true
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
+
       success: (data) ->
         console.log "deleteAccount.json Success!"
         that.publishEvent 'updateSocialAccountsStatus'
@@ -320,7 +325,8 @@ module.exports = class ProfileView extends View
         this.$form.valid()
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
+
       success: (data) ->
         console.log "deleteAccount.json Success!"
         this.that.cancelEditing()

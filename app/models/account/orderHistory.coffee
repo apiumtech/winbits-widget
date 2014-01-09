@@ -33,7 +33,8 @@ module.exports = class OrderHistory extends ChaplinModel
       dataType: "json"
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
+
       success: (data) ->
         modelData = {orders: data.response, status: status, sort: sort}
         that.set that.completeOrdersHistory(modelData)
