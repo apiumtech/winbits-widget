@@ -55,7 +55,7 @@ module.exports = class Cart extends ChaplinModel
       bits: cartItem.bits or 0
     util.showAjaxIndicator('Actualizando carrito...')
     that = @
-    util.ajaxRequest( config.apiUrl + "/orders/cart-items/" + cartItem.id + ".json",
+    util.ajaxRequest config.apiUrl + "/orders/cart-items/" + cartItem.id + ".json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
