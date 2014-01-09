@@ -35,7 +35,7 @@
     window.Winbits = Winbits;
     window.w$ = Winbits.$;
     JavaScript.load('{{baseUrl}}/javascripts/vendor.js', function() {
-      window.Winbits.$ = Winbits.$;
+      window.Backbone.$ = Winbits.$;
       Winbits.rpc = new easyXDM.Rpc({
         remote: Winbits.userConfig.providerUrl, // the path to the provider
         onReady: function() {
