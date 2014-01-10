@@ -41,7 +41,7 @@ module.exports =
 
   focusForm:  (form) ->
     $form = Winbits.$(form)
-    if not Winbits.$.browser.msie or /10.*/.test(Winbits.$.browser.version)
+    if not @isCrapBrowser()
       $form.find('input:visible:not([disabled]), textarea:visible:not([disabled])').first().focus()
 
   alertErrors : ($) ->
@@ -264,16 +264,16 @@ module.exports =
     totalSaved = orderFullPrice - total + bitsTotal
     $orderDetailView.find('.wb-order-saving').text(totalSaved)
 
-   ajaxRequest:(url, options) ->
-     $ = Winbits.$
-     if $.isPlainObject(url)
-       options = url
-       url = options.url
-     options = options or {}
-     if not Winbits.$.browser.msie or /10.*/.test(Winbits.$.browser.version)
-      console.info ('No IE transaction')
-      Winbits.$.ajax(url,options)
-     else
+  isCrapBrowser: ->
+    Winbits.$.browser.msie and not /10.*/.test(Winbits.$.browser.version)
+
+  ajaxRequest:(url, options) ->
+    $ = Winbits.$
+    if $.isPlainObject(url)
+      options = url
+      url = options.url
+    options = options or {}
+    if Winbits.isCrapBrowser()
       console.info ('Using easyXDM -> ' + url)
       context = options.context or @
       Winbits.rpc.request(url, options, () ->
@@ -285,3 +285,6 @@ module.exports =
         options.error.apply(context, arguments) if $.isFunction options.error
         options.complete.call(context) if $.isFunction options.complete
       )
+    else
+      console.info ('No IE transaction')
+      Winbits.$.ajax(url,options)

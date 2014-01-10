@@ -20,6 +20,7 @@ module.exports = class Application
 
   initialize: (checkout)->
     @initBackbone()
+    Winbits.isCrapBrowser = util.isCrapBrowser
 
     if not checkout
       console.log ['WINBITS', window.Winbits]
@@ -49,9 +50,11 @@ module.exports = class Application
     ChaplinMediator.seal()
 
   initHomeControllers: ->
-    Winbits.$(window.document).on 'winbitsrpcready', () ->
-      console.log 'Publishing event proxyLoaded'
-      EventBroker.publishEvent('proxyLoaded')
+    @initXDMRpc
+      remote: Winbits.userConfig.providerUrl
+      onReady: ->
+        console.log 'Publishing event proxyLoaded'
+        EventBroker.publishEvent('proxyLoaded')
     # These controllers are active during the whole application runtime.
     @loginUtil = new LoginUtil()
     @proxyHandlers = new ProxyHandlers()
@@ -60,6 +63,8 @@ module.exports = class Application
     token.requestTokens(Winbits.$)
 
   initChkControllers: ->
+    if util.isCrapBrowser()
+      @initXDMRpc remote: Winbits.checkoutConfig.providerUrl
     util.storeKey(config.apiTokenName, Winbits.token)
     delete Winbits.token
     # These controllers are active during the whole application runtime.
@@ -73,3 +78,15 @@ module.exports = class Application
     # This enables Backbone's fetch to use the RPC
     Backbone.ajax = () ->
       util.ajaxRequest.apply(Backbone.$, arguments)
+
+  initXDMRpc: (config) ->
+    Winbits.rpc = new easyXDM.Rpc(config,
+      remote:
+        request: {}
+        getTokens: {}
+        saveApiToken: {}
+        storeVirtualCart: {}
+        logout: {}
+        facebookStatus: {}
+        facebookMe: {}
+    )
