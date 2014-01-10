@@ -1,7 +1,7 @@
 vendor = require 'lib/vendor'
 
 module.exports =
-  $ : window.w$
+  $ : window.Winbits.$
   storeKey : (key, value) ->
     localStorage[key] = value
 
@@ -28,20 +28,20 @@ module.exports =
     window.location.href = url
 
   validateForm : (form) ->
-    $form = Backbone.$(form)
+    $form = Winbits.$(form)
     $form.find(".errors").html ""
     $form.valid()
 
   resetForm: (form) ->
-    $form = Backbone.$(form)
+    $form = Winbits.$(form)
     $form.validate().resetForm()
     $form.get(0).reset()
     $form.find(".errors").html ""
     $form.valid()
 
   focusForm:  (form) ->
-    $form = Backbone.$(form)
-    if not w$.browser.msie or /10.*/.test(w$.browser.version)
+    $form = Winbits.$(form)
+    if not Winbits.$.browser.msie or /10.*/.test(Winbits.$.browser.version)
       $form.find('input:visible:not([disabled]), textarea:visible:not([disabled])').first().focus()
 
   alertErrors : ($) ->
@@ -50,7 +50,7 @@ module.exports =
 
   serializeForm : ($form, context) ->
     formData = context or {}
-    Backbone.$.each $form.serializeArray(), (i, f) ->
+    Winbits.$.each $form.serializeArray(), (i, f) ->
       formData[f.name] = f.value
 
     formData
@@ -72,24 +72,24 @@ module.exports =
 
   calculateOrderFullPrice: (details) ->
     orderFullPrice = 0.0
-    w$.each details, (index, detail) ->
+    Winbits.$.each details, (index, detail) ->
       orderFullPrice += detail.sku.fullPrice * detail.quantity
     orderFullPrice
 
   calculateCartFullPrice: (cartDetails) ->
     cartFullPrice = 0.0
-    w$.each cartDetails, (index, detail) ->
+    Winbits.$.each cartDetails, (index, detail) ->
       cartFullPrice += detail.skuProfile.fullPrice * detail.quantity
     cartFullPrice
 
   backToSite: (e) ->
-    $ = Backbone.$
+    $ = Winbits.$
     $main = $('main').first()
     $main.children().show()
     $main.find('div.wrapper.subview').hide()
 
   showWrapperView: (identifier) ->
-    $ = Backbone.$
+    $ = Winbits.$
     $main = $('main').first()
     $('div.dropMenu').slideUp()
     $container = $main.find(identifier)
@@ -106,26 +106,26 @@ module.exports =
     @showError(error.meta.message)
 
   showError: (errorMsg) ->
-    $ = Backbone.$
+    $ = Winbits.$
     $errorModal = $('#wbi-error-modal')
     $errorModal.find('.error-msg').text(errorMsg)
     $errorModal.modal('show')
 
   showAjaxIndicator: (message) ->
     message = if message? then message else 'Cargando...'
-    $ = Backbone.$
+    $ = Winbits.$
     $ajaxModal = $('#wbi-ajax-modal')
     $ajaxModal.find('.loading-msg').html(message)
     $ajaxModal.modal('show')
 
   hideAjaxIndicator: () ->
-    Backbone.$('#wbi-ajax-modal').modal('hide').find('.loading-msg').text('Cargando...')
+    Winbits.$('#wbi-ajax-modal').modal('hide').find('.loading-msg').text('Cargando...')
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #      CUSTOMSTEPPER: Sumar y restar valores del stepper
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   customStepper : (obj) ->
-    $ = w$ # NO BORRAR - Fix desarrollo
+    $ = Winbits.$ # NO BORRAR - Fix desarrollo
     if $(obj).length
       $(obj).each ->
         $(this).wrap "<div class=\"stepper\"/>"
@@ -264,3 +264,24 @@ module.exports =
     totalSaved = orderFullPrice - total + bitsTotal
     $orderDetailView.find('.wb-order-saving').text(totalSaved)
 
+   ajaxRequest:(url, options) ->
+     $ = Winbits.$
+     if $.isPlainObject(url)
+       options = url
+       url = options.url
+     options = options or {}
+     if not Winbits.$.browser.msie or /10.*/.test(Winbits.$.browser.version)
+      console.info ('No IE transaction')
+      Winbits.$.ajax(url,options)
+     else
+      console.info ('Using easyXDM -> ' + url)
+      context = options.context or @
+      Winbits.rpc.request(url, options, () ->
+        console.log ('success')
+        options.success.apply(context, arguments) if $.isFunction options.success
+        options.complete.call(context) if $.isFunction options.complete
+      , () ->
+        console.log ('error')
+        options.error.apply(context, arguments) if $.isFunction options.error
+        options.complete.call(context) if $.isFunction options.complete
+      )

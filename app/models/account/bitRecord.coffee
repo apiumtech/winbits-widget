@@ -19,30 +19,28 @@ module.exports = class BitRecord extends ChaplinModel
 
   getHistorical: (args) ->
     util.showAjaxIndicator()
-    Backbone.$.ajax config.apiUrl + "/affiliation/bits/transactions.json",
+    that = @
+    util.ajaxRequest( config.apiUrl + "/affiliation/bits/transactions.json",
       type: "GET"
       contentType: "application/json"
       dataType: "json"
       #data: JSON.stringify(updateData)
-      context: @
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
         console.log ["Success: Update  bits", data.response]
-        @set @completeBitRecord(data.response)
+        that.set that.completeBitRecord(data.response)
         #@publishEvent('orderBitsUpdated', data.response)
         #if data.response.cashTotal is 0 
         #    @publishEvent('showBitsPayment')
-        @publishEvent 'bitRecordReady'
-
+        that.publishEvent 'bitRecordReady'
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         util.hideAjaxIndicator()
-
+    )
     console.log ["wee", args]
 
   completeBitRecord: (data) ->

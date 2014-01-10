@@ -5,44 +5,48 @@
       "name": "dev",
       "desc": "dev environment",
       "config": {
-        "apiUrl": "http://apici.winbits.com/v1",
+        "apiUrl": "https://apici.winbits.com/v1",
         "baseUrl": "http://widgets.winbits.com/qa",
         "loginRedirectUrl": "http://widgets.winbits.com/qa/ilogin.html",
         "facebookClientId": "486640894740634",
-        "providerUrl": "https://apici.winbits.com/provider/"
+        "providerUrl": "https://apici.winbits.com/provider/",
+        "remoteDebug": true
       }
     },
     {
       "name": "ci",
       "desc": "ci environment",
       "config": {
-        "apiUrl": "http://apici.winbits.com/v1",
+        "apiUrl": "https://apici.winbits.com/v1",
         "baseUrl": "http://widgets.winbits.com/ci",
         "loginRedirectUrl": "http://widgets.winbits.com/ci/ilogin.html",
         "facebookClientId": "486640894740634",
-        "providerUrl": "https://apici.winbits.com/provider/"
+        "providerUrl": "https://apici.winbits.com/provider/",
+        "remoteDebug": true
       }
     },
     {
       "name": "qa",
       "desc": "qa environment",
       "config": {
-        "apiUrl": "http://apiqa.winbits.com/v1",
+        "apiUrl": "https://apiqa.winbits.com/v1",
         "baseUrl": "http://widgets.winbits.com/qa",
         "loginRedirectUrl": "http://widgets.winbits.com/qa/ilogin.html",
         "facebookClientId": "494663817271863",
-        "providerUrl": "https://apiqa.winbits.com/provider/"
+        "providerUrl": "https://apiqa.winbits.com/provider/",
+        "remoteDebug": true
       }
     },
     {
       "name": "staging",
       "desc": "staging environment",
       "config": {
-        "apiUrl": "http://apistaging.winbits.com/v1",
+        "apiUrl": "https://apistaging.winbits.com/v1",
         "baseUrl": "http://widgets.winbits.com/staging",
         "loginRedirectUrl": "http://widgets.winbits.com/staging/ilogin.html",
         "facebookClientId": "1407560009467593",
-        "providerUrl": "https://apistaging.winbits.com/provider/"
+        "providerUrl": "https://apistaging.winbits.com/provider/",
+        "remoteDebug": false
       }
     },
     {
@@ -53,7 +57,8 @@
         "baseUrl": "http://widget.winbits.com",
         "loginRedirectUrl": "http://widget.winbits.com/ilogin.html",
         "facebookClientId": "468430606512928",
-        "providerUrl": "https://api.winbits.com/provider/"
+        "providerUrl": "https://api.winbits.com/provider/",
+        "remoteDebug": false
       }
     }
   ]

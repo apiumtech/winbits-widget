@@ -6,7 +6,11 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=980" />
   <title>Winbits</title>
+  {{#if remoteDebug}}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/easyXDM/2.4.18.25/easyXDM.debug.js"></script>
+  {{else}}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/easyXDM/2.4.18.25/easyXDM.js"></script>
+  {{/if}}
   <script type="text/javascript">
     easyXDM.DomHelper.requiresJSON("https://cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js");
   </script>
@@ -31,7 +35,7 @@
       var rpc = new easyXDM.Rpc({},
         {
             local: {
-              request: function(url, options, success, error, complete){
+              request: function(url, options, success, error){
                 if (options && options.context) {
                   console.log('In RPC mode is not secure to use callbackas with context!');
                   delete options.context;
@@ -39,22 +43,18 @@
                 var config = {
                   type: 'GET',
                   success: function() {
-                    if (typeof success === 'function') {
+                    if ($.isFunction(success)) {
                       success.apply(this, arguments);
                     }
                   },
                   error: function() {
-                    if (typeof error === 'function') {
+                    if ($.isFunction(error)) {
                       error.apply(this, arguments);
-                    }
-                  },
-                  complete: function() {
-                    if (typeof complete === 'function') {
-                      complete.apply(this, arguments);
                     }
                   }
                 };
                 $.extend(config, options);
+                console.log('Ajax Request -> ' + url);
                 $.ajax(url, config);
               },
               getTokens: function() {

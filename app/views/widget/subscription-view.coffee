@@ -57,27 +57,26 @@ module.exports = class SubscriptionView extends View
     periodicity = @$el.find('input[name=newsletterPeriodicity]:checked').val()
 
     link = @$el.find('#wbi-update-subscription').prop 'disabled', true
-    Backbone.$.ajax config.apiUrl + "/affiliation/updateSubscriptions.json",
+    that=@
+    util.ajaxRequest( config.apiUrl + "/affiliation/updateSubscriptions.json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify({subscriptions:sbs, newsletterFormat: format, newsletterPeriodicity: periodicity})
-      context: {$saveLink: link, that: @}
-
+#      context: {$saveLink: link, that: @}
       headers:
         "Accept-Language": "es"
         "WB-Api-Token": util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
         console.log ["Subscription updated1", data.response]
-        this.that.publishEvent 'setSubscription', data.response
-
+        that.publishEvent 'setSubscription', data.response
       error: (xhr, textStatus, errorThrown) ->
         util.showError("Error while updating subscription")
-
       complete: ->
         console.log "Request Completed!"
-        this.$saveLink.prop 'disabled', false
+        link.prop 'disabled', false
+    )
 
   attach: ()->
     super

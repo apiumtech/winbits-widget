@@ -58,7 +58,8 @@ module.exports = class ProfileView extends View
         formData.zipCodeInfo  = {"id": formData.zipCodeInfo}
       formData.gender = gender
       button = @$el.find('#updateBtnProfile').prop 'disabled', true
-      Backbone.$.ajax @model.url,
+      that=@
+      util.ajaxRequest( @model.url,
         type: "PUT"
         contentType: "application/json"
         dataType: "json"
@@ -67,13 +68,11 @@ module.exports = class ProfileView extends View
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
         error: ->
           console.log "error"
-
         success: (data) ->
-          @view.onProfileUpdated data.response
-
+          that.onProfileUpdated data.response
         complete: ->
-          @$saveButton.prop 'disabled', false
-
+          button.prop 'disabled', false
+      )
 
   attach: ->
     super
@@ -101,7 +100,7 @@ module.exports = class ProfileView extends View
           validDate: true
         zipCodeInfo:
           required: (e) ->
-            $form = Backbone.$(e).closest 'form'
+            $form = Winbits.$(e).closest 'form'
             $form.find('[name=location]').is(':hidden')
         location:
           required: '[name=location]:visible'
@@ -125,7 +124,7 @@ module.exports = class ProfileView extends View
     $select = @$('.select')
     $zipCode = @$('.zipCode')
     $zipCodeExtra = @$('.zipCodeInfoExtra')
-    zipCode(Backbone.$).find $zipCode.val(), $select, $zipCodeExtra.val()
+    zipCode(Winbits.$).find $zipCode.val(), $select, $zipCodeExtra.val()
     unless $zipCode.val().length < 5
       vendor.customSelect($select)
 
@@ -137,22 +136,22 @@ module.exports = class ProfileView extends View
   viewAttachTwitterAccount: (e)->
     that = @
     console.log "attach-twitter-account"
-    maxHeight = Backbone.$(window).height() - 200
+    maxHeight = Winbits.$(window).height() - 200
     @$("#attach-twitter-account-modal .modal-body").css("max-height", maxHeight)
     @$("#attach-twitter-account-modal").modal( 'show' ).css {
       'background-color': 'transparent',
       float: 'left',
       width: '330px',
-      'margin-left': -> -( Backbone.$( this ).width() / 2 )
+      'margin-left': -> -( Winbits.$( this ).width() / 2 )
       top: '50%',
       'max-height': maxHeight,
-      'margin-top': -> -(  Backbone.$( this ).height() / 2 )
+      'margin-top': -> -(  Winbits.$( this ).height() / 2 )
     }
 
     popup = window.open("", "twitter", "menubar=0,resizable=0,width=800,height=500")
     popup.postMessage
 
-    Backbone.$.ajax config.apiUrl + "/affiliation/connect/twitter",
+    util.ajaxRequest(config.apiUrl + "/affiliation/connect/twitter",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -167,36 +166,35 @@ module.exports = class ProfileView extends View
         timer = setInterval(->
             if popup.closed
               clearInterval timer
-              Backbone.$(".modal").modal('hide')
+              Winbits.$(".modal").modal('hide')
               that.publishEvent 'updateSocialAccountsStatus'
         , 1000)
-
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         console.log "Request Completed!"
+    )
 
 
   viewAttachFacebookAccount: (e)->
     that = @
     console.log "attach-facebook-account"
-    maxHeight = Backbone.$(window).height() - 200
+    maxHeight = Winbits.$(window).height() - 200
     @$("#attach-facebook-account-modal .modal-body").css("max-height", maxHeight)
     @$("#attach-facebook-account-modal").modal( 'show' ).css {
       'background-color': 'transparent',
       float: 'left',
       width: '330px',
-      'margin-left': -> -( Backbone.$( this ).width() / 2 )
+      'margin-left': -> -( Winbits.$( this ).width() / 2 )
       top: '50%',
       'max-height': maxHeight,
-      'margin-top': -> -(  Backbone.$( this ).height() / 2 )
+      'margin-top': -> -(  Winbits.$( this ).height() / 2 )
     }
 
     popup = window.open("", "facebook", "menubar=0,resizable=0,width=800,height=500")
     popup.postMessage
 
-    Backbone.$.ajax config.apiUrl + "/affiliation/connect/facebook",
+    util.ajaxRequest( config.apiUrl + "/affiliation/connect/facebook",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -211,27 +209,24 @@ module.exports = class ProfileView extends View
         timer = setInterval(->
           if popup.closed
             clearInterval timer
-            Backbone.$(".modal").modal('hide')
+            Winbits.$(".modal").modal('hide')
             that.publishEvent 'updateSocialAccountsStatus'
         , 1000)
-
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         console.log "Request Completed!"
-
+    )
 
   updateSocialAccountsStatus : () ->
     that = @
     console.log "update social accounts"
-    Backbone.$.ajax config.apiUrl + "/affiliation/social-accounts.json",
+    util.ajaxRequest(config.apiUrl + "/affiliation/social-accounts.json",
       type: "GET"
       contentType: "application/json"
       dataType: "json"
       xhrFields:
         withCredentials: true
-
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
@@ -246,49 +241,45 @@ module.exports = class ProfileView extends View
         that.publishEvent 'setProfile', {twitter: twitterFlag, facebook: facebookFlag}
         mediator.profile.socialAccounts = socialAccounts
         mediator.global.profile.socialAccounts = socialAccounts
-
       error: (xhr, textStatus, errorThrown) ->
         console.log "accounts.json Error!"
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         console.log "accounts.json Completed!"
+    )
 
   viewDetachFacebookAccount: (e) ->
     that = @
     console.log "detach facebook account"
-    Backbone.$.ajax config.apiUrl + "/affiliation/social-account/facebook.json",
+    util.ajaxRequest( config.apiUrl + "/affiliation/social-account/facebook.json",
       type: "DELETE"
       contentType: "application/json"
       dataType: "json"
       xhrFields:
         withCredentials: true
-
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
         that.publishEvent 'updateSocialAccountsStatus'
-
       error: (xhr, textStatus, errorThrown) ->
         console.log "deleteAccount.json Error!"
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         console.log "deleteAccount.json Completed!"
+    )
 
   viewDetachTwitterAccount: (e) ->
     that = @
     console.log "detach twitter account"
-    Backbone.$.ajax config.apiUrl + "/affiliation/social-account/twitter.json",
+    util.ajaxRequest( config.apiUrl + "/affiliation/social-account/twitter.json",
       type: "DELETE"
       contentType: "application/json"
       dataType: "json"
       data: {id: 'twitter'}
       xhrFields:
         withCredentials: true
-
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
@@ -296,13 +287,12 @@ module.exports = class ProfileView extends View
       success: (data) ->
         console.log "deleteAccount.json Success!"
         that.publishEvent 'updateSocialAccountsStatus'
-
       error: (xhr, textStatus, errorThrown) ->
         console.log "deleteAccount.json Error!"
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         console.log "deleteAccount.json Completed!"
+    )
 
   cancelEditing: (e) ->
     $editProfileContainer = @$el.find(".editMiPerfil")
@@ -312,7 +302,6 @@ module.exports = class ProfileView extends View
     $changePasswordContainer.find('form').first().validate().resetForm()
     $changePasswordContainer.slideUp()
     @$el.find(".miPerfil").slideDown()
-#    util.resetLocationSelect($editProfileForm.find("#wbi-profile-zip-code-info"))
 
   changePassword: (e) ->
     e.preventDefault()
@@ -321,11 +310,11 @@ module.exports = class ProfileView extends View
 
   requestPasswordChange: (e) ->
     e.preventDefault()
-    $ = Backbone.$
+    $ = Winbits.$
     $form = $(e.currentTarget)
     formData = util.serializeForm($form)
     console.log "detach twitter account"
-    $.ajax config.apiUrl + "/affiliation/change-password.json",
+    util.ajaxRequest( config.apiUrl + "/affiliation/change-password.json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
@@ -340,16 +329,15 @@ module.exports = class ProfileView extends View
       success: (data) ->
         console.log "deleteAccount.json Success!"
         this.that.cancelEditing()
-
       error: (xhr, textStatus, errorThrown) ->
         console.log "deleteAccount.json Error!"
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         console.log "deleteAccount.json Completed!"
+    )
 
   showCardsManager: (e) ->
-    $ = Backbone.$
+    $ = Winbits.$
     $main = $('main').first()
     $('div.dropMenu').slideUp()
     $cardsManagerContainer = $main.find('#wbi-cards-manager')
@@ -364,10 +352,10 @@ module.exports = class ProfileView extends View
     console.log "find zipCode"
     $currentTarget = @$(event.currentTarget)
     $slt = $currentTarget.parent().find(".select")
-    zipCode(Backbone.$).find $currentTarget.val(), $slt
+    zipCode(Winbits.$).find $currentTarget.val(), $slt
 
   changeZipCodeInfo: (e) ->
-    $ = Backbone.$
+    $ = Winbits.$
     $select = $(e.currentTarget)
     zipCodeInfoId = $select.val()
     $form = $select.closest('form')

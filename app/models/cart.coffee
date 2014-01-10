@@ -16,9 +16,9 @@ module.exports = class Cart extends ChaplinModel
     console.log "Loading virtual cart"
     @url = config.apiUrl + "/orders/virtual-cart-items.json"
     @fetch
+      headers:{ 'Accept-Language': 'es', 'wb-vcart': util.retrieveKey(config.vcartTokenName)}
       error: ->
         console.log "error",
-      headers:{ 'Accept-Language': 'es', 'wb-vcart': util.retrieveKey(config.vcartTokenName)}
       success: ->
         console.log "success load Virtual cart"
       complete: ->
@@ -28,7 +28,7 @@ module.exports = class Cart extends ChaplinModel
     console.log ["transferVirtualCart"]
     that = @
     formData = virtualCartData: JSON.parse(virtualCart)
-    Backbone.$.ajax config.apiUrl + "/orders/assign-virtual-cart.json",
+    util.ajaxRequest config.apiUrl + "/orders/assign-virtual-cart.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -38,7 +38,7 @@ module.exports = class Cart extends ChaplinModel
         "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
-        util.storeKey config.vcartTokenName, '[]', 7
+        util.storeKey config.vcartTokenName, '[]'
         that.set that.completeCartModel(data.response)
         Winbits.rpc.storeVirtualCart('[]')
         that.publishEvent 'doCheckout' if mediator.flags.autoCheckout
@@ -55,12 +55,12 @@ module.exports = class Cart extends ChaplinModel
       bits: cartItem.bits or 0
     util.showAjaxIndicator('Actualizando carrito...')
     that = @
-    Backbone.$.ajax config.apiUrl + "/orders/cart-items/" + cartItem.id + ".json",
+    util.ajaxRequest config.apiUrl + "/orders/cart-items/" + cartItem.id + ".json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify(formData)
-      context: { cartItem: cartItem, $cartPanel: $cartPanel, model: @ }
+#      context: { cartItem: cartItem, $cartPanel: $cartPanel, model: @ }
       headers:
         "Accept-Language": "es"
         "WB-Api-Token": util.retrieveKey(config.apiTokenName)
@@ -69,45 +69,47 @@ module.exports = class Cart extends ChaplinModel
         that.set that.completeCartModel data.response
         if $cartPanel
           $cartPanel.slideDown()
-        cartItem.success.apply(cartItem, arguments) if w$.isFunction cartItem.success
+        cartItem.success.apply(cartItem, arguments) if Winbits.$.isFunction cartItem.success
 
       error: (xhr) ->
         util.showAjaxError(xhr.responseText)
-        cartItem.error.apply(cartItem, arguments) if w$.isFunction cartItem.error
+        cartItem.error.apply(cartItem, arguments) if Winbits.$.isFunction cartItem.error
 
       complete: ->
         util.hideAjaxIndicator()
-        cartItem.complete.apply(cartItem, arguments) if w$.isFunction cartItem.complete
+        cartItem.complete.apply(cartItem, arguments) if Winbits.$.isFunction cartItem.complete
+
 
   updateVirtualCartDetail: (cartItem, $cartPanel)->
     @url = config.apiUrl + "/orders/virtual-cart-items/" + cartItem.id + ".json"
     formData = quantity: cartItem.quantity
     util.showAjaxIndicator('Actualizando carrito...')
-    Backbone.$.ajax config.apiUrl + "/orders/virtual-cart-items/" + cartItem.id + ".json",
+    that = @
+    util.ajaxRequest config.apiUrl + "/orders/virtual-cart-items/" + cartItem.id + ".json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify(formData)
-      context: { cartItem: cartItem, $cartPanel: $cartPanel, model: @ }
+#      context: { cartItem: cartItem, $cartPanel: $cartPanel, model: @ }
       headers:
         "Accept-Language": "es"
         "wb-vcart": util.retrieveKey(config.vcartTokenName)
 
       success: (data) ->
-        @model.storeVirtualCart data.response
-        @model.set @model.completeCartModel(data.response)
-        if @$cartPanel
-          @$cartPanel.slideDown()
-        @cartItem.success.apply(@cartItem, arguments) if w$.isFunction @cartItem.success
+        that.storeVirtualCart data.response
+        that.set that.completeCartModel(data.response)
+        if $cartPanel
+          $cartPanel.slideDown()
+        cartItem.success.apply(cartItem, arguments) if Winbits.$.isFunction cartItem.success
 
       error: (xhr) ->
         console.log ['PROBLEMS', xhr.responseText]
         util.showAjaxError(xhr.responseText)
-        @cartItem.error.apply(@cartItem, arguments) if w$.isFunction @cartItem.error
+        cartItem.error.apply(cartItem, arguments) if Winbits.$.isFunction cartItem.error
 
       complete: ->
         util.hideAjaxIndicator()
-        @cartItem.complete.apply(@cartItem, arguments) if w$.isFunction @cartItem.complete
+        cartItem.complete.apply(cartItem, arguments) if Winbits.$.isFunction cartItem.complete
 
   deleteVirtualCartDetail: (id)->
     console.log ["deleteVirtualCartDetail"]
@@ -145,15 +147,16 @@ module.exports = class Cart extends ChaplinModel
     console.log ["loadUserCart"]
     @url = config.apiUrl + "/orders/cart-items.json"
     @fetch
-      error: ->
-        console.log "error",
       headers:{ 'Accept-Language': 'es', "WB-Api-Token": util.retrieveKey(config.apiTokenName)},
+      error: ->
+        console.log "error, loading user cart"
       success: ->
         console.log "success loadUserCart"
         #that.$el.find(".myPerfil").slideDown()
           #that.$el.find(".editMiPerfil").slideUp()
+
       complete: ->
-        console.log "complete"
+        console.log "complete transaction"
 
   addToUserCart : (cartItems, $cartPanel, options) ->
     console.log "Adding to user cart..."
@@ -169,31 +172,30 @@ module.exports = class Cart extends ChaplinModel
     $cartPanel = data.$cartPanel
     options = data.options
     formData = cartItems: []
-    w$.each cartItems, (index, cartItem) ->
+    Winbits.$.each cartItems, (index, cartItem) ->
       formData.cartItems.push skuProfileId: cartItem.id, quantity: cartItem.quantity, bits: cartItem.bits or 0
     util.showAjaxIndicator('Agregando artículo(s)...')
-    headers = w$.extend {"Accept-Language": "es"}, data.headers
-    Backbone.$.ajax config.apiUrl + data.url,
+    headers = Winbits.$.extend {"Accept-Language": "es"}, data.headers
+    that =@
+    util.ajaxRequest( config.apiUrl + data.url,
       type: "POST"
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify(formData)
-      context: model: @, cartItems: cartItems, options: options, $cartPanel: $cartPanel
+#      context: model: @, cartItems: cartItems, options: options, $cartPanel: $cartPanel
       headers: headers
-
       success: (data) ->
-        @model.set @model.completeCartModel data.response
-        if @$cartPanel
-          @$cartPanel.slideDown()
-        @options.success.apply(@cartItems, arguments) if w$.isFunction @options.success
-
+        that.set that.completeCartModel data.response
+        if $cartPanel
+          $cartPanel.slideDown()
+        options.success.apply(cartItems, arguments) if Winbits.$.isFunction options.success
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
-        @options.error.apply(@cartItems, arguments) if w$.isFunction @options.error
-
+        options.error.apply(cartItems, arguments) if Winbits.$.isFunction options.error
       complete: ->
         util.hideAjaxIndicator()
-        @options.complete.apply(@cartItems, arguments) if w$.isFunction @options.complete
+        options.complete.apply(cartItems, arguments) if Winbits.$.isFunction options.complete
+    )
 
   addToVirtualCart : (cartItems, $cartPanel, options) ->
     console.log "Adding to virtual cart..."
@@ -207,14 +209,14 @@ module.exports = class Cart extends ChaplinModel
   storeVirtualCart : (cart) ->
     console.log ["Storing virtual cart...", cart]
     vCart = []
-    Backbone.$.each cart.cartDetails or [], (i, cartDetail) ->
+    Winbits.$.each cart.cartDetails or [], (i, cartDetail) ->
       vCartDetail = {}
       vCartDetail[cartDetail.skuProfile.id] = cartDetail.quantity
       vCart.push vCartDetail
 
     vCartToken = JSON.stringify(vCart)
     console.log ["vCartToken", vCartToken]
-    util.storeKey config.vcartTokenName, vCartToken, 7
+    util.storeKey config.vcartTokenName, vCartToken
     Winbits.rpc.storeVirtualCart(vCartToken)
 
   completeCartModel: (model) ->
@@ -235,7 +237,7 @@ module.exports = class Cart extends ChaplinModel
   findCartDetail: (id) ->
     cartDetails = @get('cartDetails') || []
     cartDetail = `undefined`
-    w$.each cartDetails, (index, detail) ->
+    Winbits.$.each cartDetails, (index, detail) ->
       if detail.skuProfile.id is id
         cartDetail = detail
         return false
@@ -243,19 +245,20 @@ module.exports = class Cart extends ChaplinModel
 
   updateCartBits: (bits) ->
 #    util.showAjaxIndicator('Actualizando bits...')
-    Backbone.$.ajax config.apiUrl + "/orders/update-cart-bits.json",
+    that = @
+    util.ajaxRequest config.apiUrl + "/orders/update-cart-bits.json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify({bitsTotal: bits})
-      context: @
+#      context: @
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
-        @set 'bitsTotal', data.response.bitsTotal
-        @publishEvent('cartBitsUpdated', data.response)
+        that.set 'bitsTotal', data.response.bitsTotal
+        that.publishEvent('cartBitsUpdated', data.response)
 
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
@@ -264,7 +267,7 @@ module.exports = class Cart extends ChaplinModel
 #        util.hideAjaxIndicator()
         
   closeCartIfEmpty: () ->
-    $ = Backbone.$
+    $ = Winbits.$
     $cartDetailList = $('.wb-cart-detail-list')
     if $cartDetailList.children().length is 0
       $cartDetailList.closest('.dropMenu').slideUp()

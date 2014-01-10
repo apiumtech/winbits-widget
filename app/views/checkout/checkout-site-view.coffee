@@ -25,7 +25,7 @@ module.exports = class CheckoutSiteView extends View
     @delegate 'click', '#expire-close-login', @closeExpireOrderModal
 
 
-#    Backbone.$.validator.addMethod "cyberSourceCard", (value, element) ->
+#    Winbits.$.validator.addMethod "cyberSourceCard", (value, element) ->
 #      @optional(element) or util.getCreditCardType(value) in ['visa', 'mastercard']
 #    , "Introduce una tarjeta VISA ó MasterCard"
 
@@ -66,7 +66,7 @@ module.exports = class CheckoutSiteView extends View
     super
     @startCounter()
     @$el.find('#wbi-ajax-modal').modal({backdrop: 'static', keyboard: false, show: false})
-    Backbone.$('#wbi-expire-modal').modal({backdrop: 'static', keyboard: false, show: false})
+    Winbits.$('#wbi-expire-modal').modal({backdrop: 'static', keyboard: false, show: false})
 
   startCounter: () ->
     that = @
@@ -105,7 +105,7 @@ module.exports = class CheckoutSiteView extends View
 
     if minutes is 0 and seconds < 0
       console.log('expire order')
-      Backbone.$('#wbi-expire-modal').modal('show')
+      Winbits.$('#wbi-expire-modal').modal('show')
       @intervalStop
     else
 

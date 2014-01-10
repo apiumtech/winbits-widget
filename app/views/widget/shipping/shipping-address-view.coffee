@@ -133,7 +133,7 @@ module.exports = class ShippingAddressView extends View
       $select = $form.find('.select')
       $zipCode = $form.find('.zipCode')
       $zipCodeExtra = $form.find('.zipCodeInfoExtra')
-      zipCode(Backbone.$).find $zipCode.val(), $select, $zipCodeExtra.val()
+      zipCode(Winbits.$).find $zipCode.val(), $select, $zipCodeExtra.val()
       unless $zipCode.val().length < 5
         vendor.customSelect($select)
 
@@ -178,7 +178,7 @@ module.exports = class ShippingAddressView extends View
           digits: true
         zipCodeInfo:
           required: (e) ->
-            $form = Backbone.$(e).closest 'form'
+            $form = Winbits.$(e).closest 'form'
             $form.find('[name=location]').is(':hidden')
         location:
           required: '[name=location]:visible'
@@ -195,10 +195,10 @@ module.exports = class ShippingAddressView extends View
     console.log "find zipCode"
     $currentTarget = @$(event.currentTarget)
     $slt = $currentTarget.parent().find(".select")
-    zipCode(Backbone.$).find $currentTarget.val(), $slt
+    zipCode(Winbits.$).find $currentTarget.val(), $slt
 
   changeZipCodeInfo: (e) ->
-    $ = Backbone.$
+    $ = Winbits.$
     $select = $(e.currentTarget)
     zipCodeInfoId = $select.val()
     $form = $select.closest('form')

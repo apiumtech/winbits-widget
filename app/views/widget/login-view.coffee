@@ -43,28 +43,29 @@ module.exports = class LoginView extends View
     formData = util.serializeForm($form, formData)
     if util.validateForm($form)
       submitButton = @$(e.currentTarget).prop('disabled', true)
-      Backbone.$.ajax config.apiUrl + "/affiliation/login.json",
+      that=@
+      console.log ('DO LOGIN!!!!')
+      util.ajaxRequest(
+        config.apiUrl + "/affiliation/login.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
         data: JSON.stringify(formData)
         xhrFields:
           withCredentials: true
-        context: {view: @, $submitButton: submitButton}
         headers:
           "Accept-Language": "es"
         success: (data) ->
-          @view.publishEvent "applyLogin", data.response
-          Backbone.$('.modal').modal 'hide'
+          that.publishEvent "applyLogin", data.response
+          Winbits.$('.modal').modal 'hide'
           if data.response.showRemainder == true
-            @view.publishEvent 'completeProfileRemainder'
-
+            that.publishEvent 'completeProfileRemainder'
         error: (xhr) ->
           error = JSON.parse(xhr.responseText)
-          @view.renderLoginFormErrors $form, error
-
+          that.renderLoginFormErrors $form, error
         complete: ->
-          @$submitButton.prop('disabled', false)
+          submitButton.prop('disabled', false)
+      )
 
 #todo put this on template
   renderLoginFormErrors : ($form, error) ->
@@ -76,7 +77,7 @@ module.exports = class LoginView extends View
 
   doLoginFacebook: (e) ->
     e.preventDefault()
-    $ = Backbone.$
+    $ = Winbits.$
     that = @
     fbButton = @$(e.currentTarget).prop('disabled', true)
     popup = window.open(config.apiUrlBase + "/affiliation/facebook-login/connect?verticalId=" + config.verticalId,

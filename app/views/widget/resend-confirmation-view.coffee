@@ -24,12 +24,12 @@ module.exports = class ResendConfirmationView extends View
 
 
   onUserNotConfirmed: (resendConfirmUrl) ->
-    w$('.modal').modal('hide')
+    Winbits.$('.modal').modal('hide')
     @$el.find('.modal').modal('show').css(
       width: '625px',
-      'margin-left': -> -( Backbone.$( this ).width() / 2 )
+      'margin-left': -> -( Winbits.$( this ).width() / 2 )
       top: '50%'
-      'margin-top': -> -(  Backbone.$( this ).height() / 2 )
+      'margin-top': -> -(  Winbits.$( this ).height() / 2 )
     ).closest('.wb-modal-holder').show()
     @$el.find('#wbi-resend-confirmation-link').data('resend-confirm-url', resendConfirmUrl)
 
@@ -42,14 +42,15 @@ module.exports = class ResendConfirmationView extends View
     resendConfirmUrl = $resendConfirmLink.data('resend-confirm-url')
     $resendConfirmLink.prop('disabled', true)
     encodeComponent = encodeURI(resendConfirmUrl.substring(resendConfirmUrl.indexOf('/affiliation')))
-    Backbone.$.ajax config.apiUrl +  encodeComponent,
+    that = @
+    util.ajaxRequest(config.apiUrl +  encodeComponent,
       dataType: "json"
-      context: {view: @, $submitButton: $resendConfirmLink}
+#      context: {view: @, $submitButton: $resendConfirmLink}
       headers:
         "Accept-Language": "es"
       success: () ->
-        @view.$el.find('.modal').modal('hide').closest('.wb-modal-holder').hide()
-        @view.publishEvent 'showConfirmation'
-
+        that.$el.find('.modal').modal('hide').closest('.wb-modal-holder').hide()
+        that.publishEvent 'showConfirmation'
       complete: ->
-        @$submitButton.prop('disabled', false)
+        $resendConfirmLink.prop('disabled', false)
+    )
