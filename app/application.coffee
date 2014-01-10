@@ -19,6 +19,8 @@ module.exports = class Application
   #title: 'Brunch example application'
 
   initialize: (checkout)->
+    @initBackbone()
+
     if not checkout
       console.log ['WINBITS', window.Winbits]
       Winbits.$.extend config, Winbits.userConfig or {}
@@ -63,3 +65,11 @@ module.exports = class Application
     # These controllers are active during the whole application runtime.
     @chkController = new ChkController()
     @chkController.index()
+
+  initBackbone: ->
+    # Enable support for PUT & DELETE requests
+    Backbone.emulateHTTP = yes
+    # Proxy Backbone's ajax request function to use the easyXDM rpc on IE8-9
+    # This enables Backbone's fetch to use the RPC
+    Backbone.ajax = () ->
+      util.ajaxRequest.apply(Backbone.$, arguments)

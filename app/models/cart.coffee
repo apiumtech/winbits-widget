@@ -16,9 +16,9 @@ module.exports = class Cart extends ChaplinModel
     console.log "Loading virtual cart"
     @url = config.apiUrl + "/orders/virtual-cart-items.json"
     @fetch
+      headers:{ 'Accept-Language': 'es', 'wb-vcart': util.retrieveKey(config.vcartTokenName)}
       error: ->
         console.log "error",
-      headers:{ 'Accept-Language': 'es', 'wb-vcart': util.retrieveKey(config.vcartTokenName)}
       success: ->
         console.log "success load Virtual cart"
       complete: ->
@@ -146,11 +146,10 @@ module.exports = class Cart extends ChaplinModel
   loadUserCart: ()->
     console.log ["loadUserCart"]
     @url = config.apiUrl + "/orders/cart-items.json"
-    console.log "LOADING USER CART COOKIE ->>> "+util.retrieveKey(config.apiTokenName)
     @fetch
       headers:{ 'Accept-Language': 'es', "WB-Api-Token": util.retrieveKey(config.apiTokenName)},
       error: ->
-        console.log "error",
+        console.log "error, loading user cart"
       success: ->
         console.log "success loadUserCart"
         #that.$el.find(".myPerfil").slideDown()

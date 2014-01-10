@@ -266,6 +266,9 @@ module.exports =
 
    ajaxRequest:(url, options) ->
      $ = Winbits.$
+     if $.isPlainObject(url)
+       options = url
+       url = options.url
      options = options or {}
      if not Winbits.$.browser.msie or /10.*/.test(Winbits.$.browser.version)
       console.info ('No IE transaction')
