@@ -26,21 +26,24 @@
   <link rel="stylesheet" href="{{baseUrl}}/stylesheets/checkout.css">
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <script type="text/javascript">
-    window.w$ = $.noConflict(true);
+    Winbits = { checkoutConfig: {} };
+    Winbits.$ = $.noConflict(true);
+    window.w$ = Winbits.$;
   </script>
   <script src="{{baseUrl}}/javascripts/vendor.js"></script>
   <script type="text/javascript">
-    Backbone.$ = window.w$;
-    window.order_id='<?echo $order_id?>';
-    window.token= '<?echo $token?>';
-    window.bits_balance = '<?echo $bits_balance?>';
-    window.verticalId = '<?echo $verticalId?>';
-    window.verticalUrl = '<?echo $verticalUrl?>';
-    window.timestamp = '<?echo $timestamp?>';
+    Backbone.$ = Winbits.$;
+    Winbits.checkoutConfig.orderId='<?echo $order_id?>';
+    Winbits.checkoutConfig.providerUrl = '{{providerUrl}}';
+    Winbits.token= '<?echo $token?>';
+    Winbits.checkoutConfig.bitsBalance = '<?echo $bits_balance?>';
+    Winbits.checkoutConfig.verticalId = '<?echo $verticalId?>';
+    Winbits.checkoutConfig.verticalUrl = '<?echo $verticalUrl?>';
+    Winbits.checkoutConfig.timestamp = '<?echo $timestamp?>';
   </script>
   <script src="{{baseUrl}}/javascripts/app.js"></script>
   <script>
-    window.w$(document).ready(function($) {
+    window.Winbits.$(document).ready(function($) {
       var Application = require('application');
       (new Application).initialize(true);
     });

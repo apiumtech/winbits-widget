@@ -14,8 +14,18 @@
 
   <link rel="author" href="humans.txt">
   <title>Looq</title>
-  <script type="text/javascript"> var Winbits = { userConfig: { verticalId: 2, proxyUrl: 'http://www.looq.com/proxy.html' } }; </script>
-  <script type="text/javascript" src="{{baseUrl}}/winbits.js"></script>
+  <!--[if lt IE 9]>
+  <script>
+    document.createElement('header');
+    document.createElement('nav');
+    document.createElement('section');
+    document.createElement('article');
+    document.createElement('aside');
+    document.createElement('footer');
+    document.createElement('hgroup');
+  </script>
+  <![endif]-->
+  <script type="text/javascript" src="{{baseUrl}}/winbits.js" data-vertical="2"></script>
 </head>
 <body>
 <header>

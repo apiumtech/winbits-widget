@@ -5,7 +5,7 @@ module.exports =
 #      ACCORDEON: Acordeón para el historial
 # +++++++++++++++++++++++++++++++++++++++++++++
   accordeon : (options) ->
-    $ = window.w$ # NO BORRAR - Fix desarrollo
+    $ = window.Winbits.$ # NO BORRAR - Fix desarrollo
     if $(options.obj).length
       if options.first
         $(options.obj).find(options.trigger).first().addClass(options.claseActivo).find(".icon").toggleClass options.minusIcon
@@ -38,7 +38,7 @@ module.exports =
   #      CHANGEBOX: Cambiar div para seleccionar direccion/tarjeta
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   changeBox : (options) ->
-    $ = w$ # NO BORRAR - Fix desarrollo
+    $ = Winbits.$ # NO BORRAR - Fix desarrollo
     if $(options.obj).length
       $(options.objetivo).each ->
         $this = $(this)
@@ -58,7 +58,7 @@ module.exports =
   #      CUSTOMCHECKBOX: Cambiar checkbox
   # +++++++++++++++++++++++++++++++++++++++++
   customCheckbox : (obj) ->
-    $ = w$ # NO BORRAR - Fix desarrollo
+    $ = Winbits.$ # NO BORRAR - Fix desarrollo
     if $(obj).length
       $(obj).each ->
         $this = $(this)
@@ -86,7 +86,7 @@ module.exports =
 #      CUSTOMRADIO: Cambiar radio buttons por input text para el género
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   customRadio: (obj) ->
-    $ = w$ # NO BORRAR - Fix desarrollo
+    $ = Winbits.$ # NO BORRAR - Fix desarrollo
     that = @ # NO BORRAR - Fix desarrollo
     if $(obj).length
       $(obj).find("input[type=\"radio\"]").each ->
@@ -104,7 +104,7 @@ module.exports =
 
 
   uncheckRadio: (obj) ->
-    $ = w$ # NO BORRAR - Fix desarrollo
+    $ = Winbits.$ # NO BORRAR - Fix desarrollo
     $radio = $(obj).find("input[type=\"radio\"]")
     $radio.each ->
       $(this).attr "checked", false
@@ -116,7 +116,7 @@ module.exports =
 #      CUSTOMSELECT: Customizar el select
 # +++++++++++++++++++++++++++++++++++++++++++
   customSelect: (obj) ->
-    $ = w$ # NO BORRAR - Fix desarrollo
+    $ = Winbits.$ # NO BORRAR - Fix desarrollo
     $obj = $(obj)
     if $obj.length
       $obj.each ->
@@ -163,8 +163,8 @@ module.exports =
   #      CUSTOMSLIDER: Deslizar el rango para cambiar valor de bits
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   customSlider: (obj) ->
-    $slider = `undefined` # NO BORRAR - Fix desarrollo
-    $ = w$ # NO BORRAR - Fix desarrollo
+    $slider = Winbits.$()
+    $ = Winbits.$ # NO BORRAR - Fix desarrollo
     if $(obj).length
       $(obj).each ->
         $this = $(this)
@@ -197,7 +197,7 @@ module.exports =
   #      CUSTOMSTEPPER: Sumar y restar valores del stepper
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   customStepper : (obj) ->
-    $ = w$ # NO BORRAR - Fix desarrollo
+    $ = Winbits.$ # NO BORRAR - Fix desarrollo
     if $(obj).length
       $(obj).each ->
         $(this).wrap "<div class=\"stepper\"/>"
@@ -242,7 +242,7 @@ module.exports =
   #      DROPMENU: Abrir los menús
   # +++++++++++++++++++++++++++++++++++
   dropMenu : (options) ->
-    $ = w$ # NO BORRAR - Fix desarrollo
+    $ = Winbits.$ # NO BORRAR - Fix desarrollo
     if $(options.obj).length
       $(options.trigger).click (e) ->
         e.stopPropagation()
@@ -275,7 +275,7 @@ module.exports =
   #      OPENFOLDER: Abrir el DIV superior del encabezado
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   openFolder : (options) ->
-    $ = w$ # NO BORRAR - Fix desarrollo
+    $ = Winbits.$ # NO BORRAR - Fix desarrollo
     if $(options.obj).length
       $(options.trigger).click ->
         $(options.obj).slideUp()
@@ -287,7 +287,7 @@ module.exports =
   #      QUITACLASE: Remover todas las clases con una iteración
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   quitaClase : (options) ->
-    $ = w$ # NO BORRAR - Fix desarrollo
+    $ = Winbits.$ # NO BORRAR - Fix desarrollo
     $(options.obj).each ->
       $(this).removeClass options.clase
 
@@ -297,7 +297,7 @@ module.exports =
   #      SCROLLPANE: Scroll que aparece / desaparece
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   scrollpane : (obj, father) ->
-    $ = w$ # NO BORRAR - Fix desarrollo
+    $ = Winbits.$ # NO BORRAR - Fix desarrollo
     if father
       # NO BORRAR - Fix desarrollo las siguientes 7 líneas
       display = $(father).css("display")
@@ -315,7 +315,7 @@ module.exports =
   #      STICKYFOOTER: Pegar el footer sin importar el tamaño de la página
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   stickyFooter : (obj) ->
-    $ = w$ # NO BORRAR - Fix desarrollo
+    $ = Winbits.$ # NO BORRAR - Fix desarrollo
     unless $(".bodyModal").length
       footerHeight = 0
       footerTop = 0
@@ -337,7 +337,7 @@ module.exports =
   #      UNCHECK: Iterar para remover el checked en radiobutton y checkbox
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   uncheck : (obj) ->
-    $ = w$ # NO BORRAR - Fix desarrollo
+    $ = Winbits.$ # NO BORRAR - Fix desarrollo
     $(obj).each ->
       $(this).attr "checked", false
 
@@ -347,7 +347,7 @@ module.exports =
   #      VALIDAR: Validar formularios
   # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   validar : (obj) ->
-    $ = w$ # NO BORRAR - Fix desarrollo
+    $ = Winbits.$ # NO BORRAR - Fix desarrollo
     $.extend $.validator.messages,
       required: "Campo requerido."
       remote: "Llena este campo."

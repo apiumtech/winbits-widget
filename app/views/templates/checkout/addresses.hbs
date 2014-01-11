@@ -50,8 +50,8 @@
           <option value="-1">Otro...</option>
         </select>
           <input type="text" placeholder="Colonia" name="location" value="{{location}}" maxlength="50" {{#unless zipCodeInfo}}style="display: none;"{{/unless}}>
-          <input type="text" placeholder="Delegación o Municipio" name="county" value="{{county}}" readonly="true" maxlength="50">
-          <input type="text" placeholder="Estado" value="{{state}}" name="state" readonly="true" maxlength="30">
+          <input type="text" placeholder="Delegación o Municipio" name="county" value="{{county}}" readonly="" maxlength="50">
+          <input type="text" placeholder="Estado" value="{{state}}" name="state" readonly="" maxlength="30">
       </div>
       <div class="column columnLarge">
         <h3>OPCIONES</h3>
@@ -61,7 +61,7 @@
         <div class="errorDiv"><p></p></div>
         <div class="submitButton">
           <span id="btnCancel" class="btn btnCancel">Cancelar</span>
-          <input class="btn btnUpdate" id="btnUpdate-{{id}}" type="btn" value="Continuar">
+          <input class="btn btnUpdate" id="btnUpdate-{{id}}" type="button" value="Continuar">
         </div>
       </div>
     </fieldset>
@@ -91,8 +91,8 @@
           <option value="-1">Otro...</option>
         </select>
         <input type="text" placeholder="Colonia" name="location" style="display: none;" maxlength="50">
-        <input type="text" placeholder="Delegación o Municipio" id="winbitsShippingCounty" name="county" readonly="true" maxlength="50">
-        <input type="text" placeholder="Estado" id="winbitsShippingState" name="state" readonly="true" maxlength="30">
+        <input type="text" placeholder="Delegación o Municipio" id="winbitsShippingCounty" name="county" readonly="" maxlength="50">
+        <input type="text" placeholder="Estado" id="winbitsShippingState" name="state" readonly="" maxlength="30">
       </div>
       <div class="column columnLarge">
         <h3>OPCIONES</h3>
@@ -102,7 +102,7 @@
         <div class="errorDiv"><p></p></div>
         <div class="submitButton">
           <span id="btnCancel" class="btn btnCancel">Cancelar</span>
-          <input id="btnSubmit" type="btn" value="Continuar" class="btn">
+          <input id="btnSubmit" type="button" value="Continuar" class="btn">
         </div>
       </div>
     </fieldset>

@@ -2,6 +2,7 @@ mediator = require 'chaplin/mediator'
 EventBroker = require 'chaplin/lib/event_broker'
 token = require 'lib/token'
 config = require 'config'
+util = require 'lib/util'
 
 module.exports = class ProxyHandlers
 
@@ -20,30 +21,27 @@ module.exports = class ProxyHandlers
     @subscribeEvent 'facebookMeHandler', @facebookMeHandler
 
   getTokensHandler: (tokensDef) ->
-    console.log ["getTokensHandler", tokensDef]
+    console.log ["Handle response for: getTokensHandler...", tokensDef]
     token.segregateTokens tokensDef
     @publishEvent 'expressLogin'
 
 
   facebookStatusHandler: (response) ->
-    console.log ["Facebook status", response]
+    console.log ["Handle response for: facebookStatus...", response]
 
-    if response[0].status is "connected"
+    if response.status is "connected"
 
       that = @
       mediator.flags.fbConnect = true
-      Backbone.$.ajax config.apiUrl + "/affiliation/express-facebook-login.json",
+      util.ajaxRequest( config.apiUrl + "/affiliation/express-facebook-login.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
-        data: JSON.stringify(facebookId: response[0].authResponse.userID)
+        data: JSON.stringify(facebookId: response.authResponse.userID)
         headers:
           "Accept-Language": "es"
-
         xhrFields:
           withCredentials: true
-
-        context: Backbone.$
         success: (data) ->
           console.log "express-facebook-login.json Success!"
           console.log ["data", data]
@@ -52,26 +50,26 @@ module.exports = class ProxyHandlers
             console.log ["Show Complete Register.", data.response.profile]
             that.publishEvent("setRegisterFb", data.response.profile)
             that.publishEvent "showCompletaRegister", data.response.profile
-
         error: (xhr, textStatus, errorThrown) ->
           console.log "express-facebook-login.json Error!"
           that.publishEvent 'showRegisterByReferredCode'
-
+      )
     else
       console.log "calling loadVirtualCart"
       @publishEvent "loadVirtualCart"
       @publishEvent 'showRegisterByReferredCode'
 
   facebookLoginHandler: (response) ->
-    console.log ["Facebook Login", response]
-    if response[0].authResponse
+    console.log ["Handle response for: facebookLogin...", response]
+    if response.authResponse
       console.log "Requesting facebook profile..."
-      mediator.facebook.accessToken = response[0].authResponse.accessToken
-      mediator.proxy.post action: "facebookMe"
+      mediator.facebook.accessToken = response.authResponse.accessToken
+      Winbits.rpc.facebookMe(@facebookMeHandler)
     else
       console.log "Facebook login failed!"
 
   facebookMeHandler: (response) ->
-    Backbone.$('.modal').modal 'hide'
-    if response[0].email
-      @publishEvent "loginFacebook", response[0]
+    console.log ["Handle response for: facebookMe...", response]
+    Winbits.$('.modal').modal 'hide'
+    if response.email
+      @publishEvent "loginFacebook", response

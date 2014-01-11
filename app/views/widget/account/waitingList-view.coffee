@@ -29,22 +29,22 @@ module.exports = class WaitingListView extends View
     $currentTarget = @$(e.currentTarget)
     skuProfileId =  $currentTarget.attr("id").split("-")[1]
     url = config.apiUrl + "/affiliation/waiting-list-item/" + skuProfileId + ".json"
-
-    Backbone.$.ajax url,
+    that=@
+    util.ajaxRequest( url,
       type: "DELETE"
       contentType: "application/json"
       dataType: "json"
-      context: @
+#      context: @
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
         modelData = {waitingListItems: data.response}
-        @publishEvent 'completeWaitingList', modelData
-
+        that.publishEvent 'completeWaitingList', modelData
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
+    )
 
   filterWaitingList: (e) ->
      e.preventDefault()

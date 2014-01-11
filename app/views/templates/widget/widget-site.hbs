@@ -64,10 +64,10 @@
             </li>
           </ul>
         </div>
-        <div class="miCuenta" id="" style="">
+        <div class="miCuenta">
           <ul>
             <li class="cart-placeholder">
-                <div class="dropMenu miCarritoDiv" id="cart-container" style="display: none;">
+                <div class="dropMenu miCarritoDiv wb-cart-container" style="display: none;">
                 </div>
             </li>
           </ul>
@@ -97,7 +97,7 @@
             <li class="bits"><span class="wb-user-bits-balance reseteable" data-reset-text="0">0</span><span class="icon bit12px"></span></li>
             <li class="cart-holder drop-down-holder">
                 <span class="spanDropMenu"><span class="cart-items-count reseteable" data-reset-text="0">0</span><span class="icon shopCarMin"></span></span>
-                <div class="dropMenu miCarritoDiv" id="cart-container" style="display: none;">
+                <div class="dropMenu miCarritoDiv wb-cart-container" style="display: none;">
                 </div>
             </li>
             <li><input type="button" id="postCheckout" class="btn btnTopNav" value="Check Out"></li>
@@ -108,22 +108,22 @@
   </div>
   <div id="layers-container" style="display: none;"></div>
   <div id='login-modal' class="modal hide">
-      <i class="close-icon" id="close-login"></i>
+      <i class="close-icon"></i>
       <div class="modal-body reset-modal" id="login-modal-body" style="padding:0px;max-height: 400px;"></div>
   </div>
   <div id='view-video-modal' class="modal hide fade">
-      <i class="close-icon" id="close-login"></i>
+      <i class="close-icon"></i>
       <div class="modal-body reset-modal" style="padding:0px">
-        <iframe width="560" height="315" src="//www.youtube.com/embed/CTJvLVprGpU" frameborder="0" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="//www.youtube.com/embed/CTJvLVprGpU" allowfullscreen></iframe>
       </div>
   </div>
   <div id='register-modal' class="modal hide">
-      <i class="close-icon" id="close-login"></i>
+      <i class="close-icon"></i>
       <div class="modal-body reset-modal" id="register-modal-body" style="overflow: visible;">
       </div>
   </div>
   <div id='register-confirm-modal' class="modal hide fade">
-      <i class="close-icon" id="close-login"></i>
+      <i class="close-icon"></i>
       <div class="modal-body gracias reset-modal">
           <div class="contentModal" style="background-color:white">
             <p>Gracias por registrarte con nosotros.</p>
@@ -133,7 +133,7 @@
       </div>
   </div>
   <div id='wbi-error-modal' class="modal hide fade">
-    <i class="close-icon" id="close-login"></i>
+    <i class="close-icon"></i>
     <div class="modal-body gracias reset-modal">
       <div class="contentModal" style="background-color:white">
         <p class="error-msg">Error inesperado!</p>
@@ -146,22 +146,22 @@
     <div class="contentModal" style="background-color:white">
       <p class="loading-msg">Cargando...</p>
       <p style="text-align: center;">
-        <img src="https://s3.amazonaws.com/media.hipstore.com/ajax_loader.gif" alt="Cargando..."/>
+        <img src="https://s3.amazonaws.com/media.hipstore.com/ajax_loader.gif" alt="Cargando...">
       </p>
     </div>
   </div>
 </div>
   <div id='forgot-password-modal' class="modal hide">
-    <i class="close-icon" id="close-login"></i>
+    <i class="close-icon"></i>
     <div class="modal-body reset-modal forgot-password-modal" id="forgot-password-modal-body">
     </div>
   </div>
   <div id='wbi-reset-password-modal' class="modal hide">
-    <i class="close-icon" id="close-login"></i>
+    <i class="close-icon"></i>
     <div class="modal-body reset-modal" id="wbi-reset-password-modal-body" style="padding:0px;max-height: 400px;"></div>
   </div>
   <div id='wbi-reset-password-confirm-modal' class="modal hide fade">
-    <i class="close-icon" id="close-login"></i>
+    <i class="close-icon"></i>
     <div class="modal-body gracias reset-modal">
       <div class="contentModal" style="background-color:white">
         <p>Tu contraseña se ha actualizado correctamente.</p>
@@ -170,7 +170,7 @@
     </div>
   </div>
   <div id='wbi-recover-password-confirm-modal' class="modal hide fade">
-    <i class="close-icon" id="close-login"></i>
+    <i class="close-icon"></i>
     <div class="modal-body gracias reset-modal">
       <div class="contentModal" style="background-color:white">
         <p>Te hemos mandado un mensaje a tu cuenta de correo con las </p>
@@ -179,12 +179,10 @@
       </div>
     </div>
   </div>
-  <div id='wbi-modals-holder' style="display:none;" class="wb-modal-holder" />
-  {{!<div id="winbits-iframe-holder" style="position: fixed; top: -1000px;"></div>}}
-  <div id="winbits-iframe-holder" style="position: fixed;left:-1000px"></div>
+  <div id='wbi-modals-holder' style="display:none;" class="wb-modal-holder"></div>
   <div id="hidden-stuff-holder" style="display: none;">
-    <a href="#register-confirm-layer" class="fancybox" />
-    <a href="#complete-register-layer" class="fancybox" />
+    <a href="#register-confirm-layer" class="fancybox"></a>
+    <a href="#complete-register-layer" class="fancybox"></a>
   </div>
 </div>
 <a id="wbi-dummy-link" href="#" style="display: none;">Dummy</a>

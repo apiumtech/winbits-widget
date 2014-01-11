@@ -4,7 +4,7 @@
     <div class="carritoDivLeft" style="width: 339px;">
       <div class="carritoContainer scrollPanel" data-content="carritoContent">
         <div class="carritoContent">
-          <ul class="cart-details-list reseteable wb-cart-detail-list" id="detail-cart" data-reset-unload="">
+          <ul class="cart-details-list reseteable wb-cart-detail-list" data-reset-unload="">
             {{#each cartDetails}}
               {{> cartDetail}}
             {{/each}}
@@ -28,7 +28,7 @@
         <span>save</span>
         <label class="cart-saving reseteable" data-reset-text="0%">{{calculateCartSaving cartDetails bitsTotal itemsTotal shippingTotal}}%</label>
       </div>
-      <input id="wb-cart-bits-slider-account" data-reset-val="0" type="text" value="{{bitsTotal}}" data-min="0"
+      <input class="wb-cart-bits-slider-account" data-reset-val="0" type="text" value="{{bitsTotal}}" data-min="0"
              data-max="{{total}}" data-step="1" class="slideInput wb-bits-control" data-max-selection="{{getBitsMaxSelection total}}">
       <span class="legendCarrito">Usa tus bits como dinero en esta compra <a href="#">learn more</a></span>
       <a href="#" class="continueShoping wb-continue-shopping-link">CONTINUE SHOPPING</a>

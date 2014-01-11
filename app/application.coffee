@@ -4,6 +4,9 @@ ChaplinMediator = require 'chaplin/mediator'
 LoginUtil = require 'lib/loginUtil'
 ProxyHandlers = require 'lib/proxyHandlers'
 config = require 'config'
+util = require 'lib/util'
+EventBroker = require 'chaplin/lib/event_broker'
+token = require 'lib/token'
 
 #routes = require 'routes'
 #_ = require 'underscore'
@@ -16,12 +19,13 @@ module.exports = class Application
   #title: 'Brunch example application'
 
   initialize: (checkout)->
-    #console.log config
-    #console.log window.Winbits
+    @initBackbone()
+    Winbits.isCrapBrowser = util.isCrapBrowser
 
     if not checkout
-      w$.extend config, Winbits.userConfig or {}
-      window.Winbits = {}
+      console.log ['WINBITS', window.Winbits]
+      Winbits.$.extend config, Winbits.userConfig or {}
+#      window.Winbits = {}
       @initHomeControllers()
     else
       @initChkControllers()
@@ -40,20 +44,49 @@ module.exports = class Application
     # Seal the mediator.
     ChaplinMediator.flags = {}
     ChaplinMediator.facebook = {}
-    ChaplinMediator.proxy = {}
     ChaplinMediator.profile = {}
     ChaplinMediator.global = {}
     ChaplinMediator.post_checkout = {}
     ChaplinMediator.seal()
 
   initHomeControllers: ->
+    @initXDMRpc
+      remote: Winbits.userConfig.providerUrl
+      onReady: ->
+        console.log 'Publishing event proxyLoaded'
+        EventBroker.publishEvent('proxyLoaded')
     # These controllers are active during the whole application runtime.
     @loginUtil = new LoginUtil()
     @proxyHandlers = new ProxyHandlers()
     @homeController = new HomeController()
     @homeController.index()
+    token.requestTokens(Winbits.$)
 
   initChkControllers: ->
+    if util.isCrapBrowser()
+      @initXDMRpc remote: Winbits.checkoutConfig.providerUrl
+    util.storeKey(config.apiTokenName, Winbits.token)
+    delete Winbits.token
     # These controllers are active during the whole application runtime.
     @chkController = new ChkController()
     @chkController.index()
+
+  initBackbone: ->
+    # Enable support for PUT & DELETE requests
+    Backbone.emulateHTTP = yes
+    # Proxy Backbone's ajax request function to use the easyXDM rpc on IE8-9
+    # This enables Backbone's fetch to use the RPC
+    Backbone.ajax = () ->
+      util.ajaxRequest.apply(Backbone.$, arguments)
+
+  initXDMRpc: (config) ->
+    Winbits.rpc = new easyXDM.Rpc(config,
+      remote:
+        request: {}
+        getTokens: {}
+        saveApiToken: {}
+        storeVirtualCart: {}
+        logout: {}
+        facebookStatus: {}
+        facebookMe: {}
+    )

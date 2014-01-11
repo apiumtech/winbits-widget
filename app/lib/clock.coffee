@@ -12,7 +12,7 @@ module.exports =
 
   updateCheckoutTimer: ($timer, $interval) ->
 
-    $ = Backbone.$
+    $ = Winbits.$
     $main = $('main').first()
     $container = $main.find($timer.data('contentTimerId'))
     if $container.is(':hidden')
@@ -41,20 +41,19 @@ module.exports =
   expireOrder: (orderId) ->
     console.log ['Expire Order id', orderId]
     url = config.apiUrl + "/orders/orders/"+orderId+"/rollback.json"
-    Backbone.$.ajax url,
+    util.ajaxRequest( url,
       type: "POST"
       contentType: "application/json"
       dataType: "json"
       context: @
       headers:
         "Accept-Language": "es",
-        "WB-Api-Token": util.getCookie(config.apiTokenName)
+        "WB-Api-Token": util.retrieveKey(config.apiTokenName)
       success: (data) ->
         console.log ["expire order Success!", data]
         util.backToSite()
-
       error: (xhr) ->
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         console.log "Request Completed!"
+    )

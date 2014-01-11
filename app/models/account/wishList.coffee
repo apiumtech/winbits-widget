@@ -17,25 +17,24 @@ module.exports = class WaitingList extends ChaplinModel
 
   getWishList: ->
     util.showAjaxIndicator()
+    that = @
     url = config.apiUrl + "/affiliation/wish-list-items.json?"
-    Backbone.$.ajax url,
+    util.ajaxRequest( url,
       type: "GET"
       contentType: "application/json"
       dataType: "json"
-      context: @
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
         modelData = {brands: data.response}
-        @publishEvent 'completeWishList' , modelData
-
+        that.publishEvent 'completeWishList' , modelData
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         util.hideAjaxIndicator()
+    )
 
   completeWishList: (data) ->
     model = {}

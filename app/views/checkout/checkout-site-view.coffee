@@ -25,7 +25,7 @@ module.exports = class CheckoutSiteView extends View
     @delegate 'click', '#expire-close-login', @closeExpireOrderModal
 
 
-#    Backbone.$.validator.addMethod "cyberSourceCard", (value, element) ->
+#    Winbits.$.validator.addMethod "cyberSourceCard", (value, element) ->
 #      @optional(element) or util.getCreditCardType(value) in ['visa', 'mastercard']
 #    , "Introduce una tarjeta VISA ó MasterCard"
 
@@ -66,13 +66,13 @@ module.exports = class CheckoutSiteView extends View
     super
     @startCounter()
     @$el.find('#wbi-ajax-modal').modal({backdrop: 'static', keyboard: false, show: false})
-    Backbone.$('#wbi-expire-modal').modal({backdrop: 'static', keyboard: false, show: false})
+    Winbits.$('#wbi-expire-modal').modal({backdrop: 'static', keyboard: false, show: false})
 
   startCounter: () ->
     that = @
     $timer = @$el.find('#wb-checkout-timer')
     nowTime = new Date().getTime()
-    timeUp =  nowTime - window.timestamp
+    timeUp =  nowTime - Winbits.checkoutConfig.timestamp
     expireTime = 30 * 60 * 1000
     if (timeUp <= expireTime)
       timeLeft = expireTime - timeUp
@@ -90,12 +90,12 @@ module.exports = class CheckoutSiteView extends View
       util.showAjaxIndicator("La orden ha expirado")
       @intervalStop
       setTimeout () ->
-        window.location.href = window.verticalUrl
+        window.location.href = Winbits.checkoutConfig.verticalUrl
       , 4000
 
   closeExpireOrderModal: () ->
     @$('.modal').modal 'hide'
-    util.redirectToVertical(window.verticalUrl)
+    util.redirectToVertical(Winbits.checkoutConfig.verticalUrl)
 
   updateCheckoutTimer: ($timer, $interval) ->
     minutes = $timer.data('minutes')
@@ -105,7 +105,7 @@ module.exports = class CheckoutSiteView extends View
 
     if minutes is 0 and seconds < 0
       console.log('expire order')
-      Backbone.$('#wbi-expire-modal').modal('show')
+      Winbits.$('#wbi-expire-modal').modal('show')
       @intervalStop
     else
 

@@ -47,16 +47,17 @@ module.exports = class PaymentView extends View
       postData = paymentInfo : formData
       postData.paymentMethod = paymentMethod
       postData.order = mediator.post_checkout.order
-      postData.vertical = window.verticalId
+      postData.vertical = Winbits.checkoutConfig.verticalId
       postData.shippingAddress = mediator.post_checkout.shippingAddress
       util.showAjaxIndicator('Procesando tu pago...')
-      Backbone.$.ajax config.apiUrl + "/orders/payment.json",
+
+      util.ajaxRequest( config.apiUrl + "/orders/payment.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
         data: JSON.stringify(postData)
 
-        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': window.token }
+        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
         success: (data) ->
           console.log ["data", data]
           payment = data.response.payments[0]
@@ -67,12 +68,11 @@ module.exports = class PaymentView extends View
           else
             cardErrorMessage = payment.paymentCapture.mensaje or payment.paymentCapture.message
             util.showError(cardErrorMessage or 'Tu tarjeta fue rechazada por el banco emisor. Por favor revisa la información y vuelve a intentarlo')
-
         error: (xhr) ->
           util.showAjaxError('El servicio de pagos no se encuentra disponible. Por favor intántalo más tarde')
-
         complete: ->
           util.hideAjaxIndicator()
+      )
 
   selectCheckboxOption: (e)->
     e.preventDefault()
@@ -107,15 +107,16 @@ module.exports = class PaymentView extends View
     mediator.post_checkout.paymentMethod = paymentMethod
 
     formData = mediator.post_checkout
-    formData.vertical = window.verticalId
+    formData.vertical = Winbits.checkoutConfig.verticalId
     util.showAjaxIndicator('Procesando tu pago...')
-    Backbone.$.ajax config.apiUrl + "/orders/payment.json",
+
+    util.ajaxRequest( config.apiUrl + "/orders/payment.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify(formData)
 
-      headers:{ 'Accept-Language': 'es', 'WB-Api-Token': window.token }
+      headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
       success: (data) ->
         console.log ["data", data]
         payment = data.response.payments[0]
@@ -133,10 +134,10 @@ module.exports = class PaymentView extends View
         else
           util.showError('Error al procesar el pago, por favor intentalo más tarde')
           util.hideAjaxIndicator()
-
       error: (xhr) ->
         util.showAjaxError('El servicio de pagos no se encuentra disponible. Por favor intántalo más tarde')
         util.hideAjaxIndicator()
+    )
 
   linkBack: (e) ->
     e.preventDefault()
@@ -299,7 +300,7 @@ module.exports = class PaymentView extends View
     @$el.find('#wbi-main-payment-view').show()
 
   showCardType: (e) ->
-    $input = Backbone.$(e.currentTarget)
+    $input = Winbits.$(e.currentTarget)
     cardNumber = $input.val() or ''
     if cardNumber.length > 14
       cardType = util.getCreditCardType(cardNumber)
@@ -307,6 +308,6 @@ module.exports = class PaymentView extends View
       $input.next().removeAttr('class').attr('class', 'wb-card-logo icon ' + cardType + 'CC')
 
   onCardSaveChange: (e) ->
-    $checkbox = Backbone.$(e.currentTarget)
+    $checkbox = Winbits.$(e.currentTarget)
     checked = $checkbox.is ':checked'
     $checkbox.closest('form').find('.wb-card-principal-checkbox').prop('disabled', !checked).prop('checked', false)

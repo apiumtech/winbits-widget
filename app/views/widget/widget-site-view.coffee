@@ -3,7 +3,6 @@ template = require 'views/templates/widget/widget-site'
 util = require 'lib/util'
 vendor = require 'lib/vendor'
 config = require 'config'
-ProxyInit = require 'lib/proxyInit'
 mediator = require 'chaplin/mediator'
 
 # Site view is a top-level view which is bound to body.
@@ -15,7 +14,6 @@ module.exports = class WidgetSiteView extends View
   #'#page-container': 'main'
   id: "widgetSiteView"
   template: template
-  proxyInit: null
 
   initialize: ->
     super
@@ -104,9 +102,9 @@ module.exports = class WidgetSiteView extends View
     console.log "WidgetSiteView#showLoginLayer"
     @$("#login-modal").modal( 'show' ).css
       width: '330px'
-      'margin-left': -> -( Backbone.$( this ).width() / 2 )
+      'margin-left': -> -( Winbits.$( this ).width() / 2 )
       top: '50%'
-      'margin-top': -> -(  Backbone.$( this ).height() / 2 )
+      'margin-top': -> -(  Winbits.$( this ).height() / 2 )
 
   registerLinkClick: (e) ->
     e.preventDefault()
@@ -144,18 +142,18 @@ module.exports = class WidgetSiteView extends View
 
   showConfirmation: () ->
     console.log "WidgetSiteView#showConfirmation"
-    Backbone.$("#register-confirm-modal").modal( 'show' ).css
+    Winbits.$("#register-confirm-modal").modal( 'show' ).css
       width: '625px'
-      'margin-left': -> -( Backbone.$( this ).width() / 2 )
+      'margin-left': -> -( Winbits.$( this ).width() / 2 )
       top: '50%'
-      'margin-top': -> -(  Backbone.$( this ).height() / 2 )
+      'margin-top': -> -(  Winbits.$( this ).height() / 2 )
 
   showMessageConfirm: (modalId) ->
-    Backbone.$(modalId).modal( 'show' ).css {
+    Winbits.$(modalId).modal( 'show' ).css {
       width: '625px',
-      'margin-left': -> -( Backbone.$( this ).width() / 2 )
+      'margin-left': -> -( Winbits.$( this ).width() / 2 )
       top: '50%',
-      'margin-top': -> -(  Backbone.$( this ).height() / 2 )
+      'margin-top': -> -(  Winbits.$( this ).height() / 2 )
     }
 
   showHeaderLogin: () ->
@@ -181,7 +179,6 @@ module.exports = class WidgetSiteView extends View
   attach: ->
     super
     console.log "WidgetSiteView#attach"
-    @proxyInit = new ProxyInit()
     that = @
     @$el.find("#winbits-logout-link").on "click",  (e)->
       that.logout(e)
@@ -204,7 +201,7 @@ module.exports = class WidgetSiteView extends View
 
     vendor.stickyFooter ".widgetWinbitsFooter"
 
-    Backbone.$.validator.addMethod 'validDate', (value) ->
+    Winbits.$.validator.addMethod 'validDate', (value) ->
       if value
         moment(value, 'YYYY-MM-DD').isValid()
       else
@@ -220,18 +217,18 @@ module.exports = class WidgetSiteView extends View
     @doCheckout()
 
   doCheckout: () ->
-    $ = Backbone.$
+    $ = Winbits.$
     if $('.wb-cart-detail-list').children().length > 0
       util.showAjaxIndicator('Generando tu Orden...')
-      Backbone.$.ajax config.apiUrl + "/orders/checkout.json",
+      that = @
+      util.ajaxRequest( config.apiUrl + "/orders/checkout.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
-        context: @
         data: JSON.stringify(verticalId: config.verticalId)
         headers:
           "Accept-Language": "es",
-          "WB-Api-Token": util.getCookie(config.apiTokenName)
+          "WB-Api-Token": util.retrieveKey(config.apiTokenName)
 
         success: (data) ->
           console.log "Checkout Success!"
@@ -240,18 +237,14 @@ module.exports = class WidgetSiteView extends View
           withWarnings = if warnings != null && warnings.length > 0  then true else false
           if resp.failedCartDetails? or withWarnings
             util.hideAjaxIndicator()
-            @publishEvent 'showResume', resp
+            that.publishEvent 'showResume', resp
           else
-            @postToCheckoutApp resp
-
+            that.postToCheckoutApp resp
         error: (xhr) ->
           console.log xhr
           error = JSON.parse(xhr.responseText)
           util.hideAjaxIndicator()
-  #        alert error.meta.message
-
-        complete: ->
-#          util.hideAjaxIndicator()
+      )
     else
       util.showError('Agrega algo a tu carrito para que lo puedas comprar')
 
@@ -269,19 +262,19 @@ module.exports = class WidgetSiteView extends View
     if bitsBalance?
       bitsTotal = cart.bitsTotal or 0
       @updateBitsBalance(bitsBalance - bitsTotal)
-      $ = window.$ or w$
+      $ = window.$ or Winbits.$
       $('#' + config.winbitsDivId).trigger 'bitschanged', [{bitsBalance: bitsBalance, bitsTotal: bitsTotal}]
 
   postToCheckoutApp: (order) ->
     @publishEvent 'restoreCart'
-    $chkForm = w$('<form id="chk-form" method="POST" style="display:none"></form>')
+    $chkForm = Winbits.$('<form id="chk-form" method="POST" style="display:none"></form>')
     $chkForm.attr("action", config.baseUrl + "/checkout.php")
-    $chkForm.append w$('<input type="hidden" name="token"/>').val(util.getCookie(config.apiTokenName))
-    $chkForm.append w$('<input type="hidden" name="order_id"/>').val(order.id)
-    $chkForm.append w$('<input type="hidden" name="bits_balance"/>').val(mediator.profile.bitsBalance)
-    $chkForm.append w$('<input type="hidden" name="vertical_id"/>').val(config.verticalId)
-    $chkForm.append w$('<input type="hidden" name="vertical_url"/>').val(order.vertical.url)
-    $chkForm.append w$('<input type="hidden" name="timestamp"/>').val(new Date().getTime())
+    $chkForm.append Winbits.$('<input type="hidden" name="token"/>').val(util.retrieveKey(config.apiTokenName))
+    $chkForm.append Winbits.$('<input type="hidden" name="order_id"/>').val(order.id)
+    $chkForm.append Winbits.$('<input type="hidden" name="bits_balance"/>').val(mediator.profile.bitsBalance)
+    $chkForm.append Winbits.$('<input type="hidden" name="vertical_id"/>').val(config.verticalId)
+    $chkForm.append Winbits.$('<input type="hidden" name="vertical_url"/>').val(order.vertical.url)
+    $chkForm.append Winbits.$('<input type="hidden" name="timestamp"/>').val(new Date().getTime())
 
     @$el.append $chkForm
     $chkForm.submit()
@@ -289,7 +282,7 @@ module.exports = class WidgetSiteView extends View
   twitterShare: (e) ->
     e.preventDefault()
     console.log "twitter update status"
-    Backbone.$.ajax config.apiUrl + "/affiliation/twitterPublish/updateStatus.json",
+    util.ajaxRequest config.apiUrl + "/affiliation/twitterPublish/updateStatus.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -299,7 +292,7 @@ module.exports = class WidgetSiteView extends View
 
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
         console.log "updateStatus.json Success!"
@@ -314,28 +307,25 @@ module.exports = class WidgetSiteView extends View
   facebookShare: (e) ->
     e.preventDefault()
     console.log "facebook share"
-    Backbone.$.ajax config.apiUrl + "/affiliation/facebookPublish/share.json",
+    util.ajaxRequest( config.apiUrl + "/affiliation/facebookPublish/share.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify(message: 'Yo ya me registré en Winbits (facebook test)')
       xhrFields:
         withCredentials: true
-
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
         console.log "share.json Success!"
-
       error: (xhr) ->
         console.log "share.json Error!"
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         console.log "share.json Completed!"
-
+    )
   forgotPassword: () ->
     console.log "WidgetSiteView#viewForgotPassword"
     @$('.modal').modal 'hide'
@@ -360,6 +350,7 @@ module.exports = class WidgetSiteView extends View
       'max-height': '370px'
 
   proxyLoaded: () ->
+    console.log('Proxy Loaded Handler...')
     hash = location.hash
     hashParts = hash.split('-')
     if hashParts[0] is '#complete' and hashParts[1] is 'register'
@@ -367,15 +358,15 @@ module.exports = class WidgetSiteView extends View
       @publishEvent 'expressLogin', apiToken
 
   requestFocus: (e) ->
-    $form = Backbone.$(e.currentTarget).find('form')
+    $form = Winbits.$(e.currentTarget).find('form')
     util.focusForm($form)
 
   resetForm: (e) ->
-    $form = Backbone.$(e.currentTarget).find('form')
+    $form = Winbits.$(e.currentTarget).find('form')
     util.resetForm($form)
 
   verifyNullFields: (e) ->
-    $registerModal = w$(e.currentTarget)
+    $registerModal = Winbits.$(e.currentTarget)
     $completeRegisterLayer = $registerModal.find('#complete-register-layer')
     if $completeRegisterLayer.is(':visible')
       $registerModal.find("#complete-register-layer").hide()
@@ -383,7 +374,7 @@ module.exports = class WidgetSiteView extends View
       $form =  @$el.find("#complete-register-form")
       formData = util.serializeForm($form)
       bandera = false
-      w$.each(formData, (i, value) ->
+      Winbits.$.each(formData, (i, value) ->
         if not value
           bandera = true
           return false

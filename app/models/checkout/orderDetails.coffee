@@ -13,7 +13,7 @@ module.exports = class OrderDetails extends ChaplinModel
     response
 
   completeOrderModel: (order, bitsBalance) ->
-    bitsBalance = bitsBalance || parseFloat(window.bits_balance)
+    bitsBalance = bitsBalance || parseFloat(Winbits.checkoutConfig.bitsBalance)
     model = {}
     model.orderId = order.id
     model.orderDetails = order.orderDetails
@@ -31,23 +31,22 @@ module.exports = class OrderDetails extends ChaplinModel
 
   updateOrderBits: (bits) ->
     updateData = {bitsTotal: bits, orderId: @get('orderId') }
-    Backbone.$.ajax config.apiUrl + "/orders/update-order-bits.json",
+    that=@
+    util.ajaxRequest( config.apiUrl + "/orders/update-order-bits.json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify(updateData)
-      context: @
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
         console.log ["Success: Update cart bits", data.response]
-        @set @completeOrderModel(data.response)
-        @publishEvent('orderBitsUpdated', data.response)
+        that.set that.completeOrderModel(data.response)
+        that.publishEvent('orderBitsUpdated', data.response)
         if data.response.cashTotal is 0 
-            @publishEvent('showBitsPayment')
-
-
+            that.publishEvent('showBitsPayment')
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
+    )

@@ -33,3 +33,5 @@ app/assets/winbits.js
 app/assets/winbits.html
 
 atlassian-ide-plugin.xml
+
+vendor/scripts/xtra/
