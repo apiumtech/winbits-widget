@@ -24,7 +24,7 @@ module.exports = class LoginUtil
     apiToken = if token? then token else util.retrieveKey(config.apiTokenName)
     that = @
     if apiToken and apiToken isnt "undefined"
-      util.ajaxRequest( config.apiUrl + "/affiliation/express-login.json",
+      util.ajaxRequest( config.apiUrl + "/users/express-login.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
@@ -90,7 +90,7 @@ module.exports = class LoginUtil
   initLogout : () ->
     that = this
     console.log "initLogout"
-    util.ajaxRequest( config.apiUrl + "/affiliation/logout.json",
+    util.ajaxRequest( config.apiUrl + "/users/logout.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -140,7 +140,7 @@ module.exports = class LoginUtil
       profileUrl: profileUrl
       imageUrl: imageUrl
 
-    util.ajaxRequest( config.apiUrl + "/affiliation/facebook",
+    util.ajaxRequest( config.apiUrl + "/users/facebook",
       type: "POST"
       contentType: "application/json"
       dataType: "json"

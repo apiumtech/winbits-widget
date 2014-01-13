@@ -46,13 +46,11 @@ module.exports = class LoginView extends View
       that=@
       console.log ('DO LOGIN!!!!')
       util.ajaxRequest(
-        config.apiUrl + "/affiliation/login.json",
+        config.apiUrl + "/users/login.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
         data: JSON.stringify(formData)
-        xhrFields:
-          withCredentials: true
         headers:
           "Accept-Language": "es"
         success: (data) ->
@@ -61,6 +59,7 @@ module.exports = class LoginView extends View
           if data.response.showRemainder == true
             that.publishEvent 'completeProfileRemainder'
         error: (xhr) ->
+          console.log arguments
           error = JSON.parse(xhr.responseText)
           that.renderLoginFormErrors $form, error
         complete: ->
@@ -80,7 +79,7 @@ module.exports = class LoginView extends View
     $ = Winbits.$
     that = @
     fbButton = @$(e.currentTarget).prop('disabled', true)
-    popup = window.open(config.apiUrlBase + "/affiliation/facebook-login/connect?verticalId=" + config.verticalId,
+    popup = window.open(config.apiUrlBase + "/users/facebook-login/connect?verticalId=" + config.verticalId,
         "facebook", "menubar=0,resizable=0,width=800,height=500")
     popup.postMessage
     popup.focus()

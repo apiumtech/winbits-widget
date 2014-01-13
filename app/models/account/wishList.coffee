@@ -18,7 +18,7 @@ module.exports = class WaitingList extends ChaplinModel
   getWishList: ->
     util.showAjaxIndicator()
     that = @
-    url = config.apiUrl + "/affiliation/wish-list-items.json?"
+    url = config.apiUrl + "/users/wish-list-items.json?"
     util.ajaxRequest( url,
       type: "GET"
       contentType: "application/json"

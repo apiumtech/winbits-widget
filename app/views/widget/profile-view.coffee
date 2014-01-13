@@ -151,7 +151,7 @@ module.exports = class ProfileView extends View
     popup = window.open("", "twitter", "menubar=0,resizable=0,width=800,height=500")
     popup.postMessage
 
-    util.ajaxRequest(config.apiUrl + "/affiliation/connect/twitter",
+    util.ajaxRequest(config.apiUrl + "/users/connect/twitter",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -194,7 +194,7 @@ module.exports = class ProfileView extends View
     popup = window.open("", "facebook", "menubar=0,resizable=0,width=800,height=500")
     popup.postMessage
 
-    util.ajaxRequest( config.apiUrl + "/affiliation/connect/facebook",
+    util.ajaxRequest( config.apiUrl + "/users/connect/facebook",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -221,7 +221,7 @@ module.exports = class ProfileView extends View
   updateSocialAccountsStatus : () ->
     that = @
     console.log "update social accounts"
-    util.ajaxRequest(config.apiUrl + "/affiliation/social-accounts.json",
+    util.ajaxRequest(config.apiUrl + "/users/social-accounts.json",
       type: "GET"
       contentType: "application/json"
       dataType: "json"
@@ -251,7 +251,7 @@ module.exports = class ProfileView extends View
   viewDetachFacebookAccount: (e) ->
     that = @
     console.log "detach facebook account"
-    util.ajaxRequest( config.apiUrl + "/affiliation/social-account/facebook.json",
+    util.ajaxRequest( config.apiUrl + "/users/social-account/facebook.json",
       type: "DELETE"
       contentType: "application/json"
       dataType: "json"
@@ -273,7 +273,7 @@ module.exports = class ProfileView extends View
   viewDetachTwitterAccount: (e) ->
     that = @
     console.log "detach twitter account"
-    util.ajaxRequest( config.apiUrl + "/affiliation/social-account/twitter.json",
+    util.ajaxRequest( config.apiUrl + "/users/social-account/twitter.json",
       type: "DELETE"
       contentType: "application/json"
       dataType: "json"
@@ -314,7 +314,7 @@ module.exports = class ProfileView extends View
     $form = $(e.currentTarget)
     formData = util.serializeForm($form)
     console.log "detach twitter account"
-    util.ajaxRequest( config.apiUrl + "/affiliation/change-password.json",
+    util.ajaxRequest( config.apiUrl + "/users/change-password.json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
@@ -360,14 +360,18 @@ module.exports = class ProfileView extends View
     zipCodeInfoId = $select.val()
     $form = $select.closest('form')
     $fields = $form.find('[name=location], [name=county], [name=state]')
+
     if !zipCodeInfoId
       $fields.show().val('').attr('readonly', '').filter('[name=location]').hide()
     else if zipCodeInfoId is '-1'
       $fields.show().removeAttr('readonly')
+      $fields.show().filter('[name=location]').show()
     else
       $fields.show().attr('readonly', '').filter('[name=location]').hide()
+
     $option = $select.children('[value=' + zipCodeInfoId + ']')
     zipCodeInfo = $option.data 'zip-code-info'
+
     if zipCodeInfo
       $form.find('input.zipCode').val zipCodeInfo.zipCode
       $fields.filter('[name=county]').val zipCodeInfo.county

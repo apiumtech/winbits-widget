@@ -5,7 +5,7 @@ module.exports = class BitRecord extends ChaplinModel
 
   initialize: (attributes, option) ->
     super
-    @url = config.apiUrl + "/affiliation/bits.json"
+    @url = config.apiUrl + "/users/bits.json"
     @subscribeEvent 'showBitsHistory', @getHistorical
 
   #@fetch success: (collection, response) ->
@@ -20,7 +20,7 @@ module.exports = class BitRecord extends ChaplinModel
   getHistorical: (args) ->
     util.showAjaxIndicator()
     that = @
-    util.ajaxRequest( config.apiUrl + "/affiliation/bits/transactions.json",
+    util.ajaxRequest( config.apiUrl + "/users/bits/transactions.json",
       type: "GET"
       contentType: "application/json"
       dataType: "json"

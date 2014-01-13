@@ -37,7 +37,7 @@ module.exports = class CheckoutSiteView extends View
     if answer
       util.showAjaxIndicator('Eliminando dirección de envío...')
       @model.sync 'delete', @model,
-        url: config.apiUrl + "/affiliation/shipping-addresses/" + id + '.json',
+        url: config.apiUrl + "/users/shipping-addresses/" + id + '.json',
         error: ->
           console.log "error",
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
@@ -132,7 +132,7 @@ module.exports = class CheckoutSiteView extends View
       submitUpdate = $form.find('.btnUpdate').prop('disabled', true)
       @model.sync 'update', @model,
         context: {$submitUpdate: submitUpdate}
-        url: config.apiUrl + "/affiliation/shipping-addresses/" + formData.id + '.json',
+        url: config.apiUrl + "/users/shipping-addresses/" + formData.id + '.json',
         error: ->
           console.log "error",
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }

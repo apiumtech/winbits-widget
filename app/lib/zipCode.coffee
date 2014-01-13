@@ -8,7 +8,7 @@ module.exports = ($)->
     unless cp.length is 5
       return
     util.ajaxRequest(
-      url: config.apiUrl + "/affiliation/locations/" + cp + ".json",
+      url: config.apiUrl + "/users/locations/" + cp + ".json",
       dataType: "json"
       success: (data) ->
         that.renderData element, data, itemSelected

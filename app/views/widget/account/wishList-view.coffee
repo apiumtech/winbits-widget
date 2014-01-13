@@ -25,7 +25,7 @@ module.exports = class WishListView extends View
   deleteWishListItem: (e) ->
     $currentTarget = @$(e.currentTarget)
     brandId =  $currentTarget.attr("id").split("-")[1]
-    url = config.apiUrl + "/affiliation/wish-list-items/" + brandId + ".json"
+    url = config.apiUrl + "/users/wish-list-items/" + brandId + ".json"
     that=@
     util.ajaxRequest( url,
       type: "DELETE"

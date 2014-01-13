@@ -287,4 +287,5 @@ module.exports =
       )
     else
       console.info ('No IE transaction')
+      console.log [url,options]
       Winbits.$.ajax(url,options)

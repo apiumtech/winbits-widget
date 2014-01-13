@@ -282,7 +282,7 @@ module.exports = class WidgetSiteView extends View
   twitterShare: (e) ->
     e.preventDefault()
     console.log "twitter update status"
-    util.ajaxRequest config.apiUrl + "/affiliation/twitterPublish/updateStatus.json",
+    util.ajaxRequest config.apiUrl + "/users/twitterPublish/updateStatus.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -307,7 +307,7 @@ module.exports = class WidgetSiteView extends View
   facebookShare: (e) ->
     e.preventDefault()
     console.log "facebook share"
-    util.ajaxRequest( config.apiUrl + "/affiliation/facebookPublish/share.json",
+    util.ajaxRequest( config.apiUrl + "/users/facebookPublish/share.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
