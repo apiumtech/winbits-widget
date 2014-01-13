@@ -26,6 +26,10 @@ module.exports = class CardsView extends View
     @delegate "click", ".wb-card-list-item", @selectCard
     @delegate "textchange", ".wb-card-number-input", @showCardType
     @delegate "blur", ".wb-card-number-input", @showCardType
+    @subscribeEvent 'loggedOut', @resetModel
+
+  resetModel: ->
+    @model.clear()
 
   attach: ->
     super

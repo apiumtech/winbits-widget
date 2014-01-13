@@ -137,26 +137,24 @@ module.exports = class RegisterView extends View
       formData.gender = gender
 
       $saveButton = Winbits.$(e.currentTarget).val('Guardando...').prop('disabled', true)
-      that=@
       util.ajaxRequest(config.apiUrl + "/affiliation/profile.json",
         type: "PUT"
         contentType: "application/json"
         dataType: "json"
         data: JSON.stringify(formData)
-#        context: { view: @, $form: $form, $saveButton: $saveButton }
+        context: { view: @, $form: $form, $saveButton: $saveButton }
         beforeSend: ->
           util.validateForm @$form
         headers:
           "Accept-Language": "es"
           "WB-Api-Token": util.retrieveKey(config.apiTokenName)
-
         success: (data) ->
-          that.publishEvent "profileUpdated", data.response
+          @view.publishEvent "profileUpdated", data.response
           Winbits.$('#register-modal').modal 'hide'
-        error: (xhr) ->
+        error:  ->
           util.showError("Error while updating profile")
-       complete: ->
-          $saveButton.val('Guardar').prop('disabled', false)
+        complete: ->
+          @$saveButton.val('Guardar').prop('disabled', false)
       )
 
   renderRegisterFormErrors: ($form, error) ->
