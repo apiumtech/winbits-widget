@@ -70,6 +70,9 @@ module.exports = class ProfileView extends View
           console.log "error"
         success: (data) ->
           that.onProfileUpdated data.response
+          $editProfileContainer = @$el.find(".editMiPerfil")
+          $editProfileContainer.slideUp ->
+          util.justResetForm $editProfileContainer.find('form')
         complete: ->
           button.prop 'disabled', false
       )
@@ -296,17 +299,21 @@ module.exports = class ProfileView extends View
 
   cancelEditing: (e) ->
     $editProfileContainer = @$el.find(".editMiPerfil")
-    $editProfileContainer.find('form').first().validate().resetForm()
-    $editProfileContainer.slideUp()
+    $editProfileContainer.slideUp ->
+      util.justResetForm $editProfileContainer.find('form')
+
     $changePasswordContainer = @$el.find(".changePassDiv")
-    $changePasswordContainer.find('form').first().validate().resetForm()
-    $changePasswordContainer.slideUp()
+    console.log('Must to reset')
+    $changePasswordContainer.slideUp ->
+      util.justResetForm $changePasswordContainer.find('form')
     @$el.find(".miPerfil").slideDown()
 
   changePassword: (e) ->
     e.preventDefault()
     @$el.find(".miPerfil").slideUp()
-    @$el.find(".changePassDiv").slideDown()
+    $changePasswordContainer = @$el.find(".changePassDiv")
+    $changePasswordContainer.slideDown ->
+      util.focusForm $changePasswordContainer.find('form')
 
   requestPasswordChange: (e) ->
     e.preventDefault()
