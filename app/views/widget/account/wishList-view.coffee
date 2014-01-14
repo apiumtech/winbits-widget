@@ -25,20 +25,20 @@ module.exports = class WishListView extends View
   deleteWishListItem: (e) ->
     $currentTarget = @$(e.currentTarget)
     brandId =  $currentTarget.attr("id").split("-")[1]
-    url = config.apiUrl + "/affiliation/wish-list-items/" + brandId + ".json"
-
-    Backbone.$.ajax url,
+    url = config.apiUrl + "/users/wish-list-items/" + brandId + ".json"
+    that=@
+    util.ajaxRequest( url,
       type: "DELETE"
       contentType: "application/json"
       dataType: "json"
-      context: @
+#      context: @
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
         modelData = {brands: data.response}
-        @publishEvent 'completeWishList', modelData
-
+        that.publishEvent 'completeWishList', modelData
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
+    )

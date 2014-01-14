@@ -8,7 +8,7 @@ EventBroker = require 'chaplin/lib/event_broker'
 'use strict'
 
 # Shortcut to access the DOM manipulation library.
-$ = Backbone.$
+$ = Winbits.$
 
 module.exports = class View extends Backbone.View
   # Mixin an EventBroker.

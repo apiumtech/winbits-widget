@@ -39,6 +39,8 @@ module.exports = class RegisterView extends View
         password:
           required: true
           minlength: 5
+        passwordConfirm:
+          equalTo: "#password"
 
     @$el.find("form#complete-register-form").validate
       ignore: ''
@@ -63,22 +65,22 @@ module.exports = class RegisterView extends View
           validDate: true
         zipCodeInfo:
           required: (e) ->
-            $form = Backbone.$(e).closest 'form'
+            $form = Winbits.$(e).closest 'form'
             $form.find('[name=location]').is(':hidden')
         location:
           required: '[name=location]:visible'
           minlength: 2
 
-    $select = Backbone.$('.select')
-    $zipCode = Backbone.$('.zipCode')
-    $zipCodeExtra = Backbone.$('.zipCodeInfoExtra')
-    zipCode(Backbone.$).find $zipCode.val(), $select, $zipCodeExtra.val()
+    $select = Winbits.$('.select')
+    $zipCode = Winbits.$('.zipCode')
+    $zipCodeExtra = Winbits.$('.zipCodeInfoExtra')
+    zipCode(Winbits.$).find $zipCode.val(), $select, $zipCodeExtra.val()
     unless $zipCode.val().length < 5
       vendor.customSelect($select)
 
   showCompletaRegister: () ->
     console.log("En completa registro")
-    w$('a#wbi-dummy-link').get(0).click()
+    Winbits.$('a#wbi-dummy-link').get(0).click()
     @publishEvent 'showRegister'
     @$el.find("#winbits-register-form").hide()
     @$el.find("#complete-register-layer").show()
@@ -87,38 +89,36 @@ module.exports = class RegisterView extends View
     e.preventDefault()
     console.log "RegisterView#registerStep1"
     $form =  @$el.find("#winbits-register-form")
-    that = @
     formData = verticalId: config.verticalId
     formData = util.serializeForm($form, formData)
     console.log ["Register Data", formData]
 
     if $form.valid()
       submitButton = @$(e.currentTarget).prop('disabled', true)
-      Backbone.$.ajax config.apiUrl + "/affiliation/register.json",
+      util.ajaxRequest(config.apiUrl + "/users/register.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
         data: JSON.stringify(formData)
         xhrFields:
           withCredentials: true
-        context: {$submitButton: submitButton}
+        context: {view: @, $submitButton: submitButton}
         headers:
           "Accept-Language": "es"
         success: (data) ->
           console.log "Request Success!"
           console.log ["data", data]
-          w$('.modal').modal 'hide'
-          that.publishEvent "showConfirmation"
-
-       #
+          Winbits.$('.modal').modal 'hide'
+          @view.publishEvent "showConfirmation"
         error: (xhr) ->
+          console.log 'Error response '
           console.log xhr
           error = JSON.parse(xhr.responseText)
-          that.renderRegisterFormErrors $form, error
-
+          @view.renderRegisterFormErrors $form, error
         complete: ->
           console.log "Request Completed!"
-          this.$submitButton.prop('disabled', false)
+          @$submitButton.prop('disabled', false)
+      )
 
   registerStep2: (e)->
     e.preventDefault()
@@ -136,8 +136,8 @@ module.exports = class RegisterView extends View
         delete formData.zipCodeInfo
       formData.gender = gender
 
-      $saveButton = Backbone.$(e.currentTarget).val('Guardando...').prop('disabled', true)
-      Backbone.$.ajax config.apiUrl + "/affiliation/profile.json",
+      $saveButton = Winbits.$(e.currentTarget).val('Guardando...').prop('disabled', true)
+      util.ajaxRequest(config.apiUrl + "/users/profile.json",
         type: "PUT"
         contentType: "application/json"
         dataType: "json"
@@ -145,20 +145,17 @@ module.exports = class RegisterView extends View
         context: { view: @, $form: $form, $saveButton: $saveButton }
         beforeSend: ->
           util.validateForm @$form
-
         headers:
           "Accept-Language": "es"
           "WB-Api-Token": util.retrieveKey(config.apiTokenName)
-
         success: (data) ->
           @view.publishEvent "profileUpdated", data.response
-          Backbone.$('#register-modal').modal 'hide'
-
-        error: (xhr) ->
+          Winbits.$('#register-modal').modal 'hide'
+        error:  ->
           util.showError("Error while updating profile")
-
         complete: ->
           @$saveButton.val('Guardar').prop('disabled', false)
+      )
 
   renderRegisterFormErrors: ($form, error) ->
     code = error.code or error.meta.code
@@ -181,11 +178,11 @@ module.exports = class RegisterView extends View
 
   doRegisterWithFacebook: (e) ->
     e.preventDefault()
-    $ = Backbone.$
+    $ = Winbits.$
     that = @
     fbButton = @$(e.currentTarget).prop('disabled', true)
     referredBy = $("#referredById")[0].value
-    popup = window.open(config.apiUrl + "/affiliation/facebook-login/connect?verticalId=" + config.verticalId +
+    popup = window.open(config.apiUrl + "/users/facebook-login/connect?verticalId=" + config.verticalId +
         "&referredBy=" + referredBy,
         "facebook", "menubar=0,resizable=0,width=800,height=500")
     popup.postMessage
@@ -203,17 +200,17 @@ module.exports = class RegisterView extends View
 
   closeCompleteRegisterModal: (e) ->
     e.preventDefault()
-    Backbone.$(e.currentTarget).closest('#register-modal').modal('hide')
+    Winbits.$(e.currentTarget).closest('#register-modal').modal('hide')
 
   findZipcode: (event)->
     event.preventDefault()
     console.log "find zipCode"
     $currentTarget = @$(event.currentTarget)
     $slt = $currentTarget.parent().find(".select")
-    zipCode(Backbone.$).find $currentTarget.val(), $slt
+    zipCode(Winbits.$).find $currentTarget.val(), $slt
 
   changeZipCodeInfo: (e) ->
-    $ = Backbone.$
+    $ = Winbits.$
     $select = $(e.currentTarget)
     zipCodeInfoId = $select.val()
     $form = $select.closest('form')

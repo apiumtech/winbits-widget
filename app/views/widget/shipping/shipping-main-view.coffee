@@ -18,7 +18,7 @@ module.exports = class ShippingMainView extends View
 
   attach: ->
     super
-    Backbone.$("#shippingAddressMain").hide()
+    Winbits.$("#shippingAddressMain").hide()
 
   backToSite: (e) ->
     util.backToSite(e)

@@ -24,12 +24,12 @@ module.exports = class CompleteProfileRemainderView extends View
 
       @$el.find('.modal').modal('show').css(
         width: '625px',
-        'margin-left': -> -( Backbone.$( this ).width() / 2 )
+        'margin-left': -> -( Winbits.$( this ).width() / 2 )
         top: '50%'
-        'margin-top': -> -(  Backbone.$( this ).height() / 2 )
+        'margin-top': -> -(  Winbits.$( this ).height() / 2 )
       ).closest('.wb-modal-holder').show()
 
   onOpenProfileToEdit:->
-    w$('.spanDropMenu').click()
-    w$('#editBtnProfile').click()
+    Winbits.$('.spanDropMenu').click()
+    Winbits.$('#editBtnProfile').click()
 

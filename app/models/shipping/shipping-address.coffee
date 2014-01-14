@@ -5,7 +5,7 @@ module.exports = class ShippingAddress extends ChaplinModel
 
   initialize: (attributes, option) ->
     super
-    @url = config.apiUrl + "/affiliation/shipping-addresses"
+    @url = config.apiUrl + "/users/shipping-addresses"
     @subscribeEvent 'completeShippingAddress', @completeShippingAddress
     @subscribeEvent 'showShippingAddresses', @getShippingAddressList
 
@@ -18,12 +18,11 @@ module.exports = class ShippingAddress extends ChaplinModel
 
   getShippingAddressList: ->
     that = @
-    url = config.apiUrl + "/affiliation/shipping-addresses.json"
-    Backbone.$.ajax url,
+    url = config.apiUrl + "/users/shipping-addresses.json"
+    util.ajaxRequest( url,
       type: "GET"
       contentType: "application/json"
       dataType: "json"
-      context: @
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
@@ -33,9 +32,9 @@ module.exports = class ShippingAddress extends ChaplinModel
         model.addresses = data.response
         that.set model
         that.publishEvent 'shippingReady'
-
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
+    )
 
   completeShippingAddress: (data) ->
     console.log 'refrescando'

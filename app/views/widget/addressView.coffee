@@ -37,7 +37,7 @@ module.exports = class AddressView extends View
 
   changeAddress: (e) ->
     e.preventDefault()
-    $ = Backbone.$
+    $ = Winbits.$
     $main = $('main').first()
     $('div.dropMenu').slideUp()
     $shippingAddressContainer = $main.find('#shippingAddressMain')

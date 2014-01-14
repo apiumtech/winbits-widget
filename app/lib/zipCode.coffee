@@ -7,13 +7,13 @@ module.exports = ($)->
     that = @
     unless cp.length is 5
       return
-    $.ajax
-      url: config.apiUrl + "/affiliation/locations/" + cp + ".json"
+    util.ajaxRequest(
+      url: config.apiUrl + "/users/locations/" + cp + ".json",
       dataType: "json"
       success: (data) ->
         that.renderData element, data, itemSelected
         callback()  if typeof callback is "function"
-
+    )
   renderData : ($element, data, itemSelected) ->
     $element.unwrap()
     $element.parent().find(".selectContent").remove()
@@ -35,6 +35,7 @@ module.exports = ($)->
       values.push "<option value=\"-1\">Otro...</option>"
     else
       values.push "<option selected value=\"-1\">Otro...</option>"
+      $form.find('[name=location]').removeAttr('readonly').show()
 
 #    if not itemSelected and data.response.length > 0
 #      response = data.response[0]

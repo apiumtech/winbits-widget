@@ -5,7 +5,7 @@ module.exports = class OrderHistory extends ChaplinModel
 
   initialize: (attributes, option) ->
     super
-    @url = config.apiUrl + "/affiliation/orders.json"
+    @url = config.apiUrl + "/users/orders.json"
     @subscribeEvent 'showOrdersHistory', @getHistorical
 
   parse: (response) ->
@@ -17,7 +17,7 @@ module.exports = class OrderHistory extends ChaplinModel
 
   getHistorical: (formData) ->
     console.log ['formdata', formData]
-    url = config.apiUrl + "/affiliation/orders.json?"
+    url = config.apiUrl + "/users/orders.json?"
     status = ""
     sort = ""
     if (formData?)
@@ -26,26 +26,24 @@ module.exports = class OrderHistory extends ChaplinModel
       url += "status=" + status + "&sort=" + sort
 
     util.showAjaxIndicator()
-    Backbone.$.ajax url,
+    that=@
+    util.ajaxRequest( url,
       type: "GET"
       contentType: "application/json"
       dataType: "json"
-      context: @
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
         modelData = {orders: data.response, status: status, sort: sort}
-        @set @completeOrdersHistory(modelData)
-        @publishEvent 'orderRecordReady'
-
+        that.set that.completeOrdersHistory(modelData)
+        that.publishEvent 'orderRecordReady'
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         util.hideAjaxIndicator()
-
+    )
 
   completeOrdersHistory: (data) ->
     model = {}

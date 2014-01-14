@@ -24,18 +24,15 @@ module.exports = class LoginUtil
     apiToken = if token? then token else util.retrieveKey(config.apiTokenName)
     that = @
     if apiToken and apiToken isnt "undefined"
-      Backbone.$.ajax config.apiUrl + "/affiliation/express-login.json",
+      util.ajaxRequest( config.apiUrl + "/users/express-login.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
         data: JSON.stringify(apiToken: apiToken)
         headers:
           "Accept-Language": "es"
-
         xhrFields:
           withCredentials: true
-
-        context: Backbone.$
         success: (data) ->
           console.log "express-login.json Success!"
           that.publishEvent 'applyLogin', data.response
@@ -43,14 +40,14 @@ module.exports = class LoginUtil
             that.publishEvent 'setRegisterFb', data.response.profile
             that.publishEvent "showCompletaRegister", data.response
           else
-            that.expressFacebookLogin Backbone.$
+            that.expressFacebookLogin Winbits.$
 
         error: (xhr) ->
           console.log "express-login.json Error!"
           util.showAjaxError(xhr.responseText)
-
+      )
     else
-      @expressFacebookLogin Backbone.$
+      @expressFacebookLogin Winbits.$
 
   expressFacebookLogin : ($) ->
     console.log "Trying to login with facebook"
@@ -76,9 +73,9 @@ module.exports = class LoginUtil
       profileData.facebook = if facebook != null && facebook.length > 0  then "On" else "Off"
       profileData.twitter = if twitter != null && twitter.length > 0 then "On" else "Off"
 
-      w$('#wbi-user-waiting-list-count').text profileData.waitingListCount
-      w$('#wbi-user-waiting-list-count').text profileData.wishListCount
-      w$('#wbi-user-pending-orders-count').text profileData.pendingOrdersCount
+      Winbits.$('#wbi-user-waiting-list-count').text profileData.waitingListCount
+      Winbits.$('#wbi-user-waiting-list-count').text profileData.wishListCount
+      Winbits.$('#wbi-user-pending-orders-count').text profileData.pendingOrdersCount
 
       @publishEvent "showHeaderLogin"
       @publishEvent "restoreCart"
@@ -87,30 +84,27 @@ module.exports = class LoginUtil
       @publishEvent "setSubscription", subscriptionsModel
       @publishEvent "setAddress",  profile.mainShippingAddres
 
-      $ = window.$ or w$
+      $ = window.$ or Winbits.$
       $('#' + config.winbitsDivId).trigger 'loggedin', [profile]
 
   initLogout : () ->
     that = this
     console.log "initLogout"
-    Backbone.$.ajax config.apiUrl + "/affiliation/logout.json",
+    util.ajaxRequest( config.apiUrl + "/users/logout.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
       xhrFields:
         withCredentials: true
-
       headers:
         "Accept-Language": "es"
-
       success: (data) ->
         that.applyLogout data.response
-
       error: (xhr) ->
         util.showAjaxError(xhr.responseText)
-
       complete: ->
         console.log "logout.json Completed!"
+    )
 
   applyLogout : (logoutData) ->
     Winbits.rpc.logout(mediator.flags.fbConnect)
@@ -121,11 +115,11 @@ module.exports = class LoginUtil
     mediator.flags.loggedIn = false
     mediator.flags.fbConnect = false
     util.backToSite()
-    $ = window.$ or w$
+    $ = window.$ or Winbits.$
     $('#' + config.winbitsDivId).trigger 'loggedout', [logoutData]
 
   loginFacebook : (me) ->
-    $ = Backbone.$
+    $ = Winbits.$
     that = @
     myBirthdayDate = new Date(me.birthday)
     birthday = myBirthdayDate.getFullYear() + "-" + myBirthdayDate.getMonth() + "-" + myBirthdayDate.getDate()
@@ -146,17 +140,15 @@ module.exports = class LoginUtil
       profileUrl: profileUrl
       imageUrl: imageUrl
 
-    $.ajax config.apiUrl + "/affiliation/facebook",
+    util.ajaxRequest( config.apiUrl + "/users/facebook",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify(payLoad)
       xhrFields:
         withCredentials: true
-
       headers:
         "Accept-Language": "es"
-
       success: (data) ->
         console.log "facebook.json success!"
         that.publishEvent 'applyLogin', data.response
@@ -164,8 +156,7 @@ module.exports = class LoginUtil
           console.log ["Facebook registered", data.response.profile]
           that.publishEvent("setRegisterFb", data.response.profile)
           that.publishEvent "showCompletaRegister", data.response.profile
-
-
       error: (xhr) ->
         console.log "facebook.json error!"
         util.showAjaxError(xhr.responseText)
+    )
