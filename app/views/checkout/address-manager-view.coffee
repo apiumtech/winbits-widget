@@ -58,13 +58,16 @@ module.exports = class CheckoutSiteView extends View
 
   addressContinuar: (e)->
     $addresSelected = @$(".shippingSelected")
-    id = $addresSelected.attr("id").split("-")[1]
-    if id
-      mediator.post_checkout.shippingAddress = id
-      @publishEvent "showStep", ".checkoutPaymentContainer"
-      @$("#choosen-address-" + mediator.post_checkout.shippingAddress).show()
+    if $addresSelected.attr("id") != undefined
+      id = $addresSelected.attr("id").split("-")[1]
+      if id
+        mediator.post_checkout.shippingAddress = id
+        @publishEvent "showStep", ".checkoutPaymentContainer"
+        @$("#choosen-address-" + mediator.post_checkout.shippingAddress).show()
+      else
+        util.showError('Selecciona una dirección de envío para continuar')
     else
-      util.showError('Selecciona una dirección de envío para continuar')
+      util.showError('Agrega una dirección de envío para continuar')
 
 
   editAddress: (e)->
