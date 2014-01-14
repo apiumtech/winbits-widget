@@ -105,6 +105,16 @@
                   console.log(['Facebook me response', response]);
                   success(response);
                 });
+              },
+              saveUtms: function(utmParams, successFn) {
+                console.log(["UTMS provider", utmParams])
+                Winbits.storeKey('_wb_utm_params', JSON.stringify(utmParams)) 
+              },
+              getUtms: function(successFn, errorFn) {
+                console.log(["get UTMS"])
+                return {
+                    'utm_params': Winbits.retrieveKey('_wb_utm_params') 
+                };
               }
             },
             remote: {
@@ -114,7 +124,9 @@
               storeVirtualCart:{},
               logout:{},
               facebookStatus:{} ,
-              facebookMe:{}
+              facebookMe:{},
+              saveUtms: {},
+              getUtms: {}
             }
           });
 
