@@ -35,6 +35,7 @@ module.exports = ($)->
       values.push "<option value=\"-1\">Otro...</option>"
     else
       values.push "<option selected value=\"-1\">Otro...</option>"
+      $form.find('[name=location]').removeAttr('readonly').show()
 
 #    if not itemSelected and data.response.length > 0
 #      response = data.response[0]

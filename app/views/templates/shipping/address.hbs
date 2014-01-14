@@ -47,7 +47,7 @@
             <option>Colonia/Asentamiento:</option>
             <option value="-1">Otro...</option>
           </select>
-          <input type="text" placeholder="Colonia" name="location" value="{{location}}" maxlength="50" {{#unless zipCodeInfo}}style="display: none;"{{/unless}}>
+          <input type="text" placeholder="Colonia" name="location" value="{{location}}" maxlength="50" {{#if zipCodeInfo}}style="display: none;"{{/if}}>
           <input type="text" placeholder="Delegación o Municipio" name="county" value="{{county}}" readonly="" maxlength="50">
           <input type="text" placeholder="Estado" value="{{state}}" name="state" readonly="" maxlength="30">
         </div>

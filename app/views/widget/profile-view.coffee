@@ -364,8 +364,8 @@ module.exports = class ProfileView extends View
     if !zipCodeInfoId
       $fields.show().val('').attr('readonly', '').filter('[name=location]').hide()
     else if zipCodeInfoId is '-1'
+      $fields.show().filter('[name=location]').show()
       $fields.show().removeAttr('readonly')
-      $fields.show().filter('[name=location]')
     else
       $fields.show().attr('readonly', '').filter('[name=location]').hide()
 

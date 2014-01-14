@@ -63,7 +63,7 @@
       <option value="-1">Otro...</option>
     </select>
 
-    <input type="text" placeholder="Colonia" name="location" value="{{location}}" maxlength="50" {{#unless location}}style="display: none;"{{/unless}}>
+    <input type="text" placeholder="Colonia" name="location" value="{{location}}" maxlength="50" {{#if zipCodeInfo}}style="display: none;"{{/if}}>
     <input type="text" placeholder="Teléfono" name="phone" maxlength="10" value="{{phone}}">
 
       <div class="errorDiv"><p></p></div>
