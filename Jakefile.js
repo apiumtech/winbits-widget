@@ -46,6 +46,7 @@ task("switch-config", function() {
   console.log(envJson);
   file_list = "";
   execFile = require("child_process").execFile;
+  copyXtraLibs(env, execFile);
   return execFile("find", ["deploy/resources/", "-name", "*.hbs"], function(err, stdout, stderr) {
     file_list = "" + stdout.split("\n");
     return _.each(file_list.split(","), function(file) {
@@ -86,5 +87,28 @@ cpTemplates = function() {
     return complete();
   }), {
     stdout: true
+  });
+};
+
+copyXtraLibs = function(env, execFile){
+  console.log('Copying Xtra Libs...')
+  var isDebug = env !== 'staging' && env !== 'production';
+  var xtraLibsDir = 'vendor/scripts/xtra'
+  jake.rmRf(xtraLibsDir);
+  jake.mkdirP(xtraLibsDir);
+  return execFile("find", ["deploy/libs/", "-name", "*.js"], function(err, stdout, stderr) {
+    var fileList = "" + stdout.split("\n");
+    return _.each(fileList.split(","), function(file) {
+      if (file !== "") {
+        if (isDebug && file.indexOf('.debug-') !== -1) {
+          var newName = file.substring(file.lastIndexOf('/')).replace('.debug', '');
+          jake.cpR(file, xtraLibsDir + newName);
+        }
+
+        if (!isDebug && file.indexOf('.debug-') === -1) {
+          jake.cpR(file, xtraLibsDir);
+        }
+      }
+    });
   });
 };

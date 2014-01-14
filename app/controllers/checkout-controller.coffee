@@ -20,13 +20,13 @@ module.exports = class CheckoutController extends ChaplinController
     super
     @checkoutSiteView = new CheckoutSiteView()
   index: ->
-    orderId = window.order_id
+    orderId = Winbits.checkoutConfig.orderId
     @order_id = orderId
     util.showAjaxIndicator('Inicializando checkout...')
     w$.ajax config.apiUrl + "/orders/orders/"+ orderId + "/checkoutInfo.json",
       dataType: "json"
       context: { controller: @}
-      headers:{ 'Accept-Language': 'es', 'WB-Api-Token': window.token }
+      headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
       success: (data) ->
         @controller.initCheckout data.response
         util.hideAjaxIndicator()
@@ -34,7 +34,7 @@ module.exports = class CheckoutController extends ChaplinController
       error: ->
         util.showAjaxIndicator("La orden NO puede ser procesada." + "<br/> Se redireccionará en 5 segundos")
         setTimeout () ->
-          window.location.href = window.verticalUrl
+          window.location.href = Winbits.checkoutConfig.verticalUrl
         , 5000
 
 
@@ -66,7 +66,7 @@ module.exports = class CheckoutController extends ChaplinController
     @orderDetails.on "change", ->
       console.log "here order details changeed"
       that.orderDetailView.render()
-    @orderDetails.set @orderDetails.completeOrderModel @order_data, parseFloat(window.bits_balance)
+    @orderDetails.set @orderDetails.completeOrderModel @order_data, parseFloat(Winbits.checkoutConfig.bitsBalance)
     @cards.set(methods: @order_data.paymentMethods)
     @cardsView = new CardsView(model: @cards)
     @cardsView.amexSupported = amexSupported

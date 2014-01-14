@@ -33,7 +33,7 @@ module.exports = class WaitingList extends ChaplinModel
       context: @
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
         modelData = {waitingListItems: data.response, status: statusWaitingList, site: siteWaitingList}

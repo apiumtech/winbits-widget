@@ -22,7 +22,7 @@ module.exports = class CartView extends View
 
   restoreCart: ()->
     console.log ["CartView#restoreCart"]
-    vCart = util.getCookie(config.vcartTokenName)
+    vCart = util.retrieveKey(config.vcartTokenName)
     unless vCart is "[]"
       @model.transferVirtualCart vCart
     else

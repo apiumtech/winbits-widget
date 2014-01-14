@@ -64,7 +64,7 @@ module.exports = class ProfileView extends View
         dataType: "json"
         data: JSON.stringify(formData)
         context: {view: @, $saveButton: button}
-        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.getCookie(config.apiTokenName) }
+        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
         error: ->
           console.log "error"
 
@@ -159,7 +159,7 @@ module.exports = class ProfileView extends View
       data: {}
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
         popup.window.location.href = data.response.socialUrl
@@ -203,7 +203,7 @@ module.exports = class ProfileView extends View
       data: {}
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
         popup.window.location.href = data.response.socialUrl
@@ -234,7 +234,7 @@ module.exports = class ProfileView extends View
 
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
         console.log "accounts.json Success!"
@@ -266,7 +266,7 @@ module.exports = class ProfileView extends View
 
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
         that.publishEvent 'updateSocialAccountsStatus'
@@ -291,7 +291,7 @@ module.exports = class ProfileView extends View
 
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
         console.log "deleteAccount.json Success!"
@@ -335,7 +335,7 @@ module.exports = class ProfileView extends View
         this.$form.valid()
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token":  util.getCookie(config.apiTokenName)
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
         console.log "deleteAccount.json Success!"

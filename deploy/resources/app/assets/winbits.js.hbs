@@ -27,11 +27,37 @@
   head.appendChild(css);
 
   JavaScript.load('//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js', function() {
-    window.w$ = $.noConflict(true);
+    var $winbitsScript = $("script[src$='winbits.js']");
+    var userConfig = { verticalId: $winbitsScript.data('vertical'), proxyUrl: $winbitsScript.data('proxy')};
+    userConfig.providerUrl = "{{providerUrl}}";
+    var Winbits = { userConfig: userConfig };
+    Winbits.$ = $.noConflict(true);
+    window.Winbits = Winbits;
+    window.w$ = Winbits.$;
     JavaScript.load('{{baseUrl}}/javascripts/vendor.js', function() {
-      window.Backbone.$ = window.w$;
+      window.Backbone.$ = Winbits.$;
+      Winbits.rpc = new easyXDM.Rpc({
+        remote: Winbits.userConfig.providerUrl, // the path to the provider
+        onReady: function() {
+          console.log('Triggering event winbitsrpcready');
+          Winbits.$(window.document).trigger('winbitsrpcready');
+        }
+      }, {
+        remote: {
+          request:{},
+          getTokens:{},
+          saveApiToken:{},
+          storeVirtualCart:{},
+          logout:{},
+          facebookStatus:{} ,
+          facebookMe:{},
+          saveUtms: {},
+          getUtms: {}
+        }
+      });
       JavaScript.load('{{baseUrl}}/javascripts/app.js', function() {
-        window.w$(document).ready(function($) {
+        // TODO: No esperar a que se cargue todo el DOM para renderizar el widget. Esperar a que se rederize el container del widget.
+        Winbits.$(document).ready(function($) {
           var Application = require('application');
           (new Application).initialize();
         });
