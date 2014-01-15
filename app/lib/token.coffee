@@ -14,6 +14,13 @@ token.requestTokens = ($) ->
   Winbits.rpc.getTokens (response) ->
     EventBroker.publishEvent 'getTokensHandler', response
 
+  utms = {}
+  params = util.getUrlParams()
+  utms[key] = value for key,value of params when "utm_" is key.substr 0, "utm_".length 
+  util.storeKey "_wb_utm_params", JSON.stringify(utms)
+
+  Winbits.rpc.saveUtms(utms)
+
 token.segregateTokens = (tokensDef) ->
   console.log ["tokensDef", tokensDef]
   #console.log _.keys(tokensDef)

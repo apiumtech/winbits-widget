@@ -11,6 +11,7 @@ module.exports = class LoginView extends View
   #className: 'home-page'
   container: '#login-modal-body'
   template: template
+  utms: {'::::':"ppp" }
 
   render: ->
     super
@@ -23,6 +24,7 @@ module.exports = class LoginView extends View
     @delegate 'click', '#forgotPasswordLink', @showForgotPasswordModal
 
     @subscribeEvent 'loginByFacebookEvent', @doLoginFacebook
+    @subscribeEvent 'getUtms', @getUtms
 
   attach: ->
     super
@@ -35,12 +37,18 @@ module.exports = class LoginView extends View
           required: true
           minlength: 5
 
+
   doLogin: (e)->
     e.preventDefault()
     e.stopPropagation()
     $form = @$(e.currentTarget).parents("form")
     formData = verticalId: config.verticalId
+    utm_data = Winbits.$.parseJSON(util.retrieveKey("_wb_utm_params"))
+    formData[key] = value for key, value of utm_data
     formData = util.serializeForm($form, formData)
+    #parseJSON util.retrieveKey("_wb_utm_params")
+    console.log ["Ya en login", util.retrieveKey("_wb_utm_params")]
+
     if util.validateForm($form)
       submitButton = @$(e.currentTarget).prop('disabled', true)
       that=@
@@ -99,3 +107,16 @@ module.exports = class LoginView extends View
   showForgotPasswordModal: (e) ->
     e.preventDefault()
     @publishEvent 'showForgotPassword'
+
+  getUtms: (e) ->
+    Winbits.rpc.getUtms(
+        (success) ->
+            @utms= success
+            $form = @$(e.currentTarget).parents("form")
+            console.log ["success", success, @utms]
+            console.log ["FOMRr", $form]
+            return success
+        (error) ->
+            console.log ["Ocurrio un error", error]
+    )
+

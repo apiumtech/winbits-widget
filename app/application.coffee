@@ -89,6 +89,8 @@ module.exports = class Application
         logout: {}
         facebookStatus: {}
         facebookMe: {}
+        saveUtms: {}
+        getUtms: {}
     )
 
   initMomentTimeZone: ->
