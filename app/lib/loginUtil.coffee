@@ -40,14 +40,16 @@ module.exports = class LoginUtil
             that.publishEvent 'setRegisterFb', data.response.profile
             that.publishEvent "showCompletaRegister", data.response
           else
-            that.expressFacebookLogin Winbits.$
+            console.log('Ommiting Express Facebook Login...')
+#            that.expressFacebookLogin Winbits.$
 
         error: (xhr) ->
           console.log "express-login.json Error!"
           util.showAjaxError(xhr.responseText)
       )
     else
-      @expressFacebookLogin Winbits.$
+      console.log('Ommiting Express Facebook Login...')
+#      @expressFacebookLogin Winbits.$
 
   expressFacebookLogin : ($) ->
     console.log "Trying to login with facebook"
