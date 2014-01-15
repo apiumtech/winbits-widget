@@ -14,6 +14,7 @@ module.exports = class LoginUtil
 
   initialize: ->
     @subscribeEvent 'expressLogin', @expressLogin
+    @subscribeEvent 'expressFacebookLogin', @expressFacebookLogin
     @subscribeEvent 'applyLogin', @applyLogin
     @subscribeEvent 'initLogout', @initLogout
     @subscribeEvent 'loginFacebook', @loginFacebook
@@ -39,17 +40,11 @@ module.exports = class LoginUtil
           if token? and data.response.profile?
             that.publishEvent 'setRegisterFb', data.response.profile
             that.publishEvent "showCompletaRegister", data.response
-          else
-            console.log('Ommiting Express Facebook Login...')
-#            that.expressFacebookLogin Winbits.$
 
         error: (xhr) ->
           console.log "express-login.json Error!"
           util.showAjaxError(xhr.responseText)
       )
-    else
-      console.log('Ommiting Express Facebook Login...')
-#      @expressFacebookLogin Winbits.$
 
   expressFacebookLogin : ($) ->
     console.log "Trying to login with facebook"
