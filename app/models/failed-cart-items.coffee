@@ -4,7 +4,11 @@ module.exports = class FailedCartItems extends ChaplinModel
 
   initialize: () ->
     super
-    @subscribeEvent 'cartItemsFailed', @updateModel
+    @subscribeEvent 'cartUpdated', @updateModel
 
   updateModel: (data) ->
-    @set failedCartItems: data
+    warningCartItems = _.filter data.cartDetails, (cartDetail) ->
+      cartDetail.warnings and cartDetail.warnings.length
+    if data.failedCartDetails or warningCartItems.length
+      @set failedCartItems: data.failedCartDetails, warningCartItems: warningCartItems
+      @publishEvent('cartItemsIssues')

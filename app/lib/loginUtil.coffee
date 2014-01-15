@@ -46,9 +46,14 @@ module.exports = class LoginUtil
         error: (xhr) ->
           console.log "express-login.json Error!"
           util.showAjaxError(xhr.responseText)
+
+        complete: ->
+          if not mediator.flags.loggedIn
+            that.publishEvent 'loadVirtualCart'
       )
     else
       console.log('Ommiting Express Facebook Login...')
+      @publishEvent 'loadVirtualCart'
 #      @expressFacebookLogin Winbits.$
 
   expressFacebookLogin : ($) ->

@@ -16,7 +16,6 @@ module.exports = class CartView extends View
   initialize: () ->
     super
     @subscribeEvent 'restoreCart', @restoreCart
-#    @subscribeEvent 'addToCart', @addToCart
 
   restoreCart: ()->
     console.log ["CartView#restoreCart"]
@@ -98,6 +97,7 @@ module.exports = class CartView extends View
       clase: ".dropMenu"
       trigger: ".shopCarMin"
       other: ".miCuentaDiv"
+
       carro: true
 
     @$el.find('.wb-continue-shopping-link').click @closeCart
