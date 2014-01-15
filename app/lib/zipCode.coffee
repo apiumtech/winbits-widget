@@ -34,10 +34,9 @@ module.exports = ($)->
         $option.data 'zip-code-info', response
         values.push $option
       values.push "<option value=\"-1\">Otro...</option>"
-#    else
-#      values.push "<option selected value=\"-2\">No Existe Codigo Postal</option>"
-
-
+    else
+      $form.find('[name=county], [name=state]').attr('readonly', '')
+      $form.find('[name=location]').hide()
 
 #    if not itemSelected and data.response.length > 0
 #      response = data.response[0]

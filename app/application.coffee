@@ -100,8 +100,5 @@ module.exports = class Application
     Winbits.$.validator.addMethod("zipCodeDoesNotExist", (value, element) ->
       $element = Winbits.$(element)
       $zipCode = $element.closest('form').find('[name=zipCode]')
-      if $zipCode.val()
-        $element.children().length < 2
-      else
-        true
+      not ($zipCode.val() and $element.children().length == 1)
     ,"Codigo Postal No Existe")

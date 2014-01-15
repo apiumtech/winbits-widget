@@ -200,6 +200,7 @@ module.exports = class CheckoutSiteView extends View
             minlength: 5
             digits: true
           zipCodeInfo:
+            zipCodeDoesNotExist: true
             required: (e) ->
               $zipCodeInfo = Winbits.$(e)
               $form = $zipCodeInfo.closest 'form'
@@ -227,6 +228,8 @@ module.exports = class CheckoutSiteView extends View
     $currentTarget = @$(event.currentTarget)
     $slt = $currentTarget.parent().find(".select")
     zipCode(Winbits.$).find $currentTarget.val(), $slt
+    if not $currentTarget.val()
+      $currentTarget.closest('form').valid()
 
   changeZipCodeInfo: (e) ->
     $ = Winbits.$
@@ -234,7 +237,7 @@ module.exports = class CheckoutSiteView extends View
     zipCodeInfoId = $select.val()
     $form = $select.closest('form')
     $fields = $form.find('[name=location], [name=county], [name=state]')
-    if !zipCodeInfoId
+    if not zipCodeInfoId
       $fields.show().val('').attr('readonly', '').filter('[name=location]').hide()
     else if zipCodeInfoId is '-1'
       $fields.show().removeAttr('readonly')
