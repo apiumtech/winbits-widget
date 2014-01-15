@@ -57,18 +57,12 @@
               <a href="#register-layer" id="registerLink">Registrate</a>
             </li>
             <li class="cart-placeholder">
-                <span class="spanDropMenu"><span class="cart-items-count reseteable" data-reset-text="0">0</span><span class="icon shopCarMin"></span></span>
+                <span class="spanDropMenu"><span class="cart-items-count reseteable" data-reset-text="0">0</span><span class="icon shopCarMin wb-virtual-cart"></span></span>
+              <div class="dropMenu miCarritoDiv wb-cart-container wb-virtual-cart" style="display: none;">
+              </div>
             </li>
             <li class="btn btnTopNav" id="btn-login">
               <a href="#login-layer"  class="wb-login-btn" style="color: #ffffff;text-decoration: none;">Log in</a>
-            </li>
-          </ul>
-        </div>
-        <div class="miCuenta">
-          <ul>
-            <li class="cart-placeholder">
-                <div class="dropMenu miCarritoDiv wb-cart-container" style="display: none;">
-                </div>
             </li>
           </ul>
         </div>
@@ -83,7 +77,6 @@
                   </div>
                   <div class="colum myAddress" id="headerAddress">
                   </div>
-                  {{!wrapper}}
                   <div class="colum mySuscription" id="subscription">
                   </div>
                   <div class="colum historyColumn" id="headerHistory">
@@ -96,8 +89,8 @@
             </li>
             <li class="bits"><span class="wb-user-bits-balance reseteable" data-reset-text="0">0</span><span class="icon bit12px"></span></li>
             <li class="cart-holder drop-down-holder">
-                <span class="spanDropMenu"><span class="cart-items-count reseteable" data-reset-text="0">0</span><span class="icon shopCarMin"></span></span>
-                <div class="dropMenu miCarritoDiv wb-cart-container" style="display: none;">
+                <span class="spanDropMenu"><span class="cart-items-count reseteable" data-reset-text="0">0</span><span class="icon shopCarMin wb-user-cart"></span></span>
+                <div class="dropMenu miCarritoDiv wb-cart-container wb-user-cart" style="display: none;">
                 </div>
             </li>
             <li><input type="button" id="postCheckout" class="btn btnTopNav" value="Check Out"></li>

@@ -350,7 +350,7 @@ module.exports = class HomeController extends ChaplinController
         success: (data) ->
           if options.success
             options.success.call({}, [data.response])
-        error: (xhr, textStatus, errorThrown) ->
+        error: (xhr) ->
           error = JSON.parse(xhr.responseText)
           if options.error
             options.error.call({}, [error.response])

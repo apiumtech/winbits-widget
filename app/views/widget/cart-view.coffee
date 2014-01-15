@@ -95,9 +95,16 @@ module.exports = class CartView extends View
 
     vendor.scrollpane ".scrollPanel", ".miCarritoDiv"
     vendor.dropMenu
-      obj: ".miCarritoDiv"
-      clase: ".dropMenu"
-      trigger: ".shopCarMin"
+      obj: ".miCarritoDiv.wb-virtual-cart"
+      clase: ".dropMenu.wb-virtual-cart"
+      trigger: ".shopCarMin.wb-virtual-cart"
+      other: ".miCuentaDiv"
+      carro: true
+
+    vendor.dropMenu
+      obj: ".miCarritoDiv.wb-user-cart"
+      clase: ".dropMenu.wb-user-cart"
+      trigger: ".shopCarMin.wb-user-cart"
       other: ".miCuentaDiv"
       carro: true
 
