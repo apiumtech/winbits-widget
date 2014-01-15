@@ -97,7 +97,7 @@ module.exports = class LoginView extends View
         fbButton.prop('disabled', false)
         clearInterval timer
         $(".modal").modal('hide')
-        that.publishEvent 'expressLogin'
+        that.publishEvent 'expressFacebookLogin'
     , 1000)
 
   showRegisterModal: (e) ->
