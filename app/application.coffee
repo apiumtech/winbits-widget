@@ -22,6 +22,8 @@ module.exports = class Application
     @initBackbone()
     Winbits.isCrapBrowser = util.isCrapBrowser
 
+    @initCustomRules()
+
     if not checkout
       console.log ['WINBITS', window.Winbits]
       Winbits.$.extend config, Winbits.userConfig or {}
@@ -87,6 +89,14 @@ module.exports = class Application
         saveApiToken: {}
         storeVirtualCart: {}
         logout: {}
+        saveUtms: {}
+        getUtms: {}
         facebookStatus: {}
         facebookMe: {}
     )
+
+  initCustomRules: ()->
+    Winbits.$.validator.addMethod("zipCodeDoesNotExist", (value, element) ->
+      console.log ['element', element, 'value', value]
+      @optional(element) or value == -2
+    ,"Codigo Postal No Existe")

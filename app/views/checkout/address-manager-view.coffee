@@ -162,6 +162,7 @@ module.exports = class CheckoutSiteView extends View
     vendor.customSelect($form.find(".select"))
 
     @$el.find('form#shippingNewAddress').validate
+      ignore: ""
       groups:
         addressNumber: 'externalNumber internalNumber'
       errorPlacement: ($error, $element) ->
@@ -198,6 +199,7 @@ module.exports = class CheckoutSiteView extends View
           minlength: 5
           digits: true
         zipCodeInfo:
+          zipCodeDoesNotExist: true
           required: (e) ->
             $form = Winbits.$(e).closest 'form'
             $form.find('[name=location]').is(':hidden')

@@ -4,9 +4,11 @@ vendor = require 'lib/vendor'
 
 module.exports = ($)->
   find : (cp, element, itemSelected, callback) ->
+
     that = @
     unless cp.length is 5
       return
+
     util.ajaxRequest(
       url: config.apiUrl + "/users/locations/" + cp + ".json",
       dataType: "json"
@@ -14,6 +16,7 @@ module.exports = ($)->
         that.renderData element, data, itemSelected
         callback()  if typeof callback is "function"
     )
+
   renderData : ($element, data, itemSelected) ->
     $element.unwrap()
     $element.parent().find(".selectContent").remove()
@@ -24,6 +27,7 @@ module.exports = ($)->
     values = new Array()
     values.push "<option value=\"\">Colonia/Asentamiento:</option>"
     if data.response.length > 0
+      console.log 'ZipCode in DB'
       for response in data.response
         $option = ''
         if itemSelected and parseInt(itemSelected) is response.id
@@ -34,8 +38,10 @@ module.exports = ($)->
         values.push $option
       values.push "<option value=\"-1\">Otro...</option>"
     else
-      values.push "<option selected value=\"-1\">Otro...</option>"
-      $form.find('[name=location]').removeAttr('readonly').show()
+      console.log ('No exist zipCode en DB')
+      values.push "<option selected value=\"-2\">No Existe Codigo Postal</option>"
+
+
 
 #    if not itemSelected and data.response.length > 0
 #      response = data.response[0]

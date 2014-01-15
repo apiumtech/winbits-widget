@@ -65,7 +65,7 @@ module.exports = class ShippingAddressView extends View
   cancelEdit: (e)->
     e.preventDefault()
     @$(".shippingAddresses").show()
-    @$(".shippingNewAddress").hide()
+    util.justResetForm(@$(".shippingNewAddress").hide())
     @$(".shippingEditAddress").hide()
 
   addressSubmit: (e)->
@@ -152,6 +152,7 @@ module.exports = class ShippingAddressView extends View
         firstName:
           required: true
           minlength: 2
+          greaterThanZero: true
         lastName:
           required: true
           minlength: 2
@@ -177,6 +178,7 @@ module.exports = class ShippingAddressView extends View
           minlength: 5
           digits: true
         zipCodeInfo:
+          zipCodeDoesNotExist: true
           required: (e) ->
             $form = Winbits.$(e).closest 'form'
             $form.find('[name=location]').is(':hidden')
