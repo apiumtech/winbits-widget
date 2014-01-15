@@ -7,8 +7,7 @@ vendor = require 'lib/vendor'
 
 module.exports = class CartView extends View
   autoRender: yes
-  #className: 'home-page'
-  container: '.wb-cart-container'
+  container: '#wbi-cart-container'
   template: template
 
   render: ->

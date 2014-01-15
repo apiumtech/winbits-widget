@@ -39,7 +39,7 @@ ResetPasswordView = require "views/widget/reset-password-view"
 AlreadyExistsUserView = require "views/widget/already-exists-user-view"
 CompleteRegisterView = require "views/widget/complete-register-view"
 CompleteProfileRemainderView = require "views/widget/complete-profile-remainder-view"
-
+FailedCartItemsView = require "views/widget/failed-cart-items-view"
 
 module.exports = class HomeController extends ChaplinController
 
@@ -84,6 +84,7 @@ module.exports = class HomeController extends ChaplinController
     @alreadyExistUser = new AlreadyExistsUserView()
     @completeRegisterView = new CompleteRegisterView()
     @completeProfileRemainderView = new CompleteProfileRemainderView()
+    @failedCartItemsView = new FailedCartItemsView()
 
     @profile.on "change", ->
       that.profileView.render()
@@ -350,7 +351,7 @@ module.exports = class HomeController extends ChaplinController
         success: (data) ->
           if options.success
             options.success.call({}, [data.response])
-        error: (xhr, textStatus, errorThrown) ->
+        error: (xhr) ->
           error = JSON.parse(xhr.responseText)
           if options.error
             options.error.call({}, [error.response])
