@@ -85,12 +85,13 @@
                 console.log('Winbits: Logging out...');
                 Winbits.deleteKey('_wb_api_token');
                 Winbits.storeKey('_wb_vcart_token', '[]');
-                if (facebookLogout) {
-                  console.log('Winbits: Facebook logging out...');
-                  FB.logout(function(response) {
-                    console.log(['Facebook logout', response]);
-                  });
-                }
+                console.log('Wee do not log out facebook anymore!');
+//                if (facebookLogout) {
+//                  console.log('Winbits: Facebook logging out...');
+//                  FB.logout(function(response) {
+//                    console.log(['Facebook logout', response]);
+//                  });
+//                }
               },
               facebookStatus: function(success) {
                 console.log('About to call FB.getLoginStatus.');
