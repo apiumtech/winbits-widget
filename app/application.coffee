@@ -95,8 +95,13 @@ module.exports = class Application
         facebookMe: {}
     )
 
+   #add new method for validation
   initCustomRules: ()->
     Winbits.$.validator.addMethod("zipCodeDoesNotExist", (value, element) ->
-      console.log ['element', element, 'value', value]
-      @optional(element) or value == -2
+      $element = Winbits.$(element)
+      $zipCode = $element.closest('form').find('[name=zipCode]')
+      if $zipCode.val()
+        $element.children().length < 2
+      else
+        true
     ,"Codigo Postal No Existe")

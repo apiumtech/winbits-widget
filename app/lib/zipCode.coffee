@@ -27,19 +27,15 @@ module.exports = ($)->
     values = new Array()
     values.push "<option value=\"\">Colonia/Asentamiento:</option>"
     if data.response.length > 0
-      console.log 'ZipCode in DB'
       for response in data.response
-        $option = ''
+        $option = $("<option value='#{response.id}'>#{response.locationName}</value>")
         if itemSelected and parseInt(itemSelected) is response.id
-          $option = $("<option selected value='#{response.id}'>#{response.locationName}</value>")
-        else
-          $option = $("<option value='#{response.id}'>#{response.locationName}</value>")
+          $option.attr('selected', '')
         $option.data 'zip-code-info', response
         values.push $option
       values.push "<option value=\"-1\">Otro...</option>"
-    else
-      console.log ('No exist zipCode en DB')
-      values.push "<option selected value=\"-2\">No Existe Codigo Postal</option>"
+#    else
+#      values.push "<option selected value=\"-2\">No Existe Codigo Postal</option>"
 
 
 
@@ -56,3 +52,5 @@ module.exports = ($)->
       $selectedOption.attr('selected', '')
     vendor.customSelect($element)
     $element.parent().find('li[rel=' + $selectedOption.attr('value') + ']').click()
+
+    $form.valid()
