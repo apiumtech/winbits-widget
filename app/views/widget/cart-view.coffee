@@ -7,8 +7,7 @@ vendor = require 'lib/vendor'
 
 module.exports = class CartView extends View
   autoRender: yes
-  #className: 'home-page'
-  container: '.wb-cart-container'
+  container: '#wbi-cart-container'
   template: template
 
   render: ->
@@ -95,16 +94,9 @@ module.exports = class CartView extends View
 
     vendor.scrollpane ".scrollPanel", ".miCarritoDiv"
     vendor.dropMenu
-      obj: ".miCarritoDiv.wb-virtual-cart"
-      clase: ".dropMenu.wb-virtual-cart"
-      trigger: ".shopCarMin.wb-virtual-cart"
-      other: ".miCuentaDiv"
-      carro: true
-
-    vendor.dropMenu
-      obj: ".miCarritoDiv.wb-user-cart"
-      clase: ".dropMenu.wb-user-cart"
-      trigger: ".shopCarMin.wb-user-cart"
+      obj: ".miCarritoDiv"
+      clase: ".dropMenu"
+      trigger: ".shopCarMin"
       other: ".miCuentaDiv"
       carro: true
 
