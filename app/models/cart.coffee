@@ -40,17 +40,13 @@ module.exports = class Cart extends ChaplinModel
         "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
-        that.publishEvent 'cartUpdated', data.response
         util.storeKey config.vcartTokenName, '[]'
         that.set that.completeCartModel(data.response)
         Winbits.rpc.storeVirtualCart('[]')
-        that.publishEvent 'doCheckout' if mediator.flags.autoCheckout
+        that.publishEvent 'cartUpdated', data.response, true
 
       error: (xhr) ->
         util.showAjaxError(xhr.responseText)
-
-      complete: ->
-        mediator.flags.autoCheckout = false
 
   updateUserCartDetail : (cartItem, $cartPanel) ->
     formData =

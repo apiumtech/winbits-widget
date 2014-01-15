@@ -3,6 +3,7 @@ View = require 'views/base/view'
 FailedCartItems = require "models/failed-cart-items"
 config = require 'config'
 util = require 'lib/util'
+mediator = require 'chaplin/mediator'
 
 module.exports = class FailedCartItemsView extends View
   autoRender: yes
@@ -31,6 +32,7 @@ module.exports = class FailedCartItemsView extends View
 
   closeModal: ->
     @modal.modal('hide')
+    @publishEvent 'doCheckout' if mediator.flags.autoCheckout
 
   removeCartItem: (e) ->
     e.preventDefault()
