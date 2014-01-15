@@ -1,0 +1,54 @@
+<form class="bodyModal" accept-charset="utf-8" action="#" method="post">
+  <div class="mainModal completaRegistro">
+    <div class="contentModal preCheckout">
+      <h2>Estos productos se encuentran actualmente en tu carrito, se te indica la cantidad de productos solicitados y la cantidad de productos que se te pueden surtir. El máximo a entregar son 5 por producto por cliente.</h2>
+      <div class="dataTable">
+        <table>
+          <thead>
+          <tr>
+            <th class="preCheckout-c1">Producto</th>
+            <th class="preCheckout-c2">Solicitado(s)</th>
+            <th class="preCheckout-c3">Ya entregado(s)</th>
+            <th class="preCheckout-c4">A entregar</th>
+          </tr>
+          </thead>
+          <tbody>
+          {{#each failedCartItems}}
+          <tr>
+            <td>
+              {{#with skuProfile}}
+              <div class="preCheckout-product" data-id="{{id}}">
+                <img src="{{defaultThumbnail item.thumbnail}}" class="preCheckout-img" alt="{{item.name}}">
+                <p class="preCheckout-item">{{item.name}}</p>
+                <p class="preCheckout-carac">{{mainAttribute.name}}: {{mainAttribute.label}}</p>
+                {{#each attributes}}
+                <p class="preCheckout-carac">{{name}}: {{label}}</p>
+                {{/each}}
+                <img src="{{vertical.logo}}" alt="{{vertical.name}}" class="preCheckout-vertical">
+              </div>
+              {{/with}}
+            </td>
+            {{#compare max 0}}
+              <td colspan="3">
+                <div class="productUnavailable">
+                  <p>Lo sentimos</p>
+                  <p>Este producto ya no esta disponible</p>
+                </div>
+              </td>
+            {{else}}
+              <td class="preCheckout-c2">3</td>
+              <td class="preCheckout-c3">{{max}}</td>
+              <td class="preCheckout-c4"><input type="submit" value="Quitar" class="icon closeButton wb-remove-cart-item-btn"></td>
+            {{/compare}}
+          </tr>
+          {{/each}}
+          </tbody>
+        </table>
+      </div>
+      <div class="preCheckout-submit">
+        <a href="#" class="btn wb-empty-cart-btn">Vaciar carrito</a>
+        <a href="#" class="btn btnCart wb-continue-btn">Continuar</a>
+      </div>
+    </div>
+  </div>
+</form>

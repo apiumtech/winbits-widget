@@ -186,7 +186,10 @@ module.exports = class Cart extends ChaplinModel
       headers: headers
       success: (data) ->
         that.set that.completeCartModel data.response
-        if $cartPanel
+        if data.response.failedCartDetails
+          console.log ['THERE FAILED CART DETAILS', data.response.failedCartDetails]
+          that.publishEvent 'cartItemsFailed', data.response.failedCartDetails
+        else if $cartPanel
           $cartPanel.slideDown()
         options.success.apply(cartItems, arguments) if Winbits.$.isFunction options.success
       error: (xhr, textStatus, errorThrown) ->
