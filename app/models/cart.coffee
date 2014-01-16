@@ -59,7 +59,6 @@ module.exports = class Cart extends ChaplinModel
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify(formData)
-#      context: { cartItem: cartItem, $cartPanel: $cartPanel, model: @ }
       headers:
         "Accept-Language": "es"
         "WB-Api-Token": util.retrieveKey(config.apiTokenName)
@@ -73,6 +72,7 @@ module.exports = class Cart extends ChaplinModel
       error: (xhr) ->
         util.showAjaxError(xhr.responseText)
         cartItem.error.apply(cartItem, arguments) if Winbits.$.isFunction cartItem.error
+        that.publishEvent 'renderCart'
 
       complete: ->
         util.hideAjaxIndicator()
@@ -101,9 +101,9 @@ module.exports = class Cart extends ChaplinModel
         cartItem.success.apply(cartItem, arguments) if Winbits.$.isFunction cartItem.success
 
       error: (xhr) ->
-        console.log ['PROBLEMS', xhr.responseText]
         util.showAjaxError(xhr.responseText)
         cartItem.error.apply(cartItem, arguments) if Winbits.$.isFunction cartItem.error
+        that.publishEvent 'renderCart'
 
       complete: ->
         util.hideAjaxIndicator()

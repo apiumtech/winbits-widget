@@ -16,6 +16,7 @@ module.exports = class CartView extends View
   initialize: () ->
     super
     @subscribeEvent 'restoreCart', @restoreCart
+    @subscribeEvent 'renderCart', @render
 
   restoreCart: ()->
     console.log ["CartView#restoreCart"]
