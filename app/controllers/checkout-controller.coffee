@@ -59,19 +59,23 @@ module.exports = class CheckoutController extends ChaplinController
 
     # @orderDetailView.render()
     @paymentView.render()
-    @payments.on "change", ->
-      console.log "on change payment"
-      that.paymentView.render()
+
     console.log @order_data
     @orderDetails.on "change", ->
       console.log "here order details changeed"
       that.orderDetailView.render()
+
     @orderDetails.set @orderDetails.completeOrderModel @order_data, parseFloat(Winbits.checkoutConfig.bitsBalance)
     @cards.set(methods: @order_data.paymentMethods)
     @cardsView = new CardsView(model: @cards)
     @cardsView.amexSupported = amexSupported
     @cardsView.cybersourceSupported = cybersourceSupported
     @paymentView.cardsView = @cardsView
+
+    @payments.on "change", ->
+      console.log "on change payment"
+      that.paymentView.render()
+      that.cardsView.render()
 
     @cards.on 'change', ->
       console.log "Cards model changed"
