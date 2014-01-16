@@ -132,5 +132,5 @@ module.exports = class Application
     hash = location.hash
     hashParts = hash.split('-')
     if hashParts[0] is '#err' and hashParts[1] is 'AFER027'
-        util.showError('No se pudo confirmar al usuario, por favor intente en otro momento')
         Winbits.$('a#wbi-dummy-link').get(0).click()
+        util.showError('No se pudo confirmar al usuario, por favor intente en otro momento')
