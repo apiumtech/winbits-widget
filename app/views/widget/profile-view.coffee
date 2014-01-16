@@ -102,9 +102,15 @@ module.exports = class ProfileView extends View
           dateISO: true
           validDate: true
         zipCodeInfo:
+          zipCodeDoesNotExist: true
           required: (e) ->
-            $form = Winbits.$(e).closest 'form'
-            $form.find('[name=location]').is(':hidden')
+            $zipCodeInfo = Winbits.$(e)
+            $form = $zipCodeInfo.closest 'form'
+            if $form.find('[name=location]').is(':hidden')
+              $zipCode = $form.find('[name=zipCode]')
+              not $zipCode.val() or (not $zipCodeInfo.val() and $zipCodeInfo.children().length > 1)
+            else
+              false
         location:
           required: '[name=location]:visible'
           minlength: 2

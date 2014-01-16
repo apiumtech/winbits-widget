@@ -164,6 +164,7 @@ module.exports = class CheckoutSiteView extends View
 
     $editForms.add($form).each ->
       Winbits.$(@).validate
+        debug: true
         groups:
           addressNumber: 'externalNumber internalNumber'
         errorPlacement: ($error, $element) ->

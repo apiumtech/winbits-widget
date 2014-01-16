@@ -153,7 +153,6 @@ module.exports = class ShippingAddressView extends View
           firstName:
             required: true
             minlength: 2
-            greaterThanZero: true
           lastName:
             required: true
             minlength: 2
