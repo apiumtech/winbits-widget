@@ -366,6 +366,8 @@ module.exports = class ProfileView extends View
     $currentTarget = @$(event.currentTarget)
     $slt = $currentTarget.parent().find(".select")
     zipCode(Winbits.$).find $currentTarget.val(), $slt
+    if not $currentTarget.val()
+      $currentTarget.closest('form').valid()
 
   changeZipCodeInfo: (e) ->
     $ = Winbits.$
@@ -374,21 +376,20 @@ module.exports = class ProfileView extends View
     $form = $select.closest('form')
     $fields = $form.find('[name=location], [name=county], [name=state]')
 
-    if !zipCodeInfoId
+    if not zipCodeInfoId
       $fields.show().val('').attr('readonly', '').filter('[name=location]').hide()
     else if zipCodeInfoId is '-1'
       $fields.show().filter('[name=location]').show()
       $fields.show().removeAttr('readonly')
     else
       $fields.show().attr('readonly', '').filter('[name=location]').hide()
-
     $option = $select.children('[value=' + zipCodeInfoId + ']')
     zipCodeInfo = $option.data 'zip-code-info'
-
     if zipCodeInfo
       $form.find('input.zipCode').val zipCodeInfo.zipCode
       $fields.filter('[name=county]').val zipCodeInfo.county
       $fields.filter('[name=state]').val zipCodeInfo.state
+    $form.valid()
 
   onProfileUpdated: (profile) ->
     @publishEvent "setProfile", profile.profile

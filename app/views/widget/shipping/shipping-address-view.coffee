@@ -66,7 +66,7 @@ module.exports = class ShippingAddressView extends View
     e.preventDefault()
     @$(".shippingAddresses").show()
     util.justResetForm(@$(".shippingNewAddress").hide())
-    @$(".shippingEditAddress").hide()
+    util.justResetForm(@$(".shippingEditAddress").hide())
 
   addressSubmit: (e)->
     e.preventDefault()
@@ -209,7 +209,7 @@ module.exports = class ShippingAddressView extends View
     zipCodeInfoId = $select.val()
     $form = $select.closest('form')
     $fields = $form.find('[name=location], [name=county], [name=state]')
-    if !zipCodeInfoId
+    if not zipCodeInfoId
       $fields.show().val('').attr('readonly', '').filter('[name=location]').hide()
     else if zipCodeInfoId is '-1'
       $fields.show().removeAttr('readonly')
@@ -221,3 +221,4 @@ module.exports = class ShippingAddressView extends View
       $form.find('input.zipCode').val zipCodeInfo.zipCode
       $fields.filter('[name=county]').val zipCodeInfo.county
       $fields.filter('[name=state]').val zipCodeInfo.state
+    $form.valid()

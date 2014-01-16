@@ -64,9 +64,15 @@ module.exports = class RegisterView extends View
           dateISO: true
           validDate: true
         zipCodeInfo:
+          zipCodeDoesNotExist: true
           required: (e) ->
-            $form = Winbits.$(e).closest 'form'
-            $form.find('[name=location]').is(':hidden')
+            $zipCodeInfo = Winbits.$(e)
+            $form = $zipCodeInfo.closest 'form'
+            if $form.find('[name=location]').is(':hidden')
+              $zipCode = $form.find('[name=zipCode]')
+              not $zipCode.val() or (not $zipCodeInfo.val() and $zipCodeInfo.children().length > 1)
+            else
+              false
         location:
           required: '[name=location]:visible'
           minlength: 2
@@ -208,6 +214,8 @@ module.exports = class RegisterView extends View
     $currentTarget = @$(event.currentTarget)
     $slt = $currentTarget.parent().find(".select")
     zipCode(Winbits.$).find $currentTarget.val(), $slt
+    if not $currentTarget.val()
+      $currentTarget.closest('form').valid()
 
   changeZipCodeInfo: (e) ->
     $ = Winbits.$
@@ -215,7 +223,7 @@ module.exports = class RegisterView extends View
     zipCodeInfoId = $select.val()
     $form = $select.closest('form')
     $fields = $form.find('[name=location], [name=county], [name=state]')
-    if !zipCodeInfoId
+    if not zipCodeInfoId
       $fields.show().val('').attr('readonly', '').filter('[name=location]').hide()
     else if zipCodeInfoId is '-1'
       $fields.show().removeAttr('readonly')
@@ -227,3 +235,4 @@ module.exports = class RegisterView extends View
       $form.find('input.zipCode').val zipCodeInfo.zipCode
       $fields.filter('[name=county]').val zipCodeInfo.county
       $fields.filter('[name=state]').val zipCodeInfo.state
+    $form.valid()
