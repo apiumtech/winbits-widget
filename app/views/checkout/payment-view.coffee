@@ -68,8 +68,8 @@ module.exports = class PaymentView extends View
           else
             cardErrorMessage = payment.paymentCapture.mensaje or payment.paymentCapture.message
             util.showError(cardErrorMessage or 'Tu tarjeta fue rechazada por el banco emisor. Por favor revisa la información y vuelve a intentarlo')
-        error: (xhr) ->
-          util.showAjaxError('El servicio de pagos no se encuentra disponible. Por favor intántalo más tarde')
+        error: () ->
+          util.showError('El servicio de pagos no se encuentra disponible. Por favor intántalo más tarde')
         complete: ->
           util.hideAjaxIndicator()
       )
@@ -134,8 +134,8 @@ module.exports = class PaymentView extends View
         else
           util.showError('Error al procesar el pago, por favor intentalo más tarde')
           util.hideAjaxIndicator()
-      error: (xhr) ->
-        util.showAjaxError('El servicio de pagos no se encuentra disponible. Por favor intántalo más tarde')
+      error: () ->
+        util.showError('El servicio de pagos no se encuentra disponible. Por favor intántalo más tarde')
         util.hideAjaxIndicator()
     )
 
