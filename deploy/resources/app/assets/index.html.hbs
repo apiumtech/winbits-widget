@@ -15,27 +15,22 @@
   <link rel="author" href="humans.txt">
   <title>Looq</title>
   <!--[if lt IE 9]>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv-printshiv.js"></script>
   <script>
-    document.createElement('header');
-    document.createElement('nav');
-    document.createElement('section');
-    document.createElement('article');
-    document.createElement('aside');
-    document.createElement('footer');
-    document.createElement('hgroup');
+    "'article aside footer header nav section time'".replace(/\w+/g,function(n){document.createElement(n)});
   </script>
   <![endif]-->
   <script type="text/javascript" src="{{baseUrl}}/winbits.js" data-vertical="2"></script>
 </head>
 <body>
-<header>
-  <div id="winbits-widget"></div>
-</header>
-<main class="widgetWinbitsMain">
-  <div class="wrapper">
-    <img src="http://media.winbits.com.s3.amazonaws.com/test/looq_home_980.jpg" alt="">
-  </div>
-</main>
+  <header>
+    <div id="winbits-widget"></div>
+  </header>
+  <main class="widgetWinbitsMain">
+    <div class="wrapper">
+      <img src="http://media.winbits.com.s3.amazonaws.com/test/looq_home_980.jpg" alt="">
+    </div>
+  </main>
 </body>
 </html>
 

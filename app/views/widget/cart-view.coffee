@@ -7,8 +7,7 @@ vendor = require 'lib/vendor'
 
 module.exports = class CartView extends View
   autoRender: yes
-  #className: 'home-page'
-  container: '.wb-cart-container'
+  container: '#wbi-cart-container'
   template: template
 
   render: ->
@@ -17,7 +16,6 @@ module.exports = class CartView extends View
   initialize: () ->
     super
     @subscribeEvent 'restoreCart', @restoreCart
-#    @subscribeEvent 'addToCart', @addToCart
 
   restoreCart: ()->
     console.log ["CartView#restoreCart"]
@@ -99,6 +97,7 @@ module.exports = class CartView extends View
       clase: ".dropMenu"
       trigger: ".shopCarMin"
       other: ".miCuentaDiv"
+
       carro: true
 
     @$el.find('.wb-continue-shopping-link').click @closeCart

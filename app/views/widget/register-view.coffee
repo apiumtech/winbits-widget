@@ -77,9 +77,9 @@ module.exports = class RegisterView extends View
           required: '[name=location]:visible'
           minlength: 2
 
-    $select = Winbits.$('.select')
-    $zipCode = Winbits.$('.zipCode')
-    $zipCodeExtra = Winbits.$('.zipCodeInfoExtra')
+    $select = @$el.find('.select')
+    $zipCode = @$el.find('.zipCode')
+    $zipCodeExtra = @$el.find('.zipCodeInfoExtra')
     zipCode(Winbits.$).find $zipCode.val(), $select, $zipCodeExtra.val()
     unless $zipCode.val().length < 5
       vendor.customSelect($select)
