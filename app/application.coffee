@@ -24,7 +24,6 @@ module.exports = class Application
     Winbits.isCrapBrowser = util.isCrapBrowser
 
     if not checkout
-      console.log ['WINBITS', window.Winbits]
       Winbits.$.extend config, Winbits.userConfig or {}
       @initHomeControllers()
     else
@@ -74,7 +73,7 @@ module.exports = class Application
 
   initBackbone: ->
     # Enable support for PUT & DELETE requests
-    Backbone.emulateHTTP = yes
+#    Backbone.emulateHTTP = yes
     # Proxy Backbone's ajax request function to use the easyXDM rpc on IE8-9
     # This enables Backbone's fetch to use the RPC
     Backbone.ajax = () ->
