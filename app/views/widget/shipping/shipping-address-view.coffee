@@ -65,8 +65,8 @@ module.exports = class ShippingAddressView extends View
   cancelEdit: (e)->
     e.preventDefault()
     @$(".shippingAddresses").show()
-    @$(".shippingNewAddress").hide()
-    @$(".shippingEditAddress").hide()
+    util.justResetForm(@$(".shippingNewAddress").hide())
+    util.justResetForm(@$(".shippingEditAddress").hide())
 
   addressSubmit: (e)->
     e.preventDefault()
@@ -140,55 +140,61 @@ module.exports = class ShippingAddressView extends View
     $form = @$el.find('form#shippingNewAddress')
     vendor.customSelect($form.find(".select"))
 
-    $editForms.add($form).validate
-      groups:
-        addressNumber: 'externalNumber internalNumber'
-      errorPlacement: ($error, $element) ->
-        if $element.attr("name") in ["externalNumber", "internalNumber", 'zipCodeInfo']
-          $error.appendTo $element.parent()
-        else
-          $error.insertAfter $element
-      rules:
-        firstName:
-          required: true
-          minlength: 2
-        lastName:
-          required: true
-          minlength: 2
-        phone:
-          required: true
-          minlength: 7
-          digits: true
-        street:
-          required: true
-          minlength: 2
-        externalNumber:
-          required: true
-        internalNumber:
-          minlength: 1
-        betweenStreets:
-          required: true
-          minlength: 4
-        indications:
-          required: true
-          minlength: 2
-        zipCode:
-          required: true
-          minlength: 5
-          digits: true
-        zipCodeInfo:
-          required: (e) ->
-            $form = Winbits.$(e).closest 'form'
-            $form.find('[name=location]').is(':hidden')
-        location:
-          required: '[name=location]:visible'
-          minlength: 2
-        county:
-          required: '[name=location]:visible'
-          minlength: 2
-        state:
-          required: '[name=location]:visible'
-          minlength: 2
+    $editForms.add($form).each ->
+      Winbits.$(@).validate
+        groups:
+          addressNumber: 'externalNumber internalNumber'
+        errorPlacement: ($error, $element) ->
+          if $element.attr("name") in ["externalNumber", "internalNumber", 'zipCodeInfo']
+            $error.appendTo $element.parent()
+          else
+            $error.insertAfter $element
+        rules:
+          firstName:
+            required: true
+            minlength: 2
+          lastName:
+            required: true
+            minlength: 2
+          phone:
+            required: true
+            minlength: 7
+            digits: true
+          street:
+            required: true
+            minlength: 2
+          externalNumber:
+            required: true
+          internalNumber:
+            minlength: 1
+          betweenStreets:
+            required: true
+            minlength: 4
+          indications:
+            required: true
+            minlength: 2
+          zipCode:
+            required: true
+            minlength: 5
+            digits: true
+          zipCodeInfo:
+            required: (e) ->
+              $zipCodeInfo = Winbits.$(e)
+              $form = $zipCodeInfo.closest 'form'
+              if $form.find('[name=location]').is(':hidden')
+                $zipCode = $form.find('[name=zipCode]')
+                not ($zipCode.val() and not $zipCodeInfo.val() and $zipCodeInfo.children().length > 1)
+              else
+                true
+          location:
+            required: '[name=location]:visible'
+            minlength: 2
+          county:
+            required: '[name=location]:visible'
+            minlength: 2
+          state:
+            required: '[name=location]:visible'
+            minlength: 2
 
   findZipcode: (event)->
     event.preventDefault()
@@ -203,7 +209,7 @@ module.exports = class ShippingAddressView extends View
     zipCodeInfoId = $select.val()
     $form = $select.closest('form')
     $fields = $form.find('[name=location], [name=county], [name=state]')
-    if !zipCodeInfoId
+    if not zipCodeInfoId
       $fields.show().val('').attr('readonly', '').filter('[name=location]').hide()
     else if zipCodeInfoId is '-1'
       $fields.show().removeAttr('readonly')
@@ -215,3 +221,4 @@ module.exports = class ShippingAddressView extends View
       $form.find('input.zipCode').val zipCodeInfo.zipCode
       $fields.filter('[name=county]').val zipCodeInfo.county
       $fields.filter('[name=state]').val zipCodeInfo.state
+    $form.valid()

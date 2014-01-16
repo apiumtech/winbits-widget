@@ -360,12 +360,12 @@ module.exports =
       creditcard: "Escribe un número de tarjeta válido."
       equalTo: "Escribe el mismo valor de nuevo."
       accept: "Escribe un valor con una extensión aceptada."
-      maxlength: jQuery.validator.format("No escribas más de {0} caracteres.")
-      minlength: jQuery.validator.format("No escribas menos de {0} caracteres.")
-      rangelength: jQuery.validator.format("Escribe un valor entre {0} y {1} caracteres.")
-      range: jQuery.validator.format("Escribe un valor entre {0} y {1}.")
-      max: jQuery.validator.format("Escribe un valor menor o igual a {0}.")
-      min: jQuery.validator.format("Escribe un valor mayor o igual a {0}.")
+      maxlength: $.validator.format("No escribas más de {0} caracteres.")
+      minlength: $.validator.format("No escribas menos de {0} caracteres.")
+      rangelength: $.validator.format("Escribe un valor entre {0} y {1} caracteres.")
+      range: $.validator.format("Escribe un valor entre {0} y {1}.")
+      max: $.validator.format("Escribe un valor menor o igual a {0}.")
+      min: $.validator.format("Escribe un valor mayor o igual a {0}.")
 
     if $(obj.container).length
       $(obj.form).validate

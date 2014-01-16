@@ -23,8 +23,9 @@ module.exports = class Application
     @initMomentTimeZone
     Winbits.isCrapBrowser = util.isCrapBrowser
 
+    @initCustomRules()
+
     if not checkout
-      console.log ['WINBITS', window.Winbits]
       Winbits.$.extend config, Winbits.userConfig or {}
       @initHomeControllers()
     else
@@ -74,7 +75,7 @@ module.exports = class Application
 
   initBackbone: ->
     # Enable support for PUT & DELETE requests
-    Backbone.emulateHTTP = yes
+#    Backbone.emulateHTTP = yes
     # Proxy Backbone's ajax request function to use the easyXDM rpc on IE8-9
     # This enables Backbone's fetch to use the RPC
     Backbone.ajax = () ->
@@ -88,6 +89,8 @@ module.exports = class Application
         saveApiToken: {}
         storeVirtualCart: {}
         logout: {}
+        saveUtms: {}
+        getUtms: {}
         facebookStatus: {}
         facebookMe: {}
         saveUtms: {}
@@ -132,5 +135,13 @@ module.exports = class Application
     hash = location.hash
     hashParts = hash.split('-')
     if hashParts[0] is '#err' and hashParts[1] is 'AFER027'
-        Winbits.$('a#wbi-dummy-link').get(0).click()
-        util.showError('No se pudo confirmar al usuario, por favor intente en otro momento')
+      Winbits.$('a#wbi-dummy-link').get(0).click()
+      util.showError('No se pudo confirmar al usuario, por favor intente en otro momento')
+
+   #add new method for validation
+  initCustomRules: ()->
+    Winbits.$.validator.addMethod("zipCodeDoesNotExist", (value, element) ->
+      $element = Winbits.$(element)
+      $zipCode = $element.closest('form').find('[name=zipCode]')
+      not ($zipCode.val() and $element.children().length == 1)
+    ,"Codigo Postal No Existe")
