@@ -6,11 +6,9 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=980" />
   <title>Winbits</title>
-  {{#if remoteDebug}}
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/easyXDM/2.4.18.25/easyXDM.debug.js"></script>
-  {{else}}
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/easyXDM/2.4.18.25/easyXDM.js"></script>
-  {{/if}}
+  
   <script type="text/javascript">
     easyXDM.DomHelper.requiresJSON("https://cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js");
   </script>
@@ -85,13 +83,12 @@
                 console.log('Winbits: Logging out...');
                 Winbits.deleteKey('_wb_api_token');
                 Winbits.storeKey('_wb_vcart_token', '[]');
-                console.log('Wee do not log out facebook anymore!');
-//                if (facebookLogout) {
-//                  console.log('Winbits: Facebook logging out...');
-//                  FB.logout(function(response) {
-//                    console.log(['Facebook logout', response]);
-//                  });
-//                }
+                if (facebookLogout) {
+                  console.log('Winbits: Facebook logging out...');
+                  FB.logout(function(response) {
+                    console.log(['Facebook logout', response]);
+                  });
+                }
               },
               facebookStatus: function(success) {
                 console.log('About to call FB.getLoginStatus.');
@@ -106,16 +103,6 @@
                   console.log(['Facebook me response', response]);
                   success(response);
                 });
-              },
-              saveUtms: function(utmParams, successFn) {
-                console.log(["UTMS provider", utmParams])
-                Winbits.storeKey('_wb_utm_params', JSON.stringify(utmParams)) 
-              },
-              getUtms: function(successFn, errorFn) {
-                console.log(["get UTMS"])
-                return {
-                    'utm_params': Winbits.retrieveKey('_wb_utm_params') 
-                };
               }
             },
             remote: {
@@ -125,14 +112,12 @@
               storeVirtualCart:{},
               logout:{},
               facebookStatus:{} ,
-              facebookMe:{},
-              saveUtms: {},
-              getUtms: {}
+              facebookMe:{}
             }
           });
 
       window.fbAsyncInit = function () {
-        FB.init({appId: '{{facebookClientId}}', status: true, cookie: true, xfbml: true, oauth  : true });
+        FB.init({appId: '486640894740634', status: true, cookie: true, xfbml: true, oauth  : true });
       };
 
       var e = document.createElement('script');

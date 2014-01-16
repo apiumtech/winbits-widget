@@ -32,11 +32,15 @@ module.exports =
     $form.find(".errors").html ""
     $form.valid()
 
-  resetForm: (form) ->
+  justResetForm: (form) ->
     $form = Winbits.$(form)
     $form.validate().resetForm()
     $form.get(0).reset()
     $form.find(".errors").html ""
+
+  resetForm: (form) ->
+    $form = Winbits.$(form)
+    @justResetForm($form)
     $form.valid()
 
   focusForm:  (form) ->
@@ -287,4 +291,5 @@ module.exports =
       )
     else
       console.info ('No IE transaction')
+      console.log [url,options]
       Winbits.$.ajax(url,options)

@@ -37,7 +37,7 @@ module.exports = class CheckoutSiteView extends View
     if answer
       util.showAjaxIndicator('Eliminando dirección de envío...')
       @model.sync 'delete', @model,
-        url: config.apiUrl + "/affiliation/shipping-addresses/" + id + '.json',
+        url: config.apiUrl + "/users/shipping-addresses/" + id + '.json',
         error: ->
           console.log "error",
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
@@ -58,13 +58,16 @@ module.exports = class CheckoutSiteView extends View
 
   addressContinuar: (e)->
     $addresSelected = @$(".shippingSelected")
-    id = $addresSelected.attr("id").split("-")[1]
-    if id
-      mediator.post_checkout.shippingAddress = id
-      @publishEvent "showStep", ".checkoutPaymentContainer"
-      @$("#choosen-address-" + mediator.post_checkout.shippingAddress).show()
+    if $addresSelected.attr("id") != undefined
+      id = $addresSelected.attr("id").split("-")[1]
+      if id
+        mediator.post_checkout.shippingAddress = id
+        @publishEvent "showStep", ".checkoutPaymentContainer"
+        @$("#choosen-address-" + mediator.post_checkout.shippingAddress).show()
+      else
+        util.showError('Selecciona una dirección de envío para continuar')
     else
-      util.showError('Selecciona una dirección de envío para continuar')
+      util.showError('Agrega una dirección de envío para continuar')
 
 
   editAddress: (e)->
@@ -132,7 +135,7 @@ module.exports = class CheckoutSiteView extends View
       submitUpdate = $form.find('.btnUpdate').prop('disabled', true)
       @model.sync 'update', @model,
         context: {$submitUpdate: submitUpdate}
-        url: config.apiUrl + "/affiliation/shipping-addresses/" + formData.id + '.json',
+        url: config.apiUrl + "/users/shipping-addresses/" + formData.id + '.json',
         error: ->
           console.log "error",
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
@@ -146,7 +149,8 @@ module.exports = class CheckoutSiteView extends View
     super
     console.log "AddressManagerView#attach"
     that = @
-    @$("form.shippingEditAddress").each ->
+    $editForms = @$("form.shippingEditAddress")
+    $editForms.each ->
       $form = that.$(this)
       $select = $form.find('.select')
       $zipCode = $form.find('.zipCode')
@@ -155,58 +159,66 @@ module.exports = class CheckoutSiteView extends View
       unless $zipCode.val().length < 5
         vendor.customSelect($select)
 
-    $form = @$el.find('form.shippingNewAddress')
+    $form = @$el.find('form#shippingNewAddress')
     vendor.customSelect($form.find(".select"))
 
-    @$el.find('form#shippingNewAddress').validate
-      groups:
-        addressNumber: 'externalNumber internalNumber'
-      errorPlacement: ($error, $element) ->
-        if $element.attr("name") is "externalNumber" or $element.attr("name") is "internalNumber"
-          $error.appendTo $element.parent()
-        else
-          $error.insertAfter $element
-      rules:
-        firstName:
-          required: true
-          minlength: 2
-        lastName:
-          required: true
-          minlength: 2
-        phone:
-          required: true
-          minlength: 7
-          digits: true
-        street:
-          required: true
-          minlength: 2
-        externalNumber:
-          required: true
-        internalNumber:
-          minlength: 1
-        betweenStreets:
-          required: true
-          minlength: 4
-        indications:
-          required: true
-          minlength: 2
-        zipCode:
-          required: true
-          minlength: 5
-          digits: true
-        zipCodeInfo:
-          required: (e) ->
-            $form = Winbits.$(e).closest 'form'
-            $form.find('[name=location]').is(':hidden')
-        location:
-          required: '[name=location]:visible'
-          minlength: 2
-        county:
-          required: '[name=location]:visible'
-          minlength: 2
-        state:
-          required: '[name=location]:visible'
-          minlength: 2
+    $editForms.add($form).each ->
+      Winbits.$(@).validate
+        debug: true
+        groups:
+          addressNumber: 'externalNumber internalNumber'
+        errorPlacement: ($error, $element) ->
+          if $element.attr("name") in ["externalNumber", "internalNumber", 'zipCodeInfo']
+            $error.appendTo $element.parent()
+          else
+            $error.insertAfter $element
+        rules:
+          firstName:
+            required: true
+            minlength: 2
+          lastName:
+            required: true
+            minlength: 2
+          phone:
+            required: true
+            minlength: 7
+            digits: true
+          street:
+            required: true
+            minlength: 2
+          externalNumber:
+            required: true
+          internalNumber:
+            minlength: 1
+          betweenStreets:
+            required: true
+            minlength: 4
+          indications:
+            required: true
+            minlength: 2
+          zipCode:
+            required: true
+            minlength: 5
+            digits: true
+          zipCodeInfo:
+            zipCodeDoesNotExist: true
+            required: (e) ->
+              $zipCodeInfo = Winbits.$(e)
+              $form = $zipCodeInfo.closest 'form'
+              if $form.find('[name=location]').is(':hidden')
+                $zipCode = $form.find('[name=zipCode]')
+                not $zipCode.val() or (not $zipCodeInfo.val() and $zipCodeInfo.children().length > 1)
+              else
+                false
+          location:
+            required: '[name=location]:visible'
+            minlength: 2
+          county:
+            required: '[name=location]:visible'
+            minlength: 2
+          state:
+            required: '[name=location]:visible'
+            minlength: 2
 
     $shippingAddresses = @$el.find('li.wb-shipping-address')
     $shippingAddresses.first().addClass('shippingSelected') if $shippingAddresses.filter('.shippingSelected').length is 0
@@ -217,6 +229,8 @@ module.exports = class CheckoutSiteView extends View
     $currentTarget = @$(event.currentTarget)
     $slt = $currentTarget.parent().find(".select")
     zipCode(Winbits.$).find $currentTarget.val(), $slt
+    if not $currentTarget.val()
+      $currentTarget.closest('form').valid()
 
   changeZipCodeInfo: (e) ->
     $ = Winbits.$
@@ -224,7 +238,7 @@ module.exports = class CheckoutSiteView extends View
     zipCodeInfoId = $select.val()
     $form = $select.closest('form')
     $fields = $form.find('[name=location], [name=county], [name=state]')
-    if !zipCodeInfoId
+    if not zipCodeInfoId
       $fields.show().val('').attr('readonly', '').filter('[name=location]').hide()
     else if zipCodeInfoId is '-1'
       $fields.show().removeAttr('readonly')
@@ -236,3 +250,4 @@ module.exports = class CheckoutSiteView extends View
       $form.find('input.zipCode').val zipCodeInfo.zipCode
       $fields.filter('[name=county]').val zipCodeInfo.county
       $fields.filter('[name=state]').val zipCodeInfo.state
+    $form.valid()

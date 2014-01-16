@@ -5,7 +5,7 @@ module.exports = class OrderHistory extends ChaplinModel
 
   initialize: (attributes, option) ->
     super
-    @url = config.apiUrl + "/affiliation/orders.json"
+    @url = config.apiUrl + "/users/orders.json"
     @subscribeEvent 'showOrdersHistory', @getHistorical
 
   parse: (response) ->
@@ -17,7 +17,7 @@ module.exports = class OrderHistory extends ChaplinModel
 
   getHistorical: (formData) ->
     console.log ['formdata', formData]
-    url = config.apiUrl + "/affiliation/orders.json?"
+    url = config.apiUrl + "/users/orders.json?"
     status = ""
     sort = ""
     if (formData?)

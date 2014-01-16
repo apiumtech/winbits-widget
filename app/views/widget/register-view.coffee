@@ -64,16 +64,22 @@ module.exports = class RegisterView extends View
           dateISO: true
           validDate: true
         zipCodeInfo:
+          zipCodeDoesNotExist: true
           required: (e) ->
-            $form = Winbits.$(e).closest 'form'
-            $form.find('[name=location]').is(':hidden')
+            $zipCodeInfo = Winbits.$(e)
+            $form = $zipCodeInfo.closest 'form'
+            if $form.find('[name=location]').is(':hidden')
+              $zipCode = $form.find('[name=zipCode]')
+              not $zipCode.val() or (not $zipCodeInfo.val() and $zipCodeInfo.children().length > 1)
+            else
+              false
         location:
           required: '[name=location]:visible'
           minlength: 2
 
-    $select = Winbits.$('.select')
-    $zipCode = Winbits.$('.zipCode')
-    $zipCodeExtra = Winbits.$('.zipCodeInfoExtra')
+    $select = @$el.find('.select')
+    $zipCode = @$el.find('.zipCode')
+    $zipCodeExtra = @$el.find('.zipCodeInfoExtra')
     zipCode(Winbits.$).find $zipCode.val(), $select, $zipCodeExtra.val()
     unless $zipCode.val().length < 5
       vendor.customSelect($select)
@@ -89,35 +95,35 @@ module.exports = class RegisterView extends View
     e.preventDefault()
     console.log "RegisterView#registerStep1"
     $form =  @$el.find("#winbits-register-form")
-    that = @
     formData = verticalId: config.verticalId
     formData = util.serializeForm($form, formData)
     console.log ["Register Data", formData]
 
     if $form.valid()
       submitButton = @$(e.currentTarget).prop('disabled', true)
-      util.ajaxRequest(config.apiUrl + "/affiliation/register.json",
+      util.ajaxRequest(config.apiUrl + "/users/register.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
         data: JSON.stringify(formData)
         xhrFields:
           withCredentials: true
-        context: {$submitButton: submitButton}
+        context: {view: @, $submitButton: submitButton}
         headers:
           "Accept-Language": "es"
         success: (data) ->
           console.log "Request Success!"
           console.log ["data", data]
           Winbits.$('.modal').modal 'hide'
-          that.publishEvent "showConfirmation"
+          @view.publishEvent "showConfirmation"
         error: (xhr) ->
+          console.log 'Error response '
           console.log xhr
           error = JSON.parse(xhr.responseText)
-          that.renderRegisterFormErrors $form, error
+          @view.renderRegisterFormErrors $form, error
         complete: ->
           console.log "Request Completed!"
-          this.$submitButton.prop('disabled', false)
+          @$submitButton.prop('disabled', false)
       )
 
   registerStep2: (e)->
@@ -137,7 +143,7 @@ module.exports = class RegisterView extends View
       formData.gender = gender
 
       $saveButton = Winbits.$(e.currentTarget).val('Guardando...').prop('disabled', true)
-      util.ajaxRequest(config.apiUrl + "/affiliation/profile.json",
+      util.ajaxRequest(config.apiUrl + "/users/profile.json",
         type: "PUT"
         contentType: "application/json"
         dataType: "json"
@@ -182,7 +188,7 @@ module.exports = class RegisterView extends View
     that = @
     fbButton = @$(e.currentTarget).prop('disabled', true)
     referredBy = $("#referredById")[0].value
-    popup = window.open(config.apiUrl + "/affiliation/facebook-login/connect?verticalId=" + config.verticalId +
+    popup = window.open(config.apiUrl + "/users/facebook-login/connect?verticalId=" + config.verticalId +
         "&referredBy=" + referredBy,
         "facebook", "menubar=0,resizable=0,width=800,height=500")
     popup.postMessage
@@ -208,6 +214,8 @@ module.exports = class RegisterView extends View
     $currentTarget = @$(event.currentTarget)
     $slt = $currentTarget.parent().find(".select")
     zipCode(Winbits.$).find $currentTarget.val(), $slt
+    if not $currentTarget.val()
+      $currentTarget.closest('form').valid()
 
   changeZipCodeInfo: (e) ->
     $ = Winbits.$
@@ -215,7 +223,7 @@ module.exports = class RegisterView extends View
     zipCodeInfoId = $select.val()
     $form = $select.closest('form')
     $fields = $form.find('[name=location], [name=county], [name=state]')
-    if !zipCodeInfoId
+    if not zipCodeInfoId
       $fields.show().val('').attr('readonly', '').filter('[name=location]').hide()
     else if zipCodeInfoId is '-1'
       $fields.show().removeAttr('readonly')
@@ -227,3 +235,4 @@ module.exports = class RegisterView extends View
       $form.find('input.zipCode').val zipCodeInfo.zipCode
       $fields.filter('[name=county]').val zipCodeInfo.county
       $fields.filter('[name=state]').val zipCodeInfo.state
+    $form.valid()

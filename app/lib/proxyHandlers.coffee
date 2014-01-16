@@ -33,7 +33,7 @@ module.exports = class ProxyHandlers
 
       that = @
       mediator.flags.fbConnect = true
-      util.ajaxRequest( config.apiUrl + "/affiliation/express-facebook-login.json",
+      util.ajaxRequest( config.apiUrl + "/users/express-facebook-login.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"

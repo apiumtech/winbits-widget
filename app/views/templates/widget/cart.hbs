@@ -37,22 +37,26 @@
         <p>Aplica para esta compra:</p>
         {{#if paymentMethods}}
         <p>
-            {{#paymentMethodSupported 'cybersource.'}}
-              <span class="icon mastercardCC">Master Card</span>
-              <span class="icon visaCC">VISA</span>
-            {{/paymentMethodSupported}}
-            {{#paymentMethodSupported 'amex.'}}
-              <span class="icon amexCC">American Express</span>
-            {{/paymentMethodSupported}}
-            {{#paymentMethodSupported 'paypal.'}}
-              <span class="icon paypalCC">Pay Pal</span>
-            {{/paymentMethodSupported}}
-            {{#paymentMethodSupported 'oxxo.bc'}}
-              <span class="icon oxxoCC">OXXO</span>
-            {{/paymentMethodSupported}}
-            {{#paymentMethodSupported 'reference.hsbc'}}
-              <span class="icon depositoCC">Depósito Bancario</span>
-            {{/paymentMethodSupported}}
+          {{#paymentMethodSupported 'cybersource.'}}
+            <span class="icon mastercardCC">Master Card</span>
+            <span class="icon visaCC">VISA</span>
+          {{/paymentMethodSupported}}
+          {{#paymentMethodSupported 'amex.'}}
+            <span class="icon amexCC">American Express</span>
+          {{/paymentMethodSupported}}
+          {{#paymentMethodSupported 'paypal.'}}
+            <span class="icon paypalCC">Pay Pal</span>
+          {{/paymentMethodSupported}}
+          {{#paymentMethodSupported 'oxxo.bc'}}
+            <span class="icon oxxoCC">OXXO</span>
+          {{/paymentMethodSupported}}
+          {{#paymentMethodSupported 'reference.hsbc'}}
+            <span class="icon depositoCC">Depósito Bancario</span>
+          {{/paymentMethodSupported}}
+          {{#paymentMethodSupported 'user.bits'}}
+            <span>Pago con bits</span>
+            <span class="icon bitsMoney">Pago con bits</span>
+          {{/paymentMethodSupported}}
         </p>
           {{#withMsiPayments}}
           <p>Meses sin intereses con:</p>

@@ -86,7 +86,9 @@ module.exports = class CheckoutController extends ChaplinController
 
     @confirm.on "change", ->
       that.confirmView.render()
-    if @order_data.shippingTotal > 0
+
+    requires = true  for sku in  @order_data.orderDetails when sku.requiresShipping == true
+    if requires == true 
       @publishEvent "showStep", ".shippingAddressesContainer"
     else
       @publishEvent "showStep", ".checkoutPaymentContainer"

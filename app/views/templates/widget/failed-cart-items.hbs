@@ -1,0 +1,68 @@
+<form class="bodyModal" accept-charset="utf-8" action="#" method="post" style="margin: 0px;">
+  <div class="mainModal completaRegistro">
+    <div class="contentModal preCheckout">
+      <h2>Por favor, revisa el siguiente listado. Realizamos algunos ajustes a tu carrito debido a que uno o varios de los productos que solicitaste se agotaron, o bien, alcanzaste el límite de compra permitido por producto.</h2>
+      <div class="dataTable">
+        <table>
+          <thead>
+          <tr>
+            <th class="preCheckout-c1">Producto</th>
+            <th class="preCheckout-c2">Solicitado(s)</th>
+            <th class="preCheckout-c3">Disponible(s)</th>
+            <th class="preCheckout-c4">Quitar</th>
+          </tr>
+          </thead>
+          <tbody>
+          {{#each warningCartItems}}
+          <tr class="wb-cart-item-row" data-id="{{skuProfile.id}}">
+            <td>
+              {{#with skuProfile}}
+                <div class="preCheckout-product" data-id="{{id}}">
+                  <img src="{{defaultThumbnail item.thumbnail}}" class="preCheckout-img" alt="{{item.name}}">
+                  <p class="preCheckout-item">{{item.name}}</p>
+                  <p class="preCheckout-carac">{{mainAttribute.name}}: {{mainAttribute.label}}</p>
+                  {{#each attributes}}
+                    <p class="preCheckout-carac">{{name}}: {{label}}</p>
+                  {{/each}}
+                  <img src="{{vertical.logo}}" alt="{{vertical.name}}" class="preCheckout-vertical">
+                </div>
+              {{/with}}
+            </td>
+            <td class="preCheckout-c2">{{warnings.0.quantityRequired}}</td>
+            <td class="preCheckout-c3">{{quantity}}</td>
+            <td class="preCheckout-c4"><input type="submit" value="Quitar" class="icon closeButton wb-remove-cart-item-btn"></td>
+          </tr>
+          {{/each}}
+          {{#each failedCartItems}}
+          <tr>
+            <td>
+              {{#with skuProfile}}
+              <div class="preCheckout-product" data-id="{{id}}">
+                <img src="{{defaultThumbnail item.thumbnail}}" class="preCheckout-img" alt="{{item.name}}">
+                <p class="preCheckout-item">{{item.name}}</p>
+                <p class="preCheckout-carac">{{mainAttribute.name}}: {{mainAttribute.label}}</p>
+                {{#each attributes}}
+                <p class="preCheckout-carac">{{name}}: {{label}}</p>
+                {{/each}}
+                <img src="{{vertical.logo}}" alt="{{vertical.name}}" class="preCheckout-vertical">
+              </div>
+              {{/with}}
+            </td>
+            <td colspan="3">
+              <div class="productUnavailable">
+                <p>Lo sentimos</p>
+                <p>Este producto ya no esta disponible</p>
+              </div>
+            </td>
+          </tr>
+          {{/each}}
+          </tbody>
+        </table>
+      </div>
+      <div class="preCheckout-submit">
+        {{!<a href="#" class="btn wb-empty-cart-btn">Vaciar carrito</a>}}
+        <a href="#" class="btn btnCart wb-continue-btn">Continuar</a>
+      </div>
+    </div>
+  </div>
+</form>

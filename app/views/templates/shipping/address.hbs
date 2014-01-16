@@ -43,11 +43,11 @@
           <textarea placeholder="¿Entre qué calles?" class="required" name="betweenStreets">{{betweenStreets}}</textarea>
           <textarea placeholder="Referencias para llegar" class="required" name="indications">{{indications}}</textarea>
           <input type="text" name="zipCode" placeholder="Código Postal" class="required digits zipCode" value="{{zipCode}}" maxlength="5">
-          <select class="select zipCodeInfo" data-clase="selectRegister" placeholder="Localidad" name="zipCodeInfo">
+          <select class="select zipCodeInfo" data-clase="selectRegister" name="zipCodeInfo">
             <option>Colonia/Asentamiento:</option>
             <option value="-1">Otro...</option>
           </select>
-          <input type="text" placeholder="Colonia" name="location" value="{{location}}" maxlength="50" {{#unless zipCodeInfo}}style="display: none;"{{/unless}}>
+          <input type="text" placeholder="Colonia" name="location" value="{{location}}" maxlength="50" {{#if zipCodeInfo}}style="display: none;"{{/if}}>
           <input type="text" placeholder="Delegación o Municipio" name="county" value="{{county}}" readonly="" maxlength="50">
           <input type="text" placeholder="Estado" value="{{state}}" name="state" readonly="" maxlength="30">
         </div>
@@ -85,8 +85,7 @@
         <textarea placeholder="Referencias para llegar" class="required" name="indications"></textarea>
         <input type="text" placeholder="Código Postal" class="required digits zipCode" maxlength="5" name="zipCode">
         <select class="select zipCodeInfo" data-clase="selectRegister" placeholder="Localidad" name="zipCodeInfo">
-          <option>Colonia/Asentamiento:</option>
-          <option value="-1">Otro...</option>
+          <option value="">Colonia/Asentamiento:</option>
         </select>
         <input type="text" placeholder="Colonia" name="location" style="display: none;" maxlength="50">
         <input type="text" placeholder="Delegación o Municipio" id="winbitsShippingCounty" name="county" readonly="" maxlength="50">

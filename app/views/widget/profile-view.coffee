@@ -70,6 +70,9 @@ module.exports = class ProfileView extends View
           console.log "error"
         success: (data) ->
           that.onProfileUpdated data.response
+          $editProfileContainer = @$el.find(".editMiPerfil")
+          $editProfileContainer.slideUp ->
+          util.justResetForm $editProfileContainer.find('form')
         complete: ->
           button.prop 'disabled', false
       )
@@ -99,9 +102,15 @@ module.exports = class ProfileView extends View
           dateISO: true
           validDate: true
         zipCodeInfo:
+          zipCodeDoesNotExist: true
           required: (e) ->
-            $form = Winbits.$(e).closest 'form'
-            $form.find('[name=location]').is(':hidden')
+            $zipCodeInfo = Winbits.$(e)
+            $form = $zipCodeInfo.closest 'form'
+            if $form.find('[name=location]').is(':hidden')
+              $zipCode = $form.find('[name=zipCode]')
+              not $zipCode.val() or (not $zipCodeInfo.val() and $zipCodeInfo.children().length > 1)
+            else
+              false
         location:
           required: '[name=location]:visible'
           minlength: 2
@@ -151,7 +160,7 @@ module.exports = class ProfileView extends View
     popup = window.open("", "twitter", "menubar=0,resizable=0,width=800,height=500")
     popup.postMessage
 
-    util.ajaxRequest(config.apiUrl + "/affiliation/connect/twitter",
+    util.ajaxRequest(config.apiUrl + "/users/connect/twitter",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -194,7 +203,7 @@ module.exports = class ProfileView extends View
     popup = window.open("", "facebook", "menubar=0,resizable=0,width=800,height=500")
     popup.postMessage
 
-    util.ajaxRequest( config.apiUrl + "/affiliation/connect/facebook",
+    util.ajaxRequest( config.apiUrl + "/users/connect/facebook",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -221,7 +230,7 @@ module.exports = class ProfileView extends View
   updateSocialAccountsStatus : () ->
     that = @
     console.log "update social accounts"
-    util.ajaxRequest(config.apiUrl + "/affiliation/social-accounts.json",
+    util.ajaxRequest(config.apiUrl + "/users/social-accounts.json",
       type: "GET"
       contentType: "application/json"
       dataType: "json"
@@ -251,7 +260,7 @@ module.exports = class ProfileView extends View
   viewDetachFacebookAccount: (e) ->
     that = @
     console.log "detach facebook account"
-    util.ajaxRequest( config.apiUrl + "/affiliation/social-account/facebook.json",
+    util.ajaxRequest( config.apiUrl + "/users/social-account/facebook.json",
       type: "DELETE"
       contentType: "application/json"
       dataType: "json"
@@ -273,7 +282,7 @@ module.exports = class ProfileView extends View
   viewDetachTwitterAccount: (e) ->
     that = @
     console.log "detach twitter account"
-    util.ajaxRequest( config.apiUrl + "/affiliation/social-account/twitter.json",
+    util.ajaxRequest( config.apiUrl + "/users/social-account/twitter.json",
       type: "DELETE"
       contentType: "application/json"
       dataType: "json"
@@ -296,17 +305,21 @@ module.exports = class ProfileView extends View
 
   cancelEditing: (e) ->
     $editProfileContainer = @$el.find(".editMiPerfil")
-    $editProfileContainer.find('form').first().validate().resetForm()
-    $editProfileContainer.slideUp()
+    $editProfileContainer.slideUp ->
+      util.justResetForm $editProfileContainer.find('form')
+
     $changePasswordContainer = @$el.find(".changePassDiv")
-    $changePasswordContainer.find('form').first().validate().resetForm()
-    $changePasswordContainer.slideUp()
+    console.log('Must to reset')
+    $changePasswordContainer.slideUp ->
+      util.justResetForm $changePasswordContainer.find('form')
     @$el.find(".miPerfil").slideDown()
 
   changePassword: (e) ->
     e.preventDefault()
     @$el.find(".miPerfil").slideUp()
-    @$el.find(".changePassDiv").slideDown()
+    $changePasswordContainer = @$el.find(".changePassDiv")
+    $changePasswordContainer.slideDown ->
+      util.focusForm $changePasswordContainer.find('form')
 
   requestPasswordChange: (e) ->
     e.preventDefault()
@@ -314,7 +327,7 @@ module.exports = class ProfileView extends View
     $form = $(e.currentTarget)
     formData = util.serializeForm($form)
     console.log "detach twitter account"
-    util.ajaxRequest( config.apiUrl + "/affiliation/change-password.json",
+    util.ajaxRequest( config.apiUrl + "/users/change-password.json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
@@ -353,6 +366,8 @@ module.exports = class ProfileView extends View
     $currentTarget = @$(event.currentTarget)
     $slt = $currentTarget.parent().find(".select")
     zipCode(Winbits.$).find $currentTarget.val(), $slt
+    if not $currentTarget.val()
+      $currentTarget.closest('form').valid()
 
   changeZipCodeInfo: (e) ->
     $ = Winbits.$
@@ -360,9 +375,11 @@ module.exports = class ProfileView extends View
     zipCodeInfoId = $select.val()
     $form = $select.closest('form')
     $fields = $form.find('[name=location], [name=county], [name=state]')
-    if !zipCodeInfoId
+
+    if not zipCodeInfoId
       $fields.show().val('').attr('readonly', '').filter('[name=location]').hide()
     else if zipCodeInfoId is '-1'
+      $fields.show().filter('[name=location]').show()
       $fields.show().removeAttr('readonly')
     else
       $fields.show().attr('readonly', '').filter('[name=location]').hide()
@@ -372,6 +389,7 @@ module.exports = class ProfileView extends View
       $form.find('input.zipCode').val zipCodeInfo.zipCode
       $fields.filter('[name=county]').val zipCodeInfo.county
       $fields.filter('[name=state]').val zipCodeInfo.state
+    $form.valid()
 
   onProfileUpdated: (profile) ->
     @publishEvent "setProfile", profile.profile

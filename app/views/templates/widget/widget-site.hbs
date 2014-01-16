@@ -41,10 +41,10 @@
     <div class="wrapper">
       <nav>
         <ul>
-          <li><a href="http://www.winbits.com/" class="icon verticalItem vertical0 wb-vertical">Vertical 0</a></li>
+          <li><a href="#" class="icon verticalItem vertical0 wb-vertical">Vertical 0</a></li>
           <li><a href="http://mylooq.dreamcode.com.mx/" class="icon verticalItem vertical1 wb-vertical-2">Vertical 1</a></li>
-          <li><a href="http://sportlet.dreamcode.com.mx/" class="icon verticalItem vertical2 wb-vertical-3">Vertical 1</a></li>
-          <li><a href="http://promociones.dreamcode.com.mx/" class="icon verticalItem vertical3 wb-vertical-4">Vertical 2</a></li>
+          <li><a href="#" class="icon verticalItem vertical2 wb-vertical-3">Vertical 1</a></li>
+          <li><a href="#" class="icon verticalItem vertical3 wb-vertical-4">Vertical 2</a></li>
           <li><a href="#" class="icon verticalItem vertical4">Vertical 3</a></li>
         </ul>
       </nav>
@@ -65,12 +65,7 @@
           </ul>
         </div>
         <div class="miCuenta">
-          <ul>
-            <li class="cart-placeholder">
-                <div class="dropMenu miCarritoDiv wb-cart-container" style="display: none;">
-                </div>
-            </li>
-          </ul>
+          <div id="wbi-cart-container" class="dropMenu miCarritoDiv" style="display: none;"></div>
         </div>
         <div class="miCuenta miCuentaPanel" id="headerLogin" style="display: none;">
           <ul>
@@ -83,7 +78,6 @@
                   </div>
                   <div class="colum myAddress" id="headerAddress">
                   </div>
-                  {{!wrapper}}
                   <div class="colum mySuscription" id="subscription">
                   </div>
                   <div class="colum historyColumn" id="headerHistory">
@@ -97,8 +91,6 @@
             <li class="bits"><span class="wb-user-bits-balance reseteable" data-reset-text="0">0</span><span class="icon bit12px"></span></li>
             <li class="cart-holder drop-down-holder">
                 <span class="spanDropMenu"><span class="cart-items-count reseteable" data-reset-text="0">0</span><span class="icon shopCarMin"></span></span>
-                <div class="dropMenu miCarritoDiv wb-cart-container" style="display: none;">
-                </div>
             </li>
             <li><input type="button" id="postCheckout" class="btn btnTopNav" value="Check Out"></li>
           </ul>
@@ -153,7 +145,7 @@
 </div>
   <div id='forgot-password-modal' class="modal hide">
     <i class="close-icon"></i>
-    <div class="modal-body reset-modal forgot-password-modal" id="forgot-password-modal-body">
+    <div class="modal-body reset-modal forgot-password-modal" id="forgot-password-modal-body" style="max-height:420px;">
     </div>
   </div>
   <div id='wbi-reset-password-modal' class="modal hide">
@@ -178,6 +170,10 @@
         <input type="button" class="btn close-modal" value="Aceptar">
       </div>
     </div>
+  </div>
+  <div id='wbi-failed-cart-items-modal' class="modal hide" style="max-width: 520px;">
+    <i class="close-icon"></i>
+    <div class="modal-body reset-modal" id="wbi-failed-cart-items-modal-body" style="margin:0px;max-width: 520px;"></div>
   </div>
   <div id='wbi-modals-holder' style="display:none;" class="wb-modal-holder"></div>
   <div id="hidden-stuff-holder" style="display: none;">

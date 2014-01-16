@@ -11,6 +11,7 @@ module.exports = class LoginView extends View
   #className: 'home-page'
   container: '#login-modal-body'
   template: template
+  utms: {'::::':"ppp" }
 
   render: ->
     super
@@ -23,6 +24,7 @@ module.exports = class LoginView extends View
     @delegate 'click', '#forgotPasswordLink', @showForgotPasswordModal
 
     @subscribeEvent 'loginByFacebookEvent', @doLoginFacebook
+    @subscribeEvent 'getUtms', @getUtms
 
   attach: ->
     super
@@ -35,24 +37,28 @@ module.exports = class LoginView extends View
           required: true
           minlength: 5
 
+
   doLogin: (e)->
     e.preventDefault()
     e.stopPropagation()
     $form = @$(e.currentTarget).parents("form")
     formData = verticalId: config.verticalId
+    utm_data = Winbits.$.parseJSON(util.retrieveKey("_wb_utm_params"))
+    formData[key] = value for key, value of utm_data
     formData = util.serializeForm($form, formData)
+    #parseJSON util.retrieveKey("_wb_utm_params")
+    console.log ["Ya en login", util.retrieveKey("_wb_utm_params")]
+
     if util.validateForm($form)
       submitButton = @$(e.currentTarget).prop('disabled', true)
       that=@
       console.log ('DO LOGIN!!!!')
       util.ajaxRequest(
-        config.apiUrl + "/affiliation/login.json",
+        config.apiUrl + "/users/login.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
         data: JSON.stringify(formData)
-        xhrFields:
-          withCredentials: true
         headers:
           "Accept-Language": "es"
         success: (data) ->
@@ -61,6 +67,7 @@ module.exports = class LoginView extends View
           if data.response.showRemainder == true
             that.publishEvent 'completeProfileRemainder'
         error: (xhr) ->
+          console.log arguments
           error = JSON.parse(xhr.responseText)
           that.renderLoginFormErrors $form, error
         complete: ->
@@ -80,7 +87,7 @@ module.exports = class LoginView extends View
     $ = Winbits.$
     that = @
     fbButton = @$(e.currentTarget).prop('disabled', true)
-    popup = window.open(config.apiUrlBase + "/affiliation/facebook-login/connect?verticalId=" + config.verticalId,
+    popup = window.open(config.apiUrlBase + "/users/facebook-login/connect?verticalId=" + config.verticalId,
         "facebook", "menubar=0,resizable=0,width=800,height=500")
     popup.postMessage
     popup.focus()
@@ -90,7 +97,7 @@ module.exports = class LoginView extends View
         fbButton.prop('disabled', false)
         clearInterval timer
         $(".modal").modal('hide')
-        that.publishEvent 'expressLogin'
+        that.publishEvent 'expressFacebookLogin'
     , 1000)
 
   showRegisterModal: (e) ->
@@ -100,3 +107,16 @@ module.exports = class LoginView extends View
   showForgotPasswordModal: (e) ->
     e.preventDefault()
     @publishEvent 'showForgotPassword'
+
+  getUtms: (e) ->
+    Winbits.rpc.getUtms(
+        (success) ->
+            @utms= success
+            $form = @$(e.currentTarget).parents("form")
+            console.log ["success", success, @utms]
+            console.log ["FOMRr", $form]
+            return success
+        (error) ->
+            console.log ["Ocurrio un error", error]
+    )
+

@@ -58,7 +58,7 @@ module.exports = class SubscriptionView extends View
 
     link = @$el.find('#wbi-update-subscription').prop 'disabled', true
     that=@
-    util.ajaxRequest( config.apiUrl + "/affiliation/updateSubscriptions.json",
+    util.ajaxRequest( config.apiUrl + "/users/updateSubscriptions.json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"

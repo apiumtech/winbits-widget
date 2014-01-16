@@ -17,7 +17,7 @@ module.exports = class WaitingList extends ChaplinModel
 
   getWaitingList: (formData) ->
     console.log ['formdata', formData]
-    url = config.apiUrl + "/affiliation/waiting-list-items.json?"
+    url = config.apiUrl + "/users/waiting-list-items.json?"
     statusWaitingList = ""
     siteWaitingList = ""
     if (formData?)

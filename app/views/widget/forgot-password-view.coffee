@@ -36,7 +36,7 @@ module.exports = class ForgotPasswordView extends View
       formData = util.serializeForm($form)
       formData.verticalId = config.verticalId
       submitButton = @$(e.currentTarget).prop('disabled', true)
-      util.ajaxRequest( config.apiUrl + "/affiliation/password/recover.json",
+      util.ajaxRequest( config.apiUrl + "/users/password/recover.json",
         data: JSON.stringify(formData)
         type: "POST"
         contentType: "application/json"

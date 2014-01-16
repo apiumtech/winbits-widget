@@ -28,7 +28,7 @@ module.exports = class WaitingListView extends View
   deleteWaitingListItem: (e) ->
     $currentTarget = @$(e.currentTarget)
     skuProfileId =  $currentTarget.attr("id").split("-")[1]
-    url = config.apiUrl + "/affiliation/waiting-list-item/" + skuProfileId + ".json"
+    url = config.apiUrl + "/users/waiting-list-item/" + skuProfileId + ".json"
     that=@
     util.ajaxRequest( url,
       type: "DELETE"

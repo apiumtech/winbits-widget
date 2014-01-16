@@ -20,12 +20,13 @@ module.exports = class Application
 
   initialize: (checkout)->
     @initBackbone()
+    @initMomentTimeZone
     Winbits.isCrapBrowser = util.isCrapBrowser
 
+    @initCustomRules()
+
     if not checkout
-      console.log ['WINBITS', window.Winbits]
       Winbits.$.extend config, Winbits.userConfig or {}
-#      window.Winbits = {}
       @initHomeControllers()
     else
       @initChkControllers()
@@ -33,6 +34,7 @@ module.exports = class Application
 
     # Mediator is a global message broker which implements pub / sub pattern.
     @initMediator()
+    @showAppError()
 
     Object.freeze? this
 
@@ -73,7 +75,7 @@ module.exports = class Application
 
   initBackbone: ->
     # Enable support for PUT & DELETE requests
-    Backbone.emulateHTTP = yes
+#    Backbone.emulateHTTP = yes
     # Proxy Backbone's ajax request function to use the easyXDM rpc on IE8-9
     # This enables Backbone's fetch to use the RPC
     Backbone.ajax = () ->
@@ -87,6 +89,60 @@ module.exports = class Application
         saveApiToken: {}
         storeVirtualCart: {}
         logout: {}
+        saveUtms: {}
+        getUtms: {}
         facebookStatus: {}
         facebookMe: {}
+        saveUtms: {}
+        getUtms: {}
     )
+
+  initMomentTimeZone: ->
+    moment.tz.add
+      zones:
+        "America/Mexico_City": [
+          "-6:36:36 - LMT 1922_0_1_0_23_24 -6:36:36",
+          "-7 - MST 1927_5_10_23 -7",
+          "-6 - CST 1930_10_15 -6",
+          "-7 - MST 1931_4_1_23 -7",
+          "-6 - CST 1931_9 -6",
+          "-7 - MST 1932_3_1 -7",
+          "-6 Mexico C%sT 2001_8_30_02 -5",
+          "-6 - CST 2002_1_20 -6",
+          "-6 Mexico C%sT"
+        ]
+      rules:
+        Mexico: [
+          "1939 1939 1 5 7 0 0 1 D",
+          "1939 1939 5 25 7 0 0 0 S",
+          "1940 1940 11 9 7 0 0 1 D",
+          "1941 1941 3 1 7 0 0 0 S",
+          "1943 1943 11 16 7 0 0 1 W",
+          "1944 1944 4 1 7 0 0 0 S",
+          "1950 1950 1 12 7 0 0 1 D",
+          "1950 1950 6 30 7 0 0 0 S",
+          "1996 2000 3 1 0 2 0 1 D",
+          "1996 2000 9 0 8 2 0 0 S",
+          "2001 2001 4 1 0 2 0 1 D",
+          "2001 2001 8 0 8 2 0 0 S",
+          "2002 9999 3 1 0 2 0 1 D",
+          "2002 9999 9 0 8 2 0 0 S"
+        ]
+      links: {}
+    moment().tz("America/Mexico_City").format();
+
+  showAppError: -> 
+    hash = location.hash
+    hashParts = hash.split('-')
+    if hashParts[0] is '#err' and hashParts[1] is 'AFER027'
+        Winbits.$('a#wbi-dummy-link').get(0).click()
+        util.showError('No se pudo confirmar al usuario, por favor intente en otro momento')
+    )
+
+   #add new method for validation
+  initCustomRules: ()->
+    Winbits.$.validator.addMethod("zipCodeDoesNotExist", (value, element) ->
+      $element = Winbits.$(element)
+      $zipCode = $element.closest('form').find('[name=zipCode]')
+      not ($zipCode.val() and $element.children().length == 1)
+    ,"Codigo Postal No Existe")

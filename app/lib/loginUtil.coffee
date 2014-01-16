@@ -14,6 +14,7 @@ module.exports = class LoginUtil
 
   initialize: ->
     @subscribeEvent 'expressLogin', @expressLogin
+    @subscribeEvent 'expressFacebookLogin', @expressFacebookLogin
     @subscribeEvent 'applyLogin', @applyLogin
     @subscribeEvent 'initLogout', @initLogout
     @subscribeEvent 'loginFacebook', @loginFacebook
@@ -24,7 +25,7 @@ module.exports = class LoginUtil
     apiToken = if token? then token else util.retrieveKey(config.apiTokenName)
     that = @
     if apiToken and apiToken isnt "undefined"
-      util.ajaxRequest( config.apiUrl + "/affiliation/express-login.json",
+      util.ajaxRequest( config.apiUrl + "/users/express-login.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
@@ -39,15 +40,19 @@ module.exports = class LoginUtil
           if token? and data.response.profile?
             that.publishEvent 'setRegisterFb', data.response.profile
             that.publishEvent "showCompletaRegister", data.response
-          else
-            that.expressFacebookLogin Winbits.$
 
         error: (xhr) ->
           console.log "express-login.json Error!"
           util.showAjaxError(xhr.responseText)
+
+        complete: ->
+          if not mediator.flags.loggedIn
+            that.publishEvent 'loadVirtualCart'
       )
     else
-      @expressFacebookLogin Winbits.$
+      console.log('Ommiting Express Facebook Login...')
+      @publishEvent 'loadVirtualCart'
+#      @expressFacebookLogin Winbits.$
 
   expressFacebookLogin : ($) ->
     console.log "Trying to login with facebook"
@@ -90,7 +95,7 @@ module.exports = class LoginUtil
   initLogout : () ->
     that = this
     console.log "initLogout"
-    util.ajaxRequest( config.apiUrl + "/affiliation/logout.json",
+    util.ajaxRequest( config.apiUrl + "/users/logout.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
@@ -140,7 +145,7 @@ module.exports = class LoginUtil
       profileUrl: profileUrl
       imageUrl: imageUrl
 
-    util.ajaxRequest( config.apiUrl + "/affiliation/facebook",
+    util.ajaxRequest( config.apiUrl + "/users/facebook",
       type: "POST"
       contentType: "application/json"
       dataType: "json"

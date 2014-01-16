@@ -42,7 +42,7 @@ module.exports = class ResetPasswordView extends View
       formData.hash = @model.attributes.salt
       submitButton = @$(e.currentTarget).prop('disabled', true)
 
-      util.ajaxRequest( config.apiUrl + "/affiliation/password/reset.json",
+      util.ajaxRequest( config.apiUrl + "/users/password/reset.json",
         data: JSON.stringify(formData)
         type: "POST"
         contentType: "application/json"

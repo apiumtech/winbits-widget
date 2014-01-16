@@ -41,7 +41,7 @@ module.exports = class ResendConfirmationView extends View
     $resendConfirmLink = @$el.find('#wbi-resend-confirmation-link')
     resendConfirmUrl = $resendConfirmLink.data('resend-confirm-url')
     $resendConfirmLink.prop('disabled', true)
-    encodeComponent = encodeURI(resendConfirmUrl.substring(resendConfirmUrl.indexOf('/affiliation')))
+    encodeComponent = encodeURI(resendConfirmUrl.substring(resendConfirmUrl.indexOf('/users')))
     that = @
     util.ajaxRequest(config.apiUrl +  encodeComponent,
       dataType: "json"

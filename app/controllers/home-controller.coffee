@@ -39,7 +39,7 @@ ResetPasswordView = require "views/widget/reset-password-view"
 AlreadyExistsUserView = require "views/widget/already-exists-user-view"
 CompleteRegisterView = require "views/widget/complete-register-view"
 CompleteProfileRemainderView = require "views/widget/complete-profile-remainder-view"
-
+FailedCartItemsView = require "views/widget/failed-cart-items-view"
 
 module.exports = class HomeController extends ChaplinController
 
@@ -84,6 +84,7 @@ module.exports = class HomeController extends ChaplinController
     @alreadyExistUser = new AlreadyExistsUserView()
     @completeRegisterView = new CompleteRegisterView()
     @completeProfileRemainderView = new CompleteProfileRemainderView()
+    @failedCartItemsView = new FailedCartItemsView()
 
     @profile.on "change", ->
       that.profileView.render()
@@ -137,7 +138,7 @@ module.exports = class HomeController extends ChaplinController
         message = options.message or 'Test message'
 
         util.ajaxRequest(
-          config.apiUrl + "/affiliation/twitterPublish/updateStatus.json",
+          config.apiUrl + "/users/twitterPublish/updateStatus.json",
           type: "POST"
           contentType: "application/json"
           dataType: "json"
@@ -176,7 +177,7 @@ module.exports = class HomeController extends ChaplinController
           if account.providerId is 'facebook' and !account.available
             throw 'Facebook not connected!'
         message = options.message or 'Test message'
-        util.ajaxRequest( config.apiUrl + "/affiliation/facebookPublish/share.json",
+        util.ajaxRequest( config.apiUrl + "/users/facebookPublish/share.json",
           type: "POST"
           contentType: "application/json"
           dataType: "json"
@@ -261,7 +262,7 @@ module.exports = class HomeController extends ChaplinController
       if !mediator.flags.loggedIn
         throw 'Not available if not logged in!'
 
-      util.ajaxRequest( config.apiUrl + "/affiliation/wish-list-items.json",
+      util.ajaxRequest( config.apiUrl + "/users/wish-list-items.json",
         contentType: "application/json"
         dataType: "json"
         xhrFields:
@@ -283,7 +284,7 @@ module.exports = class HomeController extends ChaplinController
       if !mediator.flags.loggedIn
         throw 'Not available if not logged in!'
 
-      util.ajaxRequest( config.apiUrl + "/affiliation/wish-list-items.json",
+      util.ajaxRequest( config.apiUrl + "/users/wish-list-items.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
@@ -311,7 +312,7 @@ module.exports = class HomeController extends ChaplinController
       if !mediator.flags.loggedIn
         throw 'Not available if not logged in!'
 
-      util.ajaxRequest( config.apiUrl + "/affiliation/wish-list-items/" + options.brandId + "/.json",
+      util.ajaxRequest( config.apiUrl + "/users/wish-list-items/" + options.brandId + "/.json",
         type: "DELETE"
         dataType: "json"
         xhrFields:
@@ -336,7 +337,7 @@ module.exports = class HomeController extends ChaplinController
       options = options or {}
       if !mediator.flags.loggedIn
         throw 'Not available if not logged in!'
-      util.ajaxRequest( config.apiUrl + "/affiliation/waiting-list-items.json",
+      util.ajaxRequest( config.apiUrl + "/users/waiting-list-items.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
@@ -350,7 +351,7 @@ module.exports = class HomeController extends ChaplinController
         success: (data) ->
           if options.success
             options.success.call({}, [data.response])
-        error: (xhr, textStatus, errorThrown) ->
+        error: (xhr) ->
           error = JSON.parse(xhr.responseText)
           if options.error
             options.error.call({}, [error.response])
@@ -364,7 +365,7 @@ module.exports = class HomeController extends ChaplinController
       if !mediator.flags.loggedIn
         throw 'Not available if not logged in!'
 
-      util.ajaxRequest( config.apiUrl + "/affiliation/wish-list-items/" + options.id + "/.json",
+      util.ajaxRequest( config.apiUrl + "/users/wish-list-items/" + options.id + "/.json",
         type: "DELETE"
         dataType: "json"
         xhrFields:

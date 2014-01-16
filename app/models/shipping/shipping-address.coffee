@@ -5,7 +5,7 @@ module.exports = class ShippingAddress extends ChaplinModel
 
   initialize: (attributes, option) ->
     super
-    @url = config.apiUrl + "/affiliation/shipping-addresses"
+    @url = config.apiUrl + "/users/shipping-addresses"
     @subscribeEvent 'completeShippingAddress', @completeShippingAddress
     @subscribeEvent 'showShippingAddresses', @getShippingAddressList
 
@@ -18,7 +18,7 @@ module.exports = class ShippingAddress extends ChaplinModel
 
   getShippingAddressList: ->
     that = @
-    url = config.apiUrl + "/affiliation/shipping-addresses.json"
+    url = config.apiUrl + "/users/shipping-addresses.json"
     util.ajaxRequest( url,
       type: "GET"
       contentType: "application/json"

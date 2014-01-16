@@ -2,11 +2,13 @@ ChaplinModel = require 'chaplin/models/model'
 util = require 'lib/util'
 config = require 'config'
 mediator = require 'chaplin/mediator'
+
 module.exports = class Cart extends ChaplinModel
 
-  initialize: (attributes, option) ->
+  initialize: () ->
     super
     @subscribeEvent 'loadVirtualCart', @loadVirtualCart
+    @subscribeEvent 'cartItemRemoved', @removeCartItem
 
   parse: (response) ->
     console.log "Cart#parse"
@@ -41,13 +43,10 @@ module.exports = class Cart extends ChaplinModel
         util.storeKey config.vcartTokenName, '[]'
         that.set that.completeCartModel(data.response)
         Winbits.rpc.storeVirtualCart('[]')
-        that.publishEvent 'doCheckout' if mediator.flags.autoCheckout
+        that.publishEvent 'cartUpdated', data.response, true
 
       error: (xhr) ->
         util.showAjaxError(xhr.responseText)
-
-      complete: ->
-        mediator.flags.autoCheckout = false
 
   updateUserCartDetail : (cartItem, $cartPanel) ->
     formData =
@@ -60,7 +59,6 @@ module.exports = class Cart extends ChaplinModel
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify(formData)
-#      context: { cartItem: cartItem, $cartPanel: $cartPanel, model: @ }
       headers:
         "Accept-Language": "es"
         "WB-Api-Token": util.retrieveKey(config.apiTokenName)
@@ -74,6 +72,7 @@ module.exports = class Cart extends ChaplinModel
       error: (xhr) ->
         util.showAjaxError(xhr.responseText)
         cartItem.error.apply(cartItem, arguments) if Winbits.$.isFunction cartItem.error
+        that.publishEvent 'renderCart'
 
       complete: ->
         util.hideAjaxIndicator()
@@ -90,7 +89,6 @@ module.exports = class Cart extends ChaplinModel
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify(formData)
-#      context: { cartItem: cartItem, $cartPanel: $cartPanel, model: @ }
       headers:
         "Accept-Language": "es"
         "wb-vcart": util.retrieveKey(config.vcartTokenName)
@@ -103,15 +101,15 @@ module.exports = class Cart extends ChaplinModel
         cartItem.success.apply(cartItem, arguments) if Winbits.$.isFunction cartItem.success
 
       error: (xhr) ->
-        console.log ['PROBLEMS', xhr.responseText]
         util.showAjaxError(xhr.responseText)
         cartItem.error.apply(cartItem, arguments) if Winbits.$.isFunction cartItem.error
+        that.publishEvent 'renderCart'
 
       complete: ->
         util.hideAjaxIndicator()
         cartItem.complete.apply(cartItem, arguments) if Winbits.$.isFunction cartItem.complete
 
-  deleteVirtualCartDetail: (id)->
+  deleteVirtualCartDetail: (id, successCallback)->
     console.log ["deleteVirtualCartDetail"]
     that = @
     util.showAjaxIndicator('Eliminando artículo...')
@@ -125,10 +123,11 @@ module.exports = class Cart extends ChaplinModel
         that.storeVirtualCart data.response
         that.set that.completeCartModel(data.response)
         that.closeCartIfEmpty()
+        successCallback.apply(@, arguments) if Winbits.$.isFunction successCallback
       complete: ->
         util.hideAjaxIndicator()
 
-  deleteUserCartDetail : (id) ->
+  deleteUserCartDetail : (id, successCallback) ->
     that = @
     util.showAjaxIndicator('Eliminando artículo...')
     @url = config.apiUrl + "/orders/cart-items/" + id + ".json"
@@ -137,6 +136,7 @@ module.exports = class Cart extends ChaplinModel
       success: (data) ->
         that.set that.completeCartModel data.response
         that.closeCartIfEmpty()
+        successCallback.apply(@, arguments) if Winbits.$.isFunction successCallback
       error: (xhr) ->
         util.showAjaxError(xhr.responseText)
 
@@ -152,8 +152,6 @@ module.exports = class Cart extends ChaplinModel
         console.log "error, loading user cart"
       success: ->
         console.log "success loadUserCart"
-        #that.$el.find(".myPerfil").slideDown()
-          #that.$el.find(".editMiPerfil").slideUp()
 
       complete: ->
         console.log "complete transaction"
@@ -176,18 +174,19 @@ module.exports = class Cart extends ChaplinModel
       formData.cartItems.push skuProfileId: cartItem.id, quantity: cartItem.quantity, bits: cartItem.bits or 0
     util.showAjaxIndicator('Agregando artículo(s)...')
     headers = Winbits.$.extend {"Accept-Language": "es"}, data.headers
-    that =@
+    that = @
     util.ajaxRequest( config.apiUrl + data.url,
       type: "POST"
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify(formData)
-#      context: model: @, cartItems: cartItems, options: options, $cartPanel: $cartPanel
+      context: model: @, cartItems: cartItems, options: options, $cartPanel: $cartPanel
       headers: headers
       success: (data) ->
         that.set that.completeCartModel data.response
-        if $cartPanel
-          $cartPanel.slideDown()
+        that.publishEvent 'cartUpdated', data.response
+        $cartPanel.slideDown() if $cartPanel
+        that.storeVirtualCart(data.response) if not mediator.flags.loggedIn
         options.success.apply(cartItems, arguments) if Winbits.$.isFunction options.success
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
@@ -271,3 +270,9 @@ module.exports = class Cart extends ChaplinModel
     $cartDetailList = $('.wb-cart-detail-list')
     if $cartDetailList.children().length is 0
       $cartDetailList.closest('.dropMenu').slideUp()
+
+  removeCartItem: (id, callback) ->
+    if mediator.flags.loggedIn
+      @deleteUserCartDetail(id, callback)
+    else
+      @deleteVirtualCartDetail(id, callback)

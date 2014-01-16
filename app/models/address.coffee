@@ -4,7 +4,7 @@ module.exports = class Address extends ChaplinModel
 
   initialize: (attributes, option) ->
     super
-    @url = config.apiUrl + "/affiliation/profile.json"
+    @url = config.apiUrl + "/users/profile.json"
     @subscribeEvent 'setAddress', @set
 
     #@fetch success: (collection, response) ->
