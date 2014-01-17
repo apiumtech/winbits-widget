@@ -17,9 +17,12 @@ module.exports = class CartView extends View
     super
     @subscribeEvent 'restoreCart', @restoreCart
     @subscribeEvent 'renderCart', @render
+    @subscribeEvent 'loggedOut', @resetModel
+
+  resetModel: ->
+    @model.clear()
 
   restoreCart: ()->
-    console.log ["CartView#restoreCart"]
     vCart = util.retrieveKey(config.vcartTokenName)
     unless vCart is "[]"
       @model.transferVirtualCart vCart
@@ -42,12 +45,19 @@ module.exports = class CartView extends View
 
       cartItem.id = parseInt(cartItem.id)
       if not cartItem.quantity or cartItem.quantity < 1
-        console.log "Setting default quantity (1)..."
         cartItem.quantity = 1
       cartItem.quantity = parseInt(cartItem.quantity)
 
     if ok
       $cartPanel = @$el.closest('.miCarritoDiv')
+      if cartItems.length is 1
+        existingCartItem = @model.findCartDetail(cartItems[0].id)
+        if existingCartItem
+          cartItem = cartItems[0]
+          cartItem.quantity += existingCartItem.quantity
+          @updateCartDetail(cartItem,$cartPanel)
+          return ok
+
       if mediator.flags.loggedIn
         @model.addToUserCart cartItems, $cartPanel, options
       else
@@ -56,19 +66,15 @@ module.exports = class CartView extends View
 
   clickDeleteCartDetailLink: (e, model) ->
     e.preventDefault()
-    console.log ["deleting Item from cart"]
     $cartDetail = Winbits.$(e.target).closest("li")
-    console.log $cartDetail
     id = $cartDetail.attr("data-id")
     if mediator.flags.loggedIn
       model.deleteUserCartDetail id
     else
       model.deleteVirtualCartDetail id
 
-
   attach: ()->
     super
-    console.log "CartView#attach"
     that = @
     @publishEvent "updateCartCounter", @model.get("itemsCount")
     vendor.customSelect(@$el.find(".wb-cart-detail-quantity")).on "change", (e, previous) ->
@@ -111,7 +117,6 @@ module.exports = class CartView extends View
         that.publishEvent 'showLogin'
 
   updateCartDetail : (cartItem, $cartPanel) ->
-    console.log ["updateCartDetail"]
     if mediator.flags.loggedIn
       @model.updateUserCartDetail cartItem, $cartPanel
     else
