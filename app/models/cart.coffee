@@ -241,27 +241,22 @@ module.exports = class Cart extends ChaplinModel
     cartDetail
 
   updateCartBits: (bits) ->
-#    util.showAjaxIndicator('Actualizando bits...')
     that = @
     util.ajaxRequest config.apiUrl + "/orders/update-cart-bits.json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify({bitsTotal: bits})
-#      context: @
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
-        that.set 'bitsTotal', data.response.bitsTotal
+        that.set bitsTotal: data.response.bitsTotal, paymentMethods: data.response.paymentMethods
         that.publishEvent('cartBitsUpdated', data.response)
 
-      error: (xhr, textStatus, errorThrown) ->
+      error: (xhr) ->
         util.showAjaxError(xhr.responseText)
-
-      complete: ->
-#        util.hideAjaxIndicator()
         
   closeCartIfEmpty: () ->
     $ = Winbits.$
