@@ -65,8 +65,7 @@ module.exports = class Cart extends ChaplinModel
 
       success: (data) ->
         that.set that.completeCartModel data.response
-        if $cartPanel
-          $cartPanel.slideDown()
+        that.showCartPanelIfNotEmpty $cartPanel
         cartItem.success.apply(cartItem, arguments) if Winbits.$.isFunction cartItem.success
 
       error: (xhr) ->
@@ -96,8 +95,7 @@ module.exports = class Cart extends ChaplinModel
       success: (data) ->
         that.storeVirtualCart data.response
         that.set that.completeCartModel(data.response)
-        if $cartPanel
-          $cartPanel.slideDown()
+        that.showCartPanelIfNotEmpty $cartPanel
         cartItem.success.apply(cartItem, arguments) if Winbits.$.isFunction cartItem.success
 
       error: (xhr) ->
@@ -185,7 +183,7 @@ module.exports = class Cart extends ChaplinModel
       success: (data) ->
         that.set that.completeCartModel data.response
         that.publishEvent 'cartUpdated', data.response
-        $cartPanel.slideDown() if $cartPanel
+        that.showCartPanelIfNotEmpty $cartPanel
         that.storeVirtualCart(data.response) if not mediator.flags.loggedIn
         options.success.apply(cartItems, arguments) if Winbits.$.isFunction options.success
       error: (xhr, textStatus, errorThrown) ->
@@ -276,3 +274,11 @@ module.exports = class Cart extends ChaplinModel
       @deleteUserCartDetail(id, callback)
     else
       @deleteVirtualCartDetail(id, callback)
+
+  showCartPanelIfNotEmpty: ($cartPanel) ->
+    console.log(['showCartPanelIfNotEmpty', @cartIsEmpty()])
+    $cartPanel.slideDown() if $cartPanel and not @cartIsEmpty()
+
+  cartIsEmpty: ->
+    cartItems = @get 'cartDetails'
+    not cartItems or cartItems.length is 0
