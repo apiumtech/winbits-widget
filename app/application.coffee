@@ -136,8 +136,7 @@ module.exports = class Application
     hashParts = hash.split('-')
     if hashParts[0] is '#err' and hashParts[1] is 'AFER027'
         Winbits.$('a#wbi-dummy-link').get(0).click()
-        util.showError('No se pudo confirmar al usuario, por favor intente en otro momento')
-    )
+        util.showError 'No se pudo confirmar al usuario, por favor intente en otro momento'
 
    #add new method for validation
   initCustomRules: ()->
