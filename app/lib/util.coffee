@@ -268,6 +268,23 @@ module.exports =
     totalSaved = orderFullPrice - total + bitsTotal
     $orderDetailView.find('.wb-order-saving').text(totalSaved)
 
+  renderSliderOnPayment: (value, active) ->
+    $slider    = Winbits.$(Winbits.$.find('.slider'))
+    $subTotal    = Winbits.$(Winbits.$.find('.checkoutSubtotal'))
+    amount     = $slider.find('.amount')
+    appendCopy = Winbits.$(Winbits.$.find('#wbi-copy-payment'))
+    if active 
+      $slider.children().show()
+      appendCopy.remove() 
+    else
+      $slider.children().hide()
+      copy = "<div name='wbi-copy-payment' id='wbi-copy-payment' >Estás usando #{amount.html()} para esta orden. Si deseas agregar o quitar bits, <a href='#' >haz click aquí.</a></div>"  
+      append = $subTotal.append(copy)
+      append.find("a").on "click": (e) ->
+        Winbits.$(Winbits.$.find('#wbi-cancel-card-token-payment-btn')).click()
+        appendCopy.remove() 
+
+
   isCrapBrowser: ->
     Winbits.$.browser.msie and not /10.*/.test(Winbits.$.browser.version)
 
