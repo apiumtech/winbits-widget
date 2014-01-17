@@ -278,18 +278,13 @@ module.exports =
       url = options.url
     options = options or {}
     if Winbits.isCrapBrowser()
-      console.info ('Using easyXDM -> ' + url)
       context = options.context or @
       Winbits.rpc.request(url, options, () ->
-        console.log ('success')
         options.success.apply(context, arguments) if $.isFunction options.success
         options.complete.call(context) if $.isFunction options.complete
       , () ->
-        console.log ('error')
         options.error.apply(context, arguments) if $.isFunction options.error
         options.complete.call(context) if $.isFunction options.complete
       )
     else
-      console.info ('No IE transaction')
-      console.log [url,options]
       Winbits.$.ajax(url,options)

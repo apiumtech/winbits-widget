@@ -187,7 +187,7 @@ module.exports = class Cart extends ChaplinModel
         that.storeVirtualCart(data.response) if not mediator.flags.loggedIn
         options.success.apply(cartItems, arguments) if Winbits.$.isFunction options.success
       error: (xhr, textStatus, errorThrown) ->
-        util.showAjaxError(xhr.responseText)
+        that.processCartError xhr.responseText
         options.error.apply(cartItems, arguments) if Winbits.$.isFunction options.error
       complete: ->
         util.hideAjaxIndicator()
@@ -282,3 +282,12 @@ module.exports = class Cart extends ChaplinModel
   cartIsEmpty: ->
     cartItems = @get 'cartDetails'
     not cartItems or cartItems.length is 0
+
+  processCartError: (errorJson) ->
+    error = JSON.parse(errorJson)
+    console.log ['Cart error', error]
+    code = error.meta.code
+    if code is 'ORDE038'
+      util.showError(error.meta.message + '. Disponible: ' + error.response.available)
+    else
+      util.showError(error.meta.message)
