@@ -24,7 +24,10 @@ foreach ($orderDetails as $detail ) {
 	$totalFullPrice+= $detail['quantity'] * $detail['sku']['fullPrice'];
 }
 $totalDiscount = $totalFullPrice - $order['itemsTotal'] - $order['bitsTotal'];
-
+$shippingNotEmpty = 0;
+if (!empty($shipping)) {
+    $shippingNotEmpty = 1;
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -98,7 +101,8 @@ $totalDiscount = $totalFullPrice - $order['itemsTotal'] - $order['bitsTotal'];
 <main class="widgetWinbitsMain">
     <div class="wrapper checkoutWinbits">
         <div class="checkoutMain">
-            <div class="checkoutShipping">
+            <? if (!empty($shipping)) { ?>
+            <div class="checkoutShipping" >
                 <h2>DIRECCIÓN DE ENVIO<span class="circuledNumber">1</span></h2>
                 <address>
                     <span><? echo $shipping['contactName']; ?></span>
@@ -107,15 +111,16 @@ $totalDiscount = $totalFullPrice - $order['itemsTotal'] - $order['bitsTotal'];
                     <span><? echo $shipping['city'].', '.$shipping['zipCode']?></span>
                 </address>
             </div>
+            <? } ?>
             <div class="checkoutPayment">
-                <h2>INFORMACIÓN DE PAGO <span class="circuledNumber">2</span></h2>
+                <h2>INFORMACIÓN DE PAGO <span class="circuledNumber"><? echo $shippingNotEmpty+1 ?></span></h2>
                 <address>
                     <span>Cobro exitoso vía Pay Pal de: <? echo (empty($order['cashTotal'])) ? '' : ' $'.$order['cashTotal'] ?></span>
 
                 </address>
             </div>
             <div class="checkoutSummary">
-                <h2>RESUMEN <span class="circuledNumber">3</span></h2>
+                <h2>RESUMEN <span class="circuledNumber"><? echo $shippingNotEmpty+2 ?></span></h2>
                 <? if (!empty($order['estimatedDeliveryDate'])) { ?>
                 <div class="checkoutResumen" >
                     <h3>ENTREGA</h3>
@@ -150,7 +155,7 @@ $totalDiscount = $totalFullPrice - $order['itemsTotal'] - $order['bitsTotal'];
                 	?>
 
                         <span><?echo '('.$detail['quantity'].')' ?> <? echo $attrList;?></span>
-                        <span><b><?echo '$'.$detail['quantity']*$detail['sku']['price'] ?></span></b>
+                        <span><b><?echo '$'.$detail['quantity']*$detail['sku']['price'] ?></b></span>
                     </p>
                 </li>
                 <?}?>

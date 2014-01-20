@@ -65,8 +65,7 @@ module.exports = class Cart extends ChaplinModel
 
       success: (data) ->
         that.set that.completeCartModel data.response
-        if $cartPanel
-          $cartPanel.slideDown()
+        that.showCartPanelIfNotEmpty $cartPanel
         cartItem.success.apply(cartItem, arguments) if Winbits.$.isFunction cartItem.success
 
       error: (xhr) ->
@@ -96,8 +95,7 @@ module.exports = class Cart extends ChaplinModel
       success: (data) ->
         that.storeVirtualCart data.response
         that.set that.completeCartModel(data.response)
-        if $cartPanel
-          $cartPanel.slideDown()
+        that.showCartPanelIfNotEmpty $cartPanel
         cartItem.success.apply(cartItem, arguments) if Winbits.$.isFunction cartItem.success
 
       error: (xhr) ->
@@ -185,11 +183,11 @@ module.exports = class Cart extends ChaplinModel
       success: (data) ->
         that.set that.completeCartModel data.response
         that.publishEvent 'cartUpdated', data.response
-        $cartPanel.slideDown() if $cartPanel
+        that.showCartPanelIfNotEmpty $cartPanel
         that.storeVirtualCart(data.response) if not mediator.flags.loggedIn
         options.success.apply(cartItems, arguments) if Winbits.$.isFunction options.success
       error: (xhr, textStatus, errorThrown) ->
-        util.showAjaxError(xhr.responseText)
+        that.processCartError xhr.responseText
         options.error.apply(cartItems, arguments) if Winbits.$.isFunction options.error
       complete: ->
         util.hideAjaxIndicator()
@@ -243,27 +241,22 @@ module.exports = class Cart extends ChaplinModel
     cartDetail
 
   updateCartBits: (bits) ->
-#    util.showAjaxIndicator('Actualizando bits...')
     that = @
     util.ajaxRequest config.apiUrl + "/orders/update-cart-bits.json",
       type: "PUT"
       contentType: "application/json"
       dataType: "json"
       data: JSON.stringify({bitsTotal: bits})
-#      context: @
       headers:
         "Accept-Language": "es"
         "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
 
       success: (data) ->
-        that.set 'bitsTotal', data.response.bitsTotal
+        that.set bitsTotal: data.response.bitsTotal, paymentMethods: data.response.paymentMethods
         that.publishEvent('cartBitsUpdated', data.response)
 
-      error: (xhr, textStatus, errorThrown) ->
+      error: (xhr) ->
         util.showAjaxError(xhr.responseText)
-
-      complete: ->
-#        util.hideAjaxIndicator()
         
   closeCartIfEmpty: () ->
     $ = Winbits.$
@@ -276,3 +269,20 @@ module.exports = class Cart extends ChaplinModel
       @deleteUserCartDetail(id, callback)
     else
       @deleteVirtualCartDetail(id, callback)
+
+  showCartPanelIfNotEmpty: ($cartPanel) ->
+    console.log(['showCartPanelIfNotEmpty', @cartIsEmpty()])
+    $cartPanel.slideDown() if $cartPanel and not @cartIsEmpty()
+
+  cartIsEmpty: ->
+    cartItems = @get 'cartDetails'
+    not cartItems or cartItems.length is 0
+
+  processCartError: (errorJson) ->
+    error = JSON.parse(errorJson)
+    console.log ['Cart error', error]
+    code = error.meta.code
+    if code is 'ORDE038'
+      util.showError(error.meta.message + '. Disponible: ' + error.response.available)
+    else
+      util.showError(error.meta.message)

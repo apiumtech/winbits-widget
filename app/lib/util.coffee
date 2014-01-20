@@ -268,6 +268,23 @@ module.exports =
     totalSaved = orderFullPrice - total + bitsTotal
     $orderDetailView.find('.wb-order-saving').text(totalSaved)
 
+  renderSliderOnPayment: (value, active) ->
+    $slider    = Winbits.$(Winbits.$.find('.slider'))
+    $subTotal    = Winbits.$(Winbits.$.find('.checkoutSubtotal'))
+    amount     = $slider.find('.amount')
+    appendCopy = Winbits.$(Winbits.$.find('#wbi-copy-payment'))
+    if active 
+      $slider.children().show()
+      appendCopy.remove() 
+    else
+      $slider.children().hide()
+      copy = "<div name='wbi-copy-payment' id='wbi-copy-payment' >Estás usando #{amount.html()} para esta orden. Si deseas agregar o quitar bits, <a href='#' >haz click aquí.</a></div>"  
+      append = $subTotal.append(copy)
+      append.find("a").on "click": (e) ->
+        Winbits.$(Winbits.$.find('#wbi-cancel-card-token-payment-btn')).click()
+        appendCopy.remove() 
+
+
   isCrapBrowser: ->
     Winbits.$.browser.msie and not /10.*/.test(Winbits.$.browser.version)
 
@@ -278,18 +295,13 @@ module.exports =
       url = options.url
     options = options or {}
     if Winbits.isCrapBrowser()
-      console.info ('Using easyXDM -> ' + url)
       context = options.context or @
       Winbits.rpc.request(url, options, () ->
-        console.log ('success')
         options.success.apply(context, arguments) if $.isFunction options.success
         options.complete.call(context) if $.isFunction options.complete
       , () ->
-        console.log ('error')
         options.error.apply(context, arguments) if $.isFunction options.error
         options.complete.call(context) if $.isFunction options.complete
       )
     else
-      console.info ('No IE transaction')
-      console.log [url,options]
       Winbits.$.ajax(url,options)
