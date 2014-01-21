@@ -16,8 +16,12 @@ module.exports = class AddressView extends View
     @delegate 'click', '#updateBtnAdress', @saveDireccion
     @delegate 'click', '#editBtnAddress', @editAddress
     @delegate 'click', ".changeAddressBtn", @changeAddress
-
+    @subscribeEvent 'refreshPrincipalAddress', @refreshPrincipalAddress
     @subscribeEvent 'loggedOut', @resetView
+
+  refreshPrincipalAddress:(addresses) ->
+    console.log 'Setting address to model'
+    @model.set addresses[0]
 
   resetView: ->
     @model.clear()
