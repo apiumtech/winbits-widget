@@ -31,6 +31,7 @@ module.exports = class CardTokenPaymentView extends View
   onCancelCardTokenPaymentBtnClick: (e) ->
     e.preventDefault()
     @$el.children().hide()
+    util.renderSliderOnPayment(100, true)
     @publishEvent 'paymentFlowCancelled'
 
   onCardTokenPaymentFormSubmitted: (e) ->
