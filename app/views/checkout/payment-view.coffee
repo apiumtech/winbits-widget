@@ -271,6 +271,8 @@ module.exports = class PaymentView extends View
   onContinueWithCardTokenBtnClick: (e) ->
     e.preventDefault()
     $cartItem = @$el.find('.wb-card-list-item.creditcardSelected:visible')
+
+    util.renderSliderOnPayment(100, false)
     if $cartItem.length > 0
       @$el.children().hide()
       cardData = @cardsView.getCardDataAt $cartItem.index()
