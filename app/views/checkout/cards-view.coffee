@@ -17,15 +17,6 @@ module.exports = class CardsView extends View
   initialize: ->
     super
     console.log "CardsView#initialize"
-    #@delegate "click" , "#wbi-add-new-card-link", @showNewCardForm
-    #@delegate "click" , ".wb-cancel-card-form-btn", @cancelSaveUpdateCard
-    #@delegate "click" , ".wb-edit-card-link", @showEditCardForm
-    #@delegate "submit" , "#wbi-new-card-form", @submitNewCardForm
-    #@delegate "submit" , "#wbi-edit-card-form", @submitEditCardForm
-    #@delegate "click", ".wb-delete-card-link", @confirmDeleteCard
-    #@delegate "click", ".wb-card-list-item", @selectCard
-    #@delegate "textchange", ".wb-card-number-input", @showCardType
-    #@delegate "blur", ".wb-card-number-input", @showCardType
     @subscribeEvent 'loggedOut', @resetModel
 
   resetModel: ->

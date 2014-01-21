@@ -16,6 +16,7 @@ module.exports = class Cards extends ChaplinModel
   initialize: () ->
     super
     @subscribeEvent 'showCardsManager', @getCards
+    @subscribeEvent "orderBitsUpdated", @updateBitsParser
 
   getCards: ()->
     that = @
@@ -36,3 +37,6 @@ module.exports = class Cards extends ChaplinModel
       complete: ->
         util.hideAjaxIndicator() if that.loadingIndicator
     )
+
+  updateBitsParser: (response) ->
+      @set methods:response.paymentMethods

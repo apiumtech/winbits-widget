@@ -304,6 +304,10 @@ amexOrCyberSource = (cardType)->
     if cardType == "American Express"
         return "amex.msi."
 
+amexOrCyberSourceWithOutMsi = (cardType)->
+    ac = amexOrCyberSource cardType
+    ac?.split(".")[0]
+
 Handlebars.registerHelper "hasMSI", (supportInstallments, methods, cardType) ->
   ac = amexOrCyberSource cardType
 
@@ -332,6 +336,13 @@ Handlebars.registerHelper "paymentMethodSupported", (identifier, options) ->
     supported = paymentMethod.identifier.indexOf(identifier) isnt -1
     not supported
   if supported then options.fn this else options.inverse this
+
+Handlebars.registerHelper "paymentMethodSupportedCard", (methods, cardType) ->
+  ac = amexOrCyberSourceWithOutMsi cardType
+  if (methods? and ac?)
+      supported = method for method in methods when method.identifier.match ac 
+      if supported
+        return new Handlebars.SafeString("supported #supported")
 
 Handlebars.registerHelper "withMsiPayments", (options) ->
   $ = Winbits.$
