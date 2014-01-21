@@ -29,9 +29,19 @@ module.exports = class ResumeView extends View
     $timer.data('contentTimerId', "#wbi-alternate-checkout-flow")
     clock.startCounter( $timer )
 
+    debounceSlide = _.debounce( ($slider, $amountEm, bits) ->
+      emValue = parseInt($amountEm.text())
+      if emValue is bits
+        util.updateOrderDetailView(that.model, bits, $slider)
+        that.updateBitsTotal bits
+    , 1500)
+
     if mediator.profile.bitsBalance > 0
-      vendor.customSlider("#wbi-bits-slide-resume") .on 'slidechange', (e, ui) ->
-        that.updateBitsTotal ui.value
+      vendor.customSlider("#wbi-bits-slide-resume").on('slidechange', (e, ui) ->
+        $slider = Winbits.$(@)
+        $amountEm = Winbits.$(this).find(".amount em")
+        debounceSlide $slider, $amountEm, ui.value
+      )
 
 
   showResume: (data) ->
