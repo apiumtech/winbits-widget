@@ -337,13 +337,17 @@ Handlebars.registerHelper "paymentMethodSupported", (identifier, options) ->
     not supported
   if supported then options.fn this else options.inverse this
 
-Handlebars.registerHelper "paymentMethodSupportedCard", (methods, cardType) ->
-  ac = amexOrCyberSourceWithOutMsi cardType
-  if (methods? and ac?)
-      supported = method for method in methods when method.identifier.match ac 
-      if supported
-        return new Handlebars.SafeString("supported #supported")
 
+Handlebars.registerHelper "paymentMethodSupportedClass", (methods, cardType) ->
+  html = new Handlebars.SafeString("creditcardNotEligible")
+  ac = amexOrCyberSourceWithOutMsi cardType
+  util.paymentMethodSupportedHtml methods, ac, html
+
+Handlebars.registerHelper "paymentMethodSupportedDiv", (methods, cardType) ->
+  html = new Handlebars.SafeString("<div class='creditcardNotEligible-overlay'><span class='creditcardNotEligible-span'>Lo sentimos. Esta compra acepta únicamente pago en efectivo o bits.</span>")
+  ac = amexOrCyberSourceWithOutMsi cardType
+  util.paymentMethodSupportedHtml methods, ac, html
+  
 Handlebars.registerHelper "withMsiPayments", (options) ->
   $ = Winbits.$
   msiIdentifiers = []

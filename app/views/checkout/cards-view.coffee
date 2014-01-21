@@ -247,7 +247,7 @@ module.exports = class CardsView extends View
   selectCard: (e) ->
     e.preventDefault()
     $selectedCard = @$el.find(e.currentTarget)
-    if not $selectedCard.is('.creditcardSelected')
+    if not ( $selectedCard.is('.creditcardSelected') or $selectedCard.is('.creditcardNotEligible') )
       $selectedCard.siblings('.creditcardSelected').removeClass('creditcardSelected')
       $selectedCard.addClass('creditcardSelected')
       cardIndex = $selectedCard.index()

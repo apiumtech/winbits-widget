@@ -1,7 +1,8 @@
 <div class="creditcards wb-cards-subview" id="wbi-cards-list-holder">
   <ul>
     {{#each cards}}
-    <li class="creditcardItem wb-card-list-item {{getCardTypeClass cardInfo.cardData.cardType}} {{#if cardInfo.cardPrincipal}}creditcardSelected{{/if}}">
+    <li class="creditcardItem  wb-card-list-item {{paymentMethodSupportedClass ../methods cardInfo.cardData.cardType}} {{getCardTypeClass cardInfo.cardData.cardType}} {{#if cardInfo.cardPrincipal}}creditcardSelected{{/if}}" data-notelegible="Lo sentimos. Esta compra acepta únicamente pago en efectivo o bits.">
+      {{paymentMethodSupportedDiv ../methods cardInfo.cardData.cardType}}
       <div class="creditcardMenu">
         <a class="wb-edit-card-link" href="#">edit</a>
         <span class="icon closeButton wb-delete-card-link">cerrar</span>
@@ -12,7 +13,6 @@
         <span>{{cardType}},</span>
         <span>{{accountNumber}}</span>
         <span>{{expirationMonth}}/{{expirationYear}}</span>
-        Metdoso {{paymentMethodSupportedCard ../../methods cardType}}
         {{/with}}
       </address>
       <span class="note send creditCardSend">Tu orden se pagará con esta tarjeta.</span>
