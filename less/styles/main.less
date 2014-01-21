@@ -608,6 +608,28 @@
 					}
 				}
 			}
+                        &.creditcardNotEligible {
+                                cursor: default;
+                                &:hover {
+                                        .hover {
+                                                display: none;
+                                        }
+                                }
+                                .creditcardNotEligible-overlay {
+                                        background: @black;
+                                        background: rgba(0,0,0,0.8);
+                                        color: @white;
+                                        left: 0;
+                                        position: absolute;
+                                        top: 0;
+                                        z-index: 9;
+                                        .size(126px, 210px);
+                                }
+                                .creditcardNotEligible-span {
+                                        text-align: center;
+                                        .center-position (50px,180px);
+                                }
+                        }
 		}
 	}
 	.shippingNewAddress, .creditcardNew, .mesesSinInteresesTab {

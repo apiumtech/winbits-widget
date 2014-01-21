@@ -270,14 +270,14 @@ module.exports = class PaymentView extends View
 
   onContinueWithCardTokenBtnClick: (e) ->
     e.preventDefault()
-    $cartItem = @$el.find('.wb-card-list-item.creditcardSelected:visible')
+    $cartItem = @$el.find('.wb-card-list-item.creditcardSelected:visible:not(.creditcardNotEligible)')
 
-    util.renderSliderOnPayment(100, false)
     if $cartItem.length > 0
       @$el.children().hide()
       cardData = @cardsView.getCardDataAt $cartItem.index()
       console.log ['CARD DATA', cardData]
       @setupPaymentWithToken cardData
+      util.renderSliderOnPayment(100, false)
     else
       util.showError('Selecciona un medio de pago para continuar')
 

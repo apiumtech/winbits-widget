@@ -305,3 +305,13 @@ module.exports =
       )
     else
       Winbits.$.ajax(url,options)
+
+
+  paymentMethodSupportedHtml: (methods, ac, html) ->
+      if (methods? and ac?)
+          supported = method for method in methods when method.identifier.match ac 
+          if supported
+            return new Handlebars.SafeString("")
+          
+      return html
+
