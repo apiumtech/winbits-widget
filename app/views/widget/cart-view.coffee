@@ -1,3 +1,4 @@
+CartBalanceView = require 'views/widget/cartdetail/cart-balance-view'
 template = require 'views/templates/widget/cart'
 View = require 'views/base/view'
 util = require 'lib/util'
@@ -17,6 +18,7 @@ module.exports = class CartView extends View
     super
     @subscribeEvent 'restoreCart', @restoreCart
     @subscribeEvent 'renderCart', @render
+
 
   restoreCart: ()->
     console.log ["CartView#restoreCart"]
@@ -78,15 +80,17 @@ module.exports = class CartView extends View
       that.updateCartDetail id: id, quantity: val
 
     that = @
+
+    debounceSlide = _.debounce( ($slider, $amountEm, bits) ->
+      emValue = parseInt($amountEm.text())
+      if emValue is bits
+        that.updateBalanceValues(that, $slider, bits)
+    , 1500)
+
     vendor.customSlider(".wb-cart-bits-slider-account").on('slidechange', (e, ui) ->
-      # TODO: Create view CartInfo and maintain slider out of that view
       $slider = Winbits.$(@)
-      maxBits = $slider.slider('option', 'max')
-      if maxBits > 0
-        util.updateCartInfoView(that.model, ui.value, $slider)
-        that.updateCartBits ui.value
-    ).on('slide', (e, ui) ->
-      util.updateCartInfoView(that.model, ui.value, Winbits.$(@))
+      $amountEm = Winbits.$(this).find(".amount em")
+      debounceSlide $slider, $amountEm, ui.value
     )
 
     @$el.find('.wb-cart-detail-delete-link').click (  e) ->
@@ -110,6 +114,11 @@ module.exports = class CartView extends View
         mediator.flags.autoCheckout = true
         that.publishEvent 'showLogin'
 
+    container = Winbits.$.find('#wbi-cart-balance')
+    balanceView = new CartBalanceView {@model, container}
+    @listenToOnce balanceView, 'dispose', @render
+    @subview 'balanceCartSubview', balanceView
+
   updateCartDetail : (cartItem, $cartPanel) ->
     console.log ["updateCartDetail"]
     if mediator.flags.loggedIn
@@ -126,3 +135,9 @@ module.exports = class CartView extends View
   closeCart: (e) ->
     e.preventDefault()
     Winbits.$(e.currentTarget).closest('.dropMenu').slideUp()
+
+  updateBalanceValues: (that, $slider, bits)->
+    maxBits = $slider.slider('option', 'max')
+    if maxBits > 0
+      util.updateCartInfoView(that.model, bits, $slider)
+      that.updateCartBits bits
