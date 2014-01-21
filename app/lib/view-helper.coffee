@@ -344,7 +344,7 @@ Handlebars.registerHelper "paymentMethodSupportedClass", (methods, cardType) ->
   util.paymentMethodSupportedHtml methods, ac, html
 
 Handlebars.registerHelper "paymentMethodSupportedDiv", (methods, cardType) ->
-  html = new Handlebars.SafeString("<div class='creditcardNotEligible-overlay'><span class='creditcardNotEligible-span'>Lo sentimos. Esta compra acepta únicamente pago en efectivo o bits.</span>")
+  html = new Handlebars.SafeString("<div class='creditcardNotEligible-overlay'><span class='creditcardNotEligible-span'>Lo sentimos. Esta compra acepta únicamente pago en efectivo o bits.</span></div>")
   ac = amexOrCyberSourceWithOutMsi cardType
   util.paymentMethodSupportedHtml methods, ac, html
   

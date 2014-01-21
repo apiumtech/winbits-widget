@@ -109,8 +109,8 @@ module.exports = class CardsView extends View
         city:
           required: true
           minlength: 2
-    @$el.find('li.wb-amex-card').hide() if not @amexSupported
-    @$el.find('li.wb-cybersource-card').hide() if not @cybersourceSupported
+    #@$el.find('li.wb-amex-card').hide() if not @amexSupported
+    #@$el.find('li.wb-cybersource-card').hide() if not @cybersourceSupported
 
   showNewCardForm: (e) ->
     e.preventDefault()
