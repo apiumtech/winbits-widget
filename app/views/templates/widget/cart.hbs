@@ -13,21 +13,7 @@
       </div>
     </div>
     <div class="carritoDivRight cart-info">
-      <h3>ENVIO</h3>
-      <span class="freeShipping cart-shipping-total reseteable" data-reset-text="GRATIS">
-        {{cartShipping total shippingTotal bitsTotal}}
-      </span>
-
-      <h3>TOTAL</h3>
-      <span class="totalCar cart-total reseteable" data-reset-text="$0">${{cartTotal total bitsTotal}}</span>
-
-      <div class="winSave wb-bits-control">
-        <span>WIN</span>
-        <em class="icon winbits10px"></em>
-        <label class="cart-bits-cashback reseteable" data-reset-text="0">{{cashback}}</label>
-        <span>save</span>
-        <label class="cart-saving reseteable" data-reset-text="0%">{{calculateCartSaving cartDetails bitsTotal itemsTotal shippingTotal}}%</label>
-      </div>
+      <div id="wbi-cart-balance"></div>
       <input class="wb-cart-bits-slider-account" data-reset-val="0" type="hidden" value="{{bitsTotal}}" data-min="0"
              data-max="{{total}}" data-step="1" class="slideInput wb-bits-control" data-max-selection="{{getBitsMaxSelection total}}">
       <span class="legendCarrito">Usa tus bits como dinero en esta compra <a href="#">learn more</a></span>
