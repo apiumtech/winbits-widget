@@ -20,8 +20,12 @@ module.exports = class AddressView extends View
     @subscribeEvent 'loggedOut', @resetView
 
   refreshPrincipalAddress:(addresses) ->
-    console.log 'Setting address to model'
-    @model.set addresses[0]
+    for address in addresses
+      if address.main
+         @model.set address
+         break
+      else
+         @model.set addresses[0]
 
   resetView: ->
     @model.clear()
