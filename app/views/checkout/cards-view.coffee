@@ -17,15 +17,15 @@ module.exports = class CardsView extends View
   initialize: ->
     super
     console.log "CardsView#initialize"
-    @delegate "click" , "#wbi-add-new-card-link", @showNewCardForm
-    @delegate "click" , ".wb-cancel-card-form-btn", @cancelSaveUpdateCard
-    @delegate "click" , ".wb-edit-card-link", @showEditCardForm
-    @delegate "submit" , "#wbi-new-card-form", @submitNewCardForm
-    @delegate "submit" , "#wbi-edit-card-form", @submitEditCardForm
-    @delegate "click", ".wb-delete-card-link", @confirmDeleteCard
-    @delegate "click", ".wb-card-list-item", @selectCard
-    @delegate "textchange", ".wb-card-number-input", @showCardType
-    @delegate "blur", ".wb-card-number-input", @showCardType
+    #@delegate "click" , "#wbi-add-new-card-link", @showNewCardForm
+    #@delegate "click" , ".wb-cancel-card-form-btn", @cancelSaveUpdateCard
+    #@delegate "click" , ".wb-edit-card-link", @showEditCardForm
+    #@delegate "submit" , "#wbi-new-card-form", @submitNewCardForm
+    #@delegate "submit" , "#wbi-edit-card-form", @submitEditCardForm
+    #@delegate "click", ".wb-delete-card-link", @confirmDeleteCard
+    #@delegate "click", ".wb-card-list-item", @selectCard
+    #@delegate "textchange", ".wb-card-number-input", @showCardType
+    #@delegate "blur", ".wb-card-number-input", @showCardType
     @subscribeEvent 'loggedOut', @resetModel
 
   resetModel: ->
@@ -33,6 +33,35 @@ module.exports = class CardsView extends View
 
   attach: ->
     super
+    that = @
+
+    @$el.find(".wb-card-number-input").on "blur",  (e)->
+      that.showCardType(e)
+
+    @$el.find(".wb-card-number-input").on "textchange",  (e)->
+      that.showCardType(e)
+
+    @$el.find(".wb-delete-card-link").on "click",  (e)->
+      that.confirmDeleteCard(e)
+
+    @$el.find("#wbi-new-card-form").on "submit",  (e)->
+      that.submitNewCardForm(e)
+
+    @$el.find("#wbi-add-new-card-link").on "click",  (e)->
+      that.showNewCardForm(e)
+
+    @$el.find(".wb-card-list-item").on "click",  (e)->
+      that.selectCard(e)
+      
+    @$el.find(".wb-edit-card-link").on "click", (e) ->
+      that.showEditCardForm(e)
+
+    @$el.find( "#wbi-edit-card-form").on "submit", (e) ->
+        that.submitEditCardForm(e)
+        
+    @$el.find( ".wb-cancel-card-form-btn").on "click", (e) ->
+        that.cancelSaveUpdateCard(e)
+    
     @$el.find(".wb-card-form").validate
       groups:
         cardExpiration: 'expirationMonth expirationYear'
