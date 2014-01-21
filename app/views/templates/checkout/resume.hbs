@@ -95,15 +95,16 @@
           <span><em class="icon winbits10px"></em>{{cashback}}</span>
         </div>
         <div class="totalCheckOutTemp-slider">
-          {{#hasBitsBalanceInResume}}
-            <input type="text" value="{{bitsTotal}}" data-min="0" data-max="{{maxBits}}" data-step="2" class="slideInput" id="wbi-bits-slide-resume">
-            <span class="legendCarrito">Usa tus bits como dinero en esta compra <a href="#">learn more</a></span>
-          {{/hasBitsBalanceInResume}}
+        {{#hasBitsBalanceInResume}}
+          <input type="text" value="{{bitsTotal}}" data-min="0" data-max="{{total}}" data-step="2" class="slideInput" id="wbi-bits-slide-resume"
+                 data-max-selection="{{maxBits}}">
+          <span class="legendCarrito">Usa tus bits como dinero en esta compra <a href="#">learn more</a></span>
+        {{/hasBitsBalanceInResume}}
         </div>
         <div class="totalCheckOutTemp-totalTotal">
           <span class="checkoutTitle">TOTAL</span>
-          <span class="checkoutDetail">${{cashTotal}}
-            <span class="note">Ahorro de ${{orderSaving}}</span>
+          <span class="checkoutDetail">$<p style="display: inline;" class="wb-order-cash-total">{{cashTotal}}</p>
+            <span class="note">Ahorro de $<p style="display: inline;" class="wb-order-saving">{{orderSaving}}</p></span>
           </span>
         </div>
         <div class="totalCheckOutTemp-checkout">

@@ -29,9 +29,19 @@ module.exports = class ResumeView extends View
     $timer.data('contentTimerId', "#wbi-alternate-checkout-flow")
     clock.startCounter( $timer )
 
+    debounceSlide = _.debounce( ($slider, $amountEm, bits) ->
+      emValue = parseInt($amountEm.text())
+      if emValue is bits
+        util.updateOrderDetailView(that.model, bits, $slider)
+        that.updateBitsTotal bits
+    , 1500)
+
     if mediator.profile.bitsBalance > 0
-      vendor.customSlider("#wbi-bits-slide-resume") .on 'slidechange', (e, ui) ->
-        that.updateBitsTotal ui.value
+      vendor.customSlider("#wbi-bits-slide-resume").on('slidechange', (e, ui) ->
+        $slider = Winbits.$(@)
+        $amountEm = Winbits.$(this).find(".amount em")
+        debounceSlide $slider, $amountEm, ui.value
+      )
 
 
   showResume: (data) ->
@@ -160,7 +170,23 @@ module.exports = class ResumeView extends View
     util.backToSite(e)
 
   checkoutFromResume: (e) ->
-    @publishEvent 'postToCheckoutApp', @model.attributes
+    updateData = {bitsTotal: @model.attributes.bitsTotal, orderId: @model.attributes.id }
+    that=@
+    util.ajaxRequest( config.apiUrl + "/orders/update-order-bits.json",
+      type: "PUT"
+      contentType: "application/json"
+      dataType: "json"
+      data: JSON.stringify(updateData)
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
+
+      success: (data) ->
+        console.log ["Success: Syncronize bits", data.response]
+        that.publishEvent 'postToCheckoutApp', that.model.attributes
+      error: (xhr, textStatus, errorThrown) ->
+        util.showAjaxError(xhr.responseText)
+    )
 
   calculateItemsTotal: (orderDetails) ->
     orderDetails.map( (a) -> a.amount ).reduce( (x, y) -> x + y )
