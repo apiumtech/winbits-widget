@@ -252,7 +252,8 @@ Handlebars.registerHelper "formatAddressNumber", () ->
 Handlebars.registerHelper "toDefaultDateFormat", (dateString) ->
   if dateString
     date = new Date(dateString)
-    date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()
+    date.getDate() + '/' + (date.getMonth()+1) + '/' + date.getFullYear()
+
 
 Handlebars.registerHelper "abs", (number) ->
   Math.abs(number)
