@@ -16,12 +16,18 @@ module.exports = class OrderDetailView extends View
     super
     that = @
     if Winbits.checkoutConfig.bitsBalance > 0
+
+      debounceSlide = _.debounce( ($slider, $amountEm, bits) ->
+          emValue = parseInt($amountEm.text())
+          if emValue is bits
+            util.updateOrderDetailView(that.model, bits, $slider)
+            that.updateOrderBits bits
+      , 1500)
+
       vendor.customSlider("#wbi-bits-slide-checkout").on('slidechange', (e, ui) ->
-#      TODO: Create view OrderInfo and maintain slider out of that view
-        util.updateOrderDetailView(that.model, ui.value, Winbits.$(@))
-        that.updateOrderBits ui.value
-      ).on('slide', (e, ui) ->
-        util.updateOrderDetailView(that.model, ui.value, Winbits.$(@))
+        $slider = Winbits.$(@)
+        $amountEm = Winbits.$(this).find(".amount em")
+        debounceSlide $slider, $amountEm, ui.value
       )
 
     if this.model.get("cashTotal") is 0

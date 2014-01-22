@@ -69,10 +69,11 @@ module.exports = class ProfileView extends View
         error: ->
           console.log "error"
         success: (data) ->
-          that.onProfileUpdated data.response
-          $editProfileContainer = @$el.find(".editMiPerfil")
-          $editProfileContainer.slideUp ->
-          util.justResetForm $editProfileContainer.find('form')
+          @view.onProfileUpdated data.response
+          $editProfileContainer =  @view.$el.find(".editMiPerfil")
+          $editProfileContainer.slideUp  ->
+            util.justResetForm $editProfileContainer.find('form')
+          @view.$el.find(".miPerfil").slideDown()
         complete: ->
           button.prop 'disabled', false
       )

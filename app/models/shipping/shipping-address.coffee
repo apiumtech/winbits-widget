@@ -19,6 +19,7 @@ module.exports = class ShippingAddress extends ChaplinModel
   getShippingAddressList: ->
     that = @
     url = config.apiUrl + "/users/shipping-addresses.json"
+
     util.ajaxRequest( url,
       type: "GET"
       contentType: "application/json"
@@ -31,7 +32,9 @@ module.exports = class ShippingAddress extends ChaplinModel
         model = {}
         model.addresses = data.response
         that.set model
+        that.publishEvent 'refreshPrincipalAddress', model.addresses
         that.publishEvent 'shippingReady'
+
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
     )

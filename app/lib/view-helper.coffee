@@ -304,6 +304,10 @@ amexOrCyberSource = (cardType)->
     if cardType == "American Express"
         return "amex.msi."
 
+amexOrCyberSourceWithOutMsi = (cardType)->
+    ac = amexOrCyberSource cardType
+    ac?.split(".")[0]
+
 Handlebars.registerHelper "hasMSI", (supportInstallments, methods, cardType) ->
   ac = amexOrCyberSource cardType
 
@@ -333,6 +337,17 @@ Handlebars.registerHelper "paymentMethodSupported", (identifier, options) ->
     not supported
   if supported then options.fn this else options.inverse this
 
+
+Handlebars.registerHelper "paymentMethodSupportedClass", (methods, cardType) ->
+  html = new Handlebars.SafeString("creditcardNotEligible")
+  ac = amexOrCyberSourceWithOutMsi cardType
+  util.paymentMethodSupportedHtml methods, ac, html
+
+Handlebars.registerHelper "paymentMethodSupportedDiv", (methods, cardType) ->
+  html = new Handlebars.SafeString("<div class='creditcardNotEligible-overlay'><span class='creditcardNotEligible-span'>Lo sentimos. Esta compra acepta únicamente pago en efectivo o bits.</span></div>")
+  ac = amexOrCyberSourceWithOutMsi cardType
+  util.paymentMethodSupportedHtml methods, ac, html
+  
 Handlebars.registerHelper "withMsiPayments", (options) ->
   $ = Winbits.$
   msiIdentifiers = []

@@ -253,6 +253,7 @@ module.exports =
     shippingTotal = cartModel.get 'shippingTotal'
     cartSaving = @calculateCartSaving(cartDetails, bitsTotal, itemsTotal, shippingTotal)
     $cartInfoView.find('.cart-saving').text(cartSaving + '%')
+    cartTotal
 
   updateOrderDetailView: (orderModel, value, $slider) ->
     maxSelection = $slider.find('input').data('max-selection')
@@ -284,7 +285,6 @@ module.exports =
         Winbits.$(Winbits.$.find('#wbi-cancel-card-token-payment-btn')).click()
         appendCopy.remove() 
 
-
   isCrapBrowser: ->
     Winbits.$.browser.msie and not /10.*/.test(Winbits.$.browser.version)
 
@@ -305,3 +305,13 @@ module.exports =
       )
     else
       Winbits.$.ajax(url,options)
+
+
+  paymentMethodSupportedHtml: (methods, ac, html) ->
+      if (methods? and ac?)
+          supported = method for method in methods when method.identifier.match ac 
+          if supported
+            return new Handlebars.SafeString("")
+          
+      return html
+
