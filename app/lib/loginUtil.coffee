@@ -79,7 +79,7 @@ module.exports = class LoginUtil
       profileData.twitter = if twitter != null && twitter.length > 0 then "On" else "Off"
 
       Winbits.$('#wbi-user-waiting-list-count').text profileData.waitingListCount
-      Winbits.$('#wbi-user-waiting-list-count').text profileData.wishListCount
+      Winbits.$('#wbi-user-wish-list-count').text profileData.wishListCount
       Winbits.$('#wbi-user-pending-orders-count').text profileData.pendingOrdersCount
 
       @publishEvent "showHeaderLogin"
