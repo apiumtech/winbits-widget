@@ -285,7 +285,6 @@ module.exports =
         Winbits.$(Winbits.$.find('#wbi-cancel-card-token-payment-btn')).click()
         appendCopy.remove() 
 
-
   isCrapBrowser: ->
     Winbits.$.browser.msie and not /10.*/.test(Winbits.$.browser.version)
 
