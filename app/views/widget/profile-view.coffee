@@ -58,7 +58,6 @@ module.exports = class ProfileView extends View
         formData.zipCodeInfo  = {"id": formData.zipCodeInfo}
       formData.gender = gender
       button = @$el.find('#updateBtnProfile').prop 'disabled', true
-      that=@
       util.ajaxRequest( @model.url,
         type: "PUT"
         contentType: "application/json"

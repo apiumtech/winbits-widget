@@ -34,6 +34,7 @@ module.exports = ($)->
         $option.data 'zip-code-info', response
         values.push $option
       values.push "<option value=\"-1\">Otro...</option>"
+
     else
       $form.find('[name=county], [name=state]').attr('readonly', '')
       $form.find('[name=location]').hide()
