@@ -17,15 +17,6 @@ module.exports = class CardsView extends View
   initialize: ->
     super
     console.log "CardsView#initialize"
-    #@delegate "click" , "#wbi-add-new-card-link", @showNewCardForm
-    #@delegate "click" , ".wb-cancel-card-form-btn", @cancelSaveUpdateCard
-    #@delegate "click" , ".wb-edit-card-link", @showEditCardForm
-    #@delegate "submit" , "#wbi-new-card-form", @submitNewCardForm
-    #@delegate "submit" , "#wbi-edit-card-form", @submitEditCardForm
-    #@delegate "click", ".wb-delete-card-link", @confirmDeleteCard
-    #@delegate "click", ".wb-card-list-item", @selectCard
-    #@delegate "textchange", ".wb-card-number-input", @showCardType
-    #@delegate "blur", ".wb-card-number-input", @showCardType
     @subscribeEvent 'loggedOut', @resetModel
 
   resetModel: ->
@@ -118,8 +109,8 @@ module.exports = class CardsView extends View
         city:
           required: true
           minlength: 2
-    @$el.find('li.wb-amex-card').hide() if not @amexSupported
-    @$el.find('li.wb-cybersource-card').hide() if not @cybersourceSupported
+    #@$el.find('li.wb-amex-card').hide() if not @amexSupported
+    #@$el.find('li.wb-cybersource-card').hide() if not @cybersourceSupported
 
   showNewCardForm: (e) ->
     e.preventDefault()
@@ -256,7 +247,7 @@ module.exports = class CardsView extends View
   selectCard: (e) ->
     e.preventDefault()
     $selectedCard = @$el.find(e.currentTarget)
-    if not $selectedCard.is('.creditcardSelected')
+    if not ( $selectedCard.is('.creditcardSelected') or $selectedCard.is('.creditcardNotEligible') )
       $selectedCard.siblings('.creditcardSelected').removeClass('creditcardSelected')
       $selectedCard.addClass('creditcardSelected')
       cardIndex = $selectedCard.index()

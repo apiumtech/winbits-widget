@@ -62,6 +62,8 @@ module.exports = class CardTokenPaymentView extends View
             that.$el.hide()
             that.publishEvent "setConfirm", data.response
             that.publishEvent "showStep", ".checkoutSummaryContainer", payment, bitsPayment
+            #ocultamos el mensaje de bits
+            util.renderSliderOnPayment 100, true
           else
             util.showError(payment.paymentCapture.mensaje || payment.paymentCapture.message)
         error: () ->
