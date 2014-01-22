@@ -131,11 +131,29 @@ module.exports = class CartView extends View
     else
       @model.updateVirtualCartDetail cartItem, $cartPanel
 
-  updateCartBits: (bits) ->
+  updateCartBits: (bits, amount) ->
     if mediator.flags.loggedIn
       @model.updateCartBits(bits)
     else
+      @updatePaymentMethods amount
       @model.set 'bitsTotal', bits
+
+  updatePaymentMethods: (amount) ->
+    that = @
+    vCart = util.retrieveKey(config.vcartTokenName)
+    util.ajaxRequest config.apiUrl + "/orders/virtual-cart-items/paymentMethods.json",
+      type: "POST"
+      contentType: "application/json"
+      dataType: "json"
+      data: JSON.stringify({"virtualCartData": vCart, "amount": amount})
+      headers:
+        "Accept-Language": "es"
+
+      success: (data) ->
+        that.model.set {paymentMethods: data.response.paymentMethods}
+
+      error: (xhr) ->
+        util.showAjaxError(xhr.responseText)
 
   closeCart: (e) ->
     e.preventDefault()
@@ -144,5 +162,5 @@ module.exports = class CartView extends View
   updateBalanceValues: (that, $slider, bits)->
     maxBits = $slider.slider('option', 'max')
     if maxBits > 0
-      util.updateCartInfoView(that.model, bits, $slider)
-      that.updateCartBits bits
+      cartTotal = util.updateCartInfoView(that.model, bits, $slider)
+      that.updateCartBits bits, cartTotal

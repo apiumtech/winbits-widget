@@ -253,6 +253,7 @@ module.exports =
     shippingTotal = cartModel.get 'shippingTotal'
     cartSaving = @calculateCartSaving(cartDetails, bitsTotal, itemsTotal, shippingTotal)
     $cartInfoView.find('.cart-saving').text(cartSaving + '%')
+    cartTotal
 
   updateOrderDetailView: (orderModel, value, $slider) ->
     maxSelection = $slider.find('input').data('max-selection')
