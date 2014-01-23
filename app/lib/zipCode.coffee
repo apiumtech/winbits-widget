@@ -4,9 +4,9 @@ vendor = require 'lib/vendor'
 
 module.exports = ($)->
   find : (cp, element, itemSelected, callback) ->
-
+    console.log 'ZIPCODE ENTRY'
     that = @
-    unless cp.length is 5
+    unless (cp.length is 5)
       return
 
     util.ajaxRequest(

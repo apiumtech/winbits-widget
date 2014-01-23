@@ -7,6 +7,7 @@ token = require 'lib/token'
 mediator = require 'chaplin/mediator'
 vendor = require 'lib/vendor'
 
+
 module.exports = class ProfileView extends View
   autoRender: yes
   #className: 'home-page'
@@ -39,8 +40,12 @@ module.exports = class ProfileView extends View
 
   editProfile: (e)->
     e.preventDefault()
+    @publishEvent 'renderEditProfile'
+    @publishEvent 'editProfileInfo', @model.attributes
     @$el.find(".miPerfil").slideUp()
     @$el.find(".editMiPerfil").slideDown()
+
+
 
   saveProfile: (e)->
     e.preventDefault()
@@ -79,42 +84,6 @@ module.exports = class ProfileView extends View
 
   attach: ->
     super
-    @$el.find("#wbi-update-profile-form").validate
-      ignore: ""
-      errorPlacement: ($error, $element) ->
-        if $element.attr("name") in ['zipCodeInfo']
-          $error.appendTo $element.parent()
-        else
-          $error.insertAfter $element
-      rules:
-        name:
-          required: true
-          minlength: 2
-        lastName:
-          minlength: 2
-        zipCode:
-          minlength: 5
-          digits: true
-        phone:
-          minlength: 7
-          digits: true
-        birthdate:
-          dateISO: true
-          validDate: true
-        zipCodeInfo:
-          zipCodeDoesNotExist: true
-          required: (e) ->
-            $zipCodeInfo = Winbits.$(e)
-            $form = $zipCodeInfo.closest 'form'
-            if $form.find('[name=location]').is(':hidden')
-              $zipCode = $form.find('[name=zipCode]')
-              not $zipCode.val() or (not $zipCodeInfo.val() and $zipCodeInfo.children().length > 1)
-            else
-              false
-        location:
-          required: '[name=location]:visible'
-          minlength: 2
-
     @$el.find('form#wbi-change-password-form').validate rules:
       password:
         required: true
@@ -127,20 +96,7 @@ module.exports = class ProfileView extends View
         minlength: 5
         equalTo: '[name=newPassword]'
 
-    vendor.customSelect(@$('.select'))
-    vendor.customRadio(@$(".divGender"))
 
-    $select = @$('.select')
-    $zipCode = @$('.zipCode')
-    $zipCodeExtra = @$('.zipCodeInfoExtra')
-    zipCode(Winbits.$).find $zipCode.val(), $select, $zipCodeExtra.val()
-    unless $zipCode.val().length < 5
-      vendor.customSelect($select)
-
-    @$('input[name=gender]').removeAttr('checked').next().removeClass('spanSelected')
-    gender = @model.get 'gender'
-    if gender
-      @$('input.' + gender).attr('checked', 'checked').next().addClass('spanSelected')
 
   viewAttachTwitterAccount: (e)->
     that = @

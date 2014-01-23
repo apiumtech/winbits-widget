@@ -84,6 +84,7 @@ module.exports = class LoginUtil
 
       @publishEvent "showHeaderLogin"
       @publishEvent "restoreCart"
+      console.log ["PROFILE DATA ---->>>", profileData]
       @publishEvent "setProfile", profileData
       subscriptionsModel = { subscriptions: profile.subscriptions, newsletterFormat: profileData.newsletterFormat, newsletterPeriodicity: profileData.newsletterPeriodicity }
       @publishEvent "setSubscription", subscriptionsModel
