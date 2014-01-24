@@ -17,9 +17,7 @@
       </address>
       <span class="note send creditCardSend">Tu orden se pagará con esta tarjeta.</span>
       <span class="note hover">{{../cardItemLegend}}</span>
-      {{#hasMSI cardInfo.supportInstallments ../methods cardInfo.cardData.cardType}}
-      <!--<span class="mesesSinIntereses-box"> 3, 6, 9 MESES SIN INTERESES</span>-->
-      {{/hasMSI}}
+      {{hasMSI cardInfo.supportInstallments ../methods cardInfo.cardData.cardType}}
       <input type="radio" name="winbitsCCRadio" class="creditcardRadio" id="winbitsCCRadio1">
       {{!<input type="radio" name="winbitsCCRadio" class="creditcardRadio" id="winbitsCCRadio" checked="checked">}}
     </li>

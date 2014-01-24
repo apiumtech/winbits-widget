@@ -301,7 +301,7 @@ Array::unique = ->
 
 amexOrCyberSource = (cardType)->
     if cardType in ["Visa","MasterCard"] 
-        return "cybersource.msi.token."
+        return "cybersource.token.msi."
     if cardType == "American Express"
         return "amex.msi."
 
