@@ -40,6 +40,8 @@ AlreadyExistsUserView = require "views/widget/already-exists-user-view"
 CompleteRegisterView = require "views/widget/complete-register-view"
 CompleteProfileRemainderView = require "views/widget/complete-profile-remainder-view"
 FailedCartItemsView = require "views/widget/failed-cart-items-view"
+PersonalInfo = require "models/profile/personal-info"
+EditProfileView = require "views/widget/profile/edit-profile-view"
 
 module.exports = class HomeController extends ChaplinController
 
@@ -85,6 +87,9 @@ module.exports = class HomeController extends ChaplinController
     @completeRegisterView = new CompleteRegisterView()
     @completeProfileRemainderView = new CompleteProfileRemainderView()
     @failedCartItemsView = new FailedCartItemsView()
+    @personalInfo = new PersonalInfo()
+    @editProfileView = new EditProfileView(model: @personalInfo)
+
 
     @profile.on "change", ->
       that.profileView.render()
