@@ -16,7 +16,7 @@ module.exports = class ProfileView extends View
 
   initialize: ->
     super
-    @delegate 'click', '#updateBtnProfile', @saveProfile
+    @delegate 'click', '#wbi-updateBtnProfile', @publishSavePersonalInfo
     @delegate 'click', '#editBtnProfile', @editProfile
     @delegate 'click', '.linkBack', @cancelEditing
     @delegate 'click', '#attachTwitterAccountOff', @viewAttachTwitterAccount
@@ -34,9 +34,13 @@ module.exports = class ProfileView extends View
     @subscribeEvent 'profileUpdated', @onProfileUpdated
     @subscribeEvent 'loggedOut', @resetView
 
+
   resetView: ->
     @model.clear()
     @render()
+
+  publishSavePersonalInfo:->
+    @publishEvent 'savePersonalInfo'
 
   editProfile: (e)->
     e.preventDefault()
@@ -44,43 +48,6 @@ module.exports = class ProfileView extends View
     @publishEvent 'editProfileInfo', @model.attributes
     @$el.find(".miPerfil").slideUp()
     @$el.find(".editMiPerfil").slideDown()
-
-
-
-  saveProfile: (e)->
-    e.preventDefault()
-    e.stopPropagation()
-    console.log "ProfileView#saveProfile"
-    $form = @$el.find("#wbi-update-profile-form")
-
-    birthday = util.getBirthday($form)
-    $form.find("[name=birthdate]").val(birthday)
-    gender = util.getGender($form)
-
-    if $form.valid()
-      formData = util.serializeForm($form)
-      if formData.zipCodeInfo and formData.zipCodeInfo > 0
-        formData.zipCodeInfo  = {"id": formData.zipCodeInfo}
-      formData.gender = gender
-      button = @$el.find('#updateBtnProfile').prop 'disabled', true
-      util.ajaxRequest( @model.url,
-        type: "PUT"
-        contentType: "application/json"
-        dataType: "json"
-        data: JSON.stringify(formData)
-        context: {view: @, $saveButton: button}
-        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
-        error: ->
-          console.log "error"
-        success: (data) ->
-          @view.onProfileUpdated data.response
-          $editProfileContainer =  @view.$el.find(".editMiPerfil")
-          $editProfileContainer.slideUp  ->
-            util.justResetForm $editProfileContainer.find('form')
-          @view.$el.find(".miPerfil").slideDown()
-        complete: ->
-          button.prop 'disabled', false
-      )
 
   attach: ->
     super

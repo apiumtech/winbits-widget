@@ -4,6 +4,7 @@ module.exports = class PersonalInfo extends ChaplinModel
 
   initialize: (attributes, option) ->
     super
+    @url = config.apiUrl + "/users/profile.json"
     @subscribeEvent 'setPersonalInfo', @setProfileInfo
 
   setProfileInfo:(data) ->

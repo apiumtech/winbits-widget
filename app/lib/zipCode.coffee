@@ -4,7 +4,6 @@ vendor = require 'lib/vendor'
 
 module.exports = ($)->
   find : (cp, element, itemSelected, callback) ->
-    console.log 'ZIPCODE ENTRY'
     that = @
     unless (cp.length is 5)
       return
@@ -25,7 +24,12 @@ module.exports = ($)->
 
     $form = $element.closest('form')
     values = new Array()
-    values.push "<option value=\"\">Colonia/Asentamiento:</option>"
+
+    if itemSelected?
+     values.push "<option  value=\"\">Colonia/Asentamiento:</option>"
+    else
+     values.push "<option selected value=\"\">Colonia/Asentamiento:</option>"
+
     if data.response.length > 0
       for response in data.response
         $option = $("<option value='#{response.id}'>#{response.locationName}</value>")
@@ -33,8 +37,11 @@ module.exports = ($)->
           $option.attr('selected', '')
         $option.data 'zip-code-info', response
         values.push $option
-      values.push "<option value=\"-1\">Otro...</option>"
 
+      if itemSelected == -1
+        values.push "<option selected value=\"-1\">Otro...</option>"
+      else
+        values.push "<option value=\"-1\">Otro...</option>"
     else
       $form.find('[name=county], [name=state]').attr('readonly', '')
       $form.find('[name=location]').hide()
