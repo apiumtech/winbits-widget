@@ -345,14 +345,23 @@ Handlebars.registerHelper "isMSIPayment", (payment, options) ->
   else
     options.inverse this
 
-Handlebars.registerHelper "paymentMethodSupported", (identifier, options) ->
+
+isMsiSupported = (methods, identifier, options) ->
   supported = no
-  Winbits.$.each @paymentMethods, (index, paymentMethod) ->
+  Winbits.$.each methods, (index, paymentMethod) ->
     supported = paymentMethod.identifier.indexOf(identifier) isnt -1
     not supported
+  supported
+
+Handlebars.registerHelper "paymentMethodSupported", (identifier, options) ->
+  supported = isMsiSupported @paymentMethods, identifier, options
   if supported then options.fn this else options.inverse this
 
 
+Handlebars.registerHelper "paymentMethodSupportedMethods", (methods, identifier, options) ->
+  supported = isMsiSupported methods, identifier, options
+  if supported then options.fn this else options.inverse this
+  
 Handlebars.registerHelper "paymentMethodSupportedClass", (methods, cardType) ->
   html = new Handlebars.SafeString("creditcardNotEligible")
   ac = amexOrCyberSourceWithOutMsi cardType
@@ -363,18 +372,37 @@ Handlebars.registerHelper "paymentMethodSupportedDiv", (methods, cardType) ->
   ac = amexOrCyberSourceWithOutMsi cardType
   util.paymentMethodSupportedHtml methods, ac, html
   
-Handlebars.registerHelper "withMsiPayments", (options) ->
+allMsiPaymentsFunction = (methods) ->
+  $ = Winbits.$
+  $.grep methods, (paymentMethod)->
+    paymentMethod.identifier.indexOf('.msi') isnt -1
+
+msiPaymentsFunction = (allMsiPayments) ->
   $ = Winbits.$
   msiIdentifiers = []
   msiPayments = []
-  allMsiPayments = $.grep @.paymentMethods, (paymentMethod) ->
-    paymentMethod.identifier.indexOf('.msi') isnt -1
 
   $.each allMsiPayments, (index, msiPayment) ->
     identifier = msiPayment.identifier.substring 0, msiPayment.identifier.indexOf('.')
     if msiIdentifiers.indexOf(identifier) is -1
       msiIdentifiers.push identifier
       msiPayments.push msiPayment
+  msiPayments
+  
+
+Handlebars.registerHelper "withMsiPayments", (options) ->
+  $ = Winbits.$
+
+  allMsiPayments = allMsiPaymentsFunction @.paymentMethods
+  msiPayments = msiPaymentsFunction allMsiPayments
+
+  if msiPayments.length > 0 then options.fn(msiPayments: msiPayments) else options.inverse this
+  
+Handlebars.registerHelper "withMsiPaymentsMethods", (methods, options) ->
+  $ = Winbits.$
+
+  allMsiPayments = allMsiPaymentsFunction methods
+  msiPayments = msiPaymentsFunction allMsiPayments
 
   if msiPayments.length > 0 then options.fn(msiPayments: msiPayments) else options.inverse this
 

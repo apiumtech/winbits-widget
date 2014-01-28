@@ -72,38 +72,60 @@
   <div id="wbi-cards"></div>
   <p class="information">O, escoge un método de pago. </p>
   <ul class="paymentMethod">
-    {{#methods}}
-      {{#compare identifier "cybersource.cc"}}
-    <li class="debitCreditCard li-method" id="li-{{replace identifier searchValue='.' replaceValue='_'}}">
-      <span class="paymentIcon creditCard"></span>
-      <p>TARJETA DE CRÉDITO</p>
-    </li>
-      {{/compare}}
-      {{#compare identifier "amex.cc"}}
-        <li class="debitCreditCard li-method" id="li-{{replace identifier searchValue='.' replaceValue='_'}}">
+  {{#if methods}}
+    {{#paymentMethodSupportedMethods methods 'cybersource.'}}
+      <li class="debitCreditCard li-method" id="li-cybersource_cc">
+        <span class="paymentIcon creditCard"></span>
+        <p>TARJETA DE CRÉDITO</p>
+      </li>
+    {{/paymentMethodSupportedMethods}}
+    {{#paymentMethodSupportedMethods methods 'amex.'}}
+        <li class="debitCreditCard li-method" id="li-amex_cc">
           <span class="paymentIcon amexCard"></span>
           <p>AMERICAN EXPRESS</p>
         </li>
-      {{/compare}}
-      {{#compare identifier "reference.hsbc"}}
-    <li class="cashDeposit li-method" id="li-{{replace identifier searchValue='.' replaceValue='_'}}">
-      <span class="paymentIcon cash"></span>
-      <p>DEPÓSITO EN EFECTIVO</p>
-    </li>
-    {{/compare}}
-      {{#compare identifier "paypal.latam"}}
-    <li class="paypalPay li-method" id="li-{{replace identifier searchValue='.' replaceValue='_'}}">
-      <span class="paymentIcon paypal"></span>
-      <p>PAGO VÍA PAYPAL</p>
-    </li>
-    {{/compare}}
-      {{#compare identifier "oxxo.bc"}}
-    <li class="oxxoPay li-method" id="li-{{replace identifier searchValue='.' replaceValue='_'}}">
-      <span class="paymentIcon oxxo"></span>
-      <p>PAGO VÍA OXXO</p>
-    </li>
-    {{/compare}}
-    {{/methods}}
+    {{/paymentMethodSupportedMethods}}
+    {{#paymentMethodSupportedMethods methods 'reference.hsbc'}}
+        <li class="cashDeposit li-method" id="li-reference_hsbc">
+          <span class="paymentIcon cash"></span>
+          <p>DEPÓSITO EN EFECTIVO</p>
+        </li>
+    {{/paymentMethodSupportedMethods}}
+    {{#paymentMethodSupportedMethods methods 'paypal.latam'}}
+        <li class="paypalPay li-method" id="li-paypal_latam">
+          <span class="paymentIcon paypal"></span>
+          <p>PAGO VÍA PAYPAL</p>
+        </li>
+    {{/paymentMethodSupportedMethods}}
+    {{#paymentMethodSupportedMethods methods 'oxxo.bc'}}
+        <li class="oxxoPay li-method" id="li-oxxo_bc">
+          <span class="paymentIcon oxxo"></span>
+          <p>PAGO VÍA OXXO</p>
+        </li>
+    {{/paymentMethodSupportedMethods}}
+
+    {{#withMsiPaymentsMethods methods}}
+      {{#each msiPayments}}
+        {{#compare identifier 'cybersource.+' operator='matches'}}
+          <li class="debitCreditCard li-method" id="li-cybersource_msi">
+            <span class="paymentIcon creditCard"></span>
+            <p>MESES SIN INTERESES</p>
+          </li>
+        {{/compare}}
+        {{#compare identifier 'cybersource.+' operator='matches'}}
+            <li class="debitCreditCard li-method" id="li-amex_msi">
+              <span class="paymentIcon amexCard"></span>
+              <p>AMERICAN EXPRESS</p>
+            </li>
+        {{/compare}}
+        <!--{{#compare identifier 'paypal.+' operator='matches'}}-->
+          <!--<span class="icon paypalCC">Pay Pal</span>-->
+        <!--{{/compare}}-->
+      {{/each}}
+    {{/withMsiPaymentsMethods}}
+    
+  {{/if}}
+
   </ul>
   <input type="submit" class="btn btnCheckout" value="Continuar" id="wbi-card-token-payment-continue-btn">
 </div>
