@@ -246,7 +246,7 @@ Handlebars.registerHelper "getZipCodeInfoId", () ->
 Handlebars.registerHelper "formatAddressNumber", () ->
   addressNumber = this.externalNumber
   if this.internalNumber
-    addressNumber += ' int. ' + this.internalNumber
+      addressNumber += ' int. ' + this.internalNumber
   addressNumber
 
 Handlebars.registerHelper "toDefaultDateFormat", (dateString) ->
@@ -309,14 +309,28 @@ amexOrCyberSourceWithOutMsi = (cardType)->
     ac = amexOrCyberSource cardType
     ac?.split(".")[0]
 
-Handlebars.registerHelper "hasMSI", (supportInstallments, methods, cardType) ->
+
+installmentLoans = (methods, cardType) -> 
   ac = amexOrCyberSource cardType
 
   msi = ""
   if (methods?)
       msi = (method.identifier.substring(ac?.length, method?.identifier?.length) for method in methods when method.identifier.match ac).unique()
 
-  if (supportInstallments == true and (msi?.length or method == undefined))
+supportMsi = (supportInstallments, methods, msi) ->
+  supportInstallments == true and (msi?.length or method == undefined)
+
+Handlebars.registerHelper "howManyInstallmentLoans", (supportInstallments, methods, cardType) ->
+  msi = installmentLoans methods, cardType
+
+  if (supportMsi supportInstallments, methods, msi)
+      option = ("<option value=#{num}>#{num}</option>" for num in msi)
+      return new Handlebars.SafeString(option);
+
+Handlebars.registerHelper "hasMSI", (supportInstallments, methods, cardType) ->
+  msi = installmentLoans methods, cardType
+
+  if (supportMsi supportInstallments, methods, msi)
       return new Handlebars.SafeString("<span class='mesesSinIntereses-box'> #{msi} MESES SIN INTERESES</span>");
 
 Handlebars.registerHelper "getIndex", (index) ->

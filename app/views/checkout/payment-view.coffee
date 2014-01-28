@@ -275,7 +275,7 @@ module.exports = class PaymentView extends View
     if $cartItem.length > 0
       @$el.children().hide()
       cardData = @cardsView.getCardDataAt $cartItem.index()
-      console.log ['CARD DATA', cardData]
+      console.log ['CARD DATA', cardData, @cardsView.model.attributes.methods]
       @setupPaymentWithToken cardData
       util.renderSliderOnPayment(100, false)
     else
@@ -294,6 +294,7 @@ module.exports = class PaymentView extends View
       cardInfo.securityNumberPlaceholder = "\#\#\#"
 
     @cardTokenPaymentView.model.set cardInfo: cardInfo
+    @cardTokenPaymentView.model.set methods: @cardsView.model.attributes.methods
     @cardTokenPaymentView.render()
     @cardTokenPaymentView.$el.find('#wbi-card-token-payment-view').show()
 

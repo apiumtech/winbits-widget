@@ -45,6 +45,10 @@ module.exports = class CardTokenPaymentView extends View
       paymentData = mediator.post_checkout
       paymentData.vertical = Winbits.checkoutConfig.verticalId
       formData = util.serializeForm($form)
+      if formData.totalMsi
+        paymentData.paymentMethod = 'cybersource.token.msi.' + formData.totalMsi
+        formData.totalMsi = parseInt formData.totalMsi, 10
+
       $.extend paymentData.paymentInfo, formData
       util.showAjaxIndicator('Procesando tu pago...')
       that=@
