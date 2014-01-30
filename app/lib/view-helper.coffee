@@ -433,6 +433,12 @@ Handlebars.registerHelper "generateTicketPaymentDownloadUrl", (paymentCapture) -
   capture = JSON.parse (paymentCapture)
   capture.downloadUrl
 
+Handlebars.registerHelper "showColony", (zipCodeInfo, zipCode) ->
+  if zipCodeInfo or not zipCode?
+    return "style='display: none;'"
+  else
+    return ''
+
 #******************************
 #Custom partial
 #******************************
