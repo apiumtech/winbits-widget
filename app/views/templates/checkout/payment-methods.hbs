@@ -112,10 +112,10 @@
             <p>MESES SIN INTERESES</p>
           </li>
         {{/compare}}
-        {{#compare identifier 'cybersource.+' operator='matches'}}
+        {{#compare identifier 'amex.+' operator='matches'}}
             <li class="debitCreditCard li-method" id="li-amex_msi">
               <span class="paymentIcon amexCard"></span>
-              <p>AMERICAN EXPRESS</p>
+              <p>MESES SIN INTERESES</p>
             </li>
         {{/compare}}
         <!--{{#compare identifier 'paypal.+' operator='matches'}}-->
@@ -249,6 +249,8 @@
               <label for="winbitsPaymentNewCardSecurity"># de Seguridad</label>
               <input type="text" class="required digits" placeholder="####" maxlength="4" name="cvv2Number" id="winbitsPaymentNewCardSecurity">
             </div>
+            <div class="divNumSecurity">
+    </div>
           </div>
           <div class="column">
             <h3>DIRECCIÓN</h3>
@@ -292,4 +294,138 @@
           </div>
   {{/compare}}
 {{/methods}}
+  {{#if methods}}
+    {{#withMsiPaymentsMethods methods}}
+      {{#each msiPayments }}
+      {{debug ../paymentMethods}}
+  {{#checkoutPaymentNewCard identifier 'amex\.msi\..+' ../paymentMethods}}
+    <div class="checkoutPaymentNewCard method-payment creditcardNew" id="method-amex_msi">
+      <form id="wbi-amex-card-payment-form" accept-charset="utf-8" action="#" method="post" class="wb-card-form">
+        <fieldset>
+          <div class="column">
+            <h3>NOMBRE</h3>
+            <input type="text" class="required" placeholder="Nombre" maxlength="30" name="firstName">
+            <input type="text" class="required" placeholder="Apellido(s)" maxlength="50" name="lastName">
+            <div class="wb-card-number-panel">
+              <input type="text" class="required" placeholder="Número de Tarjeta" maxlength="15" name="cardNumber">
+            </div>
+            <div class="divFechaExpiracion wb-expiration-date-div">
+              <label>Fecha de vencimiento</label>
+              <input type="text" class="required digits" placeholder="mm" maxlength="2" name="expirationMonth">
+              <input type="text" class="required digits" placeholder="aa" maxlength="2" name="expirationYear">
+            </div>
+            <div class="divNumSecurity">
+              <label for="winbitsPaymentNewCardSecurity"># de Seguridad</label>
+              <input type="text" class="required digits" placeholder="####" maxlength="4" name="cvv2Number" id="winbitsPaymentNewCardSecurity">
+            </div>
+            <div class="divNumSecurity">
+                {{debug paymentMethods}}
+        <select class="select" data-clase="selectRegister" name="numberOfPayments" id="numberOfPayments">
+          <option>Meses sin intereses</option>
+          {{#each msi}}
+          <option value={{this}}>{{this}}</option>
+          {{/each}}
+        </select>
+    </div>
+          </div>
+          <div class="column">
+            <h3>DIRECCIÓN</h3>
+            <input type="text" placeholder="Calle" class="required" name="street">
+            <input type="text" placeholder="Número" class="inputMedium required" maxlength="10" name="number">
+            <input type="text" placeholder="Teléfono con LADA" name="phone" maxlength="10">
+            <input type="text" placeholder="Codigo Postal" name="zipCode" maxlength="5">
+            <input type="text" placeholder="Colonia" name="location" maxlength="40" id="winbitsPaymentNewCardColony">
+            <input type="text" placeholder="Ciudad" name="city" maxlength="40">
+            <input type="text" placeholder="Delegación o Municipio" maxlength="40" name="county" id="winbitsPaymentNewCardMunicipality">
+            <input type="text" placeholder="Estado" name="state" maxlength="40">
+          </div>
+          <div class="column columnLarge">
+            <h3>OPCIONES</h3>
+            <div>
+              <input type="checkbox" class="checkbox wb-card-save-checkbox" name="cardSave" id="wbi-amex-card-save-checkbox">
+              <label for="wbi-amex-card-save-checkbox" class="checkboxLabel">Guardar esta tarjeta</label>
+            </div>
+            <div>
+              <input type="checkbox" class="checkbox wb-card-principal-checkbox" name="cardPrincipal" id="wbi-amex-card-principal-checkbox" disabled="true">
+              <label for="wbi-amex-card-principal-checkbox" class="checkboxLabel">Hacer esta mi tarjeta principal</label>
+            </div>
+            <p class="note">Winbits puede guardar tus tarjetas de credito por ti, para que tu proxima compra sea mucho más rápida.</p>
+            <div class="errorDiv"><p></p></div>
+            <div class="submitButton">
+              <span class="btn btnCancel btnPaymentCancel">Cancelar</span>
+              <input type="button" value="Pagar" class="btn submitCheckoutPaymentNewCard wb-submit-card-payment" id="submitCheckoutPaymentNewCard-amex_msi">
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  {{/checkoutPaymentNewCard}}
+  {{#checkoutPaymentNewCard identifier 'cybersource.+' ../paymentMethods}}
+      <div class="checkoutPaymentNewCard method-payment newCreditCard creditcardNew" id="method-cybersource_msi">
+        <form id="wbi-credit-card-payment-form" accept-charset="utf-8" action="#" method="post" class="wb-card-form">
+          <input type="hidden" name="currency" value="MXN">
+            <fieldset>
+              <div class="column">
+                <h3>NOMBRE</h3>
+                <input type="text" class="required" placeholder="Nombre" maxlength="30" name="firstName">
+                <input type="text" class="required" placeholder="Apellido(s)" maxlength="50" name="lastName">
+                <div class="wb-card-number-panel">
+                  <input type="text" class="required wb-card-number-input" placeholder="Número de Tarjeta" maxlength="16" name="accountNumber">
+                  <span class="wb-card-logo icon"></span>
+                </div>
+                <div class="divFechaExpiracion wb-expiration-date-div">
+                  <label>Fecha de vencimiento</label>
+                  <input type="text" class="required digits" placeholder="mm" maxlength="2" name="expirationMonth">
+                  <input type="text" class="required digits" placeholder="aa" maxlength="2" name="expirationYear">
+                </div>
+                <div class="divNumSecurity">
+                  <label for="winbitsPaymentNewCardSecurity"># de Seguridad</label>
+                  <input type="text" class="required digits" placeholder="###" maxlength="3" name="cvNumber" id="winbitsPaymentNewCardSecurity">
+                </div>
+                <div>
+        <select class="select" data-clase="selectRegister" name="totalMsi" id="totalMsi">
+          <option>Meses sin intereses</option>
+          {{#msi}}
+          <option value={{this}}>{{this}}</option>
+          {{/msi}}
+        </select>
+    </div>
+              </div>
+              <div class="column">
+                <h3>DIRECCIÓN</h3>
+                <input type="text" placeholder="Calle" class="required" name="street1">
+                <input type="text" placeholder="Número" class="inputMedium required" maxlength="10" name="number">
+                <input type="text" placeholder="Teléfono con LADA" name="phoneNumber" maxlength="10">
+                <input type="text" placeholder="Codigo Postal" name="postalCode" maxlength="5">
+                <input type="text" placeholder="Colonia" name="colony" maxlength="40" id="winbitsPaymentNewCardColony">
+                <input type="text" placeholder="Ciudad" name="city" maxlength="40">
+                <input type="text" placeholder="Delegación o Municipio" maxlength="40" name="municipality" id="winbitsPaymentNewCardMunicipality">
+                <input type="text" placeholder="Estado" name="state" maxlength="40">
+                <input type="hidden" class="required" name="country" value="MX">
+              </div>
+              <div class="column columnLarge">
+                <h3>OPCIONES</h3>
+                <div>
+                  <input type="checkbox" class="checkbox wb-card-save-checkbox" name="cardSave" id="wbi-card-save-checkbox">
+                  <label for="wbi-card-save-checkbox" class="checkboxLabel">Guardar esta tarjeta</label>
+                </div>
+                <div>
+                  <input type="checkbox" class="checkbox wb-card-principal-checkbox" name="cardPrincipal" id="wbi-card-principal-checkbox" disabled="true">
+                  <label for="wbi-card-principal-checkbox" class="checkboxLabel">Hacer esta mi tarjeta principal</label>
+                </div>
+                <p class="note">Winbits puede guardar tus tarjetas de credito por ti, para que tu proxima compra sea mucho más rápida.</p>
+                <div class="errorDiv"><p></p></div>
+                <div class="submitButton">
+                  <span class="btn btnCancel btnPaymentCancel">Cancelar</span>
+                  <input type="button" value="Pagar" class="btn submitCheckoutPaymentNewCard wb-submit-card-payment" id="submitCheckoutPaymentNewCard-cybersource_msi">
+                </div>
+              </div>
+            </fieldset>
+        </form>
+      </div>
+
+  {{/checkoutPaymentNewCard}}
+  {{/each}}
+    {{/withMsiPaymentsMethods}}
+    {{/if}}
 {{/if}}

@@ -1,4 +1,3 @@
-#Chaplin = require 'chaplin'
 
 # Application-specific view helpers
 # http://handlebarsjs.com/#helpers
@@ -305,6 +304,12 @@ amexOrCyberSource = (cardType)->
     if cardType == "American Express"
         return "amex.msi."
 
+getCardTypeFromIdentifier = (identifier) ->
+  if new RegExp("cybersource\.msi\..+").test(identifier)
+      return "Visa"
+  if new RegExp("amex\.msi\..+").test(identifier)
+      return "American Express"
+
 amexOrCyberSourceWithOutMsi = (cardType)->
     ac = amexOrCyberSource cardType
     ac?.split(".")[0]
@@ -318,11 +323,10 @@ installmentLoans = (methods, cardType) ->
       msi = (method.identifier.substring(ac?.length, method?.identifier?.length) for method in methods when method.identifier.match ac).unique()
 
 supportMsi = (supportInstallments, methods, msi) ->
-  supportInstallments == true and (msi?.length or method == undefined)
+  supportInstallments == true and (msi?.length or methods == undefined)
 
 Handlebars.registerHelper "howManyInstallmentLoans", (supportInstallments, methods, cardType) ->
   msi = installmentLoans methods, cardType
-
   if (supportMsi supportInstallments, methods, msi)
       option = ("<option value=#{num}>#{num}</option>" for num in msi)
       return new Handlebars.SafeString(option);
@@ -388,7 +392,16 @@ msiPaymentsFunction = (allMsiPayments) ->
       msiIdentifiers.push identifier
       msiPayments.push msiPayment
   msiPayments
-  
+
+Handlebars.registerHelper "checkoutPaymentNewCard", (identifier, regex, methods, options) ->
+  compare = new RegExp(regex).test(identifier)
+  if compare
+      cardType = getCardTypeFromIdentifier identifier
+      msi = installmentLoans methods, cardType
+      options.fn msi:msi
+  else
+      options.inverse this
+
 
 Handlebars.registerHelper "withMsiPayments", (options) ->
   $ = Winbits.$
@@ -404,7 +417,7 @@ Handlebars.registerHelper "withMsiPaymentsMethods", (methods, options) ->
   allMsiPayments = allMsiPaymentsFunction methods
   msiPayments = msiPaymentsFunction allMsiPayments
 
-  if msiPayments.length > 0 then options.fn(msiPayments: msiPayments) else options.inverse this
+  if msiPayments.length > 0 then options.fn(msiPayments: msiPayments, paymentMethods: methods) else options.inverse this
 
 Handlebars.registerHelper "getCreditCardType", (cardNumber) ->
   util.getCreditCardType(cardNumber)

@@ -44,6 +44,16 @@ module.exports = class PaymentView extends View
       formData = util.serializeForm($form)
       formData.cardSave = formData.hasOwnProperty('cardSave')
       formData.cardPrincipal = formData.hasOwnProperty('cardPrincipal')
+      #hack for MSI
+      if formData.numberOfPayments
+        formData.numberOfPayments = parseInt formData.numberOfPayments, 10
+        paymentMethod = "amex.msi." + formData.numberOfPayments
+        paymentMethod = method.id for method in @model.attributes.methods when method.identifier is paymentMethod
+      if formData.totalMsi
+        formData.totalMsi = parseInt formData.totalMsi, 10
+        paymentMethod = "cybersource.msi." + formData.totalMsi
+        paymentMethod = method.id for method in @model.attributes.methods when method.identifier is paymentMethod
+
       postData = paymentInfo : formData
       postData.paymentMethod = paymentMethod
       postData.order = mediator.post_checkout.order
@@ -106,6 +116,15 @@ module.exports = class PaymentView extends View
     paymentMethod =  $currentTarget.attr("id").split("-")[1]
     mediator.post_checkout.paymentMethod = paymentMethod
 
+    #hack for MSI
+    if formData.numberOfPayments
+      formData.numberOfPayments = parseInt formData.numberOfPayments, 10
+      paymentMethod = "amex.msi." + formData.numberOfPayments
+      paymentMethod = method.id for method in @model.attributes.methods when method.identifier is paymentMethod
+    if formData.totalMsi
+      formData.totalMsi = parseInt formData.totalMsi, 10
+      paymentMethod = "cybersource.msi." + formData.totalMsi
+      paymentMethod = method.id for method in @model.attributes.methods when method.identifier is paymentMethod
     formData = mediator.post_checkout
     formData.vertical = Winbits.checkoutConfig.verticalId
     util.showAjaxIndicator('Procesando tu pago...')
