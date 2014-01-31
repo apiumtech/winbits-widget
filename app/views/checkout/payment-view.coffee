@@ -44,6 +44,16 @@ module.exports = class PaymentView extends View
       formData = util.serializeForm($form)
       formData.cardSave = formData.hasOwnProperty('cardSave')
       formData.cardPrincipal = formData.hasOwnProperty('cardPrincipal')
+      #hack for MSI
+      if formData.numberOfPayments
+        formData.numberOfPayments = parseInt formData.numberOfPayments, 10
+        paymentMethod = "amex.msi." + formData.numberOfPayments
+        paymentMethod = method.id for method in @model.attributes.methods when method.identifier is paymentMethod
+      if formData.totalMsi
+        formData.totalMsi = parseInt formData.totalMsi, 10
+        paymentMethod = "cybersource.msi." + formData.totalMsi
+        paymentMethod = method.id for method in @model.attributes.methods when method.identifier is paymentMethod
+
       postData = paymentInfo : formData
       postData.paymentMethod = paymentMethod
       postData.order = mediator.post_checkout.order
@@ -106,6 +116,15 @@ module.exports = class PaymentView extends View
     paymentMethod =  $currentTarget.attr("id").split("-")[1]
     mediator.post_checkout.paymentMethod = paymentMethod
 
+    #hack for MSI
+    if formData.numberOfPayments
+      formData.numberOfPayments = parseInt formData.numberOfPayments, 10
+      paymentMethod = "amex.msi." + formData.numberOfPayments
+      paymentMethod = method.id for method in @model.attributes.methods when method.identifier is paymentMethod
+    if formData.totalMsi
+      formData.totalMsi = parseInt formData.totalMsi, 10
+      paymentMethod = "cybersource.msi." + formData.totalMsi
+      paymentMethod = method.id for method in @model.attributes.methods when method.identifier is paymentMethod
     formData = mediator.post_checkout
     formData.vertical = Winbits.checkoutConfig.verticalId
     util.showAjaxIndicator('Procesando tu pago...')
@@ -148,6 +167,7 @@ module.exports = class PaymentView extends View
 
   attach: ->
     super
+    vendor.customSelect(@$el.find('.select'))
     @$el.find("#wbi-credit-card-payment-form").validate
       groups:
         cardExpiration: 'expirationMonth expirationYear'
@@ -205,6 +225,10 @@ module.exports = class PaymentView extends View
         city:
           required: true
           minlength: 2
+        totalMsi:
+          required: true
+          digits: true
+          range: [1, 12]
 
     @$el.find("#wbi-amex-card-payment-form").validate
       groups:
@@ -262,6 +286,8 @@ module.exports = class PaymentView extends View
         state:
           required: true
           minlength: 2
+        numberOfPayments:
+          required: true
 
   showBitsPayment: -> 
     @$(".method-payment").hide()
@@ -275,7 +301,7 @@ module.exports = class PaymentView extends View
     if $cartItem.length > 0
       @$el.children().hide()
       cardData = @cardsView.getCardDataAt $cartItem.index()
-      console.log ['CARD DATA', cardData]
+      console.log ['CARD DATA', cardData, @cardsView.model.attributes.methods]
       @setupPaymentWithToken cardData
       util.renderSliderOnPayment(100, false)
     else
@@ -294,6 +320,7 @@ module.exports = class PaymentView extends View
       cardInfo.securityNumberPlaceholder = "\#\#\#"
 
     @cardTokenPaymentView.model.set cardInfo: cardInfo
+    @cardTokenPaymentView.model.set methods: @cardsView.model.attributes.methods
     @cardTokenPaymentView.render()
     @cardTokenPaymentView.$el.find('#wbi-card-token-payment-view').show()
 

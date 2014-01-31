@@ -7,6 +7,7 @@ token = require 'lib/token'
 mediator = require 'chaplin/mediator'
 vendor = require 'lib/vendor'
 
+
 module.exports = class ProfileView extends View
   autoRender: yes
   #className: 'home-page'
@@ -15,7 +16,7 @@ module.exports = class ProfileView extends View
 
   initialize: ->
     super
-    @delegate 'click', '#updateBtnProfile', @saveProfile
+    @delegate 'click', '#wbi-updateBtnProfile', @publishSavePersonalInfo
     @delegate 'click', '#editBtnProfile', @editProfile
     @delegate 'click', '.linkBack', @cancelEditing
     @delegate 'click', '#attachTwitterAccountOff', @viewAttachTwitterAccount
@@ -33,88 +34,23 @@ module.exports = class ProfileView extends View
     @subscribeEvent 'profileUpdated', @onProfileUpdated
     @subscribeEvent 'loggedOut', @resetView
 
+
   resetView: ->
     @model.clear()
     @render()
 
+  publishSavePersonalInfo:->
+    @publishEvent 'savePersonalInfo'
+
   editProfile: (e)->
     e.preventDefault()
+    @publishEvent 'renderEditProfile'
+    @publishEvent 'editProfileInfo', @model.attributes
     @$el.find(".miPerfil").slideUp()
     @$el.find(".editMiPerfil").slideDown()
 
-  saveProfile: (e)->
-    e.preventDefault()
-    e.stopPropagation()
-    console.log "ProfileView#saveProfile"
-    $form = @$el.find("#wbi-update-profile-form")
-
-    birthday = util.getBirthday($form)
-    $form.find("[name=birthdate]").val(birthday)
-    gender = util.getGender($form)
-
-    if $form.valid()
-      formData = util.serializeForm($form)
-      if formData.zipCodeInfo and formData.zipCodeInfo > 0
-        formData.zipCodeInfo  = {"id": formData.zipCodeInfo}
-      formData.gender = gender
-      button = @$el.find('#updateBtnProfile').prop 'disabled', true
-      util.ajaxRequest( @model.url,
-        type: "PUT"
-        contentType: "application/json"
-        dataType: "json"
-        data: JSON.stringify(formData)
-        context: {view: @, $saveButton: button}
-        headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
-        error: ->
-          console.log "error"
-        success: (data) ->
-          @view.onProfileUpdated data.response
-          $editProfileContainer =  @view.$el.find(".editMiPerfil")
-          $editProfileContainer.slideUp  ->
-            util.justResetForm $editProfileContainer.find('form')
-          @view.$el.find(".miPerfil").slideDown()
-        complete: ->
-          button.prop 'disabled', false
-      )
-
   attach: ->
     super
-    @$el.find("#wbi-update-profile-form").validate
-      ignore: ""
-      errorPlacement: ($error, $element) ->
-        if $element.attr("name") in ['zipCodeInfo']
-          $error.appendTo $element.parent()
-        else
-          $error.insertAfter $element
-      rules:
-        name:
-          required: true
-          minlength: 2
-        lastName:
-          minlength: 2
-        zipCode:
-          minlength: 5
-          digits: true
-        phone:
-          minlength: 7
-          digits: true
-        birthdate:
-          dateISO: true
-          validDate: true
-        zipCodeInfo:
-          zipCodeDoesNotExist: true
-          required: (e) ->
-            $zipCodeInfo = Winbits.$(e)
-            $form = $zipCodeInfo.closest 'form'
-            if $form.find('[name=location]').is(':hidden')
-              $zipCode = $form.find('[name=zipCode]')
-              not $zipCode.val() or (not $zipCodeInfo.val() and $zipCodeInfo.children().length > 1)
-            else
-              false
-        location:
-          required: '[name=location]:visible'
-          minlength: 2
-
     @$el.find('form#wbi-change-password-form').validate rules:
       password:
         required: true
@@ -127,20 +63,7 @@ module.exports = class ProfileView extends View
         minlength: 5
         equalTo: '[name=newPassword]'
 
-    vendor.customSelect(@$('.select'))
-    vendor.customRadio(@$(".divGender"))
 
-    $select = @$('.select')
-    $zipCode = @$('.zipCode')
-    $zipCodeExtra = @$('.zipCodeInfoExtra')
-    zipCode(Winbits.$).find $zipCode.val(), $select, $zipCodeExtra.val()
-    unless $zipCode.val().length < 5
-      vendor.customSelect($select)
-
-    @$('input[name=gender]').removeAttr('checked').next().removeClass('spanSelected')
-    gender = @model.get 'gender'
-    if gender
-      @$('input.' + gender).attr('checked', 'checked').next().addClass('spanSelected')
 
   viewAttachTwitterAccount: (e)->
     that = @
