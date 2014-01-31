@@ -27,6 +27,10 @@ module.exports = class CardTokenPaymentView extends View
           required: true
           digits: true
           minlength: 3
+        totalMsi:
+          required: true
+          minlength: 1
+          digits: true
 
   onCancelCardTokenPaymentBtnClick: (e) ->
     e.preventDefault()

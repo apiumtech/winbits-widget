@@ -167,6 +167,7 @@ module.exports = class PaymentView extends View
 
   attach: ->
     super
+    vendor.customSelect(@$el.find('.select'))
     @$el.find("#wbi-credit-card-payment-form").validate
       groups:
         cardExpiration: 'expirationMonth expirationYear'
@@ -224,6 +225,10 @@ module.exports = class PaymentView extends View
         city:
           required: true
           minlength: 2
+        totalMsi:
+          required: true
+          digits: true
+          range: [1, 12]
 
     @$el.find("#wbi-amex-card-payment-form").validate
       groups:
@@ -281,6 +286,8 @@ module.exports = class PaymentView extends View
         state:
           required: true
           minlength: 2
+        numberOfPayments:
+          required: true
 
   showBitsPayment: -> 
     @$(".method-payment").hide()

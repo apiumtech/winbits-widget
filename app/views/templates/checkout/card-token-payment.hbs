@@ -9,7 +9,7 @@
         {{#if cardInfo.supportInstallments}}
         <h3>MESES SIN INTERESES</h3>
         <p>Esta compra aplica para meses sin intereses. Si así lo deseas seleccione la opción más conveniente</p>
-        <select class="select" data-clase="selectRegister" name="totalMsi" id="totalMsi">
+        <select class="select required" data-clase="selectRegister" name="totalMsi" id="totalMsi">
           <option>Meses sin intereses</option>
          {{howManyInstallmentLoans cardInfo.supportInstallments ../methods cardInfo.cardData.cardType}}
         </select>

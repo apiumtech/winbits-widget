@@ -318,15 +318,12 @@
               <label for="winbitsPaymentNewCardSecurity"># de Seguridad</label>
               <input type="text" class="required digits" placeholder="####" maxlength="4" name="cvv2Number" id="winbitsPaymentNewCardSecurity">
             </div>
-            <div class="divNumSecurity">
-                {{debug paymentMethods}}
-        <select class="select" data-clase="selectRegister" name="numberOfPayments" id="numberOfPayments">
-          <option>Meses sin intereses</option>
-          {{#each msi}}
-          <option value={{this}}>{{this}}</option>
-          {{/each}}
-        </select>
-    </div>
+            <select class="select" data-clase="selectRegister required" name="numberOfPayments" id="numberOfPayments">
+              <option>Meses sin intereses</option>
+              {{#each msi}}
+              <option value={{this}}>{{this}}</option>
+              {{/each}}
+            </select>
           </div>
           <div class="column">
             <h3>DIRECCIÓN</h3>
@@ -382,14 +379,12 @@
                   <label for="winbitsPaymentNewCardSecurity"># de Seguridad</label>
                   <input type="text" class="required digits" placeholder="###" maxlength="3" name="cvNumber" id="winbitsPaymentNewCardSecurity">
                 </div>
-                <div>
-        <select class="select" data-clase="selectRegister" name="totalMsi" id="totalMsi">
-          <option>Meses sin intereses</option>
-          {{#msi}}
-          <option value={{this}}>{{this}}</option>
-          {{/msi}}
-        </select>
-    </div>
+                <select class="select required" data-clase="selectRegister" name="totalMsi" id="totalMsi">
+                  <option disabled selected>Meses sin intereses</option>
+                  {{#msi}}
+                  <option value={{this}}>{{this}}</option>
+                  {{/msi}}
+                </select>
               </div>
               <div class="column">
                 <h3>DIRECCIÓN</h3>
