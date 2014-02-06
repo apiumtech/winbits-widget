@@ -118,9 +118,6 @@
               <p>MESES SIN INTERESES</p>
             </li>
         {{/compare}}
-        <!--{{#compare identifier 'paypal.+' operator='matches'}}-->
-          <!--<span class="icon paypalCC">Pay Pal</span>-->
-        <!--{{/compare}}-->
       {{/each}}
     {{/withMsiPaymentsMethods}}
     
@@ -297,7 +294,6 @@
   {{#if methods}}
     {{#withMsiPaymentsMethods methods}}
       {{#each msiPayments }}
-      {{debug ../paymentMethods}}
   {{#checkoutPaymentNewCard identifier 'amex\.msi\..+' ../paymentMethods}}
     <div class="checkoutPaymentNewCard method-payment creditcardNew" id="method-amex_msi">
       <form id="wbi-amex-card-payment-form" accept-charset="utf-8" action="#" method="post" class="wb-card-form">
@@ -307,7 +303,7 @@
             <input type="text" class="required" placeholder="Nombre" maxlength="30" name="firstName">
             <input type="text" class="required" placeholder="Apellido(s)" maxlength="50" name="lastName">
             <div class="wb-card-number-panel">
-              <input type="text" class="required" placeholder="Número de Tarjeta" maxlength="15" name="cardNumber">
+              <input type="text" class="required wb-card-number-input" placeholder="Número de Tarjeta" maxlength="15" name="cardNumber">
             </div>
             <div class="divFechaExpiracion wb-expiration-date-div">
               <label>Fecha de vencimiento</label>

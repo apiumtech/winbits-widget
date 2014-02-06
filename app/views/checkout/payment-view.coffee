@@ -1,6 +1,7 @@
 View = require 'views/base/view'
 template = require 'views/templates/checkout/payment-methods'
 util = require 'lib/util'
+validators = require 'lib/validators'
 config = require 'config'
 mediator = require 'chaplin/mediator'
 vendor = require 'lib/vendor'
@@ -15,8 +16,8 @@ module.exports = class PaymentView extends View
 
   initialize: ->
     super
-    @delegate "click" , ".li-method", @selectMethod
-    @delegate "click" , ".submitOrder", @submitOrder
+    @delegate "click", ".li-method", @selectMethod
+    @delegate "click", ".submitOrder", @submitOrder
     @delegate "click", ".linkBack", @linkBack
     @delegate "click", ".btnPaymentCancel", @linkBack
     @delegate "click", "#spanCheckboxSaveCard", @selectCheckboxOption
@@ -26,12 +27,18 @@ module.exports = class PaymentView extends View
     @delegate "textchange", ".wb-card-number-input", @showCardType
     @delegate "blur", ".wb-card-number-input", @showCardType
     @delegate 'change', '.wb-card-save-checkbox', @onCardSaveChange
+    @delegate 'focusout', '#method-amex_msi .wb-card-number-input', @checkForValidMsiMethod
+    @delegate 'focusout', '#method-cybersource_msi .wb-card-number-input', @checkForValidMsiMethod
 
     @subscribeEvent "showBitsPayment", @showBitsPayment
     @subscribeEvent 'paymentFlowCancelled', @onPaymentFlowCancelled
 
     cardTokenPayment = new CardTokenPayment
     @cardTokenPaymentView = new CardTokenPaymentView(model: cardTokenPayment)
+
+  checkForValidMsiMethod: (e) ->
+      e.preventDefault()
+      Winbits.$(e.target).valid()
 
   payWithCard: (e) ->
     e.preventDefault()
@@ -168,6 +175,10 @@ module.exports = class PaymentView extends View
   attach: ->
     super
     vendor.customSelect(@$el.find('.select'))
+    Winbits.$("#method-cybersource_msi .selectContent").hide()
+    Winbits.$("#method-cybersource_msi .selectTrigger").hide()
+
+    
     @$el.find("#wbi-credit-card-payment-form").validate
       groups:
         cardExpiration: 'expirationMonth expirationYear'
@@ -177,58 +188,24 @@ module.exports = class PaymentView extends View
         else
           $error.insertAfter $element
       rules:
-        firstName:
-          required: true
-          minlength: 2
-        lastName:
-          required: true
-          minlength: 2
+        validators.wbiCreditCardPayment
+
+    creditCardValidator = Winbits.$.extend {},  validators.wbiCreditCardPayment, validators.wbiCreditCardPaymentMsi
+
+    @$el.find("#method-cybersource_msi form").validate
+      groups:
+        cardExpiration: 'expirationMonth expirationYear'
+      errorPlacement: ($error, $element) ->
+        if $element.attr("name") in ["expirationMonth", "expirationYear", 'accountNumber']
+          $error.appendTo $element.parent()
+        else
+          $error.insertAfter $element
+      rules:
+        creditCardValidator
+      messages:
         accountNumber:
-          required: true
-          creditcard: true
-          minlength: 16
-        expirationMonth:
-          required: true
-          minlength: 2
-          digits: true
-          range: [1, 12]
-        expirationYear:
-          required: true
-          minlength: 2
-          digits: true
-        cvNumber:
-          required: true
-          digits: true
-          minlength: 3
-        street1:
-          required: true
-          minlength: 2
-        number:
-          required: true
-        postalCode:
-          required: true
-          minlength: 5
-          digits: true
-        phoneNumber:
-          required: true
-          minlength: 10
-          digits: true
-        state:
-          required: true
-          minlength: 2
-        colony:
-          required: true
-          minlength: 2
-        municipality:
-          required: true
-          minlength: 2
-        city:
-          required: true
-          minlength: 2
-        totalMsi:
-          required: true
-          digits: true
-          range: [1, 12]
+          remote:
+            "La tarjeta no cuenta con promoción a MSI"        
 
     @$el.find("#wbi-amex-card-payment-form").validate
       groups:
@@ -239,55 +216,23 @@ module.exports = class PaymentView extends View
         else
           $error.insertAfter $element
       rules:
-        firstName:
-          required: true
-          minlength: 2
-        lastName:
-          required: true
-          minlength: 2
+        validators.wbiAmexCardPayment
+
+    amexCardValidator = Winbits.$.extend {},  validators.wbiAmexCardPayment, validators.wbiAmexCardPaymentMsi
+    @$el.find("#method-amex_msi form").validate
+      groups:
+        cardExpiration: 'expirationMonth expirationYear'
+      errorPlacement: ($error, $element) ->
+        if $element.attr("name") in ["expirationMonth", "expirationYear", 'accountNumber']
+          $error.appendTo $element.parent()
+        else
+          $error.insertAfter $element
+      rules:
+        amexCardValidator
+      messages:
         cardNumber:
-          required: true
-          creditcard: true
-        expirationMonth:
-          required: true
-          minlength: 2
-          digits: true
-          range: [1, 12]
-        expirationYear:
-          required: true
-          minlength: 2
-          digits: true
-        cvv2Number:
-          required: true
-          digits: true
-          minlength: 4
-        street:
-          required: true
-          minlength: 2
-        number:
-          required: true
-        zipCode:
-          required: true
-          minlength: 4
-          digits: true
-        phone:
-          required: true
-          minlength: 10
-          digits: true
-        city:
-          required: true
-          minlength: 2
-        location:
-          required: true
-          minlength: 2
-        county:
-          required: true
-          minlength: 2
-        state:
-          required: true
-          minlength: 2
-        numberOfPayments:
-          required: true
+          remote:
+            "La tarjeta no cuenta con promoción a MSI"        
 
   showBitsPayment: -> 
     @$(".method-payment").hide()
@@ -301,7 +246,6 @@ module.exports = class PaymentView extends View
     if $cartItem.length > 0
       @$el.children().hide()
       cardData = @cardsView.getCardDataAt $cartItem.index()
-      console.log ['CARD DATA', cardData, @cardsView.model.attributes.methods]
       @setupPaymentWithToken cardData
       util.renderSliderOnPayment(100, false)
     else
