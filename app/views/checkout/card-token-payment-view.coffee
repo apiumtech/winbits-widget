@@ -27,6 +27,10 @@ module.exports = class CardTokenPaymentView extends View
           required: true
           digits: true
           minlength: 3
+        totalMsi:
+          required: true
+          minlength: 1
+          digits: true
 
   onCancelCardTokenPaymentBtnClick: (e) ->
     e.preventDefault()
@@ -45,6 +49,10 @@ module.exports = class CardTokenPaymentView extends View
       paymentData = mediator.post_checkout
       paymentData.vertical = Winbits.checkoutConfig.verticalId
       formData = util.serializeForm($form)
+      if formData.totalMsi
+        paymentData.paymentMethod = 'cybersource.token.msi.' + formData.totalMsi
+        formData.totalMsi = parseInt formData.totalMsi, 10
+
       $.extend paymentData.paymentInfo, formData
       util.showAjaxIndicator('Procesando tu pago...')
       that=@

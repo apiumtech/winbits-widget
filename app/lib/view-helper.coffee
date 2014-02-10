@@ -1,4 +1,3 @@
-#Chaplin = require 'chaplin'
 
 # Application-specific view helpers
 # http://handlebarsjs.com/#helpers
@@ -246,7 +245,7 @@ Handlebars.registerHelper "getZipCodeInfoId", () ->
 Handlebars.registerHelper "formatAddressNumber", () ->
   addressNumber = this.externalNumber
   if this.internalNumber
-    addressNumber += ' int. ' + this.internalNumber
+      addressNumber += ' int. ' + this.internalNumber
   addressNumber
 
 Handlebars.registerHelper "toDefaultDateFormat", (dateString) ->
@@ -301,22 +300,41 @@ Array::unique = ->
 
 amexOrCyberSource = (cardType)->
     if cardType in ["Visa","MasterCard"] 
-        return "cybersource.msi.token."
+        return "cybersource.token.msi."
     if cardType == "American Express"
         return "amex.msi."
+
+getCardTypeFromIdentifier = (identifier) ->
+  if new RegExp("cybersource\.msi\..+").test(identifier)
+      return "Visa"
+  if new RegExp("amex\.msi\..+").test(identifier)
+      return "American Express"
 
 amexOrCyberSourceWithOutMsi = (cardType)->
     ac = amexOrCyberSource cardType
     ac?.split(".")[0]
 
-Handlebars.registerHelper "hasMSI", (supportInstallments, methods, cardType) ->
+
+installmentLoans = (methods, cardType) -> 
   ac = amexOrCyberSource cardType
 
   msi = ""
   if (methods?)
       msi = (method.identifier.substring(ac?.length, method?.identifier?.length) for method in methods when method.identifier.match ac).unique()
 
-  if (supportInstallments == true and (msi?.length or method == undefined))
+supportMsi = (supportInstallments, methods, msi) ->
+  supportInstallments == true and (msi?.length or methods == undefined)
+
+Handlebars.registerHelper "howManyInstallmentLoans", (supportInstallments, methods, cardType) ->
+  msi = installmentLoans methods, cardType
+  if (supportMsi supportInstallments, methods, msi)
+      option = ("<option value=#{num}>#{num}</option>" for num in msi)
+      return new Handlebars.SafeString(option);
+
+Handlebars.registerHelper "hasMSI", (supportInstallments, methods, cardType) ->
+  msi = installmentLoans methods, cardType
+
+  if (supportMsi supportInstallments, methods, msi)
       return new Handlebars.SafeString("<span class='mesesSinIntereses-box'> #{msi} MESES SIN INTERESES</span>");
 
 Handlebars.registerHelper "getIndex", (index) ->
@@ -331,14 +349,23 @@ Handlebars.registerHelper "isMSIPayment", (payment, options) ->
   else
     options.inverse this
 
-Handlebars.registerHelper "paymentMethodSupported", (identifier, options) ->
+
+isMsiSupported = (methods, identifier, options) ->
   supported = no
-  Winbits.$.each @paymentMethods, (index, paymentMethod) ->
+  Winbits.$.each methods, (index, paymentMethod) ->
     supported = paymentMethod.identifier.indexOf(identifier) isnt -1
     not supported
+  supported
+
+Handlebars.registerHelper "paymentMethodSupported", (identifier, options) ->
+  supported = isMsiSupported @paymentMethods, identifier, options
   if supported then options.fn this else options.inverse this
 
 
+Handlebars.registerHelper "paymentMethodSupportedMethods", (methods, identifier, options) ->
+  supported = isMsiSupported methods, identifier, options
+  if supported then options.fn this else options.inverse this
+  
 Handlebars.registerHelper "paymentMethodSupportedClass", (methods, cardType) ->
   html = new Handlebars.SafeString("creditcardNotEligible")
   ac = amexOrCyberSourceWithOutMsi cardType
@@ -349,20 +376,48 @@ Handlebars.registerHelper "paymentMethodSupportedDiv", (methods, cardType) ->
   ac = amexOrCyberSourceWithOutMsi cardType
   util.paymentMethodSupportedHtml methods, ac, html
   
-Handlebars.registerHelper "withMsiPayments", (options) ->
+allMsiPaymentsFunction = (methods) ->
+  $ = Winbits.$
+  $.grep methods, (paymentMethod)->
+    paymentMethod.identifier.indexOf('.msi') isnt -1
+
+msiPaymentsFunction = (allMsiPayments) ->
   $ = Winbits.$
   msiIdentifiers = []
   msiPayments = []
-  allMsiPayments = $.grep @.paymentMethods, (paymentMethod) ->
-    paymentMethod.identifier.indexOf('.msi') isnt -1
 
   $.each allMsiPayments, (index, msiPayment) ->
     identifier = msiPayment.identifier.substring 0, msiPayment.identifier.indexOf('.')
     if msiIdentifiers.indexOf(identifier) is -1
       msiIdentifiers.push identifier
       msiPayments.push msiPayment
+  msiPayments
+
+Handlebars.registerHelper "checkoutPaymentNewCard", (identifier, regex, methods, options) ->
+  compare = new RegExp(regex).test(identifier)
+  if compare
+      cardType = getCardTypeFromIdentifier identifier
+      msi = installmentLoans methods, cardType
+      options.fn msi:msi
+  else
+      options.inverse this
+
+
+Handlebars.registerHelper "withMsiPayments", (options) ->
+  $ = Winbits.$
+
+  allMsiPayments = allMsiPaymentsFunction @.paymentMethods
+  msiPayments = msiPaymentsFunction allMsiPayments
 
   if msiPayments.length > 0 then options.fn(msiPayments: msiPayments) else options.inverse this
+  
+Handlebars.registerHelper "withMsiPaymentsMethods", (methods, options) ->
+  $ = Winbits.$
+
+  allMsiPayments = allMsiPaymentsFunction methods
+  msiPayments = msiPaymentsFunction allMsiPayments
+
+  if msiPayments.length > 0 then options.fn(msiPayments: msiPayments, paymentMethods: methods) else options.inverse this
 
 Handlebars.registerHelper "getCreditCardType", (cardNumber) ->
   util.getCreditCardType(cardNumber)
