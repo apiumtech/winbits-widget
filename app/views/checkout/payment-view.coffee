@@ -38,7 +38,7 @@ module.exports = class PaymentView extends View
 
   checkForValidMsiMethod: (e) ->
       e.preventDefault()
-      Winbits.$(e.target).valid()
+      Winbits.$(e.target).valid() 
 
   payWithCard: (e) ->
     e.preventDefault()
