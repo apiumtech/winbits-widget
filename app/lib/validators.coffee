@@ -46,13 +46,13 @@ module.exports =
     state:
       required: true
       minlength: 2
-    numberOfPayments:
-      required: true
     cardNumber:
       required: true
       creditcard: true
 
   wbiAmexCardPaymentMsi:
+        numberOfPayments:
+          required: true
         cardNumber:
           required: true
           creditcard: true
@@ -114,27 +114,29 @@ module.exports =
     city:
       required: true
       minlength: 2
-    totalMsi:
-      required: true
-      digits: true
-      range: [1, 12]
     accountNumber:
       required: true
       creditcard: true
       minlength: 16
 
   wbiCreditCardPaymentMsi:
+        totalMsi:
+          required: true
+          digits: true
+          range: [1, 12]
         accountNumber:
           required: true
           creditcard: true
           minlength: 16
           remote: 
             url: "#{config.apiUrl}/orders/cards/support-installment"
-            success: (data) -> 
-              if not data
+            complete: (data) -> 
+              if not data.responseJSON
                 Winbits.$("#method-cybersource_msi .selectContent").hide()
                 Winbits.$("#method-cybersource_msi .selectTrigger").hide()
+                false
               else
                 Winbits.$("#method-cybersource_msi .selectContent").show()
                 Winbits.$("#method-cybersource_msi .selectTrigger").show()
+                true
 
