@@ -124,11 +124,11 @@ module.exports = class PaymentView extends View
     mediator.post_checkout.paymentMethod = paymentMethod
 
     #hack for MSI
-    if formData.numberOfPayments
+    if formData?.numberOfPayments
       formData.numberOfPayments = parseInt formData.numberOfPayments, 10
       paymentMethod = "amex.msi." + formData.numberOfPayments
       paymentMethod = method.id for method in @model.attributes.methods when method.identifier is paymentMethod
-    if formData.totalMsi
+    if formData?.totalMsi
       formData.totalMsi = parseInt formData.totalMsi, 10
       paymentMethod = "cybersource.msi." + formData.totalMsi
       paymentMethod = method.id for method in @model.attributes.methods when method.identifier is paymentMethod
