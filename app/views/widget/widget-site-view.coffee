@@ -180,12 +180,15 @@ module.exports = class WidgetSiteView extends View
     e.preventDefault()
     @doCheckout()
 
-  doCheckout: () ->
+  doCheckout: (delay) ->
     $ = Winbits.$
+    @timeDelay = 0
+    if delay 
+       @timeDelay = 1500
     if $('.wb-cart-detail-list').children().length > 0
       util.showAjaxIndicator('Generando tu Orden...')
       that = @
-      util.ajaxRequest( config.apiUrl + "/orders/checkout.json",
+      _.delay util.ajaxRequest, @timeDelay,  config.apiUrl + "/orders/checkout.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
@@ -208,7 +211,7 @@ module.exports = class WidgetSiteView extends View
           console.log xhr
           error = JSON.parse(xhr.responseText)
           util.hideAjaxIndicator()
-      )
+      
     else
       util.showError('Agrega algo a tu carrito para que lo puedas comprar')
 
