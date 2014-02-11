@@ -38,7 +38,7 @@ module.exports = class PaymentView extends View
 
   checkForValidMsiMethod: (e) ->
       e.preventDefault()
-      Winbits.$(e.target).valid()
+      Winbits.$(e.target).valid() 
 
   payWithCard: (e) ->
     e.preventDefault()
@@ -124,11 +124,11 @@ module.exports = class PaymentView extends View
     mediator.post_checkout.paymentMethod = paymentMethod
 
     #hack for MSI
-    if formData.numberOfPayments
+    if formData?.numberOfPayments
       formData.numberOfPayments = parseInt formData.numberOfPayments, 10
       paymentMethod = "amex.msi." + formData.numberOfPayments
       paymentMethod = method.id for method in @model.attributes.methods when method.identifier is paymentMethod
-    if formData.totalMsi
+    if formData?.totalMsi
       formData.totalMsi = parseInt formData.totalMsi, 10
       paymentMethod = "cybersource.msi." + formData.totalMsi
       paymentMethod = method.id for method in @model.attributes.methods when method.identifier is paymentMethod
@@ -177,6 +177,7 @@ module.exports = class PaymentView extends View
     vendor.customSelect(@$el.find('.select'))
     Winbits.$("#method-cybersource_msi .selectContent").hide()
     Winbits.$("#method-cybersource_msi .selectTrigger").hide()
+    Winbits.$("#method-cybersource_msi .selectPreMessage").show()
 
     
     @$el.find("#wbi-credit-card-payment-form").validate

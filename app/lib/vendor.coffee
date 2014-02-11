@@ -124,6 +124,7 @@ module.exports =
         $parent = $this.parent()
         $parent.addClass($this.data("clase")) if $this.data("clase")
         $firstOption = $this.children().first()
+        $styledSelect = $('<span class="selectContent selectPreMessage selectActive"/>').text($firstOption.text()).addClass($firstOption.data("icon")).hide().appendTo $parent
         $styledSelect = $('<span class="selectContent selectActive"/>').text($firstOption.text()).addClass($firstOption.data("icon")).appendTo $parent
         $('<span class="icon selectTrigger"/>').appendTo($parent).click (e) ->
           e.stopPropagation()
