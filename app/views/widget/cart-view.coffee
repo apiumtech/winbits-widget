@@ -11,6 +11,8 @@ module.exports = class CartView extends View
   container: '#wbi-cart-container'
   template: template
 
+  delay = false
+
   render: ->
     super
 
@@ -88,6 +90,7 @@ module.exports = class CartView extends View
     that = @
 
     debounceSlide = _.debounce( ($slider, $amountEm, bits) ->
+      that.delay = false
       emValue = parseInt($amountEm.text())
       if emValue is bits
         that.updateBalanceValues(that, $slider, bits)
@@ -96,6 +99,7 @@ module.exports = class CartView extends View
     vendor.customSlider(".wb-cart-bits-slider-account").on('slidechange', (e, ui) ->
       $slider = Winbits.$(@)
       $amountEm = Winbits.$(this).find(".amount em")
+      that.delay = true
       debounceSlide $slider, $amountEm, ui.value
     )
 
@@ -115,7 +119,8 @@ module.exports = class CartView extends View
     @$el.find('.wb-checkout-btn').click (e)->
       that.closeCart(e)
       if mediator.flags.loggedIn
-        that.publishEvent 'doCheckout'
+          that.publishEvent 'doCheckout', that.delay
+          
       else
         mediator.flags.autoCheckout = true
         that.publishEvent 'showLogin'
