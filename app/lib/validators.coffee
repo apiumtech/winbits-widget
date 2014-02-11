@@ -134,9 +134,11 @@ module.exports =
               if not data.responseJSON
                 Winbits.$("#method-cybersource_msi .selectContent").hide()
                 Winbits.$("#method-cybersource_msi .selectTrigger").hide()
+                Winbits.$("#method-cybersource_msi .selectPreMessage").show()
                 false
               else
                 Winbits.$("#method-cybersource_msi .selectContent").show()
                 Winbits.$("#method-cybersource_msi .selectTrigger").show()
+                Winbits.$("#method-cybersource_msi .selectPreMessage").hide()
                 true
 

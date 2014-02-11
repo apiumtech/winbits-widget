@@ -177,6 +177,7 @@ module.exports = class PaymentView extends View
     vendor.customSelect(@$el.find('.select'))
     Winbits.$("#method-cybersource_msi .selectContent").hide()
     Winbits.$("#method-cybersource_msi .selectTrigger").hide()
+    Winbits.$("#method-cybersource_msi .selectPreMessage").show()
 
     
     @$el.find("#wbi-credit-card-payment-form").validate
