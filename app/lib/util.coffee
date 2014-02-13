@@ -308,6 +308,9 @@ module.exports =
 
 
   paymentMethodSupportedHtml: (methods, ac, html) ->
+      if not methods
+        return new Handlebars.SafeString("")
+
       if (methods? and ac?)
           supported = method for method in methods when method.identifier.match ac 
           if supported

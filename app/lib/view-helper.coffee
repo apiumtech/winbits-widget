@@ -334,6 +334,9 @@ Handlebars.registerHelper "howManyInstallmentLoans", (supportInstallments, metho
 Handlebars.registerHelper "hasMSI", (supportInstallments, methods, cardType) ->
   msi = installmentLoans methods, cardType
 
+  if not msi
+      return ""
+
   if (supportMsi supportInstallments, methods, msi)
       return new Handlebars.SafeString("<span class='mesesSinIntereses-box'> #{msi} MESES SIN INTERESES</span>");
 
