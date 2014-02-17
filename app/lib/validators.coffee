@@ -140,5 +140,6 @@ module.exports =
                 Winbits.$("#method-cybersource_msi .selectContent").show()
                 Winbits.$("#method-cybersource_msi .selectTrigger").show()
                 Winbits.$("#method-cybersource_msi .selectPreMessage").hide()
+                Winbits.$("#wbi-credit-card-payment-form-msi label[for=totalMsi]").hide()
                 true
 
