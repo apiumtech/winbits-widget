@@ -20,7 +20,6 @@ module.exports = class EditProfileView extends View
     @subscribeEvent 'renderEditProfile', @render
     @subscribeEvent 'editProfileInfo', @showEditProfile
 
-
   render: ->
     super
 
