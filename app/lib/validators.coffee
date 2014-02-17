@@ -131,7 +131,6 @@ module.exports =
           remote: 
             url: "#{config.apiUrl}/orders/cards/support-installment"
             complete: (data) -> 
-              console.log 'foooooo: '+ data  
               if not data.responseJSON
                 Winbits.$("#method-cybersource_msi .selectContent").hide()
                 Winbits.$("#method-cybersource_msi .selectTrigger").hide()
