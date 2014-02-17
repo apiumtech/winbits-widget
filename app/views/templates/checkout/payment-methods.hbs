@@ -73,13 +73,13 @@
   <p class="information">O, escoge un método de pago. </p>
   <ul class="paymentMethod">
   {{#if methods}}
-    {{#paymentMethodSupportedMethods methods 'cybersource.'}}
+    {{#paymentMethodSupportedMethods methods 'cybersource.cc'}}
       <li class="debitCreditCard li-method" id="li-cybersource_cc">
         <span class="paymentIcon creditCard"></span>
         <p>TARJETA DE CRÉDITO</p>
       </li>
     {{/paymentMethodSupportedMethods}}
-    {{#paymentMethodSupportedMethods methods 'amex.'}}
+    {{#paymentMethodSupportedMethods methods 'amex.cc'}}
         <li class="debitCreditCard li-method" id="li-amex_cc">
           <span class="paymentIcon amexCard"></span>
           <p>AMERICAN EXPRESS</p>
