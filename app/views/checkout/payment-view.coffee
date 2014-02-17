@@ -38,6 +38,7 @@ module.exports = class PaymentView extends View
 
   checkForValidMsiMethod: (e) ->
       e.preventDefault()
+      console.log ["Alert checkForValidMsiMethod"]
       Winbits.$(e.target).valid() 
 
   payWithCard: (e) ->
@@ -191,8 +192,7 @@ module.exports = class PaymentView extends View
         validators.wbiCreditCardPayment
 
     creditCardValidator = Winbits.$.extend {},  validators.wbiCreditCardPayment, validators.wbiCreditCardPaymentMsi
-
-    @$el.find("#method-cybersource_msi form").validate
+    @$el.find("#wbi-credit-card-payment-form-msi").validate
       groups:
         cardExpiration: 'expirationMonth expirationYear'
       errorPlacement: ($error, $element) ->
