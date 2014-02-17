@@ -158,29 +158,30 @@ module.exports = class CardsView extends View
     $form = $(e.currentTarget)
     newCardData = util.serializeForm($form)
     newCardData.cardPrincipal = newCardData.hasOwnProperty('cardPrincipal')
-    $submitTriggers = $form.find('.wb-submit-trigger').prop('disabled', true)
-    util.showAjaxIndicator()
-    that = @
-    util.ajaxRequest( config.apiUrl + "/orders/card-subscription.json",
-      type: "POST"
-      contentType: "application/json"
-      dataType: "json"
-      data: JSON.stringify(paymentInfo: newCardData)
-      headers:
-        "Accept-Language": "es",
-        "WB-Api-Token": util.retrieveKey(config.apiTokenName)
-      beforeSend: ->
-        $form.valid()
-      success: (data) ->
-        console.log ["Save new card success!", data]
-        that.publishEvent 'showCardsManager'
-      error: (xhr) ->
-        util.showAjaxError(xhr.responseText)
-      complete: ->
-        console.log "Request Completed!"
-        $submitTriggers.prop('disabled', false)
-        util.hideAjaxIndicator()
-    )
+    $submitTriggers = $form.find('.wb-submit-trigger')
+    if $form.valid()
+      console.log 'valid new card form'
+      $submitTriggers.prop('disabled', true)
+      util.showAjaxIndicator()
+      that = @
+      util.ajaxRequest( config.apiUrl + "/orders/card-subscription.json",
+        type: "POST"
+        contentType: "application/json"
+        dataType: "json"
+        data: JSON.stringify(paymentInfo: newCardData)
+        headers:
+          "Accept-Language": "es",
+          "WB-Api-Token": util.retrieveKey(config.apiTokenName)
+        success: (data) ->
+          console.log ["Save new card success!", data]
+          that.publishEvent 'showCardsManager'
+        error: (xhr) ->
+          util.showAjaxError(xhr.responseText)
+        complete: ->
+          console.log "Request Completed!"
+          $submitTriggers.prop('disabled', false)
+          util.hideAjaxIndicator()
+      )
 
   submitEditCardForm: (e) ->
     e.preventDefault()
