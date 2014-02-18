@@ -180,6 +180,9 @@ module.exports = class PaymentView extends View
     Winbits.$("#method-cybersource_msi .selectTrigger").hide()
     Winbits.$("#method-cybersource_msi .selectPreMessage").show()
 
+    Winbits.$("#method-amex_msi .selectContent").hide()
+    Winbits.$("#method-amex_msi .selectTrigger").hide()
+    Winbits.$("#method-amex_msi .selectPreMessage").show()
     
     @$el.find("#wbi-credit-card-payment-form").validate
       groups:
