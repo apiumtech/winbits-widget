@@ -1,5 +1,19 @@
 config = require 'config'
 
+successSupportInstallment = (data, method, select) -> 
+  console.log ["data", data.responseJSON, "#method-#{method}_msi .selectContent", "#wbi-#{method}-card-payment-form label[for=#{select}]"]
+  if not data.responseJSON
+    Winbits.$("#method-#{method}_msi .selectContent").hide()
+    Winbits.$("#method-#{method}_msi .selectTrigger").hide()
+    Winbits.$("#method-#{method}_msi .selectPreMessage").show()
+    false
+  else
+    Winbits.$("#method-#{method}_msi .selectContent").show()
+    Winbits.$("#method-#{method}_msi .selectTrigger").show()
+    Winbits.$("#method-#{method}_msi .selectPreMessage").hide()
+    Winbits.$("#wbi-#{method}-card-payment-form label[for=#{select}]").hide()
+    true
+
 module.exports =
   wbiAmexCardPayment:
     firstName:
@@ -53,20 +67,17 @@ module.exports =
   wbiAmexCardPaymentMsi:
         numberOfPayments:
           required: true
+          digits: true
+          range: [1, 12]
         cardNumber:
           required: true
           creditcard: true
           minlength: 2
           remote: 
             url: "#{config.apiUrl}/orders/cards/support-installment"
-            success: (data) -> 
-              console.log ["DATA", data]
-              if not data
-                Winbits.$("#method-amex_msi .selectContent").hide()
-                Winbits.$("#method-amex_msi .selectTrigger").hide()
-              else
-                Winbits.$("#method-amex_msi .selectContent").show()
-                Winbits.$("#method-amex_msi .selectTrigger").show()
+            complete: (data) -> 
+                successSupportInstallment data, "amex", "numberOfPayments"
+
 
 
   wbiCreditCardPayment :
@@ -131,15 +142,5 @@ module.exports =
           remote: 
             url: "#{config.apiUrl}/orders/cards/support-installment"
             complete: (data) -> 
-              if not data.responseJSON
-                Winbits.$("#method-cybersource_msi .selectContent").hide()
-                Winbits.$("#method-cybersource_msi .selectTrigger").hide()
-                Winbits.$("#method-cybersource_msi .selectPreMessage").show()
-                false
-              else
-                Winbits.$("#method-cybersource_msi .selectContent").show()
-                Winbits.$("#method-cybersource_msi .selectTrigger").show()
-                Winbits.$("#method-cybersource_msi .selectPreMessage").hide()
-                Winbits.$("#wbi-credit-card-payment-form-msi label[for=totalMsi]").hide()
-                true
+                successSupportInstallment data, "cybersource", "totalMsi"
 
