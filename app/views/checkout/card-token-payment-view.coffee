@@ -26,7 +26,6 @@ module.exports = class CardTokenPaymentView extends View
         cvNumber:
           required: true
           digits: true
-          minlength: 3
         totalMsi:
           required: true
           minlength: 1
