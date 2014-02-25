@@ -4,6 +4,7 @@ util = require 'lib/util'
 vendor = require 'lib/vendor'
 config = require 'config'
 mediator = require 'chaplin/mediator'
+token = require 'lib/token'
 
 # Site view is a top-level view which is bound to body.
 module.exports = class WidgetSiteView extends View
@@ -34,6 +35,13 @@ module.exports = class WidgetSiteView extends View
     @delegate 'hidden', '#register-modal', @resetForm
     @delegate 'shown', '#forgot-password-modal', @requestFocus
     @delegate 'hidden', '#forgot-password-modal', @resetForm
+    @delegate 'click', '#wbi-close-switch-user', @switchUserLogout
+    @delegate 'click', '.triggerMiCuenta', (e)->
+      util.toggleDropMenus(e, '.miCuentaDiv')
+    @delegate 'click', '.shopCarMin', (e)->
+      util.toggleDropMenus(e, '.miCarritoDiv')
+    @delegate 'click', '.miCuentaDiv .wrapper', (e) ->
+      e.stopPropagation()
 
     @subscribeEvent 'showHeaderLogin', @showHeaderLogin
     @subscribeEvent 'showHeaderLogout', @showHeaderLogout
@@ -154,11 +162,11 @@ module.exports = class WidgetSiteView extends View
     @$el.find("#winbits-logout-link").on "click",  (e)->
       that.logout(e)
 
-    vendor.dropMenu
-      obj: ".miCuentaDiv"
-      clase: ".dropMenu"
-      trigger: ".triggerMiCuenta, .miCuenta .link"
-      other: ".miCarritoDiv"
+#    vendor.dropMenu
+#      obj: ".miCuentaDiv"
+#      clase: ".dropMenu"
+#      trigger: ".triggerMiCuenta, .miCuenta .link"
+#      other: ".miCarritoDiv"
 
     vendor.openFolder
       obj: ".knowMoreMin"
@@ -325,17 +333,23 @@ module.exports = class WidgetSiteView extends View
   proxyLoaded: () ->
     console.log('Proxy Loaded Handler...')
     that = @
-    @processHashWithApiToken "complete", "register", (response) ->
-      if response.profile?
-        that.publishEvent "showCompletaRegister", response
-        that.publishEvent 'setRegisterFb', response.profile
-    @processHashWithApiToken "switch", "user"
+    hashHandlers =
+      '#complete-register': (response) ->
+        if response.profile?
+          that.publishEvent "showCompletaRegister", response
+          that.publishEvent 'setRegisterFb', response.profile
+      '#switch-user': Winbits.$.noop
+    token.requestTokens(Winbits.$) unless @processHashHandlers(hashHandlers)
 
-  processHashWithApiToken: (part1, part2, callback) ->
+  processHashHandlers: (hashHandlers) ->
     hashParts = location.hash.split('-')
-    if hashParts[0] is '#'+part1 and hashParts[1] is part2
-      apiToken = hashParts[2].substring(0, 64)
+    Winbits.$('a#wbi-dummy-link').get(0).click()
+    apiToken = hashParts.pop().substring(0, 64)
+    callback = _.find hashHandlers, (value, key) ->
+      key is hashParts.join('-')
+    if callback
       @publishEvent 'expressLogin', apiToken, callback
+    callback?
 
   requestFocus: (e) ->
     $form = Winbits.$(e.currentTarget).find('form')
@@ -364,3 +378,7 @@ module.exports = class WidgetSiteView extends View
 
   deleteSwitchUserInfo: ->
     @$el.find('#wbi-switched-user').delete()
+
+  switchUserLogout: (e)->
+    @logout(e)
+    @$el.find('#divSwitchUser').hide()

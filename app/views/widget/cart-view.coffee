@@ -21,6 +21,8 @@ module.exports = class CartView extends View
     @subscribeEvent 'restoreCart', @restoreCart
     @subscribeEvent 'renderCart', @render
     @subscribeEvent 'loggedOut', @resetModel
+    @delegate 'click', '.carContenido', (e) ->
+      e.stopPropagation()
 
   resetModel: ->
     @model.clear()
@@ -107,13 +109,13 @@ module.exports = class CartView extends View
       that.clickDeleteCartDetailLink(e, that.model)
 
     vendor.scrollpane ".scrollPanel", ".miCarritoDiv"
-    vendor.dropMenu
-      obj: ".miCarritoDiv"
-      clase: ".dropMenu"
-      trigger: ".shopCarMin"
-      other: ".miCuentaDiv"
-
-      carro: true
+#    vendor.dropMenu
+#      obj: ".miCarritoDiv"
+#      clase: ".dropMenu"
+#      trigger: ".shopCarMin"
+#      other: ".miCuentaDiv"
+#
+#      carro: true
 
     @$el.find('.wb-continue-shopping-link').click @closeCart
     @$el.find('.wb-checkout-btn').click (e)->

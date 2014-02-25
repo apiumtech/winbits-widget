@@ -1,5 +1,5 @@
 main {
-  margin: 130px auto 0 auto;
+	margin: 130px auto 0 auto;
 }
 .widgetWinbitsHeader {
 	min-width: @widthLayout;
@@ -57,9 +57,9 @@ main {
 			}
 		}
 		.knowMoreMin {
-      margin-left: 510px;
+			margin-left: 510px;
 			padding: 5px 0 0;
-      position: relative;
+			position: relative;
 			.openFolder {
 				position: absolute;
 				left: -40px;
@@ -67,20 +67,39 @@ main {
 			a {
 				margin-left: 5px;
 			}
-      .language {
-        left: -510px;
-        position: absolute;
-        top: 0;
-      }
+			.language {
+				left: -510px;
+				position: absolute;
+				top: 0;
+			}
+		}
+	}
+	.switchUser {
+		background: lighten(@yellow, 20%);
+		bottom: 2px;
+		font-size: 10px;
+		right: 150px;
+		padding: 7px 7px 7px 23px;
+		position: absolute;
+		.border-radius(5px);
+		em {
+			color: @red;
+			.font('OmnesMedium');
+		}
+		.closeButton {
+			position: absolute;
+			top: 2px;
+			left: 2px;
 		}
 	}
 	.mainHeader {
 		background: lighten(@black, 97%);
 		position: relative;
-    //.box-shadow(1px 1px 2px rgba(0,0,0,0.1));
+		//.box-shadow(1px 1px 2px rgba(0,0,0,0.1));
 		.wrapper {
-      padding-top: 10px;
+			padding-top: 10px;
 			width: 960px;
+			//position: relative;
 		}
 		/*.language {
 			margin: 5px 0 10px 0;
@@ -157,6 +176,7 @@ main {
 				display: none;
 				font-size: 12px;
 				left: 0;
+				padding-bottom: 20px;
 				top: 70px;
 				width: 100%;
 				//width: 960px;

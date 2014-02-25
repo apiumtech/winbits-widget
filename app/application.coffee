@@ -6,7 +6,6 @@ ProxyHandlers = require 'lib/proxyHandlers'
 config = require 'config'
 util = require 'lib/util'
 EventBroker = require 'chaplin/lib/event_broker'
-token = require 'lib/token'
 
 #routes = require 'routes'
 #_ = require 'underscore'
@@ -30,7 +29,8 @@ module.exports = class Application
       @initHomeControllers()
     else
       @initChkControllers()
-
+    Winbits.$(document).click (e)->
+      util.hideDropMenus()
 
     # Mediator is a global message broker which implements pub / sub pattern.
     @initMediator()
@@ -62,7 +62,6 @@ module.exports = class Application
     @proxyHandlers = new ProxyHandlers()
     @homeController = new HomeController()
     @homeController.index()
-    token.requestTokens(Winbits.$)
 
   initChkControllers: ->
     if util.isCrapBrowser()

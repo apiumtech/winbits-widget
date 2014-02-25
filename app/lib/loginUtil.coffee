@@ -24,7 +24,7 @@ module.exports = class LoginUtil
     console.log "LoginUtil#expressLogin"
     apiToken = if token? then token else util.retrieveKey(config.apiTokenName)
     that = @
-    if apiToken and apiToken isnt "undefined"
+    if apiToken?
       util.ajaxRequest( config.apiUrl + "/users/express-login.json",
         type: "POST"
         contentType: "application/json"

@@ -27,7 +27,7 @@
       };
 
       Winbits.deleteKey = function (name) {
-        return localStorage[name] = undefined;
+        return localStorage.removeItem(name);
       };
 
       var rpc = new easyXDM.Rpc({},
