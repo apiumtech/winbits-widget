@@ -52,6 +52,7 @@ module.exports = class WidgetSiteView extends View
     @subscribeEvent 'proxyLoaded', @proxyLoaded
     @subscribeEvent 'doCheckout', @doCheckout
     @subscribeEvent 'setBitsBalance', @updateBitsBalance
+    @subscribeEvent 'logout', @deleteSwitchUserInfo
 
   updateCartCounter: (count)->
     console.log ["WidgetSiteView#updateCartCounter " + count]
@@ -123,8 +124,13 @@ module.exports = class WidgetSiteView extends View
 
   showHeaderLogin: () ->
     console.log "WidgetSiteView#showHeaderLogin"
+    @checkSwitchUser()
     @$el.find("#headerLogin").show()
     @$el.find("#headerNotLogin").hide()
+
+  checkSwitchUser: ()->
+    if mediator.global.profile.switchUser?
+      @$el.find('#divSwitchUser').show()
 
   showHeaderLogout: () ->
     console.log "WidgetSiteView#showHeaderLogout"
@@ -183,7 +189,7 @@ module.exports = class WidgetSiteView extends View
   doCheckout: (delay) ->
     $ = Winbits.$
     @timeDelay = 0
-    if delay 
+    if delay
        @timeDelay = 1500
     if $('.wb-cart-detail-list').children().length > 0
       util.showAjaxIndicator('Generando tu Orden...')
@@ -211,7 +217,7 @@ module.exports = class WidgetSiteView extends View
           console.log xhr
           error = JSON.parse(xhr.responseText)
           util.hideAjaxIndicator()
-      
+
     else
       util.showError('Agrega algo a tu carrito para que lo puedas comprar')
 
@@ -318,11 +324,18 @@ module.exports = class WidgetSiteView extends View
 
   proxyLoaded: () ->
     console.log('Proxy Loaded Handler...')
-    hash = location.hash
-    hashParts = hash.split('-')
-    if hashParts[0] is '#complete' and hashParts[1] is 'register'
+    that = @
+    @processHashWithApiToken "complete", "register", (response) ->
+      if response.profile?
+        that.publishEvent "showCompletaRegister", response
+        that.publishEvent 'setRegisterFb', response.profile
+    @processHashWithApiToken "switch", "user"
+
+  processHashWithApiToken: (part1, part2, callback) ->
+    hashParts = location.hash.split('-')
+    if hashParts[0] is '#'+part1 and hashParts[1] is part2
       apiToken = hashParts[2].substring(0, 64)
-      @publishEvent 'expressLogin', apiToken
+      @publishEvent 'expressLogin', apiToken, callback
 
   requestFocus: (e) ->
     $form = Winbits.$(e.currentTarget).find('form')
@@ -348,3 +361,6 @@ module.exports = class WidgetSiteView extends View
       )
       if bandera == true
         @publishEvent ('completeProfileRemainder')
+
+  deleteSwitchUserInfo: ->
+    @$el.find('#wbi-switched-user').delete()

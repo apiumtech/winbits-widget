@@ -19,7 +19,7 @@ module.exports = class LoginUtil
     @subscribeEvent 'initLogout', @initLogout
     @subscribeEvent 'loginFacebook', @loginFacebook
 
-  expressLogin : (token) ->
+  expressLogin : (token, successCallback) ->
     console.log "Doing express login"
     console.log "LoginUtil#expressLogin"
     apiToken = if token? then token else util.retrieveKey(config.apiTokenName)
@@ -37,9 +37,7 @@ module.exports = class LoginUtil
         success: (data) ->
           console.log "express-login.json Success!"
           that.publishEvent 'applyLogin', data.response
-          if token? and data.response.profile?
-            that.publishEvent 'setRegisterFb', data.response.profile
-            that.publishEvent "showCompletaRegister", data.response
+          successCallback.call(@, data.response) if Winbits.$.isFunction(successCallback)
 
         error: (xhr) ->
           console.log "express-login.json Error!"
