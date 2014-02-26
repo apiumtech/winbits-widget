@@ -36,12 +36,9 @@ module.exports = class WidgetSiteView extends View
     @delegate 'shown', '#forgot-password-modal', @requestFocus
     @delegate 'hidden', '#forgot-password-modal', @resetForm
     @delegate 'click', '#wbi-close-switch-user', @switchUserLogout
-    @delegate 'click', '.triggerMiCuenta', (e)->
-      util.toggleDropMenus(e, '.miCuentaDiv')
-    @delegate 'click', '.shopCarMin', (e)->
-      util.toggleDropMenus(e, '.miCarritoDiv')
-    @delegate 'click', '.miCuentaDiv .wrapper', (e) ->
-      e.stopPropagation()
+    @delegate 'click', '.triggerMiCuenta', (e)-> util.toggleDropMenus(e, '.miCuentaDiv')
+    @delegate 'click', '.triggerMiCarrito', (e)-> @toggleCart(e)
+    @delegate 'click', '.miCuentaDiv .wrapper', (e) -> e.stopPropagation()
 
     @subscribeEvent 'showHeaderLogin', @showHeaderLogin
     @subscribeEvent 'showHeaderLogout', @showHeaderLogout
@@ -64,7 +61,7 @@ module.exports = class WidgetSiteView extends View
 
   updateCartCounter: (count)->
     console.log ["WidgetSiteView#updateCartCounter " + count]
-    @$el.find(".cart-items-count").html(count)
+    @$el.find(".wb-cart-items-count").html(count)
 
   loginBtnClick: (e) ->
     e.preventDefault()
@@ -383,3 +380,9 @@ module.exports = class WidgetSiteView extends View
   switchUserLogout: (e)->
     @logout(e)
     @$el.find('#wbi-div-switch-user').hide()
+
+  toggleCart: (e) ->
+    e.stopPropagation()
+    if Winbits.$(e.currentTarget).find(".wb-cart-items-count").text().trim() is '0'
+       return
+    util.toggleDropMenus(e, '.miCarritoDiv')

@@ -321,8 +321,8 @@ module.exports =
   toggleDropMenus:(e, dropMenuClass)->
     e.stopPropagation()
     $dropMenus = Winbits.$('.miCuentaDiv, .miCarritoDiv')
-    $dropMenus.not(dropMenuClass).slideUp()
-    $dropMenus.filter(dropMenuClass).slideToggle()
+    $dropMenus.not(dropMenuClass).stop(yes, yes).slideUp()
+    $dropMenus.filter(dropMenuClass).stop(yes, yes).slideToggle()
 
   hideDropMenus:()->
     Winbits.$('.miCuentaDiv, .miCarritoDiv').slideUp()

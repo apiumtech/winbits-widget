@@ -97,10 +97,9 @@ module.exports = class LoginUtil
       type: "POST"
       contentType: "application/json"
       dataType: "json"
-      xhrFields:
-        withCredentials: true
       headers:
         "Accept-Language": "es"
+        "WB-Api-Token": util.retrieveKey(config.apiTokenName)
       success: (data) ->
         that.applyLogout data.response
       error: (xhr) ->
