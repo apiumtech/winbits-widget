@@ -138,7 +138,8 @@ module.exports = class WidgetSiteView extends View
 
   checkSwitchUser: ()->
     if mediator.global.profile.switchUser?
-      @$el.find('#divSwitchUser').show()
+      @$el.find('#wbi-div-switch-user').show()
+      @$el.find('#wbi-em-switch-user').append Winbits.$("<span>").attr('id', 'clientUserEmail').text(mediator.global.profile.switchUser)
 
   showHeaderLogout: () ->
     console.log "WidgetSiteView#showHeaderLogout"
@@ -381,4 +382,4 @@ module.exports = class WidgetSiteView extends View
 
   switchUserLogout: (e)->
     @logout(e)
-    @$el.find('#divSwitchUser').hide()
+    @$el.find('#wbi-div-switch-user').hide()
