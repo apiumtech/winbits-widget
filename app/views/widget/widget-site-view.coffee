@@ -35,7 +35,7 @@ module.exports = class WidgetSiteView extends View
     @delegate 'hidden', '#register-modal', @resetForm
     @delegate 'shown', '#forgot-password-modal', @requestFocus
     @delegate 'hidden', '#forgot-password-modal', @resetForm
-    @delegate 'click', '#wbi-close-switch-user', @switchUserLogout
+    @delegate 'click', '#wbi-close-switch-user', @logout
     @delegate 'click', '.triggerMiCuenta', (e)-> util.toggleDropMenus(e, '.miCuentaDiv')
     @delegate 'click', '.triggerMiCarrito', (e)-> @toggleCart(e)
     @delegate 'click', '.miCuentaDiv .wrapper', (e) -> e.stopPropagation()
@@ -376,10 +376,6 @@ module.exports = class WidgetSiteView extends View
 
   deleteSwitchUserInfo: ->
     @$el.find('#wbi-switched-user').delete()
-
-  switchUserLogout: (e)->
-    @logout(e)
-    @$el.find('#wbi-div-switch-user').hide()
 
   toggleCart: (e) ->
     e.stopPropagation()

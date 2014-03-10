@@ -118,6 +118,7 @@ module.exports = class LoginUtil
     mediator.flags.fbConnect = false
     util.backToSite()
     $ = window.$ or Winbits.$
+    Winbits.$('#wbi-div-switch-user').hide()
     $('#' + config.winbitsDivId).trigger 'loggedout', [logoutData]
 
   loginFacebook : (me) ->
