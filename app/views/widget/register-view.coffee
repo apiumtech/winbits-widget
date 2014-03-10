@@ -86,7 +86,6 @@ module.exports = class RegisterView extends View
 
   showCompletaRegister: () ->
     console.log("En completa registro")
-    Winbits.$('a#wbi-dummy-link').get(0).click()
     @publishEvent 'showRegister'
     @$el.find("#winbits-register-form").hide()
     @$el.find("#complete-register-layer").show()

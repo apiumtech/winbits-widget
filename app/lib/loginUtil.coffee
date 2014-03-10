@@ -24,7 +24,7 @@ module.exports = class LoginUtil
     console.log "LoginUtil#expressLogin"
     apiToken = if token? then token else util.retrieveKey(config.apiTokenName)
     that = @
-    if apiToken and apiToken isnt "undefined"
+    if apiToken?
       util.ajaxRequest( config.apiUrl + "/users/express-login.json",
         type: "POST"
         contentType: "application/json"
@@ -97,10 +97,9 @@ module.exports = class LoginUtil
       type: "POST"
       contentType: "application/json"
       dataType: "json"
-      xhrFields:
-        withCredentials: true
       headers:
         "Accept-Language": "es"
+        "WB-Api-Token": util.retrieveKey(config.apiTokenName)
       success: (data) ->
         that.applyLogout data.response
       error: (xhr) ->
@@ -119,6 +118,7 @@ module.exports = class LoginUtil
     mediator.flags.fbConnect = false
     util.backToSite()
     $ = window.$ or Winbits.$
+    Winbits.$('#wbi-div-switch-user').hide()
     $('#' + config.winbitsDivId).trigger 'loggedout', [logoutData]
 
   loginFacebook : (me) ->
