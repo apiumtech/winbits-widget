@@ -39,8 +39,7 @@
       JavaScript.load('{{baseUrl}}/javascripts/app.js', function() {
         // TODO: No esperar a que se cargue todo el DOM para renderizar el widget. Esperar a que se rederize el container del widget.
         Winbits.$(document).ready(function($) {
-          var Application = require('application');
-          (new Application).initialize();
+           require('initialize');
         });
       });
     });

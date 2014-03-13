@@ -1,6 +1,4 @@
-ChaplinCollectionView = require 'chaplin/views/view'
-Chaplin = require 'chaplin'
-View = require 'views/base/view'
+View = require './view'
 
 module.exports = class CollectionView extends Chaplin.CollectionView
   # This class doesn’t inherit from the application-specific View class,

@@ -1,4 +1,4 @@
-ChaplinMediator = require 'chaplin/mediator'
+#ChaplinMediator = require 'chaplin/mediator'
 module.exports =
 
 # +++++++++++++++++++++++++++++++++++++++++++++

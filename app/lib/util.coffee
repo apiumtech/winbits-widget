@@ -1,12 +1,15 @@
 vendor = require 'lib/vendor'
 
-module.exports =
+#todo hacer la exportacion en application y no en winbits.js
+module.exports = 
   $ : window.Winbits.$
+
   storeKey : (key, value) ->
     localStorage[key] = value
 
   retrieveKey : (key) ->
-    localStorage[key]
+    value = localStorage[key]
+    console.log ['localstorage', value]
 
   deleteKey : (key) ->
     localStorage[key] = undefined
@@ -57,6 +60,7 @@ module.exports =
     Winbits.$.each $form.serializeArray(), (i, f) ->
       formData[f.name] = f.value
 
+#    console.log ['SERIALIZE FORM DATA ',formData]
     formData
 
   resetComponents  : ()->
@@ -294,7 +298,7 @@ module.exports =
       options = url
       url = options.url
     options = options or {}
-    if Winbits.isCrapBrowser()
+    if (Winbits.$.browser.msie and not /10.*/.test(Winbits.$.browser.version))
       context = options.context or @
       Winbits.rpc.request(url, options, () ->
         options.success.apply(context, arguments) if $.isFunction options.success
