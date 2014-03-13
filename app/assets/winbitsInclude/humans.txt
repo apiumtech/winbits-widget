@@ -1,0 +1,32 @@
+/* TEAM */
+	Red10 Manager: Fabian Yanez 
+	Contact: fabyz_@hotmail.com
+	From: Mexico, D.F.
+
+	Project Manager: Rafael Lopez
+	Contact: rafaellorey[at]gmail.com
+	From: Mexico, D.F.
+
+	Back End Developer: Ignacio Arces
+	Contact: ignacio.arces[at]clickonero.com.mx
+	From: Mexico, D.F.
+	
+	Front End Developer: Yadira Cisneros
+	Contact: ycisne[at]gmail.com
+	From: Mexico, D.F.
+
+	Web Designer: Raul Sotomayor
+	Contact: raul.sotomayor[at]clickonero.com.mx
+	From: Mexico, D.F.
+
+/* THANKS */
+	Red10 CEO: Arian Gonzalez
+	Contact:
+	From:		
+
+/* SITE */
+	Last update: 2013/06/24
+	Standards: HTML5, CSS3
+	Components: Modernizr, jQuery, jQueryUI, jQueryBrowser, jQueryValidate
+	Software: Sublime Text 2, Photoshop
+	Language: Spanish, English
