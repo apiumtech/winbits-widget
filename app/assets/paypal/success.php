@@ -4,7 +4,7 @@ $orderId = $_GET['orderId'];
 
 $ch = curl_init();
 // set URL and other appropriate options
-curl_setopt($ch, CURLOPT_URL, "https://apici.winbits.com/v1/orders/orders/".$orderId.".json");
+curl_setopt($ch, CURLOPT_URL, "https://apistaging.winbits.com/v1/orders/orders/".$orderId.".json");
 curl_setopt($ch, CURLOPT_HEADER, false);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 // grab URL and pass it to the browser
@@ -43,7 +43,7 @@ if (!empty($shipping)) {
     <link rel="shortcut icon" href="../images/favicon.ico" type="image/vnd.microsoft.icon">
     <link rel="icon" href="../images/favicon.ico" type="image/vnd.microsoft.icon">
     <link rel="author" href="../humans.txt">
-    <link rel="stylesheet" href="http://widgets.winbits.com/qa/stylesheets/checkout.css">
+    <link rel="stylesheet" href="http://widgets.winbits.com/staging/stylesheets/checkout.css">
 </head>
 <body>
 <header>

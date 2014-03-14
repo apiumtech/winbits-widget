@@ -3,7 +3,7 @@ util = require 'lib/util'
 config = require 'config'
 
 module.exports = class ModalLoginPageView extends View
-  container: 'main'
+  container: '#login-modal-body'
   tagName: 'main'
   className: 'login-modal-body'
   autoRender: true

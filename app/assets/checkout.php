@@ -23,25 +23,25 @@
   <link rel="icon" href="images/favicon.ico" type="image/vnd.microsoft.icon">
   <link rel="author" href="humans.txt">
   <title>Winbits</title>
-  <link rel="stylesheet" href="http://widgets.winbits.com/qa/stylesheets/checkout.css">
+  <link rel="stylesheet" href="http://widgets.winbits.com/staging/stylesheets/checkout.css">
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <script type="text/javascript">
     Winbits = { checkoutConfig: {} };
     Winbits.$ = $.noConflict(true);
     window.w$ = Winbits.$;
   </script>
-  <script src="http://widgets.winbits.com/qa/javascripts/vendor.js"></script>
+  <script src="http://widgets.winbits.com/staging/javascripts/vendor.js"></script>
   <script type="text/javascript">
     Backbone.$ = Winbits.$;
     Winbits.checkoutConfig.orderId='<?echo $order_id?>';
-    Winbits.checkoutConfig.providerUrl = 'https://apici.winbits.com/provider/';
+    Winbits.checkoutConfig.providerUrl = 'https://apistaging.winbits.com/provider/';
     Winbits.token= '<?echo $token?>';
     Winbits.checkoutConfig.bitsBalance = '<?echo $bits_balance?>';
     Winbits.checkoutConfig.verticalId = '<?echo $verticalId?>';
     Winbits.checkoutConfig.verticalUrl = '<?echo $verticalUrl?>';
     Winbits.checkoutConfig.timestamp = '<?echo $timestamp?>';
   </script>
-  <script src="http://widgets.winbits.com/qa/javascripts/app.js"></script>
+  <script src="http://widgets.winbits.com/staging/javascripts/app.js"></script>
   <script>
     window.Winbits.$(document).ready(function($) {
       var Application = require('application');

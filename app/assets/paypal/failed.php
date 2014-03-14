@@ -15,7 +15,7 @@ $verticalUrl = $_GET['verticalUrl'];
   <link rel="shortcut icon" href="../images/favicon.ico" type="image/vnd.microsoft.icon">
   <link rel="icon" href="../images/favicon.ico" type="image/vnd.microsoft.icon">
   <link rel="author" href="../humans.txt">
-  <link rel="stylesheet" href="http://widgets.winbits.com/qa/stylesheets/checkout.css">
+  <link rel="stylesheet" href="http://widgets.winbits.com/staging/stylesheets/checkout.css">
 </head>
 <body>
 <header>
