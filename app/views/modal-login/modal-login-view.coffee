@@ -3,9 +3,9 @@ util = require 'lib/util'
 config = require 'config'
 
 module.exports = class ModalLoginPageView extends View
-  container: '#login-modal-body'
-  tagName: 'main'
-  className: 'login-modal-body'
+  container: 'body header .wb-header'
+  id: 'login-modal'
+  className: 'modal hide'
   autoRender: true
   template: require './templates/modal-login'
   autoAttach: true
