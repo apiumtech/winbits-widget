@@ -14,7 +14,7 @@ module.exports = class ModalLoginPageView extends View
 
   initialize: ->
    super
-   $('.wb-main').remove()
+   $(".wb-main").remove()
 
   doLogin: (e) ->
     $form = Winbits.$('#loginForm')
