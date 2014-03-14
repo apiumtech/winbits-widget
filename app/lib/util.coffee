@@ -9,7 +9,7 @@ module.exports =
     localStorage[key]
 
   deleteKey : (key) ->
-    localStorage[key] = undefined
+    localStorage.removeItem(key)
 
   getUrlParams : ->
     vars = []
@@ -318,3 +318,11 @@ module.exports =
           
       return html
 
+  toggleDropMenus:(e, dropMenuClass)->
+    e.stopPropagation()
+    $dropMenus = Winbits.$('.miCuentaDiv, .miCarritoDiv')
+    $dropMenus.not(dropMenuClass).stop(yes, yes).slideUp()
+    $dropMenus.filter(dropMenuClass).stop(yes, yes).slideToggle()
+
+  hideDropMenus:()->
+    Winbits.$('.miCuentaDiv, .miCarritoDiv').slideUp()

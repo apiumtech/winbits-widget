@@ -4,6 +4,7 @@ util = require 'lib/util'
 vendor = require 'lib/vendor'
 config = require 'config'
 mediator = require 'chaplin/mediator'
+token = require 'lib/token'
 
 # Site view is a top-level view which is bound to body.
 module.exports = class WidgetSiteView extends View
@@ -34,6 +35,10 @@ module.exports = class WidgetSiteView extends View
     @delegate 'hidden', '#register-modal', @resetForm
     @delegate 'shown', '#forgot-password-modal', @requestFocus
     @delegate 'hidden', '#forgot-password-modal', @resetForm
+    @delegate 'click', '#wbi-close-switch-user', @logout
+    @delegate 'click', '.triggerMiCuenta', (e)-> util.toggleDropMenus(e, '.miCuentaDiv')
+    @delegate 'click', '.triggerMiCarrito', (e)-> @toggleCart(e)
+    @delegate 'click', '.miCuentaDiv .wrapper', (e) -> e.stopPropagation()
 
     @subscribeEvent 'showHeaderLogin', @showHeaderLogin
     @subscribeEvent 'showHeaderLogout', @showHeaderLogout
@@ -52,10 +57,11 @@ module.exports = class WidgetSiteView extends View
     @subscribeEvent 'proxyLoaded', @proxyLoaded
     @subscribeEvent 'doCheckout', @doCheckout
     @subscribeEvent 'setBitsBalance', @updateBitsBalance
+    @subscribeEvent 'logout', @deleteSwitchUserInfo
 
   updateCartCounter: (count)->
     console.log ["WidgetSiteView#updateCartCounter " + count]
-    @$el.find(".cart-items-count").html(count)
+    @$el.find(".wb-cart-items-count").html(count)
 
   loginBtnClick: (e) ->
     e.preventDefault()
@@ -123,8 +129,14 @@ module.exports = class WidgetSiteView extends View
 
   showHeaderLogin: () ->
     console.log "WidgetSiteView#showHeaderLogin"
+    @checkSwitchUser()
     @$el.find("#headerLogin").show()
     @$el.find("#headerNotLogin").hide()
+
+  checkSwitchUser: ()->
+    if mediator.global.profile.switchUser?
+      @$el.find('#wbi-div-switch-user').show()
+      @$el.find('#wbi-em-switch-user').append Winbits.$("<span>").attr('id', 'clientUserEmail').text(mediator.global.profile.switchUser)
 
   showHeaderLogout: () ->
     console.log "WidgetSiteView#showHeaderLogout"
@@ -148,11 +160,11 @@ module.exports = class WidgetSiteView extends View
     @$el.find("#winbits-logout-link").on "click",  (e)->
       that.logout(e)
 
-    vendor.dropMenu
-      obj: ".miCuentaDiv"
-      clase: ".dropMenu"
-      trigger: ".triggerMiCuenta, .miCuenta .link"
-      other: ".miCarritoDiv"
+#    vendor.dropMenu
+#      obj: ".miCuentaDiv"
+#      clase: ".dropMenu"
+#      trigger: ".triggerMiCuenta, .miCuenta .link"
+#      other: ".miCarritoDiv"
 
     vendor.openFolder
       obj: ".knowMoreMin"
@@ -183,7 +195,7 @@ module.exports = class WidgetSiteView extends View
   doCheckout: (delay) ->
     $ = Winbits.$
     @timeDelay = 0
-    if delay 
+    if delay
        @timeDelay = 1500
     if $('.wb-cart-detail-list').children().length > 0
       util.showAjaxIndicator('Generando tu Orden...')
@@ -211,7 +223,7 @@ module.exports = class WidgetSiteView extends View
           console.log xhr
           error = JSON.parse(xhr.responseText)
           util.hideAjaxIndicator()
-      
+
     else
       util.showError('Agrega algo a tu carrito para que lo puedas comprar')
 
@@ -318,11 +330,24 @@ module.exports = class WidgetSiteView extends View
 
   proxyLoaded: () ->
     console.log('Proxy Loaded Handler...')
-    hash = location.hash
-    hashParts = hash.split('-')
-    if hashParts[0] is '#complete' and hashParts[1] is 'register'
-      apiToken = hashParts[2].substring(0, 64)
-      @publishEvent 'expressLogin', apiToken
+    that = @
+    hashHandlers =
+      '#complete-register': (response) ->
+        if response.profile?
+          that.publishEvent "showCompletaRegister", response
+          that.publishEvent 'setRegisterFb', response.profile
+      '#switch-user': Winbits.$.noop
+    token.requestTokens(Winbits.$) unless @processHashHandlers(hashHandlers)
+
+  processHashHandlers: (hashHandlers) ->
+    hashParts = location.hash.split('-')
+    Winbits.$('a#wbi-dummy-link').get(0).click()
+    apiToken = hashParts.pop().substring(0, 64)
+    callback = _.find hashHandlers, (value, key) ->
+      key is hashParts.join('-')
+    if callback
+      @publishEvent 'expressLogin', apiToken, callback
+    callback?
 
   requestFocus: (e) ->
     $form = Winbits.$(e.currentTarget).find('form')
@@ -348,3 +373,12 @@ module.exports = class WidgetSiteView extends View
       )
       if bandera == true
         @publishEvent ('completeProfileRemainder')
+
+  deleteSwitchUserInfo: ->
+    @$el.find('#wbi-switched-user').delete()
+
+  toggleCart: (e) ->
+    e.stopPropagation()
+    if Winbits.$(e.currentTarget).find(".wb-cart-items-count").text().trim() is '0'
+       return
+    util.toggleDropMenus(e, '.miCarritoDiv')

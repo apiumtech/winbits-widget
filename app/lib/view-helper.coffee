@@ -348,7 +348,7 @@ Handlebars.registerHelper "isMSIPayment", (payment, options) ->
     lastDotIndex = payment.identifier.lastIndexOf('.')
     numberOfPayments = parseInt(payment.identifier.substr(lastDotIndex + 1))
     monthlyPayment = payment.amount / numberOfPayments
-    options.fn [numberOfPayments: numberOfPayments, monthlyPayment: monthlyPayment]
+    options.fn ( numberOfPayments: numberOfPayments, monthlyPayment: monthlyPayment )
   else
     options.inverse this
 

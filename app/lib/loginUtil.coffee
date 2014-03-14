@@ -19,12 +19,12 @@ module.exports = class LoginUtil
     @subscribeEvent 'initLogout', @initLogout
     @subscribeEvent 'loginFacebook', @loginFacebook
 
-  expressLogin : (token) ->
+  expressLogin : (token, successCallback) ->
     console.log "Doing express login"
     console.log "LoginUtil#expressLogin"
     apiToken = if token? then token else util.retrieveKey(config.apiTokenName)
     that = @
-    if apiToken and apiToken isnt "undefined"
+    if apiToken?
       util.ajaxRequest( config.apiUrl + "/users/express-login.json",
         type: "POST"
         contentType: "application/json"
@@ -37,9 +37,7 @@ module.exports = class LoginUtil
         success: (data) ->
           console.log "express-login.json Success!"
           that.publishEvent 'applyLogin', data.response
-          if token? and data.response.profile?
-            that.publishEvent 'setRegisterFb', data.response.profile
-            that.publishEvent "showCompletaRegister", data.response
+          successCallback.call(@, data.response) if Winbits.$.isFunction(successCallback)
 
         error: (xhr) ->
           console.log "express-login.json Error!"
@@ -99,10 +97,9 @@ module.exports = class LoginUtil
       type: "POST"
       contentType: "application/json"
       dataType: "json"
-      xhrFields:
-        withCredentials: true
       headers:
         "Accept-Language": "es"
+        "WB-Api-Token": util.retrieveKey(config.apiTokenName)
       success: (data) ->
         that.applyLogout data.response
       error: (xhr) ->
@@ -121,6 +118,7 @@ module.exports = class LoginUtil
     mediator.flags.fbConnect = false
     util.backToSite()
     $ = window.$ or Winbits.$
+    Winbits.$('#wbi-div-switch-user').hide()
     $('#' + config.winbitsDivId).trigger 'loggedout', [logoutData]
 
   loginFacebook : (me) ->
