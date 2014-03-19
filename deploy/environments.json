@@ -5,7 +5,7 @@
       "name": "dev",
       "desc": "dev environment",
       "config": {
-        "apiUrl": "https://apici.winbits.com/v1",
+        "apiUrl": "https://apidev.winbits.com/v1",
         "baseUrl": "http://widgets.winbits.com/qa",
         "loginRedirectUrl": "http://widgets.winbits.com/qa/ilogin.html",
         "facebookClientId": "486640894740634",
