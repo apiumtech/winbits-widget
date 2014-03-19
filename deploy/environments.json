@@ -9,7 +9,7 @@
         "baseUrl": "http://widgets.winbits.com/qa",
         "loginRedirectUrl": "http://widgets.winbits.com/qa/ilogin.html",
         "facebookClientId": "486640894740634",
-        "providerUrl": "https://apici.winbits.com/provider/",
+        "providerUrl": "https://apidev.winbits.com/provider/",
         "remoteDebug": true
       }
     },
