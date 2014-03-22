@@ -1,0 +1,14 @@
+<li data-id="{{skuProfile.id}}">
+  <a href="#"><img class="cart-detail-thumb imgItem" src="{{defaultThumbnail skuProfile.item.thumbnail}}"></a>
+  <p class="descriptionItem cart-detail-name">{{skuProfile.item.name}}</p>
+  <p class="caracItem">{{joinAttributes skuProfile.mainAttribute skuProfile.attributes}}</p>
+  <label>Cantidad</label>
+  <select class="select wb-cart-detail-quantity" data-clase="selectRegister" value="{{quantity}}">
+    {{#quantityOptions min max quantity}}
+      <option value="{{value}}" {{#if selected}}selected="true"{{/if}}>{{text}}</option>
+    {{/quantityOptions}}
+  </select>
+  <p class="priceItem cart-detail-price">${{cartDetailTotal skuProfile.price quantity}}</p>
+  <span class="icon looqLogoSmall">{{skuProfile.item.vertical.name}}</span>
+  <span class="icon closeButton"><a href="#" class="wb-cart-detail-delete-link">eliminar</a></span>
+</li>

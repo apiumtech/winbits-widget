@@ -1,0 +1,57 @@
+<h2>MI PERFIL</h2>
+<div class="miPerfil">
+  <h3 class="profile-full-name">{{name}} {{lastName}}</h3>
+  <p><a id="wbi-profile-email" class="profile-email" href="mailto:{{getProfileEmail}}">{{getProfileEmail}}</a></p>
+  <p class="profile-age"></p>
+  <address>
+    {{#if location}}
+      <span class="profile-location">Col. {{location}}</span>
+    {{/if}}
+    {{#if zipCode}}
+      <span class="profile-zip-code">C.P. {{zipCode}}</span>
+    {{/if}}
+    {{#if phone}}
+      <span class="profile-phone">tel. {{phone}}</span>
+    {{/if}}
+  </address>
+  <ul>
+    <li><a href="#" id="wbi-change-password-link" class="changePassBtn"><span class="icon changePasword"></span>Cambiar Password</a></li>
+    <li><a href="#" id="wbi-show-cards-manager-link"><span class="icon creditCard"></span>Editar Tarjetas de Crédito </a></li>
+    <li>
+      <a href="#" id="attachFacebookAccount{{facebook}}">
+        <span class="icon facebookCircle{{facebook}}"></span>
+        <span class="socialProvider{{facebook}}">
+          {{getSocialActionByState facebook}} tu cuenta de Facebook
+        </span>
+      </a>
+    </li>
+    <li>
+      <a href="#" id="attachTwitterAccount{{twitter}}">
+        <span class="icon twitterCircle{{twitter}}"></span>
+        <span class="socialProvider{{twitter}}">{{getSocialActionByState twitter}} tu cuenta de Twitter </span>
+      </a>
+    </li>
+  </ul>
+  <input type="button" class="btn editBtn" id="editBtnProfile" value="Editar">
+</div>
+<div id='attach-facebook-account-modal' class="modal hide">
+        <div class="modal-body reset-modal" id="attach-facebook-account-modal-body" style="padding:0px"></div>
+</div>
+<div id='attach-twitter-account-modal' class="modal hide">
+        <div class="modal-body reset-modal" id="attach-twitter-account-modal-body" style="padding:0px"></div>
+</div>
+<div id="wbi-edit-profile-view" class="editMiPerfil">
+
+</div>
+<div class="changePassDiv">
+  <form id="wbi-change-password-form">
+  <fieldset>
+    <input type="password" placeholder="Password Actual" class="required reseteable" name="password" maxlength="30">
+    <input type="password" placeholder="Nuevo Password" class="required reseteable" name="newPassword" maxlength="30">
+    <input type="password" placeholder="Confirmar Nuevo Password" class="required reseteable" name="passwordConfirm" maxlength="30">
+    <div class="errors"></div>
+    <input type="submit" class="btn editBtn" value="Guardar">
+    <a href="#" class="linkBack">Regresar</a>
+  </fieldset>
+  </form>
+</div>

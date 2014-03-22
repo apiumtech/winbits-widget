@@ -1,0 +1,68 @@
+<span class="icon triangle2"></span>
+<div class="wrapper">
+  <div class="carContenido">
+    <div class="carritoDivLeft" style="width: 339px;">
+      <div class="carritoContainer scrollPanel" data-content="carritoContent">
+        <div class="carritoContent">
+          <ul class="cart-details-list reseteable wb-cart-detail-list" data-reset-unload="">
+            {{#each cartDetails}}
+              {{> cartDetail}}
+            {{/each}}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="carritoDivRight cart-info">
+      <div id="wbi-cart-balance"></div>
+      <input class="wb-cart-bits-slider-account" data-reset-val="0" type="hidden" value="{{bitsTotal}}" data-min="0"
+             data-max="{{total}}" data-step="1" class="slideInput wb-bits-control" data-max-selection="{{getBitsMaxSelection total}}">
+      <span class="legendCarrito">Usa tus bits como dinero en esta compra <a href="#">learn more</a></span>
+      <a href="#" class="continueShoping wb-continue-shopping-link">CONTINUE SHOPPING</a>
+      <input type="submit" class="btn wb-checkout-btn" value="Check Out">
+      <div class="condicionesCompra">
+        <p>Aplica para esta compra:</p>
+        {{#if paymentMethods}}
+        <p>
+          {{#paymentMethodSupported 'cybersource.'}}
+            <span class="icon mastercardCC">Master Card</span>
+            <span class="icon visaCC">VISA</span>
+          {{/paymentMethodSupported}}
+          {{#paymentMethodSupported 'amex.'}}
+            <span class="icon amexCC">American Express</span>
+          {{/paymentMethodSupported}}
+          {{#paymentMethodSupported 'paypal.'}}
+            <span class="icon paypalCC">Pay Pal</span>
+          {{/paymentMethodSupported}}
+          {{#paymentMethodSupported 'oxxo.bc'}}
+            <span class="icon oxxoCC">OXXO</span>
+          {{/paymentMethodSupported}}
+          {{#paymentMethodSupported 'reference.hsbc'}}
+            <span class="icon depositoCC">Depósito Bancario</span>
+          {{/paymentMethodSupported}}
+          {{#paymentMethodSupported 'user.bits'}}
+            <span>Pago con bits</span>
+            <span class="icon bitsMoney">Pago con bits</span>
+          {{/paymentMethodSupported}}
+        </p>
+          {{#withMsiPayments}}
+          <p>Meses sin intereses con:</p>
+          <p>
+            {{#each msiPayments}}
+              {{#compare identifier 'cybersource.+' operator='matches'}}
+                <span class="icon mastercardCC">Master Card</span>
+                <span class="icon visaCC">VISA</span>
+              {{/compare}}
+              {{#compare identifier 'amex.+' operator='matches'}}
+                <span class="icon amexCC">American Express</span>
+              {{/compare}}
+              {{#compare identifier 'paypal.+' operator='matches'}}
+                <span class="icon paypalCC">Pay Pal</span>
+              {{/compare}}
+            {{/each}}
+          </p>
+        {{/withMsiPayments}}
+      {{/if}}
+      </div>
+    </div>
+  </div>
+</div>
