@@ -47,7 +47,7 @@ task("switch-config", function() {
   file_list = "";
   execFile = require("child_process").execFile;
   copyXtraLibs(env, execFile);
-  return execFile("find", ["deploy/resources/", "-name", "*.hbs"], function(err, stdout, stderr) {
+  return execFile("find", ["deploy/resources", "-name", "*.hbs"], function(err, stdout, stderr) {
     file_list = "" + stdout.split("\n");
     return _.each(file_list.split(","), function(file) {
       if (file !== "") {

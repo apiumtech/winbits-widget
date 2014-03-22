@@ -1,6 +1,5 @@
 ChkController = require 'controllers/checkout-controller'
 ChaplinMediator = require 'chaplin/mediator'
-ProxyHandlers = require 'lib/proxyHandlers'
 config = require 'config'
 util = require 'lib/util'
 EventBroker = require 'chaplin/lib/event_broker'
