@@ -1,7 +1,5 @@
-HomeController = require 'controllers/home-controller'
 ChkController = require 'controllers/checkout-controller'
 ChaplinMediator = require 'chaplin/mediator'
-LoginUtil = require 'lib/loginUtil'
 ProxyHandlers = require 'lib/proxyHandlers'
 config = require 'config'
 util = require 'lib/util'
@@ -24,17 +22,10 @@ module.exports = class Application
 
     @initCustomRules()
 
-    if not checkout
-      Winbits.$.extend config, Winbits.userConfig or {}
-      @initHomeControllers()
-    else
-      @initChkControllers()
-    Winbits.$(document).click (e)->
-      util.hideDropMenus()
+    @initChkControllers()
 
     # Mediator is a global message broker which implements pub / sub pattern.
     @initMediator()
-    @showAppError()
 
     Object.freeze? this
 
@@ -51,18 +42,6 @@ module.exports = class Application
     ChaplinMediator.post_checkout = {}
     ChaplinMediator.seal()
 
-  initHomeControllers: ->
-    @initXDMRpc
-      remote: Winbits.userConfig.providerUrl
-      onReady: ->
-        console.log 'Publishing event proxyLoaded'
-        EventBroker.publishEvent('proxyLoaded')
-    # These controllers are active during the whole application runtime.
-    @loginUtil = new LoginUtil()
-    @proxyHandlers = new ProxyHandlers()
-    @homeController = new HomeController()
-    @homeController.index()
-
   initChkControllers: ->
     if util.isCrapBrowser()
       @initXDMRpc remote: Winbits.checkoutConfig.providerUrl
@@ -74,7 +53,7 @@ module.exports = class Application
 
   initBackbone: ->
     # Enable support for PUT & DELETE requests
-#    Backbone.emulateHTTP = yes
+    # Backbone.emulateHTTP = yes
     # Proxy Backbone's ajax request function to use the easyXDM rpc on IE8-9
     # This enables Backbone's fetch to use the RPC
     Backbone.ajax = () ->
@@ -129,13 +108,6 @@ module.exports = class Application
         ]
       links: {}
     moment().tz("America/Mexico_City").format();
-
-  showAppError: -> 
-    hash = location.hash
-    hashParts = hash.split('-')
-    if hashParts[0] is '#err' and hashParts[1] is 'AFER027'
-      Winbits.$('a#wbi-dummy-link').get(0).click()
-      util.showError('No se pudo confirmar al usuario, por favor intente en otro momento')
 
    #add new method for validation
   initCustomRules: ()->
