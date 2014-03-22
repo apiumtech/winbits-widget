@@ -180,4 +180,4 @@
 		} catch (err) {}
 	}
 
-}(this, document, window.w$));
+}(this, document, window.$));

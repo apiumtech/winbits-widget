@@ -8,7 +8,7 @@
 (function($) {
 
 var testNode = document.createElement("input");
-var isInputSupported = "oninput" in testNode && 
+var isInputSupported = "oninput" in testNode &&
     (!("documentMode" in document) || document.documentMode > 9);
 
 var hasInputCapabilities = function(elem) {
@@ -142,4 +142,4 @@ if (isInputSupported) {
         });
 }
 
-})(window.w$);
+})(window.$);

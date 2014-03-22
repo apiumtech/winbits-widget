@@ -45,7 +45,7 @@ $.event.special.mwheelIntent = {
             mwheelI.elem = this;
 			mwheelI.pos = pos;
 			minDif = 250;
-			
+
 			clearTimeout(shortDelay);
 			shortDelay = setTimeout(function(){
 				minDif = 10;
@@ -63,7 +63,7 @@ $.fn.extend({
 	mwheelIntent: function(fn) {
 		return fn ? this.bind("mwheelIntent", fn) : this.trigger("mwheelIntent");
 	},
-	
+
 	unmwheelIntent: function(fn) {
 		return this.unbind("mwheelIntent", fn);
 	}
@@ -74,5 +74,5 @@ $(function(){
 	//assume that document is always scrollable, doesn't hurt if not
 	$(doc).bind('mwheelIntent.mwheelIntentDefault', $.noop);
 });
-})(window.w$);
+})(window.$);
 */

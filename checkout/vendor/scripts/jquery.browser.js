@@ -17,11 +17,11 @@
 "use strict";
 
 var matched, browser;
- 
+
 jQuery.uaMatch = function( ua ) {
   ua = ua.toLowerCase();
- 
-	var match = /(opr)[\/]([\w.]+)/.exec( ua ) || 
+
+	var match = /(opr)[\/]([\w.]+)/.exec( ua ) ||
 		/(chrome)[ \/]([\w.]+)/.exec( ua ) ||
 		/(version)[ \/]([\w.]+).*(safari)[ \/]([\w.]+)/.exec(ua) ||
 		/(webkit)[ \/]([\w.]+)/.exec( ua ) ||
@@ -39,17 +39,17 @@ jQuery.uaMatch = function( ua ) {
 		/(mac)/.exec( ua ) ||
 		/(linux)/.exec( ua ) ||
 		[];
- 
+
 	return {
 		browser: match[ 3 ] || match[ 1 ] || "",
 		version: match[ 2 ] || "0",
 		platform: platform_match[0] || ""
 	};
 };
- 
+
 matched = jQuery.uaMatch( window.navigator.userAgent );
 browser = {};
- 
+
 if ( matched.browser ) {
 	browser[ matched.browser ] = true;
 	browser.version = matched.version;
@@ -58,7 +58,7 @@ if ( matched.browser ) {
 if ( matched.platform) {
 	browser[ matched.platform ] = true
 }
- 
+
 // Chrome, Opera 15+ and Safari are webkit based browsers
 if ( browser.chrome || browser.opr || browser.safari) {
 	browser.webkit = true;
@@ -75,7 +75,7 @@ if (browser.opr)
 {
 	browser.opera = true;
 }
- 
+
 jQuery.browser = browser;
- 
-})( window.w$, window );
+
+})( window.$, window );

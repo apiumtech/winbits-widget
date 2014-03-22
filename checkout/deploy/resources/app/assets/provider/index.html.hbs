@@ -1,6 +1,6 @@
 <!doctype html>
 
-<html xmlns:fb="http://ogp.me/ns/fb#">
+<html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -14,7 +14,7 @@
   <script type="text/javascript">
     easyXDM.DomHelper.requiresJSON("https://cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js");
   </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.js"></script>
 
   <script type="text/javascript">
     (function(){
@@ -86,35 +86,21 @@
                 Winbits.deleteKey('_wb_api_token');
                 Winbits.storeKey('_wb_vcart_token', '[]');
                 console.log('Wee do not log out facebook anymore!');
-//                if (facebookLogout) {
-//                  console.log('Winbits: Facebook logging out...');
-//                  FB.logout(function(response) {
-//                    console.log(['Facebook logout', response]);
-//                  });
-//                }
               },
               facebookStatus: function(success) {
-                console.log('About to call FB.getLoginStatus.');
-                FB.getLoginStatus(function(response) {
-                 console.log(['FB.getLoginStatus', response]);
-                 success(response);
-                }, true);
+                console.log('Winbits: Requesting Facebook status...');
               },
               facebookMe: function(success) {
                 console.log('Winbits: Requesting me profile...');
-                FB.api('/me', function(response){
-                  console.log(['Facebook me response', response]);
-                  success(response);
-                });
               },
               saveUtms: function(utmParams, successFn) {
                 console.log(["UTMS provider", utmParams])
-                Winbits.storeKey('_wb_utm_params', JSON.stringify(utmParams)) 
+                Winbits.storeKey('_wb_utm_params', JSON.stringify(utmParams))
               },
               getUtms: function(successFn, errorFn) {
                 console.log(["get UTMS"])
                 return {
-                    'utm_params': Winbits.retrieveKey('_wb_utm_params') 
+                    'utm_params': Winbits.retrieveKey('_wb_utm_params')
                 };
               }
             },
@@ -130,20 +116,9 @@
               getUtms: {}
             }
           });
-
-      window.fbAsyncInit = function () {
-        FB.init({appId: '{{facebookClientId}}', status: true, cookie: true, xfbml: true, oauth  : true });
-      };
-
-      var e = document.createElement('script');
-      e.async = true;
-      e.src = 'https://connect.facebook.net/en_US/all.js';
-      (document.getElementsByTagName('head')[0] || document.documentElement).appendChild(e);
     })();
   </script>
 </head>
-<body style="margin: 0px;background: none repeat scroll 0 0 #454545;">
-<div id="fb-root" style="text-align: center;">
-</div>
+<body>
 </body>
 </html>

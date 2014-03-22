@@ -32,7 +32,7 @@
 // This plugin is tested on the browsers below and has been found to work reliably on them. If you run
 // into a problem on one of the supported browsers then please visit the support section on the jScrollPane
 // website (http://jscrollpane.kelvinluck.com/) for more information on getting support. You are also
-// welcome to fork the project on GitHub if you can contribute a fix for a given issue. 
+// welcome to fork the project on GitHub if you can contribute a fix for a given issue.
 //
 // jQuery Versions - tested in 1.4.2+ - reported to work in 1.3.x
 // Browsers Tested - Firefox 3.6.8, Safari 5, Opera 10.6, Chrome 5.0, IE 6, 7, 8
@@ -83,7 +83,7 @@
 				originalPadding = elem.css('paddingTop') + ' ' +
 									elem.css('paddingRight') + ' ' +
 									elem.css('paddingBottom') + ' ' +
-									elem.css('paddingLeft');	
+									elem.css('paddingLeft');
 				originalPaddingTotalWidth = (parseInt(elem.css('paddingLeft'), 10) || 0) +
 											(parseInt(elem.css('paddingRight'), 10) || 0);
 			}
@@ -113,7 +113,7 @@
 					paneHeight = elem.innerHeight();
 
 					elem.width(paneWidth);
-					
+
 					pane = $('<div class="jspPane" />').css('padding', originalPadding).append(elem.children());
 					container = $('<div class="jspContainer" />')
 						.css({
@@ -124,7 +124,7 @@
 
 					/*
 					// Move any margins from the first and last children up to the container so they can still
-					// collapse with neighbouring elements as they would before jScrollPane 
+					// collapse with neighbouring elements as they would before jScrollPane
 					firstChild = pane.find(':first-child');
 					lastChild = pane.find(':last-child');
 					elem.css(
@@ -159,7 +159,7 @@
 						return;
 					}
 					previousContentWidth = contentWidth;
-					
+
 					pane.css('width', '');
 					elem.width(paneWidth);
 
@@ -215,14 +215,14 @@
 					initFocusHandler();
 					initMousewheel();
 					initTouch();
-					
+
 					if (settings.enableKeyboardNavigation) {
 						initKeyboardNav();
 					}
 					if (settings.clickOnTrack) {
 						initClickOnTrack();
 					}
-					
+
 					observeHash();
 					if (settings.hijackInternalLinks) {
 						hijackInternalLinks();
@@ -483,7 +483,7 @@
 			function appendArrows(ele, p, a1, a2)
 			{
 				var p1 = "before", p2 = "after", aTemp;
-				
+
 				// Sniff for mac... Is there a better way to determine whether the arrows would naturally appear
 				// at the top or the bottom of the bar?
 				if (p == "os") {
@@ -598,7 +598,7 @@
 						}
 					);
 				}
-				
+
 				if (isScrollableH) {
 					horizontalTrack.bind(
 						'mousedown.jsp',
@@ -715,7 +715,7 @@
 					wasAtBottom = isAtBottom;
 					elem.trigger('jsp-arrow-change', [wasAtTop, wasAtBottom, wasAtLeft, wasAtRight]);
 				}
-				
+
 				updateVerticalArrows(isAtTop, isAtBottom);
 				pane.css('top', destTop);
 				elem.trigger('jsp-scroll-y', [-destTop, isAtTop, isAtBottom]).trigger('scroll');
@@ -762,7 +762,7 @@
 					wasAtRight = isAtRight;
 					elem.trigger('jsp-arrow-change', [wasAtTop, wasAtBottom, wasAtLeft, wasAtRight]);
 				}
-				
+
 				updateHorizontalArrows(isAtLeft, isAtRight);
 				pane.css('left', destLeft);
 				elem.trigger('jsp-scroll-x', [-destLeft, isAtLeft, isAtRight]).trigger('scroll');
@@ -812,7 +812,7 @@
 
 				container.scrollTop(0);
 				container.scrollLeft(0);
-				
+
 				// loop through parents adding the offset top of any elements that are relatively positioned between
 				// the focused element and the jspPane so we can get the true distance from the top
 				// of the focused element to the top of the scrollpane...
@@ -836,7 +836,7 @@
 				if (!isNaN(destY)) {
 					scrollToY(destY, animate);
 				}
-				
+
 				viewportLeft = contentPositionX();
 	            maxVisibleEleLeft = viewportLeft + paneWidth;
 	            if (eleLeft < viewportLeft || stickToTop) { // element is to the left of viewport
@@ -910,13 +910,13 @@
 			{
 				pane.find(':input,a').unbind('focus.jsp');
 			}
-			
+
 			function initKeyboardNav()
 			{
 				var keyDown, elementHasScrolled, validParents = [];
 				isScrollableH && validParents.push(horizontalBar[0]);
 				isScrollableV && validParents.push(verticalBar[0]);
-				
+
 				// IE also focuses elements that don't have tabindex set.
 				pane.focus(
 					function()
@@ -924,7 +924,7 @@
 						elem.focus();
 					}
 				);
-				
+
 				elem.attr('tabindex', 0)
 					.unbind('keydown.jsp keypress.jsp')
 					.bind(
@@ -969,7 +969,7 @@
 							return !elementHasScrolled;
 						}
 					);
-				
+
 				if (settings.hideFocus) {
 					elem.css('outline', 'none');
 					if ('hideFocus' in container[0]){
@@ -981,7 +981,7 @@
 						elem.attr('hideFocus', false);
 					}
 				}
-				
+
 				function keyDownHandler()
 				{
 					var dX = horizontalDragPosition, dY = verticalDragPosition;
@@ -1011,7 +1011,7 @@
 					return elementHasScrolled;
 				}
 			}
-			
+
 			function removeKeyboardNav()
 			{
 				elem.attr('tabindex', '-1')
@@ -1123,7 +1123,7 @@
 					event.preventDefault();
 				});
 			}
-			
+
 			// Init touch on iPad, iPhone, iPod, Android
 			function initTouch()
 			{
@@ -1133,7 +1133,7 @@
 					touchStartY,
 					moved,
 					moving = false;
-  
+
 				container.unbind('touchstart.jsp touchmove.jsp touchend.jsp click.jsp-touchclick').bind(
 					'touchstart.jsp',
 					function(e)
@@ -1153,14 +1153,14 @@
 						if(!moving) {
 							return;
 						}
-						
+
 						var touchPos = ev.originalEvent.touches[0],
 							dX = horizontalDragPosition, dY = verticalDragPosition;
-						
+
 						jsp.scrollTo(startX + touchStartX - touchPos.pageX, startY + touchStartY - touchPos.pageY);
-						
+
 						moved = moved || Math.abs(touchStartX - touchPos.pageX) > 5 || Math.abs(touchStartY - touchPos.pageY) > 5;
-						
+
 						// return true if there was no movement so rest of screen can scroll
 						return dX == horizontalDragPosition && dY == verticalDragPosition;
 					}
@@ -1184,7 +1184,7 @@
 					}
 				);
 			}
-			
+
 			function destroy(){
 				var currentY = contentPositionY(),
 					currentX = contentPositionX();
@@ -1381,13 +1381,13 @@
 					}
 				}
 			);
-			
+
 			initialise(s);
 		}
 
 		// Pluginifying code...
 		settings = $.extend({}, $.fn.jScrollPane.defaults, settings);
-		
+
 		// Apply default speed
 		$.each(['arrowButtonSpeed', 'trackClickSpeed', 'keyboardSpeed'], function() {
 			settings[this] = settings[this] || settings.speed;
@@ -1443,5 +1443,5 @@
 		scrollPagePercent			: .8		// Percent of visible area scrolled when pageUp/Down or track area pressed
 	};
 
-})(window.w$,this);
+})(window.$,this);
 

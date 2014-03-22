@@ -312,7 +312,7 @@ $.extend( $.ui, {
 	}
 });
 
-}(window.w$));
+}(window.$));
 (function( $, undefined ) {
 
 var uuid = 0,
@@ -823,7 +823,7 @@ $.each( { show: "fadeIn", hide: "fadeOut" }, function( method, defaultEffect ) {
 	};
 });
 
-}(window.w$));
+}(window.$));
 (function( $, undefined ) {
 
 var mouseHandled = false;
@@ -979,7 +979,7 @@ $.widget("ui.mouse", {
 	_mouseCapture: function(/* event */) { return true; }
 });
 
-}(window.w$));
+}(window.$));
 (function( $, undefined ) {
 
 // number of pages in a slider
@@ -1636,4 +1636,4 @@ $.widget( "ui.slider", $.ui.mouse, {
 
 });
 
-}(window.w$));
+}(window.$));
