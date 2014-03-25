@@ -22,4 +22,4 @@
 		max: $.validator.format("Por favor, escribe un valor menor o igual a {0}."),
 		min: $.validator.format("Por favor, escribe un valor mayor o igual a {0}.")
 	});
-}(window.w$));
+}(window.jQuery));

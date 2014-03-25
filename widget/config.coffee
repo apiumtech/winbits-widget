@@ -4,7 +4,6 @@ exports.config =
     javascripts:
       joinTo:
         'javascripts/app.js': /^app/
-        'javascripts/bower.js': /^bower_components/
         'javascripts/vendor.js': /^(bower_components|vendor)/
         'test/javascripts/test.js': /^test[\\/](?!vendor)/
         'test/javascripts/test-vendor.js': /^test[\\/]vendor/
@@ -12,14 +11,16 @@ exports.config =
       # Files in `vendor` directories are compiled before other files
       # even if they aren't specified in order.before.
         before: [
-          'vendor/scripts/xtra/easyXDM-2.4.18.25.js',
-          'vendor/scripts/json2.js',
-          'vendor/scripts/console-polyfill.js',
-          'vendor/scripts/jquery-ui-1.10.3.custom.js',
-          'vendor/scripts/lodash-1.2.0.js',
-          'vendor/scripts/backbone-1.0.0.js'
+          'bower_components/jquery/dist/jquery.js',
+          'vendor/scripts/winbits/init-config.coffee', # TODO: Tratar de pasarlo al winbits.js
+          'bower_components/json2/json2.js',
+          'vendor/scripts/xtra/easyXDM-2.4.19.3.js',
+          'vendor/scripts/winbits/init-rpc.coffee'
         ],
         after: [
+          'vendor/scripts/messages_es.js',
+          'vendor/scripts/winbits/post-load-vendor.coffee',
+          'app/initialize.coffee',
           'test/vendor/scripts/test-helper.js'
         ]
 

@@ -11,23 +11,3 @@ module.exports = class Application extends Chaplin.Application
   initialize: ->
     super
     Winbits.isCrapBrowser = util.isCrapBrowser
-    @initXDMRpc
-      remote: Winbits.userConfig.providerUrl
-
-
-
-  initXDMRpc: (config) ->
-    Winbits.rpc = new easyXDM.Rpc(config,
-      remote:
-        request: {}
-        getTokens: {}
-        saveApiToken: {}
-        storeVirtualCart: {}
-        logout: {}
-        saveUtms: {}
-        getUtms: {}
-        facebookStatus: {}
-        facebookMe: {}
-        saveUtms: {}
-        getUtms: {}
-    )
