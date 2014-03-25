@@ -6,12 +6,17 @@
     "chaplin": "~1.0.0",
     "console-polyfill": "~0.1.0",
     "jquery": "~1.11.0",
-    "jquery-ui": "~1.10.4"
+    "jquery-ui": "~1.10.4",
+    "jquery.browser": "~0.0.6",
+    "jquery.jscrollpane": "~2.0.14",
+    "jquery-mousewheel": "~3.1.9",
+    "jquery-placeholder-fix": "jluismm2311/jquery-placeholder",
+    "lodash":"~2.4.0"
   },
   "overrides": {
     "backbone": {
       "dependencies": {
-        "lodash": "~2.4.0"
+        "lodash": "*"
       }
     },
     "lodash": {
