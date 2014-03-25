@@ -1,0 +1,213 @@
+.widgetWinbitsMain .dataTable {
+	table {
+		background: @white;
+		width: 100%;
+		a {
+			color: @blueLink2;
+			text-decoration: underline;
+			&:hover {
+				color: @grey;
+			}
+		}
+		td, th {
+			font-size: 14px;
+			padding: 7px;
+			text-align: left;
+			vertical-align: top;
+			img {
+				margin: 0;
+			}
+			strong {
+				display: block;
+			}
+			p {
+				margin: 0;
+			}
+		}
+		th {
+			&:first-child{
+				padding-left: 40px;
+			}
+		}
+		.iWidth(width, 100);
+		.firstItemOrder {
+			td {
+				border-top: 1px solid lighten(@black, 89%);
+				padding-top: 20px;
+				&:first-child{
+					padding-left: 40px;
+				}
+			}
+		}
+		.lastItemOrder {
+			td {
+				padding-bottom: 20px;
+			}
+		}
+		.singleItemOrder {
+			td {
+				border-top: 1px solid lighten(@black, 89%);
+				padding: 20px 7px;
+				&:first-child{
+					padding-left: 40px;
+				}
+			}
+		}
+		.itemWaitingList {
+			td {
+				border-top: 1px solid lighten(@black, 89%);
+				padding-top: 20px;
+				&:first-child{
+					padding-left: 40px;
+				}
+			}
+			.availableWish {
+				color: @green2;
+				.font('OmnesMedium');
+				&:hover {
+					color: @blueLink2;
+				}
+			}
+			.closeButton {
+				margin-left: 20px;
+				position: static;
+			}
+		}
+	}
+	.dataTable-header {
+		padding-left: 40px;
+		width: 940px;
+		span {
+			font-size: 14px;
+			padding: 7px 0;
+			text-align: left;
+		}
+	}
+	.dataTable-desc {
+		.inline-block(200px, top);
+	}
+	.dataTable-photo {
+		.inline-block(100px, top);
+	}
+	.dataTable-prod {
+		.inline-block(280px, top);
+		strong {
+			display: block;
+		}
+		p {
+			margin: 0;
+		}
+	}
+	.dataTable-cant {
+		.inline-block(50px, top);
+	}
+	.dataTable-status {
+		.inline-block(90px, top);
+	}
+	.dataTable-num {
+		.inline-block(100px, top);
+	}
+	.dataTable-site {
+		.inline-block(100px, top);
+	}
+	.dataTable-fila {
+		border-top: 1px solid lighten(@black, 89%);
+		padding-top: 20px;
+		.dataTable-desc {
+			margin-left: 40px;
+		}
+		.dataTable-bodyItems {
+			.inline-block(730px, top);
+			.dataTable-item {
+				margin-bottom: 15px;
+			}
+		}
+	}
+	&.totalBitsTable {
+		margin-bottom: 30px !important;
+		td {
+			border-bottom: 1px solid lighten(@black, 89%);
+			.font('OmnesMedium');
+		}
+		.minusBits {
+			color: @red;
+		}
+		.totalBits {
+			td {
+				border-top: 1px solid lighten(@black, 89%);
+				padding-top: 30px;
+				&:first-child {
+					border-bottom: none;
+					padding-left: 40px;
+					width: 260px;
+				}
+			}
+		}
+	}
+	.column1 {
+		width: 80px;
+	}
+	.column2 {
+		width: 280px;
+	}
+	.column3, .column4, .column6 {
+		width: 140px;
+	}
+	.column5 {
+		width: 80px;
+	}
+	.column7 {
+		width: 50px;
+	}
+}
+.widgetWinbitsMain .resumeCheckoutTable {
+	background: lighten(@black, 97%);
+	table {
+		background: none;
+		margin: 20px 0;
+	}
+	td {
+		font-size: 13px;
+		.font('OmnesMedium');
+	}
+	.column2 {
+		span {
+			display: block;
+			.font('OmnesRegular');
+		}
+	}
+	.column5 {
+		.stepper {
+			input[type="text"]{
+				color: lighten(@black, 22%);
+				font-size: 11px;
+				padding: 5px 10px;
+			}
+			.icon {
+				right: -12px;
+				.size (10px, 10px);
+			}
+			.plus {
+				background-position: -50px -140px;
+				top: 2px;
+			}
+			.minus {
+				background-position: -60px -140px;
+			}
+		}
+	}
+	.column7 {
+		text-align: right;
+	}
+}
+.widgetWinbitsMain .titleTable {
+	table {
+		margin: 20px 0 10px;
+	}
+	th {
+		font-size: 12px !important;
+		&:first-child {
+			padding-left: 7px !important;
+		}
+	}
+}

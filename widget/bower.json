@@ -1,0 +1,21 @@
+{
+  "name": "example-app",
+  "version": "0.1.0",
+  "main": "public/javascripts/app.js",
+  "dependencies": {
+    "chaplin": "~1.0.0",
+    "console-polyfill": "~0.1.0",
+    "jquery": "~1.11.0",
+    "jquery-ui": "~1.10.4"
+  },
+  "overrides": {
+    "backbone": {
+      "dependencies": {
+        "lodash": "~2.4.0"
+      }
+    },
+    "lodash": {
+      "main": "dist/lodash.underscore.js"
+    }
+  }
+}
