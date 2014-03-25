@@ -5,18 +5,17 @@
   "dependencies": {
     "chaplin": "~1.0.0",
     "console-polyfill": "~0.1.0",
-    "lodash": "~2.4.0",
-    "jquery": "~1.10.2",
-    "normalize-css": "~2.1.2",
-    "h5bp-helpers": "~0.1.0"
+    "jquery": "~1.11.0",
+    "jquery-ui": "~1.10.4"
   },
   "overrides": {
     "backbone": {
       "dependencies": {
-        "lodash": "*",
-        "jquery": "*"
-      },
-      "main": "backbone.js"
+        "lodash": "~2.4.0"
+      }
+    },
+    "lodash": {
+      "main": "dist/lodash.underscore.js"
     }
   }
 }
