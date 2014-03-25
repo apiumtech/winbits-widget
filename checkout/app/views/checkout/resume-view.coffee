@@ -189,7 +189,8 @@ module.exports = class ResumeView extends View
     )
 
   calculateItemsTotal: (orderDetails) ->
-    orderDetails.map( (a) -> a.amount ).reduce( (x, y) -> x + y )
+    amounts = _.map orderDetails, (a) -> a.amount
+    _.reduce amounts, (x, y) -> x + y
 
   calculateCashTotal: (total, bitsTotal) ->
     total - bitsTotal
