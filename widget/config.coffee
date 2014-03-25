@@ -20,6 +20,7 @@ exports.config =
         after: [
           'vendor/scripts/messages_es.js',
           'vendor/scripts/winbits/post-load-vendor.coffee',
+          'app/initialize.coffee',
           'test/vendor/scripts/test-helper.js'
         ]
 
