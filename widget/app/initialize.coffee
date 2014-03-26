@@ -5,6 +5,7 @@ routes = require './routes'
 Winbits.loadInterval = setInterval ->
   if Winbits.$(Winbits.config.widgetContainer).length
     clearInterval Winbits.loadInterval
-    new Application {routes, controllerSuffix: '-controller'}
+    delete Winbits.loadInterval
+    new Application routes: routes, controllerSuffix: '-controller', pushState: false
   #  Chaplin.utils.redirectTo controller:'home', action:'index'
 , 10
