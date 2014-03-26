@@ -5,7 +5,7 @@ config = require 'config'
 module.exports = class ModalLoginPageView extends View
   container: 'header'
   id: 'wbi-login-modal'
-  className: 'ui-helper-hidden'
+  className: 'wbc-hide'
   autoRender: true
   template: require './templates/login'
   autoAttach: true
