@@ -26,7 +26,7 @@ exports.config =
 
     stylesheets:
       joinTo:
-        'stylesheets/app/app.css': /^(app|vendor|bower_components)/
+        'stylesheets/winbits/app.css': /^(app|vendor|bower_components)/
         'test/stylesheets/test.css': /^test/
       order:
         after: [
