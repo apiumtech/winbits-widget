@@ -5,7 +5,7 @@
  ##
 
 (->
-  Winbits.rpc = new easyXDM.Rpc(Winbits.userConfig.providerUrl,
+  Winbits.rpc = new easyXDM.Rpc({remote: Winbits.env.providerUrl},
   remote:
     request: {}
     getTokens: {}

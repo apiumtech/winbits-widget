@@ -1,7 +1,28 @@
 (function(){
   window.Winbits = {env: {}};
-  Winbits.env.baseUrl = "{{baseUrl}};
-  Winbits.env.providerUrl = "{{providerUrl}};
+  Winbits.env.baseUrl = "{{baseUrl}}";
+  Winbits.env.providerUrl = "{{providerUrl}}";
+
+  var JavaScript = {
+    load: function(src, callback) {
+      var script = document.createElement('script');
+      var loaded;
+      script.setAttribute("type","text/javascript");
+      script.setAttribute('src', src);
+      if (callback) {
+        if (script.readyState) {
+          script.onreadystatechange = function () { // For old versions of IE
+            if (this.readyState == 'complete' || this.readyState == 'loaded') {
+              callback();
+            }
+          };
+        } else { // Other browsers
+          script.onload = callback;
+        }
+      }
+      (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script);
+    }
+  };
 
   var head= document.getElementsByTagName('head')[0];
   var appendTagTo = function(parentTag, tagName, tagAttributes) {
@@ -15,8 +36,11 @@
 
   appendTagTo(head, 'link', [{name: 'rel', value: 'stylesheet'}, {name: 'type', value: 'text/css'},
       {name: 'href', value: Winbits.env.baseUrl + "/stylesheets/app.css"}]);
-  appendTagTo(head, 'script', [{name: 'type', value: 'text/javascript'},
-      {name: 'src', value: Winbits.env.baseUrl + "/javascripts/vendor.js"}]);
-  appendTagTo(head, 'script', [{name: 'type', value: 'text/javascript'},
-      {name: 'src', value: Winbits.env.baseUrl + "/javascripts/app.js"}]);
+  //appendTagTo(head, 'script', [{name: 'type', value: 'text/javascript'},
+  //   {name: 'src', value: Winbits.env.baseUrl + "/javascripts/vendor.js"}]);
+  JavaScript.load(Winbits.env.baseUrl + "/javascripts/vendor.js", function() {
+    JavaScript.load(Winbits.env.baseUrl + "/javascripts/app.js", function() {
+      require('initialize');
+    });
+  });
 })();
