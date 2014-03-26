@@ -54,4 +54,5 @@
   Backbone.$ = Winbits.$
   Winbits.Backbone = Backbone.noConflict()
   Winbits.moment = moment
+  Winbits.easyXDM = easyXDM.noConflict('Winbits')
 )()
