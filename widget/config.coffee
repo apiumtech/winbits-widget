@@ -30,6 +30,7 @@ exports.config =
         'test/stylesheets/test.css': /^test/
       order:
         after: [
+          'app/styles/winbits.css',
           'vendor/styles/helpers.css'
         ]
 
