@@ -53,6 +53,11 @@
   Winbits._ = _.noConflict()
   Backbone.$ = Winbits.$
   Winbits.Backbone = Backbone.noConflict()
-  Winbits.moment = moment
   Winbits.easyXDM = easyXDM.noConflict('Winbits')
+  Winbits.moment = window.moment
+  Winbits.Chaplin = window.Chaplin
+  Winbits.Handlebars = window.Handlebars
+  Winbits.Modernizr = window.Modernizr
+  Winbits.html5 = window.html5
+  Winbits.require = window.require
 )()
