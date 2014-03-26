@@ -1,32 +1,20 @@
 View = require 'views/base/view'
 
 module.exports = class LoggedInView extends View
-  container: '.mainHeader .wrapper'
+  container: '#wbi-header-wrapper'
   className: 'miCuenta'
   autoRender: true
   template: require './templates/logged-in'
-  events:
-    'click .spanDropMenu.link': 'showDropMenu'
-    'click .icon.trigger.triggerMiCuenta': 'showDropMenu'
-    'click .miCuenta-close': 'hideDropMenu'
 
-   initialize: ->
-     #todo add regiones  
-     $('.mainHeader .wrapper .login').hide()
+  initialize: ->
+    #todo add regiones
+    $('.mainHeader .wrapper .login').hide()
 
 
-   showDropMenu:(e) ->
+  showDropMenu:(e) ->
     e.preventDefault
     $('.dropMenu.miCuentaDiv').slideDown()
 
   hideDropMenu:(e) ->
     e.preventDefault
     $('.dropMenu.miCuentaDiv').slideUp()
-
-
-
-
-
-
-
-

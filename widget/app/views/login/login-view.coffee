@@ -5,14 +5,12 @@ config = require 'config'
 module.exports = class ModalLoginPageView extends View
   container: 'header'
   id: 'wbi-login-modal'
-  className: 'ui-helper-hidden'
-  autoRender: true
+  className: 'wbc-hide'
   template: require './templates/login'
-  autoAttach: true
 
   initialize: ->
     super
 
   attach: ->
     super
-    Winbits.$('<a>').fancybox(padding: 0, href: '#loginForm', onClosed: -> utils.redirectToNotLoggedInHome()).click()
+    Winbits.$('<a>').wbfancybox(href: '#loginForm', onClosed: -> utils.redirectToNotLoggedInHome()).click()

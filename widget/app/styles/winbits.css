@@ -4,3 +4,7 @@
 #fancybox-content form {
   margin: 0;
 }
+
+wbc.hide {
+  display: none;
+}
