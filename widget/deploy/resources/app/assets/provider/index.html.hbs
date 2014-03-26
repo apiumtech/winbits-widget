@@ -14,7 +14,7 @@
   <script type="text/javascript">
     easyXDM.DomHelper.requiresJSON("https://cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js");
   </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.js"></script>
 
   <script type="text/javascript">
     (function(){
@@ -109,12 +109,12 @@
               },
               saveUtms: function(utmParams, successFn) {
                 console.log(["UTMS provider", utmParams])
-                Winbits.storeKey('_wb_utm_params', JSON.stringify(utmParams)) 
+                Winbits.storeKey('_wb_utm_params', JSON.stringify(utmParams))
               },
               getUtms: function(successFn, errorFn) {
                 console.log(["get UTMS"])
                 return {
-                    'utm_params': Winbits.retrieveKey('_wb_utm_params') 
+                    'utm_params': Winbits.retrieveKey('_wb_utm_params')
                 };
               }
             },
