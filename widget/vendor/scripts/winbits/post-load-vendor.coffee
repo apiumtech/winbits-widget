@@ -5,6 +5,11 @@
 # Date: 25/03/14
 #
 (->
+  $.fn.wbfancybox = (options) ->
+    defaults = padding: 0, transitionIn: 'none', transitionOut: 'none'
+    allOptions = Winbits.$.extend {}, defaults, options
+    @fancybox allOptions
+
   $.validator.addMethod("zipCodeDoesNotExist", (value, element) ->
     $element = Winbits.$(element)
     $zipCode = $element.closest('form').find('[name=zipCode]')
