@@ -10,8 +10,5 @@ module.exports = class LoginPageView extends View
   initialize: ->
    super
 
-   attach: ->
+  attach: ->
     super
-    Winbits.$('#wbi-login-link').fancybox(padding: 0, href: '#loginForm')
-
-
