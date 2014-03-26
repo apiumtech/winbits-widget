@@ -26,11 +26,12 @@ exports.config =
 
     stylesheets:
       joinTo:
-        'stylesheets/app.css': /^((app\/styles\/app|vendor)|(bower_components))/
-        'stylesheets/checkout.css': /^(app\/styles\/checkout|vendor)/
+        'stylesheets/app/app.css': /^(app|vendor|bower_components)/
         'test/stylesheets/test.css': /^test/
       order:
-        after: ['vendor/styles/helpers.css']
+        after: [
+          'vendor/styles/helpers.css'
+        ]
 
     templates:
       joinTo: 'javascripts/app.js'

@@ -20,7 +20,6 @@
         "css-brunch": ">= 1.0 < 1.7",
         "stylus-brunch": ">= 1.0 < 1.7",
         "handlebars-brunch": ">= 1.0 < 1.7",
-        "less-brunch": "arcesino/less-brunch",
         "mocha": "~1.4.1",
         "chai": "~1.8.1",
         "sinon": "~1.7.3",
