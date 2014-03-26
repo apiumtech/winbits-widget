@@ -1,9 +1,9 @@
-Controller = require 'controllers/base/controller'
-ModalLoginView = require 'views/modal-login/modal-login-view'
+NotLoggedInController = require 'controllers/not-logged-in-controller'
+LoginView = require 'views/login/login-view'
 util = require 'lib/util'
 
-module.exports = class LoginController extends Controller
+module.exports = class LoginController extends NotLoggedInController
 
-  showLogin: ->
-    console.log 'login#showLogin'
-    @view = new ModalLoginView()
+  index: ->
+    console.log 'login#index'
+    @view = new LoginView()

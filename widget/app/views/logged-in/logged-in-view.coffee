@@ -1,10 +1,10 @@
 View = require 'views/base/view'
 
-module.exports = class LoggedView extends View
+module.exports = class LoggedInView extends View
   container: '.mainHeader .wrapper'
   className: 'miCuenta'
   autoRender: true
-  template: require './templates/logged'
+  template: require './templates/logged-in'
   events:
     'click .spanDropMenu.link': 'showDropMenu'
     'click .icon.trigger.triggerMiCuenta': 'showDropMenu'
