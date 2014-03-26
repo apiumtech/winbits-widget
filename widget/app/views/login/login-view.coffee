@@ -6,14 +6,12 @@ module.exports = class LoginPageView extends View
   autoRender: true
   template: require './templates/login'
   autoAttach: true
-  events:
-    'click .btn.btnTopNav': 'clickLogin'
 
   initialize: ->
    super
 
-  clickLogin: (e) ->
-    e.preventDefault
-    Chaplin.utils.redirectTo controller:'login', action: 'showLogin'
+   attach: ->
+    super
+    Winbits.$('#wbi-login-link').fancybox(padding: 0, href: '#loginForm')
 
 

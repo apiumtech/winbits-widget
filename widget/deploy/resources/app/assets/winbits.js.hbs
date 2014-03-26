@@ -36,8 +36,6 @@
 
   appendTagTo(head, 'link', [{name: 'rel', value: 'stylesheet'}, {name: 'type', value: 'text/css'},
       {name: 'href', value: Winbits.env.baseUrl + "/stylesheets/app.css"}]);
-  //appendTagTo(head, 'script', [{name: 'type', value: 'text/javascript'},
-  //   {name: 'src', value: Winbits.env.baseUrl + "/javascripts/vendor.js"}]);
   JavaScript.load(Winbits.env.baseUrl + "/javascripts/vendor.js", function() {
     JavaScript.load(Winbits.env.baseUrl + "/javascripts/app.js", function() {
       require('initialize');
