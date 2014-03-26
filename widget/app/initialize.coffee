@@ -9,3 +9,7 @@ Winbits.loadInterval = setInterval ->
     new Application routes: routes, controllerSuffix: '-controller', pushState: false
   #  Chaplin.utils.redirectTo controller:'home', action:'index'
 , 10
+
+# Winbits.$ ->
+#   new Application routes: routes, controllerSuffix: '-controller', pushState: false
+  #  Chaplin.utils.redirectTo controller:'home', action:'index'

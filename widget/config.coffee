@@ -15,7 +15,8 @@ exports.config =
           'vendor/scripts/winbits/init-config.coffee', # TODO: Tratar de pasarlo al winbits.js
           'bower_components/json2/json2.js',
           'vendor/scripts/xtra/easyXDM-2.4.19.3.js',
-          'vendor/scripts/winbits/init-rpc.coffee'
+          'vendor/scripts/winbits/init-rpc.coffee',
+          'vendor/scripts/jquery-ui-1.10.3.custom.js'
         ],
         after: [
           'vendor/scripts/messages_es.js',
@@ -25,7 +26,7 @@ exports.config =
 
     stylesheets:
       joinTo:
-        'stylesheets/app.css': /^(app\/styles\/app|vendor)/
+        'stylesheets/app.css': /^((app\/styles\/app|vendor)|(bower_components))/
         'stylesheets/checkout.css': /^(app\/styles\/checkout|vendor)/
         'test/stylesheets/test.css': /^test/
       order:
