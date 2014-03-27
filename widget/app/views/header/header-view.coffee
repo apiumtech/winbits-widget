@@ -3,6 +3,7 @@ Routes = require 'routes'
 
 module.exports = class HeaderView extends View
   container: Winbits.config.widgetContainer
+  className: 'Yxxx yyy'
   template: require './templates/header'
 
   attach: ->

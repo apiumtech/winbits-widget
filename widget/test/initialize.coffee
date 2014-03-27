@@ -4,5 +4,5 @@ tests = [
 ]
 
 for test in tests
-    console.log 'tests'
+    console.log ['Executing tests -> ', test]
     require test
