@@ -1,40 +1,34 @@
-ModalLoginPageView = require 'views/modal-login/modal-login-view'
-util = require 'lib/util'
+LoginView = require 'views/login/login-view'
+util = require 'lib/utils'
+$ = Winbits.$
 
-class ModalLoginPageViewTest extends ModalLoginPageView
-    render: ->
-        super
-        
+describe 'Should do login', ->
+    beforeEach ->
+        @view = new LoginView
+        sinon.spy($,"ajax")
+        util.serializeForm = sinon.stub().returns('{"user": "","password": "", "verticalId":""}')
 
-    describe 'Should do login', ->
-        beforeEach ->
-            @view = new ModalLoginPageViewTest
-            sinon.spy($,"ajax")
-            util.serializeForm = sinon.stub().returns('{"user": "","password": "", "verticalId":""}')
-            
-        afterEach ->
-            $.ajax.restore()
-            @view.dispose()
-            
+    afterEach ->
+        $.ajax.restore()
+        @view.dispose()
 
-        it 'do login with incomplete form', ->
-            util.validateForm = sinon.stub().returns(false)
-            event = sinon.stub()
-            expect(@view.doLogin(event)).to.equal 'Fail to login 1'
 
-        it 'do login should throws an error to Login', ->
-            util.validateForm = sinon.stub().returns(true)
-            util.ajaxRequest = sinon.stub().returns('error')
-            event = sinon.stub()
-            response = @view.doLogin(event)
-            expect(response).to.equal 'error'
-        
-        it 'do login should succed to Login', ->
-            util.validateForm = sinon.stub().returns(true)
-            util.ajaxRequest = sinon.stub().returns('success')
-            event = sinon.stub()
-            response = @view.doLogin(event)
-            expect(response).to.equal 'success'
-            
+    it 'do login with incomplete form', ->
+        util.validateForm = sinon.stub().returns(false)
+        event = sinon.stub()
+        expect(@view.doLogin(event)).to.equal 'Fail to login 1'
 
+    it 'do login should throws an error to Login', ->
+        util.validateForm = sinon.stub().returns(true)
+        util.ajaxRequest = sinon.stub().returns('error')
+        event = sinon.stub()
+        response = @view.doLogin(event)
+        expect(response).to.equal 'error'
+
+    it 'do login should succed to Login', ->
+        util.validateForm = sinon.stub().returns(true)
+        util.ajaxRequest = sinon.stub().returns('success')
+        event = sinon.stub()
+        response = @view.doLogin(event)
+    expect(response).to.equal 'success'
 

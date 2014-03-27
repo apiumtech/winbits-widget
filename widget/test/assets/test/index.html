@@ -3,55 +3,27 @@
   <meta charset="utf-8">
   <title>Mocha Tests</title>
   <link rel="stylesheet" href="stylesheets/test.css" />
-
-  <script>
-
-  (function(){
-  var JavaScript = {
-    load: function(src, callback) {
-      var script = document.createElement('script');
-      var loaded;
-      script.setAttribute("type","text/javascript");
-      script.setAttribute('src', src);
-      if (callback) {
-        if (script.readyState) {
-          script.onreadystatechange = function () { // For old versions of IE
-            if (this.readyState == 'complete' || this.readyState == 'loaded') {
-              callback();
-            }
-          };
-        } else { // Other browsers
-          script.onload = callback;
-        }
-      }
-      (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script);
-    }
-  };
-    JavaScript.load('//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js', function() {
-        var Winbits = {};
-        Winbits.$ = $.noConflict(true);
-        window.Winbits = Winbits;
-        window.w$ = Winbits.$;
-
-    JavaScript.load('http://widgetdev.winbits.com/javascripts/vendor.js', function() {
-      window.Backbone.$ = Winbits.$;
-      JavaScript.load('http://widgetdev.winbits.com/javascripts/app.js', function() {
-        });
-      JavaScript.load('http://widgetdev.winbits.com/test/javascripts/test-vendor.js', function() {
-      JavaScript.load('http://widgetdev.winbits.com/test/javascripts/test.js', function() {
+  <script type="text/javascript">
+  (function() {
+    'use strict';
+    window.Winbits = window.Winbits || {};
+    window.Winbits.initFunction = function(){
+      console.log('Index test');
       require('test/initialize');
-    if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
-    else { mocha.run(); }
-        });
-        });
-      
-      });
-     });
-
-
-    
+    };
   })();
-
+  </script>
+  <script type="text/javascript" src="http://widgetdev.winbits.com/winbits.js"></script>
+  <script type="text/javascript" src="http://widgetdev.winbits.com/test/javascripts/test-vendor.js"></script>
+  <script type="text/javascript" src="http://widgetdev.winbits.com/test/javascripts/test.js"></script>
+  <script type="text/javascript">
+  (function(){
+    'use strict';
+    window.onload = function () {
+      console.log('Running mocha');
+      (window.mochaPhantomJS || mocha).run();
+    };
+  })();
   </script>
 </head>
 <body>
