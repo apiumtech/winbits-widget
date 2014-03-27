@@ -1,6 +1,7 @@
 View = require 'views/base/view'
 utils = require 'lib/utils'
 config = require 'config'
+$ = Winbits.$
 
 module.exports = class LoginView extends View
   container: 'header'
@@ -14,7 +15,7 @@ module.exports = class LoginView extends View
 
   attach: ->
     super
-    Winbits.$('<a>').wbfancybox(href: '#wbi-login-modal', onClosed: -> utils.redirectToNotLoggedInHome()).click()
+    @showAsModal()
 
   doLogin:(e) ->
     console.log 'Do login!!!'
@@ -40,3 +41,6 @@ module.exports = class LoginView extends View
       )
     else
       'Fail to login'
+
+  showAsModal: ->
+    $('<a>').wbfancybox(href: '#loginForm', onClosed: -> utils.redirectToNotLoggedInHome()).click()

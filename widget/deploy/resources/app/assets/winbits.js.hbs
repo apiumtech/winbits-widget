@@ -1,7 +1,6 @@
 (function(){
-  window.Winbits = {env: {}};
-  Winbits.env.baseUrl = "{{baseUrl}}";
-  Winbits.env.providerUrl = "{{providerUrl}}";
+  window.Winbits = window.Winbits || {};
+  Winbits.env = { baseUrl: "{{baseUrl}}", providerUrl: "{{providerUrl}}" };
 
   var JavaScript = {
     load: function(src, callback) {
@@ -38,7 +37,7 @@
       {name: 'href', value: Winbits.env.baseUrl + "/stylesheets/winbits/app.css"}]);
   JavaScript.load(Winbits.env.baseUrl + "/javascripts/vendor.js", function() {
     JavaScript.load(Winbits.env.baseUrl + "/javascripts/app.js", function() {
-      require('initialize');
+      (Winbits.initFunction || function() { require('initialize'); })();
     });
   });
 })();
