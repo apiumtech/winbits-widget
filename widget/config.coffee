@@ -19,6 +19,7 @@ exports.config =
           'vendor/scripts/jquery-ui-1.10.3.custom.js'
         ],
         after: [
+          'bower_components/moment-timezone/moment-timezone.js',
           'vendor/scripts/messages_es.js',
           'vendor/scripts/script.js', # Script de Yadira
           'vendor/scripts/winbits/post-load-vendor.coffee',

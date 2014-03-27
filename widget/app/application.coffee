@@ -13,7 +13,6 @@ module.exports = class Application extends Chaplin.Application
     Winbits.isCrapBrowser = utils.isCrapBrowser
 
   initMediator: ->
-    console.log ['Application#initMediator', @]
     # Add additional application-specific properties and methods
     # e.g. Chaplin.mediator.prop = null
 
