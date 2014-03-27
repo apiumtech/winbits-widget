@@ -1,5 +1,5 @@
 routes = require './routes'
-util = require 'lib/util'
+utils = require 'lib/utils'
 mediator = Winbits.Chaplin.mediator
 
 # The application object.
@@ -10,7 +10,7 @@ module.exports = class Application extends Chaplin.Application
 
   initialize: ->
     super
-    Winbits.isCrapBrowser = util.isCrapBrowser
+    Winbits.isCrapBrowser = utils.isCrapBrowser
 
   initMediator: ->
     console.log ['Application#initMediator', @]
