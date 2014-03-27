@@ -8,3 +8,13 @@
 wbc.hide {
   display: none;
 }
+
+.error {
+  border: 1px solid #dd092c !important;
+}
+
+label.error {
+  border: 0;
+  color: #dd092c
+}
+
