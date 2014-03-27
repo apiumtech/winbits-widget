@@ -17,9 +17,12 @@ module.exports = class LoginView extends View
     super
     @showAsModal()
 
+  showAsModal: ->
+    $('<a>').wbfancybox(href: '#' + @id, onClosed: -> utils.redirectToNotLoggedInHome()).click()
+
   doLogin:(e) ->
     console.log 'Do login!!!'
-    $form = Winbits.$("#wbi-login-form")
+    $form = @$("#wbi-login-form")
     formData = verticalId: 1
     formData = utils.serializeForm($form, formData)
     if utils.validateForm($form)
@@ -32,8 +35,7 @@ module.exports = class LoginView extends View
         data: JSON.stringify(formData)
         headers:
           "Accept-Language": "es"
-        success: (data) ->
-          utils.redirectTo controller: 'logged-in', action: 'index', params: data.response
+        success: @doLoginSuccess
         error: (xhr) ->
           alert 'login error'
         complete: ->
@@ -42,5 +44,6 @@ module.exports = class LoginView extends View
     else
       'Fail to login'
 
-  showAsModal: ->
-    $('<a>').wbfancybox(href: '#loginForm', onClosed: -> utils.redirectToNotLoggedInHome()).click()
+  doLoginSuccess: (data) ->
+    $.fancybox.close()
+    utils.redirectTo controller: 'logged-in', action: 'index', params: data.response

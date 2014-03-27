@@ -2,8 +2,8 @@ chai.Assertion.addProperty('rendered', function () {
   var selector = this._obj.selector;
   this.assert(
       this._obj.length > 0
-    , 'expected #{selector} is rendered'
     , 'expected #{selector} is not rendered'
+    , 'expected #{selector} is rendered'
   );
 });
 
