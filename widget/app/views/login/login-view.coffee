@@ -1,8 +1,9 @@
 View = require 'views/base/view'
 utils = require 'lib/utils'
 config = require 'config'
+$ = Winbits.$
 
-module.exports = class ModalLoginPageView extends View
+module.exports = class LoginView extends View
   container: 'header'
   id: 'wbi-login-modal'
   className: 'wbc-hide'
@@ -13,4 +14,7 @@ module.exports = class ModalLoginPageView extends View
 
   attach: ->
     super
-    Winbits.$('<a>').wbfancybox(href: '#loginForm', onClosed: -> utils.redirectToNotLoggedInHome()).click()
+    @showAsModal()
+
+  showAsModal: ->
+    $('<a>').wbfancybox(href: '#loginForm', onClosed: -> utils.redirectToNotLoggedInHome()).click()
