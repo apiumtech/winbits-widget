@@ -3,7 +3,7 @@
 
 # Delegate to Chaplin’s utils module.
 utils = Chaplin.utils.beget Chaplin.utils
-$ = $
+$ = Winbits.$
 
 # _(utils).extend
 #  someMethod: ->

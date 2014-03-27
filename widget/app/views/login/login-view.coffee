@@ -16,7 +16,7 @@ module.exports = class LoginView extends View
     super
     Winbits.$('<a>').wbfancybox(href: '#wbi-login-modal', onClosed: -> utils.redirectToNotLoggedInHome()).click()
 
-  doLogin: ->
+  doLogin:(e) ->
     console.log 'Do login!!!'
     $form = Winbits.$("#wbi-login-form")
     formData = verticalId: 1
@@ -32,7 +32,7 @@ module.exports = class LoginView extends View
         headers:
           "Accept-Language": "es"
         success: (data) ->
-         console.log ['LOGIN SUCCESS', data.response]
+          utils.redirectTo controller: 'logged-in', action: 'index', params: data.response
         error: (xhr) ->
           alert 'login error'
         complete: ->
