@@ -11,6 +11,7 @@ module.exports = class LoginView extends View
 
   initialize: ->
     super
+#    @listenTo @model, 'change', @render
     @delegate 'click', '#wbi-login-in-btn', @doLogin
 
   attach: ->
