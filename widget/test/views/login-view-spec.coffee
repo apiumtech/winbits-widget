@@ -25,9 +25,9 @@ describe 'Should do login', ->
         @view.dispose()
 
     it 'login view renderized', ->
-        expect(@view.$el).has.id('wbi-login-modal')
-                .and.has.class('wbc-hide')
-        expect(@view.$ '#wbi-login-form').is.rendered
+        expect(@view.$el).to.has.id('wbi-login-modal')
+                .and.to.has.class('wbc-hide')
+        expect(@view.$ '#wbi-login-form').to.be.rendered
 
     it 'do login should succed to Login', ->
         sinon.stub(utils, 'ajaxRequest').yieldsTo('success', {})
@@ -35,7 +35,7 @@ describe 'Should do login', ->
         @view.$('#wbi-login-in-btn').click()
 
         successStub.calledOnce
-        expect(@view.$ '.error').is.not.rendered
+        expect(@view.$ '.error').to.be.not.rendered
 
     it 'do not makes request if form invalid', ->
         ajaxRequestStub = sinon.stub(utils, 'ajaxRequest')
@@ -48,7 +48,7 @@ describe 'Should do login', ->
         @view.$('[name=password]').val('')
         @view.$('#wbi-login-in-btn').click()
 
-        expect(@view.$ '.error').is.rendered
+        expect(@view.$ '.error').to.be.rendered
 
     it 'error is shown if api return error', ->
         xhr = responseText: '{"meta":{"message":"Todo es culpa de Layún!"}}'

@@ -29,6 +29,15 @@ chai.Assertion.addChainableMethod 'class', (clazz)->
     , "the element has class #{clazz}"
 
 ###
+Check an object has certain classes.
+Expects @_obj to be a jQuery object.
+###
+chai.Assertion.addChainableMethod 'classes', (classes)->
+  @assert (x for x in classes when  @_obj.hasClass x).length is classes.length
+    , "the element has not classes #{classes}"
+    , "the element has classes #{classes}"
+
+###
 Check an object has certain text.
 Expects @_obj to be a jQuery object.
 ###
