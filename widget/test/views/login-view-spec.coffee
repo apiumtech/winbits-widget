@@ -3,6 +3,8 @@ utils = require 'lib/utils'
 $ = Winbits.$
 
 describe 'Should do login', ->
+    'use strict'
+
     before ->
         $.validator.setDefaults({ ignore: [] });
 
@@ -17,7 +19,9 @@ describe 'Should do login', ->
         @view.$('[name=password]').val('123456')
 
     afterEach ->
-        @view.showAsModal.restore()
+        @view.showAsModal.restore?()
+        utils.ajaxRequest.restore?()
+
         @view.dispose()
 
     it 'login view renderized', ->
@@ -33,16 +37,12 @@ describe 'Should do login', ->
         successStub.calledOnce
         expect(@view.$ '.error').is.not.rendered
 
-        utils.ajaxRequest.restore()
-
     it 'do not makes request if form invalid', ->
         ajaxRequestStub = sinon.stub(utils, 'ajaxRequest')
         @view.$('[name=password]').val('')
         @view.$('#wbi-login-in-btn').click()
 
         expect(ajaxRequestStub.called).to.be.false
-
-        utils.ajaxRequest.restore()
 
     it 'show validation errors if form invalid', ->
         @view.$('[name=password]').val('')
@@ -58,8 +58,6 @@ describe 'Should do login', ->
         expect(ajaxRequestStub.args[0][1]).to.has.property('context', @view)
         expect(@view.$ '.errorDiv p').to.has.text("Todo es culpa de Layún!")
 
-        utils.ajaxRequest.restore()
-
     it 'error is shown if request fail', ->
         xhr = responseText: 'Server error'
         ajaxRequestStub = sinon.stub(utils, 'ajaxRequest').yieldsToOn('error', @view, xhr, 'Todo es culpa de Layún!')
@@ -67,5 +65,3 @@ describe 'Should do login', ->
 
         expect(ajaxRequestStub.args[0][1]).to.has.property('context', @view)
         expect(@view.$ '.errorDiv p').to.has.text("Todo es culpa de Layún!")
-
-        utils.ajaxRequest.restore()
