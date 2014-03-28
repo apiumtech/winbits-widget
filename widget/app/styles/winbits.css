@@ -14,7 +14,8 @@ wbc.hide {
 }
 
 label.error {
-  border: 0;
-  color: #dd092c
+  border: 0 !important;
+  color: #dd092c;
+  display: block;
 }
 

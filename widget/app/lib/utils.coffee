@@ -284,6 +284,11 @@ Winbits._(utils).extend
   hideDropMenus:()->
     $('.miCuentaDiv, .miCarritoDiv').slideUp()
 
+  safeParse: (jsonText)->
+    try
+      return JSON.parse(jsonText)
+    catch e
+      return null
 # Prevent creating new properties and stuff.
 Object.seal? utils
 
