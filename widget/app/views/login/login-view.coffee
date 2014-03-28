@@ -16,16 +16,24 @@ module.exports = class LoginView extends View
   attach: ->
     super
     @showAsModal()
+    @$('form#wbi-login-form').validate
+      rules:
+        email:
+          required: true
+          email: true
+        password:
+          required: true
+          minlength: 6
 
   showAsModal: ->
     $('<a>').wbfancybox(href: '#' + @id, onClosed: -> utils.redirectToNotLoggedInHome()).click()
 
   doLogin:(e) ->
-    console.log 'Do login!!!'
-    $form = @$("#wbi-login-form")
-    formData = verticalId: 1
-    formData = utils.serializeForm($form, formData)
+    $form = $(e.currentTarget).closest('form')
+    console.log ['Valid', $form, $form.valid()]
     if utils.validateForm($form)
+      formData = verticalId: 1
+      formData = utils.serializeForm($form, formData)
       submitButton = @$('#wbi-login-in-btn').prop('disabled', true)
       utils.ajaxRequest(
         config.apiUrl + "/users/login.json",
