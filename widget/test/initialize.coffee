@@ -1,9 +1,9 @@
 
-tests = [
-  './views/header-view-test',
-  './views/login-view-test'
+specs = [
+  './views/header-view-spec',
+  './views/login-view-spec'
 ]
 
-for test in tests
-    console.log ['Executing tests -> ', test]
-    require test
+for spec in specs
+    console.log ['Executing Spec -> ', spec]
+    require spec

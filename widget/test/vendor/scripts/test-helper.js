@@ -2,8 +2,8 @@ chai.Assertion.addProperty('rendered', function () {
   var selector = this._obj.selector;
   this.assert(
       this._obj.length > 0
-    , 'expected #{selector} is rendered'
     , 'expected #{selector} is not rendered'
+    , 'expected #{selector} is rendered'
   );
 });
 
@@ -20,6 +20,14 @@ chai.Assertion.addChainableMethod('class', function (clazz) {
       this._obj.hasClass(clazz)
     , 'the element has not class #{clazz}'
     , 'the element has class #{clazz}'
+  );
+});
+
+chai.Assertion.addChainableMethod('text', function (text) {
+  this.assert(
+      this._obj.text() === text
+    , 'the element has not text #{text}'
+    , 'the element has text #{text}'
   );
 });
 
