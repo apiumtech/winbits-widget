@@ -7,6 +7,7 @@
       "config": {
         "apiUrl": "https://apidev.winbits.com/v1",
         "facebookClientId": "486640894740634",
+        "baseUrl": "http://widgetdev.winbits.com",
         "providerUrl": "https://apidev.winbits.com/provider/",
         "remoteDebug": false
       }

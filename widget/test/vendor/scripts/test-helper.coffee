@@ -1,4 +1,3 @@
-
 ###
 Check an object has certain classes.
 Expects @_obj to be a jQuery object.

@@ -1,6 +1,24 @@
 (function(){
   window.Winbits = {};
-  Winbits.env = { baseUrl: "{{baseUrl}}", providerUrl: "{{providerUrl}}" };
+  var env = {
+    'api-url': "{{apiUrl}}",
+    'base-url': "{{baseUrl}}",
+    'provider-url': "{{providerUrl}}",
+    'currency': "MXN",
+    'api-token-name': '_wb_api_token',
+    'cart-token-name':'_wb_vcart_token'
+  };
+
+  Winbits.env = (function(env){
+    return {
+      get:function(name){
+        return env[name];
+      },
+      set:function(name, value){
+        env[name]=value;
+      }
+    };
+  })(env);
 
   Winbits._callbacks = (function() {
     var eventCallbacks;
@@ -86,10 +104,12 @@
     parentTag.appendChild(tag);
   };
 
+  var baseUrl = Winbits.env.get('base-url');
   appendTagTo(head, 'link', [{name: 'rel', value: 'stylesheet'}, {name: 'type', value: 'text/css'},
-      {name: 'href', value: Winbits.env.baseUrl + "/stylesheets/winbits/app.css"}]);
-  Winbits.loadScript(Winbits.env.baseUrl + "/javascripts/vendor.js", function() {
-    Winbits.loadScript(Winbits.env.baseUrl + "/javascripts/app.js", function() {
+      {name: 'href', value: baseUrl + "/stylesheets/winbits/app.css"}]);
+  Winbits.loadScript(baseUrl + "/javascripts/vendor.js", function() {
+    Winbits.loadScript(baseUrl + "/javascripts/app.js", function() {
+      delete Winbits.env.set;
       require('initialize');
       Winbits.trigger('initialized');
     });

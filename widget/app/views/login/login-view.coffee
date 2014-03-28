@@ -1,7 +1,7 @@
 View = require 'views/base/view'
 utils = require 'lib/utils'
-config = require 'config'
 $ = Winbits.$
+env = Winbits.env
 
 module.exports = class LoginView extends View
   container: 'header'
@@ -31,10 +31,10 @@ module.exports = class LoginView extends View
   doLogin:(e) ->
     $form = $(e.currentTarget).closest('form')
     if utils.validateForm($form)
-      formData = verticalId: 1
+      formData = verticalId: env.get('vertical').id
       formData = utils.serializeForm($form, formData)
       submitButton = @$('#wbi-login-in-btn').prop('disabled', true)
-      utils.ajaxRequest(config.apiUrl + "/users/login.json",
+      utils.ajaxRequest(env.get('api-url') + "/users/login.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
