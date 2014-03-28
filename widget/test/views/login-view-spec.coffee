@@ -1,6 +1,8 @@
 LoginView = require 'views/login/login-view'
 utils = require 'lib/utils'
 $ = Winbits.$
+email = 'test@winbits.com'
+password = '123456'
 
 describe 'LoginView', ->
   'use strict'
@@ -15,8 +17,8 @@ describe 'LoginView', ->
     @view = new LoginView autoAttach: no
     sinon.stub(@view, 'showAsModal')
     @view.attach()
-    @view.$('[name=email]').val('test@winbits.com')
-    @view.$('[name=password]').val('123456')
+    @view.$('[name=email]').val email
+    @view.$('[name=password]').val password
 
   afterEach ->
     @view.showAsModal.restore?()
@@ -26,7 +28,7 @@ describe 'LoginView', ->
 
   it 'login view renderized', ->
     expect(@view.$el).to.has.id('wbi-login-modal')
-        .and.to.has.class('wbc-hide')
+    .and.to.has.class('wbc-hide')
     expect(@view.$ '#wbi-login-form').to.be.rendered
 
   it 'do login should succed to Login', ->
@@ -55,13 +57,18 @@ describe 'LoginView', ->
     ajaxRequestStub = sinon.stub(utils, 'ajaxRequest').yieldsToOn('error', @view, xhr)
     @view.$('#wbi-login-in-btn').click()
 
-    expect(ajaxRequestStub.args[0][1]).to.has.property('context', @view)
-    expect(@view.$ '.errorDiv p').to.has.text("Todo es culpa de Layún!")
+    expectAjaxArgs.call(@, ajaxRequestStub, "Todo es culpa de Layún!")
 
   it 'error is shown if request fail', ->
     xhr = responseText: 'Server error'
     ajaxRequestStub = sinon.stub(utils, 'ajaxRequest').yieldsToOn('error', @view, xhr)
     @view.$('#wbi-login-in-btn').click()
 
-    expect(ajaxRequestStub.args[0][1]).to.has.property('context', @view)
-    expect(@view.$ '.errorDiv p').to.has.text("El servidor no está disponible, por favor inténtalo más tarde.")
+    expectAjaxArgs.call(@, ajaxRequestStub, "El servidor no está disponible, por favor inténtalo más tarde.")
+
+  expectAjaxArgs = (ajaxRequestStub, errorText)->
+    ajaxConfigArg = ajaxRequestStub.args[0][1]
+    expect(ajaxConfigArg).to.has.property('context', @view)
+    expect(ajaxConfigArg).to.has.property('data')
+    .that.contain('"verticalId":1')
+    expect(@view.$ '.errorDiv p').to.has.text(errorText)

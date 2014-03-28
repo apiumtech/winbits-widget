@@ -5,7 +5,7 @@
  ##
 
 (->
-  Winbits.rpc = new easyXDM.Rpc({remote: Winbits.env.providerUrl},
+  Winbits.rpc = new easyXDM.Rpc { remote: Winbits.env.get 'provider-url' },
   remote:
     request: {}
     getTokens: {}
@@ -18,5 +18,4 @@
     facebookMe: {}
     saveUtms: {}
     getUtms: {}
-  )
 )()
