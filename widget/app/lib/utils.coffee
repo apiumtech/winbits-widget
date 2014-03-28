@@ -284,6 +284,12 @@ Winbits._(utils).extend
   hideDropMenus:()->
     $('.miCuentaDiv, .miCarritoDiv').slideUp()
 
+  safeParse: (jsonText)->
+    try
+      JSON.parse(jsonText)
+    catch e
+      meta: message: 'El servidor no está disponible, por favor inténtalo más tarde.', status: 500
+
 # Prevent creating new properties and stuff.
 Object.seal? utils
 
