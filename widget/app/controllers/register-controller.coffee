@@ -1,6 +1,6 @@
 NotLoggedInController = require 'controllers/not-logged-in-controller'
 RegisterView = require 'views/register/register-view'
-util = require 'lib/util'
+utils = require 'lib/utils'
 
 module.exports = class RegisterController extends NotLoggedInController
 
