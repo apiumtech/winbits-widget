@@ -6,7 +6,7 @@ $ = Winbits.$
 module.exports = class LoginView extends View
   container: 'header'
   id: 'wbi-login-modal'
-  className: 'wbc-hide'
+  className: 'wbc-hide xxx yyy'
   template: require './templates/login'
 
   initialize: ->
@@ -30,7 +30,6 @@ module.exports = class LoginView extends View
 
   doLogin:(e) ->
     $form = $(e.currentTarget).closest('form')
-    console.log ['Valid', $form, $form.valid()]
     if utils.validateForm($form)
       formData = verticalId: 1
       formData = utils.serializeForm($form, formData)
@@ -55,6 +54,7 @@ module.exports = class LoginView extends View
     $.fancybox.close()
     utils.redirectTo controller: 'logged-in', action: 'index', params: data.response
 
-  doLoginError: (xhr) ->
-    error = JSON.parse(xhr.responseText)
-    @$('.errorDiv p').text(error.meta.message)
+  doLoginError: (xhr, textStatus) ->
+    error = utils.safeParse(xhr.responseText)
+    message = if error then error.meta.message else textStatus
+    @$('.errorDiv p').text(message)
