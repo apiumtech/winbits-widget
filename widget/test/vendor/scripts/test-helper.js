@@ -23,6 +23,14 @@ chai.Assertion.addChainableMethod('class', function (clazz) {
   );
 });
 
+chai.Assertion.addChainableMethod('text', function (text) {
+  this.assert(
+      this._obj.text() === text
+    , 'the element has not text #{text}'
+    , 'the element has text #{text}'
+  );
+});
+
 // Create `window.describe` etc. for our BDD-like tests.
 mocha.setup({ui: 'bdd'});
 

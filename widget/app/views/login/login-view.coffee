@@ -35,17 +35,16 @@ module.exports = class LoginView extends View
       formData = verticalId: 1
       formData = utils.serializeForm($form, formData)
       submitButton = @$('#wbi-login-in-btn').prop('disabled', true)
-      utils.ajaxRequest(
-        config.apiUrl + "/users/login.json",
+      utils.ajaxRequest(config.apiUrl + "/users/login.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
         data: JSON.stringify(formData)
+        context: @
         headers:
           "Accept-Language": "es"
         success: @doLoginSuccess
-        error: (xhr) ->
-          alert 'login error'
+        error: @doLoginError
         complete: ->
           submitButton.prop('disabled', false)
       )
@@ -55,3 +54,7 @@ module.exports = class LoginView extends View
   doLoginSuccess: (data) ->
     $.fancybox.close()
     utils.redirectTo controller: 'logged-in', action: 'index', params: data.response
+
+  doLoginError: (xhr) ->
+    error = JSON.parse(xhr.responseText)
+    @$('.errorDiv p').text(error.meta.message)
