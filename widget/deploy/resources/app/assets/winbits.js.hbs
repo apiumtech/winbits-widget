@@ -1,6 +1,61 @@
 (function(){
-  window.Winbits = window.Winbits || {};
+  window.Winbits = {};
   Winbits.env = { baseUrl: "{{baseUrl}}", providerUrl: "{{providerUrl}}" };
+
+  Winbits._callbacks = (function() {
+    var eventCallbacks;
+    eventCallbacks = {};
+    return {
+      trigger: function(event) {
+        var callback, callbacks, _i, _len, _results;
+        callbacks = eventCallbacks[event];
+        if (callbacks) {
+          for (_i = 0, _len = callbacks.length; _i < _len; _i++) {
+            callback = callbacks[_i];
+            callback.call(callback._ctx || {});
+          }
+        }
+      },
+      add: function(event, callback, context) {
+        var callbacks;
+        callbacks = eventCallbacks[event] || [];
+        if (typeof callback === 'function') {
+          callback._ctx = context;
+          callbacks.push(callback);
+        }
+        eventCallbacks[event] = callbacks;
+      }
+    };
+  })();
+
+  Winbits._triggered = (function() {
+    var eventsTriggered;
+    eventsTriggered = {};
+    return {
+      get: function(event) {
+        return eventsTriggered[event];
+      },
+      set: function(event) {
+        var eventTriggered;
+        eventTriggered = eventsTriggered[event] != null;
+        if (eventTriggered == null) {
+          eventsTriggered[event] = true;
+        }
+      }
+    };
+  })();
+
+  Winbits.on = function(event, callback, context) {
+    if (Winbits._triggered.get(event)) {
+      callback.call(context || {});
+    } else {
+      Winbits._callbacks.add(event, callback, context);
+    }
+  };
+
+  Winbits.trigger = function(event) {
+    Winbits._callbacks.trigger(event);
+  };
 
   Winbits.loadScript = function(src, callback) {
     var script = document.createElement('script');
@@ -35,7 +90,8 @@
       {name: 'href', value: Winbits.env.baseUrl + "/stylesheets/winbits/app.css"}]);
   Winbits.loadScript(Winbits.env.baseUrl + "/javascripts/vendor.js", function() {
     Winbits.loadScript(Winbits.env.baseUrl + "/javascripts/app.js", function() {
-      (Winbits.initFunction || function() { require('initialize'); })();
+      require('initialize');
+      Winbits.trigger('initialized');
     });
   });
 })();
