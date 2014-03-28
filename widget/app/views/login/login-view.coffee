@@ -6,7 +6,7 @@ $ = Winbits.$
 module.exports = class LoginView extends View
   container: 'header'
   id: 'wbi-login-modal'
-  className: 'wbc-hide xxx yyy'
+  className: 'wbc-hide'
   template: require './templates/login'
 
   initialize: ->
