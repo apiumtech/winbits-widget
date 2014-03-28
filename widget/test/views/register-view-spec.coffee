@@ -3,6 +3,8 @@ utils =  require 'lib/utils'
 $ = Winbits.$
 
 describe 'test view register', ->
+  'use strict'
+
   before ->
     $.validator.setDefaults({ ignore: [] });
 
@@ -18,7 +20,8 @@ describe 'test view register', ->
     @registerView.$('[name=againPassword]').val('1231')
 
   afterEach ->
-    @registerView.showAsModal.restore()
+    @registerView.showAsModal.restore?()
+    utils.ajaxRequest.restore?()
     @registerView.dispose()
 
   it 'register view rendered',  ->
@@ -26,7 +29,12 @@ describe 'test view register', ->
           .and.has.class('wbc-hide')
     expect(@registerView.$ '#wbi-register-form').is.rendered
 
-#  it 'do succed Register test', ->
+  it 'do succed Register test', ->
+    sinon.stub(utils, 'ajaxRequest').yieldTo('success', {})
+    successStub = sinon.stub(@registerView, 'doRegisterSuccess')
+    @registerView.$('#wbi-register-button').click()
+    expect(successStub).to.be.calledOnce
+    expect(@registerView.$ '.error').to.not.be.rendered
 
 
  ###it 'do validate Register test failed', ->
