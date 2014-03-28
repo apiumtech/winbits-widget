@@ -34,15 +34,15 @@ describe 'Should do login', ->
         successStub = sinon.stub(@view, 'doLoginSuccess')
         @view.$('#wbi-login-in-btn').click()
 
-        successStub.calledOnce
-        expect(@view.$ '.error').to.be.not.rendered
+        expect(successStub).to.be.calledOnce
+        expect(@view.$ '.error').to.not.be.rendered
 
     it 'do not makes request if form invalid', ->
         ajaxRequestStub = sinon.stub(utils, 'ajaxRequest')
         @view.$('[name=password]').val('')
         @view.$('#wbi-login-in-btn').click()
 
-        expect(ajaxRequestStub.called).to.be.false
+        expect(ajaxRequestStub).to.not.be.called
 
     it 'show validation errors if form invalid', ->
         @view.$('[name=password]').val('')

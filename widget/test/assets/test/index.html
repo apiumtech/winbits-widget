@@ -6,19 +6,24 @@
   <script type="text/javascript">
   (function() {
     'use strict';
+
     window.Winbits = window.Winbits || {};
-    window.Winbits.initFunction = function(){
-      console.log('Index test');
-      require('test/initialize');
+    window.Winbits.initFunction = function() {
+      window.jQuery = window.$ = Winbits.$;
+      window._ = Winbits._;
+
+      var $body = window.$('body');
+      Winbits.loadScript('http://widgetdev.winbits.com/test/javascripts/test-vendor.js', function() {
+        Winbits.loadScript('http://widgetdev.winbits.com/test/javascripts/test.js', function() {
+          require('test/initialize');
+        });
+      });
     };
   })();
   </script>
   <script type="text/javascript" src="http://widgetdev.winbits.com/winbits.js"></script>
-  <script type="text/javascript" src="http://widgetdev.winbits.com/test/javascripts/test-vendor.js"></script>
-  <script type="text/javascript" src="http://widgetdev.winbits.com/test/javascripts/test.js"></script>
   <script type="text/javascript">
-  (function(){
-    'use strict';
+  (function() {
     window.onload = function () {
       console.log('Running mocha');
       (window.mochaPhantomJS || mocha).run();

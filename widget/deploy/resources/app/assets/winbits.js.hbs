@@ -2,25 +2,23 @@
   window.Winbits = window.Winbits || {};
   Winbits.env = { baseUrl: "{{baseUrl}}", providerUrl: "{{providerUrl}}" };
 
-  var JavaScript = {
-    load: function(src, callback) {
-      var script = document.createElement('script');
-      var loaded;
-      script.setAttribute("type","text/javascript");
-      script.setAttribute('src', src);
-      if (callback) {
-        if (script.readyState) {
-          script.onreadystatechange = function () { // For old versions of IE
-            if (this.readyState == 'complete' || this.readyState == 'loaded') {
-              callback();
-            }
-          };
-        } else { // Other browsers
-          script.onload = callback;
-        }
+  Winbits.loadScript = function(src, callback) {
+    var script = document.createElement('script');
+    var loaded;
+    script.setAttribute("type","text/javascript");
+    script.setAttribute('src', src);
+    if (callback) {
+      if (script.readyState) {
+        script.onreadystatechange = function () { // For old versions of IE
+          if (this.readyState == 'complete' || this.readyState == 'loaded') {
+            callback();
+          }
+        };
+      } else { // Other browsers
+        script.onload = callback;
       }
-      (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script);
     }
+    (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script);
   };
 
   var head= document.getElementsByTagName('head')[0];
@@ -35,8 +33,8 @@
 
   appendTagTo(head, 'link', [{name: 'rel', value: 'stylesheet'}, {name: 'type', value: 'text/css'},
       {name: 'href', value: Winbits.env.baseUrl + "/stylesheets/winbits/app.css"}]);
-  JavaScript.load(Winbits.env.baseUrl + "/javascripts/vendor.js", function() {
-    JavaScript.load(Winbits.env.baseUrl + "/javascripts/app.js", function() {
+  Winbits.loadScript(Winbits.env.baseUrl + "/javascripts/vendor.js", function() {
+    Winbits.loadScript(Winbits.env.baseUrl + "/javascripts/app.js", function() {
       (Winbits.initFunction || function() { require('initialize'); })();
     });
   });
