@@ -1,7 +1,7 @@
 View = require 'views/base/view'
 utils = require 'lib/utils'
-config = require 'config'
 $ = Winbits.$
+env = Winbits.env
 
 module.exports = class ModalRegisterView extends View
   container: 'header'
@@ -37,13 +37,11 @@ module.exports = class ModalRegisterView extends View
     console.log "RegisterView#register"
     $form =  @$el.find("#wbi-register-form")
     that = @
-    formData = verticalId: config.verticalId
+    formData = verticalId: env.get('vertical').id
     formData = utils.serializeForm($form, formData)
-    console.log ["Register Data", formData]
-
     if utils.validateForm($form)
       submitButton = @$(e.currentTarget).prop('disabled', true)
-      utils.ajaxRequest( config.apiUrl + "/affiliation/register.json",
+      utils.ajaxRequest( env.get('api-url') + "/affiliation/register.json",
         type: "POST"
         contentType: "application/json"
         dataType: "json"
@@ -53,11 +51,8 @@ module.exports = class ModalRegisterView extends View
         context: {$submitButton: submitButton}
         headers:
           "Accept-Language": "es"
-        success: (data) ->
-          console.log "Request Success!"
-          console.log ["data", data]
-          w$('.modal').modal 'hide'
-          that.publishEvent "showConfirmation"
+        success: @doRegisterSuccess
+
 
         error: (xhr) ->
           console.log xhr
@@ -68,3 +63,8 @@ module.exports = class ModalRegisterView extends View
           console.log "Request Completed!"
           this.$submitButton.prop('disabled', false)
       )
+    doRegistgerSuccess: (data) ->
+      $.fancybox.close()
+      #TODO: pintar modal de que todo bien
+      console.log "Request Success!"
+#      that.publishEvent "showConfirmation"
