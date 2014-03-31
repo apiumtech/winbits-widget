@@ -19,14 +19,16 @@ module.exports = class ModalRegisterView extends View
     @showAsModal()
     @$('#wbi-register-form').validate
       rules:
-        'email':
+        email:
           required: true
           email: true
-        'password':
+        password:
           required: true
-        'againPassword':
-          required:true
-#          equalTo: true
+          minlength: 6
+        passwordConfirm:
+          required: true
+          minlength: 6
+          equalTo: @$("[name=password]")
 
   showAsModal: ->
     $('<a>').wbfancybox(href: '#wbi-register-modal', onClosed: -> utils.redirectToNotLoggedInHome()).click()
@@ -36,7 +38,6 @@ module.exports = class ModalRegisterView extends View
     e.preventDefault()
     console.log "RegisterView#register"
     $form =  @$el.find("#wbi-register-form")
-    that = @
     formData = verticalId: env.get('vertical').id
     formData = utils.serializeForm($form, formData)
     if utils.validateForm($form)
@@ -48,23 +49,25 @@ module.exports = class ModalRegisterView extends View
         data: JSON.stringify(formData)
         xhrFields:
           withCredentials: true
-        context: {$submitButton: submitButton}
+        context: @
         headers:
           "Accept-Language": "es"
         success: @doRegisterSuccess
-
-
-        error: (xhr) ->
-          console.log xhr
-          error = JSON.parse(xhr.responseText)
-          that.renderRegisterFormErrors $form, error
-
+        error: @doRegisterError
         complete: ->
           console.log "Request Completed!"
-          this.$submitButton.prop('disabled', false)
+          submitButton.prop('disabled', false)
       )
-    doRegistgerSuccess: (data) ->
-      $.fancybox.close()
-      #TODO: pintar modal de que todo bien
-      console.log "Request Success!"
+
+  doRegisterSuccess: (data) ->
+    $.fancybox.close()
+    #TODO: pintar modal de que todo bien
+    console.log "Request Success!"
 #      that.publishEvent "showConfirmation"
+
+  doRegisterError: (xhr, textStatus) ->
+    error = utils.safeParse(xhr.responseText)
+    message = if error then error.meta.message else textStatus
+    console.log xhr
+#    that.renderRegisterFormErrors $form, error
+    @$('.errorDiv p').text(message)

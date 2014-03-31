@@ -2,9 +2,7 @@ RegisterView = require 'views/register/register-view'
 utils =  require 'lib/utils'
 $ = Winbits.$
 email = 'test@winbits.com'
-password = "123456"
-againPassword = "123456"
-
+password = "1234567"
 
 describe 'test view register', ->
   'use strict'
@@ -21,7 +19,7 @@ describe 'test view register', ->
     @registerView.attach()
     @registerView.$('[name=email]').val email
     @registerView.$('[name=password]').val password
-    @registerView.$('[name=againPassword]').val againPassword
+    @registerView.$('[name=passwordConfirm]').val password
 
   afterEach ->
     @registerView.showAsModal.restore?()
@@ -36,35 +34,37 @@ describe 'test view register', ->
   it 'do login should succed to Register', ->
     sinon.stub(utils, 'ajaxRequest').yieldsTo('success', {})
     successStub = sinon.stub(@registerView, 'doRegisterSuccess')
-    @registerView.$('#wbi-login-in-btn').click()
-
+    @registerView.$('#wbi-register-button').click()
+    console.log ['VALIDATION ERRORS', @registerView.$('input.error').attr('name'),
+    @registerView.$('input.error').val(), @registerView.$('#password').val()]
     expect(successStub).to.be.calledOnce
-    expect(@registerView.$ '.error').to.not.be.rendered
+    console.log "first test"
+    expect(@registerView.$ '.error').to.not.exist
 
   it 'do not makes request if form invalid', ->
     ajaxRequestStub = sinon.stub(utils, 'ajaxRequest')
     @registerView.$('[name=password]').val('')
-    @registerView.$('#wbi-login-in-btn').click()
+    @registerView.$('#wbi-register-button').click()
 
     expect(ajaxRequestStub).to.not.be.called
 
   it 'show validation errors if form invalid', ->
     @registerView.$('[name=password]').val('')
-    @registerView.$('#wbi-login-in-btn').click()
+    @registerView.$('#wbi-register-button').click()
 
-    expect(@registerView.$ '.error').to.be.rendered
+    expect(@registerView.$ '.error').to.exist
 
   it 'error is shown if api return error', ->
     xhr = responseText: '{"meta":{"message":"Todo es culpa de Layún!"}}'
     ajaxRequestStub = sinon.stub(utils, 'ajaxRequest').yieldsToOn('error', @registerView, xhr)
-    @registerView.$('#wbi-login-in-btn').click()
+    @registerView.$('#wbi-register-button').click()
 
     expectAjaxArgs.call(@, ajaxRequestStub, "Todo es culpa de Layún!")
 
   it 'error is shown if request fail', ->
     xhr = responseText: 'Server error'
     ajaxRequestStub = sinon.stub(utils, 'ajaxRequest').yieldsToOn('error', @registerView, xhr)
-    @registerView.$('#wbi-login-in-btn').click()
+    @registerView.$('#wbi-register-button').click()
 
     expectAjaxArgs.call(@, ajaxRequestStub, "El servidor no está disponible, por favor inténtalo más tarde.")
 
