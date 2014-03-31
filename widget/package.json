@@ -26,6 +26,8 @@
         "clean-css-brunch": ">= 1.0 < 1.7"
     },
     "devDependencies": {
+        "jake": "~0.7.9",
+        "brunch": "~1.7.13",
         "coffee-script": "~1.7.1",
         "chai": "~1.8.1",
         "mocha": "~1.4.3",
