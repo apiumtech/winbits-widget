@@ -1,5 +1,4 @@
 module.exports = class LoggedIn extends Chaplin.Model
 
-   initialize: (response) ->
+   initialize: ->
      super
-     @set 'response', response
