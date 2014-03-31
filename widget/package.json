@@ -29,6 +29,8 @@
         "coffee-script": "~1.7.1",
         "chai": "~1.8.1",
         "mocha": "~1.4.3",
-        "should": "~3.1.2"
+        "should": "~3.1.2",
+        "mocha-phantomjs": "*",
+        "phantomjs": "*"
     }
 }
