@@ -5,8 +5,12 @@
   margin: 0;
 }
 
-wbc.hide {
+.wbc-hide {
   display: none;
+}
+
+.wbc-show {
+  display: block;
 }
 
 .error {
