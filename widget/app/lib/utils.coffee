@@ -23,6 +23,7 @@ Winbits._(utils).extend
 
   deleteKey : (key) ->
     localStorage.removeItem(key)
+    ''
 
   getUrlParams : ->
     vars = []
