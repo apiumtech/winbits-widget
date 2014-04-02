@@ -18,7 +18,7 @@ task("build", function() {
   //cmds = ["jake deploy-field",
   cmds = [
   "rm -rf public",
-  "brunch build --production"
+  "./node_modules/brunch/bin/brunch build --production"
   ];
   console.log("going to execute this");
   console.log(cmds);
