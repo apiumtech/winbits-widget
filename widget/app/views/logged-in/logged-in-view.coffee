@@ -38,9 +38,7 @@ module.exports = class LoggedInView extends View
         "Accept-Language": "es"
         "WB-Api-Token": utils.retrieveKey('apiToken')
       success: @doLogoutSuccess
-      error: (xhr) ->
-        alert xhr.responseText
-        utils.showAjaxError(xhr.responseText)
+      error: @doLogoutError
       complete: ->
         console.log "logout.json Completed!"
     )
@@ -48,4 +46,7 @@ module.exports = class LoggedInView extends View
   doLogoutSuccess:  ->
     utils.deleteKey('apiToken')
     utils.redirectToNotLoggedInHome()
+
+  doLogoutError: (xhr)->
+    console.log ['Logout Error ',xhr.responseText ]
 
