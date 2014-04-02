@@ -8,6 +8,10 @@
   $.fn.wbfancybox = (options) ->
     defaults = padding: 0, transitionIn: 'none', transitionOut: 'none'
     allOptions = Winbits.$.extend {}, defaults, options
+    allOptions.onCleanup = ->
+      $ = Winbits.$
+      $('div.fancybox-inline-tmp').first().replaceWith $(@href)
+      options.onCleanup.apply(@, arguments) if $.isFunction options.onCleanup
     @fancybox allOptions
 
   $.validator.addMethod("zipCodeDoesNotExist", (value, element) ->

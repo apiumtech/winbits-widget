@@ -291,7 +291,24 @@ Winbits._(utils).extend
     catch e
       meta: message: 'El servidor no está disponible, por favor inténtalo más tarde.', status: 500
 
+  showMessageModal: (message, options)->
+    options ?= {}
+    modalSelector = '#wbi-message-modal'
+    $modal = $(modalSelector)
+    options.value ?= 'Ok'
+    options.context ?= @
+    options.onClosed ?= $.noop
+#    onStart = $.proxy(options.onStart or $.noop, context)
+#    onCancel = $.proxy(options.onCancel or $.noop, context)
+#    onComplete = $.proxy(options.onComplete or $.noop, context)
+#    onCleanup = $.proxy(options.onCleanup or $.noop, context)
+    onClosed = $.proxy(options.onClosed, options.context)
+    $(".wbc-modal-message", $modal).html(message)
+    $(".wbc-default-action", $modal).val options.value
+    $('<a>').wbfancybox(padding: 10, href: modalSelector, onClosed: onClosed).click()
+
 # Prevent creating new properties and stuff.
 Object.seal? utils
 
 module.exports = utils
+
