@@ -28,7 +28,6 @@ describe 'test view register', ->
 
   it 'register view rendered',  ->
     expect(@registerView.$el).has.id('wbi-register-modal')
-          .and.has.class('wbc-hide')
     expect(@registerView.$ '#wbi-register-form').is.rendered
 
   it 'do login should succed to Register', ->

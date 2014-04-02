@@ -28,7 +28,6 @@ describe 'LoginView', ->
 
   it 'login view renderized', ->
     expect(@view.$el).to.has.id('wbi-login-modal')
-    .and.to.has.class('wbc-hide')
     expect(@view.$ '#wbi-login-form').to.be.rendered
 
   it 'do login should succed to Login', ->
