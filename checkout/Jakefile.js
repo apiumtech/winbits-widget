@@ -18,9 +18,8 @@ task("build", function() {
   //cmds = ["jake deploy-field",
   cmds = [
   "rm -rf public",
-  "brunch build --optimize"
+  "./node_modules/brunch/bin/brunch build --production"
   ];
-  //"node /opt/apps/qa/stage/harvesting/harvesting.js /var/www/lat/ http://sowingfield.clickonero.com.mx/#store/ https://www.clickonero.com.mx/store;"];
   console.log("going to execute this");
   console.log(cmds);
   return jake.exec(cmds, (function() {
