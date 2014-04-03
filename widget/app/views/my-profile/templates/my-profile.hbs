@@ -1,0 +1,48 @@
+<div id="wb-micuenta-profile" class="miCuenta-tab" style="display: block;">
+  <div class="column miCuenta-profile">
+    <form method="post" action="#" accept-charset="utf-8" id="miCuenta-profile" novalidate="novalidate">
+      <h3>DATOS PERSONALES</h3>
+      <input type="text" id="winbitsProfileName" name="winbitsProfileName" placeholder="Nombre">
+      <input type="text" id="winbitsProfileLastname" name="winbitsProfileLastname" placeholder="Apellido">
+      <input type="text" id="winbitsProfileEmail" name="winbitsProfileEmail" placeholder="Correo Electrónico">
+
+      <div class="divBirthday">
+        <label>Cumpleaños</label>
+        <input type="text" id="winbitsProfileDD" name="winbitsProfileDD" maxlength="2" placeholder="dd">
+        <input type="text" id="winbitsProfileMM" name="winbitsProfileMM" maxlength="2" placeholder="mm">
+        <input type="text" id="winbitsProfileAA" name="winbitsProfileAA" maxlength="2" placeholder="aa">
+      </div>
+      <div class="divGender">
+        <label>Género</label>
+
+        <div class="divRadio"><input type="radio" id="winbitsProfileH" name="winbitsProfileGender" class="required"
+                                     value="H"><span class="spanRadio">H</span></div>
+        <div class="divRadio"><input type="radio" id="winbitsProfileM" name="winbitsProfileGender" value="M"><span
+            class="spanRadio">M</span></div>
+      </div>
+      <input type="text" id="winbitsProfileZipCode" name="winbitsProfileZipCode" placeholder="Zip Code">
+      <input type="text" id="winbitsProfilePhone" name="winbitsProfilePhone" placeholder="Teléfono">
+      <input type="submit" value="Guardar" class="btn editBtn">
+    </form>
+
+  </div>
+  <div class="column miCuenta-password">
+    <form method="post" action="#" accept-charset="utf-8" id="miCuenta-password" novalidate="novalidate">
+      <h3>CAMBIAR PASSWORD</h3>
+      <input type="password" id="winbitsPasswordActual" name="winbitsPasswordActual" class="required"
+             placeholder="Password Actual">
+      <input type="password" id="winbitsPasswordNew" name="winbitsPasswordNew" class="required"
+             placeholder="Nuevo Password">
+      <input type="password" id="winbitsPasswordNewAgain" name="winbitsPasswordNewAgain" class="required"
+             placeholder="Confirmar Nuevo Password">
+      <input type="submit" value="Guardar" class="btn editBtn">
+    </form>
+  </div>
+  <div class="column">
+    <h3>REDES SOCIALES</h3>
+
+    <p><a href="#"><span class="icon fbCircle"></span>Liga tu cuenta de facebook</a></p>
+
+    <p><a href="#"><span class="icon twCircle"></span>Liga tu cuenta de twitter</a></p>
+  </div>
+</div>

@@ -2,7 +2,7 @@ View = require 'views/base/view'
 utils = require 'lib/utils'
 $ = Winbits.$
 env = Winbits.env
-
+MyAccountView = require 'views/my-account/my-account-view'
 
 module.exports = class LoggedInView extends View
   container: '#wbi-header-wrapper'
@@ -16,6 +16,14 @@ module.exports = class LoggedInView extends View
     @delegate 'click', '.spanDropMenu', @clickOpenOrClose
     @delegate 'click', '.miCuenta-logout', @doLogout
     @delegate 'click', '.miCuenta-close', @clickClose
+
+#    @subview'('myAccountSubview') @render
+
+  attach: ->
+    super
+    myAccountView = new MyAccountView
+    @subview 'myAccountSubview', myAccountView
+
 
   storeApiToken: (apiToken)->
     utils.storeKey('apiToken', apiToken)
