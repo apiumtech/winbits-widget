@@ -13,7 +13,7 @@ module.exports = class LoggedInView extends View
   initialize: ->
     @listenTo @model, 'change', @render
     @storeApiToken(@model.attributes.apiToken)
-    @delegate 'click', '.spanDropMenu', @clickOpen
+    @delegate 'click', '.spanDropMenu', @clickOpenOrClose
     @delegate 'click', '.miCuenta-logout', @doLogout
     @delegate 'click', '.miCuenta-close', @clickClose
 
@@ -21,8 +21,13 @@ module.exports = class LoggedInView extends View
     utils.storeKey('apiToken', apiToken)
 
 
-  clickOpen: ->
-      @$('.miCuentaDiv').slideDown()
+
+  clickOpenOrClose: ->
+    $divMiCuenta = @$('.miCuentaDiv')
+    if $divMiCuenta.is(':hidden')
+      $divMiCuenta.slideDown()
+    else
+      $divMiCuenta.slideUp()
 
   clickClose: ->
       @$('.miCuentaDiv').slideUp()
