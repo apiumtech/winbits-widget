@@ -94,7 +94,7 @@
           success: deferred.resolve
           error: deferred.reject
       else
-        deferred.reject(apiToken)
+        deferred.resolve(apiToken)
   )()
 
   loadRpc().done ->
@@ -107,14 +107,16 @@
   .fail -> console.log ['ERROR', 'Unable to get tokens :(', arguments]
 
   verifyingVerticalData = verifyVerticalData.promise.done ->
-    console.log('Vertical data verified :)');
+    console.log 'Vertical data verified :)'
   .fail -> console.log ['ERROR', 'Unable to verify vertical data :(', arguments]
 
   verifyingLoginData = verifyLoginData.promise.done ->
-    console.log('Login data verified :)');
+    console.log 'Login data verified :)'
   .fail -> console.log ['WARN', 'Unable to verify login data :(', arguments]
 
-  loadingAppScript = loadAppScript().fail console.log ['ERROR', 'Unable to load App script :(', arguments]
+  loadingAppScript = loadAppScript().done ->
+    console.log 'App script loaded :)'
+  .fail -> console.log ['ERROR', 'Unable to load App script :(', arguments]
 
   Winbits.promises =
     loadingAppScript: loadingAppScript
