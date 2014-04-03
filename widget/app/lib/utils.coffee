@@ -8,7 +8,7 @@ _ = Winbits._
 
 # _(utils).extend
 #  someMethod: ->
-Winbits._(utils).extend
+_(utils).extend
   redirectToLoggedInHome: ->
     @redirectTo controller: 'logged-in', action: 'index'
 
@@ -289,8 +289,12 @@ Winbits._(utils).extend
     $(".wbc-default-action", $modal).val options.value
     $('<a>').wbfancybox(padding: 10, href: modalSelector, onClosed: onClosed).click()
 
+  ajaxRequest: Winbits.ajaxRequest
+
 # Prevent creating new properties and stuff.
 Object.seal? utils
+
+delete Winbits.ajaxRequest
 
 module.exports = utils
 

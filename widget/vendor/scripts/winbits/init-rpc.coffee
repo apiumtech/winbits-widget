@@ -10,8 +10,6 @@
  ##
 
 (->
-  Winbits.$ = $
-
   # Utilities functions
   timeoutDeferred = (deferred, timeout = 5000) ->
     setTimeout ->
@@ -42,10 +40,22 @@
   # Winbits promises
   loadAppScript = () ->
     deferred = new $.Deferred()
-    Modernizr.load
-      load: Winbits.env.get('base-url') + '/javascripts/app.js'
-      complete: deferred.resolve
+    yepnope.injectJs Winbits.env.get('base-url') + '/javascripts/app.js', deferred.resolve
     timeoutDeferred(deferred).promise()
+
+  # loadAppScript = () ->
+  #   deferred = new $.Deferred()
+  #   script = document.createElement("script")
+  #   script.setAttribute "type", "text/javascript"
+  #   script.setAttribute "src", Winbits.env.get('base-url') + '/javascripts/app.js'
+  #   if script.readyState
+  #     script.onreadystatechange = -> # For old versions of IE
+  #       deferred.resolve()  if @readyState is "complete" or @readyState is "loaded"
+  #       return
+  #   else # Other browsers
+  #     script.onload = deferred.resolve
+  #   (document.getElementsByTagName("head")[0] or document.documentElement).appendChild script
+  #   timeoutDeferred(deferred).promise()
 
   loadingAppScript = loadAppScript().done ->
     console.log 'App script loaded :)'
@@ -58,8 +68,8 @@
     ->
       Winbits.ajaxRequest Winbits.env.get('api-url') + '/users/verticals.json',
         data: hostname: location.hostname
-        success: deferred.resolve
-        error: deferred.reject
+      .done deferred.resolve
+      .fail deferred.reject
   )(verifyingVerticalData)
 
   verifyingLoginData = new $.Deferred().done ->
@@ -71,8 +81,8 @@
         Winbits.ajaxRequest Winbits.env.get('api-url') + '/users/express-login.json',
           type: 'POST',
           data: apiToken: apiToken
-          success: deferred.resolve
-          error: deferred.reject
+        .done deferred.resolve
+        .fail deferred.reject
       else
         deferred.resolve(apiToken)
   )(verifyingLoginData)
@@ -95,7 +105,7 @@
       facebookStatus: {}
       facebookMe: {}
 
-    timeoutDeferred deferred
+    timeoutDeferred(deferred).promise()
 
   getTokens = (->
     deferred = new $.Deferred()
@@ -126,5 +136,5 @@
     verifyingLoginData: verifyingLoginData.promise()
     verifyingVerticalData: verifyingVerticalData.promise()
 
-  console.log 'Setted up promises :)'
+  console.log 'Set up promises :)'
 )()

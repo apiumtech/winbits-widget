@@ -68,12 +68,14 @@
   promises = Winbits.promises
   Winbits.$.when(promises.loadingAppScript, promises.verifyingLoginData, promises.verifyingVerticalData).done ->
     delete Winbits.env.set
-    delete Winbits.promises
 
     Winbits.require 'initialize'
-    console.log ['TOTAL LOAD TIME', new Date().getTime() - Winbits.startTime]
+    widgetLoadTime = new Date().getTime() - Winbits.startTime
+    console.log ['WIDGET TOTAL LOAD TIME (ms)', widgetLoadTime]
     Winbits.trigger 'initialized'
   .fail ->
     delete Winbits
     alert('Unable to load Winbits Widget!')
+
+  delete Winbits.promises
 )()

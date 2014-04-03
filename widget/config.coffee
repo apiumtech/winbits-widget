@@ -16,7 +16,7 @@ exports.config =
           'vendor/scripts/winbits/init-env.coffee', # TODO: Tratar de pasarlo al winbits.js
           'bower_components/json2/json2.js',
           'vendor/scripts/xtra/easyXDM-2.4.19.3.js',
-          'bower_components/modernizr/modernizr.js',
+          'bower_components/yepnope/yepnope.js',
           'vendor/scripts/winbits/init-rpc.coffee',
           'vendor/scripts/jquery-ui-1.10.3.custom.js'
         ],
