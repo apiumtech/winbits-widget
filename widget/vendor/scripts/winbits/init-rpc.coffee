@@ -55,14 +55,24 @@
     (document.getElementsByTagName("head")[0] or document.documentElement).appendChild script
     timeoutDeferred(deferred).promise()
 
+  loadingAppScript = loadAppScript().done ->
+    console.log 'App script loaded :)'
+  .fail -> console.log ['ERROR', 'Unable to load App script :(']
+
+  verifyingVerticalData = new $.Deferred().done ->
+    console.log 'Vertical data verified :)'
+  .fail -> console.log ['ERROR', 'Unable to verify vertical data :(']
   verifyVerticalData = ((deferred) ->
     ->
       Winbits.ajaxRequest Winbits.env.get('api-url') + '/users/verticals.json',
         data: hostname: location.hostname
         success: deferred.resolve
         error: deferred.reject
-  )()
+  )(verifyingVerticalData)
 
+  verifyingLoginData = new $.Deferred().done ->
+    console.log 'Login data verified :)'
+  .fail -> console.log ['WARN', 'Unable to verify login data :(']
   verifyLoginData = ((deferred) ->
     (apiToken) ->
       if apiToken
@@ -73,19 +83,7 @@
           error: deferred.reject
       else
         deferred.resolve(apiToken)
-  )()
-
-  loadingAppScript = loadAppScript().done ->
-    console.log 'App script loaded :)'
-  .fail -> console.log ['ERROR', 'Unable to load App script :(']
-
-  verifyingVerticalData = new $.Deferred().done ->
-    console.log 'Vertical data verified :)'
-  .fail -> console.log ['ERROR', 'Unable to verify vertical data :(']
-
-  verifyingLoginData = new $.Deferred().done ->
-    console.log 'Login data verified :)'
-  .fail -> console.log ['WARN', 'Unable to verify login data :(']
+  )(verifyingLoginData)
 
   # Intermediate promises
   loadRpc = () ->
@@ -128,13 +126,13 @@
     console.log 'Tokens got :)'
     verifyLoginData(tokens.apiToken)
   .fail ->
-    console.log ['ERROR', 'Unable to get tokens :(', arguments]
+    console.log ['ERROR', 'Unable to get tokens :(']
     verifyingLoginData.reject() # This really need to happen!
 
   Winbits.promises =
     loadingAppScript: loadingAppScript
-    verifyingLoginData: verifyLoginData.promise
-    verifyingVerticalData: verifyVerticalData.promise
+    verifyingLoginData: verifyingLoginData.promise()
+    verifyingVerticalData: verifyingVerticalData.promise()
 
-  console.log 'Setted up promises'
+  console.log 'Setted up promises :)'
 )()
