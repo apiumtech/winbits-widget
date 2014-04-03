@@ -1,5 +1,6 @@
 View = require 'views/base/view'
 utils = require 'lib/utils'
+loginUtil = require 'lib/loginUtil'
 $ = Winbits.$
 env = Winbits.env
 
@@ -10,7 +11,6 @@ module.exports = class LoginView extends View
 
   initialize: ->
     super
-#    @listenTo @model, 'change', @render
     @delegate 'click', '#wbi-login-in-btn', @doLogin
 
   attach: ->
@@ -52,7 +52,9 @@ module.exports = class LoginView extends View
 
   doLoginSuccess: (data) ->
     $.fancybox.close()
-    utils.redirectTo controller: 'logged-in', action: 'index', params: data.response
+    response = data.response
+    loginUtil.applyLogin response
+    utils.redirectTo controller: 'logged-in', action: 'index', params: response
 
   doLoginError: (xhr, textStatus) ->
     error = utils.safeParse(xhr.responseText)

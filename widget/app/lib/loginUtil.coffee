@@ -1,5 +1,9 @@
 utils = require 'lib/utils'
 token = require 'lib/token'
+config = require 'config'
+mediator = Chaplin.mediator
+$ = Winbits.$
+env = Winbits.env
 
 module.exports = class LoginUtil
   constructor:()->
@@ -7,20 +11,20 @@ module.exports = class LoginUtil
     console.log "LoginUtil#constructor"
 
   initialize: ->
-    @subscribeEvent 'applyLogin', @applyLogin
-    @subscribeEvent 'initLogout', @initLogout
+      super
 
-#  applyLogin : (profile) ->
-#    console.log ["LoginUtil#applyLogin",profile]
-#    if profile.apiToken
-#      mediator.flags.loggedIn = true
-#      mediator.profile.bitsBalance = profile.bitsBalance
-#      mediator.profile.socialAccounts = profile.socialAccounts
-#      mediator.profile.userId = profile.id
-#      mediator.global.profile = profile
-#
-#      token.saveApiToken profile.apiToken
-#
+  applyLogin : (profile) ->
+    console.log ["LoginUtil#applyLogin",profile]
+    if profile.apiToken
+      token.saveApiToken profile.apiToken
+
+      mediator.flags.loggedIn = true
+      mediator.profile.bitsBalance = profile.bitsBalance
+      mediator.profile.socialAccounts = profile.socialAccounts
+      mediator.profile.userId = profile.id
+      mediator.global.profile = profile
+
+
 #      profileData = profile.profile
 #
 #      facebook = (item for item in profile.socialAccounts when item.providerId is "facebook" and item.available)
@@ -31,7 +35,7 @@ module.exports = class LoginUtil
 #      Winbits.$('#wbi-user-waiting-list-count').text profileData.waitingListCount
 #      Winbits.$('#wbi-user-wish-list-count').text profileData.wishListCount
 #      Winbits.$('#wbi-user-pending-orders-count').text profileData.pendingOrdersCount
-#
+
 #      @publishEvent "showHeaderLogin"
 #      @publishEvent "restoreCart"
 #      @publishEvent "setProfile", profileData
@@ -44,31 +48,35 @@ module.exports = class LoginUtil
 
   initLogout : () ->
     console.log "initLogout"
-    util.ajaxRequest( config.apiUrl + "/users/logout.json",
+    utils.ajaxRequest( env.get('api-url') + "/users/logout.json",
       type: "POST"
       contentType: "application/json"
       dataType: "json"
       headers:
         "Accept-Language": "es"
-#        "WB-Api-Token": util.retrieveKey(config.apiTokenName)
-      success: (data) ->
-         utils.redirectToNotLoggedInHome()
-#        that.applyLogout data.response
-      error: (xhr) ->
-        utils.showAjaxError(xhr.responseText)
+        "WB-Api-Token": utils.retrieveKey(config.apiTokenName)
+      success: @doLogoutSuccess
+      error: @doLogoutError
       complete: ->
         console.log "logout.json Completed!"
     )
 
-#  applyLogout : (logoutData) ->
-#    Winbits.rpc.logout(mediator.flags.fbConnect)
-#    util.deleteKey config.apiTokenName
+  doLogoutSuccess:  ->
+    @applyLogout data.response
+    utils.redirectToNotLoggedInHome()
+
+  doLogoutError: (xhr)->
+    #todo checar flujo si falla logout
+    console.log ['Logout Error ',xhr.responseText]
+
+  applyLogout : (logoutData) ->
+    Winbits.rpc.logout(mediator.flags.fbConnect)
+    utils.deleteKey config.apiTokenName
 #    @publishEvent "resetComponents"
 #    @publishEvent "showHeaderLogout"
 #    @publishEvent "loggedOut"
-#    mediator.flags.loggedIn = false
-#    mediator.flags.fbConnect = false
-#    util.backToSite()
+    mediator.flags.loggedIn = false
+    mediator.flags.fbConnect = false
 #    $ = window.$ or Winbits.$
 #    Winbits.$('#wbi-div-switch-user').hide()
 #    $('#' + config.winbitsDivId).trigger 'loggedout', [logoutData]
