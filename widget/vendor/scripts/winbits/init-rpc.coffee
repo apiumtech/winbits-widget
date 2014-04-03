@@ -42,17 +42,9 @@
   # Winbits promises
   loadAppScript = () ->
     deferred = new $.Deferred()
-    script = document.createElement("script")
-    loaded = undefined
-    script.setAttribute "type", "text/javascript"
-    script.setAttribute "src", Winbits.env.get('base-url') + '/javascripts/app.js'
-    if script.readyState
-      script.onreadystatechange = -> # For old versions of IE
-        deferred.resolve()  if @readyState is "complete" or @readyState is "loaded"
-        return
-    else # Other browsers
-      script.onload = deferred.resolve
-    (document.getElementsByTagName("head")[0] or document.documentElement).appendChild script
+    Modernizr.load
+      load: Winbits.env.get('base-url') + '/javascripts/app.js'
+      complete: deferred.resolve
     timeoutDeferred(deferred).promise()
 
   loadingAppScript = loadAppScript().done ->
