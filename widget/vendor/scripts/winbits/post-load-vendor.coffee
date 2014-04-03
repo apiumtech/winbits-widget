@@ -71,6 +71,7 @@
     delete Winbits.promises
 
     Winbits.require 'initialize'
+    console.log ['TOTAL LOAD TIME', new Date().getTime() - Winbits.startTime]
     Winbits.trigger 'initialized'
   .fail ->
     delete Winbits
