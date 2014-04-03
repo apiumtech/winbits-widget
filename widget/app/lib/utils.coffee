@@ -247,23 +247,6 @@ Winbits._(utils).extend
   isCrapBrowser: ->
     $.browser.msie and not /10.*/.test($.browser.version)
 
-  ajaxRequest:(url, options) ->
-    if $.isPlainObject(url)
-      options = url
-      url = options.url
-    options = options or {}
-    if ($.browser.msie and not /10.*/.test($.browser.version))
-      context = options.context or @
-      Winbits.rpc.request(url, options, () ->
-        options.success.apply(context, arguments) if $.isFunction options.success
-        options.complete.call(context) if $.isFunction options.complete
-      , () ->
-        options.error.apply(context, arguments) if $.isFunction options.error
-        options.complete.call(context) if $.isFunction options.complete
-      )
-    else
-      $.ajax(url,options)
-
   paymentMethodSupportedHtml: (methods, ac, html) ->
     if not methods
       return new Handlebars.SafeString("")

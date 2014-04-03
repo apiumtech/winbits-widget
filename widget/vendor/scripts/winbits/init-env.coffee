@@ -6,9 +6,17 @@
 (->
   $winbitsScript = $("script[src$='winbits.js']")
   widgetContainerKey = 'widget-container'
-  Winbits.env.set(widgetContainerKey, $winbitsScript.data(widgetContainerKey) or 'header')
+  Winbits.env[widgetContainerKey] = $winbitsScript.data(widgetContainerKey) or 'header'
   footerContainerKey = 'footer-container'
-  Winbits.env.set(footerContainerKey, $winbitsScript.data(footerContainerKey) or 'footer')
-  vertical = id: $winbitsScript.data('vertical')
-  Winbits.env.set('vertical', vertical)
+  Winbits.env[footerContainerKey] = $winbitsScript.data(footerContainerKey) or 'footer'
+  Winbits.env.vertical = id: $winbitsScript.data('vertical')
+
+  Winbits.env = ((env)->
+    get: (name) ->
+      env[name]
+    ,
+    set: (name, value)->
+      env[name]=value
+      return
+  )(Winbits.env)
 )()

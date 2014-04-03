@@ -14,10 +14,17 @@
 
   loadAppScript = ->
     deferred = new $.Deferred()
-    script = document.createElement 'script'
-    script.type = 'text/javascript'
-    script.src = Winbits.env.get('base-url') + '/javascripts/app.js'
-    $('head').first().append(script).load deferred.resolve
+    script = document.createElement("script")
+    loaded = undefined
+    script.setAttribute "type", "text/javascript"
+    script.setAttribute "src", Winbits.env.get('base-url') + '/javascripts/app.js'
+    if script.readyState
+      script.onreadystatechange = -> # For old versions of IE
+        deferred.resolve()  if @readyState is "complete" or @readyState is "loaded"
+        return
+    else # Other browsers
+      script.onload = deferred.resolve
+    (document.getElementsByTagName("head")[0] or document.documentElement).appendChild script
     deferred.promise()
 
   loadRpc = ->
@@ -63,7 +70,7 @@
     deferred = new $.Deferred()
     promise: deferred.promise()
     fn: ->
-      Winbits.ajaxRequest Winbits.env.get('api-url') + '/affiliation/verticals.json!',
+      Winbits.ajaxRequest Winbits.env.get('api-url') + '/users/verticals.json',
         data: hostname: location.hostname
         success: deferred.resolve
         error: deferred.reject
@@ -81,7 +88,7 @@
     promise: deferred.promise()
     fn: (apiToken) ->
       if apiToken
-        Winbits.ajaxRequest Winbits.env.get('api-url') + '/affiliation/express-login.json',
+        Winbits.ajaxRequest Winbits.env.get('api-url') + '/users/express-login.json',
           type: 'POST',
           data: apiToken: apiToken
           success: deferred.resolve
@@ -90,19 +97,27 @@
         deferred.reject(apiToken)
   )()
 
-  loadRpc().done -> getTokens.fn()
-  .fail -> console.log ['ERROR', 'Unable to load RPC engine!', arguments]
-
-  getTokens.done (tokens)->
-    apiToken = tokens['_wb_api_token']
+  loadRpc().done ->
     verifyVerticalData.fn()
-    verifyLoginData.fn(apiToken)
-  .fail -> console.log ['ERROR', 'Unable to get tokens!', arguments]
+    getTokens.fn()
+  .fail -> console.log ['ERROR', 'Unable to load RPC engine :(', arguments]
 
-  loadingAppScript = loadAppScript().fail console.log ['ERROR', 'Unable to get load App script!', arguments]
+  getTokens.promise.done (tokens)->
+    verifyLoginData.fn(tokens.apiToken)
+  .fail -> console.log ['ERROR', 'Unable to get tokens :(', arguments]
+
+  verifyingVerticalData = verifyVerticalData.promise.done ->
+    console.log('Vertical data verified :)');
+  .fail -> console.log ['ERROR', 'Unable to verify vertical data :(', arguments]
+
+  verifyingLoginData = verifyLoginData.promise.done ->
+    console.log('Login data verified :)');
+  .fail -> console.log ['WARN', 'Unable to verify login data :(', arguments]
+
+  loadingAppScript = loadAppScript().fail console.log ['ERROR', 'Unable to load App script :(', arguments]
 
   Winbits.promises =
     loadingAppScript: loadingAppScript
-    verifyingLoginData: verifyingLoginData.promise
+    verifyingLoginData: verifyLoginData.promise
     verifyingVerticalData: verifyVerticalData.promise
 )()

@@ -1,117 +1,54 @@
 (function(){
-  window.Winbits = {};
-  var env = {
+  window.Winbits = { env: {
     'api-url': "{{apiUrl}}",
     'base-url': "{{baseUrl}}",
     'provider-url': "{{providerUrl}}",
     'currency': "MXN",
     'api-token-name': '_wb_api_token',
     'cart-token-name':'_wb_vcart_token'
-  };
+  }};
 
-  Winbits.env = (function(env){
-    return {
-      get:function(name){
-        return env[name];
-      },
-      set:function(name, value){
-        env[name]=value;
-      }
-    };
-  })(env);
+  (function(){
+    var eventCallbacks = {};
+    var eventsTriggered = {};
 
-  Winbits._callbacks = (function() {
-    var eventCallbacks;
-    eventCallbacks = {};
-    return {
-      trigger: function(event) {
-        var callback, callbacks, _i, _len, _results;
-        callbacks = eventCallbacks[event];
-        if (callbacks) {
-          for (_i = 0, _len = callbacks.length; _i < _len; _i++) {
-            callback = callbacks[_i];
-            callback.call(callback._ctx || {});
-          }
-        }
-      },
-      add: function(event, callback, context) {
-        var callbacks;
-        callbacks = eventCallbacks[event] || [];
-        if (typeof callback === 'function') {
+    Winbits.on = function(event, callback, context) {
+      if (typeof callback === 'function') {
+        if (eventsTriggered[event]) {
+          callback.call(context || {});
+        } else {
+          var callbacks = eventCallbacks[event] || [];
           callback._ctx = context;
           callbacks.push(callback);
-        }
-        eventCallbacks[event] = callbacks;
-      }
-    };
-  })();
-
-  Winbits._triggered = (function() {
-    var eventsTriggered;
-    eventsTriggered = {};
-    return {
-      get: function(event) {
-        return eventsTriggered[event];
-      },
-      set: function(event) {
-        var eventTriggered;
-        eventTriggered = eventsTriggered[event] != null;
-        if (eventTriggered == null) {
-          eventsTriggered[event] = true;
+          eventCallbacks[event] = callbacks;
         }
       }
     };
+
+    Winbits.trigger = function(event) {
+      var callback, callbacks = eventCallbacks[event], i, len;
+      if (callbacks) {
+        for (i = 0, len = callbacks.length; i < len; i++) {
+          callback = callbacks[i];
+          callback.call(callback._ctx || {});
+        }
+      }
+      eventsTriggered[event] = true;
+    };
   })();
 
-  Winbits.on = function(event, callback, context) {
-    if (Winbits._triggered.get(event)) {
-      callback.call(context || {});
-    } else {
-      Winbits._callbacks.add(event, callback, context);
-    }
-  };
-
-  Winbits.trigger = function(event) {
-    Winbits._callbacks.trigger(event);
-  };
-
-  Winbits.loadScript = function(src, callback) {
-    var script = document.createElement('script');
-    var loaded;
-    script.setAttribute("type","text/javascript");
-    script.setAttribute('src', src);
-    if (callback) {
-      if (script.readyState) {
-        script.onreadystatechange = function () { // For old versions of IE
-          if (this.readyState == 'complete' || this.readyState == 'loaded') {
-            callback();
-          }
-        };
-      } else { // Other browsers
-        script.onload = callback;
+  var head = document.getElementsByTagName('head')[0];
+  var appendTagTo = function(parentTag, tagName, attrs) {
+    var tag= document.createElement(tagName), attr;
+    for(attr in attrs) {
+      if (attrs.hasOwnProperty(attr)) {
+        tag.setAttribute(attr, attrs[attr]);
       }
-    }
-    (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script);
-  };
-
-  var head= document.getElementsByTagName('head')[0];
-  var appendTagTo = function(parentTag, tagName, tagAttributes) {
-    var tag= document.createElement(tagName), i, tagAttr;
-    for(i = 0; i < tagAttributes.length; i++) {
-      tagAttr = tagAttributes[i];
-      tag.setAttribute(tagAttr.name, tagAttr.value);
     }
     parentTag.appendChild(tag);
   };
 
-  var baseUrl = Winbits.env.get('base-url');
-  appendTagTo(head, 'link', [{name: 'rel', value: 'stylesheet'}, {name: 'type', value: 'text/css'},
-      {name: 'href', value: baseUrl + "/stylesheets/winbits/app.css"}]);
-  Winbits.loadScript(baseUrl + "/javascripts/vendor.js", function() {
-    Winbits.loadScript(baseUrl + "/javascripts/app.js", function() {
-      delete Winbits.env.set;
-      require('initialize');
-      Winbits.trigger('initialized');
-    });
-  });
+  var baseUrl = Winbits.env['base-url'];
+  appendTagTo(head, 'link', { rel: 'stylesheet', type: 'text/css', href: baseUrl + "/stylesheets/winbits/app.css" });
+  appendTagTo(head, 'script', { type: 'text/javascript', src: baseUrl + "/javascripts/vendor.js" });
 })();
