@@ -1,12 +1,17 @@
 Controller = require "controllers/base/controller"
 NotLoggedInView = require 'views/not-logged-in/not-logged-in-view'
+utils = require 'lib/utils'
+mediator = Winbits.Chaplin.mediator
 
 module.exports = class NotLoggedInController extends Controller
   # Reusabilities persist stuff between controllers.
   # You may also persist models etc.
   beforeAction: ->
     super
-    @reuse 'not-login', NotLoggedInView
+    if not mediator.data.get 'login-data'
+      @reuse 'not-login', NotLoggedInView
+    else
+      @redirectTo 'home#index'
 
   index: ->
     console.log 'not-logged-in#index'

@@ -291,6 +291,9 @@ _(utils).extend
 
   ajaxRequest: Winbits.ajaxRequest
 
+  getApiToken: ->
+    mediator.data.get('login-data').apiToken
+
 # Prevent creating new properties and stuff.
 Object.seal? utils
 
