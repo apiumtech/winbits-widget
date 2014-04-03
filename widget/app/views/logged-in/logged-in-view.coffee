@@ -2,6 +2,7 @@ View = require 'views/base/view'
 utils = require 'lib/utils'
 $ = Winbits.$
 env = Winbits.env
+mediator = Winbits.Chaplin.mediator
 MyAccountView = require 'views/my-account/my-account-view'
 
 module.exports = class LoggedInView extends View
@@ -16,8 +17,13 @@ module.exports = class LoggedInView extends View
     @delegate 'click', '.spanDropMenu', @clickOpenOrClose
     @delegate 'click', '.miCuenta-logout', @doLogout
     @delegate 'click', '.miCuenta-close', @clickClose
-
+    @addToMediator
 #    @subview'('myAccountSubview') @render
+
+  addToMediator: ->
+    mediator.data.set "route-my-account","my-profile"
+    mediator.data.set "action-my-account","index"
+
 
   attach: ->
     super
@@ -33,6 +39,9 @@ module.exports = class LoggedInView extends View
   clickOpenOrClose: ->
     $divMiCuenta = @$('.miCuentaDiv')
     if $divMiCuenta.is(':hidden')
+      redirectTo = @$('#wbi-route-my-account').val()+'#'+@$('#wbi-action-my-account').val()
+      console.log ["redirectTo", redirectTo]
+      utils.redirectTo redirectTo
       $divMiCuenta.slideDown()
     else
       $divMiCuenta.slideUp()

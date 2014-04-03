@@ -10,8 +10,6 @@ module.exports = class MyAccountView extends View
   initialize: ->
     console.log "my-account"
     super
-  #    @listenTo @model, 'change', @render
-  #    @delegate 'click', '#wbi-login-in-btn', @doMyProfile
 
   attach: ->
     super

@@ -5,18 +5,19 @@ env = Winbits.env
 
 module.exports = class MyProfileView extends View
   container: '.wbc-my-account-container'
+  id: 'wbi-my-profile'
   template: require './templates/my-profile'
 
   initialize: ->
     super
     @openMyAccount()
-    #    @listenTo @model, 'change', @render
-#    @delegate 'click', '#wbi-login-in-btn', @doMyProfile
 
   attach: ->
     super
 
   openMyAccount: ->
+    $('#wbi-route-my-account').val('my-profile2')
+    $('#wbi-action-my-account').val('index2')
     $('.miCuentaDiv').slideDown()
 
 
