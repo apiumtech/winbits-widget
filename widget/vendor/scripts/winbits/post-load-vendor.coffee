@@ -64,4 +64,18 @@
   Winbits.Modernizr = window.Modernizr
   Winbits.html5 = window.html5
   Winbits.require = window.require
+
+  promises = Winbits.promises
+  Winbits.$.when(promises.loadingAppScript, promises.verifyingLoginData, promises.verifyingVerticalData).done ->
+    delete Winbits.env.set
+
+    Winbits.require 'initialize'
+    widgetLoadTime = new Date().getTime() - Winbits.startTime
+    console.log ['WIDGET TOTAL LOAD TIME (ms)', widgetLoadTime]
+    Winbits.trigger 'initialized'
+  .fail ->
+    delete Winbits
+    alert('Unable to load Winbits Widget!')
+
+  delete Winbits.promises
 )()

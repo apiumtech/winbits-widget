@@ -8,7 +8,7 @@ _ = Winbits._
 
 # _(utils).extend
 #  someMethod: ->
-Winbits._(utils).extend
+_(utils).extend
   redirectToLoggedInHome: ->
     @redirectTo controller: 'logged-in', action: 'index'
 
@@ -248,23 +248,6 @@ Winbits._(utils).extend
   isCrapBrowser: ->
     $.browser.msie and not /10.*/.test($.browser.version)
 
-  ajaxRequest:(url, options) ->
-    if $.isPlainObject(url)
-      options = url
-      url = options.url
-    options = options or {}
-    if ($.browser.msie and not /10.*/.test($.browser.version))
-      context = options.context or @
-      Winbits.rpc.request(url, options, () ->
-        options.success.apply(context, arguments) if $.isFunction options.success
-        options.complete.call(context) if $.isFunction options.complete
-      , () ->
-        options.error.apply(context, arguments) if $.isFunction options.error
-        options.complete.call(context) if $.isFunction options.complete
-      )
-    else
-      $.ajax(url,options)
-
   paymentMethodSupportedHtml: (methods, ac, html) ->
     if not methods
       return new Handlebars.SafeString("")
@@ -307,8 +290,15 @@ Winbits._(utils).extend
     $(".wbc-default-action", $modal).val options.value
     $('<a>').wbfancybox(padding: 10, href: modalSelector, onClosed: onClosed).click()
 
+  ajaxRequest: Winbits.ajaxRequest
+
+  getApiToken: ->
+    mediator.data.get('login-data').apiToken
+
 # Prevent creating new properties and stuff.
 Object.seal? utils
+
+delete Winbits.ajaxRequest
 
 module.exports = utils
 

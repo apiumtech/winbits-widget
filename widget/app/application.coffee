@@ -17,7 +17,7 @@ module.exports = class Application extends Chaplin.Application
     # e.g. Chaplin.mediator.prop = null
 
     cls = ->
-      data = {}
+      data = 'login-data': Winbits.env.get 'login-data'
       {
         get: (property)->
           data[property]
@@ -26,6 +26,7 @@ module.exports = class Application extends Chaplin.Application
       }
 
     mediator.data = cls()
+    console.log ['Mediator initialized']
 
     # Seal the mediator.
     mediator.seal()
