@@ -5,14 +5,8 @@ $ = Winbits.$
 _ = Winbits._
 env = Winbits.env
 
-module.exports = class LoginUtil
-  constructor:()->
-    @.initialize.apply this, arguments
-    console.log "LoginUtil#constructor"
-
-  initialize: ->
-      super
-
+loginUtils = {}
+_(loginUtils).extend
   applyLogin : (loginData) ->
     mediator.data.set 'login-data', loginData
     utils.saveApiToken profile.apiToken
@@ -58,3 +52,7 @@ module.exports = class LoginUtil
 #    $('#' + config.winbitsDivId).trigger 'loggedout', [logoutData]
 
 
+# Prevent creating new properties and stuff.
+Object.seal? loginUtils
+
+module.exports = loginUtils

@@ -16,16 +16,6 @@ _(utils).extend
   redirectToNotLoggedInHome: ->
     @redirectTo 'not-logged-in#index'
 
-  storeKey : (key, value) ->
-    localStorage[key] = value
-
-  retrieveKey : (key) ->
-    value = localStorage[key]
-
-  deleteKey : (key) ->
-    localStorage.removeItem(key)
-    return
-
   getUrlParams : ->
     vars = []
     hash = `undefined`

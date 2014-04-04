@@ -1,6 +1,6 @@
 View = require 'views/base/view'
 utils = require 'lib/utils'
-loginUtil = require 'lib/login-util'
+loginUtil = require 'lib/login-utils'
 $ = Winbits.$
 env = Winbits.env
 
