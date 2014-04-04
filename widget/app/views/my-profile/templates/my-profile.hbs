@@ -1,27 +1,28 @@
-<div class="column miCuenta-profile">
+<div class="column miCuenta-profile" xmlns="http://www.w3.org/1999/html">
   <form method="post" action="#" accept-charset="utf-8" id="miCuenta-profile" novalidate="novalidate">
     <h3>DATOS PERSONALES</h3>
-    <input type="text" id="winbitsProfileName" name="winbitsProfileName" placeholder="Nombre">
-    <input type="text" id="winbitsProfileLastname" name="winbitsProfileLastname" placeholder="Apellido">
-    <input type="text" id="winbitsProfileEmail" name="winbitsProfileEmail" placeholder="Correo Electrónico">
+    <input type="text" id="winbitsProfileName" name="winbitsProfileName" placeholder="Nombre" value="{{name}}">
+    <input type="text" id="winbitsProfileLastname" name="winbitsProfileLastname" placeholder="Apellido" value="{{lastName}}">
+    <input type="text" id="winbitsProfileEmail" name="winbitsProfileEmail" placeholder="Correo Electrónico" value="{{email}}">
 
     <div class="divBirthday">
       <label>Cumpleaños</label>
-      <input type="text" id="winbitsProfileDD" name="winbitsProfileDD" maxlength="2" placeholder="dd">
-      <input type="text" id="winbitsProfileMM" name="winbitsProfileMM" maxlength="2" placeholder="mm">
-      <input type="text" id="winbitsProfileAA" name="winbitsProfileAA" maxlength="2" placeholder="aa">
+      <input type="text" id="winbitsProfileDD" name="winbitsProfileDD" maxlength="2" placeholder="dd" value="{{substr birthdate start=8 length=2}}">
+      <input type="text" id="winbitsProfileMM" name="winbitsProfileMM" maxlength="2" placeholder="mm" value="{{substr birthdate start=5 length=2}}">
+      <input type="text" id="winbitsProfileAA" name="winbitsProfileAA" maxlength="2" placeholder="aa" value="{{substr birthdate start=2 length=2}}">
     </div>
     <div class="divGender">
       <label>Género</label>
-
-      <div class="divRadio"><input type="radio" id="winbitsProfileH" name="winbitsProfileGender" class="required"
-                                   value="H"><span class="spanRadio">H</span></div>
-      <div class="divRadio"><input type="radio" id="winbitsProfileM" name="winbitsProfileGender" value="M"><span
-          class="spanRadio">M</span></div>
+      <input type="radio" value="H" name="winbitsProfileGender" id="winbitsProfileH">
+      <input type="radio" value="M" name="winbitsProfileGender" id="winbitsProfileM">
     </div>
-    <input type="text" id="winbitsProfileZipCode" name="winbitsProfileZipCode" placeholder="Zip Code">
-    <input type="text" id="winbitsProfilePhone" name="winbitsProfilePhone" placeholder="Teléfono">
+    <input type="text" placeholder="Código Postal" id="zipCode" maxlength="5" required name="zipCode" class="zipCode" value="{{zipCode}}">
+    <select class="select zipCodeInfo" data-clase="selectRegister" data-inputselect="true" name="zipCodeInfo">
+      <option value="">Colonia/Asentamiento:</option>
+    </select>
+    <input type="text" id="winbitsProfilePhone" name="winbitsProfilePhone" placeholder="Teléfono" value="{{phone}}">
     <input type="submit" value="Guardar" class="btn editBtn">
+    <input id="wbi-fetch" type="button" value="Fetch!" class="btn editBtn">
   </form>
 
 </div>

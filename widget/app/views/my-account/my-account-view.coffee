@@ -17,4 +17,5 @@ module.exports = class MyAccountView extends View
 
   attach: ->
     super
-    $('.spanDropMenu').dropMainMenu()
+    @$el.prev('.spanDropMenu').dropMainMenu()
+#    @$el.parent().find('.spanDropMenu').dropMainMenu()

@@ -2,9 +2,10 @@
 # ------------------------------
 
 # Delegate to Chaplin’s utils module.
-utils = Chaplin.utils.beget Chaplin.utils
+utils = Winbits.Chaplin.utils.beget Chaplin.utils
 $ = Winbits.$
 _ = Winbits._
+mediator = Winbits.Chaplin.mediator
 
 # _(utils).extend
 #  someMethod: ->
@@ -302,3 +303,9 @@ delete Winbits.ajaxRequest
 
 module.exports = utils
 
+Handlebars.registerHelper "substr", (context, options) ->
+  if context
+    theString = context.substr(options.hash.start, options.hash.length)
+    new Handlebars.SafeString(theString)
+  else
+    ""

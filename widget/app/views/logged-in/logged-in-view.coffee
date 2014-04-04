@@ -14,22 +14,14 @@ module.exports = class LoggedInView extends View
   initialize: ->
     @listenTo @model, 'change', @render
     @storeApiToken(@model.attributes.apiToken)
-#    @delegate 'click', '.spanDropMenu', @clickOpenOrClose
     @delegate 'click', '.miCuenta-logout', @doLogout
     @delegate 'click', '.miCuenta-close', @clickClose
-
-#    @subview'('myAccountSubview') @render
-
-  addToMediator: ->
-    mediator.data.set "route-my-account","my-profile"
-    mediator.data.set "action-my-account","index"
 
 
   attach: ->
     super
     myAccountView = new MyAccountView
     @subview 'myAccountSubview', myAccountView
-    @addToMediator()
     console.log [mediator.data.get "action-my-account"]
 
   storeApiToken: (apiToken)->

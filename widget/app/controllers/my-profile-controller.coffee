@@ -1,6 +1,7 @@
 Controller = require "controllers/logged-in-controller"
 MyProfileView = require 'views/my-profile/my-profile-view'
 #MyProfileModel = require 'model/my-profile/my-profile'
+$ = Winbits.$
 
 module.exports = class MyProfileController extends Controller
 
@@ -11,4 +12,4 @@ module.exports = class MyProfileController extends Controller
 
   index: ->
     console.log 'my-profile#index'
-    view: new MyProfileView()
+    $('.miCuentaDiv').slideDown()

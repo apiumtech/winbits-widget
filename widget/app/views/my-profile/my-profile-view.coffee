@@ -10,14 +10,9 @@ module.exports = class MyProfileView extends View
 
   initialize: ->
     super
-    @openMyAccount()
+    @listenTo @model, 'change', @render
+    @delegate 'click', '#wbi-fetch', -> @model.fetch()
 
   attach: ->
     super
-
-  openMyAccount: ->
-    $('#wbi-route-my-account').val('my-profile2')
-    $('#wbi-action-my-account').val('index2')
-    $('.miCuentaDiv').slideDown()
-
-
+    @$('.divGender').customRadio()
