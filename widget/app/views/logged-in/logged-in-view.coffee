@@ -14,10 +14,10 @@ module.exports = class LoggedInView extends View
   initialize: ->
     @listenTo @model, 'change', @render
     @storeApiToken(@model.attributes.apiToken)
-    @delegate 'click', '.spanDropMenu', @clickOpenOrClose
+#    @delegate 'click', '.spanDropMenu', @clickOpenOrClose
     @delegate 'click', '.miCuenta-logout', @doLogout
     @delegate 'click', '.miCuenta-close', @clickClose
-    @addToMediator
+
 #    @subview'('myAccountSubview') @render
 
   addToMediator: ->
@@ -29,7 +29,8 @@ module.exports = class LoggedInView extends View
     super
     myAccountView = new MyAccountView
     @subview 'myAccountSubview', myAccountView
-
+    @addToMediator()
+    console.log [mediator.data.get "action-my-account"]
 
   storeApiToken: (apiToken)->
     utils.storeKey('apiToken', apiToken)
@@ -39,9 +40,9 @@ module.exports = class LoggedInView extends View
   clickOpenOrClose: ->
     $divMiCuenta = @$('.miCuentaDiv')
     if $divMiCuenta.is(':hidden')
-      redirectTo = @$('#wbi-route-my-account').val()+'#'+@$('#wbi-action-my-account').val()
-      console.log ["redirectTo", redirectTo]
-      utils.redirectTo redirectTo
+#      redirectTo = @$('#wbi-route-my-account').val()+'#'+@$('#wbi-action-my-account').val()
+#      console.log ["redirectTo", redirectTo]
+#      utils.redirectTo redirectTo
       $divMiCuenta.slideDown()
     else
       $divMiCuenta.slideUp()
@@ -50,7 +51,7 @@ module.exports = class LoggedInView extends View
       @$('.miCuentaDiv').slideUp()
 
   doLogout: ->
-    that = this
+    that =
     console.log "initLogout"
     utils.ajaxRequest( env.get('api-url') + "/users/logout.json",
       type: "POST"

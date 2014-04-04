@@ -4,7 +4,11 @@ $ = Winbits.$
 env = Winbits.env
 
 module.exports = class MyAccountView extends View
-  container: '.miCuenta-tabs'
+  container: '#wbi-my-account-container'
+  id: 'wbi-my-account-div'
+  className: 'dropMenu miCuentaDiv'
+  attributes:
+    style: "display: none;"
   template: require './templates/my-account'
 
   initialize: ->
@@ -13,3 +17,4 @@ module.exports = class MyAccountView extends View
 
   attach: ->
     super
+    $('.spanDropMenu').dropMainMenu()
