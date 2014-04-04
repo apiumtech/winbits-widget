@@ -1,6 +1,6 @@
 View = require 'views/base/view'
 utils = require 'lib/utils'
-loginUtil = require 'lib/loginUtil'
+loginUtil = require 'lib/login-util'
 $ = Winbits.$
 env = Winbits.env
 
@@ -53,7 +53,7 @@ module.exports = class LoginView extends View
   doLoginSuccess: (data) ->
     $.fancybox.close()
     response = data.response
-    loginUtil.applyLogin response
+    loginUtil.applyLogin(response)
     utils.redirectTo controller: 'logged-in', action: 'index', params: response
 
   doLoginError: (xhr, textStatus) ->

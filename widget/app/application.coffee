@@ -1,6 +1,7 @@
 routes = require './routes'
 utils = require 'lib/utils'
 mediator = Winbits.Chaplin.mediator
+$ = Winbits.$
 
 # The application object.
 module.exports = class Application extends Chaplin.Application
@@ -17,12 +18,21 @@ module.exports = class Application extends Chaplin.Application
     # e.g. Chaplin.mediator.prop = null
 
     cls = ->
-      data = 'login-data': Winbits.env.get 'login-data'
+      persistentData = rpc: Winbits.env.get 'rpc'
+      data = $.extend {'login-data': Winbits.env.get('login-data')}, persistentData
       {
         get: (property)->
           data[property]
         set: (property, value)->
           data[property] = value
+          return
+        delete: (property) ->
+          value = data[property]
+          delete data[property]
+          value
+        clear: ->
+          data = $.extend {}, persistentData
+          return
       }
 
     mediator.data = cls()

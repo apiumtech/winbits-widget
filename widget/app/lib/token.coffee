@@ -1,5 +1,5 @@
 util = require 'lib/utils'
-config = require 'config'
+
 token = {}
 
 token.saveApiToken = (apiToken) ->
@@ -21,7 +21,6 @@ token.requestTokens = ($) ->
 
 token.segregateTokens = (tokensDef) ->
   console.log ["tokensDef", tokensDef]
-  #console.log _.keys(tokensDef)
   vcartTokenDef = tokensDef.vcartToken
   util.storeKey vcartTokenDef.entryName, vcartTokenDef.value
   apiTokenDef = tokensDef.apiToken

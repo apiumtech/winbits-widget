@@ -5,6 +5,7 @@
 utils = Chaplin.utils.beget Chaplin.utils
 $ = Winbits.$
 _ = Winbits._
+mediator = Chaplin.mediator
 
 # _(utils).extend
 #  someMethod: ->
@@ -23,7 +24,7 @@ _(utils).extend
 
   deleteKey : (key) ->
     localStorage.removeItem(key)
-    ''
+    return
 
   getUrlParams : ->
     vars = []
@@ -294,6 +295,19 @@ _(utils).extend
 
   getApiToken: ->
     mediator.data.get('login-data').apiToken
+
+  saveApiToken: (apiToken) ->
+    mediator.data.get('login-data').apiToken = apiToken
+    localStorage.setItem(Winbits.env.get('api-token-name'), apiToken)
+
+    mediator.data.get('rpc').saveApiToken apiToken, ->
+      console.log 'ApiToken saved :)'
+    , -> console.log 'Unable to save ApiToken :('
+
+  deleteApiToken: ->
+    localStorage.removeItem(Winbits.env.get('api-token-name'))
+
+
 
 # Prevent creating new properties and stuff.
 Object.seal? utils

@@ -1,4 +1,4 @@
-(function(){
+(function($){
 
 // +++++++++++++++++++++++++++++++++++++++++++++
 //      ACCORDEON: Acordeón para el historial
@@ -828,4 +828,4 @@
 	$('.fancybox').fancyBox();
 	$('img').imageError({ src: 'clickoneroInclude/images/misc/noImage.jpg'});
 	$('.openClose').showHideDiv();
-})();
+})($);

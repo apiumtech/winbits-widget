@@ -1,6 +1,5 @@
 utils = require 'lib/utils'
 token = require 'lib/token'
-config = require 'config'
 mediator = Chaplin.mediator
 $ = Winbits.$
 env = Winbits.env
@@ -16,14 +15,10 @@ module.exports = class LoginUtil
   applyLogin : (profile) ->
     console.log ["LoginUtil#applyLogin",profile]
     if profile.apiToken
-      token.saveApiToken profile.apiToken
 
-      mediator.flags.loggedIn = true
-      mediator.profile.bitsBalance = profile.bitsBalance
-      mediator.profile.socialAccounts = profile.socialAccounts
-      mediator.profile.userId = profile.id
-      mediator.global.profile = profile
-
+     utils.saveApiToken profile.apiToken
+     mediator.data.get('flags').loggedIn = true
+     mediator.data.set 'profile', profile
 
 #      profileData = profile.profile
 #
@@ -46,38 +41,20 @@ module.exports = class LoginUtil
 #      $ = window.$ or Winbits.$
 #      $('#' + config.winbitsDivId).trigger 'loggedin', [profile]
 
-  initLogout : () ->
-    console.log "initLogout"
-    utils.ajaxRequest( env.get('api-url') + "/users/logout.json",
-      type: "POST"
-      contentType: "application/json"
-      dataType: "json"
-      headers:
-        "Accept-Language": "es"
-        "WB-Api-Token": utils.retrieveKey(config.apiTokenName)
-      success: @doLogoutSuccess
-      error: @doLogoutError
-      complete: ->
-        console.log "logout.json Completed!"
-    )
 
-  doLogoutSuccess:  ->
-    @applyLogout data.response
-    utils.redirectToNotLoggedInHome()
+  applyLogout : ->
+    localStorage.clear()
+    mediator.data.clear()
+    mediator.data.get('rpc').logout ->
+      console.log 'Winbits logout success :)'
+    , -> console.log 'Winbits logout error D:'
 
-  doLogoutError: (xhr)->
-    #todo checar flujo si falla logout
-    console.log ['Logout Error ',xhr.responseText]
-
-  applyLogout : (logoutData) ->
-    Winbits.rpc.logout(mediator.flags.fbConnect)
-    utils.deleteKey config.apiTokenName
+    #    Winbits.rpc.logout(mediator.flags.fbConnect)
 #    @publishEvent "resetComponents"
 #    @publishEvent "showHeaderLogout"
 #    @publishEvent "loggedOut"
-    mediator.flags.loggedIn = false
-    mediator.flags.fbConnect = false
 #    $ = window.$ or Winbits.$
 #    Winbits.$('#wbi-div-switch-user').hide()
 #    $('#' + config.winbitsDivId).trigger 'loggedout', [logoutData]
+
 

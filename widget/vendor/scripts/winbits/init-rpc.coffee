@@ -74,7 +74,7 @@
 
   verifyingLoginData = new $.Deferred().done (data) ->
     console.log 'Login data verified :)'
-    Winbits.env.set 'login-data', data?.response or 'XXX'
+    Winbits.env.set 'login-data', data?.response
   .fail -> console.log ['WARN', 'Unable to verify login data :(']
   verifyLoginData = ((deferred) ->
     (apiToken) ->
