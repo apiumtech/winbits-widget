@@ -8,6 +8,7 @@ module.exports = class LoginView extends View
   container: '#wbi-winbits-modals'
   id: 'wbi-login-modal'
   template: require './templates/login'
+  model: require 'models/login/login'
 
   initialize: ->
     super
@@ -33,22 +34,12 @@ module.exports = class LoginView extends View
     if utils.validateForm($form)
       formData = verticalId: env.get('vertical').id
       formData = utils.serializeForm($form, formData)
-      submitButton = @$('#wbi-login-in-btn').prop('disabled', true)
-      utils.ajaxRequest(env.get('api-url') + "/users/login.json",
-        type: "POST"
-        contentType: "application/json"
-        dataType: "json"
-        data: JSON.stringify(formData)
-        context: @
-        headers:
-          "Accept-Language": "es"
-        success: @doLoginSuccess
-        error: @doLoginError
-        complete: ->
-          submitButton.prop('disabled', false)
-      )
-    else
-      'Fail to login'
+      $submitButton = @$('#wbi-login-in-btn').prop('disabled', yes)
+
+      @model.requestLogin(formData, context: @)
+        .done(@doLoginSuccess)
+        .fail(@doLoginError)
+        .always(-> $submitButton.prop('disabled', false))
 
   doLoginSuccess: (data) ->
     $.fancybox.close()
