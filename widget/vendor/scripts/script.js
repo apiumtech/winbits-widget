@@ -3,7 +3,7 @@
 // +++++++++++++++++++++++++++++++++++++++++++++
 //      ACCORDEON: Acordeón para el historial
 // +++++++++++++++++++++++++++++++++++++++++++++
-	
+
 	jQuery.fn.acordeon = function(options){
 		var defaults = $.extend({
 			trigger: 'h2',
@@ -38,7 +38,7 @@
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //      CAROUSELSWIPER: Iniciar carruseles on Swiper
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	
+
 	jQuery.fn.carouselSwiper = function(options){
 		var defaults = $.extend({
 			arrow: true,
@@ -72,7 +72,7 @@
 				calculateHeight(obj, swiper);
 				swiper.params.onSlideChangeStart = function(swiper){calculateHeight(obj, swiper);};
 			}
-			
+
 			if(defaults.onClickSlide){
 				$(obj).find(defaults.slideCSS).on('click', function(e){
 					e.stopPropagation();
@@ -163,7 +163,7 @@
 // +++++++++++++++++++++++++++++++++++++++++
 //      CUSTOMCHECKBOX: Cambiar checkbox
 // +++++++++++++++++++++++++++++++++++++++++
-	
+
 	jQuery.fn.customCheckbox = function(options){
 		var defaults = $.extend({
 			checkbox: 'input[type="checkbox"]',
@@ -277,14 +277,14 @@
 // +++++++++++++++++++++++++++++++++++++++++++
 //      CUSTOMSELECT: Customizar el select
 // +++++++++++++++++++++++++++++++++++++++++++
-	
+
 	jQuery.fn.customSelect = function(options){
 		var defaults = $.extend({
 			selectHidden: 'select-hidden',
 			divSelect: 'select-div',
 			inputSelect: 'select-input',
 			claseIcon: 'icon',
-			claseTrigger: 'select-trigger',
+			claseTrigger: 'iconFont-downmenu',
 			ulOptions: 'select-ul',
 			claseActivo: 'select-activo',
 			selectActive: 'select-active',
@@ -303,7 +303,7 @@
 			} else {
 				selectContent = '<span class="'+ defaults.inputSelect +'"/>';
 			}
-			$(obj).after(selectContent+'<span class="'+ defaults.claseIcon +' '+ defaults.claseTrigger +'"/>');
+			$(obj).after(selectContent+'<span class="'+ defaults.claseTrigger +'"/>');
 			addInputSelect(obj);
 		},
 		addInputSelect = function(obj){
@@ -410,7 +410,7 @@
 			wrapper: 'slider-wrapper',
 			holder: 'slider-holder',
 			handle: 'ui-slider-handle',
-			bit: 'slider-bit',
+			bit: 'iconBit bit13px',
 			amount: 'slider-amount',
 			textValue: 'slider-textValue',
 			textMin: 'slider-minValue',
@@ -420,7 +420,7 @@
 		wrappingInput = function(obj){
 			asignaValues(obj);
 			$(obj).wrap('<div class="'+ defaults.wrapper +'"><div class="'+ defaults.holder +'"/>');
-			$(obj).parent().append('<a href="#" class="'+ defaults.handle +'"><span class="'+ defaults.bit +'"></span><span class="'+ defaults.amount +'">$<em>'+$(obj).val()+'</em></span></a>');
+			$(obj).parent().append('<a href="#" class="'+ defaults.handle +'"><div class="'+ defaults.bit +'"><span class="iconBG"/><span class="iconFont-bit"/></div><span class="'+ defaults.amount +'">$<em>'+$(obj).val()+'</em></span></a>');
 			$(obj).parent().parent().append('<span class="'+ defaults.textValue +' '+ defaults.textMin +'">'+$(obj).data('min')+'</span><span class="'+ defaults.textValue +' '+ defaults.textMax +'">'+datamax+'</span>');
 			initSlider(obj);
 		},
@@ -561,7 +561,7 @@
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //      IMAGEERROR: Poner imagen de error cuando no la encuentre
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	
+
 	jQuery.fn.imageError = function(){
 		var defaults = {
 			src: 'images/misc/noImge.jpg',
@@ -580,7 +580,7 @@
 // ++++++++++++++++++++++++++++++++++++++
 //      FANCYBOX: Modales con FancyBox
 // ++++++++++++++++++++++++++++++++++++++
-	
+
 	jQuery.fn.fancyBox = function(){
 		var optionsFancybox = {},
 		defaultFancybox = function(obj){
@@ -639,7 +639,7 @@
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //      SCROLLPANE: Scroll que aparece / desaparece
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	
+
 	jQuery.fn.scrollpane = function (options) {
 		var defaults= $.extend({
 			parent: '.scrollpane',
@@ -712,7 +712,7 @@
 // ++++++++++++++++++++++++++++++++++++
 //		TOOLTIP: Tooltips en objetos
 // ++++++++++++++++++++++++++++++++++++
-	
+
 	jQuery.fn.toolTip = function(options){
 		var defaults = $.extend({
 			clase: 'tooltip'
@@ -763,69 +763,12 @@
 		});
 	};
 
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//      VALIDAR: Validar formularios
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	
-	jQuery.extend(jQuery.validator.messages, {
-		required: "Campo requerido.",
-		remote: "Llena este campo.",
-		email: "Escribe una dirección de correo válida",
-		url: "Escribe una URL válida.",
-		date: "Escribe una fecha válida.",
-		dateISO: "Escribe una fecha (ISO) válida.",
-		number: "Escribe un número entero válido.",
-		digits: "Escribe sólo dígitos.",
-		creditcard: "Escribe un número de tarjeta válido.",
-		equalTo: "Escribe el mismo valor de nuevo.",
-		accept: "Escribe un valor con una extensión aceptada.",
-		maxlength: jQuery.validator.format("No escribas más de {0} caracteres."),
-		minlength: jQuery.validator.format("No escribas menos de {0} caracteres."),
-		rangelength: jQuery.validator.format("Escribe un valor entre {0} y {1} caracteres."),
-		range: jQuery.validator.format("Escribe un valor entre {0} y {1}."),
-		max: jQuery.validator.format("Escribe un valor menor o igual a {0}."),
-		min: jQuery.validator.format("Escribe un valor mayor o igual a {0}.")
-	});
-	jQuery.fn.validar = function(options){
-		var defaults = $.extend({
-			formulario: 'form',
-			errorClass: 'errorInputError',
-			errorElement: 'span',
-			labelError: 'errorInputOK',
-			validClass: 'errorInputOK',
-			onsubmit: false,
-			onsubmitContainer: false
-		}, options),
-		retunSubmit = function(form){
-			if(defaults.onsubmitContainer){
-				$(defaults.onsubmitContainer).slideDown();
-				$(form)[0].reset();
-			}
-			defaults.onsubmit(form);
-		};
-		return this.each(function(){
-			$(this).find(defaults.formulario).validate({
-				errorClass: defaults.errorClass,
-				errorElement: defaults.errorElement,
-				onfocusout: function (element) {
-					$(element).valid();
-				},
-				success: function (label) {
-					label.addClass(defaults.labelError);
-				},
-				validClass: defaults.validClass,
-				submitHandler: retunSubmit
-			});
-		});
-	};
 
-	
 
-		
-	$('.accordeonWinbits').acordeon();
+
 	$('.select').customSelect();
 	$('.slideInput').customSlider();
 	$('.fancybox').fancyBox();
 	$('img').imageError({ src: 'clickoneroInclude/images/misc/noImage.jpg'});
 	$('.openClose').showHideDiv();
-})($);
+})(jQuery);
