@@ -35,21 +35,15 @@ module.exports = class LoggedInView extends View
       dataType: "json"
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token": utils.getApiToken
+        "WB-Api-Token": utils.getApiToken()
       success: @doLogoutSuccess
       error: @doLogoutError
-      complete: ->
-        console.log "logout.json Completed!"
     )
 
-  doLogoutSuccess:  ->
-      loginUtil.applyLogout()
-      utils.deleteApiToken (data.response.apiToken)
-      mediator.data.get('flags').loggedIn = false
-      mediator.data.get('flags').fbConnect = false
-      utils.redirectToNotLoggedInHome()
+  doLogoutSuccess: (data) ->
+    loginUtil.applyLogout(data.response)
 
   doLogoutError: (xhr)->
     #todo checar flujo si falla logout
     console.log ['Logout Error ',xhr.responseText]
-
+    loginUtil.applyLogout()

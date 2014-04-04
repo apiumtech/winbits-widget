@@ -2,6 +2,7 @@ utils = require 'lib/utils'
 token = require 'lib/token'
 mediator = Chaplin.mediator
 $ = Winbits.$
+_ = Winbits._
 env = Winbits.env
 
 module.exports = class LoginUtil
@@ -12,13 +13,10 @@ module.exports = class LoginUtil
   initialize: ->
       super
 
-  applyLogin : (profile) ->
-    console.log ["LoginUtil#applyLogin",profile]
-    if profile.apiToken
-
-     utils.saveApiToken profile.apiToken
-     mediator.data.get('flags').loggedIn = true
-     mediator.data.set 'profile', profile
+  applyLogin : (loginData) ->
+    mediator.data.set 'login-data', loginData
+    utils.saveApiToken profile.apiToken
+    Winbits.trigger 'loggedin', [_.clone loginData]
 
 #      profileData = profile.profile
 #
@@ -42,12 +40,14 @@ module.exports = class LoginUtil
 #      $('#' + config.winbitsDivId).trigger 'loggedin', [profile]
 
 
-  applyLogout : ->
+  applyLogout: (logoutData) ->
     localStorage.clear()
     mediator.data.clear()
     mediator.data.get('rpc').logout ->
       console.log 'Winbits logout success :)'
     , -> console.log 'Winbits logout error D:'
+    Winbits.trigger 'loggedout', [logoutData]
+    utils.redirectToNotLoggedInHome()
 
     #    Winbits.rpc.logout(mediator.flags.fbConnect)
 #    @publishEvent "resetComponents"
