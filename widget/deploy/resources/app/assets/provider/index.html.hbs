@@ -18,18 +18,18 @@
 
   <script type="text/javascript">
     (function(){
-      var Winbits = {};
+      var Winbits = { apiTokenKey: '_wb_api_token', cartTokenKey: '_wb_cart_token' };
 
-      Winbits.storeKey = function (c_name, value) {
-        return localStorage[c_name] = value;
+      Winbits.storeKey = function (key, value) {
+        return localStorage[key] = value;
       };
 
-      Winbits.retrieveKey = function (c_name) {
-        return localStorage[c_name];
+      Winbits.retrieveKey = function (key) {
+        return localStorage[key];
       };
 
-      Winbits.deleteKey = function (name) {
-        return localStorage.removeItem(name);
+      Winbits.deleteKey = function (key) {
+        return localStorage.removeItem(key);
       };
 
       var rpc = new easyXDM.Rpc({},
@@ -40,35 +40,31 @@
                   console.log('In RPC mode is not secure to use callbackas with context!');
                   delete options.context;
                 }
-                var config = {
-                  type: 'GET',
-                  success: function() {
+                var config = { type: 'GET' };
+                $.extend(config, options);
+                console.log('Ajax Request -> ' + url);
+                $.ajax(url, config).done(function() {
                     if ($.isFunction(success)) {
                       success.apply(this, arguments);
                     }
-                  },
-                  error: function() {
+                  }).fail(function() {
                     if ($.isFunction(error)) {
                       error.apply(this, arguments);
                     }
-                  }
-                };
-                $.extend(config, options);
-                console.log('Ajax Request -> ' + url);
-                $.ajax(url, config);
+                  });
               },
               getTokens: function() {
                 var tokens = {};
-                var apiToken = Winbits.retrieveKey('_wb_api_token');
+                var apiToken = Winbits.retrieveKey(Winbits.apiTokenKey);
                 if (apiToken) {
-                  tokens.apiToken = { entryName: '_wb_api_token', value: apiToken};
+                  tokens.apiToken = apiToken;
                 }
-                var vcartToken = Winbits.retrieveKey('_wb_vcart_token');
+                var vcartToken = Winbits.retrieveKey(Winbits.cartTokenKey);
                 if (!vcartToken) {
                   vcartToken = '[]';
-                  Winbits.storeKey('_wb_vcart_token', vcartToken, 7);
+                  Winbits.storeKey(Winbits.cartTokenKey, vcartToken);
                 }
-                tokens.vcartToken = { entryName: '_wb_vcart_token', value: vcartToken};
+                tokens.vcartToken = vcartToken;
                 console.log(['W: The tokens', tokens]);
 
                return tokens;
@@ -76,15 +72,15 @@
               },
               saveApiToken: function(apiToken) {
                 console.log(['API Token from vertical', apiToken]);
-                Winbits.storeKey('_wb_api_token', apiToken);
+                Winbits.storeKey(Winbits.apiTokenKey, apiToken);
               },
               storeVirtualCart: function(vCart) {
-                Winbits.storeKey('_wb_vcart_token', vCart);
+                Winbits.storeKey(Winbits.cartTokenKey, vCart);
               },
               logout: function(facebookLogout) {
                 console.log('Winbits: Logging out...');
-                Winbits.deleteKey('_wb_api_token');
-                Winbits.storeKey('_wb_vcart_token', '[]');
+                Winbits.deleteKey(Winbits.apiTokenKey);
+                Winbits.storeKey(Winbits.cartTokenKey, '[]');
                 console.log('Wee do not log out facebook anymore!');
 //                if (facebookLogout) {
 //                  console.log('Winbits: Facebook logging out...');
