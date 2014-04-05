@@ -72,9 +72,9 @@
       .fail deferred.reject
   )(verifyingVerticalData)
 
-  verifyingLoginData = new $.Deferred().done (data) ->
+  verifyingLoginData = new $.Deferred().done (data = {}) ->
     console.log 'Login data verified :)'
-    Winbits.env.set 'login-data', data?.response
+    Winbits.env.set 'login-data', data.response
   .fail -> console.log ['WARN', 'Unable to verify login data :(']
   verifyLoginData = ((deferred) ->
     (apiToken) ->
