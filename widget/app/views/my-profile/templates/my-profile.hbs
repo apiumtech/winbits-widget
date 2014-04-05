@@ -1,8 +1,8 @@
 <div class="column miCuenta-profile" xmlns="http://www.w3.org/1999/html">
-  <form method="post" action="#" accept-charset="utf-8" id="miCuenta-profile" novalidate="novalidate">
+  <form method="post" action="#" accept-charset="utf-8" id="wbi-personal-data-form" novalidate="novalidate">
     <h3>DATOS PERSONALES</h3>
-    <input type="text" id="winbitsProfileName" name="winbitsProfileName" placeholder="Nombre" value="{{name}}">
-    <input type="text" id="winbitsProfileLastname" name="winbitsProfileLastname" placeholder="Apellido" value="{{lastName}}">
+    <input type="text" name="name" placeholder="Nombre" value="{{name}}">
+    <input type="text" id="winbitsProfileLastname" name="lastName" placeholder="Apellido" value="{{lastName}}">
     <input type="text" id="winbitsProfileEmail" name="winbitsProfileEmail" placeholder="Correo Electrónico" value="{{email}}">
 
     <div class="divBirthday">
@@ -16,18 +16,18 @@
       <input type="radio" value="H" name="gender" id="winbitsProfileH" {{#compare gender 'male'}}checked="checked"{{/compare}}>
       <input type="radio" value="M" name="gender" id="winbitsProfileM"  {{#if isFemale}}checked="checked"{{/if}}>
     </div>
-    <input type="text" placeholder="Código Postal" id="zipCode" maxlength="5" required name="zipCode" class="zipCode" value="{{zipCode}}">
+    <input type="text" placeholder="Código Postal" maxlength="5" required name="zipCode" class="zipCode" value="{{zipCode}}">
     <select class="select zipCodeInfo" data-clase="selectRegister" data-inputselect="true" name="zipCodeInfo">
       <option value="">Colonia/Asentamiento:</option>
     </select>
-    <input type="text" id="winbitsProfilePhone" name="winbitsProfilePhone" placeholder="Teléfono" value="{{phone}}">
+    <input type="text" id="winbitsProfilePhone" name="phone" placeholder="Teléfono" value="{{phone}}">
     <input type="submit" value="Guardar" class="btn editBtn">
     <input id="wbi-fetch" type="button" value="Fetch!" class="btn editBtn">
   </form>
 
 </div>
 <div class="column miCuenta-password">
-  <form method="post" action="#" accept-charset="utf-8" id="miCuenta-password" novalidate="novalidate">
+  <form method="post" action="#" accept-charset="utf-8" id="wbi-change-password-form" novalidate="novalidate">
     <h3>CAMBIAR PASSWORD</h3>
     <input type="password" id="winbitsPasswordActual" name="winbitsPasswordActual" class="required"
            placeholder="Password Actual">
@@ -38,7 +38,7 @@
     <input type="submit" value="Guardar" class="btn editBtn">
   </form>
 </div>
-<div class="column">
+<div class="column" id="wbi-social-media-panel">
   <h3>REDES SOCIALES</h3>
 
   <p><a href="#"><span class="icon fbCircle"></span>Liga tu cuenta de facebook</a></p>
