@@ -14,8 +14,8 @@
       window._ = Winbits._;
       window.Backbone = Winbits.Backbone;
 
-      Winbits.loadScript('javascripts/test-vendor.js', function() {
-        Winbits.loadScript('javascripts/test.js', function() {
+      yepnope.injectJs('javascripts/test-vendor.js', function() {
+          yepnope.injectJs('javascripts/test.js', function() {
           require('test/initialize');
           console.log('Running mocha');
           (window.mochaPhantomJS || mocha).run();
