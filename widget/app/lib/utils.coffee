@@ -302,10 +302,3 @@ Object.seal? utils
 delete Winbits.ajaxRequest
 
 module.exports = utils
-
-Handlebars.registerHelper "substr", (context, options) ->
-  if context
-    theString = context.substr(options.hash.start, options.hash.length)
-    new Handlebars.SafeString(theString)
-  else
-    ""

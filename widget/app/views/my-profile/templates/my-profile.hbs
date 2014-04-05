@@ -13,8 +13,8 @@
     </div>
     <div class="divGender">
       <label>Género</label>
-      <input type="radio" value="H" name="winbitsProfileGender" id="winbitsProfileH">
-      <input type="radio" value="M" name="winbitsProfileGender" id="winbitsProfileM">
+      <input type="radio" value="H" name="gender" id="winbitsProfileH" {{#compare gender 'male'}}checked="checked"{{/compare}}>
+      <input type="radio" value="M" name="gender" id="winbitsProfileM"  {{#if isFemale}}checked="checked"{{/if}}>
     </div>
     <input type="text" placeholder="Código Postal" id="zipCode" maxlength="5" required name="zipCode" class="zipCode" value="{{zipCode}}">
     <select class="select zipCodeInfo" data-clase="selectRegister" data-inputselect="true" name="zipCodeInfo">

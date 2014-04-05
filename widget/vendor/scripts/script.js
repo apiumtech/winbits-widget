@@ -230,7 +230,10 @@
 				} else {
 					$(this).wrap('<div class="'+ defaults.wrapper +'"/>');
 				}
-				$(this).parent().prepend('<span class="'+ defaults.spanRadio +'">'+$(this).val()+'</span>');
+				$radioWrapper = $('<span class="'+ defaults.spanRadio +'">'+$(this).val()+'</span>').prependTo($(this).parent())
+        if($(this).is(':checked')) {
+          $radioWrapper.addClass(defaults.spanSelected);
+        }
 				if($(this).data('color')){
 					customColor(this);
 				}
