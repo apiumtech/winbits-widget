@@ -2,14 +2,11 @@
  # Inicialización del proxy para RPC usando easyXDM
  # User: jluis
  # Date: 25/03/14
- # Winbits.loadScript(baseUrl + "/javascripts/app.js", function() {
- #      delete Winbits.env.set;
- #      require('initialize');
- #      Winbits.trigger('initialized');
- #    });
  ##
 
 (->
+  promises = []
+
   # Utilities functions
   timeoutDeferred = (deferred, timeout = 5000) ->
     setTimeout ->
@@ -60,82 +57,84 @@
   loadingAppScript = loadAppScript().done ->
     console.log 'App script loaded :)'
   .fail -> console.log ['ERROR', 'Unable to load App script :(']
+  promises.push loadingAppScript
 
-  verifyingVerticalData = new $.Deferred().done ->
-    console.log 'Vertical data verified :)'
-  .fail -> console.log ['ERROR', 'Unable to verify vertical data :(']
-  verifyVerticalData = ((deferred) ->
-    ->
-      Winbits.ajaxRequest Winbits.env.get('api-url') + '/users/verticals.json',
-        data: hostname: location.hostname
-      .done deferred.resolve
-      .fail deferred.reject
-  )(verifyingVerticalData)
+  if not window.wbSkipRPC
+    verifyingVerticalData = new $.Deferred().done ->
+      console.log 'Vertical data verified :)'
+    .fail -> console.log ['ERROR', 'Unable to verify vertical data :(']
+    promises.push verifyingVerticalData.promise()
 
-  verifyingLoginData = new $.Deferred().done (data = {}) ->
-    console.log 'Login data verified :)'
-    Winbits.env.set 'login-data', data.response
-  .fail -> console.log ['WARN', 'Unable to verify login data :(']
-  verifyLoginData = ((deferred) ->
-    (apiToken) ->
-      if apiToken
-        Winbits.ajaxRequest Winbits.env.get('api-url') + '/users/express-login.json',
-          type: 'POST',
-          data: apiToken: apiToken
+    verifyVerticalData = ((deferred) ->
+      ->
+        Winbits.ajaxRequest Winbits.env.get('api-url') + '/users/verticals.json',
+          data: hostname: location.hostname
         .done deferred.resolve
         .fail deferred.reject
-      else
-        deferred.resolve(apiToken)
-  )(verifyingLoginData)
+    )(verifyingVerticalData)
 
-  # Intermediate promises
-  loadRpc = () ->
-    deferred = new $.Deferred()
-    Winbits.env.set 'rpc', new easyXDM.Rpc {
-      remote: Winbits.env.get 'provider-url'
-      onReady: deferred.resolve
-    },
-    remote:
-      request: {}
-      getTokens: {}
-      saveApiToken: {}
-      storeVirtualCart: {}
-      logout: {}
-      saveUtms: {}
-      getUtms: {}
-      facebookStatus: {}
-      facebookMe: {}
+    verifyingLoginData = new $.Deferred().done (data = {}) ->
+      console.log 'Login data verified :)'
+      Winbits.env.set 'login-data', data.response
+    .fail -> console.log ['WARN', 'Unable to verify login data :(']
+    promises.push verifyingLoginData.promise()
 
-    timeoutDeferred(deferred).promise()
+    verifyLoginData = ((deferred) ->
+      (apiToken) ->
+        if apiToken
+          Winbits.ajaxRequest Winbits.env.get('api-url') + '/users/express-login.json',
+            type: 'POST',
+            data: apiToken: apiToken
+          .done deferred.resolve
+          .fail deferred.reject
+        else
+          deferred.resolve(apiToken)
+    )(verifyingLoginData)
 
-  getTokens = (->
-    deferred = new $.Deferred()
-    promise: deferred.promise()
-    fn: ->
-      Winbits.env.get('rpc').getTokens deferred.resolve, deferred.reject
-  )()
+    # Intermediate promises
+    loadRpc = () ->
+      deferred = new $.Deferred()
+      Winbits.env.set 'rpc', new easyXDM.Rpc {
+        remote: Winbits.env.get 'provider-url'
+        onReady: deferred.resolve
+      },
+      remote:
+        request: {}
+        getTokens: {}
+        saveApiToken: {}
+        storeVirtualCart: {}
+        logout: {}
+        saveUtms: {}
+        getUtms: {}
+        facebookStatus: {}
+        facebookMe: {}
 
-  loadRpc().done ->
-    console.log 'RPC loaded :)'
-    verifyVerticalData()
-    getTokens.fn()
-  .fail ->
-    console.log ['ERROR', 'Unable to load RPC engine :(']
-    # This really need to happen!
-    verifyingVerticalData.reject()
-    verifyingLoginData.reject()
+      timeoutDeferred(deferred).promise()
 
-  getTokens.promise.done (tokens) ->
-    console.log 'Tokens got :)'
-    verifyLoginData(tokens.apiToken)
-  .fail ->
-    console.log ['ERROR', 'Unable to get tokens :(']
-    verifyingLoginData.reject() # This really need to happen!
+    getTokens = (->
+      deferred = new $.Deferred()
+      promise: deferred.promise()
+      fn: ->
+        Winbits.env.get('rpc').getTokens deferred.resolve, deferred.reject
+    )()
 
-  Winbits.promises =
-    loadingAppScript: loadingAppScript
-    verifyingLoginData: verifyingLoginData.promise()
-    verifyingVerticalData: verifyingVerticalData.promise()
+    loadRpc().done ->
+      console.log 'RPC loaded :)'
+      verifyVerticalData()
+      getTokens.fn()
+    .fail ->
+      console.log ['ERROR', 'Unable to load RPC engine :(']
+      # This really need to happen!
+      verifyingVerticalData.reject()
+      verifyingLoginData.reject()
 
+    getTokens.promise.done (tokens) ->
+      console.log 'Tokens got :)'
+      verifyLoginData(tokens.apiToken)
+    .fail ->
+      console.log ['ERROR', 'Unable to get tokens :(']
+      verifyingLoginData.reject() # This really need to happen!
+
+  Winbits.promises = promises
   console.log 'Set up promises :)'
 )()
