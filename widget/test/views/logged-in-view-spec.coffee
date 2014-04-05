@@ -4,7 +4,7 @@ utils = require 'lib/utils'
 $ = Winbits.$
 
 
-describe 'LoggedInView', ->
+describe 'LoggedInViewSpec', ->
   'use strict'
 
   before ->
@@ -31,7 +31,7 @@ describe 'LoggedInView', ->
 
     expect(successStub).to.be.calledOnce
 
-  it 'dont logout when clicked button and apiToken does not exist', ->
+  it 'do not logout when clicked button and apiToken does not exist', ->
     sinon.stub(utils, 'ajaxRequest').yieldsTo('error',{})
     successStub = sinon.stub(@view, 'doLogoutError')
     @view.$('.miCuenta-logout').click()
