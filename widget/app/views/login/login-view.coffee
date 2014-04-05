@@ -45,7 +45,7 @@ module.exports = class LoginView extends View
     $.fancybox.close()
     response = data.response
     loginUtil.applyLogin(response)
-    utils.redirectTo controller: 'logged-in', action: 'index', params: response
+    utils.redirectTo controller: 'logged-in', action: 'index'
 
   doLoginError: (xhr, textStatus) ->
     error = utils.safeParse(xhr.responseText)

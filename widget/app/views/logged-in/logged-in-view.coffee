@@ -28,17 +28,9 @@ module.exports = class LoggedInView extends View
       @$('.miCuentaDiv').slideUp()
 
   doLogout: ->
-    console.log "initLogout"
-    utils.ajaxRequest( env.get('api-url') + "/users/logout.json",
-      type: "POST"
-      contentType: "application/json"
-      dataType: "json"
-      headers:
-        "Accept-Language": "es"
-        "WB-Api-Token": utils.getApiToken()
-      success: @doLogoutSuccess
-      error: @doLogoutError
-    )
+    @model.requestLogout()
+      .done(@doLogoutSuccess)
+      .fail(@doLogoutError)
 
   doLogoutSuccess: (data) ->
     loginUtil.applyLogout(data.response)

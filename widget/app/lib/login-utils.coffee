@@ -9,7 +9,7 @@ loginUtils = {}
 _(loginUtils).extend
   applyLogin : (loginData) ->
     mediator.data.set 'login-data', loginData
-    utils.saveApiToken profile.apiToken
+    utils.saveApiToken loginData.apiToken
     Winbits.trigger 'loggedin', [_.clone loginData]
 
 #      profileData = profile.profile

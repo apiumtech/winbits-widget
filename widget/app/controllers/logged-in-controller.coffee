@@ -7,10 +7,11 @@ mediator = Winbits.Chaplin.mediator
 module.exports = class LoggedInController extends Controller
   # Reusabilities persist stuff between controllers.
   # You may also persist models etc.
-  beforeAction: (params)->
+  beforeAction: ->
     super
-    if mediator.data.get 'login-data'
-      @reuse 'logged-in', LoggedInView, model: new LoggedInModel(params)
+    loginData = mediator.data.get 'login-data'
+    if loginData
+      @reuse 'logged-in', LoggedInView, model: new LoggedInModel loginData
     else
       @redirectTo 'home#index'
 

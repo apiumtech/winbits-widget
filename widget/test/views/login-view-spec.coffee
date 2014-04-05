@@ -1,4 +1,5 @@
 LoginView = require 'views/login/login-view'
+LoginModel = require 'models/login/login'
 utils = require 'lib/utils'
 $ = Winbits.$
 email = 'test@winbits.com'
@@ -23,6 +24,7 @@ describe 'LoginView', ->
   afterEach ->
     @view.showAsModal.restore?()
     utils.ajaxRequest.restore?()
+    LoginModel.requestLogin.restore?()
 
     @view.dispose()
 
@@ -31,7 +33,8 @@ describe 'LoginView', ->
     expect(@view.$ '#wbi-login-form').to.be.rendered
 
   it 'do login should succed to Login', ->
-    sinon.stub(utils, 'ajaxRequest').yieldsTo('success', {})
+    sinon.stub(LoginModel,'requestLogin').yieldsTo('done',{})
+#    sinon.stub(utils, 'ajaxRequest').yieldsTo('success', {})
     successStub = sinon.stub(@view, 'doLoginSuccess')
     @view.$('#wbi-login-in-btn').click()
 
@@ -53,6 +56,7 @@ describe 'LoginView', ->
 
   it 'error is shown if api return error', ->
     xhr = responseText: '{"meta":{"message":"Todo es culpa de Layún!"}}'
+    sinon.stub(LoginModel,'requestLogin').yieldsTo('fail',{})
     ajaxRequestStub = sinon.stub(utils, 'ajaxRequest').yieldsToOn('error', @view, xhr)
     @view.$('#wbi-login-in-btn').click()
 
@@ -60,6 +64,7 @@ describe 'LoginView', ->
 
   it 'error is shown if request fail', ->
     xhr = responseText: 'Server error'
+    sinon.stub(LoginModel,'requestLogin').yieldsTo('fail',{})
     ajaxRequestStub = sinon.stub(utils, 'ajaxRequest').yieldsToOn('error', @view, xhr)
     @view.$('#wbi-login-in-btn').click()
 
