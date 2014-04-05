@@ -7,14 +7,15 @@
 
     <div class="divBirthday">
       <label>Cumpleaños</label>
-      <input type="text" id="winbitsProfileDD" name="winbitsProfileDD" maxlength="2" placeholder="dd" value="{{substr birthdate start=8 length=2}}">
-      <input type="text" id="winbitsProfileMM" name="winbitsProfileMM" maxlength="2" placeholder="mm" value="{{substr birthdate start=5 length=2}}">
-      <input type="text" id="winbitsProfileAA" name="winbitsProfileAA" maxlength="2" placeholder="aa" value="{{substr birthdate start=2 length=2}}">
+      <input type="text" class="wbc-day" maxlength="2" placeholder="dd" value="{{substr birthdate start=8 length=2}}">
+      <input type="text" class="wbc-month" maxlength="2" placeholder="mm" value="{{substr birthdate start=5 length=2}}">
+      <input type="text" class="wbc-year" maxlength="2" placeholder="aa" value="{{substr birthdate start=2 length=2}}">
+      <input type="hidden" name="birthdate" value="{{birthdate}}">
     </div>
     <div class="divGender">
       <label>Género</label>
-      <input type="radio" value="H" name="gender" id="winbitsProfileH" {{#compare gender 'male'}}checked="checked"{{/compare}}>
-      <input type="radio" value="M" name="gender" id="winbitsProfileM"  {{#if isFemale}}checked="checked"{{/if}}>
+      <input type="radio" value="H" name="gender" {{#compare gender 'male'}}checked="checked"{{/compare}}>
+      <input type="radio" value="M" name="gender" {{#compare gender 'female'}}checked="checked"{{/compare}}>
     </div>
     <input type="text" placeholder="Código Postal" maxlength="5" required name="zipCode" class="zipCode" value="{{zipCode}}">
     <select class="select zipCodeInfo" data-clase="selectRegister" data-inputselect="true" name="zipCodeInfo">

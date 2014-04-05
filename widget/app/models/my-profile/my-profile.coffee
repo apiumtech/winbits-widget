@@ -14,7 +14,4 @@ module.exports = class LoggedIn extends Model
   parse: (data) ->
     profile = _.clone(data.response.profile)
     profile.email = data.response.email
-    profile.isMale = profile.gender is 'male'
-    profile.isFemale = profile.gender is 'female'
-    console.log ['PROFILE', profile]
     profile

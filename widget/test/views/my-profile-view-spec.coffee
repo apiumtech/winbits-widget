@@ -37,3 +37,21 @@ describe 'MyProfileView', ->
     _.each personalData, (value, key) ->
       expect(@view.$ "[name=#{key}]").to.has.value value
     , @
+
+  it 'should render gender', ->
+    @view.model.set gender: 'male'
+    expect(@view.$ '[name=gender][value=H]').to.be.wbRadioChecked
+    expect(@view.$ '[name=gender][value=M]').to.be.wbRadioUnchecked
+
+    @view.model.set gender: 'female'
+    expect(@view.$ '[name=gender][value=M]').to.be.wbRadioChecked
+    expect(@view.$ '[name=gender][value=H]').to.be.wbRadioUnchecked
+
+  it 'shoul render birthdate', ->
+    birthdate = '1988-11-23'
+    @view.model.set birthdate: birthdate
+    expect(@view.$ '[name=birthdate]').to.has.value(birthdate)
+    .and.to.has.attr('type', 'hidden')
+    expect(@view.$ 'input.wbc-day').to.has.value('23')
+    expect(@view.$ 'input.wbc-month').to.has.value('11')
+    expect(@view.$ 'input.wbc-year').to.has.value('88')
