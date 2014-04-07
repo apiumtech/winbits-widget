@@ -4,7 +4,7 @@ $ = Winbits.$
 email = 'test@winbits.com'
 password = "1234567"
 
-describe 'test view register', ->
+describe 'RegisterViewSpec', ->
   'use strict'
 
   before ->
@@ -34,10 +34,7 @@ describe 'test view register', ->
     sinon.stub(utils, 'ajaxRequest').yieldsTo('success', {})
     successStub = sinon.stub(@registerView, 'doRegisterSuccess')
     @registerView.$('#wbi-register-button').click()
-    console.log ['VALIDATION ERRORS', @registerView.$('input.error').attr('name'),
-    @registerView.$('input.error').val(), @registerView.$('#password').val()]
     expect(successStub).to.be.calledOnce
-    console.log "first test"
     expect(@registerView.$ '.error').to.not.exist
 
   it 'do not makes request if form invalid', ->

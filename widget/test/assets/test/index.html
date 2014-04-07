@@ -3,6 +3,9 @@
   <meta charset="utf-8">
   <title>Mocha Tests</title>
   <link rel="stylesheet" href="stylesheets/test.css" />
+  <script type="text/javascript">
+  window.wbSkipRPC = true;
+  </script>
   <script type="text/javascript" src="../winbits.js" data-vertical="1"></script>
   <script type="text/javascript">
   (function() {
@@ -15,7 +18,7 @@
       window.Backbone = Winbits.Backbone;
 
       yepnope.injectJs('javascripts/test-vendor.js', function() {
-          yepnope.injectJs('javascripts/test.js', function() {
+        yepnope.injectJs('javascripts/test.js', function() {
           require('test/initialize');
           console.log('Running mocha');
           (window.mochaPhantomJS || mocha).run();

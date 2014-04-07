@@ -2,9 +2,10 @@
 # ------------------------------
 
 # Delegate to Chaplin’s utils module.
-utils = Chaplin.utils.beget Chaplin.utils
+utils = Winbits.Chaplin.utils.beget Chaplin.utils
 $ = Winbits.$
 _ = Winbits._
+mediator = Winbits.Chaplin.mediator
 
 # _(utils).extend
 #  someMethod: ->
@@ -14,15 +15,6 @@ _(utils).extend
 
   redirectToNotLoggedInHome: ->
     @redirectTo 'not-logged-in#index'
-
-  storeKey : (key, value) ->
-    localStorage[key] = value
-
-  retrieveKey : (key) ->
-    value = localStorage[key]
-
-  deleteKey : (key) ->
-    localStorage.removeItem(key)
 
   getUrlParams : ->
     vars = []
@@ -294,10 +286,28 @@ _(utils).extend
   getApiToken: ->
     mediator.data.get('login-data').apiToken
 
+  saveApiToken: (apiToken) ->
+    mediator.data.get('login-data').apiToken = apiToken
+    localStorage.setItem(Winbits.env.get('api-token-name'), apiToken)
+
+    mediator.data.get('rpc').saveApiToken apiToken, ->
+      console.log 'ApiToken saved :)'
+    , -> console.log 'Unable to save ApiToken :('
+
+  deleteApiToken: ->
+    localStorage.removeItem(Winbits.env.get('api-token-name'))
+
+
+
+  redirectTo: ->
+    Winbits.Chaplin.utils.redirectTo.apply null, arguments
+
+  saveLoginData: Winbits.saveLoginData
+
 # Prevent creating new properties and stuff.
 Object.seal? utils
 
 delete Winbits.ajaxRequest
+delete Winbits.saveLoginData
 
 module.exports = utils
-

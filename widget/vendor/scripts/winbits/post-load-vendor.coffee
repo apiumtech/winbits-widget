@@ -65,8 +65,7 @@
   Winbits.html5 = window.html5
   Winbits.require = window.require
 
-  promises = Winbits.promises
-  Winbits.$.when(promises.loadingAppScript, promises.verifyingLoginData, promises.verifyingVerticalData).done ->
+  Winbits.$.when.apply(Winbits.$, Winbits.promises).done ->
     delete Winbits.env.set
 
     Winbits.require 'initialize'

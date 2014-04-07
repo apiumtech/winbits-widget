@@ -1,0 +1,17 @@
+View = require 'views/base/view'
+utils = require 'lib/utils'
+$ = Winbits.$
+env = Winbits.env
+
+module.exports = class MyProfileView extends View
+  container: '.wbc-my-account-container'
+  id: 'wbi-my-profile'
+  template: require './templates/my-profile'
+
+  initialize: ->
+    super
+    @listenTo @model, 'change', @render
+
+  attach: ->
+    super
+    @$('.divGender').customRadio()

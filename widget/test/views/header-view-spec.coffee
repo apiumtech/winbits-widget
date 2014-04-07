@@ -1,11 +1,11 @@
 HeaderView = require 'views/header/header-view'
 
-describe 'HeaderView', ->
+describe 'HeaderViewSpec', ->
   beforeEach ->
     @view = new HeaderView
 
   afterEach ->
     @view.dispose()
 
-  it 'check rendered', ->
-    expect(@view.$ '.widgetWinbitsHeader').is.rendered
+  it 'check is rendered', ->
+    expect(@view.$ '.widgetWinbitsHeader').to.exist

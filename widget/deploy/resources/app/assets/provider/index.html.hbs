@@ -74,6 +74,9 @@
                 console.log(['API Token from vertical', apiToken]);
                 Winbits.storeKey(Winbits.apiTokenKey, apiToken);
               },
+              deleteApiToken: function() {
+                Winbits.deleteKey(Winbits.apiTokenKey);
+              },
               storeVirtualCart: function(vCart) {
                 Winbits.storeKey(Winbits.cartTokenKey, vCart);
               },
