@@ -5,6 +5,7 @@
  ##
 
 (->
+  Winbits.$ = $
   promises = []
 
   # Utilities functions
@@ -80,7 +81,7 @@
 
     verifyingLoginData = new $.Deferred().done (data) ->
       console.log 'Login data verified :)'
-      if $.isEmptyObject data
+      if Winbits.$.isEmptyObject data.response
         localStorage.removeItem Winbits.env.get 'api-token-name'
         Winbits.env.get('rpc').deleteApiToken()
       else
@@ -97,7 +98,7 @@
           .done deferred.resolve
           .fail deferred.reject
         else
-          deferred.resolve()
+          deferred.resolve {}
     )(verifyingLoginData)
 
     # Intermediate promises
