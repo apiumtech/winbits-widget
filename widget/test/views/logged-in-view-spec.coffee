@@ -39,4 +39,18 @@ describe 'LoggedInViewSpec', ->
       .and.to.has.class('spanDropMenu')
     expect(@view.$ 'input#wbi-checkout-btn').to.exist
 
+#  it.skip 'do logout when clicked button', ->
+#    sinon.stub(@model, 'requestLogout').returns TestUtils.promises.resolved
+#    successStub = sinon.stub(@view, 'doLogoutSuccess')
+#    @view.$('#wbi-my-account-logout-btn').click()
+#
+#    expect(successStub).to.be.calledOnce
+#
+#  it.skip 'do not logout when clicked button and apiToken does not exist', ->
+#    sinon.stub(@model, 'requestLogout').returns TestUtils.promises.rejected
+#    errorStub = sinon.stub(@view, 'doLogoutError')
+#    @view.$('#wbi-my-account-logout-btn').click()
+#
+#    expect(errorStub).to.be.calledOnce
+
 

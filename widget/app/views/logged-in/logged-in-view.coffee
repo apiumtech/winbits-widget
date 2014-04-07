@@ -3,6 +3,7 @@ utils = require 'lib/utils'
 loginUtil = require 'lib/login-utils'
 $ = Winbits.$
 env = Winbits.env
+mediator = Winbits.Chaplin.mediator
 
 
 module.exports = class LoggedInView extends View
@@ -13,29 +14,14 @@ module.exports = class LoggedInView extends View
 
   initialize: ->
     @listenTo @model, 'change', @render
-    @delegate 'click', '.spanDropMenu', @clickOpenOrClose
-    @delegate 'click', '.miCuenta-logout', @doLogout
     @delegate 'click', '.miCuenta-close', @clickClose
 
-  clickOpenOrClose: ->
-    $divMiCuenta = @$('.miCuentaDiv')
-    if $divMiCuenta.is(':hidden')
-      $divMiCuenta.slideDown()
-    else
-      $divMiCuenta.slideUp()
+
+  attach: ->
+    super
+    console.log [mediator.data.get, "action-my-account"]
 
   clickClose: ->
-      @$('.miCuentaDiv').slideUp()
+    @$('.miCuentaDiv').slideUp()
 
-  doLogout: ->
-    @model.requestLogout()
-      .done(@doLogoutSuccess)
-      .fail(@doLogoutError)
 
-  doLogoutSuccess: (data) ->
-    loginUtil.applyLogout(data.response)
-
-  doLogoutError: (xhr)->
-    #todo checar flujo si falla logout
-    console.log ['Logout Error ',xhr.responseText]
-    loginUtil.applyLogout()
