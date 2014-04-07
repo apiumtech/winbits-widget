@@ -10,8 +10,14 @@ module.exports = class NotLoggedInPageView extends View
 
   initialize: ->
     super
-    @delegate 'click', '#wbi-login-btn', -> utils.redirectTo controller: 'login', action: 'index'
-    @delegate 'click', '#wbi-register-link', -> utils.redirectTo controller: 'register', action: 'index'
+    @delegate 'click', '#wbi-login-btn', @onLoginButtonClick
+    @delegate 'click', '#wbi-register-link', @onRegisterLinkClick
 
   attach: ->
     super
+
+  onLoginButtonClick: ->
+    utils.redirectTo controller: 'login', action: 'index'
+
+  onRegisterLinkClick: ->
+    utils.redirectTo controller: 'register', action: 'index'

@@ -5,7 +5,7 @@ $ = Winbits.$
 email = 'test@winbits.com'
 password = '123456'
 
-describe 'LoginView', ->
+describe 'LoginViewSpec', ->
   'use strict'
 
   before ->

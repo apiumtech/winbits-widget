@@ -2,10 +2,10 @@
 # ------------------------------
 
 # Delegate to Chaplin’s utils module.
-utils = Chaplin.utils.beget Chaplin.utils
+utils = Winbits.Chaplin.utils.beget Chaplin.utils
 $ = Winbits.$
 _ = Winbits._
-mediator = Chaplin.mediator
+mediator = Winbits.Chaplin.mediator
 
 # _(utils).extend
 #  someMethod: ->
@@ -299,10 +299,12 @@ _(utils).extend
 
 
 
+  redirectTo: ->
+    Winbits.Chaplin.utils.redirectTo.apply null, arguments
+
 # Prevent creating new properties and stuff.
 Object.seal? utils
 
 delete Winbits.ajaxRequest
 
 module.exports = utils
-
