@@ -3,7 +3,8 @@ utils = require 'lib/utils'
 loginUtil = require 'lib/login-utils'
 $ = Winbits.$
 env = Winbits.env
-
+mediator = Winbits.Chaplin.mediator
+MyAccountView = require 'views/my-account/my-account-view'
 
 module.exports = class LoggedInView extends View
   container: '#wbi-header-wrapper'
@@ -13,19 +14,18 @@ module.exports = class LoggedInView extends View
 
   initialize: ->
     @listenTo @model, 'change', @render
-    @delegate 'click', '.spanDropMenu', @clickOpenOrClose
     @delegate 'click', '.miCuenta-logout', @doLogout
     @delegate 'click', '.miCuenta-close', @clickClose
 
-  clickOpenOrClose: ->
-    $divMiCuenta = @$('.miCuentaDiv')
-    if $divMiCuenta.is(':hidden')
-      $divMiCuenta.slideDown()
-    else
-      $divMiCuenta.slideUp()
+
+  attach: ->
+    super
+    myAccountView = new MyAccountView
+    @subview 'myAccountSubview', myAccountView
+    console.log [mediator.data.get, "action-my-account"]
 
   clickClose: ->
-      @$('.miCuentaDiv').slideUp()
+    @$('.miCuentaDiv').slideUp()
 
   doLogout: ->
     @model.requestLogout()
