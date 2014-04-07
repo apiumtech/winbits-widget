@@ -34,6 +34,11 @@
     else
       $.ajax(url,options)
 
+  Winbits.saveLoginData=(loginData) ->
+    Winbits.env.set 'login-data', loginData
+    localStorage.setItem Winbits.env.get('api-token-name'), loginData.apiToken
+    Winbits.env.get('rpc').saveApiToken loginData.apiToken
+
   # Winbits promises
   loadAppScript = () ->
     deferred = new $.Deferred()
@@ -73,10 +78,14 @@
         .fail deferred.reject
     )(verifyingVerticalData)
 
-    verifyingLoginData = new $.Deferred().done (data = {}) ->
+    verifyingLoginData = new $.Deferred().done (data) ->
       console.log 'Login data verified :)'
-      Winbits.env.set 'login-data', data.response
-    .fail -> console.log ['WARN', 'Unable to verify login data :(']
+      if $.isEmptyObject data
+        localStorage.removeItem Winbits.env.get 'api-token-name'
+        Winbits.env.get('rpc').deleteApiToken()
+      else
+        Winbits.saveLoginData data.response
+    .fail -> console.log ['ERROR', 'Unable to verify login data :(']
     promises.push verifyingLoginData.promise()
 
     verifyLoginData = ((deferred) ->
@@ -88,7 +97,7 @@
           .done deferred.resolve
           .fail deferred.reject
         else
-          deferred.resolve(apiToken)
+          deferred.resolve()
     )(verifyingLoginData)
 
     # Intermediate promises
@@ -102,6 +111,7 @@
         request: {}
         getTokens: {}
         saveApiToken: {}
+        deleteApiToken: {}
         storeVirtualCart: {}
         logout: {}
         saveUtms: {}

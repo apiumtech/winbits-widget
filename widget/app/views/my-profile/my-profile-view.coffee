@@ -11,7 +11,6 @@ module.exports = class MyProfileView extends View
   initialize: ->
     super
     @listenTo @model, 'change', @render
-    @delegate 'click', '#wbi-fetch', -> @model.fetch()
 
   attach: ->
     super

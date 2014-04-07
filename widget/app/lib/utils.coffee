@@ -299,9 +299,12 @@ _(utils).extend
   redirectTo: ->
     Winbits.Chaplin.utils.redirectTo.apply null, arguments
 
+  saveLoginData: Winbits.saveLoginData
+
 # Prevent creating new properties and stuff.
 Object.seal? utils
 
 delete Winbits.ajaxRequest
+delete Winbits.saveLoginData
 
 module.exports = utils
