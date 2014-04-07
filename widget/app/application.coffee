@@ -16,26 +16,6 @@ module.exports = class Application extends Chaplin.Application
   initMediator: ->
     # Add additional application-specific properties and methods
     # e.g. Chaplin.mediator.prop = null
-
-    cls = ->
-      persistentData = rpc: Winbits.env.get 'rpc'
-      data = $.extend {'login-data': Winbits.env.get('login-data')}, persistentData
-      {
-        get: (property)->
-          data[property]
-        set: (property, value)->
-          data[property] = value
-          return
-        delete: (property) ->
-          value = data[property]
-          delete data[property]
-          value
-        clear: ->
-          data = $.extend {}, persistentData
-          return
-      }
-
-    mediator.data = cls()
     console.log ['Mediator initialized']
 
     # Seal the mediator.

@@ -1,10 +1,10 @@
 <ul>
 <li id="wbi-my-account-container">
-<span class="spanDropMenu link">Mi Cuenta<span class="icon trigger triggerMiCuenta"></span></span>
+<span class="spanDropMenu link" id="wbi-my-account-link">Mi Cuenta<span class="icon trigger triggerMiCuenta"></span></span>
 </li>
-<li class="bits">{{bitsBalance}}<span class="icon bit16px"></span></li>
+<li class="bits" id="wbi-my-bits">{{bitsBalance}}<span class="icon bit16px"></span></li>
 <li>
-    <span class="spanDropMenu"> <span class="icon shopCarMin"></span></span>
+    <span class="spanDropMenu" id="wbi-my-cart"> <span class="icon shopCarMin"></span></span>
     <div class="dropMenu miCarritoDiv" style="display: none;">
         <span class="icon triangle2"></span>
         <div class="wrapper">
@@ -139,5 +139,5 @@
         </div>
     </div>
 </li>
-<li><input type="submit" value="Check Out" class="btn btnTopNav"></li>
+<li><input type="submit" value="Check Out" class="btn btnTopNav" id="wbi-checkout-btn"></li>
 </ul>

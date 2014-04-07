@@ -11,8 +11,6 @@ describe 'NotLoggedInViewSpec', ->
 
   afterEach ->
     utils.redirectTo.restore?()
-    @view.onLoginButtonClick.restore?()
-    @view.onRegisterLinkClick.restore?()
     @view.dispose()
 
   it 'should render', ->

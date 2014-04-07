@@ -1,8 +1,9 @@
+Model = require 'models/base/model'
 utils = require 'lib/utils'
 loginUtil = require 'lib/login-utils'
 env = Winbits.env
 
-module.exports = class LoggedIn extends Chaplin.Model
+module.exports = class LoggedIn extends Model
 
    initialize: ->
      super
