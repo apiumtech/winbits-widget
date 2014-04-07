@@ -18,6 +18,13 @@ chai.Assertion.addProperty 'wbRadioChecked', ()->
   , "the radio label has not selected class"
   , "the radio label has selected class"
 
+window.TestUtils = {
+  promises: {
+    resolved: new $.Deferred().resolve().promise()
+    rejected: new $.Deferred().reject().promise()
+  }
+}
+
 # Create `window.describe` etc. for our BDD-like tests.
 mocha.setup ui: 'bdd'
 

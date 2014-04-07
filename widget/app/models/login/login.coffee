@@ -16,4 +16,5 @@ module.exports = class Login extends Chaplin.Model
       data: JSON.stringify(formData)
       headers:
         "Accept-Language": "es"
-    utils.ajaxRequest(env.get('api-url') + "/users/login.json", $.extend(defaults, options))
+    utils.ajaxRequest(env.get('api-url') + "/users/login.json",
+                      $.extend(defaults, options))
