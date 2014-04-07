@@ -7,12 +7,6 @@ $ = Winbits.$
 describe 'LoggedInViewSpec', ->
   'use strict'
 
-  before ->
-    $.validator.setDefaults ignore: []
-
-  after ->
-    $.validator.setDefaults ignore: ':hidden'
-
   beforeEach ->
     model = new LoggedInModel
     @view = new LoggedInView model: model
