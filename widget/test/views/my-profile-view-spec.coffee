@@ -5,7 +5,7 @@ $ = Winbits.$
 _ = Winbits._
 mediator = Winbits.Chaplin.mediator
 
-describe 'MyProfileView', ->
+describe 'MyProfileViewSpec', ->
   'use strict'
 
   before ->

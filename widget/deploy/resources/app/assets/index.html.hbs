@@ -15,6 +15,11 @@
   <link rel="author" href="humans.txt">
   <title>Looq</title>
   <script type="text/javascript" src="{{baseUrl}}/winbits.js" data-vertical="2"></script>
+  <script type="text/javascript">
+  Winbits.on('initialized', function() {
+    console.log('WINBITS WIDGET INITIALIZED');
+  });
+  </script>
 </head>
 <body>
 <header></header>

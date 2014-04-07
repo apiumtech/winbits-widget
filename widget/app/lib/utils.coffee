@@ -296,6 +296,9 @@ _(utils).extend
   getApiToken: ->
     mediator.data.get('login-data').apiToken
 
+  redirectTo: ->
+    Winbits.Chaplin.utils.redirectTo.apply null, arguments
+
 # Prevent creating new properties and stuff.
 Object.seal? utils
 
