@@ -29,7 +29,7 @@ module.exports = class ModalRegisterView extends View
           equalTo: @$("[name=password]")
 
   showAsModal: ->
-    $('<a>').wbfancybox(href: '#wbi-register-modal', onClosed: -> utils.redirectToNotLoggedInHome()).click()
+    $('<a>').wbfancybox(href: '#wbi-register-modal', onClosed: -> utils.redirectTo controller: 'home', action: 'index').click()
 
   register: (e)->
     e.preventDefault()

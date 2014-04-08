@@ -28,7 +28,7 @@ module.exports = class LoginView extends View
           minlength: 6
 
   showAsModal: ->
-    $('<a>').wbfancybox(href: '#' + @id, onClosed: -> utils.redirectToNotLoggedInHome()).click()
+    $('<a>').wbfancybox(href: '#' + @id, onClosed: -> utils.redirectTo controller: 'not-logged-in', action: 'index').click()
 
   doLogin:(e) ->
     $form = $(e.currentTarget).closest('form')

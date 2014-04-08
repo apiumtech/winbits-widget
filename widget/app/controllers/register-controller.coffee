@@ -10,5 +10,6 @@ module.exports = class RegisterController extends NotLoggedInController
     registerData =
       currentVerticalId: env.get 'current-vertical-id'
       activeVerticals: env.get 'verticals-data'
-    @view = new RegisterView model: new Register registerData
+    @model = new Register registerData
+    @view = new RegisterView model: @model
 

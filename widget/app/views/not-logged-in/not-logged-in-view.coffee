@@ -15,6 +15,7 @@ module.exports = class NotLoggedInPageView extends View
 
   attach: ->
     super
+    console.log 'not-logged-in-view#attach'
 
   onLoginButtonClick: ->
     utils.redirectTo controller: 'login', action: 'index'
