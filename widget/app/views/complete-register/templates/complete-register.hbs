@@ -31,9 +31,9 @@
       <aside class="asideModal">
         <p>USA TU CUENTA WINBITS <br>EN TODOS ESTOS SITIOS:</p>
         <ul>
-          <li><a href="#" class="iconVertical-r vertical2" title="My Looq"></a></li>
-          <li><a href="#" class="iconVertical-r vertical3" title="Panda Sports"></a></li>
-          <li><a href="#" class="iconVertical-r vertical4" title="clickOnero"></a></li>
+          {{#each activeVerticals}}
+            <li><a href="{{baseUrl}}" class="iconVertical-r vertical{{id}}" title="{{name}}"></a></li>
+          {{/each}}
         </ul>
         <span>UNA MISMA CUENTA, UN SÓLO LOGIN<br>Y EN TODOS GANAS WINBITS</span>
       </aside>
