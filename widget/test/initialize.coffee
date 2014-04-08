@@ -1,5 +1,6 @@
 
 specs = [
+  './models/header-spec',
   './views/not-logged-in-view-spec',
   './views/logged-in-view-spec',
   './views/header-view-spec',

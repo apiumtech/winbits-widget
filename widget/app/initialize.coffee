@@ -5,8 +5,8 @@ mediator = Winbits.Chaplin.mediator
 mediator.data = (->
   # Add additional application-specific properties and methods
   # e.g. Chaplin.mediator.prop = null
-  persistentData = rpc: Winbits.env.get 'rpc'
-  data = Winbits.$.extend {'login-data': Winbits.env.get('login-data')}, persistentData
+  data =
+    'login-data': Winbits.env.get 'login-data'
   {
   get: (property)->
     data[property]
@@ -18,7 +18,7 @@ mediator.data = (->
     delete data[property]
     value
   clear: ->
-    data = Winbits.$.extend {}, persistentData
+    data = {}
     return
   }
 )()
