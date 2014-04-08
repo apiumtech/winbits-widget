@@ -59,7 +59,7 @@ module.exports = class ModalRegisterView extends View
   doRegisterSuccess: (data) ->
     console.log "Request Success!"
     message = "Gracias por registrarte con nosotros. <br> Un mensaje de confirmación ha sido enviado a tu <br> cuenta de correo."
-    options = value: "Continuar", onClosed: utils.redirectToNotLoggedInHome()
+    options = value: "Continuar", onClosed: utils.redirectTo controller: 'home', action: 'index'
     utils.showMessageModal(message, options)
     console.log 'evento publicado'
 
