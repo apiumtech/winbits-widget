@@ -7,7 +7,8 @@ module.exports = class Controller extends Chaplin.Controller
   # Reusabilities persist stuff between controllers.
   # You may also persist models etc.
   beforeAction: ->
-    currentVerticalId = env.get 'current-vertical-id'
-    verticalsData = env.get 'verticals-data'
-    @reuse 'header', HeaderView,
+    headerData =
+      currentVerticalId: env.get 'current-vertical-id'
+      verticalsData: env.get 'verticals-data'
+    @reuse 'header', HeaderView, model: new Header headerData
     @reuse 'footer', FooterView
