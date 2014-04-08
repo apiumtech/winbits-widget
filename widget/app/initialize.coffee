@@ -5,7 +5,7 @@ mediator = Winbits.Chaplin.mediator
 mediator.data = (->
   # Add additional application-specific properties and methods
   # e.g. Chaplin.mediator.prop = null
-  persistentData = rpc: Winbits.env.get 'rpc'
+  persistentData = rpc: Winbits.env.get('rpc'), 'verticals-data': Winbits.env.get 'verticals-data'
   data = Winbits.$.extend {'login-data': Winbits.env.get('login-data')}, persistentData
   {
   get: (property)->
