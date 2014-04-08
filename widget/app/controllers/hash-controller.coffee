@@ -18,7 +18,6 @@ module.exports = class HashController extends Controller
 
   expressLoginSuccess: (data) ->
     console.log 'Login data verified :)'
-    data.response = {name:'xxxx', apiToken:'XXX'}
     if $.isEmptyObject data.response
       @expressLoginError()
     else
