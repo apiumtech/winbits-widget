@@ -1,5 +1,6 @@
 utils = require 'lib/utils'
 env = Winbits.env
+$ = Winbits.$
 
 module.exports = class Login extends Chaplin.Model
 

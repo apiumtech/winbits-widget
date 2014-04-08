@@ -297,8 +297,6 @@ _(utils).extend
   deleteApiToken: ->
     localStorage.removeItem(Winbits.env.get('api-token-name'))
 
-
-
   redirectTo: ->
     Winbits.Chaplin.utils.redirectTo.apply null, arguments
 

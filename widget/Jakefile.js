@@ -29,6 +29,23 @@ task("build", function() {
   });
 });
 
+desc("task to build widget for qa environment");
+task("buildqa", function() {
+  var cmds;
+  cmds = [
+  "rm -rf public",
+  "./node_modules/brunch/bin/brunch build"
+  ];
+  console.log("going to execute this");
+  console.log(cmds);
+  return jake.exec(cmds, (function() {
+    console.log("app ready");
+    return complete();
+  }), {
+    stdout: true
+  });
+});
+
 
 desc("switch config posible args: dev, qa, staging, prod ");
 task("switch-config", function() {
