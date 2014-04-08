@@ -8,7 +8,6 @@ module.exports = class LoginView extends View
   container: '#wbi-winbits-modals'
   id: 'wbi-login-modal'
   template: require './templates/login'
-  model: require 'models/login/login'
 
   initialize: ->
     super

@@ -9,6 +9,7 @@ module.exports = class NotLoggedInController extends Controller
   beforeAction: ->
     super
     if not mediator.data.get 'login-data'
+      console.log ['NOT LOGGED IN VIEW']
       @reuse 'not-logged-in', NotLoggedInView
     else
       @redirectTo 'home#index'

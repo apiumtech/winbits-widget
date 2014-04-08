@@ -5,6 +5,9 @@ utils = require 'lib/utils'
 
 module.exports = class LoginController extends NotLoggedInController
 
+  beforeAction: ->
+    super
+
   index: ->
     console.log 'login#index'
     @model = new Login

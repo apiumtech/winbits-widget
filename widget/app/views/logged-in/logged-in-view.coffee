@@ -9,7 +9,6 @@ mediator = Winbits.Chaplin.mediator
 module.exports = class LoggedInView extends View
   container: '#wbi-header-wrapper'
   className: 'miCuenta'
-  autoRender: true
   template: require './templates/logged-in'
 
   initialize: ->
