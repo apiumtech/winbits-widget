@@ -6,7 +6,7 @@ mediator = Winbits.Chaplin.mediator
 
 module.exports = class CompleteRegisterController extends Controller
 
-  beforeAction: (params)->
+  beforeAction: ->
     console.log 'complete-register'
     super
 
