@@ -1,26 +1,17 @@
 utils = require 'lib/utils'
 token = require 'lib/token'
+mediator = Chaplin.mediator
+$ = Winbits.$
+_ = Winbits._
+env = Winbits.env
 
-module.exports = class LoginUtil
-  constructor:()->
-    @.initialize.apply this, arguments
-    console.log "LoginUtil#constructor"
+loginUtils = {}
+_(loginUtils).extend
+  applyLogin : (loginData) ->
+    mediator.data.set 'login-data', loginData
+    utils.saveApiToken loginData.apiToken
+    Winbits.trigger 'loggedin', [_.clone loginData]
 
-  initialize: ->
-    @subscribeEvent 'applyLogin', @applyLogin
-    @subscribeEvent 'initLogout', @initLogout
-
-#  applyLogin : (profile) ->
-#    console.log ["LoginUtil#applyLogin",profile]
-#    if profile.apiToken
-#      mediator.flags.loggedIn = true
-#      mediator.profile.bitsBalance = profile.bitsBalance
-#      mediator.profile.socialAccounts = profile.socialAccounts
-#      mediator.profile.userId = profile.id
-#      mediator.global.profile = profile
-#
-#      token.saveApiToken profile.apiToken
-#
 #      profileData = profile.profile
 #
 #      facebook = (item for item in profile.socialAccounts when item.providerId is "facebook" and item.available)
@@ -31,7 +22,7 @@ module.exports = class LoginUtil
 #      Winbits.$('#wbi-user-waiting-list-count').text profileData.waitingListCount
 #      Winbits.$('#wbi-user-wish-list-count').text profileData.wishListCount
 #      Winbits.$('#wbi-user-pending-orders-count').text profileData.pendingOrdersCount
-#
+
 #      @publishEvent "showHeaderLogin"
 #      @publishEvent "restoreCart"
 #      @publishEvent "setProfile", profileData
@@ -42,34 +33,26 @@ module.exports = class LoginUtil
 #      $ = window.$ or Winbits.$
 #      $('#' + config.winbitsDivId).trigger 'loggedin', [profile]
 
-  initLogout : () ->
-    console.log "initLogout"
-    util.ajaxRequest( config.apiUrl + "/users/logout.json",
-      type: "POST"
-      contentType: "application/json"
-      dataType: "json"
-      headers:
-        "Accept-Language": "es"
-#        "WB-Api-Token": util.retrieveKey(config.apiTokenName)
-      success: (data) ->
-         utils.redirectToNotLoggedInHome()
-#        that.applyLogout data.response
-      error: (xhr) ->
-        utils.showAjaxError(xhr.responseText)
-      complete: ->
-        console.log "logout.json Completed!"
-    )
 
-#  applyLogout : (logoutData) ->
-#    Winbits.rpc.logout(mediator.flags.fbConnect)
-#    util.deleteKey config.apiTokenName
+  applyLogout: (logoutData) ->
+    localStorage.clear()
+    mediator.data.clear()
+    Winbits.env.get('rpc').logout ->
+      console.log 'Winbits logout success :)'
+    , -> console.log 'Winbits logout error D:'
+    Winbits.trigger 'loggedout', [logoutData]
+    utils.redirectToNotLoggedInHome()
+
+    #    Winbits.rpc.logout(mediator.flags.fbConnect)
 #    @publishEvent "resetComponents"
 #    @publishEvent "showHeaderLogout"
 #    @publishEvent "loggedOut"
-#    mediator.flags.loggedIn = false
-#    mediator.flags.fbConnect = false
-#    util.backToSite()
 #    $ = window.$ or Winbits.$
 #    Winbits.$('#wbi-div-switch-user').hide()
 #    $('#' + config.winbitsDivId).trigger 'loggedout', [logoutData]
 
+
+# Prevent creating new properties and stuff.
+Object.seal? loginUtils
+
+module.exports = loginUtils

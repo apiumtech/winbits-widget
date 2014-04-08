@@ -3,7 +3,7 @@ utils = require 'lib/utils'
 Model = require 'models/base/model'
 _ = Winbits._
 
-module.exports = class LoggedIn extends Model
+module.exports = class MyProfile extends Model
   url: Winbits.env.get('api-url') + '/users/profile.json'
   needsAuth: true
 
@@ -13,5 +13,5 @@ module.exports = class LoggedIn extends Model
 
   parse: (data) ->
     profile = _.clone(data.response.profile)
-    profile.email = data.response.email
+#    profile.email = data.response?.email
     profile

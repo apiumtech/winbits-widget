@@ -1,9 +1,9 @@
-util = require 'lib/util'
-config = require 'config'
+util = require 'lib/utils'
+
 token = {}
 
 token.saveApiToken = (apiToken) ->
-  util.storeKey config.apiTokenName, apiToken, 7
+  util.storeKey config.apiTokenName, apiToken
   console.log ["About to save API Token on app", apiToken]
   Winbits.rpc.saveApiToken(apiToken)
 
@@ -21,7 +21,6 @@ token.requestTokens = ($) ->
 
 token.segregateTokens = (tokensDef) ->
   console.log ["tokensDef", tokensDef]
-  #console.log _.keys(tokensDef)
   vcartTokenDef = tokensDef.vcartToken
   util.storeKey vcartTokenDef.entryName, vcartTokenDef.value
   apiTokenDef = tokensDef.apiToken

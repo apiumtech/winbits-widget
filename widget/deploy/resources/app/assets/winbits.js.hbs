@@ -29,12 +29,12 @@
       }
     };
 
-    Winbits.trigger = function(event) {
+    Winbits.trigger = function(event, args) {
       var callback, callbacks = eventCallbacks[event], i, len;
       if (callbacks) {
         for (i = 0, len = callbacks.length; i < len; i++) {
           callback = callbacks[i];
-          callback.call(callback._ctx || {});
+          callback.apply(callback._ctx || {}, args);
         }
       }
       eventsTriggered[event] = true;

@@ -49,10 +49,9 @@
             <div class="wrapper" id="wbi-header-wrapper">
                 <nav>
                     <ul>
-                      <li><a href="#" class="iconVertical-n vertical2 current" title="My LOOQ"></a></li>
-                      <li><a href="#" class="iconVertical-n vertical3" title="Panda Sports"></a></li>
-                      <li><a href="#" class="iconVertical-n vertical4" title="clickOnero"></a></li>
-
+                      {{#each activeVerticals}}
+                      <li><a href="{{baseUrl}}" class="iconVertical-n vertical{{id}} {{#compare id ../currentVerticalId}}current{{/compare}} wbc-vertical" title="{{name}}"></a></li>
+                      {{/each}}
                     </ul>
                 </nav>
             </div>
