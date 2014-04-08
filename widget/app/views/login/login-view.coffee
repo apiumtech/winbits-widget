@@ -17,6 +17,7 @@ module.exports = class LoginView extends View
   attach: ->
     super
     @showAsModal()
+    @$('.contentModal').customCheckbox();
     @$('form#wbi-login-form').validate
       rules:
         email:
