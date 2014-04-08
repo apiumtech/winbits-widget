@@ -1,10 +1,16 @@
 require 'lib/view-helper' # Just load the view helpers, no return value
+EventBroker = Winbits.Chaplin.EventBroker
+_ = Winbits._
 
 module.exports = class View extends Chaplin.View
   # Auto-save `template` option passed to any view as `@template`.
   optionNames: Chaplin.View::optionNames.concat ['template']
   autoRender: true
   autoAttach: true
+
+  initialize: ->
+    super
+    _.extend @prototype, EventBroker
 
   # Precompiled templates function initializer.
   getTemplateFunction: ->

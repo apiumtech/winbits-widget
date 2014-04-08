@@ -16,7 +16,6 @@ module.exports = class Application extends Chaplin.Application
   initMediator: ->
     # Add additional application-specific properties and methods
     # e.g. Chaplin.mediator.prop = null
-    console.log ['Mediator initialized']
 
     # Seal the mediator.
     mediator.seal()
