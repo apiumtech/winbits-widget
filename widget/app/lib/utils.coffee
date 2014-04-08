@@ -290,7 +290,7 @@ _(utils).extend
     mediator.data.get('login-data').apiToken = apiToken
     localStorage.setItem(Winbits.env.get('api-token-name'), apiToken)
 
-    mediator.data.get('rpc').saveApiToken apiToken, ->
+    Winbits.env.get('rpc').saveApiToken apiToken, ->
       console.log 'ApiToken saved :)'
     , -> console.log 'Unable to save ApiToken :('
 

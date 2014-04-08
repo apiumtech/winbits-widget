@@ -37,7 +37,7 @@ _(loginUtils).extend
   applyLogout: (logoutData) ->
     localStorage.clear()
     mediator.data.clear()
-    mediator.data.get('rpc').logout ->
+    Winbits.env.get('rpc').logout ->
       console.log 'Winbits logout success :)'
     , -> console.log 'Winbits logout error D:'
     Winbits.trigger 'loggedout', [logoutData]
