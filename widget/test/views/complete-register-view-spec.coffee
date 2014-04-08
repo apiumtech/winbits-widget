@@ -19,7 +19,7 @@ describe 'CompleteRegisterViewSpec', ->
       apiToken: '6ue7zrBfNkxgNTvT4ReGpuh55yjNLRl6qEHiXMFyXFx6M3ymV21EaARwilDZK0zM'
       bitsBalance: 0
     mediator.data.set 'login-data', @loginData
-    @model = new CompleteRegisterModel {name:'name', lastName:'lastName', zipCode:'12312'}
+    @model = new CompleteRegisterModel name:'name', lastName:'lastName', zipCode:'12312', profile: {}
     @view = new CompleteRegisterView model:@model, autoAttach: no
     sinon.stub(@view, 'showAsModal')
     @view.attach()
