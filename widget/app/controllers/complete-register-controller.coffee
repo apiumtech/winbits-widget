@@ -12,6 +12,7 @@ module.exports = class CompleteRegisterController extends Controller
 
   index: ->
     console.log 'complete-register#index'
-    data = $.extend({}, mediator.data.get('login-data'), {currentVerticalId: env.get 'current-vertical-id', activeVerticals: env.get 'verticals-data'})
-    @model = new CompleteRegisterModel data
+
+    data = mediator.data.get('login-data')
+    @model = new CompleteRegisterModel  data
     @view = new CompleteRegisterView model:@model

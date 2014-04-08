@@ -2,6 +2,7 @@ require = Winbits.require
 utils = require 'lib/utils'
 Model = require 'models/base/model'
 _ = Winbits._
+$ = Winbits.$
 env = Winbits.env
 
 module.exports = class CompleteRegister extends Model
@@ -10,10 +11,13 @@ module.exports = class CompleteRegister extends Model
 
   initialize: (loginData)->
     super
-    @set @parse response: loginData
+    parseData = @parse response: loginData
+    @set parseData
 
   parse: (data) ->
     profile = _.clone(data.response.profile)
+    profile.currentVerticalId = env.get 'current-vertical-id'
+    profile.activeVerticals = env.get 'verticals-data'
     profile
 
   requestCompleteRegister:(data) ->

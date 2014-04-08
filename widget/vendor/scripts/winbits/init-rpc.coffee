@@ -82,12 +82,11 @@
 
     verifyingLoginData = new $.Deferred().done (data) ->
       console.log 'Login data verified :)'
-      data.response = {apiToken: 'XXX'}
       if Winbits.$.isEmptyObject data.response
         localStorage.removeItem Winbits.env.get 'api-token-name'
         Winbits.env.get('rpc').deleteApiToken()
       else
-        Winbits.env.set 'login-data', data
+        Winbits.env.set 'login-data', data.response
         Winbits.saveLoginData data.response
     .fail -> console.log ['ERROR', 'Unable to verify login data :(']
     promises.push verifyingLoginData.promise()
