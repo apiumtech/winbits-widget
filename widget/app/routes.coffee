@@ -5,3 +5,6 @@ module.exports = (match) ->
   match 'not-logged-in', 'not-logged-in#index'
   match 'register', 'register#index'
   match 'my-profile', 'my-profile#index'
+  match 'wb-complete-register-:apiToken', 'hash#completeRegister'
+  match 'wb-register-complete', 'complete-register#index'
+  match 'wb-switch-user-:apiToken', 'hash#switchUser'

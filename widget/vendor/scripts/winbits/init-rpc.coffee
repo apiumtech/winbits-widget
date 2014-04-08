@@ -36,7 +36,6 @@
       $.ajax(url,options)
 
   Winbits.saveLoginData=(loginData) ->
-    Winbits.env.set 'login-data', loginData
     localStorage.setItem Winbits.env.get('api-token-name'), loginData.apiToken
     Winbits.env.get('rpc').saveApiToken loginData.apiToken
 
@@ -81,10 +80,12 @@
 
     verifyingLoginData = new $.Deferred().done (data) ->
       console.log 'Login data verified :)'
+      data.response = {apiToken: 'XXX', email:'a@as.as'}
       if Winbits.$.isEmptyObject data.response
         localStorage.removeItem Winbits.env.get 'api-token-name'
         Winbits.env.get('rpc').deleteApiToken()
       else
+        Winbits.env.set 'login-data', data
         Winbits.saveLoginData data.response
     .fail -> console.log ['ERROR', 'Unable to verify login data :(']
     promises.push verifyingLoginData.promise()
