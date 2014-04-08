@@ -80,7 +80,6 @@
 
     verifyingLoginData = new $.Deferred().done (data) ->
       console.log 'Login data verified :)'
-      data.response = {apiToken: 'XXX', email:'a@as.as'}
       if Winbits.$.isEmptyObject data.response
         localStorage.removeItem Winbits.env.get 'api-token-name'
         Winbits.env.get('rpc').deleteApiToken()

@@ -19,11 +19,11 @@ module.exports = class CompleteRegister extends Model
   requestCompleteRegister:(data) ->
     utils.ajaxRequest(
         env.get('api-url') + "/users/profile.json",
-      type: "POST"
+      type: "PUT"
       contentType: "application/json"
       dataType: "json"
-      data:data
+      data:JSON.stringify(data)
       headers:
         "Accept-Language": "es"
-        "WB-Api-Token": 'XXX'
+        "WB-Api-Token": utils.getApiToken()
     )

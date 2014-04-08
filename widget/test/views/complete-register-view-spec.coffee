@@ -22,8 +22,8 @@ describe 'CompleteRegisterViewSpec', ->
     @view.dispose()
 
   it 'complete register view rendered',  ->
-    expect(@view.$el).has.id('wbi-register-modal')
-    expect(@view.$ '#wbi-register-form').is.rendered
+    expect(@view.$el).has.id('wbi-complete-register-modal')
+    expect(@view.$ '#wbi-complete-register-form').is.rendered
 
   it 'do request should succed to complete register', ->
     sinon.stub(utils, 'ajaxRequest').yieldsTo('success', {})

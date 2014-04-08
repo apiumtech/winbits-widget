@@ -16,16 +16,21 @@ module.exports = class CompleteRegisterView extends View
     super
     @showAsModal()
     @$('.divGender').customRadio()
-    @$('#wbi-complere-register-form').validate
+    @$('#wbi-complete-register-form').validate
       rules:
         name:
+          required : yes
           minlength:2
         lastName:
-          minlength: true
+          required : yes
+          minlength: 2
         zipCode:
+          required : yes
           minlength:5
+          digits:yes
         phone:
-          minlength:8
+          digits:yes
+          minlength:7
 
 
 
@@ -33,6 +38,24 @@ module.exports = class CompleteRegisterView extends View
     $('<a>').wbfancybox(href: '#wbi-complete-register-modal', onClosed: -> utils.redirectToLoggedInHome()).click()
 
 
-  completeRegister: ->
+  completeRegister: (e)->
     data = utils.serializeForm @$('#wbi-complete-register-form')
-    @model.requestCompleteRegister(data)
+    $form = @$('#wbi-complete-register-form')
+    if($form.valid())
+      submitButton = @$(e.currentTarget).prop('disabled', yes)
+      @model.requestCompleteRegister(data)
+        .done(@doCompleteRegisterSuccess)
+        .fail(@doCompleteRegisterError)
+        .always -> submitButton.prop('disabled', no)
+
+  doCompleteRegisterSuccess: ->
+    $.fancybox.close()
+
+
+
+  doCompleteRegisterError: (xhr, textStatus)->
+    error = utils.safeParse(xhr.responseText)
+    messageText = "Error guardando el registro #{textStatus}"
+    message = if error then error.meta.message else messageText
+    options = value: "Continuar", onClosed: utils.redirectToLoggedInHome()
+    utils.showMessageModal(message, options)
