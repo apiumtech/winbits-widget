@@ -14,3 +14,4 @@ module.exports = class HeaderView extends View
   render: ->
     super
     console.log "header page view render"
+
