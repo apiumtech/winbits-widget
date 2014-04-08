@@ -13,15 +13,9 @@ module.exports = class LoggedInView extends View
   template: require './templates/logged-in'
 
   initialize: ->
+    super
     @listenTo @model, 'change', @render
-    @delegate 'click', '.miCuenta-close', @clickClose
 
 
   attach: ->
     super
-    console.log [mediator.data.get, "action-my-account"]
-
-  clickClose: ->
-    @$('.miCuentaDiv').slideUp()
-
-

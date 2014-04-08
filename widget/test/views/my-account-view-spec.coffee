@@ -25,26 +25,25 @@ describe 'MyAccountViewSpec', ->
 
   afterEach ->
     utils.ajaxRequest.restore?()
-    @view.dispose()
-    mediator.data.clear()
+    @view.dispose?()
+    @model.dispose?()
+    mediator.data.clear?()
 
   it 'my account view renderized', ->
     expect(@view.$el).to.has.classes(['dropMenu','miCuentaDiv'])
-    expect(@view.$ '#wbi-my-account-logout-btn').to.exist
-      .and.to.has.classes(['miCuenta-logout'])
+    expect(@view.$ 'input#wbi-my-account-logout-btn').to.exist
+    .and.to.has.class('btn').and.to.has.value("Log Out")
 
   it 'do logout when clicked button', ->
     sinon.stub(@model, 'requestLogout').returns TestUtils.promises.resolved
     successStub = sinon.stub(@view, 'doLogoutSuccess')
     @view.$('#wbi-my-account-logout-btn').click()
-
     expect(successStub).to.be.calledOnce
 
   it 'do not logout when clicked button and apiToken does not exist', ->
     sinon.stub(@model, 'requestLogout').returns TestUtils.promises.rejected
     errorStub = sinon.stub(@view, 'doLogoutError')
     @view.$('#wbi-my-account-logout-btn').click()
-
     expect(errorStub).to.be.calledOnce
 
 
