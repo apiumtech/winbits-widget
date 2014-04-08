@@ -6,7 +6,7 @@ specs = [
   './views/register-view-spec',
   './views/login-view-spec',
   './views/my-profile-view-spec',
-#  './models/my-profile-spec',
+  './views/my-account-view-spec',
   './views/complete-register-view-spec'
 ]
 

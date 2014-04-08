@@ -16,16 +16,6 @@ _(utils).extend
   redirectToNotLoggedInHome: ->
     @redirectTo 'not-logged-in#index'
 
-  storeKey : (key, value) ->
-    localStorage[key] = value
-
-  retrieveKey : (key) ->
-    value = localStorage[key]
-
-  deleteKey : (key) ->
-    localStorage.removeItem(key)
-    ''
-
   getUrlParams : ->
     vars = []
     hash = `undefined`
@@ -295,6 +285,17 @@ _(utils).extend
 
   getApiToken: ->
     mediator.data.get('login-data').apiToken
+
+  saveApiToken: (apiToken) ->
+    mediator.data.get('login-data').apiToken = apiToken
+    localStorage.setItem(Winbits.env.get('api-token-name'), apiToken)
+
+    mediator.data.get('rpc').saveApiToken apiToken, ->
+      console.log 'ApiToken saved :)'
+    , -> console.log 'Unable to save ApiToken :('
+
+  deleteApiToken: ->
+    localStorage.removeItem(Winbits.env.get('api-token-name'))
 
   redirectTo: ->
     Winbits.Chaplin.utils.redirectTo.apply null, arguments

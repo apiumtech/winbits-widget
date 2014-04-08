@@ -1,6 +1,7 @@
 routes = require './routes'
 utils = require 'lib/utils'
 mediator = Winbits.Chaplin.mediator
+$ = Winbits.$
 
 # The application object.
 module.exports = class Application extends Chaplin.Application
@@ -15,17 +16,6 @@ module.exports = class Application extends Chaplin.Application
   initMediator: ->
     # Add additional application-specific properties and methods
     # e.g. Chaplin.mediator.prop = null
-
-    cls = ->
-      data = 'login-data': Winbits.env.get 'login-data'
-      {
-        get: (property)->
-          data[property]
-        set: (property, value)->
-          data[property] = value
-      }
-
-    mediator.data = cls()
     console.log ['Mediator initialized']
 
     # Seal the mediator.

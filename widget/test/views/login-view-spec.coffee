@@ -1,4 +1,5 @@
 LoginView = require 'views/login/login-view'
+LoginModel = require 'models/login/login'
 utils = require 'lib/utils'
 $ = Winbits.$
 email = 'test@winbits.com'
@@ -14,7 +15,8 @@ describe 'LoginViewSpec', ->
     $.validator.setDefaults ignore: ':hidden'
 
   beforeEach ->
-    @view = new LoginView autoAttach: no
+    @model = new LoginModel
+    @view = new LoginView model: @model, autoAttach: no
     sinon.stub(@view, 'showAsModal')
     @view.attach()
     @view.$('[name=email]').val email
@@ -31,12 +33,13 @@ describe 'LoginViewSpec', ->
     expect(@view.$ '#wbi-login-form').to.be.rendered
 
   it 'do login should succed to Login', ->
-    sinon.stub(utils, 'ajaxRequest').yieldsTo('success', {})
+    sinon.stub(@model, 'requestLogin').returns TestUtils.promises.resolved
     successStub = sinon.stub(@view, 'doLoginSuccess')
     @view.$('#wbi-login-in-btn').click()
 
     expect(successStub).to.be.calledOnce
     expect(@view.$ '.error').to.not.be.rendered
+    expect(@view.$ '#wbi-login-in-btn').to.has.prop 'disabled', no
 
   it 'do not makes request if form invalid', ->
     ajaxRequestStub = sinon.stub(utils, 'ajaxRequest')
@@ -51,23 +54,28 @@ describe 'LoginViewSpec', ->
 
     expect(@view.$ '.error').to.be.rendered
 
-  it 'error is shown if api return error', ->
-    xhr = responseText: '{"meta":{"message":"Todo es culpa de Layún!"}}'
-    ajaxRequestStub = sinon.stub(utils, 'ajaxRequest').yieldsToOn('error', @view, xhr)
+  it 'error is show if api return error', ->
+    sinon.stub(@model, 'requestLogin').returns TestUtils.promises.rejected
+    errorStub = sinon.stub(@view, 'doLoginError')
     @view.$('#wbi-login-in-btn').click()
 
-    expectAjaxArgs.call(@, ajaxRequestStub, "Todo es culpa de Layún!")
+    expect(errorStub).to.be.calledOnce
+    expect(@view.$ '#wbi-login-in-btn').to.has.prop 'disabled', no
+
 
   it 'error is shown if request fail', ->
     xhr = responseText: 'Server error'
-    ajaxRequestStub = sinon.stub(utils, 'ajaxRequest').yieldsToOn('error', @view, xhr)
+    sinon.stub(@model, 'requestLogin').returns TestUtils.promises.rejected
+    errorStub = sinon.stub(@view, 'doLoginError')
     @view.$('#wbi-login-in-btn').click()
 
-    expectAjaxArgs.call(@, ajaxRequestStub, "El servidor no está disponible, por favor inténtalo más tarde.")
+    expect(errorStub).to.be.calledOnce
+    expect(@view.$ '#wbi-login-in-btn').to.has.prop 'disabled', no
+#    expectAjaxArgs.call(@, errorStub, "El servidor no está disponible, por favor inténtalo más tarde.")
 
-  expectAjaxArgs = (ajaxRequestStub, errorText)->
-    ajaxConfigArg = ajaxRequestStub.args[0][1]
-    expect(ajaxConfigArg).to.has.property('context', @view)
-    expect(ajaxConfigArg).to.has.property('data')
-    .that.contain('"verticalId":1')
-    expect(@view.$ '.errorDiv p').to.has.text(errorText)
+#  expectAjaxArgs = (ajaxRequestStub, errorText)->
+#    ajaxConfigArg = ajaxRequestStub.args[0][1]
+#    expect(ajaxConfigArg).to.has.property('context', @view)
+#    expect(ajaxConfigArg).to.has.property('data')
+#    .that.contain('"verticalId":1')
+#    expect(@view.$ '.errorDiv p').to.has.text(errorText)
