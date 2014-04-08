@@ -2,6 +2,7 @@ require = Winbits.require
 utils = require 'lib/utils'
 Model = require 'models/base/model'
 _ = Winbits._
+env = Winbits.env
 
 module.exports = class CompleteRegister extends Model
   url: Winbits.env.get('api-url') + '/users/profile.json'
@@ -13,5 +14,16 @@ module.exports = class CompleteRegister extends Model
 
   parse: (data) ->
     profile = _.clone(data.response.profile)
-    profile.email = data.response?.email
     profile
+
+  requestCompleteRegister:(data) ->
+    utils.ajaxRequest(
+        env.get('api-url') + "/users/profile.json",
+      type: "POST"
+      contentType: "application/json"
+      dataType: "json"
+      data:data
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token": 'XXX'
+    )
