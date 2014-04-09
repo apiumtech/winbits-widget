@@ -3,13 +3,13 @@ Header = require 'models/header/header'
 
 describe 'HeaderViewSpec', ->
   beforeEach ->
-    @headerData =
+    headerData =
       currentVerticalId: 1
       verticalsData: [
         { id: 1, baseUrl: 'http://www.test-winbits.com', name: 'Winbits Test' },
         { id: 2, baseUrl: 'http://dev.mylooq.com', name: 'My LOOQ' }
       ]
-    @model = new Header @headerData
+    @model = new Header headerData
     @view = new HeaderView model: @model
 
   afterEach ->

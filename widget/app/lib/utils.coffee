@@ -272,6 +272,7 @@ _(utils).extend
     options.value ?= 'Ok'
     options.context ?= @
     options.onClosed ?= $.noop
+    options.title ?= 'Confirma'
 #    onStart = $.proxy(options.onStart or $.noop, context)
 #    onCancel = $.proxy(options.onCancel or $.noop, context)
 #    onComplete = $.proxy(options.onComplete or $.noop, context)
@@ -279,6 +280,7 @@ _(utils).extend
     onClosed = $.proxy(options.onClosed, options.context)
     $(".wbc-modal-message", $modal).html(message)
     $(".wbc-default-action", $modal).val options.value
+    $(".wbc-modal-title", $modal).html(options.title)
     $('<a>').wbfancybox(padding: 10, href: modalSelector, onClosed: onClosed).click()
 
   ajaxRequest: Winbits.ajaxRequest

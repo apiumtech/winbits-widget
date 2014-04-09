@@ -35,7 +35,7 @@ module.exports = class CompleteRegisterView extends View
 
 
   showAsModal: ->
-    $('<a>').wbfancybox(href: '#wbi-complete-register-modal', onClosed: -> utils.redirectToLoggedInHome()).click()
+    $('<a>').wbfancybox(href: '#wbi-complete-register-modal', onClosed: -> utils.redirectTo controller:'home', action:'index').click()
 
 
   completeRegister: (e)->

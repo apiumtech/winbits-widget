@@ -2,6 +2,7 @@ Controller = require 'controllers/not-logged-in-controller'
 $ = Winbits.$
 utils = require 'lib/utils'
 promises = []
+mediator = Winbits.Chaplin.mediator
 
 module.exports = class HashController extends Controller
 
@@ -19,10 +20,12 @@ module.exports = class HashController extends Controller
   expressLoginSuccess: (data) ->
     console.log 'Login data verified :)'
     if $.isEmptyObject data.response
+      console.log ['error in api']
       @expressLoginError()
     else
       console.log 'valid token'
       utils.saveLoginData data.response
+      mediator.data.set 'login-data', data.response
       utils.redirectTo controller:'complete-register', action:'index'
 
   expressLoginError: () ->
