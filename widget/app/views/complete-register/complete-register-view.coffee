@@ -39,7 +39,7 @@ module.exports = class CompleteRegisterView extends View
 
 
   completeRegister: (e)->
-    data = utils.serializeForm @$('#wbi-complete-register-form')
+    data = utils.serializeProfileForm @$('#wbi-complete-register-form')
     $form = @$('#wbi-complete-register-form')
     if($form.valid())
       submitButton = @$(e.currentTarget).prop('disabled', yes)
@@ -57,5 +57,5 @@ module.exports = class CompleteRegisterView extends View
     error = utils.safeParse(xhr.responseText)
     messageText = "Error guardando el registro #{textStatus}"
     message = if error then error.meta.message else messageText
-    options = value: "Continuar", onClosed: utils.redirectToLoggedInHome()
+    options = value: "Cerrar", title:'Error', onClosed: utils.redirectToLoggedInHome()
     utils.showMessageModal(message, options)
