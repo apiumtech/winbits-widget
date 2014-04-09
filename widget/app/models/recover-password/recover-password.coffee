@@ -10,9 +10,8 @@ module.exports = class RecoverPassword extends Model
     super
     @set data
 
-  requestRecoverPassword:(formData) ->
-    utils.ajaxRequest(
-      env.get('api-url') + "/users/password/recover.json",
+  requestRecoverPassword:(formData, options) ->
+    defaults =
       data: JSON.stringify(formData)
       type: "POST"
       contentType: "application/json"
@@ -21,5 +20,8 @@ module.exports = class RecoverPassword extends Model
         withCredentials: true
       headers:
         "Accept-Language": "es"
+    utils.ajaxRequest(
+      env.get('api-url') + "/users/password/recover.json",
+      $.extend(defaults, options)
     )
 

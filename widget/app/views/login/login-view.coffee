@@ -26,8 +26,6 @@ module.exports = class LoginView extends View
           required: true
           minlength: 6
 
-
-
   showAsModal: ->
     $('<a>').wbfancybox(href: '#' + @id, onClosed: -> utils.redirectTo controller: 'home', action: 'index').click()
 

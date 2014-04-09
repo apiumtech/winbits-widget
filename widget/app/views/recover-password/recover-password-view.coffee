@@ -32,13 +32,19 @@ module.exports = class ModalRegisterView extends View
       formData = utils.serializeForm($form, formData)
       $submitButton = @$('#wbi-recover-password-btn').prop('disabled', yes)
 
-      @model.requestRecoverPassword(formData)
+      @model.requestRecoverPassword(formData, context: @)
         .done(@doRecoverPasswordSuccess)
         .fail(@doRecoverPasswordError)
         .always(-> $submitButton.prop('disabled', false))
 
   doRecoverPasswordSuccess :->
-    console.log 'Success Request Recover Password'
+    $.fancybox.close()
+    message = "Gracias por registrarte con nosotros. <br> Un mensaje de confirmación ha sido enviado a tu <br> cuenta de correo."
+    options = value: "Continuar", onClosed: utils.redirectTo controller: 'home', action: 'index'
+    utils.showMessageModal(message, options)
+    console.log 'evento publicado'
 
-  doRecoverPasswordError: ->
-    console.log 'Success Request Recover Error'
+  doRecoverPasswordError: (xhr, textStatus)->
+    error = utils.safeParse(xhr.responseText)
+    message = if error then error.meta.message else textStatus
+    @$('.errorDiv p').text(message)
