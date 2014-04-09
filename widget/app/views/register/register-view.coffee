@@ -35,7 +35,7 @@ module.exports = class ModalRegisterView extends View
     e.preventDefault()
     console.log "RegisterView#register"
     $form =  @$el.find("#wbi-register-form")
-    formData = verticalId: env.get('vertical').id
+    formData = verticalId: env.get('current-vertical-id')
     formData = utils.serializeForm($form, formData)
     if utils.validateForm($form)
       submitButton = @$(e.currentTarget).prop('disabled', true)
@@ -59,7 +59,7 @@ module.exports = class ModalRegisterView extends View
   doRegisterSuccess: (data) ->
     console.log "Request Success!"
     message = "Gracias por registrarte con nosotros. <br> Un mensaje de confirmación ha sido enviado a tu <br> cuenta de correo."
-    options = value: "Continuar", onClosed: utils.redirectTo controller: 'home', action: 'index'
+    options = value: "Continuar", title:'Registro Exitoso', onClosed: utils.redirectTo controller: 'home', action: 'index'
     utils.showMessageModal(message, options)
     console.log 'evento publicado'
 
