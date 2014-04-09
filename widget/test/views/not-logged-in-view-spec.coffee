@@ -16,7 +16,7 @@ describe 'NotLoggedInViewSpec', ->
   it 'should render', ->
     expect(@view.$el).and.to.exist
       .and.to.has.classes ['miCuenta', 'login']
-    expect(@view.$ '#wbi-register-link').to.not.exist
+    expect(@view.$ '#wbi-register-link').to.exist
     expect(@view.$ '#wbi-login-btn').to.exist
     expect(@view.$ '#wbi-cart-icon').to.exist
 
