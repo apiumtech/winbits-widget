@@ -28,7 +28,7 @@ module.exports = class ModalRegisterView extends View
     e.preventDefault()
     $form =  @$el.find(".wbc-recover-password-form")
     if utils.validateForm($form)
-      formData = verticalId: env.get('vertical').id
+      formData = verticalId: env.get 'current-vertical-id'
       formData = utils.serializeForm($form, formData)
       $submitButton = @$('#wbi-recover-password-btn').prop('disabled', yes)
 
@@ -38,9 +38,8 @@ module.exports = class ModalRegisterView extends View
         .always(-> $submitButton.prop('disabled', false))
 
   doRecoverPasswordSuccess :->
-    $.fancybox.close()
-    message = "Gracias por registrarte con nosotros. <br> Un mensaje de confirmación ha sido enviado a tu <br> cuenta de correo."
-    options = value: "Continuar", onClosed: utils.redirectTo controller: 'home', action: 'index'
+    message = "Te hemos mandado un mensaje a tu cuenta de correo con las instrucciones para recuperar tu contraseña."
+    options = value: "Aceptar", title:'Correo enviado', onClosed: utils.redirectTo controller: 'home', action: 'index'
     utils.showMessageModal(message, options)
     console.log 'evento publicado'
 
