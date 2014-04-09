@@ -1,6 +1,7 @@
 View = require 'views/base/view'
 Header = require 'models/header/header'
 env = Winbits.env
+$ = Winbits.$
 
 module.exports = class HeaderView extends View
   container: env.get 'widget-container'
