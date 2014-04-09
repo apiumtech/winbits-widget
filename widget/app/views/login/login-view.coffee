@@ -12,7 +12,6 @@ module.exports = class LoginView extends View
   initialize: ->
     super
     @delegate 'click', '#wbi-login-in-btn', @doLogin
-    @delegate 'click', '#wbi-recover-password', @doRedirectRecoverPassword
 
   attach: ->
     super
@@ -26,10 +25,6 @@ module.exports = class LoginView extends View
         password:
           required: true
           minlength: 6
-
-  doRedirectRecoverPassword:->
-    console.log 'Redirecting To Recover Password!!!'
-    utils.redirectTo controller: 'recover-password', action: 'index'
 
 
 
