@@ -1,6 +1,4 @@
 utils = Winbits.require 'lib/utils'
-EventBroker = Winbits.Chaplin.EventBroker
-_ = Winbits._
 
 # Base model.
 module.exports = class Model extends Chaplin.Model
@@ -13,10 +11,6 @@ module.exports = class Model extends Chaplin.Model
   #   @on 'error', @unsync
 
   needsAuth: false
-
-  initialize: ->
-    super
-    _.extend @prototype, EventBroker
 
   sync: (method, model, options = {}) ->
     options.headers = 'Accept-Language': 'es'

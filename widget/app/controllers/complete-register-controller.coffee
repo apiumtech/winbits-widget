@@ -1,18 +1,16 @@
 Controller = require "controllers/logged-in-controller"
 CompleteRegisterView = require 'views/complete-register/complete-register-view'
-CompleteRegisterModel = require 'models/complete-register/complete-register'
+CompleteRegister = require 'models/complete-register/complete-register'
+MyProfile = require 'models/my-profile/my-profile'
 $ = Winbits.$
-mediator = Winbits.Chaplin.mediator
 
 module.exports = class CompleteRegisterController extends Controller
 
   beforeAction: ->
-    console.log 'complete-register'
     super
+    console.log 'complete-register'
 
   index: ->
     console.log 'complete-register#index'
-
-    data = mediator.data.get('login-data')
-    @model = new CompleteRegisterModel  data
-    @view = new CompleteRegisterView model:@model
+    @model = new CompleteRegister
+    @view = new CompleteRegisterView model: @model

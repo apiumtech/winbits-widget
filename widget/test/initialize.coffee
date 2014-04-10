@@ -9,6 +9,7 @@ specs = [
   './views/my-profile-view-spec',
   './views/my-account-view-spec',
   './views/complete-register-view-spec'
+  './views/recover-password-view-spec'
 ]
 
 for spec in specs

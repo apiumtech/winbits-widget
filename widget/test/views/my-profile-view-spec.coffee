@@ -1,3 +1,5 @@
+'use strict'
+
 MyProfileView = require 'views/my-profile/my-profile-view'
 MyProfile = require 'models/my-profile/my-profile'
 utils = require 'lib/utils'
@@ -6,24 +8,18 @@ _ = Winbits._
 mediator = Winbits.Chaplin.mediator
 
 describe 'MyProfileViewSpec', ->
-  'use strict'
-
-  before ->
-    console.log "before"
-
-  after ->
-    console.log "after"
 
   beforeEach ->
-    console.log "before each"
     @loginData =
       apiToken: 'XXX'
       profile: {}
       email:'a@aa.aa'
-    @view = new MyProfileView model: new MyProfile @loginData
+    @model = new MyProfile @loginData
+    @view = new MyProfileView model: @model
 
   afterEach ->
-    console.log "after each"
+    @view.dispose()
+    @model.dispose()
 
   it 'my profile renderized', ->
     expect(@view.$el).to.has.id('wbi-my-profile')

@@ -68,5 +68,4 @@ describe 'RegisterViewSpec', ->
     ajaxConfigArg = ajaxRequestStub.args[0][1]
     expect(ajaxConfigArg).to.has.property('context', @registerView)
     expect(ajaxConfigArg).to.has.property('data')
-    .that.contain('"verticalId":1')
     expect(@registerView.$ '.errorDiv p').to.has.text(errorText)
