@@ -35,7 +35,7 @@ describe 'CompleteRegisterViewSpec', ->
     expect(@view.$ '#wbi-complete-register-form').is.rendered
 
   it 'do request should succed to complete register', ->
-    sinon.stub(@model, 'requestCompleteRegister').returns TestUtils.promises.resolved
+    sinon.stub(@model, 'requestUpdateProfile').returns TestUtils.promises.resolved
     successStub = sinon.stub(@view, 'doCompleteRegisterSuccess')
     @view.$('#wbi-complete-register-btn').click()
     expect(successStub).to.be.calledOnce
@@ -53,7 +53,7 @@ describe 'CompleteRegisterViewSpec', ->
     expect(@view.$ '.error').to.exist
 
   it 'error is shown if api return error', ->
-    sinon.stub(@model, 'requestCompleteRegister').returns TestUtils.promises.rejected
+    sinon.stub(@model, 'requestUpdateProfile').returns TestUtils.promises.rejected
     errorStub = sinon.stub(@view, 'doCompleteRegisterError')
     @view.$('#wbi-complete-register-btn').click()
 
@@ -62,7 +62,7 @@ describe 'CompleteRegisterViewSpec', ->
 
   it 'error is shown if request fail', ->
     xhr = responseText: 'Server error'
-    sinon.stub(@model, 'requestCompleteRegister').returns TestUtils.promises.rejected
+    sinon.stub(@model, 'requestUpdateProfile').returns TestUtils.promises.rejected
     errorStub = sinon.stub(@view, 'doCompleteRegisterError')
     @view.$('#wbi-complete-register-btn').click()
 

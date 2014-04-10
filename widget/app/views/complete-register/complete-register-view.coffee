@@ -1,5 +1,6 @@
 View = require 'views/base/view'
 utils = require 'lib/utils'
+mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 env = Winbits.env
 
@@ -32,8 +33,6 @@ module.exports = class CompleteRegisterView extends View
           digits:yes
           minlength:7
 
-
-
   showAsModal: ->
     $('<a>').wbfancybox(href: '#wbi-complete-register-modal', onClosed: -> utils.redirectTo controller:'home', action:'index').click()
 
@@ -43,14 +42,15 @@ module.exports = class CompleteRegisterView extends View
     $form = @$('#wbi-complete-register-form')
     if($form.valid())
       submitButton = @$(e.currentTarget).prop('disabled', yes)
-      @model.requestCompleteRegister(data)
+      @model.requestUpdateProfile(data, context: @)
         .done(@doCompleteRegisterSuccess)
         .fail(@doCompleteRegisterError)
         .always -> submitButton.prop('disabled', no)
 
-  doCompleteRegisterSuccess: ->
+  doCompleteRegisterSuccess: (data) ->
+    @publishEvent 'profile-changed', data
+    mediator.data.set 'login-data', data.response
     $.fancybox.close()
-
 
 
   doCompleteRegisterError: (xhr, textStatus)->

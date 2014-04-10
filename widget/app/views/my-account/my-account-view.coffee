@@ -1,4 +1,5 @@
 View = require 'views/base/view'
+MyAccount = require 'models/my-account/my-account'
 utils = require 'lib/utils'
 loginUtil = require 'lib/login-utils'
 $ = Winbits.$
@@ -13,6 +14,7 @@ module.exports = class MyAccountView extends View
   attributes:
     style: "display: none;"
   template: require './templates/my-account'
+  model: new MyAccount
 
   initialize: ->
     super

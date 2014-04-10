@@ -1,10 +1,10 @@
+'use strict'
+
 NotLoggedInView =  require 'views/not-logged-in/not-logged-in-view'
 utils = require 'lib/utils'
 $ = Winbits.$
 
-
 describe 'NotLoggedInViewSpec', ->
-  'use strict'
 
   beforeEach ->
     @view = new NotLoggedInView
