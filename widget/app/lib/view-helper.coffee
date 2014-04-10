@@ -1,3 +1,8 @@
+'use strict'
+Handlebars = Winbits.Handlebars
+env = Winbits.env
+$ = Winbits.$
+_ = Winbits._
 # Application-specific view helpers
 # http://handlebarsjs.com/#helpers
 # --------------------------------
@@ -65,3 +70,19 @@ Handlebars.registerHelper "substr", (context, options) ->
     new Handlebars.SafeString(theString)
   else
     ""
+
+Handlebars.registerHelper "getCurrentVerticalId", ->
+  env.get 'current-vertical-id'
+
+Handlebars.registerHelper "withCurrentVertical", (options) ->
+  options.fn env.get 'current-vertical'
+
+Handlebars.registerHelper "eachActiveVertical", (options) ->
+  result = ''
+  verticalsData = env.get('verticals-data') or []
+  if verticalsData.length > 0
+    for vertical in verticalsData
+      result += options.fn vertical
+  else result = options.inverse @
+  result
+

@@ -33,7 +33,7 @@ module.exports = class LoginView extends View
   doLogin:(e) ->
     $form = $(e.currentTarget).closest('form')
     if utils.validateForm($form)
-      formData = verticalId: env.get('vertical').id
+      formData = verticalId: env.get('current-vertical-id')
       formData = utils.serializeForm($form, formData)
       $submitButton = @$('#wbi-login-in-btn').prop('disabled', yes)
 

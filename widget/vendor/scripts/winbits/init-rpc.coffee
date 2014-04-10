@@ -67,8 +67,12 @@
   if not window.wbSkipRPC
     verifyingVerticalData = new $.Deferred().done (data) ->
       console.log 'Vertical data verified :)'
-      Winbits.env.set 'current-vertical-id', data.meta.currentVerticalId
-      Winbits.env.set 'verticals-data', data.response
+      currentVerticalId = data.meta.currentVerticalId
+      Winbits.env.set 'current-vertical-id', currentVerticalId
+      verticalsData = data.response
+      Winbits.env.set 'verticals-data', verticalsData
+      currentVertical = (v for v in verticalsData when v.id is currentVerticalId)
+      Winbits.env.set 'current-vertical', currentVertical[0]
     .fail -> console.log ['ERROR', 'Unable to verify vertical data :(']
     promises.push verifyingVerticalData.promise()
 

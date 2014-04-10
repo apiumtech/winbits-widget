@@ -2,7 +2,9 @@
     <div class="mainModal login loginForm">
         <div class="contentModal">
             <fieldset>
-                <h1>Bienvenido a <span class="iconVertical-r vertical2" title="My LOOQ"></span> <small>un sitio de la familia <span class="icon winbits11px">winbits</span></small></h1>
+              {{#withCurrentVertical}}
+                <h1>Bienvenido a <span class="iconVertical-r vertical{{id}}" title="{{name}}"></span> <small>un sitio de la familia <span class="icon winbits11px">winbits</span></small></h1>
+              {{/withCurrentVertical}}
                 <a href="#" class="loginFacebook"><span class="iconFont-facebook"></span>Login con Facebook</a>
                 <span class="login-or">ó</span>
                 <input type="text" placeholder="Email" name="email">

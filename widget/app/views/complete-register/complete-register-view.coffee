@@ -12,6 +12,7 @@ module.exports = class CompleteRegisterView extends View
   initialize: ->
     super
     @delegate 'click', '#wbi-complete-register-btn', @completeRegister
+    @delegate 'click', '#wbi-complete-register-after-link', -> $.fancybox.close()
 
   attach: ->
     super
