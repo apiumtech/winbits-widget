@@ -1,5 +1,5 @@
 Model = require 'models/base/model'
-
+# TODO: Quitar filtro de current vertical y usar env
 module.exports = class Header extends Model
 
   initialize: (data)->

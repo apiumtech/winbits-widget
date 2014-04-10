@@ -49,9 +49,11 @@
             <div class="wrapper" id="wbi-header-wrapper">
                 <nav>
                     <ul>
-                      {{#each activeVerticals}}
+                      {{#eachActiveVertical}}
                       <li><a href="{{baseUrl}}" class="iconVertical-n vertical{{id}} {{#compare id ../currentVerticalId}}current{{/compare}} wbc-vertical" title="{{name}}"></a></li>
-                      {{/each}}
+                      {{else}}
+                      <li>NV</li>
+                      {{/eachActiveVertical}}
                     </ul>
                 </nav>
             </div>

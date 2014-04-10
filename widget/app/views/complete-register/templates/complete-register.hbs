@@ -12,7 +12,6 @@
           <input type="text" class="wbc-day" maxlength="2" placeholder="dd" value="{{substr birthdate start=8 length=2}}">
           <input type="text" class="wbc-month" maxlength="2" placeholder="mm" value="{{substr birthdate start=5 length=2}}">
           <input type="text" class="wbc-year" maxlength="2" placeholder="aa" value="{{substr birthdate start=2 length=2}}">
-          <input type="hidden" name="birthdate" value="{{birthdate}}">
         </div>
         <div class="divGender">
           <label>Género</label>
@@ -26,7 +25,8 @@
         <input type="text" id="winbitsProfilePhone" name="phone" placeholder="Teléfono" value="{{phone}}">
         <div class="errorDiv"><p></p></div>
         <input type="button" class="btn btnGuardar" value="Guardar" id="wbi-complete-register-btn">
-        <p>Si así lo deseas, puedes completar tu registro después haciendo click en la sección de MI CUENTA. <br><a href="#" onclick="return hs.close(this)">Llenalo despues.</a></p>
+        <p>Si así lo deseas, puedes completar tu registro después haciendo click en la sección de MI CUENTA. <br>
+          <a href="#logged-in" id="wbi-complete-register-after-link">Llenalo despues.</a></p>
       </fieldset>
       <aside class="asideModal">
         <p>USA TU CUENTA WINBITS <br>EN TODOS ESTOS SITIOS:</p>

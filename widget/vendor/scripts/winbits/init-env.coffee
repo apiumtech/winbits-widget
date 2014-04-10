@@ -9,7 +9,6 @@
   Winbits.env[widgetContainerKey] = $winbitsScript.data(widgetContainerKey) or 'header'
   footerContainerKey = 'footer-container'
   Winbits.env[footerContainerKey] = $winbitsScript.data(footerContainerKey) or 'footer'
-  Winbits.env.vertical = id: $winbitsScript.data('vertical')
 
   Winbits.env = ((env)->
     get: (name) ->

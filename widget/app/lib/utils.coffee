@@ -63,6 +63,31 @@ _(utils).extend
       formData[f.name] = f.value
     formData
 
+
+  serializeProfileForm: ($form) ->
+    formData = {birthdate : @getBirthdate($form)}
+    formData = @serializeForm($form, formData)
+    formData.gender = @getGender($form)
+    console.log ['gender', formData.gender]
+    formData
+
+  getBirthdate: ($form) ->
+    @getYear($form) + '-' + @getMonth($form) + '-' + @getDay($form)
+
+  getDay: ($form) ->
+    @getDateValue($form, ".wbc-day") or ''
+
+  getMonth: ($form) ->
+    @getDateValue($form, ".wbc-month") or ''
+
+  getYear: ($form) ->
+    year = @getDateValue($form, ".wbc-year") or ''
+    if year.length
+      currentYear = parseInt(moment().format('YYYY').slice(-2))
+      year =  (if year > currentYear then "19" else "20") + year
+    year
+
+
   resetComponents  : ()->
     $('.reseteable').each (i, reseteable) ->
       $reseteable = $(reseteable)
@@ -152,21 +177,7 @@ _(utils).extend
     fillStr = new Array(length + 1).join(fillChar)
     (fillStr + str).slice(length * -1)
 
-  getBirthday: ($form) ->
-    @getYear($form) + '-' + @getMonth($form) + '-' + @getDay($form)
 
-  getDay: ($form) ->
-    @getDateValue($form, ".day-input") or ''
-
-  getMonth: ($form) ->
-    @getDateValue($form, ".month-input") or ''
-
-  getYear: ($form) ->
-    year = @getDateValue($form, ".year-input") or ''
-    if year.length
-      currentYear = parseInt(moment().format('YYYY').slice(-2))
-      year =  (if year > currentYear then "19" else "20") + year
-    year
 
   getDateValue: ($form, selector) ->
     value = $form.find(selector).val()

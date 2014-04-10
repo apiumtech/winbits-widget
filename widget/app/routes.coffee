@@ -8,8 +8,6 @@ module.exports = (match) ->
 #  match 'wb-reset-password', 'recover-password#index'
   match 'my-profile', 'my-profile#index'
   match 'wb-complete-register-:apiToken', 'hash#completeRegister'
-  match 'wb-register-complete', 'complete-register#index'
-
-
+  match 'wb-complete-register', 'complete-register#index'
   match 'wb-switch-user-:apiToken', 'hash#switchUser'
   match 'wb-reset-password-:salt', 'hash#resetPassword'
