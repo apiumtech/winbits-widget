@@ -30,3 +30,7 @@ module.exports = class HashController extends Controller
 
   expressLoginError: () ->
     utils.redirectToNotLoggedInHome()
+
+  resetPassword:(params) ->
+    alert "recibido #{params.salt}"
+
