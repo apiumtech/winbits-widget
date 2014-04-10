@@ -23,15 +23,14 @@ mediator.data = (->
   }
 )()
 
-# Initialize the application on DOM ready event.
-# Winbits.loadInterval = setInterval ->
-#   if Winbits.$(Winbits.config.widgetContainer).length
-#     clearInterval Winbits.loadInterval
-#     delete Winbits.loadInterval
-#     new Application routes: routes, controllerSuffix: '-controller', pushState: false
-#   #  Chaplin.utils.redirectTo controller:'home', action:'index'
-# , 10
-
-Winbits.$ ->
-  new Application routes: routes, controllerSuffix: '-controller', pushState: false
-  #  Chaplin.utils.redirectTo controller:'home', action:'index'
+if Winbits.env.get 'optimized'
+  # Initialize the application on DOM ready event.
+  Winbits.loadInterval = setInterval ->
+    if Winbits.$(Winbits.env.get 'widget-container').length
+      clearInterval Winbits.loadInterval
+      delete Winbits.loadInterval
+      new Application routes: routes, controllerSuffix: '-controller', pushState: false
+  , 5
+else
+  Winbits.$ ->
+    new Application routes: routes, controllerSuffix: '-controller', pushState: false

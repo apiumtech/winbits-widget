@@ -9,6 +9,7 @@
   Winbits.env[widgetContainerKey] = $winbitsScript.data(widgetContainerKey) or 'header'
   footerContainerKey = 'footer-container'
   Winbits.env[footerContainerKey] = $winbitsScript.data(footerContainerKey) or 'footer'
+  Winbits.env['optimized'] = $winbitsScript.data('optimized') is 'yes'
 
   Winbits.env = ((env)->
     get: (name) ->
