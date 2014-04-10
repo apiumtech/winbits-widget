@@ -1,6 +1,7 @@
 View = require 'views/base/view'
 utils = require 'lib/utils'
 loginUtil = require 'lib/login-utils'
+mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 env = Winbits.env
 
@@ -42,6 +43,7 @@ module.exports = class LoginView extends View
         .always(-> $submitButton.prop('disabled', false))
 
   doLoginSuccess: (data) ->
+    mediator.data.set 'profile-composed', no
     $.fancybox.close()
     response = data.response
     loginUtil.applyLogin(response)

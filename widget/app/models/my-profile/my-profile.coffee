@@ -12,17 +12,17 @@ module.exports = class MyProfile extends Model
 
   initialize: (loginData = mediator.data.get 'login-data')->
     super
+    @subscribeEvent 'layun', -> console.log ['Layún Aquí']
     @subscribeEvent 'profile-changed', @loadProfile
     @set(@parse response: loginData) if loginData
 
   parse: (data) ->
     profile = _.clone(data.response.profile)
-#    profile.email = data.response?.email
+    profile.email = data.response?.email
     profile
 
   loadProfile: (loginData) ->
     parsedData = @parse loginData
-    console.log ['LOADING PROFILE', loginData, parsedData]
     @set parsedData
 
   requestUpdateProfile:(formData, options) ->
