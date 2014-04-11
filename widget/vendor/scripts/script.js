@@ -1,44 +1,9 @@
 (function($){
 
-// +++++++++++++++++++++++++++++++++++++++++++++
-//      ACCORDEON: Acordeón para el historial
-// +++++++++++++++++++++++++++++++++++++++++++++
-
-	jQuery.fn.acordeon = function(options){
-		var defaults = $.extend({
-			trigger: 'h2',
-			claseActivo: 'activo',
-			contenedor: '.accordeonContent',
-			icon: '.icon',
-			minusIcon: 'minusIcon',
-			first: true
-		}, options),
-		hideFirst = function(obj){
-			$(obj).find(defaults.trigger).first().addClass(defaults.claseActivo)
-			.find(defaults.icon).addClass(defaults.minusIcon);
-			$(obj).find(defaults.contenedor).not(':first').hide();
-		},
-		clickingAcordeon = function(obj){
-			$(obj).find(defaults.trigger).click(function(){
-				$(this).next(defaults.contenedor).slideToggle();
-				$(this).toggleClass(defaults.claseActivo).find(defaults.icon)
-				.toggleClass(defaults.minusIcon);
-			});
-		};
-		return this.each(function(){
-			if(defaults.first){
-				hideFirst(this);
-			} else {
-				$(this).find(defaults.contenedor).hide();
-			}
-			clickingAcordeon(this);
-		});
-	};
-
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //      CAROUSELSWIPER: Iniciar carruseles on Swiper
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
+	
 	jQuery.fn.carouselSwiper = function(options){
 		var defaults = $.extend({
 			arrow: true,
@@ -72,7 +37,7 @@
 				calculateHeight(obj, swiper);
 				swiper.params.onSlideChangeStart = function(swiper){calculateHeight(obj, swiper);};
 			}
-
+			
 			if(defaults.onClickSlide){
 				$(obj).find(defaults.slideCSS).on('click', function(e){
 					e.stopPropagation();
@@ -160,10 +125,14 @@
 		});
 	};
 
+/* **********************************************
+     Begin customCheckbox.js
+********************************************** */
+
 // +++++++++++++++++++++++++++++++++++++++++
 //      CUSTOMCHECKBOX: Cambiar checkbox
 // +++++++++++++++++++++++++++++++++++++++++
-
+	
 	jQuery.fn.customCheckbox = function(options){
 		var defaults = $.extend({
 			checkbox: 'input[type="checkbox"]',
@@ -209,6 +178,10 @@
 		});
 	};
 
+/* **********************************************
+     Begin customRadio.js
+********************************************** */
+
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //      CUSTOMRADIO: Cambiar radio buttons por input text para el género
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -225,19 +198,21 @@
 		}, options),
 		wrappingInput = function(obj){
 			$(obj).find(defaults.radio).each(function(){
-				if($(this).next().is('label')){
-					$(this).next().andSelf().wrapAll('<div class="'+ defaults.wrapper +'"/>');
+				var $this = $(this);
+				if($this.next().is('label')){
+					$this.next().andSelf().wrapAll('<div class="'+ defaults.wrapper +'"/>');
 				} else {
-					$(this).wrap('<div class="'+ defaults.wrapper +'"/>');
+					$this.wrap('<div class="'+ defaults.wrapper +'"/>');
 				}
-				$radioWrapper = $('<span class="'+ defaults.spanRadio +'">'+$(this).val()+'</span>').prependTo($(this).parent())
-        if($(this).is(':checked')) {
-          $radioWrapper.addClass(defaults.spanSelected);
-        }
-				if($(this).data('color')){
+				if($this.prop('checked')){
+					$this.parent().prepend('<span class="'+ defaults.spanRadio +' '+ defaults.spanSelected +'">'+$(this).val()+'</span>');
+				} else {
+					$this.parent().prepend('<span class="'+ defaults.spanRadio +'">'+$(this).val()+'</span>');
+				}
+				if($this.data('color')){
 					customColor(this);
 				}
-				if($(this).data('soldout')){
+				if($this.data('soldout')){
 					soldOut(this);
 				}
 			});
@@ -270,17 +245,18 @@
 			$(obj).remove();
 		};
 		return this.each(function(){
-			if(options){
-				defaults = $.extend(defaults, options);
-			}
 			wrappingInput(this);
 		});
 	};
 
+/* **********************************************
+     Begin customSelect.js
+********************************************** */
+
 // +++++++++++++++++++++++++++++++++++++++++++
 //      CUSTOMSELECT: Customizar el select
 // +++++++++++++++++++++++++++++++++++++++++++
-
+	
 	jQuery.fn.customSelect = function(options){
 		var defaults = $.extend({
 			selectHidden: 'select-hidden',
@@ -404,6 +380,10 @@
 		});
 	};
 
+/* **********************************************
+     Begin customSlider.js
+********************************************** */
+
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //      CUSTOMSLIDER: Deslizar el rango para cambiar valor de bits
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -480,6 +460,10 @@
 		});
 	};
 
+/* **********************************************
+     Begin changeBox.js
+********************************************** */
+
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //      CHANGEBOX: Cambiar div para seleccionar direccion/tarjeta
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -505,6 +489,10 @@
 			changeSelected(this);
 		});
 	};
+
+/* **********************************************
+     Begin dropMainMenu.js
+********************************************** */
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //		DROPMAINMENU: Drop menus del carrito y de mi cuenta
@@ -561,10 +549,14 @@
 		});
 	};
 
+/* **********************************************
+     Begin imageError.js
+********************************************** */
+
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //      IMAGEERROR: Poner imagen de error cuando no la encuentre
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
+	
 	jQuery.fn.imageError = function(){
 		var defaults = {
 			src: 'images/misc/noImge.jpg',
@@ -580,10 +572,14 @@
 		});
 	};
 
+/* **********************************************
+     Begin fancyBox.js
+********************************************** */
+
 // ++++++++++++++++++++++++++++++++++++++
 //      FANCYBOX: Modales con FancyBox
 // ++++++++++++++++++++++++++++++++++++++
-
+	
 	jQuery.fn.fancyBox = function(){
 		var optionsFancybox = {},
 		defaultFancybox = function(obj){
@@ -639,10 +635,38 @@
 		});
 	};
 
+/* **********************************************
+     Begin requiredField.js
+********************************************** */
+
+// +++++++++++++++++++++++++++++++++++++++++
+//      REQUIREDFIELD: Campos requeridos
+//		Dependencias: toolTip.js
+// +++++++++++++++++++++++++++++++++++++++++
+
+	jQuery.fn.requiredField = function (options) {
+		var defaults = $.extend({
+			wrapper: 'required-wrapper',
+			icon: 'iconFont-star'
+		}, options),
+		wrappingInput = function(obj){
+			$(obj).wrap('<div class="'+ defaults.wrapper +'"/>');
+			$(obj).parent().append('<span class="'+ defaults.icon +'" data-tooltip="'+ $(obj).data('requiredfield')+'"/>');
+			$(obj).siblings('.'+defaults.icon).toolTip();
+		};
+		return this.each(function(){
+			wrappingInput(this);
+		});
+	};
+
+/* **********************************************
+     Begin scrollpane.js
+********************************************** */
+
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //      SCROLLPANE: Scroll que aparece / desaparece
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
+	
 	jQuery.fn.scrollpane = function (options) {
 		var defaults= $.extend({
 			parent: '.scrollpane',
@@ -668,6 +692,10 @@
 		});
 	};
 
+/* **********************************************
+     Begin showHideDiv.js
+********************************************** */
+
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //      SHOWHIDEDIV: Abrir el DIV superior del encabezado
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -689,6 +717,10 @@
 			});
 		});
 	};
+
+/* **********************************************
+     Begin tabs.js
+********************************************** */
 
 // +++++++++++++++++++++++++++++++++++
 //      TABS: Pestañas
@@ -712,14 +744,18 @@
 		});
 	};
 
+/* **********************************************
+     Begin toolTip.js
+********************************************** */
+
 // ++++++++++++++++++++++++++++++++++++
 //		TOOLTIP: Tooltips en objetos
 // ++++++++++++++++++++++++++++++++++++
-
+	
 	jQuery.fn.toolTip = function(options){
-		var defaults = $.extend({
+		var defaults = {
 			clase: 'tooltip'
-		}, options),
+		},
 		asignaValor = function(obj){
 			var $this = $(obj), valor;
 			if ($this.text() !== '') {
@@ -730,13 +766,16 @@
 				valor = $this.data('tooltip');
 			} else if($this.attr('title')){
 				valor = $this.attr('title');
+			} else if($this.attr('alt')){
+				valor = $this.attr('alt');
 			} else {
 				valor = '';
 			}
 			return valor;
 		},
-		appendHTML = function(valor){
+		appendHTML = function(valor, obj){
 			$('body').append('<div class="'+ defaults.clase +'">' + valor + '</div>');
+			$(obj).attr('title', '');
 		},
 		mueveTooltip = function(e){
 			if ($('.msie').length){
@@ -751,27 +790,49 @@
 				});
 			}
 		},
-		remueveHTML = function(){
+		remueveHTML = function(valor, obj){
 			$('body').find('.'+defaults.clase).remove();
+			$(obj).attr('title', valor);
 		};
 		return this.each(function(){
+			if(options){
+				defaults = $.extend(defaults, options);
+			}
 			var val = asignaValor(this);
 			if (val !== ''){
 				$(this).on({
-					mouseenter: function(){appendHTML(val);},
+					mouseenter: function(){appendHTML(val, this);},
 					mousemove: mueveTooltip,
-					mouseleave: remueveHTML
+					mouseleave: function(){remueveHTML(val, this);}
 				});
 			}
 		});
 	};
 
+/* **********************************************
+     Begin scriptALL.js
+********************************************** */
 
-
-
+// @codekit-prepend  "js/scripts/carouselSwiper.js";
+// @codekit-prepend  "js/scripts/customCheckbox.js";
+// @codekit-prepend  "js/scripts/customRadio.js";
+// @codekit-prepend  "js/scripts/customSelect.js";
+// @codekit-prepend  "js/scripts/customSlider.js";
+// @codekit-prepend  "js/scripts/changeBox.js";
+// @codekit-prepend  "js/scripts/dropMainMenu.js";
+// @codekit-prepend  "js/scripts/imageError.js";
+// @codekit-prepend  "js/scripts/fancyBox.js";
+// @codekit-prepend  "js/scripts/requiredField.js";
+// @codekit-prepend  "js/scripts/scrollpane.js";
+// @codekit-prepend  "js/scripts/showHideDiv.js";
+// @codekit-prepend  "js/scripts/tabs.js";
+// @codekit-prepend  "js/scripts/toolTip.js";
+})(jQuery);
+(function(){
 	$('.select').customSelect();
 	$('.slideInput').customSlider();
 	$('.fancybox').fancyBox();
-	$('img').imageError({ src: 'clickoneroInclude/images/misc/noImage.jpg'});
+	$('img').imageError({ src: '../images/misc/noImage.jpg'});
+	$('.requiredField').requiredField();
 	$('.openClose').showHideDiv();
-})(jQuery);
+})();

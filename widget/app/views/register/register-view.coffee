@@ -68,5 +68,4 @@ module.exports = class ModalRegisterView extends View
     error = utils.safeParse(xhr.responseText)
     message = if error then error.meta.message else textStatus
     console.log xhr
-    @$('.errorDiv').css('display':'block')
-    @$('.errorDiv p').text(message)
+    @$('.errorDiv p').text(message).parent().css('display':'block')

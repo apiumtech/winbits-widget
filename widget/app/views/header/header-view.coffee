@@ -17,4 +17,5 @@ module.exports = class HeaderView extends View
   attach: ->
     super
     console.log "header-view#attach"
+    @$('.openClose').showHideDiv();
     @$('.wbc-default-action', '#wbi-message-modal').click -> $.fancybox.close()

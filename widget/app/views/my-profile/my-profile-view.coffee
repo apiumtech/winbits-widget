@@ -18,3 +18,4 @@ module.exports = class MyProfileView extends View
   attach: ->
     super
     @$('.divGender').customRadio()
+    @$('.requiredField').requiredField()
