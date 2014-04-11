@@ -5,6 +5,7 @@ MyProfile = require 'models/my-profile/my-profile'
 MyProfileView = require 'views/my-profile/my-profile-view'
 MyAccountView = require 'views/my-account/my-account-view'
 mediator = Winbits.Chaplin.mediator
+$ = Winbits.$
 
 module.exports = class LoggedInController extends Controller
   # Reusabilities persist stuff between controllers.

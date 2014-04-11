@@ -3,7 +3,7 @@ utils = require 'lib/utils'
 $ = Winbits.$
 env = Winbits.env
 
-module.exports = class ModalRegisterView extends View
+module.exports = class ModalRecoverPasswordView extends View
   container: '#wbi-winbits-modals'
   id: 'wbi-recover-password-modal'
   template: require './templates/recover-password'
@@ -39,7 +39,7 @@ module.exports = class ModalRegisterView extends View
 
   doRecoverPasswordSuccess :->
     message = "Te hemos mandado un mensaje a tu cuenta de correo con las instrucciones para recuperar tu contraseña."
-    options = value: "Aceptar", title:'Correo enviado', onClosed: utils.redirectTo(controller: 'home', action: 'index'), icon: 'iconFont-email'
+    options = value: "Aceptar", title:'Correo enviado', onClosed: utils.redirectTo(controller: 'home', action: 'index'), icon: 'iconFont-email2'
     utils.showMessageModal(message, options)
     console.log 'evento publicado'
 

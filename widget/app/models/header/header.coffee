@@ -1,5 +1,5 @@
 Model = require 'models/base/model'
-# TODO: Quitar filtro de current vertical y usar env
+
 module.exports = class Header extends Model
 
   initialize: (data)->
@@ -10,6 +10,5 @@ module.exports = class Header extends Model
         response: data.verticalsData
 
   parse: (data) ->
-    result = (v for v in data.response when v.id is data.meta.currentVerticalId)
-    currentVertical: result[0]
+    currentVerticalId: data.meta.currentVerticalId
     activeVerticals: data.response

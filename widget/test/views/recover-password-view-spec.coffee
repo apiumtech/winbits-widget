@@ -14,6 +14,14 @@ describe 'RecoverPasswordViewSpec', ->
     $.validator.setDefaults({ ignore: ':hidden' });
 
   beforeEach ->
+    currentVertical = id: 1, baseUrl: 'http://www.test-winbits.com', name: 'Winbits Test'
+    sinon.stub(Winbits.env, 'get')
+      .withArgs('current-vertical-id').returns(currentVertical.id)
+      .withArgs('current-vertical').returns(currentVertical)
+      .withArgs('verticals-data').returns([
+        currentVertical,
+        { id: 2, baseUrl: 'http://dev.mylooq.com', name: 'My LOOQ' }
+    ])
     @model = new RecoverPasswordModel
     @recoverPasswordView = new RecoverPasswordView model: @model, autoAttach: false
     sinon.stub(@recoverPasswordView, 'showAsModal')
@@ -23,6 +31,8 @@ describe 'RecoverPasswordViewSpec', ->
   afterEach ->
     @recoverPasswordView.showAsModal.restore?()
     utils.ajaxRequest.restore?()
+    Winbits.env.get.restore?()
+
     @recoverPasswordView.dispose()
 
   it 'recover password view rendered',  ->
