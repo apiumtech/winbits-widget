@@ -42,6 +42,6 @@ describe 'HeaderSpec', ->
 
     parsedData = @model.parse data
 
-    expect(parsedData).to.have.keys('currentVertical', 'activeVerticals')
-    expect(parsedData.currentVertical).to.be.deep.equal(id: 1, baseUrl: 'dev.winbits-test.com')
+    expect(parsedData).to.have.keys('currentVerticalId', 'activeVerticals')
+    expect(parsedData.currentVerticalId).to.be.equal(1)
     expect(parsedData.activeVerticals).to.be.deep.equal(data.response)

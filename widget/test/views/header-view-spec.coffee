@@ -14,7 +14,7 @@ describe 'HeaderViewSpec', ->
 
   afterEach ->
     @view.dispose()
-    @model.clear
+    @model.dispose()
 
   it 'shoul be rendered', ->
     expect(@view.$ '.widgetWinbitsHeader').to.exist
