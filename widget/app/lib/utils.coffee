@@ -284,7 +284,7 @@ _(utils).extend
     options.context ?= @
     options.onClosed ?= $.noop
     options.title ?= 'Confirma'
-    options.icon ?="icontFont-next"
+    options.icon ?="icontFont-question"
 #    onStart = $.proxy(options.onStart or $.noop, context)
 #    onCancel = $.proxy(options.onCancel or $.noop, context)
 #    onComplete = $.proxy(options.onComplete or $.noop, context)
