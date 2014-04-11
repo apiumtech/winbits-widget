@@ -1,8 +1,8 @@
 module.exports = (match) ->
   match '', 'home#index'
-  match 'login', 'login#index'
-  match 'logged-in', 'logged-in#index'
-  match 'not-logged-in', 'not-logged-in#index'
+  match 'wb-login', 'login#index'
+  match 'wb-logged-in', 'logged-in#index'
+  match 'wb-not-logged-in', 'not-logged-in#index'
   match 'wb-register', 'register#index'
   match 'wb-recover-password', 'recover-password#index'
 #  match 'wb-reset-password', 'recover-password#index'

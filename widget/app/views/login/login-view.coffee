@@ -31,6 +31,7 @@ module.exports = class LoginView extends View
     $('<a>').wbfancybox(href: '#' + @id, onClosed: -> utils.redirectTo controller: 'home', action: 'index').click()
 
   doLogin:(e) ->
+    @$('.errorDiv').css('display':'none')
     $form = $(e.currentTarget).closest('form')
     if utils.validateForm($form)
       formData = verticalId: env.get('current-vertical-id')
@@ -52,4 +53,4 @@ module.exports = class LoginView extends View
   doLoginError: (xhr, textStatus) ->
     error = utils.safeParse(xhr.responseText)
     message = if error then error.meta.message else textStatus
-    @$('.errorDiv p').text(message)
+    @$('.errorDiv p').text(message).parent().css('display':'block')
