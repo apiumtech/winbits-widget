@@ -1,5 +1,5 @@
 <div class="column miCuenta-profile" xmlns="http://www.w3.org/1999/html">
-  <form method="post" action="#" accept-charset="utf-8" id="wbi-personal-data-form" novalidate="novalidate">
+  <form method="post" action="#" accept-charset="utf-8" id="wbi-personal-data-form">
     <h3>DATOS PERSONALES</h3>
     <span>  {{email}}</span>
     <input type="text" name="name" placeholder="Nombre" class="requiredField" value="{{name}}" data-requiredfield="Nombre Requerido">
@@ -21,20 +21,20 @@
       <option value="">Colonia/Asentamiento:</option>
     </select>
     <input type="text" id="winbitsProfilePhone" name="phone" placeholder="Teléfono" value="{{phone}}">
-    <input type="submit" value="Guardar" class="btn editBtn">
+    <input type="button" value="Guardar" class="btn editBtn" id="wbi-update-profile-btn">
   </form>
 
 </div>
 <div class="column miCuenta-password">
-  <form method="post" action="#" accept-charset="utf-8" id="wbi-change-password-form" novalidate="novalidate">
+  <form method="post" action="#" accept-charset="utf-8" id="wbi-change-password-form">
     <h3>CAMBIAR PASSWORD</h3>
-    <input type="password" id="winbitsPasswordActual" name="winbitsPasswordActual" class="requiredField"
+    <input type="password" name="password" class="requiredField"
            placeholder="Password Actual" data-requiredfield="Password Actual Requerido">
-    <input type="password" id="winbitsPasswordNew" name="winbitsPasswordNew" class="requiredField"
+    <input type="password" name="newPassword" class="requiredField"
            placeholder="Nuevo Password" data-requiredfield="Nuevo Password Requerido">
-    <input type="password" id="winbitsPasswordNewAgain" name="winbitsPasswordNewAgain"
+    <input type="password" name="passwordConfirm"
            placeholder="Confirmar Nuevo Password">
-    <input type="submit" value="Guardar" class="btn editBtn">
+    <input type="button" value="Guardar" class="btn editBtn" id="wbi-change-password-btn">
   </form>
 </div>
 <div class="column" id="wbi-social-media-panel">

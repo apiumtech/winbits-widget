@@ -39,8 +39,8 @@ module.exports = class CompleteRegisterView extends View
       $('<a>').wbfancybox(href: '#wbi-complete-register-modal', onClosed: -> utils.redirectTo controller:'home', action:'index').click()
 
   completeRegister: (e)->
-    data = utils.serializeProfileForm @$('#wbi-complete-register-form')
     $form = @$('#wbi-complete-register-form')
+    data = utils.serializeProfileForm $form
     if($form.valid())
       submitButton = @$(e.currentTarget).prop('disabled', yes)
       @model.requestUpdateProfile(data, context: @)
