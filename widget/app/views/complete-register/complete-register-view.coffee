@@ -35,8 +35,8 @@ module.exports = class CompleteRegisterView extends View
           minlength:7
 
   showAsModal: ->
-    $('<a>').wbfancybox(href: '#wbi-complete-register-modal', onClosed: -> utils.redirectTo controller:'home', action:'index').click()
-
+    $ ->
+      $('<a>').wbfancybox(href: '#wbi-complete-register-modal', onClosed: -> utils.redirectTo controller:'home', action:'index').click()
 
   completeRegister: (e)->
     data = utils.serializeProfileForm @$('#wbi-complete-register-form')

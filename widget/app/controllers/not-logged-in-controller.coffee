@@ -2,12 +2,13 @@ Controller = require "controllers/base/controller"
 NotLoggedInView = require 'views/not-logged-in/not-logged-in-view'
 utils = require 'lib/utils'
 mediator = Winbits.Chaplin.mediator
-
+$ = Winbits.$
 module.exports = class NotLoggedInController extends Controller
   # Reusabilities persist stuff between controllers.
   # You may also persist models etc.
   beforeAction: ->
     super
+    $ -> $.fancybox.close()
     if not mediator.data.get 'login-data'
       @reuse 'not-logged-in', NotLoggedInView
     else
