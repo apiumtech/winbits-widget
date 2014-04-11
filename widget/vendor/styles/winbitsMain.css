@@ -83,269 +83,335 @@
 .iconFont-clickOnero3:before {
   content: "\e601";
 }
-.iconFont-clickOnero:before {
+.iconFont-clickOnero-:before {
   content: "\e602";
 }
-.iconFont-myLooq3:before {
+.iconFont-clickOnero:before {
   content: "\e603";
 }
-.iconFont-myLooq2:before {
+.iconFont-myLooq3:before {
   content: "\e604";
 }
-.iconFont-myLooq:before {
+.iconFont-myLooq2:before {
   content: "\e605";
 }
-.iconFont-pandaSport2:before {
+.iconFont-myLooq:before {
   content: "\e606";
 }
-.iconFont-pandaSports:before {
+.iconFont-pandaSport2:before {
   content: "\e607";
 }
-.iconFont-pandaSports2:before {
+.iconFont-pandaSports:before {
   content: "\e608";
 }
-.iconFont-coupons:before {
+.iconFont-pandaSports2:before {
   content: "\e609";
 }
-.iconFont-coupon:before {
+.iconFont-coupons:before {
   content: "\e60a";
 }
-.iconFont-equalMoney:before {
+.iconFont-coupon:before {
   content: "\e60b";
 }
-.iconFont-video:before {
+.iconFont-equalMoney:before {
   content: "\e60c";
 }
-.iconFont-candado:before {
+.iconFont-video:before {
   content: "\e60d";
 }
-.iconFont-downbanner:before {
+.iconFont-candado:before {
   content: "\e60e";
 }
-.iconFont-upbanner:before {
+.iconFont-downbanner:before {
   content: "\e60f";
 }
-.iconFont-facebookCircle2:before {
+.iconFont-upbanner:before {
   content: "\e610";
 }
-.iconFont-facebookCircle:before {
+.iconFont-facebookCircle2:before {
   content: "\e611";
 }
-.iconFont-twitterCircle:before {
+.iconFont-facebookCircle:before {
   content: "\e612";
 }
-.iconFont-pinterestCircle:before {
+.iconFont-twitterCircle:before {
   content: "\e613";
 }
-.iconFont-facebook:before {
+.iconFont-pinterestCircle:before {
   content: "\e614";
 }
-.iconFont-twitter:before {
+.iconFont-facebook:before {
   content: "\e615";
 }
-.iconFont-pinterest:before {
+.iconFont-twitter:before {
   content: "\e616";
 }
-.iconFont-leftA:before {
+.iconFont-pinterest:before {
   content: "\e617";
 }
-.iconFont-left2:before {
+.iconFont-leftA:before {
   content: "\e618";
 }
-.iconFont-rightA:before {
+.iconFont-left2:before {
   content: "\e619";
 }
-.iconFont-right2:before {
+.iconFont-rightA:before {
   content: "\e61a";
 }
-.iconFont-left:before {
+.iconFont-right2:before {
   content: "\e61b";
 }
-.iconFont-right:before {
+.iconFont-left:before {
   content: "\e61c";
 }
-.iconFont-prev:before {
+.iconFont-right:before {
   content: "\e61d";
 }
-.iconFont-next:before {
+.iconFont-prev:before {
   content: "\e61e";
 }
-.iconFont-restaurant:before {
+.iconFont-next:before {
   content: "\e61f";
 }
-.iconFont-hotel:before {
+.iconFont-prev3:before {
   content: "\e620";
 }
-.iconFont-bus:before {
+.iconFont-next3:before {
   content: "\e621";
 }
-.iconFont-ticket:before {
+.iconFont-restaurant:before {
   content: "\e622";
 }
-.iconFont-plane:before {
+.iconFont-hotel:before {
   content: "\e623";
 }
-.iconFont-savemoney:before {
+.iconFont-bus:before {
   content: "\e624";
 }
-.iconFont-new:before {
+.iconFont-ticket:before {
   content: "\e625";
 }
-.iconFont-moneyCircle:before {
+.iconFont-plane:before {
   content: "\e626";
 }
-.iconFont-like:before {
+.iconFont-savemoney:before {
   content: "\e627";
 }
-.iconFont-email:before {
+.iconFont-new:before {
   content: "\e628";
 }
-.iconFont-phone:before {
+.iconFont-moneyCircle:before {
   content: "\e629";
 }
-.iconFont-ok:before {
+.iconFont-like:before {
   content: "\e62a";
 }
-.iconFont-no:before {
+.iconFont-email:before {
   content: "\e62b";
 }
-.iconFont-question:before {
+.iconFont-phone:before {
   content: "\e62c";
 }
-.iconFont-lupa:before {
+.iconFont-ok:before {
   content: "\e62d";
 }
-.iconFont-lineslider:before {
+.iconFont-no:before {
   content: "\e62e";
 }
-.iconFont-line2:before {
+.iconFont-question:before {
   content: "\e62f";
 }
-.iconFont-line:before {
+.iconFont-lupa:before {
   content: "\e630";
 }
-.iconFont-info:before {
+.iconFont-lineslider:before {
   content: "\e631";
 }
-.iconFont-heart:before {
+.iconFont-line2:before {
   content: "\e632";
 }
-.iconFont-graphic:before {
+.iconFont-line:before {
   content: "\e633";
 }
-.iconFont-flecha:before {
+.iconFont-info:before {
   content: "\e634";
 }
-.iconFont-downmenu:before {
+.iconFont-heart:before {
   content: "\e635";
 }
-.iconFont-down:before {
+.iconFont-graphic:before {
   content: "\e636";
 }
-.iconFont-up:before {
+.iconFont-flecha:before {
   content: "\e637";
 }
-.iconFont-cruz:before {
+.iconFont-downmenu:before {
   content: "\e638";
 }
-.iconFont-clock:before {
+.iconFont-down:before {
   content: "\e639";
 }
-.iconFont-check2:before {
+.iconFont-up:before {
   content: "\e63a";
 }
-.iconFont-check4:before {
+.iconFont-cruz:before {
   content: "\e63b";
 }
-.iconFont-check1:before {
+.iconFont-clock:before {
   content: "\e63c";
 }
-.iconFont-check3:before {
+.iconFont-check2:before {
   content: "\e63d";
 }
-.iconFont-cart:before {
+.iconFont-check4:before {
   content: "\e63e";
 }
-.iconFont-calendar2:before {
+.iconFont-check1:before {
   content: "\e63f";
 }
-.iconFont-calendar:before {
+.iconFont-check3:before {
   content: "\e640";
 }
-.iconFont-caledar2:before {
+.iconFont-cart:before {
   content: "\e641";
 }
-.iconFont-box:before {
+.iconFont-calendar2:before {
   content: "\e642";
 }
-.iconFont-bit:before {
+.iconFont-calendar:before {
   content: "\e643";
 }
-.iconFont-w-underwear:before {
+.iconFont-caledar2:before {
   content: "\e644";
 }
-.iconFont-w-top:before {
+.iconFont-box:before {
   content: "\e645";
 }
-.iconFont-w-sweater:before {
+.iconFont-bit:before {
   content: "\e646";
 }
-.iconFont-w-skirt:before {
+.iconFont-w-underwear:before {
   content: "\e647";
 }
-.iconFont-m-sweater:before {
+.iconFont-w-top:before {
   content: "\e648";
 }
-.iconFont-w-pants:before {
+.iconFont-w-sweater:before {
   content: "\e649";
 }
-.iconFont-w-dress:before {
+.iconFont-w-skirt:before {
   content: "\e64a";
 }
-.iconFont-m-shirt:before {
+.iconFont-m-sweater:before {
   content: "\e64b";
 }
-.iconFont-m-pants:before {
+.iconFont-w-pants:before {
   content: "\e64c";
 }
-.iconFont-m-underwear:before {
+.iconFont-w-dress:before {
   content: "\e64d";
 }
-.iconFont-close:before {
+.iconFont-m-shirt:before {
   content: "\e64e";
 }
-.iconFont-creditcard:before {
+.iconFont-m-pants:before {
   content: "\e64f";
 }
-.iconFont-send:before {
+.iconFont-m-underwear:before {
   content: "\e650";
 }
-.iconFont-clock2:before {
+.iconFont-close:before {
   content: "\e651";
 }
-.iconFont-paypal:before {
+.iconFont-creditcard:before {
   content: "\e652";
 }
-.iconFont-amex:before {
+.iconFont-send:before {
   content: "\e653";
 }
-.iconFont-visa:before {
+.iconFont-clock2:before {
   content: "\e654";
 }
-.iconFont-oxxo:before {
+.iconFont-paypal:before {
   content: "\e655";
 }
-.iconFont-efectivo:before {
+.iconFont-amex:before {
   content: "\e656";
 }
-.iconFont-mastercard:before {
+.iconFont-visa:before {
   content: "\e657";
 }
-.iconFont-arrowLeft:before {
+.iconFont-oxxo:before {
   content: "\e658";
 }
-.iconFont-arrowRight:before {
+.iconFont-efectivo:before {
   content: "\e659";
+}
+.iconFont-mastercard:before {
+  content: "\e65a";
+}
+.iconFont-arrowLeft:before {
+  content: "\e65b";
+}
+.iconFont-arrowRight:before {
+  content: "\e65c";
+}
+.iconFont-billete:before {
+  content: "\e65d";
+}
+.iconFont-codebar:before {
+  content: "\e65e";
+}
+.iconFont-courthouse:before {
+  content: "\e65f";
+}
+.iconFont-computerDoc:before {
+  content: "\e660";
+}
+.iconFont-document:before {
+  content: "\e661";
+}
+.iconFont-bag:before {
+  content: "\e662";
+}
+.iconFont-play:before {
+  content: "\e663";
+}
+.iconFont-phonetalk:before {
+  content: "\e664";
+}
+.iconFont-finger:before {
+  content: "\e665";
+}
+.iconFont-link:before {
+  content: "\e666";
+}
+.iconFont-printer:before {
+  content: "\e667";
+}
+.iconFont-efectivo2:before {
+  content: "\e668";
+}
+.iconFont-computer:before {
+  content: "\e669";
+}
+.iconFont-email2:before {
+  content: "\e66a";
+}
+.iconFont-winbits:before {
+  content: "\e66b";
+}
+.iconFont-required:before {
+  content: "\e66c";
+}
+.iconFont-star:before {
+  content: "\e66d";
+}
+.iconFont-docPDF:before {
+  content: "\e66e";
+}
+.iconFont-docWEB:before {
+  content: "\e66f";
 }
 .iconBit {
   color: #897d20;
@@ -548,10 +614,10 @@
   transition: 0.3s;
 }
 .iconVertical-n.vertical2:before {
-  content: "\e604";
+  content: "\e605";
 }
 .iconVertical-n.vertical3:before {
-  content: "\e606";
+  content: "\e607";
 }
 .iconVertical-n.vertical4:before {
   content: "\e600";
@@ -560,10 +626,10 @@
   background-color: #ffffff;
 }
 .iconVertical-n:hover.vertical2:before {
-  content: "\e603";
+  content: "\e604";
 }
 .iconVertical-n:hover.vertical3:before {
-  content: "\e607";
+  content: "\e608";
 }
 .iconVertical-n:hover.vertical4:before {
   content: "\e601";
@@ -574,22 +640,34 @@
   background-color: #ffffff;
 }
 .iconVertical-n.current:hover.vertical2:before {
-  content: "\e604";
+  content: "\e606";
 }
 .iconVertical-n.current:hover.vertical3:before {
-  content: "\e606";
+  content: "\e607";
 }
 .iconVertical-n.current:hover.vertical4:before {
   content: "\e600";
 }
-.vertical2:before {
-  content: "\e605";
+.iconVertical-w {
+  font-size: 70px;
 }
-.vertical3:before {
+.iconVertical-w.vertical3:before {
   content: "\e608";
 }
+.iconVertical-w.vertical3 {
+  font-size: 40px;
+}
+.iconVertical-w.vertical4 {
+  font-size: 90px;
+}
+.vertical2:before {
+  content: "\e606";
+}
+.vertical3:before {
+  content: "\e609";
+}
 .vertical4:before {
-  content: "\e602";
+  content: "\e603";
 }
 article,
 aside,
@@ -1381,6 +1459,14 @@ button.btn.btn-mini,
 input[type="submit"].btn.btn-mini {
   *padding-top: 1px;
   *padding-bottom: 1px;
+}
+.widgetWinbitsMain .dataTable .iconVertical-t,
+.miCuenta-tabs .dataTable .iconVertical-t {
+  color: #000000;
+}
+.widgetWinbitsMain .dataTable .iconVertical-t:hover,
+.miCuenta-tabs .dataTable .iconVertical-t:hover {
+  color: #6e99fc;
 }
 .widgetWinbitsMain .dataTable table,
 .miCuenta-tabs .dataTable table {
@@ -2299,6 +2385,14 @@ input[type="submit"].btn.btn-mini {
   height: 27px;
   width: 91px;
 }
+.winbits34px {
+  background-position: 2px -478px;
+  line-height: 114px;
+  overflow: hidden;
+  text-indent: 441px;
+  height: 38px;
+  width: 147px;
+}
 .winbits11px {
   background-position: -438px -87px;
   line-height: 45px;
@@ -2768,6 +2862,18 @@ input[type="submit"].btn.btn-mini {
 /*. {
 	background-position: -px -px;
 }*/
+.errorDiv {
+  margin: 5px;
+}
+.errorDiv p {
+  background: rgba(235, 33, 46, 0.1);
+  display: block;
+  font-size: 15px;
+  color: #dd092c;
+  text-align: left;
+  padding: 10px;
+  margin: 5px 0;
+}
 .btnSmall {
   background: #fff609;
   color: #000000;
@@ -2994,6 +3100,7 @@ span.errorInputError {
   color: #cccccc;
   cursor: pointer;
   line-height: normal;
+  height: auto;
   padding: 2px 5px;
   text-align: center;
   text-indent: 0;
@@ -3466,6 +3573,9 @@ span.errorInputOK {
   margin: 0 0 0 -10px;
   z-index: 3;
 }
+.thanks-div.recoveryPassword {
+  margin: -5px 0 0 -60px;
+}
 .thanks-div .loader {
   background: #000000 url("../../images/misc/fancybox_loading.gif");
   border: 10px solid #000000;
@@ -3520,6 +3630,22 @@ span.errorInputOK {
 }
 .thanks-div .btn:hover {
   border-color: #363636;
+}
+.required-wrapper {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  width: auto;
+  *display: inline;
+  /* IE7 inline-block hack */
+  zoom: 1;
+}
+.required-wrapper .iconFont-star {
+  color: #dd092c;
+  font-size: 10px;
+  position: absolute;
+  top: 7px;
+  right: -13px;
 }
 main {
   margin: 130px auto 0 auto;
@@ -3623,15 +3749,6 @@ main {
 }
 .widgetWinbitsHeader .knowmoreFolder .knowMoreMax .knowMoreMax-icons a:hover {
   color: #fff609;
-}
-.widgetWinbitsHeader .knowmoreFolder .knowMoreMax .iconVertical-w {
-  font-size: 70px;
-}
-.widgetWinbitsHeader .knowmoreFolder .knowMoreMax .iconVertical-w.vertical3 {
-  font-size: 50px;
-}
-.widgetWinbitsHeader .knowmoreFolder .knowMoreMax .iconVertical-w.vertical4 {
-  font-size: 90px;
 }
 .widgetWinbitsHeader .knowmoreFolder .knowMoreMax .iconFont-cart {
   font-size: 45px;
@@ -4034,6 +4151,11 @@ main {
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .creditcardNew .inputNumber input {
   width: 68px !important;
 }
+.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .shippingNewAddress .inputNumber .iconFont-star,
+.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .creditcardNew .inputNumber .iconFont-star {
+  right: inherit;
+  left: -14px;
+}
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .shippingNewAddress .columnLarge,
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .creditcardNew .columnLarge {
   width: 250px !important;
@@ -4104,6 +4226,15 @@ main {
   *display: inline;
   /* IE7 inline-block hack */
   zoom: 1;
+}
+.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .errorDiv {
+  margin-left: -10px;
+}
+.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .errorDiv p {
+  font-size: 12px;
+}
+.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .required-wrapper .iconFont-required {
+  right: -10px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .divCheckbox label {
   font-size: 11px;
@@ -5078,13 +5209,10 @@ main {
 .login .contentModal {
   padding: 0 30px;
   text-align: center;
+  position: relative;
 }
 .login .divCheckbox {
   display: block;
-}
-.login .errorDiv {
-  height: 30px;
-  text-align: left;
 }
 .login .forgotRegister {
   font-size: 12px;
@@ -5202,6 +5330,18 @@ main {
   overflow: hidden;
   margin: 0 auto;
 }
+.confirmationContent.couponsModal {
+  width: 600px;
+}
+.confirmationContent.couponsModal .confirmation-content {
+  width: 485px;
+}
+.confirmationContent.couponsModal .confirmation-icon {
+  vertical-align: middle;
+}
+.confirmationContent.couponsModal .confirmation-content {
+  vertical-align: middle;
+}
 .confirmationContent h2 {
   background: #1a1a1a;
   color: #ffffff;
@@ -5209,6 +5349,10 @@ main {
   padding: 10px 20px;
   text-align: center;
   margin: 0 -20px 20px -20px;
+}
+.confirmationContent h3 {
+  font-size: 15px;
+  margin-bottom: 20px;
 }
 .confirmationContent p {
   margin: 10px 0;
@@ -5233,7 +5377,7 @@ main {
   font-weight: normal;
 }
 .confirmationContent .confirmation-icon {
-  font-size: 70px;
+  font-size: 70px !important;
   margin: 20px 10px;
   display: inline-block;
   vertical-align: top;
@@ -5241,6 +5385,42 @@ main {
   *display: inline;
   /* IE7 inline-block hack */
   zoom: 1;
+}
+.confirmationContent .confirmationTable [class^="iconFont-"],
+.confirmationContent .confirmationTable [class*=" iconFont-"] {
+  font-size: 30px;
+}
+.confirmationContent .confirmationTable [class^="iconFont-"]:hover,
+.confirmationContent .confirmationTable [class*=" iconFont-"]:hover {
+  color: #000000;
+  text-decoration: none;
+}
+.confirmationContent .confirmationTable th {
+  font-size: 12px;
+  font-family: 'OmnesMedium', Arial;
+  font-style: normal;
+  font-weight: normal;
+}
+.confirmationContent .confirmationTable td {
+  background: #dedede;
+  border-left: 2px solid #f7f7f7;
+  padding: 10px;
+}
+.confirmationContent .confirmationTable td:first-child {
+  border: none;
+}
+.confirmationContent .confirmationTable tr:nth-child(even) td {
+  background: #ebebeb;
+}
+.confirmationContent .confirmationTable .iconFont-docPDF {
+  color: #dd092c;
+}
+.confirmationContent .confirmationTable .iconFont-docWEB {
+  color: #6e99fc;
+}
+.confirmationContent .confirmationTable .table-download {
+  text-align: center;
+  width: 100px;
 }
 /*main {
 	margin: 130px auto 0 auto;

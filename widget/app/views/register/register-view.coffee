@@ -32,11 +32,12 @@ module.exports = class ModalRegisterView extends View
     $('<a>').wbfancybox(href: '#wbi-register-modal', onClosed: -> utils.redirectTo controller: 'home', action: 'index').click()
 
   register: (e)->
+    @$('.errorDiv').css('display':'none'
     e.preventDefault()
     console.log "RegisterView#register"
     $form =  @$el.find("#wbi-register-form")
     formData = verticalId: env.get('current-vertical-id')
-    formData = utils.serializeForm($form, formData)
+    formData = utils.serializeForm($form, formData))
     if utils.validateForm($form)
       submitButton = @$(e.currentTarget).prop('disabled', true)
       utils.ajaxRequest( env.get('api-url') + "/users/register.json",
@@ -59,7 +60,7 @@ module.exports = class ModalRegisterView extends View
   doRegisterSuccess: (data) ->
     console.log "Request Success!"
     message = "Gracias por registrarte con nosotros. <br> Un mensaje de confirmación ha sido enviado a tu <br> cuenta de correo."
-    options = value: "Continuar", title:'Registro Exitoso', onClosed: utils.redirectTo controller: 'home', action: 'index'
+    options = value: "Continuar", title:'Registro Exitoso', icon:'iconFont-ok', onClosed: utils.redirectTo controller: 'home', action: 'index'
     utils.showMessageModal(message, options)
     console.log 'evento publicado'
 
@@ -67,4 +68,5 @@ module.exports = class ModalRegisterView extends View
     error = utils.safeParse(xhr.responseText)
     message = if error then error.meta.message else textStatus
     console.log xhr
+    @$('.errorDiv').css('display':'block')
     @$('.errorDiv p').text(message)

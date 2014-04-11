@@ -8,7 +8,6 @@ module.exports = class NotLoggedInController extends Controller
   # You may also persist models etc.
   beforeAction: ->
     super
-    $ -> $.fancybox.close()
     if not mediator.data.get 'login-data'
       @reuse 'not-logged-in', NotLoggedInView
     else
