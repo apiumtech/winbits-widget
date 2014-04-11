@@ -13,7 +13,7 @@
           <input type="text" class="wbc-month" maxlength="2" placeholder="mm" value="{{substr birthdate start=5 length=2}}">
           <input type="text" class="wbc-year" maxlength="2" placeholder="aa" value="{{substr birthdate start=2 length=2}}">
         </div>
-        <div class="divGender">
+        <div class="fieldsetDiv divGender">
           <label>Género</label>
           <input type="radio" value="H" name="gender" {{#compare gender 'male'}}checked="checked"{{/compare}}>
           <input type="radio" value="M" name="gender" {{#compare gender 'female'}}checked="checked"{{/compare}}>
@@ -31,9 +31,9 @@
       <aside class="asideModal">
         <p>USA TU CUENTA WINBITS <br>EN TODOS ESTOS SITIOS:</p>
         <ul>
-          {{#each activeVerticals}}
+          {{#eachActiveVertical}}
             <li><a href="{{baseUrl}}" class="iconVertical-r vertical{{id}}" title="{{name}}"></a></li>
-          {{/each}}
+          {{/eachActiveVertical}}
         </ul>
         <span>UNA MISMA CUENTA, UN SÓLO LOGIN<br>Y EN TODOS GANAS WINBITS</span>
       </aside>

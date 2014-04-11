@@ -71,7 +71,10 @@ _(utils).extend
     formData
 
   getBirthdate: ($form) ->
-    @getYear($form) + '-' + @getMonth($form) + '-' + @getDay($form)
+   birthdate = (@getYear($form) + '-' + @getMonth($form) + '-' + @getDay($form))
+   if birthdate.length != 10
+     birthdate = null
+   birthdate
 
   getDay: ($form) ->
     @getDateValue($form, ".wbc-day") or ''

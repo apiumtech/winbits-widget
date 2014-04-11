@@ -5,9 +5,9 @@
             <span class="icon winbits22px">Logo Winbits</span>
             <div class="knowMoreMax-item">
               <div class="knowMoreMax-icons">
-                <a href="#" class="iconVertical-w vertical3" title="Panda Sports"></a>
-                <a href="#" class="iconVertical-w vertical2" title="My Looq"></a>
-                <a href="#" class="iconVertical-w vertical4" title="clickOnero"></a>
+                {{#eachActiveVertical}}
+                  <a href="{{baseUrl}}" class="iconVertical-w vertical{{id}}" title="{{name}}"></a>
+                {{/eachActiveVertical}}
               </div>
               <h2>VARIOS SITIOS</h2>
               <p>Nos hemos asociado con sitios especializados para ofrecerte los mejores productos a las mejores precios. </p>
@@ -32,7 +32,7 @@
             </div>
             <div class="knowMoreMax-buttons">
               <a href="#"><span class="iconFont-video"></span>VE NUESTRO VIDEO</a>
-              <a href="#">REGISTRATE AHORA<span class="iconFont-candado"></span></a>
+              <a href="#wb-register">REGISTRATE AHORA<span class="iconFont-candado"></span></a>
             </div>
             <span class="iconFont-upbanner openClose" data-showdiv=".knowMoreMin" data-hidediv=".knowMoreMax"></span>
           </div>

@@ -18,8 +18,6 @@ module.exports = class MyAccountView extends View
 
   initialize: ->
     super
-#    TODO: Revisar porque no funciona la deleagción de evento del botón de Logout
-#    @delegate 'click', '#wbi-my-account-logout-btn', @doLogout
     @delegate 'click', '#wbi-my-account-close', @clickClose
 
   attach: ->
