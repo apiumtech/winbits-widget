@@ -26,6 +26,7 @@ module.exports = class ModalRecoverPasswordView extends View
 
   doSendMailRecoverPassword: (e)->
     e.preventDefault()
+    @$('.errorDiv').css('display':'none')
     $form =  @$el.find(".wbc-recover-password-form")
     if utils.validateForm($form)
       formData = verticalId: env.get 'current-vertical-id'
@@ -46,4 +47,4 @@ module.exports = class ModalRecoverPasswordView extends View
   doRecoverPasswordError: (xhr, textStatus)->
     error = utils.safeParse(xhr.responseText)
     message = if error then error.meta.message else textStatus
-    @$('.errorDiv p').text(message)
+    @$('.errorDiv p').text(message).parent().css('display':'block')
