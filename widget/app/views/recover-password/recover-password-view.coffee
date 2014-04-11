@@ -3,7 +3,7 @@ utils = require 'lib/utils'
 $ = Winbits.$
 env = Winbits.env
 
-module.exports = class ModalRegisterView extends View
+module.exports = class ModalRecoverPasswordView extends View
   container: '#wbi-winbits-modals'
   id: 'wbi-recover-password-modal'
   template: require './templates/recover-password'
