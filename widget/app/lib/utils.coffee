@@ -68,7 +68,6 @@ _(utils).extend
     formData = {birthdate : @getBirthdate($form)}
     formData = @serializeForm($form, formData)
     formData.gender = @getGender($form)
-    console.log ['gender', formData.gender]
     formData
 
   getBirthdate: ($form) ->

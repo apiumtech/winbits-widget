@@ -6,9 +6,10 @@ $ = Winbits.$
 module.exports = class HeaderView extends View
   container: env.get 'widget-container'
   template: require './templates/header'
-  model: new Header 
+  model: new Header
     currentVerticalId: env.get 'current-vertical-id'
     verticalsData: env.get 'verticals-data'
+    currentVertical: env.get 'current-vertical'
 
   initialize: ->
     super
