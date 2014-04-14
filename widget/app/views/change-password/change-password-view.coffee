@@ -66,5 +66,5 @@ module.exports = class ChangePasswordView extends MyProfileView
     utils.showMessageModal(message, options)
 
   doResetPasswordView: ->
-    @$el.find('input').val(null)
+    @$el.find('input[type=password]').val(null)
 
