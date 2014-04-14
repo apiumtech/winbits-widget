@@ -8,7 +8,7 @@ module.exports = class ModalResetPasswordView extends View
   id: 'wbi-reset-password-modal'
   template: require './templates/reset-password'
 
-  initialize: ->
+  initialize: ()->
     super
     @delegate 'click', '#wbi-reset-password-btn', @doResetPassword
 
@@ -17,13 +17,13 @@ module.exports = class ModalResetPasswordView extends View
     @showAsModal()
     @$('.wbc-reset-password-form').validate
       rules:
-        resetPassword:
+        password:
           required: true
           minlength: 6
-        resetPasswordConfirm:
+        passwordConfirm:
           required: true
           minlength: 6
-          equalTo: @$("[name=resetPassword]")
+          equalTo: @$("[name=password]")
 
 
   showAsModal: ->
@@ -33,15 +33,23 @@ module.exports = class ModalResetPasswordView extends View
     e.preventDefault()
     @$('.errorDiv').css('display':'none')
     $form =  @$el.find(".wbc-reset-password-form")
+    $submitButton = @$(e.currentTarget).prop('disabled', yes)
+    if utils.validateForm($form)
+      formData = utils.serializeForm($form)
+      formData.hash =  @model.attributes.salt
+
+      @model.requestResetPassword(formData, context:@)
+        .done(@doResetPasswordSuccess)
+        .fail(@doResetPasswordError)
+        .always(-> $submitButton.prop('disabled', no))
 
 
-  doRecoverPasswordSuccess :->
-    message = "Te hemos mandado un mensaje a tu cuenta de correo con las instrucciones para recuperar tu contraseña."
-    options = value: "Aceptar", title:'Correo enviado', onClosed: utils.redirectTo(controller: 'home', action: 'index'), icon: 'iconFont-email2'
+  doResetPasswordSuccess :->
+    message = "Tu contraseña ha sido cambiada correctamente."
+    options = value: "Aceptar", title:'Contraseña reestablecida', onClosed: utils.redirectTo(controller: 'home', action: 'index'), icon: 'iconFont-check1'
     utils.showMessageModal(message, options)
-    console.log 'evento publicado'
 
-  doRecoverPasswordError: (xhr, textStatus)->
+  doResetPasswordError: (xhr, textStatus)->
     error = utils.safeParse(xhr.responseText)
     message = if error then error.meta.message else textStatus
     @$('.errorDiv p').text(message).parent().css('display':'block')
