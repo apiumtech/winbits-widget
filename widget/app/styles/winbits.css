@@ -14,6 +14,10 @@
 }
 
 .error {
+  color: #dd092c !important;
+}
+
+input.error{
   border: 1px solid #dd092c !important;
 }
 
