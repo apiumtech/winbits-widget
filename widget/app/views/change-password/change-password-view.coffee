@@ -13,6 +13,7 @@ module.exports = class ChangePasswordView extends MyProfileView
 
   initialize: ->
     super
+    @listenTo @model,  'change', @render
     @delegate 'click', '#wbi-change-password-btn', @changePassword
 
   attach: ->
@@ -46,6 +47,7 @@ module.exports = class ChangePasswordView extends MyProfileView
 
   doChangePasswordAlways: (submitButton)->
     submitButton.prop('disabled', no)
+    @doResetPasswordView
 
 
 
@@ -62,4 +64,7 @@ module.exports = class ChangePasswordView extends MyProfileView
     message = if error then error.meta.message else messageText
     options = value: "Cerrar", title:'Error', icon: 'iconFont-no', onClosed: utils.redirectTo controller:'my-profile', action:'index'
     utils.showMessageModal(message, options)
+
+  doResetPasswordView: ->
+    @$el.find('input').val(null)
 
