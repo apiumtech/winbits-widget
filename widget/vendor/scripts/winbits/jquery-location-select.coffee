@@ -11,7 +11,7 @@ $.widget 'winbits.wblocationselect',
     @_enhanceSelect()
     @_createOtherInput()
     @_connectZipCodeInput()
-    # @_loadData()
+    @loadZipCode(@$zipCodeInput.val())
 
   _createOtherOption: ->
     $('<option>', value: '-1').text(@options.otherOption).appendTo(@element)
@@ -36,16 +36,14 @@ $.widget 'winbits.wblocationselect',
 
   _onZipCodeInputTextChange: ->
     zipCode = @$zipCodeInput.val()
-    @_loadData(zipCode)
+    @loadZipCode(zipCode)
 
   _isValidZipCode: (zipCode = '') ->
     zipCode.length is 5
 
-  _loadData: (zipCode) ->
-    @_loadZipCode(zipCode) if @_isValidZipCode(zipCode)
-
-  _loadZipCode: (zipCode) ->
-    apiUrl = Winbits.env.get('api-url')
-    $.ajax("#{apiUrl}/users/locations/#{zipCode}.json",
-      type: 'json'
-    )
+  loadZipCode: (zipCode) ->
+    if @_isValidZipCode(zipCode)
+      apiUrl = Winbits.env.get('api-url')
+      $.ajax("#{apiUrl}/users/locations/#{zipCode}.json",
+        type: 'json'
+      )

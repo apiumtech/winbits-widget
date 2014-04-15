@@ -8,6 +8,7 @@ describe 'jQueryLocationSelectSpec', ->
 
   afterEach ->
     $.fn.customSelect.restore?()
+    $.ajax.restore?()
 
   it 'should be a jQuery plugin', ->
     expect($().wblocationselect).to.be.a('function')
@@ -88,11 +89,18 @@ describe 'jQueryLocationSelectSpec', ->
     zipCodeInput = @$locationSelect.closest('form').find('[name=zipCode]').get(0)
     expect($._data(zipCodeInput, 'events')).to.not.be.ok
 
-  it 'should load zipCode when valid zipCode is written', ->
-    zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$locationSelect).get(0)
+  it 'should load zipCode if zipCode input has valid value', ->
+    $zipCodeInput = $('<input>', type:"text", name:"zipCode", value: '11000').appendTo(@$locationSelect)
     ajaxStub = sinon.stub($, 'ajax')
     @$locationSelect.wblocationselect()
 
-    @$locationSelect.closest('form').find('[name=zipCode]').val('11000').trigger('textchange')
+    expect(ajaxStub).to.have.been.calledOnce
+
+  it 'should load zipCode when valid zipCode is written', ->
+    $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$locationSelect)
+    ajaxStub = sinon.stub($, 'ajax')
+    @$locationSelect.wblocationselect()
+
+    $zipCodeInput.val('11000').trigger('textchange')
 
     expect(ajaxStub).to.have.been.calledOnce
