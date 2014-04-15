@@ -14,7 +14,6 @@ module.exports = class ModalResetPasswordView extends View
 
   attach: ->
     super
-    @showAsModal()
     @$('.wbc-reset-password-form').validate
       rules:
         password:
@@ -24,6 +23,7 @@ module.exports = class ModalResetPasswordView extends View
           required: true
           minlength: 6
           equalTo: @$("[name=password]")
+    @showAsModal()
 
 
   showAsModal: ->
@@ -44,7 +44,7 @@ module.exports = class ModalResetPasswordView extends View
         .always(-> $submitButton.prop('disabled', no))
 
 
-  doResetPasswordSuccess :->
+  doResetPasswordSuccess: ->
     message = "Tu contraseña ha sido cambiada correctamente."
     options = value: "Aceptar", title:'Contraseña reestablecida', onClosed: utils.redirectTo(controller: 'home', action: 'index'), icon: 'iconFont-ok'
     utils.showMessageModal(message, options)
