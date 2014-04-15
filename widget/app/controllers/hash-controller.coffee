@@ -7,7 +7,6 @@ mediator = Winbits.Chaplin.mediator
 module.exports = class HashController extends Controller
 
   completeRegister: (obj)->
-    console.log ['completeRegister', obj.apiToken]
     @expressLogin(obj.apiToken)
       .done @expressLoginSuccess
       .fail @expressLoginError
@@ -32,5 +31,5 @@ module.exports = class HashController extends Controller
     utils.redirectToNotLoggedInHome()
 
   resetPassword:(params) ->
-    alert "recibido #{params.salt}"
+    utils.redirectTo controller:'reset-password' ,action: 'index', params: params
 
