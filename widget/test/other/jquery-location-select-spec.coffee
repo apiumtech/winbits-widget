@@ -21,12 +21,19 @@ describe 'jQueryLocationSelectSpec', ->
 
     expect(customSelectSpy).to.have.been.calledTwice
 
-  it 'should add default options', ->
+  it 'should add default options by default', ->
     @$locationSelect.wblocationselect()
 
     $options = @$locationSelect.find 'option'
     $listOptions = @$locationSelect.parent().find 'li'
     expectDefaultOptionsExists($options, $listOptions)
+
+  it 'should default options have not zip code info in data', ->
+    @$locationSelect.wblocationselect()
+
+    $options = @$locationSelect.find 'option'
+    expect($options.first().data('_zip-code-info')).to.not.be.ok
+    expect($options.last().data('_zip-code-info')).to.not.be.ok
 
   it 'should create a hidden text field to enter location by default', ->
     @$locationSelect.wblocationselect()
@@ -176,7 +183,7 @@ describe 'jQueryLocationSelectSpec', ->
     ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
     @$locationSelect.wblocationselect()
 
-    @$locationSelect.wblocationselect('loadZipCode', 55555)
+    @$locationSelect.wblocationselect('loadZipCode', '12345')
 
     expect(@$locationSelect).to.has.value('2')
 
@@ -185,7 +192,7 @@ describe 'jQueryLocationSelectSpec', ->
     ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
     @$locationSelect.wblocationselect()
 
-    @$locationSelect.wblocationselect('loadZipCode', 55555)
+    @$locationSelect.wblocationselect('loadZipCode', '12345')
 
     $options = @$locationSelect.children()
     $listOptions = @$locationSelect.parent().find('li')
@@ -289,8 +296,53 @@ describe 'jQueryLocationSelectSpec', ->
 
     @$locationSelect.wblocationselect('value', 2)
 
-    expect(@$locationSelect).to.have.value('2')
     expect(@$locationSelect.wblocationselect('value')).to.be.eql(currentZipCodeInfo)
+
+  it 'should value return empty object after being resetted', ->
+    zipCodeData = [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
+    ajaxStub = sinon.stub($, 'ajax')
+        .onFirstCall().returns(new $.Deferred().resolve(zipCodeData).promise())
+        .onSecondCall().returns(new $.Deferred().resolve([]).promise())
+    @$locationSelect.wblocationselect()
+
+    @$locationSelect.wblocationselect('loadZipCode', '12345')
+    @$locationSelect.wblocationselect('loadZipCode', '1234')
+
+    expect(@$locationSelect.wblocationselect('value')).to.be.eql({})
+
+  it 'should value return empty object if default option selected', ->
+    zipCodeData = [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
+    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
+    @$locationSelect.wblocationselect()
+
+    @$locationSelect.wblocationselect('loadZipCode', '12345')
+    @$form.find('li').last().click()
+
+    expect(@$locationSelect.wblocationselect('value')).to.be.eql({})
+
+  it 'should not reset options if other option selected', ->
+    $('<option>', value: '5').text('XXX').appendTo(@$locationSelect)
+    @$locationSelect.wblocationselect()
+
+    @$form.find('li').last().click()
+
+    $options = @$locationSelect.children()
+    $listOptions = @$form.find('li')
+    expectDefaultOptionsExists($options, $listOptions)
+    expect($options.length, 'Unexpected number of select options!').to.be.equal(3)
+    expect($listOptions.length, 'Unexpected number of list options!').to.be.equal(3)
+
+  it 'should not reset options if blank option selected', ->
+    $('<option>', value: '5').text('XXX').appendTo(@$locationSelect)
+    @$locationSelect.wblocationselect()
+
+    @$form.find('li').first().click()
+
+    $options = @$locationSelect.children()
+    $listOptions = @$form.find('li')
+    expectDefaultOptionsExists($options, $listOptions)
+    expect($options.length, 'Unexpected number of select options!').to.be.equal(3)
+    expect($listOptions.length, 'Unexpected number of list options!').to.be.equal(3)
 
   expectDefaultOptionsExists = ($options, $listOptions) ->
     expectSelectOption($options.first(), '', '')

@@ -14,7 +14,8 @@ $.widget 'winbits.wblocationselect',
     @_enhanceSelect()
     @_createOtherInput()
     @_connectZipCodeInput()
-    @loadZipCode(@$zipCodeInput.val())
+    zipCode = @$zipCodeInput.val()
+    @loadZipCode(zipCode) if zipCode
 
   _createDefaultOptions: ->
     $('<option>', value: '').prependTo(@element)
