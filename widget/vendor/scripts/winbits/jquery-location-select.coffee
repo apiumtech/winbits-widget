@@ -59,20 +59,21 @@ $.widget 'winbits.wblocationselect',
       @_showZipCodeNotFoundError()
 
   _loadSelectOptions: (data) ->
-    @element.children().last().prevAll().remove()
+    $options = @element.children()
+    $options.slice(1, -1).remove()
     options = []
     for optionData in data
       options.push $('<option>', value: optionData.id).text(optionData.locationName)
-    @element.prepend(options)
+    $options.first().after(options)
 
   _loadListOptions: (data) ->
-    $list = @element.parent().find('ul')
-    $list.children().last().prevAll().remove()
+    $listOptions = @element.parent().find('li')
+    $listOptions.slice(1, -1).remove()
     options = []
     for optionData in data
       options.push $('<li>', rel: optionData.id).text(optionData.locationName)
-    $list.prepend(options)
-    $list.children().first().click()
+    $listOptions.first().after(options)
+    $listOptions.eq(1).click()
 
   _resetOptions: ->
     @_resetSelectOptions()

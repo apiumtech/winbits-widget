@@ -118,7 +118,7 @@ describe 'jQueryLocationSelectSpec', ->
 
     expect(ajaxStub).to.not.have.been.called
 
-  it 'should load new options into select when zipCode is loaded', ->
+  it 'should load zipCode when zip code is loaded using API', ->
     zipCodeData = [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
     ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
     @$locationSelect.wblocationselect()
@@ -126,43 +126,33 @@ describe 'jQueryLocationSelectSpec', ->
     @$locationSelect.wblocationselect('loadZipCode', 55555)
 
     expect(ajaxStub).to.have.been.calledOnce
+
+  it 'should not load zipCode when invalid zip code is loaded using API', ->
+    ajaxStub = sinon.stub($, 'ajax')
+    @$locationSelect.wblocationselect()
+
+    @$locationSelect.wblocationselect('loadZipCode', 5555)
+
+    expect(ajaxStub).to.not.have.been.called
+
+  it 'should load new options when zipCode is loaded', ->
+    zipCodeData = [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
+    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
+    @$locationSelect.wblocationselect()
+
+    @$locationSelect.wblocationselect('loadZipCode', 55555)
 
     $options = @$locationSelect.children()
-    expect($options.length).to.be.equal(3)
-
-    expect($options.eq(0)).to.has.text('Lomas Chapultepec')
-      .and.to.has.attr('value', '1')
-
-    expect($options.eq(1)).to.has.text('Lomas Virreyes')
-      .and.to.has.attr('value', '2')
-
-    expect($options.eq(2)).to.has.text('Otra...')
-      .and.to.has.attr('value', '-1')
-
-    expect(@$locationSelect).to.has.value('1')
-
-  it 'should load new options into custom select when zipCode is loaded', ->
-    zipCodeData = [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
-    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
-    @$locationSelect.wblocationselect()
-
-    @$locationSelect.wblocationselect('loadZipCode', 55555)
-
-    expect(ajaxStub).to.have.been.calledOnce
-
     $listOptions = @$locationSelect.parent().find('li')
-    expect($listOptions.length).to.be.equal(3)
+    expectDefaultOptionsExists($options, $listOptions)
+    expect($options.length).to.be.equal(4)
+    expect($listOptions.length).to.be.equal(4)
 
-    expect($listOptions.eq(0)).to.has.text('Lomas Chapultepec')
-      .and.to.has.attr('rel', '1')
+    expectSelectOption($options.eq(1), '1', 'Lomas Chapultepec')
+    expectSelectOption($options.eq(2), '2', 'Lomas Virreyes')
 
-    expect($listOptions.eq(1)).to.has.text('Lomas Virreyes')
-      .and.to.has.attr('rel', '2')
-
-    expect($listOptions.eq(2)).to.has.text('Otra...')
-      .and.to.has.attr('rel', '-1')
-
-    expect(@$locationSelect).to.has.value('1')
+    expectListOption($listOptions.eq(1), '1', 'Lomas Chapultepec')
+    expectListOption($listOptions.eq(2), '2', 'Lomas Virreyes')
 
   it 'should reset value to "" if zip code does not exist', ->
     $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
@@ -199,15 +189,19 @@ describe 'jQueryLocationSelectSpec', ->
     expect($listOptions.length, 'More list options than expected!').to.be.equal(2)
 
   expectDefaultOptionsExists = ($options, $listOptions) ->
-    expect($options.first()).to.has.text('')
-      .and.to.has.attr('value', '')
-    expect($options.last()).to.has.text('Otra...')
-      .and.to.has.attr('value', '-1')
+    expectSelectOption($options.first(), '', '')
+    expectSelectOption($options.last(), '-1', 'Otra...')
 
-    expect($listOptions.first()).to.has.text('')
-      .and.to.has.attr('rel', '')
-    expect($listOptions.last()).to.has.text('Otra...')
-      .and.to.has.attr('rel', '-1')
+    expectListOption($listOptions.first(), '', '')
+    expectListOption($listOptions.last(), '-1', 'Otra...')
+
+  expectSelectOption = ($option, value, text) ->
+    expect($option, 'Unexpected select option!').to.has.text(text)
+      .and.to.has.attr('value', value)
+
+  expectListOption = ($listOption, rel, text) ->
+    expect($listOption, 'Unexpected list option!').to.has.text(text)
+      .and.to.has.attr('rel', rel)
 
   generateZipCodeInfo = (data) ->
     $.extend(
