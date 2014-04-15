@@ -207,6 +207,20 @@ describe 'jQueryLocationSelectSpec', ->
 
     expect(@$locationSelect).to.has.value('')
 
+  it 'should reset to default options when an invalid zip code is written after a successful load', ->
+    $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
+    zipCodeData = [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
+    @$locationSelect.wblocationselect()
+
+    $zipCodeInput.val('11000').trigger('textchange')
+    $zipCodeInput.val('1100').trigger('textchange')
+
+    $options = @$locationSelect.children()
+    $listOptions = @$locationSelect.parent().find('li')
+    expectDefaultOptionsExists($options, $listOptions)
+    expect($options.length, 'More options than expected!').to.be.equal(2)
+    expect($listOptions.length, 'More list options than expected!').to.be.equal(2)
+
   expectDefaultOptionsExists = ($options, $listOptions) ->
     expectSelectOption($options.first(), '', '')
     expectSelectOption($options.last(), '-1', 'Otra...')
