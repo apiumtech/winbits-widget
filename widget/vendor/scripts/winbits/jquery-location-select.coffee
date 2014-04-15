@@ -67,13 +67,14 @@ $.widget 'winbits.wblocationselect',
     $options.first().after(options)
 
   _loadListOptions: (data) ->
-    $listOptions = @element.parent().find('li')
+    $list = @element.parent().find('ul')
+    $listOptions = $list.children()
     $listOptions.slice(1, -1).remove()
     options = []
     for optionData in data
       options.push $('<li>', rel: optionData.id).text(optionData.locationName)
     $listOptions.first().after(options)
-    $listOptions.eq(1).click()
+    $list.children().eq(1).click()
 
   _resetOptions: ->
     @_resetSelectOptions()

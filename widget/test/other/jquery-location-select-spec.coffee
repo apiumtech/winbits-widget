@@ -135,6 +135,15 @@ describe 'jQueryLocationSelectSpec', ->
 
     expect(ajaxStub).to.not.have.been.called
 
+  it 'should select first non-default option when loaded', ->
+    zipCodeData = [generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes'), generateZipCodeInfo()]
+    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
+    @$locationSelect.wblocationselect()
+
+    @$locationSelect.wblocationselect('loadZipCode', 55555)
+
+    expect(@$locationSelect).to.has.value('2')
+
   it 'should load new options when zipCode is loaded', ->
     zipCodeData = [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
     ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
