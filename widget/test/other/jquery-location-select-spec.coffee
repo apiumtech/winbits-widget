@@ -121,7 +121,7 @@ describe 'jQueryLocationSelectSpec', ->
 
     expect(ajaxStub).to.not.have.been.called
 
-  it 'should load new select options when zipCode is loaded', ->
+  it 'should load new options into select when zipCode is loaded', ->
     zipCodeData = [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
     ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
     @$locationSelect.wblocationselect()
@@ -141,6 +141,31 @@ describe 'jQueryLocationSelectSpec', ->
 
     expect($options.eq(2)).to.has.text('Otra...')
       .and.to.has.attr('value', '-1')
+
+    expect(@$locationSelect).to.has.value('1')
+
+  it 'should load new options into custom select when zipCode is loaded', ->
+    zipCodeData = [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
+    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
+    @$locationSelect.wblocationselect()
+
+    @$locationSelect.wblocationselect('loadZipCode', 55555)
+
+    expect(ajaxStub).to.have.been.calledOnce
+
+    $listOptions = @$locationSelect.parent().find('li')
+    expect($listOptions.length).to.be.equal(3)
+
+    expect($listOptions.eq(0)).to.has.text('Lomas Chapultepec')
+      .and.to.has.attr('rel', '1')
+
+    expect($listOptions.eq(1)).to.has.text('Lomas Virreyes')
+      .and.to.has.attr('rel', '2')
+
+    expect($listOptions.eq(2)).to.has.text('Otra...')
+      .and.to.has.attr('rel', '-1')
+
+    expect(@$locationSelect).to.has.value('1')
 
   generateZipCodeInfo = (data) ->
     $.extend(

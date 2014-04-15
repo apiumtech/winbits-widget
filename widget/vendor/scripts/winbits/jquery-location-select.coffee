@@ -51,6 +51,7 @@ $.widget 'winbits.wblocationselect',
 
   _loadZipCodeData: (data) ->
     @_loadSelectOptions(data)
+    @_loadListOptions(data)
 
   _loadSelectOptions: (data) ->
     @element.children().last().prevAll().remove()
@@ -58,3 +59,12 @@ $.widget 'winbits.wblocationselect',
     for optionData in data
       options.push $('<option>', value: optionData.id).text(optionData.locationName)
     @element.prepend(options)
+
+  _loadListOptions: (data) ->
+    $list = @element.parent().find('ul')
+    $list.children().last().prevAll().remove()
+    options = []
+    for optionData in data
+      options.push $('<li>', rel: optionData.id).text(optionData.locationName)
+    $list.prepend(options)
+    $list.children().first().click()
