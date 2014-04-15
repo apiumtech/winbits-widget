@@ -38,11 +38,14 @@ module.exports = class PersonalDataView extends View
           required: yes
           minlength: 2
         'wbi-birthdate-day':
-          required: yes
+#          digits: yes
+          validateDate: yes
         'wbi-birthdate-month':
-          required: yes
+#          digits: yes
+          validateDate: yes
         'wbi-birthdate-year':
-          required: yes
+#          digits: yes
+          validateDate: yes
 
   updateProfile : (e) ->
     $form = @$('#wbi-personal-data-form')

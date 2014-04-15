@@ -20,6 +20,28 @@
     not ($zipCode.val() and $element.children().length == 1)
   ,"Codigo Postal No Existe")
 
+  $.fn.wbDate = ()->
+    $this = Winbits.$(this)
+    console.log ["this", $this]
+    day = $this.find('#wbi-birthdate-day').val()
+    day = '0' + day if day and day.length == 1
+    month = $this.find('#wbi-birthdate-month').val()
+    month = '0' + month if month and month.length == 1
+    year = '19' + $this.find('#wbi-birthdate-year').val()
+    "#{year}-#{month}-#{day}"
+
+  $.validator.addMethod 'validateDate', (value, element)->
+    console.log ["element", element]
+    console.log ["parent", Winbits.$(element).parent()]
+    val = Winbits.$(element).parent().wbDate()
+    if val and val.length == 10
+      moment(val, 'YYYY-MM-DD').isValid()
+    else if val.length == 4
+      true
+    else
+      false
+  , "Ingresa una fecha valida"
+
   moment.tz.add
     zones:
       "America/Mexico_City": [
