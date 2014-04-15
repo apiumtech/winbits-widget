@@ -8,8 +8,9 @@ specs = [
   './views/login-view-spec',
   './views/my-profile-view-spec',
   './views/my-account-view-spec',
-  './views/complete-register-view-spec'
-  './views/recover-password-view-spec'
+  './views/complete-register-view-spec',
+  './views/recover-password-view-spec',
+  './other/jquery-location-select-spec'
 ]
 
 for spec in specs
