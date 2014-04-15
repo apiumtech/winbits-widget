@@ -10,6 +10,7 @@ specs = [
   './views/my-account-view-spec',
   './views/complete-register-view-spec',
   './views/recover-password-view-spec',
+  './views/reset-password-view-spec',
   './other/jquery-location-select-spec'
 ]
 
