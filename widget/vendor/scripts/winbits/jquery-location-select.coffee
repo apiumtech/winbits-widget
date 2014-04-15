@@ -7,13 +7,14 @@ $.widget 'winbits.wblocationselect',
     otherFieldAttrs: name: 'location'
 
   _create: ->
-    @_createOtherOption()
+    @_createDefaultOptions()
     @_enhanceSelect()
     @_createOtherInput()
     @_connectZipCodeInput()
     @loadZipCode(@$zipCodeInput.val())
 
-  _createOtherOption: ->
+  _createDefaultOptions: ->
+    $('<option>', value: '').prependTo(@element)
     $('<option>', value: '-1').text(@options.otherOption).appendTo(@element)
 
   _createOtherInput: ->
@@ -50,8 +51,12 @@ $.widget 'winbits.wblocationselect',
       ).done($.proxy(@_loadZipCodeData, @))
 
   _loadZipCodeData: (data) ->
-    @_loadSelectOptions(data)
-    @_loadListOptions(data)
+    if data.length
+      @_loadSelectOptions(data)
+      @_loadListOptions(data)
+    else
+      @_resetOptions()
+      @_showZipCodeNotFoundError()
 
   _loadSelectOptions: (data) ->
     @element.children().last().prevAll().remove()
@@ -68,3 +73,22 @@ $.widget 'winbits.wblocationselect',
       options.push $('<li>', rel: optionData.id).text(optionData.locationName)
     $list.prepend(options)
     $list.children().first().click()
+
+  _resetOptions: ->
+    @_resetSelectOptions()
+    @_resetListOptions()
+
+  _resetSelectOptions: ->
+    @element.children().slice(1, -1).remove()
+
+  _resetListOptions: ->
+    $listOptions = @element.parent().find('li')
+    $listOptions.slice(1, -1).remove()
+    $listOptions.first().click()
+
+  _showZipCodeNotFoundError: ->
+    name = @$zipCodeInput.attr('name')
+    if @$zipCodeInput.length and name
+      # @$zipCodeInput.closest('form').validate().showErrors
+      #   "#{name}": 'El código postal no existe.'
+      $('<label>', class: 'error').text('El código postal no existe.').insertAfter(@$zipCodeInput)

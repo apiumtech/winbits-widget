@@ -20,15 +20,12 @@ describe 'jQueryLocationSelectSpec', ->
 
     expect(customSelectSpy).to.have.been.calledTwice
 
-  it 'should add "Other" option', ->
+  it 'should add default options', ->
     @$locationSelect.wblocationselect()
 
-    $otherOption = @$locationSelect.find 'option'
-    expect($otherOption).to.exist
-      .and.to.has.value('-1')
-      .and.to.has.text('Otra...')
-
-    expect($otherOption.length).to.be.equal(1)
+    $options = @$locationSelect.find 'option'
+    $listOptions = @$locationSelect.parent().find 'li'
+    expectDefaultOptionsExists($options, $listOptions)
 
   it 'should create a hidden text field to enter location when selecting Other option', ->
     @$locationSelect.wblocationselect()
@@ -77,34 +74,34 @@ describe 'jQueryLocationSelectSpec', ->
     expect($otherField).to.has.attr('style').that.match(/display:\s*none;/)
 
   it 'should connect with zipCode input if available', ->
-    zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$locationSelect).get(0)
+    zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form).get(0)
     @$locationSelect.wblocationselect()
 
     expect($._data(zipCodeInput, 'events')).to.be.ok
 
   it 'should not connect with zipCode input if not available', ->
-    zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$locationSelect).get(0)
+    zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form).get(0)
     @$locationSelect.wblocationselect(zipCodeInput: '.zipCode')
 
     zipCodeInput = @$locationSelect.closest('form').find('[name=zipCode]').get(0)
     expect($._data(zipCodeInput, 'events')).to.not.be.ok
 
   it 'should load zipCode if zipCode input has valid value', ->
-    $zipCodeInput = $('<input>', type:"text", name:"zipCode", value: '11000').appendTo(@$locationSelect)
+    $zipCodeInput = $('<input>', type:"text", name:"zipCode", value: '11000').appendTo(@$form)
     ajaxStub = sinon.stub($, 'ajax').returns(done: $.noop)
     @$locationSelect.wblocationselect()
 
     expect(ajaxStub).to.have.been.calledOnce
 
   it 'should not load zipCode if zipCode input has invalid value', ->
-    $zipCodeInput = $('<input>', type:"text", name:"zipCode", value: '1100').appendTo(@$locationSelect)
+    $zipCodeInput = $('<input>', type:"text", name:"zipCode", value: '1100').appendTo(@$form)
     ajaxStub = sinon.stub($, 'ajax')
     @$locationSelect.wblocationselect()
 
     expect(ajaxStub).to.not.have.been.called
 
   it 'should load zipCode when valid zipCode is written', ->
-    $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$locationSelect)
+    $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
     ajaxStub = sinon.stub($, 'ajax').returns(done: $.noop)
     @$locationSelect.wblocationselect()
 
@@ -113,7 +110,7 @@ describe 'jQueryLocationSelectSpec', ->
     expect(ajaxStub).to.have.been.calledOnce
 
   it 'should not load zipCode when invalid zipCode is written', ->
-    $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$locationSelect)
+    $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
     ajaxStub = sinon.stub($, 'ajax')
     @$locationSelect.wblocationselect()
 
@@ -166,6 +163,51 @@ describe 'jQueryLocationSelectSpec', ->
       .and.to.has.attr('rel', '-1')
 
     expect(@$locationSelect).to.has.value('1')
+
+  it 'should reset value to "" if zip code does not exist', ->
+    $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
+    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve([]).promise())
+    @$locationSelect.wblocationselect()
+
+    $zipCodeInput.val('11000').trigger('textchange')
+
+    expect(@$locationSelect).to.has.value('')
+
+  it 'should show error on zipCode input if zip code does not exist', ->
+    $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
+    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve([]).promise())
+    @$locationSelect.wblocationselect()
+
+    $zipCodeInput.val('11000').trigger('textchange')
+
+    $errorLabel = $zipCodeInput.next('label.error')
+    expect($errorLabel).to.exist
+      .and.to.has.text('El código postal no existe.')
+
+  it 'should reset to default options if zipCode does not exist', ->
+    $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
+    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve([]).promise())
+    $('<option>', value: '5').text('XXX').appendTo(@$locationSelect)
+    @$locationSelect.wblocationselect()
+
+    $zipCodeInput.val('11000').trigger('textchange')
+
+    $options = @$locationSelect.children()
+    $listOptions = @$locationSelect.parent().find('li')
+    expectDefaultOptionsExists($options, $listOptions)
+    expect($options.length, 'More options than expected!').to.be.equal(2)
+    expect($listOptions.length, 'More list options than expected!').to.be.equal(2)
+
+  expectDefaultOptionsExists = ($options, $listOptions) ->
+    expect($options.first()).to.has.text('')
+      .and.to.has.attr('value', '')
+    expect($options.last()).to.has.text('Otra...')
+      .and.to.has.attr('value', '-1')
+
+    expect($listOptions.first()).to.has.text('')
+      .and.to.has.attr('rel', '')
+    expect($listOptions.last()).to.has.text('Otra...')
+      .and.to.has.attr('rel', '-1')
 
   generateZipCodeInfo = (data) ->
     $.extend(
