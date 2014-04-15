@@ -96,6 +96,13 @@ describe 'jQueryLocationSelectSpec', ->
 
     expect(ajaxStub).to.have.been.calledOnce
 
+  it 'should not load zipCode if zipCode input has invalid value', ->
+    $zipCodeInput = $('<input>', type:"text", name:"zipCode", value: '1100').appendTo(@$locationSelect)
+    ajaxStub = sinon.stub($, 'ajax')
+    @$locationSelect.wblocationselect()
+
+    expect(ajaxStub).to.not.have.been.called
+
   it 'should load zipCode when valid zipCode is written', ->
     $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$locationSelect)
     ajaxStub = sinon.stub($, 'ajax')
