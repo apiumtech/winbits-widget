@@ -38,6 +38,9 @@ $.widget 'winbits.wblocationselect',
   _saveZipCodeInfo: (zipCodeInfo) ->
     @element.data(@_zipCodeInfoKey, zipCodeInfo)
 
+  _getCurrentZipCodeInfo: ->
+    @element.data(@_zipCodeInfoKey)
+
   _getZipCodeInfo: (id) ->
     @element.children("[value=#{id}]").data(@_zipCodeInfoKey) or {}
 
@@ -120,5 +123,6 @@ $.widget 'winbits.wblocationselect',
       $('<label>', class: 'error').text('El código postal no existe.').insertAfter(@$zipCodeInput)
 
   value: (id) ->
+    return @_getCurrentZipCodeInfo() unless id
     @_wrapper.find("li[rel=#{id}]").click()
     @element

@@ -268,16 +268,6 @@ describe 'jQueryLocationSelectSpec', ->
 
     expect($zipCodeInput).to.be.enabled
 
-  # it 'should get current zip code info by id using value', ->
-  #   currentZipCodeInfo = generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')
-  #   zipCodeData = [generateZipCodeInfo(), currentZipCodeInfo]
-  #   @$locationSelect.wblocationselect()
-
-  #   @$locationSelect.wblocationselect('value', 2)
-
-  #   expect(@$locationSelect).to.have.value('2')
-  #     .and.to.have.data('_zip-code-info', currentZipCodeInfo)
-
   it 'should set current zip code info by id using value', ->
     currentZipCodeInfo = generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')
     zipCodeData = [generateZipCodeInfo(), currentZipCodeInfo]
@@ -288,7 +278,19 @@ describe 'jQueryLocationSelectSpec', ->
     @$locationSelect.wblocationselect('value', 2)
 
     expect(@$locationSelect).to.have.value('2')
-    expect(@$locationSelect.data('_zip-code-info')).to.be.equal(currentZipCodeInfo)
+    expect(@$locationSelect.data('_zip-code-info')).to.be.eql(currentZipCodeInfo)
+
+  it 'should get current zip code info by id using value', ->
+    currentZipCodeInfo = generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')
+    zipCodeData = [generateZipCodeInfo(), currentZipCodeInfo]
+    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
+    @$locationSelect.wblocationselect()
+    @$locationSelect.wblocationselect('loadZipCode', '12345')
+
+    @$locationSelect.wblocationselect('value', 2)
+
+    expect(@$locationSelect).to.have.value('2')
+    expect(@$locationSelect.wblocationselect('value')).to.be.eql(currentZipCodeInfo)
 
   expectDefaultOptionsExists = ($options, $listOptions) ->
     expectSelectOption($options.first(), '', '')
