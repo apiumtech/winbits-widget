@@ -8,7 +8,7 @@ module.exports = class ModalResetPasswordView extends View
   id: 'wbi-reset-password-modal'
   template: require './templates/reset-password'
 
-  initialize: ()->
+  initialize: ->
     super
     @delegate 'click', '#wbi-reset-password-btn', @doResetPassword
 
