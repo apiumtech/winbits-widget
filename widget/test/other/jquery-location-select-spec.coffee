@@ -3,8 +3,8 @@ $ = Winbits.$
 describe 'jQueryLocationSelectSpec', ->
 
   beforeEach ->
-    @$form = $ '<form><select id="select-1"></select><select id="select-2"></select></form>'
-    @$locationSelect = @$form.find('select').first()
+    @$form = $ '<form><select id="select-1"></select></form>'
+    @$locationSelect = @$form.find('select')
 
   afterEach ->
     $.fn.customSelect.restore?()
@@ -14,6 +14,7 @@ describe 'jQueryLocationSelectSpec', ->
     expect($().wblocationselect).to.be.a('function')
 
   it 'should call customSelect plugin to create each select', ->
+    $('<select>', id: "select-2").appendTo(@$form)
     customSelectSpy = sinon.spy $.fn, 'customSelect'
 
     $(@$form.find 'select').wblocationselect()
@@ -27,7 +28,7 @@ describe 'jQueryLocationSelectSpec', ->
     $listOptions = @$locationSelect.parent().find 'li'
     expectDefaultOptionsExists($options, $listOptions)
 
-  it 'should create a hidden text field to enter location when selecting Other option', ->
+  it 'should create a hidden text field to enter location by default', ->
     @$locationSelect.wblocationselect()
 
     $otherField = @$locationSelect.parent().next()
@@ -266,6 +267,28 @@ describe 'jQueryLocationSelectSpec', ->
     @$locationSelect.wblocationselect()
 
     expect($zipCodeInput).to.be.enabled
+
+  # it 'should get current zip code info by id using value', ->
+  #   currentZipCodeInfo = generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')
+  #   zipCodeData = [generateZipCodeInfo(), currentZipCodeInfo]
+  #   @$locationSelect.wblocationselect()
+
+  #   @$locationSelect.wblocationselect('value', 2)
+
+  #   expect(@$locationSelect).to.have.value('2')
+  #     .and.to.have.data('_zip-code-info', currentZipCodeInfo)
+
+  it 'should set current zip code info by id using value', ->
+    currentZipCodeInfo = generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')
+    zipCodeData = [generateZipCodeInfo(), currentZipCodeInfo]
+    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
+    @$locationSelect.wblocationselect()
+    @$locationSelect.wblocationselect('loadZipCode', '12345')
+
+    @$locationSelect.wblocationselect('value', 2)
+
+    expect(@$locationSelect).to.have.value('2')
+    expect(@$locationSelect.data('_zip-code-info')).to.be.equal(currentZipCodeInfo)
 
   expectDefaultOptionsExists = ($options, $listOptions) ->
     expectSelectOption($options.first(), '', '')

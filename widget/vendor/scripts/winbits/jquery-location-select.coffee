@@ -5,6 +5,9 @@ $.widget 'winbits.wblocationselect',
     zipCodeInput: '[name=zipCode]'
     otherOption: 'Otra...'
     otherFieldAttrs: name: 'location'
+    showInfoFields: yes
+
+  _zipCodeInfoKey: '_zip-code-info'
 
   _create: ->
     @_createDefaultOptions()
@@ -19,16 +22,24 @@ $.widget 'winbits.wblocationselect',
 
   _createOtherInput: ->
     otherFieldAttrs = $.extend({}, @options.otherFieldAttrs, { type: 'text', style: 'display:none;' })
-    $('<input>', otherFieldAttrs).insertAfter(@element.parent())
+    $('<input>', otherFieldAttrs).insertAfter(@_wrapper)
 
   _enhanceSelect: ->
     @element.customSelect()
-    @element.change(@_onLocationSelectChangeHandler)
+    @_wrapper = @element.parent()
+    @element.change($.proxy(@_onLocationSelectChangeHandler, @))
 
   _onLocationSelectChangeHandler: ->
-    $select = $(@)
-    method = if $select.val() is '-1' then 'show' else 'hide'
-    $select.parent().next()[method]()
+    selectedValue = @element.val()
+    @_saveZipCodeInfo(@_getZipCodeInfo(selectedValue))
+    method = if selectedValue is '-1' then 'show' else 'hide'
+    @_wrapper.next()[method]()
+
+  _saveZipCodeInfo: (zipCodeInfo) ->
+    @element.data(@_zipCodeInfoKey, zipCodeInfo)
+
+  _getZipCodeInfo: (id) ->
+    @element.children("[value=#{id}]").data(@_zipCodeInfoKey) or {}
 
   _connectZipCodeInput: ->
     @$zipCodeInput = @element.closest('form').find(@options.zipCodeInput)
@@ -72,11 +83,11 @@ $.widget 'winbits.wblocationselect',
     $options.slice(1, -1).remove()
     options = []
     for optionData in data
-      options.push $('<option>', value: optionData.id).text(optionData.locationName)
+      options.push $('<option>', value: optionData.id).data(@_zipCodeInfoKey, optionData).text(optionData.locationName)
     $options.first().after(options)
 
   _loadListOptions: (data) ->
-    $list = @element.parent().find('ul')
+    $list = @_wrapper.find('ul')
     $listOptions = $list.children()
     $listOptions.slice(1, -1).remove()
     options = []
@@ -94,7 +105,7 @@ $.widget 'winbits.wblocationselect',
     @element.children().slice(1, -1).remove()
 
   _resetListOptions: ->
-    $listOptions = @element.parent().find('li')
+    $listOptions = @_wrapper.find('li')
     $listOptions.slice(1, -1).remove()
     $listOptions.first().click()
 
@@ -107,3 +118,7 @@ $.widget 'winbits.wblocationselect',
       # @$zipCodeInput.closest('form').validate().showErrors
       #   "#{name}": 'El código postal no existe.'
       $('<label>', class: 'error').text('El código postal no existe.').insertAfter(@$zipCodeInput)
+
+  value: (id) ->
+    @_wrapper.find("li[rel=#{id}]").click()
+    @element
