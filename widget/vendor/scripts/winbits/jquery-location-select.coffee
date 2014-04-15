@@ -49,6 +49,8 @@ $.widget 'winbits.wblocationselect',
       $.ajax("#{apiUrl}/users/locations/#{zipCode}.json",
         type: 'json'
       ).done($.proxy(@_loadZipCodeData, @))
+    else
+      @_resetOptions()
 
   _loadZipCodeData: (data) ->
     if data.length

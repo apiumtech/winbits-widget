@@ -34,7 +34,7 @@ describe 'jQueryLocationSelectSpec', ->
     expect($otherField).to.exist
       .and.to.has.attr('type', 'text')
     expect($otherField).to.has.attr('name', 'location')
-    expect($otherField).to.has.attr('style', 'display:none;')
+    expect($otherField).to.has.attr('style').that.match(/display:\s*none;/)
     expect($otherField.length).to.be.equal(1)
 
     expect($otherField.get(0).tagName).to.match(/input/i)
@@ -53,7 +53,7 @@ describe 'jQueryLocationSelectSpec', ->
 
     $otherField = @$locationSelect.parent().next()
     expect($otherField).to.has.attr('type', 'text')
-    expect($otherField).to.has.attr('style', 'display:none;')
+    expect($otherField).to.has.attr('style').that.match(/display:\s*none;/)
 
   it 'should show other field when other option is selected', ->
     @$locationSelect.wblocationselect()
