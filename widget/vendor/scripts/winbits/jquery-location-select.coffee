@@ -38,12 +38,23 @@ $.widget 'winbits.wblocationselect',
     zipCode = @$zipCodeInput.val()
     @loadZipCode(zipCode)
 
-  _isValidZipCode: (zipCode = '') ->
+  _isValidZipCode: (zipCode) ->
     zipCode.length is 5
 
-  loadZipCode: (zipCode) ->
+  loadZipCode: (zipCode = '') ->
+    zipCode = zipCode.toString()
     if @_isValidZipCode(zipCode)
       apiUrl = Winbits.env.get('api-url')
       $.ajax("#{apiUrl}/users/locations/#{zipCode}.json",
         type: 'json'
-      )
+      ).done($.proxy(@_loadZipCodeData, @))
+
+  _loadZipCodeData: (data) ->
+    @_loadSelectOptions(data)
+
+  _loadSelectOptions: (data) ->
+    @element.children().last().prevAll().remove()
+    options = []
+    for optionData in data
+      options.push $('<option>', value: optionData.id).text(optionData.locationName)
+    @element.prepend(options)

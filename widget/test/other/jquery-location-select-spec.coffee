@@ -91,7 +91,7 @@ describe 'jQueryLocationSelectSpec', ->
 
   it 'should load zipCode if zipCode input has valid value', ->
     $zipCodeInput = $('<input>', type:"text", name:"zipCode", value: '11000').appendTo(@$locationSelect)
-    ajaxStub = sinon.stub($, 'ajax')
+    ajaxStub = sinon.stub($, 'ajax').returns(done: $.noop)
     @$locationSelect.wblocationselect()
 
     expect(ajaxStub).to.have.been.calledOnce
@@ -105,7 +105,7 @@ describe 'jQueryLocationSelectSpec', ->
 
   it 'should load zipCode when valid zipCode is written', ->
     $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$locationSelect)
-    ajaxStub = sinon.stub($, 'ajax')
+    ajaxStub = sinon.stub($, 'ajax').returns(done: $.noop)
     @$locationSelect.wblocationselect()
 
     $zipCodeInput.val('11000').trigger('textchange')
@@ -120,3 +120,36 @@ describe 'jQueryLocationSelectSpec', ->
     $zipCodeInput.val('1100').trigger('textchange')
 
     expect(ajaxStub).to.not.have.been.called
+
+  it 'should load new select options when zipCode is loaded', ->
+    zipCodeData = [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
+    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
+    @$locationSelect.wblocationselect()
+
+    @$locationSelect.wblocationselect('loadZipCode', 55555)
+
+    expect(ajaxStub).to.have.been.calledOnce
+
+    $options = @$locationSelect.children()
+    expect($options.length).to.be.equal(3)
+
+    expect($options.eq(0)).to.has.text('Lomas Chapultepec')
+      .and.to.has.attr('value', '1')
+
+    expect($options.eq(1)).to.has.text('Lomas Virreyes')
+      .and.to.has.attr('value', '2')
+
+    expect($options.eq(2)).to.has.text('Otra...')
+      .and.to.has.attr('value', '-1')
+
+  generateZipCodeInfo = (data) ->
+    $.extend(
+      id: 1,
+      locationName: 'Lomas Chapultepec',
+      locationCode: '00',
+      locationType: 'Colonia',
+      county: 'Miguel Hidalgo',
+      city: 'Miguel Hidalgo',
+      state: 'DF',
+      zipCode: '11000'
+    , data)
