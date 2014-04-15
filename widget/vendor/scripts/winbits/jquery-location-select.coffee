@@ -64,7 +64,7 @@ $.widget 'winbits.wblocationselect',
         @$zipCodeInput.prop('disabled', yes)
         apiUrl = Winbits.env.get('api-url')
         $.ajax("#{apiUrl}/users/locations/#{@_zipCodeToLoad}.json",
-          type: 'json'
+          dataType: 'json'
         ).done($.proxy(@_loadZipCodeDone, @))
         .always($.proxy(@_loadZipCodeAlways, @))
       else
