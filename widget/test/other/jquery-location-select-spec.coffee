@@ -135,6 +135,41 @@ describe 'jQueryLocationSelectSpec', ->
 
     expect(ajaxStub).to.not.have.been.called
 
+  it 'should load zip code if the current loaded zip code is not the same as the new one', ->
+    $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
+    zipCodeData = [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
+    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
+    @$locationSelect.wblocationselect()
+
+    $zipCodeInput.val('11111').trigger('textchange')
+    @$locationSelect.wblocationselect('loadZipCode', '22222')
+
+    expect(ajaxStub).to.have.been.calledTwice
+
+  it 'should load zip code when a valid zip code is entered after an invalid one', ->
+    $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
+    zipCodeData = [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
+    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
+    @$locationSelect.wblocationselect()
+
+    $zipCodeInput.val('12345').trigger('textchange')
+    $zipCodeInput.val('1234').trigger('textchange')
+    $zipCodeInput.val('12346').trigger('textchange')
+
+    expect(ajaxStub).to.have.been.calledTwice
+
+  it 'should not load zip code if the current loaded zip code is the same', ->
+    zipCode = '55555'
+    $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
+    zipCodeData = [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
+    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
+    @$locationSelect.wblocationselect()
+
+    $zipCodeInput.val(zipCode).trigger('textchange')
+    @$locationSelect.wblocationselect('loadZipCode', zipCode)
+
+    expect(ajaxStub).to.have.been.calledOnce
+
   it 'should select first non-default option when loaded', ->
     zipCodeData = [generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes'), generateZipCodeInfo()]
     ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())

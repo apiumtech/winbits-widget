@@ -43,17 +43,19 @@ $.widget 'winbits.wblocationselect',
     zipCode.length is 5
 
   loadZipCode: (zipCode = '') ->
-    zipCode = zipCode.toString()
-    if @_isValidZipCode(zipCode)
-      apiUrl = Winbits.env.get('api-url')
-      $.ajax("#{apiUrl}/users/locations/#{zipCode}.json",
-        type: 'json'
-      ).done($.proxy(@_loadZipCodeData, @))
-    else
-      @_resetOptions()
+    @_zipCodeToLoad = zipCode.toString()
+    if @_zipCodeToLoad isnt @element.data('_loaded-zip-code')
+      if @_isValidZipCode(@_zipCodeToLoad)
+        apiUrl = Winbits.env.get('api-url')
+        $.ajax("#{apiUrl}/users/locations/#{@_zipCodeToLoad}.json",
+          type: 'json'
+        ).done($.proxy(@_loadZipCodeData, @))
+      else
+        @_resetOptions()
 
   _loadZipCodeData: (data) ->
     if data.length
+      @element.data('_loaded-zip-code', @_zipCodeToLoad)
       @_loadSelectOptions(data)
       @_loadListOptions(data)
     else
@@ -79,6 +81,7 @@ $.widget 'winbits.wblocationselect',
     $list.children().eq(1).click()
 
   _resetOptions: ->
+    @element.data('_loaded-zip-code', undefined)
     @_resetSelectOptions()
     @_resetListOptions()
 
