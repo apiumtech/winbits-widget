@@ -88,7 +88,7 @@ describe 'jQueryLocationSelectSpec', ->
 
   it 'should load zipCode if zipCode input has valid value', ->
     $zipCodeInput = $('<input>', type:"text", name:"zipCode", value: '11000').appendTo(@$form)
-    ajaxStub = sinon.stub($, 'ajax').returns(done: $.noop)
+    ajaxStub = sinon.stub($, 'ajax').returns(done: () -> always: $.noop)
     @$locationSelect.wblocationselect()
 
     expect(ajaxStub).to.have.been.calledOnce
@@ -102,7 +102,7 @@ describe 'jQueryLocationSelectSpec', ->
 
   it 'should load zipCode when valid zipCode is written', ->
     $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
-    ajaxStub = sinon.stub($, 'ajax').returns(done: $.noop)
+    ajaxStub = sinon.stub($, 'ajax').returns(done: () -> always: $.noop)
     @$locationSelect.wblocationselect()
 
     $zipCodeInput.val('11000').trigger('textchange')
@@ -256,23 +256,16 @@ describe 'jQueryLocationSelectSpec', ->
     expect($options.length, 'More options than expected!').to.be.equal(2)
     expect($listOptions.length, 'More list options than expected!').to.be.equal(2)
 
-  it 'should disable zipCode input while loading', ->
-    $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
+  it 'should disable zipCode input while loading zip code', ->
+    $zipCodeInput = $('<input>', type:"text", name:"zipCode", value: '12345').appendTo(@$form)
     ajaxStub = sinon.stub($, 'ajax', ->
       new $.Deferred().done(->
-        expect($zipCodeInput).to.be.disable
-      ).resolve().promise()
-    ).returns(deferredStub)
+        expect($zipCodeInput).to.be.disabled
+      ).resolve([]).promise()
+    )
     @$locationSelect.wblocationselect()
 
-    $zipCodeInput.val('11000').trigger('textchange')
-    $zipCodeInput.val('1100').trigger('textchange')
-
-    $options = @$locationSelect.children()
-    $listOptions = @$locationSelect.parent().find('li')
-    expectDefaultOptionsExists($options, $listOptions)
-    expect($options.length, 'More options than expected!').to.be.equal(2)
-    expect($listOptions.length, 'More list options than expected!').to.be.equal(2)
+    expect($zipCodeInput).to.be.enabled
 
   expectDefaultOptionsExists = ($options, $listOptions) ->
     expectSelectOption($options.first(), '', '')

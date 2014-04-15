@@ -46,18 +46,23 @@ $.widget 'winbits.wblocationselect',
     @_zipCodeToLoad = zipCode.toString()
     if @_zipCodeToLoad isnt @element.data('_loaded-zip-code')
       if @_isValidZipCode(@_zipCodeToLoad)
+        @$zipCodeInput.prop('disabled', yes)
         apiUrl = Winbits.env.get('api-url')
         $.ajax("#{apiUrl}/users/locations/#{@_zipCodeToLoad}.json",
           type: 'json'
-        ).done($.proxy(@_loadZipCodeData, @))
+        ).done($.proxy(@_loadZipCodeDone, @))
+        .always($.proxy(@_loadZipCodeAlways, @))
       else
         @_resetOptions()
 
+  _loadZipCodeDone: (data) ->
+    @_loadZipCodeData(data)
+
   _loadZipCodeData: (data) ->
     if data.length
-      @element.data('_loaded-zip-code', @_zipCodeToLoad)
       @_loadSelectOptions(data)
       @_loadListOptions(data)
+      @element.data('_loaded-zip-code', @_zipCodeToLoad)
     else
       @_resetOptions()
       @_showZipCodeNotFoundError()
@@ -92,6 +97,9 @@ $.widget 'winbits.wblocationselect',
     $listOptions = @element.parent().find('li')
     $listOptions.slice(1, -1).remove()
     $listOptions.first().click()
+
+  _loadZipCodeAlways: ->
+    @$zipCodeInput.prop('disabled', no)
 
   _showZipCodeNotFoundError: ->
     name = @$zipCodeInput.attr('name')
