@@ -256,6 +256,24 @@ describe 'jQueryLocationSelectSpec', ->
     expect($options.length, 'More options than expected!').to.be.equal(2)
     expect($listOptions.length, 'More list options than expected!').to.be.equal(2)
 
+  it 'should disable zipCode input while loading', ->
+    $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
+    ajaxStub = sinon.stub($, 'ajax', ->
+      new $.Deferred().done(->
+        expect($zipCodeInput).to.be.disable
+      ).resolve().promise()
+    ).returns(deferredStub)
+    @$locationSelect.wblocationselect()
+
+    $zipCodeInput.val('11000').trigger('textchange')
+    $zipCodeInput.val('1100').trigger('textchange')
+
+    $options = @$locationSelect.children()
+    $listOptions = @$locationSelect.parent().find('li')
+    expectDefaultOptionsExists($options, $listOptions)
+    expect($options.length, 'More options than expected!').to.be.equal(2)
+    expect($listOptions.length, 'More list options than expected!').to.be.equal(2)
+
   expectDefaultOptionsExists = ($options, $listOptions) ->
     expectSelectOption($options.first(), '', '')
     expectSelectOption($options.last(), '-1', 'Otra...')
