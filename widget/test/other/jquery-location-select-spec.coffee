@@ -365,6 +365,20 @@ describe 'jQueryLocationSelectSpec', ->
     expect(@$locationSelect).to.have.value(zipCodeInfo.id.toString())
     expect(@$locationSelect.data('_zip-code-info')).to.be.eql(zipCodeInfo)
 
+  it 'should load data location if provided', ->
+    ajaxStub = sinon.stub($, 'ajax').returns(promiseResolvedWithData())
+    @$locationSelect.attr('value', '')
+    @$locationSelect.attr('data-location', 'Condesa')
+
+    @$locationSelect.wblocationselect()
+    @$locationSelect.wblocationselect('loadZipCode', '12345')
+
+    expect(@$locationSelect).to.have.value('-1')
+
+    $locationField = @$locationSelect.parent().next()
+    expect($locationField).to.has.value('Condesa')
+    expect($locationField).to.has.attr('style').that.match(/display:.*?block;/)
+
   expectDefaultOptionExist = () ->
     value = ''
     text = 'Colonia/Asentamiento'

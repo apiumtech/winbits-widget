@@ -28,9 +28,9 @@
 
     _createOtherInput: ->
       otherFieldAttrs = $.extend({}, @options.otherFieldAttrs, { type: 'text', style: 'display:none;' })
-      $otherField = $('<input>', otherFieldAttrs)
-      $otherField.insertAfter(@_wrapper)
-      $otherField.attr('placeholder', otherFieldAttrs.placeholder).placeholder()
+      @$locationField = $('<input>', otherFieldAttrs)
+      @$locationField.insertAfter(@_wrapper)
+      @$locationField.attr('placeholder', otherFieldAttrs.placeholder).placeholder()
 
     _enhanceSelect: ->
       @element.customSelect()
@@ -41,7 +41,7 @@
       selectedValue = @element.val()
       @_saveZipCodeInfo(@_getZipCodeInfo(selectedValue))
       method = if selectedValue is '-1' then 'show' else 'hide'
-      @_wrapper.next()[method]()
+      @_wrapper.next().val('')[method]()
 
     _saveZipCodeInfo: (zipCodeInfo) ->
       @element.data(@_zipCodeInfoKey, zipCodeInfo)
@@ -83,6 +83,8 @@
       if data.length
         @_loadSelectOptions(data)
         @_loadListOptions(data)
+        @_selectListOption()
+        @_setDataLocation()
       else
         @_reset()
         @_showZipCodeNotFoundError()
@@ -105,9 +107,9 @@
         options.push($('<li>', rel: optionData.id).text(optionData.locationName))
       options.push(@_createrOtherListOption())
       $listOptions.first().after(options)
-      @_selectListOption($list)
 
-    _selectListOption: ($list) ->
+    _selectListOption: () ->
+      $list = @_wrapper.find('ul')
       selectValue = @_determineSelectValue()
       if selectValue
         $list.children("li[rel=#{selectValue}]").click()
@@ -115,9 +117,18 @@
         $list.children().eq(1).click()
 
     _determineSelectValue: () ->
-      if not @element.data('_zip-code-loaded')
-        @element.data('_zip-code-loaded', yes)
-        @element.attr('value')
+      value = @element.attr('value')
+      if $.trim(value)
+          @element.data('_zip-code-loaded', yes) unless @element.data('_zip-code-loaded')
+      else
+        value = '-1' if $.trim(@element.data('location'))
+      value
+
+    _setDataLocation: ->
+      if not @element.data('_location_loaded')
+        @element.data('_location_loaded', yes)
+        location = @element.data('location')
+        @$locationField.val(location) if $.trim(location)
 
     _createrOtherOption: ->
       $('<option>', value: '-1').text(@options.otherOption)
