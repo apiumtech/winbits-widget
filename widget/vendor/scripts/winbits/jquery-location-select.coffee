@@ -59,20 +59,18 @@
       zipCode.length is 5
 
     loadZipCode: (zipCode = '') ->
-      @_zipCodeToLoad = zipCode.toString()
-      if @_zipCodeToLoad isnt @element.data('_loaded-zip-code')
-        if @_isValidZipCode(@_zipCodeToLoad)
-          @$zipCodeInput.prop('disabled', yes)
-          apiUrl = Winbits.env.get('api-url')
-          $.ajax("#{apiUrl}/users/locations/#{@_zipCodeToLoad}.json",
-            dataType: 'json'
-          ).done($.proxy(@_loadZipCodeDone, @))
-          .always($.proxy(@_loadZipCodeAlways, @))
-        else
-          @_reset()
+      zipCode = zipCode.toString()
+      if @_isValidZipCode(zipCode)
+        @$zipCodeInput.prop('disabled', yes)
+        apiUrl = Winbits.env.get('api-url')
+        $.ajax("#{apiUrl}/users/locations/#{zipCode}.json",
+          dataType: 'json'
+        ).done($.proxy(@_loadZipCodeDone, @))
+        .always($.proxy(@_loadZipCodeAlways, @))
+      else
+        @_reset()
 
     _loadZipCodeDone: (data) ->
-      @element.data('_loaded-zip-code', @_zipCodeToLoad)
       @_loadZipCodeData(data.response)
 
     _loadZipCodeData: (data) ->
@@ -102,7 +100,6 @@
       $list.children().eq(1).click()
 
     _reset: ->
-      @element.data('_loaded-zip-code', undefined)
       @_cleanErrors()
       @_resetSelectOptions()
       @_resetListOptions()

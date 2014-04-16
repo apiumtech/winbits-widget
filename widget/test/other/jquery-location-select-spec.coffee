@@ -166,18 +166,6 @@ describe 'jQueryLocationSelectSpec', ->
 
     expect(ajaxStub).to.have.been.calledTwice
 
-  it 'should not load zip code if the current loaded zip code is the same', ->
-    zipCode = '55555'
-    $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
-    zipCodeData = response: [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
-    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
-    @$locationSelect.wblocationselect()
-
-    $zipCodeInput.val(zipCode).trigger('textchange')
-    @$locationSelect.wblocationselect('loadZipCode', zipCode)
-
-    expect(ajaxStub).to.have.been.calledOnce
-
   it 'should select first non-default option when loaded', ->
     zipCodeData = response: [generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes'), generateZipCodeInfo()]
     ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
