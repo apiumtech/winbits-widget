@@ -122,7 +122,7 @@
       if @$zipCodeInput.length and name
         # @$zipCodeInput.closest('form').validate().showErrors
         #   "#{name}": 'El código postal no existe.'
-        $('<label>', class: 'error').text('El código postal no existe.').insertAfter(@$zipCodeInput)
+        $('<label>', class: 'error wbc-zip-code-not-found').text('El código postal no existe.').insertAfter(@$zipCodeInput)
 
     value: (id) ->
       return @_getCurrentZipCodeInfo() unless id

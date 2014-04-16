@@ -222,9 +222,10 @@ describe 'jQueryLocationSelectSpec', ->
 
     $zipCodeInput.val('11000').trigger('textchange')
 
-    $errorLabel = $zipCodeInput.next('label.error')
+    $errorLabel = $zipCodeInput.next('label.wbc-zip-code-not-found')
     expect($errorLabel).to.exist
-      .and.to.has.text('El código postal no existe.')
+        .and.to.has.class('error')
+        .and.to.has.text('El código postal no existe.')
 
   it 'should reset to default options if zipCode does not exist', ->
     $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
