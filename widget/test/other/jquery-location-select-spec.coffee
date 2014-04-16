@@ -346,6 +346,16 @@ describe 'jQueryLocationSelectSpec', ->
     expect($options.length, 'Unexpected number of select options!').to.be.equal(3)
     expect($listOptions.length, 'Unexpected number of list options!').to.be.equal(3)
 
+  it 'should clean error when an invalid zipcode is written', ->
+    $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
+    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(response: []).promise())
+    @$locationSelect.wblocationselect()
+
+    $zipCodeInput.val('1234').trigger('textchange')
+
+    $errorLabel = $zipCodeInput.next('label.error.wbc-zip-code-not-found')
+    expect($errorLabel).to.not.exist
+
   expectDefaultOptionsExists = ($options, $listOptions) ->
     expectSelectOption($options.first(), '', '')
     expectSelectOption($options.last(), '-1', 'Otra...')
