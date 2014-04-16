@@ -69,7 +69,7 @@
           ).done($.proxy(@_loadZipCodeDone, @))
           .always($.proxy(@_loadZipCodeAlways, @))
         else
-          @_resetOptions()
+          @_reset()
 
     _loadZipCodeDone: (data) ->
       @_loadZipCodeData(data.response)
@@ -80,7 +80,7 @@
         @_loadListOptions(data)
         @element.data('_loaded-zip-code', @_zipCodeToLoad)
       else
-        @_resetOptions()
+        @_reset()
         @_showZipCodeNotFoundError()
 
     _loadSelectOptions: (data) ->
@@ -101,8 +101,9 @@
       $listOptions.first().after(options)
       $list.children().eq(1).click()
 
-    _resetOptions: ->
+    _reset: ->
       @element.data('_loaded-zip-code', undefined)
+      @_cleanErrors()
       @_resetSelectOptions()
       @_resetListOptions()
 
@@ -122,11 +123,13 @@
       if @$zipCodeInput.length and name
         # @$zipCodeInput.closest('form').validate().showErrors
         #   "#{name}": 'El código postal no existe.'
-        $('<label>', class: 'error wbc-api-error').text('El código postal no existe.').insertAfter(@$zipCodeInput)
+        $('<label>', class: 'error wbc-location-select-error').text('El código postal no existe.').insertAfter(@$zipCodeInput)
 
     value: (id) ->
       return @_getCurrentZipCodeInfo() unless id
       @_wrapper.find("li[rel=#{id}]").click()
       @element
 
+    _cleanErrors: ->
+      @element.closest('form').find('.wbc-location-select-error').remove()
 )(jQuery)
