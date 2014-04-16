@@ -6,7 +6,8 @@ describe 'jQueryLocationSelectSpec', ->
   PROMISE_RESOLVED_WITHOUT_DATA = new $.Deferred().resolve(response: []).promise()
 
   beforeEach ->
-    @$form = $ '<form><input type="text" name="zipCode"><select id="select-1"></select></form>'
+    @$form = $('<form><input type="text" name="zipCode"><select id="select-1"></select></form>')
+    @$form.validate ignore: []
     @$locationSelect = @$form.find('select')
     @$zipCodeInput = @$form.find('input')
 
