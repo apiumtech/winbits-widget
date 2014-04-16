@@ -7,6 +7,7 @@ module.exports = (match) ->
   match 'wb-recover-password', 'recover-password#index'
   match 'wb-reset-password', 'reset-password#index'
   match 'wb-profile', 'my-profile#index'
+  match 'wb-micuenta-address', 'micuenta-address#index'
   match 'wb-complete-register', 'complete-register#index'
 
 
