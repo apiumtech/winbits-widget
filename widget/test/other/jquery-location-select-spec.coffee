@@ -21,19 +21,21 @@ describe 'jQueryLocationSelectSpec', ->
 
     expect(customSelectSpy).to.have.been.calledTwice
 
-  it 'should add default options by default', ->
+  it 'should add default option by default', ->
     @$locationSelect.wblocationselect()
 
     $options = @$locationSelect.find 'option'
     $listOptions = @$locationSelect.parent().find 'li'
     expectDefaultOptionsExists($options, $listOptions)
 
+    expect($options).to.have.property('length', 1)
+    expect($listOptions).to.have.property('length', 1)
+
   it 'should default options have not zip code info in data', ->
     @$locationSelect.wblocationselect()
 
     $options = @$locationSelect.find 'option'
     expect($options.first().data('_zip-code-info')).to.not.be.ok
-    expect($options.last().data('_zip-code-info')).to.not.be.ok
 
   it 'should create a hidden text field to enter location by default', ->
     @$locationSelect.wblocationselect()
@@ -47,7 +49,7 @@ describe 'jQueryLocationSelectSpec', ->
 
     expect($otherField.get(0).tagName).to.match(/input/i)
 
-  it 'should allow customize other option & field', ->
+  it.skip 'should allow customize other option & field', ->
     @$locationSelect.wblocationselect(otherOption: 'Otra Localidad...', otherFieldAttrs: { name: 'locationName' })
 
     $otherOption = @$locationSelect.find('option').last()
@@ -56,8 +58,8 @@ describe 'jQueryLocationSelectSpec', ->
     $otherField = @$locationSelect.parent().next()
     expect($otherField).to.has.attr('name', 'locationName')
 
-  it 'should allow customize blank option', ->
-    @$locationSelect.wblocationselect(blankOption: 'Colonia')
+  it 'should allow customize default option', ->
+    @$locationSelect.wblocationselect(defaultOption: 'Colonia')
 
     $otherOption = @$locationSelect.find('option').first()
     expect($otherOption).to.has.text('Colonia')
@@ -77,7 +79,7 @@ describe 'jQueryLocationSelectSpec', ->
     $otherField = @$locationSelect.parent().next()
     expect($otherField).to.has.attr('style').that.match(/display:.*?block;/)
 
-  it 'should hide other field when other option is deselected', ->
+  it.skip 'should hide other field when other option is deselected', ->
     $('<option>', value: '5').appendTo(@$locationSelect)
     @$locationSelect.wblocationselect()
     $otherField = @$locationSelect.parent().next()
@@ -180,6 +182,15 @@ describe 'jQueryLocationSelectSpec', ->
     @$locationSelect.wblocationselect('loadZipCode', '12345')
 
     expect(@$locationSelect).to.has.value('2')
+
+  it 'should add other option when zipCode is loaded', ->
+    zipCodeData = response: [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
+    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
+    @$locationSelect.wblocationselect()
+
+    @$locationSelect.wblocationselect('loadZipCode', '12345')
+
+    assertOtherOptionExist.call(@)
 
   it 'should load new options when zipCode is loaded', ->
     zipCodeData = response: [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
@@ -365,11 +376,18 @@ describe 'jQueryLocationSelectSpec', ->
     expect($errorLabel.length).to.be.equal(1)
 
   expectDefaultOptionsExists = ($options, $listOptions) ->
-    expectSelectOption($options.first(), '', 'Colonia/Asentamiento')
-    expectSelectOption($options.last(), '-1', 'Otra...')
+    value = ''
+    text = 'Colonia/Asentamiento'
+    expectSelectOption($options.first(), value, text)
+    expectListOption($listOptions.first(), value, text)
 
-    expectListOption($listOptions.first(), '', 'Colonia/Asentamiento')
-    expectListOption($listOptions.last(), '-1', 'Otra...')
+  assertOtherOptionExist = () ->
+    $otherOption = @$locationSelect.children().last()
+    $otherListOptions = @$locationSelect.parent().find('li').last()
+    value = '-1'
+    text = 'Otra...'
+    expectSelectOption($otherOption, value, text)
+    expectListOption($otherListOptions, value, text)
 
   expectSelectOption = ($option, value, text) ->
     expect($option, 'Unexpected select option!').to.has.text(text)

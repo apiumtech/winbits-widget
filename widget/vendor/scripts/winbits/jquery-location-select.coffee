@@ -8,22 +8,21 @@
       otherFieldAttrs:
         name: 'location'
         placeholder: 'Colonia/Asentamiento'
-      blankOption: 'Colonia/Asentamiento'
+      defaultOption: 'Colonia/Asentamiento'
       showInfoFields: yes
 
     _zipCodeInfoKey: '_zip-code-info'
 
     _create: ->
-      @_createDefaultOptions()
+      @_createDefaultOption()
       @_enhanceSelect()
       @_createOtherInput()
       @_connectZipCodeInput()
       zipCode = @$zipCodeInput.val()
       @loadZipCode(zipCode) if zipCode
 
-    _createDefaultOptions: ->
-      $('<option>', value: '').text(@options.blankOption).prependTo(@element)
-      $('<option>', value: '-1').text(@options.otherOption).appendTo(@element)
+    _createDefaultOption: ->
+      $('<option>', value: '').text(@options.defaultOption).prependTo(@element)
 
     _createOtherInput: ->
       otherFieldAttrs = $.extend({}, @options.otherFieldAttrs, { type: 'text', style: 'display:none;' })
@@ -92,6 +91,7 @@
       options = []
       for optionData in data
         options.push $('<option>', value: optionData.id).data(@_zipCodeInfoKey, optionData).text(optionData.locationName)
+      options.push(@_createrOtherOption())
       $options.first().after(options)
 
     _loadListOptions: (data) ->
@@ -100,9 +100,16 @@
       $listOptions.slice(1, -1).remove()
       options = []
       for optionData in data
-        options.push $('<li>', rel: optionData.id).text(optionData.locationName)
+        options.push($('<li>', rel: optionData.id).text(optionData.locationName))
+      options.push(@_createrOtherListOption())
       $listOptions.first().after(options)
       $list.children().eq(1).click()
+
+    _createrOtherOption: ->
+      $('<option>', value: '-1').text(@options.otherOption)
+
+    _createrOtherListOption: ->
+      $('<li>', rel: '-1').text(@options.otherOption)
 
     _reset: ->
       @_cleanErrors()
