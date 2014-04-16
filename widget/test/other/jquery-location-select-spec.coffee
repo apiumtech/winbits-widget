@@ -47,7 +47,7 @@ describe 'jQueryLocationSelectSpec', ->
 
     expect($otherField.get(0).tagName).to.match(/input/i)
 
-  it 'should allow customization by overriding default options', ->
+  it 'should allow customize other option & field', ->
     @$locationSelect.wblocationselect(otherOption: 'Otra Localidad...', otherFieldAttrs: { name: 'locationName' })
 
     $otherOption = @$locationSelect.find('option').last()
@@ -55,6 +55,12 @@ describe 'jQueryLocationSelectSpec', ->
 
     $otherField = @$locationSelect.parent().next()
     expect($otherField).to.has.attr('name', 'locationName')
+
+  it 'should allow customize blank option', ->
+    @$locationSelect.wblocationselect(blankOption: 'Colonia')
+
+    $otherOption = @$locationSelect.find('option').first()
+    expect($otherOption).to.has.text('Colonia')
 
   it 'should not override type & style attributes throug "otherFieldAttrs" option', ->
     @$locationSelect.wblocationselect(otherFieldAttrs: { name: 'locationName', type: 'hidden', style: 'color:red;' })

@@ -5,7 +5,10 @@
     options:
       zipCodeInput: '[name=zipCode]'
       otherOption: 'Otra...'
-      otherFieldAttrs: name: 'location'
+      otherFieldAttrs:
+        name: 'location'
+        placeholder: 'Colonia/Asentamiento'
+      blankOption: 'Colonia/Asentamiento'
       showInfoFields: yes
 
     _zipCodeInfoKey: '_zip-code-info'
@@ -19,12 +22,14 @@
       @loadZipCode(zipCode) if zipCode
 
     _createDefaultOptions: ->
-      $('<option>', value: '').text('Colonia/Asentamiento').prependTo(@element)
+      $('<option>', value: '').text(@options.blankOption).prependTo(@element)
       $('<option>', value: '-1').text(@options.otherOption).appendTo(@element)
 
     _createOtherInput: ->
       otherFieldAttrs = $.extend({}, @options.otherFieldAttrs, { type: 'text', style: 'display:none;' })
-      $('<input>', otherFieldAttrs).insertAfter(@_wrapper)
+      $otherField = $('<input>', otherFieldAttrs)
+      $otherField.insertAfter(@_wrapper)
+      $otherField.attr('placeholder', otherFieldAttrs.placeholder).placeholder()
 
     _enhanceSelect: ->
       @element.customSelect()
