@@ -6,7 +6,7 @@ describe 'jQueryLocationSelectSpec', ->
   PROMISE_RESOLVED_WITHOUT_DATA = new $.Deferred().resolve(response: []).promise()
 
   beforeEach ->
-    @$form = $('<form><input type="text" name="zipCode"><select id="select-1"></select></form>')
+    @$form = $('<form><input type="text" name="zipCode"><select></select></form>')
     @$form.validate
       ignore: []
       rules:
@@ -353,6 +353,17 @@ describe 'jQueryLocationSelectSpec', ->
     @$locationSelect.wblocationselect('loadZipCode', 'ABCDE')
 
     expect(ajaxStub).to.not.have.been.called
+
+  it 'should select attr value on first zip code load', ->
+    zipCodeInfo = generateZipCodeInfo(id: 3, locationName: 'Polanco')
+    ajaxStub = sinon.stub($, 'ajax').returns(promiseResolvedWithData(zipCodeInfo))
+    @$locationSelect.attr('value', zipCodeInfo.id)
+
+    @$locationSelect.wblocationselect()
+    @$locationSelect.wblocationselect('loadZipCode', '12345')
+
+    expect(@$locationSelect).to.have.value(zipCodeInfo.id.toString())
+    expect(@$locationSelect.data('_zip-code-info')).to.be.eql(zipCodeInfo)
 
   expectDefaultOptionExist = () ->
     value = ''

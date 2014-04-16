@@ -89,7 +89,7 @@
 
     _loadSelectOptions: (data) ->
       $options = @element.children()
-      $options.slice(1, -1).remove()
+      $options.slice(1).remove()
       options = []
       for optionData in data
         options.push $('<option>', value: optionData.id).data(@_zipCodeInfoKey, optionData).text(optionData.locationName)
@@ -99,13 +99,25 @@
     _loadListOptions: (data) ->
       $list = @_wrapper.find('ul')
       $listOptions = $list.children()
-      $listOptions.slice(1, -1).remove()
+      $listOptions.slice(1).remove()
       options = []
       for optionData in data
         options.push($('<li>', rel: optionData.id).text(optionData.locationName))
       options.push(@_createrOtherListOption())
       $listOptions.first().after(options)
-      $list.children().eq(1).click()
+      @_selectListOption($list)
+
+    _selectListOption: ($list) ->
+      selectValue = @_determineSelectValue()
+      if selectValue
+        $list.children("li[rel=#{selectValue}]").click()
+      else
+        $list.children().eq(1).click()
+
+    _determineSelectValue: () ->
+      if not @element.data('_zip-code-loaded')
+        @element.data('_zip-code-loaded', yes)
+        @element.attr('value')
 
     _createrOtherOption: ->
       $('<option>', value: '-1').text(@options.otherOption)
