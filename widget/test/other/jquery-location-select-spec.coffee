@@ -127,7 +127,7 @@ describe 'jQueryLocationSelectSpec', ->
     expect(ajaxStub).to.not.have.been.called
 
   it 'should load zipCode when zip code is loaded using API', ->
-    zipCodeData = [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
+    zipCodeData = response: [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
     ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
     @$locationSelect.wblocationselect()
 
@@ -145,7 +145,7 @@ describe 'jQueryLocationSelectSpec', ->
 
   it 'should load zip code if the current loaded zip code is not the same as the new one', ->
     $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
-    zipCodeData = [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
+    zipCodeData = response: [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
     ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
     @$locationSelect.wblocationselect()
 
@@ -156,7 +156,7 @@ describe 'jQueryLocationSelectSpec', ->
 
   it 'should load zip code when a valid zip code is entered after an invalid one', ->
     $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
-    zipCodeData = [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
+    zipCodeData = response: [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
     ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
     @$locationSelect.wblocationselect()
 
@@ -169,7 +169,7 @@ describe 'jQueryLocationSelectSpec', ->
   it 'should not load zip code if the current loaded zip code is the same', ->
     zipCode = '55555'
     $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
-    zipCodeData = [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
+    zipCodeData = response: [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
     ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
     @$locationSelect.wblocationselect()
 
@@ -179,7 +179,7 @@ describe 'jQueryLocationSelectSpec', ->
     expect(ajaxStub).to.have.been.calledOnce
 
   it 'should select first non-default option when loaded', ->
-    zipCodeData = [generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes'), generateZipCodeInfo()]
+    zipCodeData = response: [generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes'), generateZipCodeInfo()]
     ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
     @$locationSelect.wblocationselect()
 
@@ -188,7 +188,7 @@ describe 'jQueryLocationSelectSpec', ->
     expect(@$locationSelect).to.has.value('2')
 
   it 'should load new options when zipCode is loaded', ->
-    zipCodeData = [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
+    zipCodeData = response: [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
     ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
     @$locationSelect.wblocationselect()
 
@@ -208,7 +208,7 @@ describe 'jQueryLocationSelectSpec', ->
 
   it 'should reset value to "" if zip code does not exist', ->
     $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
-    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve([]).promise())
+    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(response: []).promise())
     @$locationSelect.wblocationselect()
 
     $zipCodeInput.val('11000').trigger('textchange')
@@ -217,7 +217,7 @@ describe 'jQueryLocationSelectSpec', ->
 
   it 'should show error on zipCode input if zip code does not exist', ->
     $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
-    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve([]).promise())
+    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(response: []).promise())
     @$locationSelect.wblocationselect()
 
     $zipCodeInput.val('11000').trigger('textchange')
@@ -228,7 +228,7 @@ describe 'jQueryLocationSelectSpec', ->
 
   it 'should reset to default options if zipCode does not exist', ->
     $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
-    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve([]).promise())
+    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(response: []).promise())
     $('<option>', value: '5').text('XXX').appendTo(@$locationSelect)
     @$locationSelect.wblocationselect()
 
@@ -242,7 +242,7 @@ describe 'jQueryLocationSelectSpec', ->
 
   it 'should reset select value if an invalid zip code is written after a successful load', ->
     $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
-    zipCodeData = [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
+    zipCodeData = response: [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
     ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
     @$locationSelect.wblocationselect()
 
@@ -253,7 +253,7 @@ describe 'jQueryLocationSelectSpec', ->
 
   it 'should reset to default options when an invalid zip code is written after a successful load', ->
     $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
-    zipCodeData = [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
+    zipCodeData = response: [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
     ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
     @$locationSelect.wblocationselect()
 
@@ -271,7 +271,7 @@ describe 'jQueryLocationSelectSpec', ->
     ajaxStub = sinon.stub($, 'ajax', ->
       new $.Deferred().done(->
         expect($zipCodeInput).to.be.disabled
-      ).resolve([]).promise()
+      ).resolve(response: []).promise()
     )
     @$locationSelect.wblocationselect()
 
@@ -279,7 +279,7 @@ describe 'jQueryLocationSelectSpec', ->
 
   it 'should set current zip code info by id using value', ->
     currentZipCodeInfo = generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')
-    zipCodeData = [generateZipCodeInfo(), currentZipCodeInfo]
+    zipCodeData = response: [generateZipCodeInfo(), currentZipCodeInfo]
     ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
     @$locationSelect.wblocationselect()
     @$locationSelect.wblocationselect('loadZipCode', '12345')
@@ -291,7 +291,7 @@ describe 'jQueryLocationSelectSpec', ->
 
   it 'should get current zip code info by id using value', ->
     currentZipCodeInfo = generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')
-    zipCodeData = [generateZipCodeInfo(), currentZipCodeInfo]
+    zipCodeData = response: [generateZipCodeInfo(), currentZipCodeInfo]
     ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
     @$locationSelect.wblocationselect()
     @$locationSelect.wblocationselect('loadZipCode', '12345')
@@ -301,10 +301,10 @@ describe 'jQueryLocationSelectSpec', ->
     expect(@$locationSelect.wblocationselect('value')).to.be.eql(currentZipCodeInfo)
 
   it 'should value return empty object after being resetted', ->
-    zipCodeData = [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
+    zipCodeData = response: [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
     ajaxStub = sinon.stub($, 'ajax')
         .onFirstCall().returns(new $.Deferred().resolve(zipCodeData).promise())
-        .onSecondCall().returns(new $.Deferred().resolve([]).promise())
+        .onSecondCall().returns(new $.Deferred().resolve(response: []).promise())
     @$locationSelect.wblocationselect()
 
     @$locationSelect.wblocationselect('loadZipCode', '12345')
@@ -313,7 +313,7 @@ describe 'jQueryLocationSelectSpec', ->
     expect(@$locationSelect.wblocationselect('value')).to.be.eql({})
 
   it 'should value return empty object if default option selected', ->
-    zipCodeData = [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
+    zipCodeData = response: [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
     ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
     @$locationSelect.wblocationselect()
 

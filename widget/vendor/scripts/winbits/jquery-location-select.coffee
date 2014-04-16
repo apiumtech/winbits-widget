@@ -72,7 +72,7 @@
           @_resetOptions()
 
     _loadZipCodeDone: (data) ->
-      @_loadZipCodeData(data)
+      @_loadZipCodeData(data.response)
 
     _loadZipCodeData: (data) ->
       if data.length
