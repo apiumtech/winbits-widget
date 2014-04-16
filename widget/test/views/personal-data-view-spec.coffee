@@ -18,7 +18,7 @@ describe 'PersonalDataViewSpec', ->
   beforeEach ->
     @loginData =
       apiToken: 'XXX'
-      profile: { name: 'Jorge', lastName:"Moreno", zipCode:'11111', phone:'431256789'}
+      profile: { name: 'Jorge', lastName:"Moreno", gender:'male', phone:'0431256789', birthdate:'1988-11-11'}
       email: 'a@aa.aa'
     mediator.data.set 'login-data', @loginData
     @model = new MyProfile @loginData
@@ -34,7 +34,7 @@ describe 'PersonalDataViewSpec', ->
     expect(@view.$ '#wbi-personal-data-form').to.exist
 
   it 'should render profile form data with data', ->
-    personalData = name: 'Jorge', lastName:"Moreno", zipCode:'11111', phone:'431256789'
+    personalData = name: 'Jorge', lastName:"Moreno", phone:'431256789'
     @view.model.set personalData
     _.each personalData, (value, key) ->
       expect(@view.$ "[name=#{key}]").to.has.value value
@@ -50,6 +50,9 @@ describe 'PersonalDataViewSpec', ->
     expect(@view.$ '[name=gender][value=H]').to.be.wbRadioUnchecked
 
   it 'do request should succed to update profile', ->
+    @view.$('.wbc-day').val('11')
+    @view.$('.wbc-month').val('11')
+    @view.$('.wbc-year').val('11')
     sinon.stub(@model, 'requestUpdateProfile').returns TestUtils.promises.resolved
     successStub = sinon.stub(@view, 'doUpdateProfileSuccess')
     @view.$('#wbi-update-profile-btn').click()

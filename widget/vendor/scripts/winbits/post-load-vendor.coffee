@@ -21,7 +21,10 @@
   ,"Codigo Postal No Existe")
 
   $.validator.addMethod("wbiPhone", (value) ->
-    /^[0-9]{10}/.test value
+    if value
+      /^[0-9]{10}/.test value
+    else
+      true
   ,"Ingresa un número telefónico valido")
 
   $.fn.wbDate = ()->
