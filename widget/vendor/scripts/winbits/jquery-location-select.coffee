@@ -19,7 +19,7 @@
       @loadZipCode(zipCode) if zipCode
 
     _createDefaultOptions: ->
-      $('<option>', value: '').prependTo(@element)
+      $('<option>', value: '').text('Colonia/Asentamiento').prependTo(@element)
       $('<option>', value: '-1').text(@options.otherOption).appendTo(@element)
 
     _createOtherInput: ->

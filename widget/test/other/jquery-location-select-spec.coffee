@@ -50,7 +50,7 @@ describe 'jQueryLocationSelectSpec', ->
   it 'should allow customization by overriding default options', ->
     @$locationSelect.wblocationselect(otherOption: 'Otra Localidad...', otherFieldAttrs: { name: 'locationName' })
 
-    $otherOption = @$locationSelect.find 'option'
+    $otherOption = @$locationSelect.find('option').last()
     expect($otherOption).to.has.text('Otra Localidad...')
 
     $otherField = @$locationSelect.parent().next()
@@ -359,10 +359,10 @@ describe 'jQueryLocationSelectSpec', ->
     expect($errorLabel.length).to.be.equal(1)
 
   expectDefaultOptionsExists = ($options, $listOptions) ->
-    expectSelectOption($options.first(), '', '')
+    expectSelectOption($options.first(), '', 'Colonia/Asentamiento')
     expectSelectOption($options.last(), '-1', 'Otra...')
 
-    expectListOption($listOptions.first(), '', '')
+    expectListOption($listOptions.first(), '', 'Colonia/Asentamiento')
     expectListOption($listOptions.last(), '-1', 'Otra...')
 
   expectSelectOption = ($option, value, text) ->
