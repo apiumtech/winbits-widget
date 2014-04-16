@@ -130,6 +130,7 @@
     _showZipCodeNotFoundError: ->
       name = @$zipCodeInput.attr('name')
       if @$zipCodeInput.length and name
+        @$zipCodeInput.addClass('error')
         $('<label>', class: 'error wbc-location-select-error').text('El código postal no existe.').insertAfter(@$zipCodeInput)
 
     value: (id) ->
@@ -138,5 +139,6 @@
       @element
 
     _cleanErrors: ->
+      @$zipCodeInput.removeClass('error')
       @element.closest('form').find('.wbc-location-select-error').remove()
 )(jQuery)
