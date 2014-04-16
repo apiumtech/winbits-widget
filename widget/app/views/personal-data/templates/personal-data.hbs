@@ -1,0 +1,33 @@
+  <form method="post" action="#" accept-charset="utf-8" id="wbi-personal-data-form">
+    <h3>DATOS PERSONALES</h3>
+    <input type="text" value="{{email}}" disabled="disabled" readonly="readonly">
+    <input type="text" name="name" placeholder="Nombre" class="requiredField" value="{{name}}" data-requiredfield="Nombre Requerido">
+    <input type="text" id="winbitsProfileLastname" name="lastName"  class="requiredField" placeholder="Apellido" value="{{lastName}}" data-requiredfield="Apellido Requerido">
+
+    <div class="divBirthday requiredField" data-requiredfield="Fecha de Nacimiento Requerido">
+      <label>Cumpleaños</label>
+      <input type="text" name= "wbi-birthdate-day" id= "wbi-birthdate-day" class="wbc-day" maxlength="2" placeholder="dd" value="{{substr birthdate start=8 length=2}}">
+      <input type="text" name= "wbi-birthdate-month" id= "wbi-birthdate-month" class="wbc-month" maxlength="2" placeholder="mm" value="{{substr birthdate start=5 length=2}}">
+      <input type="text" name= "wbi-birthdate-year" id= "wbi-birthdate-year" class="wbc-year" maxlength="2" placeholder="aa" value="{{substr birthdate start=2 length=2}}">
+    </div>
+    <div class="divGender requiredField" data-requiredfield="Género Requerido">
+      <label>Género</label>
+      <input type="radio" value="H" name="gender" {{#compare gender 'male'}}checked="checked"{{/compare}}>
+      <input type="radio" value="M" name="gender" {{#compare gender 'female'}}checked="checked"{{/compare}}>
+    </div>
+    <input type="text" placeholder="Código Postal" maxlength="5" name="zipCode" class="zipCode" value="{{zipCode}}">
+    <select class="select zipCodeInfo" data-clase="selectRegister" data-inputselect="true" name="zipCodeInfo">
+    </select>
+    <input type="text" id="winbitsProfilePhone" name="phone" placeholder="Teléfono" value="{{phone}}">
+    <input type="button" value="Guardar" class="btn editBtn" id="wbi-update-profile-btn">
+  </form>
+  <div class="thanks-div">
+    <div class="data">
+      <p>Procesando información</p>
+      <div class="loader"></div>
+    </div>
+    <div class="data" style="display: none">
+      <p>Tus datos quedaron guardados</p>
+      <a href="#" class="btn">Cerrar</a>
+    </div>
+  </div>

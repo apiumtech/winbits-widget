@@ -18,29 +18,26 @@ module.exports = class CompleteRegisterView extends View
     super
     @showAsModal()
     @$('.divGender').customRadio()
+    @$('[name=zipCodeInfo]').wblocationselect()
     @$('#wbi-complete-register-form').validate
       rules:
         name:
-          required : yes
           minlength:2
         lastName:
-          required : yes
           minlength: 2
         zipCode:
-          required : yes
           minlength:5
           digits:yes
         phone:
-          digits:yes
-          minlength:7
+          wbiPhone:yes
 
   showAsModal: ->
     $ ->
       $('<a>').wbfancybox(href: '#wbi-complete-register-modal', onClosed: -> utils.redirectTo controller:'home', action:'index').click()
 
   completeRegister: (e)->
-    data = utils.serializeProfileForm @$('#wbi-complete-register-form')
     $form = @$('#wbi-complete-register-form')
+    data = utils.serializeProfileForm $form
     if($form.valid())
       submitButton = @$(e.currentTarget).prop('disabled', yes)
       @model.requestUpdateProfile(data, context: @)

@@ -20,6 +20,32 @@
     data isnt yes
   ,"El código postal no existe.")
 
+  $.validator.addMethod("wbiPhone", (value) ->
+    if value
+      /^[0-9]{10}/.test value
+    else
+      true
+  ,"Ingresa un número telefónico valido")
+
+  $.fn.wbDate = ()->
+    $this = Winbits.$(this)
+    day = $this.find('#wbi-birthdate-day').val()
+    day = '0' + day if day and day.length == 1
+    month = $this.find('#wbi-birthdate-month').val()
+    month = '0' + month if month and month.length == 1
+    year = '19' + $this.find('#wbi-birthdate-year').val()
+    "#{year}-#{month}-#{day}"
+
+  $.validator.addMethod 'validateDate', (value, element)->
+    val = Winbits.$(element).parent().wbDate()
+    if val and val.length == 10
+      moment(val, 'YYYY-MM-DD').isValid()
+    else if val.length == 4
+      true
+    else
+      false
+  , "Ingresa una fecha valida"
+
   moment.tz.add
     zones:
       "America/Mexico_City": [
