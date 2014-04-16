@@ -72,13 +72,13 @@
           @_reset()
 
     _loadZipCodeDone: (data) ->
+      @element.data('_loaded-zip-code', @_zipCodeToLoad)
       @_loadZipCodeData(data.response)
 
     _loadZipCodeData: (data) ->
       if data.length
         @_loadSelectOptions(data)
         @_loadListOptions(data)
-        @element.data('_loaded-zip-code', @_zipCodeToLoad)
       else
         @_reset()
         @_showZipCodeNotFoundError()
