@@ -17,6 +17,10 @@ module.exports = class MyProfileView extends View
 
   attach: ->
     super
+    console.log('VALIDATING FORM')
+    @$('#wbi-personal-data-form').validate
+      rules:
+        zipCode: zipCodeDoesNotExist: yes
     @$('[name=zipCodeInfo]').wblocationselect()
     @$('.divGender').customRadio()
     @$('.requiredField').requiredField()

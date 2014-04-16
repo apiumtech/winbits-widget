@@ -16,9 +16,9 @@
 
   $.validator.addMethod("zipCodeDoesNotExist", (value, element) ->
     $element = Winbits.$(element)
-    $zipCode = $element.closest('form').find('[name=zipCode]')
-    not ($zipCode.val() and $element.children().length == 1)
-  ,"Codigo Postal No Existe")
+    data = $element.data('_zip-code-not-found-error')
+    data isnt yes
+  ,"El código postal no existe.")
 
   moment.tz.add
     zones:

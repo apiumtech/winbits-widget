@@ -7,7 +7,10 @@ describe 'jQueryLocationSelectSpec', ->
 
   beforeEach ->
     @$form = $('<form><input type="text" name="zipCode"><select id="select-1"></select></form>')
-    @$form.validate ignore: []
+    @$form.validate
+      ignore: []
+      rules:
+        zipCode: zipCodeDoesNotExist: true
     @$locationSelect = @$form.find('select')
     @$zipCodeInput = @$form.find('input')
 
@@ -228,10 +231,11 @@ describe 'jQueryLocationSelectSpec', ->
 
     @$zipCodeInput.val('11000').trigger('textchange')
 
-    $errorLabel = @$form.find('label.wbc-location-select-error')
-    expect($errorLabel).to.exist
-        .and.to.has.class('error')
+    $error = @$form.find('label.error')
+    expect($error).to.exist
         .and.to.has.text('El código postal no existe.')
+        .and.to.has.property('length', 1)
+    expect(@$zipCodeInput).to.has.class('error')
 
   it 'should reset to default option if zipCode does not exist', ->
     ajaxStub = sinon.stub($, 'ajax').returns(PROMISE_RESOLVED_WITHOUT_DATA)
@@ -330,26 +334,25 @@ describe 'jQueryLocationSelectSpec', ->
 
     expectOptionsAreNotReset.call(@)
 
-  it 'should clean zip code not found error when an invalid zipcode is written', ->
-    ajaxStub = sinon.stub($, 'ajax').returns(PROMISE_RESOLVED_WITHOUT_DATA)
-    @$locationSelect.wblocationselect()
-
-    @$zipCodeInput.val('12345').trigger('textchange')
-    @$zipCodeInput.val('1234').trigger('textchange')
-
-    $errorLabel = @$form.find('label.wbc-location-select-error')
-    expect($errorLabel).to.not.exist
-
-  it 'should clean zip code not found error before another zip code', ->
+  it 'should clean zip code not found error before another unexistent zip code is load', ->
     ajaxStub = sinon.stub($, 'ajax').returns(PROMISE_RESOLVED_WITHOUT_DATA)
     @$locationSelect.wblocationselect()
 
     @$locationSelect.wblocationselect('loadZipCode', '12345')
     @$locationSelect.wblocationselect('loadZipCode', '67890')
 
-    $errorLabel = @$form.find('label.wbc-location-select-error')
-    expect($errorLabel).to.exist
-    expect($errorLabel.length).to.be.equal(1)
+    $error = @$form.find('label.error')
+    expect($error).to.exist
+    expect($error.length).to.be.equal(1)
+    expect(@$zipCodeInput).to.has.class('error')
+
+  it 'should not make request if not well formed zipCode is loaded', ->
+    ajaxStub = sinon.stub($, 'ajax')
+    @$locationSelect.wblocationselect()
+
+    @$locationSelect.wblocationselect('loadZipCode', 'ABCDE')
+
+    expect(ajaxStub).to.not.have.been.called
 
   expectDefaultOptionExist = () ->
     value = ''

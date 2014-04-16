@@ -13,6 +13,8 @@
 
     _zipCodeInfoKey: '_zip-code-info'
 
+    _zipCodeRegExp: /\d{5}/
+
     _create: ->
       @_createDefaultOption()
       @_enhanceSelect()
@@ -60,7 +62,7 @@
       @loadZipCode(zipCode)
 
     _isValidZipCode: (zipCode) ->
-      zipCode.length is 5
+      @_zipCodeRegExp.test(zipCode)
 
     loadZipCode: (zipCode = '') ->
       zipCode = zipCode.toString()
@@ -130,8 +132,8 @@
     _showZipCodeNotFoundError: ->
       name = @$zipCodeInput.attr('name')
       if @$zipCodeInput.length and name
-        @$zipCodeInput.addClass('error')
-        $('<label>', class: 'error wbc-location-select-error').text('El código postal no existe.').insertAfter(@$zipCodeInput)
+        @$zipCodeInput.data('_zip-code-not-found-error', yes)
+        @$zipCodeInput.closest('form').validate().element(@$zipCodeInput)
 
     value: (id) ->
       return @_getCurrentZipCodeInfo() unless id
@@ -139,6 +141,6 @@
       @element
 
     _cleanErrors: ->
-      @$zipCodeInput.removeClass('error')
-      @element.closest('form').find('.wbc-location-select-error').remove()
+      @$zipCodeInput.data('_zip-code-not-found-error', no)
+      @$zipCodeInput.closest('form').validate().element(@$zipCodeInput)
 )(jQuery)
