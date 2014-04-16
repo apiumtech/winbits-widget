@@ -157,7 +157,7 @@ describe 'jQueryLocationSelectSpec', ->
     ajaxStub = sinon.stub($, 'ajax')
     @$locationSelect.wblocationselect()
 
-    @$locationSelect.wblocationselect('loadZipCode', '12345')
+    @$locationSelect.wblocationselect('loadZipCode', '1234')
 
     expect(ajaxStub).to.not.have.been.called
 
