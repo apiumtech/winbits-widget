@@ -36,7 +36,7 @@ module.exports = class ModalRecoverPasswordView extends View
       @model.requestRecoverPassword(formData, context: @)
         .done(@doRecoverPasswordSuccess)
         .fail(@doRecoverPasswordError)
-        .always(-> $submitButton.prop('disabled', false))
+        .always(-> $submitButton.prop('disabled', no))
 
   doRecoverPasswordSuccess :->
     message = "Te hemos mandado un mensaje a tu cuenta de correo con las instrucciones para recuperar tu contraseña."

@@ -3,7 +3,7 @@
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //      CAROUSELSWIPER: Iniciar carruseles on Swiper
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	
+
 	jQuery.fn.carouselSwiper = function(options){
 		var defaults = $.extend({
 			arrow: true,
@@ -37,7 +37,7 @@
 				calculateHeight(obj, swiper);
 				swiper.params.onSlideChangeStart = function(swiper){calculateHeight(obj, swiper);};
 			}
-			
+
 			if(defaults.onClickSlide){
 				$(obj).find(defaults.slideCSS).on('click', function(e){
 					e.stopPropagation();
@@ -132,7 +132,7 @@
 // +++++++++++++++++++++++++++++++++++++++++
 //      CUSTOMCHECKBOX: Cambiar checkbox
 // +++++++++++++++++++++++++++++++++++++++++
-	
+
 	jQuery.fn.customCheckbox = function(options){
 		var defaults = $.extend({
 			checkbox: 'input[type="checkbox"]',
@@ -256,7 +256,7 @@
 // +++++++++++++++++++++++++++++++++++++++++++
 //      CUSTOMSELECT: Customizar el select
 // +++++++++++++++++++++++++++++++++++++++++++
-	
+
 	jQuery.fn.customSelect = function(options){
 		var defaults = $.extend({
 			selectHidden: 'select-hidden',
@@ -278,7 +278,7 @@
 		},
 		addInput = function(obj){
 			if($(obj).data('inputselect')) {
-				selectContent = '<input type="text" class="'+ defaults.inputSelect +'">';
+				selectContent = '<input type="text" class="'+ defaults.inputSelect +'" disabled="true">';
 			} else {
 				selectContent = '<span class="'+ defaults.inputSelect +'"/>';
 			}
@@ -556,7 +556,7 @@
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //      IMAGEERROR: Poner imagen de error cuando no la encuentre
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	
+
 	jQuery.fn.imageError = function(){
 		var defaults = {
 			src: 'images/misc/noImge.jpg',
@@ -579,7 +579,7 @@
 // ++++++++++++++++++++++++++++++++++++++
 //      FANCYBOX: Modales con FancyBox
 // ++++++++++++++++++++++++++++++++++++++
-	
+
 	jQuery.fn.fancyBox = function(){
 		var optionsFancybox = {},
 		defaultFancybox = function(obj){
@@ -666,7 +666,7 @@
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //      SCROLLPANE: Scroll que aparece / desaparece
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	
+
 	jQuery.fn.scrollpane = function (options) {
 		var defaults= $.extend({
 			parent: '.scrollpane',
@@ -751,7 +751,7 @@
 // ++++++++++++++++++++++++++++++++++++
 //		TOOLTIP: Tooltips en objetos
 // ++++++++++++++++++++++++++++++++++++
-	
+
 	jQuery.fn.toolTip = function(options){
 		var defaults = {
 			clase: 'tooltip'

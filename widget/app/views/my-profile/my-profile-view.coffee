@@ -17,5 +17,6 @@ module.exports = class MyProfileView extends View
 
   attach: ->
     super
+    @$('[name=zipCodeInfo]').wblocationselect()
     @$('.divGender').customRadio()
     @$('.requiredField').requiredField()
