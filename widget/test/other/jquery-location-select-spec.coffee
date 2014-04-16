@@ -72,9 +72,11 @@ describe 'jQueryLocationSelectSpec', ->
     expect($otherField).to.has.attr('style').that.match(/display:\s*none;/)
 
   it 'should show other field when other option is selected', ->
+    zipCodeData = response: [generateZipCodeInfo()]
+    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
     @$locationSelect.wblocationselect()
 
-    @$locationSelect.parent().find('li').click()
+    @$locationSelect.parent().find('li[rel=-1]').click()
 
     $otherField = @$locationSelect.parent().next()
     expect($otherField).to.has.attr('style').that.match(/display:.*?block;/)
