@@ -222,7 +222,7 @@ describe 'jQueryLocationSelectSpec', ->
 
     $zipCodeInput.val('11000').trigger('textchange')
 
-    $errorLabel = $zipCodeInput.next('label.wbc-location-select-error')
+    $errorLabel = @$form.find('label.wbc-location-select-error')
     expect($errorLabel).to.exist
         .and.to.has.class('error')
         .and.to.has.text('El código postal no existe.')
@@ -355,8 +355,20 @@ describe 'jQueryLocationSelectSpec', ->
     $zipCodeInput.val('12345').trigger('textchange')
     $zipCodeInput.val('1234').trigger('textchange')
 
-    $errorLabel = $zipCodeInput.next('label.wbc-location-select-error')
+    $errorLabel = @$form.find('label.wbc-location-select-error')
     expect($errorLabel).to.not.exist
+
+  it 'should clean zip code not found error before another zip code', ->
+    $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
+    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(response: []).promise())
+    @$locationSelect.wblocationselect()
+
+    @$locationSelect.wblocationselect('loadZipCode', '12345')
+    @$locationSelect.wblocationselect('loadZipCode', '67890')
+
+    $errorLabel = @$form.find('label.wbc-location-select-error')
+    expect($errorLabel).to.exist
+    expect($errorLabel.length).to.be.equal(1)
 
   expectDefaultOptionsExists = ($options, $listOptions) ->
     expectSelectOption($options.first(), '', '')
