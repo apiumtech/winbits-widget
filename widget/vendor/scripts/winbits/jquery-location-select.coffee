@@ -130,8 +130,6 @@
     _showZipCodeNotFoundError: ->
       name = @$zipCodeInput.attr('name')
       if @$zipCodeInput.length and name
-        # @$zipCodeInput.closest('form').validate().showErrors
-        #   "#{name}": 'El código postal no existe.'
         $('<label>', class: 'error wbc-location-select-error').text('El código postal no existe.').insertAfter(@$zipCodeInput)
 
     value: (id) ->

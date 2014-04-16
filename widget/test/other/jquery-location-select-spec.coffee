@@ -190,7 +190,7 @@ describe 'jQueryLocationSelectSpec', ->
 
     @$locationSelect.wblocationselect('loadZipCode', '12345')
 
-    assertOtherOptionExist.call(@)
+    expectOtherOptionExist.call(@)
 
   it 'should load new options when zipCode is loaded', ->
     zipCodeData = response: [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
@@ -321,28 +321,24 @@ describe 'jQueryLocationSelectSpec', ->
     expect(@$locationSelect.wblocationselect('value')).to.be.eql({})
 
   it 'should not reset options if other option selected', ->
-    $('<option>', value: '5').text('XXX').appendTo(@$locationSelect)
+    zipCodeData = response: [generateZipCodeInfo()]
+    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
     @$locationSelect.wblocationselect()
 
+    @$locationSelect.wblocationselect('loadZipCode', '12345')
     @$form.find('li').last().click()
 
-    $options = @$locationSelect.children()
-    $listOptions = @$form.find('li')
-    expectDefaultOptionsExists($options, $listOptions)
-    expect($options.length, 'Unexpected number of select options!').to.be.equal(3)
-    expect($listOptions.length, 'Unexpected number of list options!').to.be.equal(3)
+    expectOptionsAreNotReset.call(@)
 
   it 'should not reset options if blank option selected', ->
-    $('<option>', value: '5').text('XXX').appendTo(@$locationSelect)
+    zipCodeData = response: [generateZipCodeInfo()]
+    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
     @$locationSelect.wblocationselect()
 
+    @$locationSelect.wblocationselect('loadZipCode', '12345')
     @$form.find('li').first().click()
 
-    $options = @$locationSelect.children()
-    $listOptions = @$form.find('li')
-    expectDefaultOptionsExists($options, $listOptions)
-    expect($options.length, 'Unexpected number of select options!').to.be.equal(3)
-    expect($listOptions.length, 'Unexpected number of list options!').to.be.equal(3)
+    expectOptionsAreNotReset.call(@)
 
   it 'should clean zip code not found error when an invalid zipcode is written', ->
     $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
@@ -377,14 +373,14 @@ describe 'jQueryLocationSelectSpec', ->
     expect($defaultListOption, 'More than 1 default list option exist!').to.has.property('length', 1)
     expectListOption($defaultListOption, value, text)
 
-  assertOtherOptionExist = () ->
+  expectOtherOptionExist = () ->
     value = '-1'
     text = 'Otra...'
     $otherOption = @$locationSelect.children("option[value=#{value}]")
     $otherListOption = @$locationSelect.parent().find("li[rel=#{value}]")
-    expect($otherOption, 'More than 1 other option exist!').to.has.property('length', 1)
+    expect($otherOption, 'Expected just 1 other option exist!').to.has.property('length', 1)
     expectSelectOption($otherOption, value, text)
-    expect($otherListOption, 'More than 1 other list option exist!').to.has.property('length', 1)
+    expect($otherListOption, 'Expected just 1 other list option exist!').to.has.property('length', 1)
     expectListOption($otherListOption, value, text)
 
   expectSelectOption = ($option, value, text) ->
@@ -401,6 +397,14 @@ describe 'jQueryLocationSelectSpec', ->
     expect($options, 'Expected just 1 option!').to.has.property('length', 1)
     expect($listOptions, 'Expected just 1 list option!').to.has.property('length', 1)
     expectDefaultOptionsExists($options, $listOptions)
+
+  expectOptionsAreNotReset = ->
+    $options = @$locationSelect.children()
+    $listOptions = @$form.find('li')
+    expectDefaultOptionsExists($options, $listOptions)
+    expectOtherOptionExist.call(@)
+    expect($options.length, 'Unexpected number of select options!').to.be.equal(3)
+    expect($listOptions.length, 'Unexpected number of list options!').to.be.equal(3)
 
   generateZipCodeInfo = (data) ->
     $.extend(
