@@ -21,11 +21,15 @@ module.exports = class PersonalDataView extends View
     @$el.prop 'class', 'column miCuenta-profile'
     @$('.divGender').customRadio()
     @$('.requiredField').requiredField()
+    @$('[name=zipCodeInfo]').wblocationselect()
     @$('#wbi-personal-data-form').validate
+      ignore : ''
       errorElement: 'span',
       errorPlacement: ($error, $element) ->
         if $element.attr("name") in ["wbi-birthdate-day", "wbi-birthdate-month", "wbi-birthdate-year"]
           $error.appendTo $element.parent()
+        else if $element.attr("name") in ["gender"]
+          $error.appendTo $element.parent().parent()
         else
           $error.insertAfter $element
       groups:
@@ -38,14 +42,18 @@ module.exports = class PersonalDataView extends View
           required: yes
           minlength: 2
         'wbi-birthdate-day':
-#          digits: yes
+          required: yes
           validateDate: yes
         'wbi-birthdate-month':
-#          digits: yes
+          required: yes
           validateDate: yes
         'wbi-birthdate-year':
-#          digits: yes
+          required: yes
           validateDate: yes
+        phone:
+          wbiPhone: yes
+        gender:
+          required: yes
 
   updateProfile : (e) ->
     $form = @$('#wbi-personal-data-form')

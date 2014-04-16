@@ -20,9 +20,12 @@
     not ($zipCode.val() and $element.children().length == 1)
   ,"Codigo Postal No Existe")
 
+  $.validator.addMethod("wbiPhone", (value) ->
+    /^[0-9]{10}/.test value
+  ,"Ingresa un número telefónico valido")
+
   $.fn.wbDate = ()->
     $this = Winbits.$(this)
-    console.log ["this", $this]
     day = $this.find('#wbi-birthdate-day').val()
     day = '0' + day if day and day.length == 1
     month = $this.find('#wbi-birthdate-month').val()
@@ -31,8 +34,6 @@
     "#{year}-#{month}-#{day}"
 
   $.validator.addMethod 'validateDate', (value, element)->
-    console.log ["element", element]
-    console.log ["parent", Winbits.$(element).parent()]
     val = Winbits.$(element).parent().wbDate()
     if val and val.length == 10
       moment(val, 'YYYY-MM-DD').isValid()
