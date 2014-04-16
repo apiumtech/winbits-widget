@@ -49,8 +49,13 @@ describe 'jQueryLocationSelectSpec', ->
 
     expect($otherField.get(0).tagName).to.match(/input/i)
 
-  it.skip 'should allow customize other option & field', ->
+  it 'should allow customize other option & field', ->
+    zipCodeData = response: [generateZipCodeInfo()]
+    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
     @$locationSelect.wblocationselect(otherOption: 'Otra Localidad...', otherFieldAttrs: { name: 'locationName' })
+
+    @$locationSelect.wblocationselect('loadZipCode', '12345')
+    @$locationSelect.parent().find('li[rel=-1]').click()
 
     $otherOption = @$locationSelect.find('option').last()
     expect($otherOption).to.has.text('Otra Localidad...')
@@ -76,17 +81,20 @@ describe 'jQueryLocationSelectSpec', ->
     ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
     @$locationSelect.wblocationselect()
 
+    @$locationSelect.wblocationselect('loadZipCode', '12345')
     @$locationSelect.parent().find('li[rel=-1]').click()
 
     $otherField = @$locationSelect.parent().next()
     expect($otherField).to.has.attr('style').that.match(/display:.*?block;/)
 
-  it.skip 'should hide other field when other option is deselected', ->
-    $('<option>', value: '5').appendTo(@$locationSelect)
+  it 'should hide other field when other option is deselected', ->
+    zipCodeData = response: [generateZipCodeInfo()]
+    ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
     @$locationSelect.wblocationselect()
+
+    @$locationSelect.wblocationselect('loadZipCode', '12345')
     $otherField = @$locationSelect.parent().next()
     $otherField.show()
-
     @$locationSelect.parent().find('li').first().click()
 
     expect($otherField).to.has.attr('style').that.match(/display:\s*none;/)
@@ -141,7 +149,7 @@ describe 'jQueryLocationSelectSpec', ->
     ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
     @$locationSelect.wblocationselect()
 
-    @$locationSelect.wblocationselect('loadZipCode', 55555)
+    @$locationSelect.wblocationselect('loadZipCode', '12345')
 
     expect(ajaxStub).to.have.been.calledOnce
 
@@ -149,7 +157,7 @@ describe 'jQueryLocationSelectSpec', ->
     ajaxStub = sinon.stub($, 'ajax')
     @$locationSelect.wblocationselect()
 
-    @$locationSelect.wblocationselect('loadZipCode', 5555)
+    @$locationSelect.wblocationselect('loadZipCode', '12345')
 
     expect(ajaxStub).to.not.have.been.called
 
