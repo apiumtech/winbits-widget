@@ -14,6 +14,7 @@ specs = [
   './views/personal-data-view-spec'
   './views/social-media-view-spec'
   './views/change-password-view-spec'
+  './other/jquery-location-select-spec'
 ]
 
 for spec in specs

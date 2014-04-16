@@ -24,6 +24,7 @@ exports.config =
           'bower_components/moment-timezone/moment-timezone.js',
           'vendor/scripts/messages_es.js',
           'vendor/scripts/script.js', # Script de Yadira
+          'vendor/scripts/winbits/jquery-location-select.coffee',
           'vendor/scripts/winbits/post-load-vendor.coffee',
           'test/vendor/scripts/test-helper.js'
         ]
