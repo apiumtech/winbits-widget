@@ -232,7 +232,7 @@ describe 'jQueryLocationSelectSpec', ->
         .and.to.has.class('error')
         .and.to.has.text('El código postal no existe.')
 
-  it 'should reset to default options if zipCode does not exist', ->
+  it 'should reset to default option if zipCode does not exist', ->
     $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
     ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(response: []).promise())
     $('<option>', value: '5').text('XXX').appendTo(@$locationSelect)
@@ -240,11 +240,7 @@ describe 'jQueryLocationSelectSpec', ->
 
     $zipCodeInput.val('11000').trigger('textchange')
 
-    $options = @$locationSelect.children()
-    $listOptions = @$locationSelect.parent().find('li')
-    expectDefaultOptionsExists($options, $listOptions)
-    expect($options.length, 'More options than expected!').to.be.equal(2)
-    expect($listOptions.length, 'More list options than expected!').to.be.equal(2)
+    expectOptionsAreResetToDefault.call(@)
 
   it 'should reset select value if an invalid zip code is written after a successful load', ->
     $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
@@ -257,7 +253,7 @@ describe 'jQueryLocationSelectSpec', ->
 
     expect(@$locationSelect).to.has.value('')
 
-  it 'should reset to default options when an invalid zip code is written after a successful load', ->
+  it 'should reset to default option when an invalid zip code is written after a successful load', ->
     $zipCodeInput = $('<input>', type:"text", name:"zipCode").appendTo(@$form)
     zipCodeData = response: [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
     ajaxStub = sinon.stub($, 'ajax').returns(new $.Deferred().resolve(zipCodeData).promise())
@@ -266,11 +262,7 @@ describe 'jQueryLocationSelectSpec', ->
     $zipCodeInput.val('11000').trigger('textchange')
     $zipCodeInput.val('1100').trigger('textchange')
 
-    $options = @$locationSelect.children()
-    $listOptions = @$locationSelect.parent().find('li')
-    expectDefaultOptionsExists($options, $listOptions)
-    expect($options.length, 'More options than expected!').to.be.equal(2)
-    expect($listOptions.length, 'More list options than expected!').to.be.equal(2)
+    expectOptionsAreResetToDefault.call(@)
 
   it 'should disable zipCode input while loading zip code', ->
     $zipCodeInput = $('<input>', type:"text", name:"zipCode", value: '12345').appendTo(@$form)
@@ -378,16 +370,22 @@ describe 'jQueryLocationSelectSpec', ->
   expectDefaultOptionsExists = ($options, $listOptions) ->
     value = ''
     text = 'Colonia/Asentamiento'
-    expectSelectOption($options.first(), value, text)
-    expectListOption($listOptions.first(), value, text)
+    $defaultOption = $options.first()
+    expect($defaultOption, 'More than 1 default option exist!').to.has.property('length', 1)
+    expectSelectOption($defaultOption, value, text)
+    $defaultListOption = $listOptions.first()
+    expect($defaultListOption, 'More than 1 default list option exist!').to.has.property('length', 1)
+    expectListOption($defaultListOption, value, text)
 
   assertOtherOptionExist = () ->
-    $otherOption = @$locationSelect.children().last()
-    $otherListOptions = @$locationSelect.parent().find('li').last()
     value = '-1'
     text = 'Otra...'
+    $otherOption = @$locationSelect.children("option[value=#{value}]")
+    $otherListOption = @$locationSelect.parent().find("li[rel=#{value}]")
+    expect($otherOption, 'More than 1 other option exist!').to.has.property('length', 1)
     expectSelectOption($otherOption, value, text)
-    expectListOption($otherListOptions, value, text)
+    expect($otherListOption, 'More than 1 other list option exist!').to.has.property('length', 1)
+    expectListOption($otherListOption, value, text)
 
   expectSelectOption = ($option, value, text) ->
     expect($option, 'Unexpected select option!').to.has.text(text)
@@ -396,6 +394,13 @@ describe 'jQueryLocationSelectSpec', ->
   expectListOption = ($listOption, rel, text) ->
     expect($listOption, 'Unexpected list option!').to.has.text(text)
       .and.to.has.attr('rel', rel)
+
+  expectOptionsAreResetToDefault = ->
+    $options = @$locationSelect.children()
+    $listOptions = @$locationSelect.parent().find('li')
+    expect($options, 'Expected just 1 option!').to.has.property('length', 1)
+    expect($listOptions, 'Expected just 1 list option!').to.has.property('length', 1)
+    expectDefaultOptionsExists($options, $listOptions)
 
   generateZipCodeInfo = (data) ->
     $.extend(

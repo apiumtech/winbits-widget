@@ -117,11 +117,11 @@
       @_resetListOptions()
 
     _resetSelectOptions: ->
-      @element.children().slice(1, -1).remove()
+      @element.children().slice(1).remove()
 
     _resetListOptions: ->
       $listOptions = @_wrapper.find('li')
-      $listOptions.slice(1, -1).remove()
+      $listOptions.slice(1).remove()
       $listOptions.first().click()
 
     _loadZipCodeAlways: ->
