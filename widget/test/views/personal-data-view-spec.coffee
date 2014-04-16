@@ -10,15 +10,15 @@ mediator = Winbits.Chaplin.mediator
 describe 'PersonalDataViewSpec', ->
 
   before ->
-#    $.validator.setDefaults({ ignore: [] });
+    $.validator.setDefaults({ ignore: [] });
 
   after ->
-#    $.validator.setDefaults({ ignore: ':hidden' });
+    $.validator.setDefaults({ ignore: ':hidden' });
 
   beforeEach ->
     @loginData =
       apiToken: 'XXX'
-      profile: {}
+      profile: { name: 'Jorge', lastName:"Moreno", zipCode:'11111', phone:'431256789'}
       email: 'a@aa.aa'
     mediator.data.set 'login-data', @loginData
     @model = new MyProfile @loginData
@@ -62,7 +62,7 @@ describe 'PersonalDataViewSpec', ->
     @view.$('#wbi-update-profile-btn').click()
     expect(ajaxRequestStub).to.not.be.called
 
-  it.skip 'show validation errors if form invalid', ->
+  it 'show validation errors if form invalid', ->
     @view.$('[name=name]').val('')
     @view.$('#wbi-update-profile-btn').click()
     expect(@view.$ '.error').to.exist

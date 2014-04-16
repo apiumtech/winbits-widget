@@ -32,10 +32,9 @@ module.exports = class ChangePasswordView extends MyProfileView
         passwordConfirm:
           required: yes
           minlength: 6
-          equalTo: '[name=newPassword]'
+          equalTo: @$('[name=newPassword]')
 
   changePassword : (e) ->
-    console.log [e]
     $form = @$('#wbi-change-password-form')
     data = utils.serializeProfileForm $form
     if($form.valid())
