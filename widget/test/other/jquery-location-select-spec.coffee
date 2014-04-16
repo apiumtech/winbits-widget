@@ -222,7 +222,7 @@ describe 'jQueryLocationSelectSpec', ->
 
     $zipCodeInput.val('11000').trigger('textchange')
 
-    $errorLabel = $zipCodeInput.next('label.wbc-zip-code-not-found')
+    $errorLabel = $zipCodeInput.next('label.wbc-api-error')
     expect($errorLabel).to.exist
         .and.to.has.class('error')
         .and.to.has.text('El código postal no existe.')
