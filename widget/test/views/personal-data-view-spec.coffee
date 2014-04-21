@@ -50,12 +50,10 @@ describe 'PersonalDataViewSpec', ->
     expect(@view.$ '[name=gender][value=H]').to.be.wbRadioUnchecked
 
   it 'do request should succed to update profile', ->
-    @view.$('.wbc-day').val('11')
-    @view.$('.wbc-month').val('11')
-    @view.$('.wbc-year').val('11')
     sinon.stub(@model, 'requestUpdateProfile').returns TestUtils.promises.resolved
     successStub = sinon.stub(@view, 'doUpdateProfileSuccess')
     @view.$('#wbi-update-profile-btn').click()
+    console.log ['error', @view.$('#wbi-personal-data-form').validate().numberOfInvalids()]
     expect(successStub).to.be.calledOnce
     expect(@view.$ '.error').to.not.exist
 

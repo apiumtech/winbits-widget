@@ -27,8 +27,12 @@
       yes
   ,"Ingresa un número telefónico valido")
 
-  $.validator.addMethod("wbiSelectInfo", (value) ->
-    value.length >= 1
+  $.validator.addMethod("wbiSelectInfo", (value, element) ->
+    $zipCode = Winbits.$(element).parent().parent().find('input[name=zipCode]')
+    if($zipCode.val())
+      value.length >= 1
+    else
+      yes
   ,"Selecccione una opción valida")
 
   $.validator.addMethod("wbiLocation", (value, element) ->
