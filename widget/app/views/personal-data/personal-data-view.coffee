@@ -26,7 +26,7 @@ module.exports = class PersonalDataView extends View
       ignore : ''
       errorElement: 'span',
       errorPlacement: ($error, $element) ->
-        if $element.attr("name") in ["wbi-birthdate-day", "wbi-birthdate-month", "wbi-birthdate-year"]
+        if $element.attr("name") in ["wbi-birthdate-day", "wbi-birthdate-month", "wbi-birthdate-year", "zipCodeInfo"]
           $error.appendTo $element.parent()
         else if $element.attr("name") in ["gender"]
           $error.appendTo $element.parent().parent()
@@ -52,8 +52,18 @@ module.exports = class PersonalDataView extends View
           validateDate: yes
         phone:
           wbiPhone: yes
+        zipcode:
+          minlength: 5
+          digits:yes
+          zipCodeDoesNotExist:yes
         gender:
           required: yes
+        location:
+          wbiLocation: yes
+        zipCodeInfo:
+          wbiSelectInfo: yes
+
+
 
   updateProfile : (e) ->
     $form = @$('#wbi-personal-data-form')

@@ -24,8 +24,20 @@
     if value
       /^[0-9]{10}/.test value
     else
-      true
+      yes
   ,"Ingresa un número telefónico valido")
+
+  $.validator.addMethod("wbiSelectInfo", (value) ->
+    value.length >= 1
+  ,"Selecccione una opción valida")
+
+  $.validator.addMethod("wbiLocation", (value, element) ->
+    $element = Winbits.$(element)
+    if $element.attr('style') == ('display: inline-block;' and '')
+      if !$element.val() then no else yes
+    else
+      yes
+  ,"Campo es requerido.")
 
   $.fn.wbDate = ()->
     $this = Winbits.$(this)

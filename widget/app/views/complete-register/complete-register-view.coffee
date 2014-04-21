@@ -20,6 +20,12 @@ module.exports = class CompleteRegisterView extends View
     @$('.divGender').customRadio()
     @$('[name=zipCodeInfo]').wblocationselect()
     @$('#wbi-complete-register-form').validate
+      ignore:''
+      errorPlacement: ($error, $element) ->
+        if $element.attr("name") in ["zipCodeInfo"]
+          $error.appendTo $element.parent()
+        else
+          $error.insertAfter $element
       rules:
         name:
           minlength:2
@@ -28,8 +34,13 @@ module.exports = class CompleteRegisterView extends View
         zipCode:
           minlength:5
           digits:yes
+          zipCodeDoesNotExist:yes
         phone:
           wbiPhone:yes
+        location:
+          wbiLocation: yes
+        zipCodeInfo:
+          wbiSelectInfo: yes
 
   showAsModal: ->
     $ ->
@@ -57,3 +68,5 @@ module.exports = class CompleteRegisterView extends View
     message = if error then error.meta.message else messageText
     options = value: "Cerrar", title:'Error', onClosed: utils.redirectToLoggedInHome()
     utils.showMessageModal(message, options)
+
+
