@@ -37,7 +37,8 @@
 
   $.validator.addMethod("wbiLocation", (value, element) ->
     $element = Winbits.$(element)
-    if $element.attr('style') == ('display: inline-block;' and '')
+    $elementStyle = $element.attr('style')
+    if !$elementStyle or $elementStyle == 'display: inline-block;'
       if !$element.val() then no else yes
     else
       yes
