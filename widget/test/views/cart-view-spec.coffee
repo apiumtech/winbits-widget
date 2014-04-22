@@ -57,6 +57,14 @@ describe 'CartViewSpec', ->
     expect(@view.subview('cart-bits').model).to.be.equal(@model)
     expect(@view.subview('cart-payment-methods').model).to.be.equal(@model)
 
+  it 'should not show cart counter by default', ->
+    expect(@view.$ '#wbi-cart-counter').to.has.text('')
+
+  it 'should update cart counter when cart items exist in model', ->
+    @view.model.set cartDetails: [{}, {}]
+    @view.render()
+    expect(@view.$ '#wbi-cart-counter').to.has.text('2')
+
   expectCartSubview = (viewSelector, parentId, subviewName) ->
     $subview = @view.$(viewSelector)
     expect($subview).to.exist
