@@ -12,3 +12,4 @@ module.exports = class CartView extends View
 
   attach: ->
     super
+    @$('#wbi-cart-drop').hide()
