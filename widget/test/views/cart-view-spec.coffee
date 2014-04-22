@@ -39,6 +39,9 @@ describe 'CartViewSpec', ->
   it 'should render cart totals view as subview', ->
     expectCartSubview.call(@, '#wbi-cart-totals', 'wbi-cart-right-panel', 'cart-totals')
 
+  it 'should render cart bits view as subview', ->
+    expectCartSubview.call(@, '#wbi-cart-bits', 'wbi-cart-right-panel', 'cart-bits')
+
   expectCartSubview = (viewSelector, parentId, subviewName) ->
     $subview = @view.$(viewSelector)
     expect($subview).to.exist

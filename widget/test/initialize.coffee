@@ -18,6 +18,7 @@ specs = [
   './views/cart-view-spec'
   './views/cart-items-view-spec'
   './views/cart-totals-view-spec'
+  './views/cart-bits-view-spec'
 ]
 
 for spec in specs
