@@ -319,6 +319,10 @@ _(utils).extend
 
   saveLoginData: Winbits.saveLoginData
 
+  formatCurrency: (value) ->
+    moneyValue = value
+    "$#{moneyValue}"
+
 # Prevent creating new properties and stuff.
 Object.seal? utils
 

@@ -61,7 +61,7 @@ describe 'CartViewSpec', ->
     expect(@view.$ '#wbi-cart-counter').to.has.text('')
 
   it 'should update cart counter when cart items exist in model', ->
-    @view.model.set cartDetails: [{}, {}]
+    @model.set cartDetails: [{}, {}]
     @view.render()
     expect(@view.$ '#wbi-cart-counter').to.has.text('2')
 

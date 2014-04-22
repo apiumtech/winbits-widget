@@ -1,4 +1,7 @@
 'use strict'
+
+require = Winbits.require
+utils = require 'lib/utils'
 Handlebars = Winbits.Handlebars
 env = Winbits.env
 $ = Winbits.$
@@ -89,3 +92,11 @@ Handlebars.registerHelper "eachActiveVertical", (options) ->
 Handlebars.registerHelper "getCartItemsCount", () ->
   if @cartDetails then @cartDetails.length else ''
 
+Handlebars.registerHelper "formatCurrency", utils.formatCurrency
+
+Handlebars.registerHelper "getCartSaving", () ->
+  utils.formatCurrency(@bitsTotal)
+
+Handlebars.registerHelper "getCartTotal", () ->
+  total = @itemsTotal + @shippingTotal
+  utils.formatCurrency(total)

@@ -1,10 +1,10 @@
 <span class="carritoRight-title">Sub Total</span>
-<span id="wbi-cart-subtotal" class="carritoRight-item">$15000</span>
+<span id="wbi-cart-subtotal" class="carritoRight-item">{{formatCurrency itemsTotal}}</span>
 <span class="carritoRight-title blueSave">Ahorro</span>
-<span id="wbi-cart-saving" class="carritoRight-item blueSave">$500</span>
+<span id="wbi-cart-saving" class="carritoRight-item blueSave">{{getCartSaving}}</span>
 <span class="carritoRight-title">Envío</span>
-<span id="wbi-cart-shipping-cost" class="carritoRight-item">$0</span>
+<span id="wbi-cart-shipping-cost" class="carritoRight-item">{{formatCurrency shippingTotal}}</span>
 <p class="carritoRight-total">
     <span class="carritoRight-title">Total</span>
-    <span id="wbi-cart-total" class="carritoRight-item">$0</span>
+    <span id="wbi-cart-total" class="carritoRight-item">{{getCartTotal}}</span>
 </p>
