@@ -21,6 +21,8 @@ describe 'CartViewSpec', ->
         .and.to.has.text('')
     expect(@view.$ '#wbi-cart-icon').to.exist
     expect(@view.$ '#wbi-cart-drop').to.exist
+    expect(@view.$ '#wbi-cart-left-panel').to.exist
+    expect(@view.$ '#wbi-cart-right-panel').to.exist
 
   it 'should apply dropMainMenu plugin on cart info', ->
     dropMainMenuStub = sinon.stub()
@@ -30,3 +32,6 @@ describe 'CartViewSpec', ->
 
     expect(viewStub).to.have.been.calledWith('#wbi-cart-info')
     expect(dropMainMenuStub).to.have.been.calledOnce
+
+  it 'should render cart items view as subview', ->
+    expect(@view.$ '#wbi-cart-items').to.exist
