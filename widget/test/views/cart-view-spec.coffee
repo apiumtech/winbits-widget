@@ -16,9 +16,16 @@ describe 'CartViewSpec', ->
   it 'should be rendered', ->
     expect(@view.el).to.be.equal(@el)
     expect(@view.noWrap, 'expected to not be wrapped').to.be.true
+    expect(@view.$ '#wbi-cart-info').to.exist
     expect(@view.$ '#wbi-cart-counter').to.exist
-        .and.to.be.displayed
     expect(@view.$ '#wbi-cart-icon').to.exist
-        .and.to.be.displayed
     expect(@view.$ '#wbi-cart-drop').to.exist
-        .and.to.not.be.displayed
+
+  it 'should apply dropMainMenu plugin on cart info', ->
+    dropMainMenuStub = sinon.stub()
+    viewStub = sinon.stub(@view, '$').returns(dropMainMenu: dropMainMenuStub)
+
+    @view.render()
+
+    expect(viewStub).to.have.been.calledWith('#wbi-cart-info')
+    expect(dropMainMenuStub).to.have.been.calledOnce
