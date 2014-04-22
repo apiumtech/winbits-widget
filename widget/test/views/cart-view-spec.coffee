@@ -45,6 +45,12 @@ describe 'CartViewSpec', ->
   it 'should render cart payment methods view as subview', ->
     expectCartSubview.call(@, '#wbi-cart-payment-methods', 'wbi-cart-right-panel', 'cart-payment-methods')
 
+  it 'should render subviews into right panel in the correct order', ->
+    $rightPanelChildren = @view.$('#wbi-cart-right-panel').children()
+    expect($rightPanelChildren.eq(0)).to.has.id('wbi-cart-totals')
+    expect($rightPanelChildren.eq(1)).to.has.id('wbi-cart-bits')
+    expect($rightPanelChildren.eq(2)).to.has.id('wbi-cart-payment-methods')
+
   expectCartSubview = (viewSelector, parentId, subviewName) ->
     $subview = @view.$(viewSelector)
     expect($subview).to.exist
