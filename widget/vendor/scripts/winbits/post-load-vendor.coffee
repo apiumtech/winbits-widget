@@ -22,7 +22,7 @@
 
   $.validator.addMethod("wbiPhone", (value) ->
     if value
-      /^[0-9]{10}/.test value
+      /^[0-9]{10,15}/.test value
     else
       yes
   ,"Ingresa un número telefónico valido")
