@@ -42,7 +42,7 @@ describe 'CartViewSpec', ->
   it 'should render cart bits view as subview', ->
     expectCartSubview.call(@, '#wbi-cart-bits', 'wbi-cart-right-panel', 'cart-bits')
 
-  it 'should render cart payments view as subview', ->
+  it 'should render cart payment methods view as subview', ->
     expectCartSubview.call(@, '#wbi-cart-payment-methods', 'wbi-cart-right-panel', 'cart-payment-methods')
 
   expectCartSubview = (viewSelector, parentId, subviewName) ->
