@@ -18,7 +18,7 @@ describe 'NotLoggedInViewSpec', ->
       .and.to.has.classes ['miCuenta', 'login']
     expect(@view.$ '#wbi-register-link').to.exist
     expect(@view.$ '#wbi-login-btn').to.exist
-    expect(@view.$ '#wbi-cart-icon').to.exist
+    expect(@view.$ '#wbi-cart-holder').to.exist
 
   it 'should redirect to #login when login button is clicked', ->
     utilsStub = sinon.stub utils, 'redirectTo'
