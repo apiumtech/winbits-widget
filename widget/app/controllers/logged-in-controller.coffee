@@ -8,6 +8,7 @@ SocialMediaView = require 'views/social-media/social-media-view'
 ChangePasswordView = require 'views/change-password/change-password-view'
 ChangePassword = require 'models/change-password/change-password'
 PersonalDataView = require 'views/personal-data/personal-data-view'
+CartView = require 'views/cart/cart-view'
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 
@@ -36,6 +37,12 @@ module.exports = class LoggedInController extends Controller
 
         check: -> mediator.data.get 'change-password-composed'
       @reuse 'social-media-view', SocialMediaView
+      @reuse 'user-cart-view',
+        compose: ->
+          mediator.data.set 'profile-composed', yes
+          @view = new CartView container: '#wbi-user-cart'
+
+        check: -> mediator.data.get 'profile-composed'
     else
       @redirectTo 'home#index'
 

@@ -18,6 +18,7 @@ describe 'CartViewSpec', ->
     expect(@view.noWrap, 'expected to not be wrapped').to.be.true
     expect(@view.$ '#wbi-cart-info').to.exist
     expect(@view.$ '#wbi-cart-counter').to.exist
+        .and.to.has.text('')
     expect(@view.$ '#wbi-cart-icon').to.exist
     expect(@view.$ '#wbi-cart-drop').to.exist
 
