@@ -16,7 +16,7 @@ specs = [
   # './views/complete-register-view-spec'
   # './other/jquery-location-select-spec'
   './views/cart-view-spec'
-  './views/cart-items-view-spec'
+  # './views/cart-items-view-spec'
 ]
 
 for spec in specs

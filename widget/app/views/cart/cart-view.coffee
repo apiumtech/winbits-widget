@@ -1,5 +1,5 @@
 View = require 'views/base/view'
-env = Winbits.env
+CartItemsView = require 'views/cart/cart-items-view'
 $ = Winbits.$
 
 module.exports = class CartView extends View
@@ -9,6 +9,10 @@ module.exports = class CartView extends View
 
   initialize: ->
     super
+
+  render: ->
+    super
+    @subview 'cart-items', new CartItemsView container: @$el.find('#wbi-cart-left-panel').get(0)
 
   attach: ->
     super

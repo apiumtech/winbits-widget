@@ -34,4 +34,13 @@ describe 'CartViewSpec', ->
     expect(dropMainMenuStub).to.have.been.calledOnce
 
   it 'should render cart items view as subview', ->
-    expect(@view.$ '#wbi-cart-items').to.exist
+    expectCartSubview.call(@, '#wbi-cart-items', 'wbi-cart-left-panel', 'cart-items')
+
+  it 'should render cart totals view as subview', ->
+    expectCartSubview.call(@, '#wbi-cart-totals', 'wbi-cart-right-panel', 'cart-totals')
+
+  expectCartSubview = (viewSelector, parentId, subviewName) ->
+    $subview = @view.$(viewSelector)
+    expect($subview).to.exist
+    expect($subview.parent()).to.has.id(parentId)
+    expect(@view.subview(subviewName)).to.be.ok
