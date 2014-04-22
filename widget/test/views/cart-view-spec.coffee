@@ -1,17 +1,16 @@
 CartView = require 'views/cart/cart-view'
-# Cart = require 'models/cart/cart'
+Cart = require 'models/cart/cart'
 $ = Winbits.$
 
 describe 'CartViewSpec', ->
 
   beforeEach ->
-    # @model = new Cart
     @el = $('<li>', id: 'wbi-cart-holder').get(0)
-    @view = new CartView container: @el# model: @model
+    @model = new Cart
+    @view = new CartView container: @el, model: @model
 
   afterEach ->
     @view.dispose()
-    # @model.dispose()
 
   it 'should be rendered', ->
     expect(@view.el).to.be.equal(@el)
@@ -50,6 +49,13 @@ describe 'CartViewSpec', ->
     expect($rightPanelChildren.eq(0)).to.has.id('wbi-cart-totals')
     expect($rightPanelChildren.eq(1)).to.has.id('wbi-cart-bits')
     expect($rightPanelChildren.eq(2)).to.has.id('wbi-cart-payment-methods')
+
+  it 'should share its model with its subviews', ->
+    expect(@view.model).to.be.equal(@model)
+    expect(@view.subview('cart-items').model).to.be.equal(@model)
+    expect(@view.subview('cart-totals').model).to.be.equal(@model)
+    expect(@view.subview('cart-bits').model).to.be.equal(@model)
+    expect(@view.subview('cart-payment-methods').model).to.be.equal(@model)
 
   expectCartSubview = (viewSelector, parentId, subviewName) ->
     $subview = @view.$(viewSelector)

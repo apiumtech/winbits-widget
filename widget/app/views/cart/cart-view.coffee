@@ -15,11 +15,12 @@ module.exports = class CartView extends View
 
   render: ->
     super
-    @subview 'cart-items', new CartItemsView container: @$el.find('#wbi-cart-left-panel').get(0)
+    cartLeftPanel = @$el.find('#wbi-cart-left-panel').get(0)
+    @subview 'cart-items', new CartItemsView container: cartLeftPanel, model: @model
     cartRightPanel = @$el.find('#wbi-cart-right-panel').get(0)
-    @subview 'cart-totals', new CartTotalsView container: cartRightPanel
-    @subview 'cart-bits', new CartBitsView container: cartRightPanel
-    @subview 'cart-payment-methods', new CartPaymentMethodsView container: cartRightPanel
+    @subview 'cart-totals', new CartTotalsView container: cartRightPanel, model: @model
+    @subview 'cart-bits', new CartBitsView container: cartRightPanel, model: @model
+    @subview 'cart-payment-methods', new CartPaymentMethodsView container: cartRightPanel, model: @model
 
   attach: ->
     super
