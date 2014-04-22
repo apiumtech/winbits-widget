@@ -13,6 +13,8 @@
 
     _zipCodeInfoKey: '_zip-code-info'
 
+    _zipCodeRegExp: /\d{5}/
+
     _create: ->
       @_createDefaultOption()
       @_enhanceSelect()
@@ -26,9 +28,9 @@
 
     _createOtherInput: ->
       otherFieldAttrs = $.extend({}, @options.otherFieldAttrs, { type: 'text', style: 'display:none;' })
-      $otherField = $('<input>', otherFieldAttrs)
-      $otherField.insertAfter(@_wrapper)
-      $otherField.attr('placeholder', otherFieldAttrs.placeholder).placeholder()
+      @$locationField = $('<input>', otherFieldAttrs)
+      @$locationField.insertAfter(@_wrapper)
+      @$locationField.attr('placeholder', otherFieldAttrs.placeholder).placeholder()
 
     _enhanceSelect: ->
       @element.customSelect()
@@ -39,7 +41,7 @@
       selectedValue = @element.val()
       @_saveZipCodeInfo(@_getZipCodeInfo(selectedValue))
       method = if selectedValue is '-1' then 'show' else 'hide'
-      @_wrapper.next()[method]()
+      @_wrapper.next().val('')[method]()
 
     _saveZipCodeInfo: (zipCodeInfo) ->
       @element.data(@_zipCodeInfoKey, zipCodeInfo)
@@ -60,7 +62,7 @@
       @loadZipCode(zipCode)
 
     _isValidZipCode: (zipCode) ->
-      zipCode.length is 5
+      @_zipCodeRegExp.test(zipCode)
 
     loadZipCode: (zipCode = '') ->
       zipCode = zipCode.toString()
@@ -81,13 +83,15 @@
       if data.length
         @_loadSelectOptions(data)
         @_loadListOptions(data)
+        @_selectListOption()
+        @_setDataLocation()
       else
         @_reset()
         @_showZipCodeNotFoundError()
 
     _loadSelectOptions: (data) ->
       $options = @element.children()
-      $options.slice(1, -1).remove()
+      $options.slice(1).remove()
       options = []
       for optionData in data
         options.push $('<option>', value: optionData.id).data(@_zipCodeInfoKey, optionData).text(optionData.locationName)
@@ -97,13 +101,34 @@
     _loadListOptions: (data) ->
       $list = @_wrapper.find('ul')
       $listOptions = $list.children()
-      $listOptions.slice(1, -1).remove()
+      $listOptions.slice(1).remove()
       options = []
       for optionData in data
         options.push($('<li>', rel: optionData.id).text(optionData.locationName))
       options.push(@_createrOtherListOption())
       $listOptions.first().after(options)
-      $list.children().eq(1).click()
+
+    _selectListOption: () ->
+      $list = @_wrapper.find('ul')
+      selectValue = @_determineSelectValue()
+      if selectValue
+        $list.children("li[rel=#{selectValue}]").click()
+      else
+        $list.children().eq(1).click()
+
+    _determineSelectValue: () ->
+      value = @element.attr('value')
+      if $.trim(value)
+          @element.data('_zip-code-loaded', yes) unless @element.data('_zip-code-loaded')
+      else
+        value = '-1' if $.trim(@element.data('location'))
+      value
+
+    _setDataLocation: ->
+      if not @element.data('_location_loaded')
+        @element.data('_location_loaded', yes)
+        location = @element.data('location')
+        @$locationField.val(location) if $.trim(location)
 
     _createrOtherOption: ->
       $('<option>', value: '-1').text(@options.otherOption)
@@ -130,7 +155,8 @@
     _showZipCodeNotFoundError: ->
       name = @$zipCodeInput.attr('name')
       if @$zipCodeInput.length and name
-        $('<label>', class: 'error wbc-location-select-error').text('El código postal no existe.').insertAfter(@$zipCodeInput)
+        @$zipCodeInput.data('_zip-code-not-found-error', yes)
+        @$zipCodeInput.closest('form').validate().element(@$zipCodeInput)
 
     value: (id) ->
       return @_getCurrentZipCodeInfo() unless id
@@ -138,5 +164,6 @@
       @element
 
     _cleanErrors: ->
-      @element.closest('form').find('.wbc-location-select-error').remove()
+      @$zipCodeInput.data('_zip-code-not-found-error', no)
+      @$zipCodeInput.closest('form').validate().element(@$zipCodeInput)
 )(jQuery)

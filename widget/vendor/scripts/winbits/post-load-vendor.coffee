@@ -16,9 +16,51 @@
 
   $.validator.addMethod("zipCodeDoesNotExist", (value, element) ->
     $element = Winbits.$(element)
-    $zipCode = $element.closest('form').find('[name=zipCode]')
-    not ($zipCode.val() and $element.children().length == 1)
-  ,"Codigo Postal No Existe")
+    data = $element.data('_zip-code-not-found-error')
+    data isnt yes
+  ,"El código postal no existe.")
+
+  $.validator.addMethod("wbiPhone", (value) ->
+    if value
+      /^[0-9]{10}/.test value
+    else
+      yes
+  ,"Ingresa un número telefónico valido")
+
+  $.validator.addMethod("wbiSelectInfo", (value, element) ->
+    $zipCode = Winbits.$(element).parent().parent().find('input[name=zipCode]')
+    if($zipCode.val())
+      value.length >= 1
+    else
+      yes
+  ,"Selecccione una opción valida")
+
+  $.validator.addMethod("wbiLocation", (value, element) ->
+    $element = Winbits.$(element)
+    if $element.attr('style') == ('display: inline-block;' and '')
+      if !$element.val() then no else yes
+    else
+      yes
+  ,"Campo es requerido.")
+
+  $.fn.wbDate = ()->
+    $this = Winbits.$(this)
+    day = $this.find('#wbi-birthdate-day').val()
+    day = '0' + day if day and day.length == 1
+    month = $this.find('#wbi-birthdate-month').val()
+    month = '0' + month if month and month.length == 1
+    year = '19' + $this.find('#wbi-birthdate-year').val()
+    "#{year}-#{month}-#{day}"
+
+  $.validator.addMethod 'validateDate', (value, element)->
+    val = Winbits.$(element).parent().wbDate()
+    if val and val.length == 10
+      moment(val, 'YYYY-MM-DD').isValid()
+    else if val.length == 4
+      true
+    else
+      false
+  , "Ingresa una fecha valida"
 
   moment.tz.add
     zones:

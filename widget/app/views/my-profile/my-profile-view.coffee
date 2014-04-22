@@ -11,12 +11,3 @@ module.exports = class MyProfileView extends View
   id: 'wbi-my-profile'
   template: require './templates/my-profile'
 
-  initialize: ->
-    super
-    @listenTo @model, 'change', @render
-
-  attach: ->
-    super
-    @$('[name=zipCodeInfo]').wblocationselect()
-    @$('.divGender').customRadio()
-    @$('.requiredField').requiredField()

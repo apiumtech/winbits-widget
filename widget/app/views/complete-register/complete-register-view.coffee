@@ -18,29 +18,37 @@ module.exports = class CompleteRegisterView extends View
     super
     @showAsModal()
     @$('.divGender').customRadio()
+    @$('[name=zipCodeInfo]').wblocationselect()
     @$('#wbi-complete-register-form').validate
+      ignore:''
+      errorPlacement: ($error, $element) ->
+        if $element.attr("name") in ["zipCodeInfo"]
+          $error.appendTo $element.parent()
+        else
+          $error.insertAfter $element
       rules:
         name:
-          required : yes
           minlength:2
         lastName:
-          required : yes
           minlength: 2
         zipCode:
-          required : yes
           minlength:5
           digits:yes
+          zipCodeDoesNotExist:yes
         phone:
-          digits:yes
-          minlength:7
+          wbiPhone:yes
+        location:
+          wbiLocation: yes
+        zipCodeInfo:
+          wbiSelectInfo: yes
 
   showAsModal: ->
     $ ->
       $('<a>').wbfancybox(href: '#wbi-complete-register-modal', onClosed: -> utils.redirectTo controller:'home', action:'index').click()
 
   completeRegister: (e)->
-    data = utils.serializeProfileForm @$('#wbi-complete-register-form')
     $form = @$('#wbi-complete-register-form')
+    data = utils.serializeProfileForm $form
     if($form.valid())
       submitButton = @$(e.currentTarget).prop('disabled', yes)
       @model.requestUpdateProfile(data, context: @)
@@ -60,3 +68,5 @@ module.exports = class CompleteRegisterView extends View
     message = if error then error.meta.message else messageText
     options = value: "Cerrar", title:'Error', onClosed: utils.redirectToLoggedInHome()
     utils.showMessageModal(message, options)
+
+

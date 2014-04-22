@@ -18,11 +18,10 @@
           <input type="radio" value="H" name="gender" {{#compare gender 'male'}}checked="checked"{{/compare}}>
           <input type="radio" value="M" name="gender" {{#compare gender 'female'}}checked="checked"{{/compare}}>
         </div>
-        <input type="text" placeholder="Código Postal" maxlength="5" required name="zipCode" class="zipCode" value="{{zipCode}}">
-        <select class="select zipCodeInfo" data-clase="selectRegister" data-inputselect="true" name="zipCodeInfo">
-          <option value="">Colonia/Asentamiento:</option>
+        <input type="text" placeholder="Código Postal" maxlength="5" name="zipCode" class="zipCode" value="{{zipCode}}">
+        <select class="select zipCodeInfo" value="{{#if zipCodeInfo}}{{zipCodeInfo.id}}{{/if}}" data-location="{{location}}" data-clase="selectRegister" data-inputselect="true" name="zipCodeInfo">
         </select>
-        <input type="text" id="winbitsProfilePhone" name="phone" placeholder="Teléfono" value="{{phone}}">
+        <input type="text" id="winbitsProfilePhone" name="phone" placeholder="Teléfono" value="{{phone}}" maxlength="10">
         <div class="errorDiv" style="display: none;"><p></p></div>
         <input type="button" class="btn btnGuardar" value="Guardar" id="wbi-complete-register-btn">
         <p>Si así lo deseas, puedes completar tu registro después haciendo click en la sección de MI CUENTA. <br>

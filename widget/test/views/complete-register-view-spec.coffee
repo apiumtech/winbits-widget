@@ -19,7 +19,7 @@ describe 'CompleteRegisterViewSpec', ->
       apiToken: '6ue7zrBfNkxgNTvT4ReGpuh55yjNLRl6qEHiXMFyXFx6M3ymV21EaARwilDZK0zM'
       bitsBalance: 0
     mediator.data.set 'login-data', @loginData
-    @model = new CompleteRegisterModel name:'name', lastName:'lastName', zipCode:'12312', profile: {}
+    @model = new CompleteRegisterModel name:'name', lastName:'lastName',profile: {}
     @view = new CompleteRegisterView model:@model, autoAttach: no
     sinon.stub(@view, 'showAsModal')
     @view.attach()
@@ -43,12 +43,12 @@ describe 'CompleteRegisterViewSpec', ->
 
   it 'do not makes request if form invalid', ->
     ajaxRequestStub = sinon.stub(utils, 'ajaxRequest')
-    @view.$('[name=name]').val('')
+    @view.$('[name=phone]').val('12312')
     @view.$('#wbi-complete-register-btn').click()
     expect(ajaxRequestStub).to.not.be.called
 
   it 'show validation errors if form invalid', ->
-    @view.$('[name=name]').val('')
+    @view.$('[name=phone]').val('qweqw')
     @view.$('#wbi-complete-register-btn').click()
     expect(@view.$ '.error').to.exist
 
