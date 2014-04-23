@@ -2,9 +2,11 @@
     <ul id="wbi-cart-items-list">
         {{#each cartDetails}}
         <li>
-            <a href="#"><img class="wbc-item-image" src="{{skuProfile.item.thumbnail}}" class="imgItem" alt="{{skuProfile.item.name}}"></a>
-            <p class="descriptionItem wbc-item-description">{{skuProfile.item.name}}</p>
-            <p class="caracItem wbc-item-attributes">Talla: 32, Color: Negro</p>
+            {{#with skuProfile}}
+            <a href="#"><img class="wbc-item-image" src="{{item.thumbnail}}" class="imgItem" alt="{{item.name}}"></a>
+            <p class="descriptionItem wbc-item-description">{{item.name}}</p>
+            <p class="caracItem wbc-item-attributes">{{joinAttributes mainAttribute attributes}}</p>
+            {{/with}}
             <label>Cantidad:</label>
             <select class="select wbc-item-quantity" data-clase="selectRegister" data-inputselect="true">
                 <option>1</option>

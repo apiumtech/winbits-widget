@@ -100,3 +100,8 @@ Handlebars.registerHelper "getCartSaving", () ->
 Handlebars.registerHelper "getCartTotal", () ->
   total = @itemsTotal + @shippingTotal
   utils.formatCurrency(total)
+
+Handlebars.registerHelper "joinAttributes", (mainAttribute, attributes) ->
+  attrs = [mainAttribute].concat(attributes)
+  attrs = ("#{x.name}: #{x.label}" for x in attrs)
+  attrs.join ', '

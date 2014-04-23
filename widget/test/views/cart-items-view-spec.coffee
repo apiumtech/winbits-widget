@@ -59,11 +59,19 @@ describe 'CartItemsViewSpec', ->
     expect($itemImage).to.existExact(1)
     expect($itemImage).to.has.text('Item 1')
 
+  it 'should render item attributes', ->
+    $cartItem = @view.$('#wbi-cart-items-list').children().eq(0)
+
+    $itemImage = $cartItem.find('.wbc-item-attributes')
+    expect($itemImage).to.existExact(1)
+    expect($itemImage.text()).to.be.equal('Color: Negro, Talla: M')
+
   generateCartDetail = (id) ->
     vertical = name: "Vertical #{id}", logo: "//cdn.winbits.com/vertical-#{id}.jpg"
     colorLabel = ['Blanco', 'Negro', 'Rojo'][id] or 'Verde'
     colorValue = ['#fff', '#000', '#f00'][id] or '#0f0'
     size = ['C', 'M', 'G'][id] or 'XG'
+
     quantity: id
     skuProfile:
       id: id
