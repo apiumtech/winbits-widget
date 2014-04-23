@@ -15,12 +15,11 @@ module.exports = class MyAccountAddressView extends View
 
   attach: ->
     super
-    @$('.block-carrusel')
-      .changeBox(
+    @$('.block-carrusel').changeBox(
           activo: 'carruselSCC-selected',
           items: '.carruselSCC-div'
        )
-      .carouselSwiper(
+    @$('.block-carrusel').carouselSwiper(
           optionsSwiper:
             slideClass: 'block-slide',
             wrapperClass: 'block-wrapper',

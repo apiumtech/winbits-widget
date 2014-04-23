@@ -38,7 +38,8 @@ module.exports = class LoggedInController extends Controller
         check: -> mediator.data.get 'change-password-composed'
       @reuse 'social-media-view', SocialMediaView
 
-#      @reuse 'my-account-address', MyAccountAddressView
+      @reuse 'my-account-address', MyAccountAddressView
+
     else
       @redirectTo 'home#index'
 
