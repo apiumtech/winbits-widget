@@ -33,10 +33,11 @@ module.exports = class ModalResetPasswordView extends View
     e.preventDefault()
     @$('.errorDiv').css('display':'none')
     $form =  @$el.find(".wbc-reset-password-form")
-    $submitButton = @$(e.currentTarget).prop('disabled', yes)
+
     if utils.validateForm($form)
       formData = utils.serializeForm($form)
       formData.hash =  @model.attributes.salt
+      $submitButton = @$(e.currentTarget).prop('disabled', yes)
 
       @model.requestResetPassword(formData, context:@)
         .done(@doResetPasswordSuccess)
