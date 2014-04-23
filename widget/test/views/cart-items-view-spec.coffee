@@ -44,6 +44,10 @@ describe 'CartItemsViewSpec', ->
     expect($cartItem.find('.wbc-item-vertical-logo')).to.exist
     expect($cartItem.find('.wbc-item-delete-link')).to.exist
 
+  it 'should render cart item', ->
+    $cartItem = @view.$('#wbi-cart-items-list').children().eq(0)
+    expect($cartItem).to.has.data('id', '1')
+
   it 'should render item image', ->
     $cartItem = @view.$('#wbi-cart-items-list').children().eq(0)
 
