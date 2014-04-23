@@ -1,10 +1,10 @@
 Controller = require "controllers/logged-in-controller"
-MicuentaAddressView = require 'views/micuenta-address/micuenta-address-view'
+MyAccountAddressView = require 'views/my-account-address/my-account-address-view'
 $ = Winbits.$
 
 module.exports = class MiCuentaAddressController extends Controller
 
   index: ->
-    console.log 'micuenta-address#index'
-    @view = new MicuentaAddressView
+    console.log 'my-account-address#index'
+    @view = new MyAccountAddressView
     $('#wbi-my-account-div').slideDown()

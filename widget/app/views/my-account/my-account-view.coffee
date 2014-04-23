@@ -23,6 +23,7 @@ module.exports = class MyAccountView extends View
   attach: ->
     super
     @$el.prev().dropMainMenu()
+    @$('.miCuenta-linktabs').tabs({ tabClass: '.miCuenta-tab'});
     @$('#wbi-my-account-logout-btn').click $.proxy @doLogout, @
 
   doLogout: ->

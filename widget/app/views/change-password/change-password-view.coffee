@@ -7,7 +7,7 @@ $ = Winbits.$
 env = Winbits.env
 
 module.exports = class ChangePasswordView extends MyProfileView
-  container: '#wbi-my-profile'
+  container: '#wb-profile'
   id : 'wbi-change-password'
   template: require './templates/change-password'
 

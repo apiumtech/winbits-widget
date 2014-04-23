@@ -6,10 +6,9 @@ mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 env = Winbits.env
 
-module.exports = class MiCuentaAddressView extends View
-  container: '.wbc-my-account-container'
-  id: 'wbi-micuenta-address'
-  template: require './templates/micuenta-address'
+module.exports = class MyAccountAddressView extends View
+  container: '#wb-shipping-addresses'
+  template: require './templates/my-account-address'
 
   initialize: ->
     super
@@ -19,7 +18,8 @@ module.exports = class MiCuentaAddressView extends View
     @$('.block-carrusel')
       .changeBox(
           activo: 'carruselSCC-selected',
-          items: '.carruselSCC-div' )
+          items: '.carruselSCC-div'
+       )
       .carouselSwiper(
           optionsSwiper:
             slideClass: 'block-slide',

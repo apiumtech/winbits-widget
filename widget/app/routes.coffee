@@ -7,10 +7,10 @@ module.exports = (match) ->
   match 'wb-recover-password', 'recover-password#index'
   match 'wb-reset-password', 'reset-password#index'
   match 'wb-profile', 'my-profile#index'
-  match 'wb-micuenta-address', 'micuenta-address#index'
+  match 'wb-shipping-addresses', 'my-account-address#index'
   match 'wb-complete-register', 'complete-register#index'
 
-
+  #Hash controller
   match 'wb-complete-register-:apiToken', 'hash#completeRegister'
   match 'wb-switch-user-:apiToken', 'hash#switchUser'
   match 'wb-reset-password-:salt', 'hash#resetPassword'

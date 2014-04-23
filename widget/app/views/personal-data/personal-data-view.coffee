@@ -7,7 +7,7 @@ $ = Winbits.$
 env = Winbits.env
 
 module.exports = class PersonalDataView extends View
-  container: '#wbi-my-profile'
+  container: '#wb-profile'
   id : 'wbi-personal-data'
   template: require './templates/personal-data'
 
