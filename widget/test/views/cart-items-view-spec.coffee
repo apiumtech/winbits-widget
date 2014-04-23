@@ -35,7 +35,9 @@ describe 'CartItemsViewSpec', ->
     $cartItems = @view.$('#wbi-cart-items-list').children()
     expect($cartItems).to.has.property('length', 3)
 
-    $cartItem = $cartItems.eq(0)
+  it 'should render cart item', ->
+    $cartItem = @view.$('#wbi-cart-items-list').children().eq(0)
+    expect($cartItem).to.has.data('id', 1)
     expect($cartItem.find('.wbc-item-image')).to.exist
     expect($cartItem.find('.wbc-item-description')).to.exist
     expect($cartItem.find('.wbc-item-attributes')).to.exist
@@ -43,10 +45,6 @@ describe 'CartItemsViewSpec', ->
     expect($cartItem.find('.wbc-item-price')).to.exist
     expect($cartItem.find('.wbc-item-vertical-logo')).to.exist
     expect($cartItem.find('.wbc-item-delete-link')).to.exist
-
-  it 'should render cart item', ->
-    $cartItem = @view.$('#wbi-cart-items-list').children().eq(0)
-    expect($cartItem).to.has.data('id', '1')
 
   it 'should render item image', ->
     $cartItem = @view.$('#wbi-cart-items-list').children().eq(0)
