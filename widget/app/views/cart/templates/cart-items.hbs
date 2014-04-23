@@ -2,8 +2,8 @@
     <ul id="wbi-cart-items-list">
         {{#each cartDetails}}
         <li>
-            <a href="#"><img class="wbc-item-image" src="winbitsInclude/images/assets/jeans-tiny.jpg" class="imgItem" alt="Denim looq Leggings"></a>
-            <p class="descriptionItem wbc-item-description">Denim looq Leggings</p>
+            <a href="#"><img class="wbc-item-image" src="{{skuProfile.item.thumbnail}}" class="imgItem" alt="{{skuProfile.item.name}}"></a>
+            <p class="descriptionItem wbc-item-description">{{skuProfile.item.name}}</p>
             <p class="caracItem wbc-item-attributes">Talla: 32, Color: Negro</p>
             <label>Cantidad:</label>
             <select class="select wbc-item-quantity" data-clase="selectRegister" data-inputselect="true">

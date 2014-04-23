@@ -22,6 +22,15 @@ describe 'CartItemsViewSpec', ->
         .and.to.has.attr('data-content', 'carritoContent')
     expect(@view.$ '#wbi-cart-items-list').to.exist
 
+  it 'should apply scrollpane plugin to items list', ->
+    scrollpaneStub = sinon.spy($.fn, 'scrollpane')
+
+    @view.render()
+
+    expect(scrollpaneStub).to.have.been.calledWith(parent: '#wbi-cart-drop')
+        .and.to.have.been.calledOnce
+    expect(scrollpaneStub.firstCall.returnValue.get(0)).to.be.equal(@view.el)
+
   it 'should render cart items', ->
     $cartItems = @view.$('#wbi-cart-items-list').children()
     expect($cartItems).to.has.property('length', 3)
@@ -35,14 +44,20 @@ describe 'CartItemsViewSpec', ->
     expect($cartItem.find('.wbc-item-vertical-logo')).to.exist
     expect($cartItem.find('.wbc-item-delete-link')).to.exist
 
-  it 'should apply scrollpane plugin to items list', ->
-    scrollpaneStub = sinon.spy($.fn, 'scrollpane')
+  it 'should render item image', ->
+    $cartItem = @view.$('#wbi-cart-items-list').children().eq(0)
 
-    @view.render()
+    $itemImage = $cartItem.find('.wbc-item-image')
+    expect($itemImage).to.existExact(1)
+    expect($itemImage).to.has.attr('src', '//cdn.winbits.com/item-1.jpg')
+    expect($itemImage).to.has.attr('alt', 'Item 1')
 
-    expect(scrollpaneStub).to.have.been.calledWith(parent: '#wbi-cart-drop')
-        .and.to.have.been.calledOnce
-    expect(scrollpaneStub.firstCall.returnValue.get(0)).to.be.equal(@view.el)
+  it 'should render item description', ->
+    $cartItem = @view.$('#wbi-cart-items-list').children().eq(0)
+
+    $itemImage = $cartItem.find('.wbc-item-description')
+    expect($itemImage).to.existExact(1)
+    expect($itemImage).to.has.text('Item 1')
 
   generateCartDetail = (id) ->
     vertical = name: "Vertical #{id}", logo: "//cdn.winbits.com/vertical-#{id}.jpg"
