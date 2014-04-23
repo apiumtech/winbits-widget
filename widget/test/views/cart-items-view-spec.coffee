@@ -15,6 +15,16 @@ describe 'CartItemsViewSpec', ->
         .and.to.has.attr('data-content', 'carritoContent')
     expect(@view.$ '#wbi-cart-items-list').to.exist
 
+  it 'should render cart items', ->
+    $cartItems = @view.$('#wbi-cart-items-list').children()
+
+    expect($cartItems).to.has.property('length', 3)
+    $cartItem = $cartItems.get(0)
+    expect($cartItem.find('.wbc-item-image')).to.exist
+    expect($cartItem.find('.wbc-item-description')).to.exist
+    expect($cartItem.find('.wbc-item-attributes')).to.exist
+    expect($cartItem.find('.wbc-item-quantity')).to.exist
+
   it 'should apply scrollpane plugin to items list', ->
     scrollpaneStub = sinon.spy($.fn, 'scrollpane')
 
