@@ -9,11 +9,9 @@
         {{/with}}
             <label>Cantidad:</label>
             <select class="select wbc-item-quantity" data-clase="selectRegister" data-inputselect="true">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+                {{#eachOption min max}}
+                <option value="{{value}}" {{#compare value ../quantity}}selected{{/compare}}>{{text}}</option>
+                {{/eachOption}}
             </select>
             <p class="priceItem wbc-item-price">$350.00</p>
             <span class="iconVertical-t vertical2 wbc-item-vertical-logo" title="My LOOQ"></span>

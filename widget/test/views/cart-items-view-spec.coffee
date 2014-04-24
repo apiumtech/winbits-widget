@@ -68,13 +68,39 @@ describe 'CartItemsViewSpec', ->
     expect($itemImage).to.existExact(1)
     expect($itemImage.text()).to.be.equal('Color: Negro, Talla: M')
 
+  it 'should render item quantity', ->
+    $cartItem = @view.$('#wbi-cart-items-list').children().eq(0)
+
+    $itemQuantity = $cartItem.find('.wbc-item-quantity')
+    expect($itemQuantity).to.existExact(1)
+    expect($itemQuantity.val()).to.be.equal('2')
+
+  it 'should render item quantities', ->
+    $cartItem = @view.$('#wbi-cart-items-list').children().eq(0)
+
+    $itemQuantities = $cartItem.find('.wbc-item-quantity').children()
+    expect($itemQuantities).to.existExact(5)
+    expect($itemQuantities.first()).to.has.text('1')
+        .and.to.has.attr('value', '1')
+    expect($itemQuantities).to.existExact(5)
+    expect($itemQuantities.last()).to.has.text('5')
+        .and.to.has.attr('value', '5')
+
+  it 'should render just one selected quantity option', ->
+    $cartItem = @view.$('#wbi-cart-items-list').children().eq(0)
+
+    $selectedAttr = $cartItem.find('.wbc-item-quantity').children('[selected]')
+    expect($selectedAttr).to.has.existExact(1)
+    expect($selectedAttr).to.has.text('2')
+        .and.to.has.attr('value', '2')
+
   generateCartDetail = (id) ->
     vertical = name: "Vertical #{id}", logo: "//cdn.winbits.com/vertical-#{id}.jpg"
     colorLabel = ['Blanco', 'Negro', 'Rojo'][id] or 'Verde'
     colorValue = ['#fff', '#000', '#f00'][id] or '#0f0'
     size = ['C', 'M', 'G'][id] or 'XG'
 
-    quantity: id
+    quantity: id + 1
     skuProfile:
       id: id
       price: id * 10
