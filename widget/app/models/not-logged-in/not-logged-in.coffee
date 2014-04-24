@@ -9,7 +9,6 @@ module.exports = class NotLoggedIn extends Model
     super
 
   requestExpressFacebookLogin:(formData, options) ->
-    console.log ['ExpressLogin']
     defaults =
       type: "POST"
       contentType: "application/json"

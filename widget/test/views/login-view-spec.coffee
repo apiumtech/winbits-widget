@@ -73,18 +73,14 @@ describe 'LoginViewSpec', ->
 
 
   it 'error is shown if request fail', ->
-    xhr = responseText: 'Server error'
     sinon.stub(@model, 'requestLogin').returns TestUtils.promises.rejected
     errorStub = sinon.stub(@view, 'doLoginError')
     @view.$('#wbi-login-in-btn').click()
 
     expect(errorStub).to.be.calledOnce
     expect(@view.$ '#wbi-login-in-btn').to.has.prop 'disabled', no
-#    expectAjaxArgs.call(@, errorStub, "El servidor no está disponible, por favor inténtalo más tarde.")
 
-#  expectAjaxArgs = (ajaxRequestStub, errorText)->
-#    ajaxConfigArg = ajaxRequestStub.args[0][1]
-#    expect(ajaxConfigArg).to.has.property('context', @view)
-#    expect(ajaxConfigArg).to.has.property('data')
-#    .that.contain('"verticalId":1')
-#    expect(@view.$ '.errorDiv p').to.has.text(errorText)
+  it 'should publish event facebook-button-event', ->
+    stub = sinon.stub @view, 'publishEvent'
+    @view.$('#wbi-login-facebook-btn').click()
+    expect(stub).to.be.calledOnce
