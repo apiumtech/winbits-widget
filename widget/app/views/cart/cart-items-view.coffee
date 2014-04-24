@@ -15,3 +15,4 @@ module.exports = class CartItemsView extends View
   attach: ->
     super
     @$el.scrollpane(parent: '#wbi-cart-drop')
+    @$('.wbc-item-quantity').customSelect()

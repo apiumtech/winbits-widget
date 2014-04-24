@@ -94,6 +94,14 @@ describe 'CartItemsViewSpec', ->
     expect($selectedAttr).to.has.text('2')
         .and.to.has.attr('value', '2')
 
+  it 'should apply customSelect plugin to each cart item quantity select', ->
+    customSelectSpy = sinon.spy($.fn, 'customSelect')
+
+    @view.render()
+
+    expect(customSelectSpy).to.have.been.calledOnce
+    expect(customSelectSpy.firstCall.returnValue).to.has.property('length', 3)
+
   generateCartDetail = (id) ->
     vertical = name: "Vertical #{id}", logo: "//cdn.winbits.com/vertical-#{id}.jpg"
     colorLabel = ['Blanco', 'Negro', 'Rojo'][id] or 'Verde'
