@@ -19,7 +19,7 @@ module.exports = class MyAccountAddressView extends View
           activo: 'carruselSCC-selected',
           items: '.carruselSCC-div'
        )
-    @$('.block-carrusel').carouselSwiper(
+    .carouselSwiper(
           optionsSwiper:
             slideClass: 'block-slide',
             wrapperClass: 'block-wrapper',
