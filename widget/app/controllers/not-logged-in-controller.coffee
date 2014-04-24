@@ -1,5 +1,6 @@
 Controller = require "controllers/base/controller"
 NotLoggedInView = require 'views/not-logged-in/not-logged-in-view'
+#NotLoggedIn = require 'models/not-logged-in/not-logged-in'
 utils = require 'lib/utils'
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
@@ -9,7 +10,7 @@ module.exports = class NotLoggedInController extends Controller
   beforeAction: ->
     super
     if not mediator.data.get 'login-data'
-      @reuse 'not-logged-in', NotLoggedInView
+      @reuse 'not-logged-in',  NotLoggedInView
     else
       @redirectTo 'home#index'
 
