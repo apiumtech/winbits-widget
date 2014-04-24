@@ -33,7 +33,6 @@ describe 'LoggedInViewSpec', ->
     expect(@view.$ '#wbi-my-account-link').to.exist
       .and.to.has.classes(['spanDropMenu', 'link'])
     expect(@view.$ '#wbi-my-bits').to.exist
-      .and.to.has.class('bits')
       .and.to.has.text('0')
     expect(@view.$ '#wbi-my-cart').to.exist
       .and.to.has.class('spanDropMenu')
