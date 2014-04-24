@@ -4,7 +4,8 @@ utils = require 'lib/utils'
 MyProfile = require 'models/my-profile/my-profile'
 MyProfileView = require 'views/my-profile/my-profile-view'
 MyAccountView = require 'views/my-account/my-account-view'
-MyAccountAddressView = require 'views/my-account-address/my-account-address-view'
+ShippingAddressesView = require 'views/shipping-addresses/shipping-addresses-view'
+ShippingAddresses = require 'models/shipping-addresses/shipping-addresses'
 SocialMediaView = require 'views/social-media/social-media-view'
 ChangePasswordView = require 'views/change-password/change-password-view'
 ChangePassword = require 'models/change-password/change-password'
@@ -38,7 +39,11 @@ module.exports = class LoggedInController extends Controller
         check: -> mediator.data.get 'change-password-composed'
       @reuse 'social-media-view', SocialMediaView
 
-      @reuse 'my-account-address', MyAccountAddressView
+      @reuse 'shipping-addresses',
+        compose: ->
+          mediator.data.set 'shipping-addresses-composed', yes
+          @model = new ShippingAddresses
+          @view = new ShippingAddressesView model:@model
 
     else
       @redirectTo 'home#index'

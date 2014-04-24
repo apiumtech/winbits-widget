@@ -6,12 +6,17 @@ mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 env = Winbits.env
 
-module.exports = class MyAccountAddressView extends View
+module.exports = class ShippingAddressesView extends View
   container: '#wb-shipping-addresses'
-  template: require './templates/my-account-address'
+  template: require './templates/shipping-addresses'
 
   initialize: ->
     super
+    @model.requestGetShippingAddresses(context: @)
+     .done((data) ->
+        @model.shippingAddresses = data.response
+      )
+     .fail(@getFailShippingAddresses)
 
   attach: ->
     super
@@ -33,3 +38,9 @@ module.exports = class MyAccountAddressView extends View
          slideCSS: '.block-slide',
          initialSlide: '.carruselSCC-selected'
       )
+
+  getSuccessShippingAddresses:(data) ->
+    console.log ["Get shipping Addresses",data.response]
+
+  getFailShippingAddresses:(xhr) ->
+    console.log ["ERROR GETTING SHIPPING ADDRESSES", xhr.responseText]

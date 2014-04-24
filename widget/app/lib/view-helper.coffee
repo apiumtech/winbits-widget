@@ -85,4 +85,3 @@ Handlebars.registerHelper "eachActiveVertical", (options) ->
       result += options.fn vertical
   else result = options.inverse @
   result
-
