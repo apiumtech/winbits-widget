@@ -23,14 +23,19 @@ mediator.data = (->
   }
 )()
 
+appConfig =
+  controllerSuffix: '-controller'
+  pushState: no
+
+appConfig.routes = routes unless window.wbTestEnv
 if Winbits.env.get 'optimized'
   # Initialize the application on DOM ready event.
   Winbits.loadInterval = setInterval ->
     if Winbits.$(Winbits.env.get 'widget-container').length
       clearInterval Winbits.loadInterval
       delete Winbits.loadInterval
-      new Application routes: routes, controllerSuffix: '-controller', pushState: false
+      new Application appConfig
   , 5
 else
   Winbits.$ ->
-    new Application routes: routes, controllerSuffix: '-controller', pushState: false
+    new Application appConfig

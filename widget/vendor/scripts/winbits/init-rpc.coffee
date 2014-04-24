@@ -92,6 +92,7 @@
       else
         Winbits.env.set 'login-data', data.response
         Winbits.saveLoginData data.response
+        Winbits.trigger 'loggedin', [data.response]
     .fail -> console.log ['ERROR', 'Unable to verify login data :(']
     promises.push verifyingLoginData.promise()
 

@@ -12,14 +12,15 @@
   };
 
   // Winbits event engine
-  (function(){
+  (function() {
     var eventCallbacks = {};
     var eventsTriggered = {};
 
     Winbits.on = function(event, callback, context) {
       if (typeof callback === 'function') {
-        if (eventsTriggered[event]) {
-          callback.call(context || {});
+        var eventData = eventsTriggered[event];
+        if (eventData) {
+          callback.apply(context || {}, eventData);
         } else {
           var callbacks = eventCallbacks[event] || [];
           callback._ctx = context;
@@ -37,7 +38,7 @@
           callback.apply(callback._ctx || {}, args);
         }
       }
-      eventsTriggered[event] = true;
+      eventsTriggered[event] = args;
     };
   })();
 
