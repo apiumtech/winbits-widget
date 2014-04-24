@@ -83,4 +83,4 @@ describe 'LoginViewSpec', ->
   it 'should publish event facebook-button-event', ->
     stub = sinon.stub @view, 'publishEvent'
     @view.$('#wbi-login-facebook-btn').click()
-    expect(stub).to.be.calledOnce
+    expect(stub).to.have.been.calledOnce

@@ -1,16 +1,20 @@
 'use strict'
 
 NotLoggedInView =  require 'views/not-logged-in/not-logged-in-view'
+NotLoggedIn =  require 'models/not-logged-in/not-logged-in'
 utils = require 'lib/utils'
 $ = Winbits.$
 
 describe 'NotLoggedInViewSpec', ->
 
   beforeEach ->
-    @view = new NotLoggedInView
+    @model = new NotLoggedIn
+    @view = new NotLoggedInView model:@model
 
   afterEach ->
     utils.redirectTo.restore?()
+    window.open.restore?()
+    $.fancybox.restore?()
     @view.dispose()
 
   it 'should render', ->
@@ -35,3 +39,17 @@ describe 'NotLoggedInViewSpec', ->
 
     expect(utilsStub).to.have.been.calledWith(controller: 'register', action: 'index')
       .and.to.have.been.calledOnce
+
+  it 'should open popup facebook api', ->
+    sinonPopup = sinon.stub @view, 'popupFacebookLogin'
+    sinon.stub @view, 'facebookLoginInterval'
+    sinon.stub window, 'open'
+    @view.publishEvent 'facebook-button-event'
+    expect(sinonPopup).have.been.calledOnce
+
+  it 'should success popup facebook api', ->
+    sinonPopup = sinon.stub @view, 'popupFacebookLogin'
+    sinon.stub @view, 'facebookLoginInterval'
+    sinon.stub window, 'open'
+    @view.publishEvent 'facebook-button-event'
+    expect(sinonPopup).have.been.calledOnce

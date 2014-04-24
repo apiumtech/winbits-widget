@@ -30,9 +30,9 @@ module.exports = class NotLoggedInPageView extends View
     utils.redirectTo controller: 'register', action: 'index'
 
   doFacebookLogin : (e)->
-    e.preventDefault()
+    e?.preventDefault()
     that = @
-    fbButton = @$(e.currentTarget).prop('disabled', true)
+    fbButton = @$(e?.currentTarget).prop('disabled', true)
     popup = @popupFacebookLogin()
     timer = setInterval(->
       that.facebookLoginInterval(fbButton, popup, timer)
