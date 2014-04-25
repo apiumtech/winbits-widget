@@ -44,4 +44,4 @@ describe 'CartBitsViewSpec', ->
     @view.render()
 
     expect(@view.$ 'input#wbi-cart-bits-slider').to.has.$val('20')
-
+        .and.to.has.data('step', 1)
