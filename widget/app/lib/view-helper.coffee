@@ -98,7 +98,7 @@ Handlebars.registerHelper "getCartSaving", () ->
   utils.formatCurrency(@bitsTotal)
 
 Handlebars.registerHelper "getCartTotal", () ->
-  total = @itemsTotal + @shippingTotal
+  total = @itemsTotal - @shippingTotal - @bitsTotal
   utils.formatCurrency(total)
 
 Handlebars.registerHelper "joinAttributes", (mainAttribute, attributes) ->
