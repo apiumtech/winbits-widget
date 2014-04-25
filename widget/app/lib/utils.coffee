@@ -319,6 +319,15 @@ _(utils).extend
 
   saveLoginData: Winbits.saveLoginData
 
+  formatCurrency: (value) ->
+    "$#{value}"
+
+  formatPercentage: (value) ->
+    "#{value}%"
+
+  computeCartTotal: (itemsTotal, shippingTotal, bitsTotal) ->
+    total = itemsTotal - shippingTotal - bitsTotal
+
 # Prevent creating new properties and stuff.
 Object.seal? utils
 

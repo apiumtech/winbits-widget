@@ -2,6 +2,7 @@ HeaderView = require 'views/header/header-view'
 Header = require 'models/header/header'
 
 describe 'HeaderViewSpec', ->
+
   beforeEach ->
     headerData =
       currentVerticalId: 1
@@ -16,7 +17,7 @@ describe 'HeaderViewSpec', ->
     @view.dispose()
     @model.dispose()
 
-  it 'shoul be rendered', ->
+  it 'should be rendered', ->
     expect(@view.$ '.widgetWinbitsHeader').to.exist
 
   it 'should render active verticals', ->
