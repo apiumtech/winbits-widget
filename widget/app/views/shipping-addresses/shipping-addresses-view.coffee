@@ -12,11 +12,8 @@ module.exports = class ShippingAddressesView extends View
 
   initialize: ->
     super
-    @model.requestGetShippingAddresses(context: @)
-     .done((data) ->
-        @model.shippingAddresses = data.response
-      )
-     .fail(@getFailShippingAddresses)
+    @model.fetch()
+
 
   attach: ->
     super
@@ -24,23 +21,18 @@ module.exports = class ShippingAddressesView extends View
           activo: 'carruselSCC-selected',
           items: '.carruselSCC-div'
        )
-    .carouselSwiper(
-          optionsSwiper:
+    .carouselSwiper({
+          optionsSwiper:{
             slideClass: 'block-slide',
             wrapperClass: 'block-wrapper',
             grabCursor: true,
             useCSS3Transforms: false,
             cssWidthAndHeight: false,
             slidesPerView: 4
-         arrowLeft: '.iconFont-left',
-         arrowRight: '.iconFont-right',
-         slidesNum: 4,
-         slideCSS: '.block-slide',
-         initialSlide: '.carruselSCC-selected'
-      )
-
-  getSuccessShippingAddresses:(data) ->
-    console.log ["Get shipping Addresses",data.response]
-
-  getFailShippingAddresses:(xhr) ->
-    console.log ["ERROR GETTING SHIPPING ADDRESSES", xhr.responseText]
+            },
+          arrowLeft: '.iconFont-left',
+          arrowRight: '.iconFont-right',
+          slidesNum: 4,
+          slideCSS: '.block-slide',
+          initialSlide: '.carruselSCC-selected'
+    })
