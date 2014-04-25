@@ -37,3 +37,11 @@ describe 'CartBitsViewSpec', ->
     @view.render()
 
     expect(@view.$ '#wbi-cart-percentage-saved').to.has.$text('70%')
+
+  it 'should render cart bits slider', ->
+    @model.set(itemsTotal: 100, shippingTotal: 50, bitsTotal: 20)
+
+    @view.render()
+
+    expect(@view.$ 'input#wbi-cart-bits-slider').to.has.$val('20')
+
