@@ -109,3 +109,6 @@ Handlebars.registerHelper "joinAttributes", (mainAttribute, attributes) ->
 Handlebars.registerHelper "eachOption", (min, max, options) ->
   opts = (options.fn(value: x, text: x) for x in [min..max])
   opts.join ''
+
+Handlebars.registerHelper "getCartPercentageSaved", () ->
+  utils.formatPercentage('0')

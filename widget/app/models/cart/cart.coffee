@@ -10,4 +10,4 @@ module.exports = class Cart extends Model
     shippingTotal: 0,
   #   cartDetails: [],
   #   paymentMethods: [],
-  #   cashback: 0
+    cashback: 0

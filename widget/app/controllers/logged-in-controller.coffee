@@ -28,6 +28,7 @@ module.exports = class LoggedInController extends Controller
           mediator.data.set 'profile-composed', yes
           @model = new MyProfile
           @view = new PersonalDataView model: @model
+          @model.fetch()
 
         check: -> mediator.data.get 'profile-composed'
       @reuse 'change-password-view',

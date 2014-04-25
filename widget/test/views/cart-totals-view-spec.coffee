@@ -34,4 +34,4 @@ describe 'CartTotalsViewSpec', ->
 
     @view.render()
 
-    expect(@view.$('#wbi-cart-total')).to.has.$text('30')
+    expect(@view.$('#wbi-cart-total')).to.has.$text('$30')
