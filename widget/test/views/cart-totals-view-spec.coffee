@@ -26,6 +26,9 @@ describe 'CartTotalsViewSpec', ->
     expect(@view.$('#wbi-cart-shipping-cost'), 'invalid cart shipping cost').to.has.text(zeroPesos)
     expect(@view.$('#wbi-cart-total'), 'invalid cart total').to.has.text(zeroPesos)
 
+  it.skip 'should render cart saving', ->
+    expect(no).to.be.ok
+
   it 'should render cart total', ->
     @model.set(itemsTotal: 100, shippingTotal: 50, bitsTotal: 20)
 
