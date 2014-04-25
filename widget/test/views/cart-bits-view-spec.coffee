@@ -29,19 +29,30 @@ describe 'CartBitsViewSpec', ->
 
     @view.render()
 
-    expect(@view.$ '#wbi-cart-cashback').to.has.$text('100')
+    expect(@view.$ '#wbi-cart-cashback').to.existExact(1)
+        .and.to.has.$text('100')
 
   it 'should render cart percentage saved', ->
     @model.set(itemsTotal: 100, shippingTotal: 50, bitsTotal: 20)
 
     @view.render()
 
-    expect(@view.$ '#wbi-cart-percentage-saved').to.has.$text('70%')
+    expect(@view.$ '#wbi-cart-percentage-saved').to.existExact(1)
+        .and.to.has.$text('70%')
 
   it 'should render cart bits slider', ->
     @model.set(itemsTotal: 100, shippingTotal: 50, bitsTotal: 20)
 
     @view.render()
 
-    expect(@view.$ 'input#wbi-cart-bits-slider').to.has.$val('20')
+    expect(@view.$ 'input#wbi-cart-bits-slider').to.existExact(1)
+        .and.to.has.$val('20')
         .and.to.has.data('step', 1)
+
+  it 'should apply custom slider plugin for car bits slider', ->
+    customSliderStub = sinon.spy($.fn, 'customSlider')
+    @view.render()
+
+    expect(customSliderStub).to.has.been.calledOnce
+    bitsSlider = @view.$('input#wbi-cart-bits-slider').get(0)
+    expect(customSliderStub.firstCall.returnValue.get(0)).to.be.equal(bitsSlider)

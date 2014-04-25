@@ -12,3 +12,4 @@ module.exports = class CartBitsView extends View
 
   attach: ->
     super
+    @$('#wbi-cart-bits-slider').customSlider()
