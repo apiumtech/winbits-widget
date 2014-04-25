@@ -10,6 +10,7 @@ describe 'CartBitsViewSpec', ->
 
   afterEach ->
     @view.dispose()
+    @model.dispose()
 
   it 'should be rendered', ->
     expect(@view.$el).to.has.id('wbi-cart-bits')
@@ -23,9 +24,16 @@ describe 'CartBitsViewSpec', ->
     expect(@view.$ '#wbi-cart-percentage-saved').to.has.$text('0%')
     expect(@view.$ 'input#wbi-cart-bits-slider').to.has.$val('0')
 
-  it 'should render cashback', ->
+  it 'should render cart cashback', ->
     @model.set cashback: 100
 
     @view.render()
 
     expect(@view.$ '#wbi-cart-cashback').to.has.$text('100')
+
+  it 'should render cart percentage saved', ->
+    @model.set(itemsTotal: 100, shippingTotal: 50, bitsTotal: 20)
+
+    @view.render()
+
+    expect(@view.$ '#wbi-cart-percentage-saved').to.has.$text('70%')

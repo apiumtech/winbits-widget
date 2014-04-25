@@ -98,7 +98,7 @@ Handlebars.registerHelper "getCartSaving", () ->
   utils.formatCurrency(@bitsTotal)
 
 Handlebars.registerHelper "getCartTotal", () ->
-  total = @itemsTotal - @shippingTotal - @bitsTotal
+  total = utils.computeCartTotal(@itemsTotal, @shippingTotal, @bitsTotal)
   utils.formatCurrency(total)
 
 Handlebars.registerHelper "joinAttributes", (mainAttribute, attributes) ->
@@ -111,4 +111,6 @@ Handlebars.registerHelper "eachOption", (min, max, options) ->
   opts.join ''
 
 Handlebars.registerHelper "getCartPercentageSaved", () ->
-  utils.formatPercentage('0')
+  total = utils.computeCartTotal(@itemsTotal, @shippingTotal, @bitsTotal)
+  percentage = if @itemsTotal then (1 - (total / @itemsTotal)) * 100 else 0
+  utils.formatPercentage(percentage)
