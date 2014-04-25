@@ -21,10 +21,10 @@ describe 'CartTotalsViewSpec', ->
 
   it 'should render default cart totals', ->
     zeroPesos = '$0'
-    expect(@view.$('#wbi-cart-subtotal'), 'invalid cart subtotal').to.has.text(zeroPesos)
-    expect(@view.$('#wbi-cart-saving'), 'invalid cart saving').to.has.text(zeroPesos)
-    expect(@view.$('#wbi-cart-shipping-cost'), 'invalid cart shipping cost').to.has.text(zeroPesos)
-    expect(@view.$('#wbi-cart-total'), 'invalid cart total').to.has.text(zeroPesos)
+    expect(@view.$('#wbi-cart-subtotal')).to.has.text(zeroPesos)
+    expect(@view.$('#wbi-cart-saving')).to.has.text(zeroPesos)
+    expect(@view.$('#wbi-cart-shipping-cost')).to.has.text(zeroPesos)
+    expect(@view.$('#wbi-cart-total')).to.has.text(zeroPesos)
 
   it.skip 'should render cart saving', ->
     expect(no).to.be.ok
@@ -34,4 +34,4 @@ describe 'CartTotalsViewSpec', ->
 
     @view.render()
 
-    expect(@view.$('#wbi-cart-total')).to.has.text('$30')
+    expect(@view.$('#wbi-cart-total')).to.has.$text('30')
