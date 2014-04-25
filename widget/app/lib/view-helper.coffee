@@ -85,3 +85,12 @@ Handlebars.registerHelper "eachActiveVertical", (options) ->
       result += options.fn vertical
   else result = options.inverse @
   result
+
+Handlebars.registerHelper "getContactName", () ->
+  (this.firstName + ' ' + this.lastName).trim()
+
+Handlebars.registerHelper "getLocation", () ->
+  this.location
+
+Handlebars.registerHelper "getZipCode", () ->
+  this.zipCode

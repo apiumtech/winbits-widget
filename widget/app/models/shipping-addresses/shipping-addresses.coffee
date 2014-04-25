@@ -10,3 +10,6 @@ module.exports = class ShippingAddresses extends Model
 
   initialize: ()->
     super
+
+  parse: (data) ->
+    addresses: data.response

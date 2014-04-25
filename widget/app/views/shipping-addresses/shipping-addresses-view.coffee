@@ -12,11 +12,12 @@ module.exports = class ShippingAddressesView extends View
 
   initialize: ->
     super
+    @listenTo @model,  'change', @render
     @model.fetch()
-
 
   attach: ->
     super
+    #script to implement carrusel
     @$('.block-carrusel').changeBox(
           activo: 'carruselSCC-selected',
           items: '.carruselSCC-div'
@@ -36,3 +37,4 @@ module.exports = class ShippingAddressesView extends View
           slideCSS: '.block-slide',
           initialSlide: '.carruselSCC-selected'
     })
+    console.log ["model :->", @model]

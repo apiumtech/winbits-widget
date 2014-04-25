@@ -1,35 +1,36 @@
 <div class="shipCarrusel">
 
-          <!--<div class="addInfo"><span class="iconFont-close"></span>No tienes direcciones.</div>-->
-
+    {{#unless addresses}}
+      <div class="addInfo"><span class="iconFont-close"></span>No tienes direcciones.</div>
+    {{else}}
          <div class="block-carrusel">
             <div class="block-wrapper">
 
+             {{#each addresses}}
                 <div class="block-slide">
-                    <div class="carruselSCC-div">
+                    <div class="carruselSCC-div {{#if main}}carruselSCC-selected{{/if}}">
                         <div class="shippingMenu">
                             <a href="#">edit</a>
                             <span class="iconFont-close" title="Eliminar"></span>
                         </div>
-                        <h3>DIRECCIÓN 1</h3>
+                        <h3>DIRECCIÓN {{index}}</h3>
                         <address>
-                            <span>Raúl Sotomayor,</span>
-                            <span>Marsella 7, Villa,</span>
-                            <span>Avaro Obregón, 01810</span>
+                            <span>{{getContactName}},</span>
+                            <span>{{street}} {{externalNumber}}, {{getLocation}},</span>
+                            <span>{{county}}, {{getZipCode}}</span>
                         </address>
                         <span class="iconFont-send" title="Tu paquete será enviado a esta dirección"></span>
                         <span class="note hover">Da click aqui para establecer como dirección principal</span>
                         <input type="radio" name="shippingRadio" class="shippingRadio">
                     </div>
                 </div>
-
+             {{/each}}
 
             </div>
-        </div>
-
-    <span class="iconFont-left" title="Anterior"></span>
-    <span class="iconFont-right" title="Siguiente"></span>
-
+       </div>
+     <span class="iconFont-left" title="Anterior"></span>
+     <span class="iconFont-right" title="Siguiente"></span>
+    {{/unless}}
 
     <div class="shippingAdd">
         <h3>AGREGAR DIRECCIÓN +</h3>
