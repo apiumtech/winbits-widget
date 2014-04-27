@@ -17,7 +17,6 @@ describe 'CartViewSpec', ->
     expect(@view.noWrap, 'expected to not be wrapped').to.be.true
     expect(@view.$ '#wbi-cart-info').to.exist
     expect(@view.$ '#wbi-cart-counter').to.exist
-        .and.to.has.text('')
     expect(@view.$ '#wbi-cart-icon').to.exist
     expect(@view.$ '#wbi-cart-drop').to.exist
     expect(@view.$ '#wbi-cart-left-panel').to.exist
@@ -58,12 +57,12 @@ describe 'CartViewSpec', ->
     expect(@view.subview('cart-payment-methods').model).to.be.equal(@model)
 
   it 'should not show cart counter by default', ->
-    expect(@view.$ '#wbi-cart-counter').to.has.text('')
+    expect(@view.$ '#wbi-cart-counter').to.has.$text('')
 
-  it 'should update cart counter when cart items exist in model', ->
-    @model.set cartDetails: [{}, {}]
+  it 'should render cart counter', ->
+    @model.set itemsCount: 5
     @view.render()
-    expect(@view.$ '#wbi-cart-counter').to.has.text('2')
+    expect(@view.$ '#wbi-cart-counter').to.has.$text('5')
 
   expectCartSubview = (viewSelector, parentId, subviewName) ->
     $subview = @view.$(viewSelector)

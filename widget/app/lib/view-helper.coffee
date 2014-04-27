@@ -89,9 +89,6 @@ Handlebars.registerHelper "eachActiveVertical", (options) ->
   else result = options.inverse @
   result
 
-Handlebars.registerHelper "getCartItemsCount", () ->
-  if @cartDetails then @cartDetails.length else ''
-
 Handlebars.registerHelper "formatCurrency", utils.formatCurrency
 
 Handlebars.registerHelper "getCartSaving", () ->
