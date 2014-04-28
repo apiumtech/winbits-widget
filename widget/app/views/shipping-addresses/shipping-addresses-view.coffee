@@ -37,4 +37,3 @@ module.exports = class ShippingAddressesView extends View
           slideCSS: '.block-slide',
           initialSlide: '.carruselSCC-selected'
     })
-    console.log ["model :->", @model]

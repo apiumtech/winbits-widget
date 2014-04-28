@@ -80,11 +80,5 @@ describe 'LoginViewSpec', ->
 
     expect(errorStub).to.be.calledOnce
     expect(@view.$ '#wbi-login-in-btn').to.has.prop 'disabled', no
-#    expectAjaxArgs.call(@, errorStub, "El servidor no está disponible, por favor inténtalo más tarde.")
 
-#  expectAjaxArgs = (ajaxRequestStub, errorText)->
-#    ajaxConfigArg = ajaxRequestStub.args[0][1]
-#    expect(ajaxConfigArg).to.has.property('context', @view)
-#    expect(ajaxConfigArg).to.has.property('data')
-#    .that.contain('"verticalId":1')
-#    expect(@view.$ '.errorDiv p').to.has.text(errorText)
+

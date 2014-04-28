@@ -1,9 +1,9 @@
-<div class="shipCarrusel">
+    <div id = "wbi-shipping-addresses-view" class="shipCarrusel">
 
     {{#unless addresses}}
-      <div class="addInfo"><span class="iconFont-close"></span>No tienes direcciones.</div>
+      <div id="wbi-no-shipping-addreseses" class="addInfo"><span class="iconFont-close"></span>No tienes direcciones.</div>
     {{else}}
-         <div class="block-carrusel">
+         <div id="wbi-shipping-addreseses-container" class="block-carrusel">
             <div class="block-wrapper">
 
              {{#each addresses}}
