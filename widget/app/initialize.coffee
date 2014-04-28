@@ -1,5 +1,7 @@
 Application = require './application'
 routes = require './routes'
+cartUtils = require 'lib/cart-utils'
+utils = require 'lib/utils'
 mediator = Winbits.Chaplin.mediator
 
 mediator.data = (->
@@ -22,6 +24,11 @@ mediator.data = (->
     return
   }
 )()
+
+Winbits.addToCart = (cartItems) ->
+  cartItems = if Winbits.$.isArray(cartItems) then cartItems else [cartItems]
+  fn = if utils.isLoggedIn() then cartUtils.addToUserCart else cartUtils.addToVirtualCart
+  fn.call(cartUtils, cartItems)
 
 appConfig =
   controllerSuffix: '-controller'

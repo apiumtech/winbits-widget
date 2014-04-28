@@ -6,6 +6,7 @@ utils = Winbits.Chaplin.utils.beget Chaplin.utils
 $ = Winbits.$
 _ = Winbits._
 mediator = Winbits.Chaplin.mediator
+rpc = Winbits.env.get('rpc')
 
 # _(utils).extend
 #  someMethod: ->
@@ -301,7 +302,7 @@ _(utils).extend
   ajaxRequest: Winbits.ajaxRequest
 
   getApiToken: ->
-    mediator.data.get('login-data').apiToken
+    mediator.data.get('login-data')?.apiToken
 
   saveApiToken: (apiToken) ->
     mediator.data.get('login-data').apiToken = apiToken
@@ -318,6 +319,36 @@ _(utils).extend
     Winbits.Chaplin.utils.redirectTo.apply null, arguments
 
   saveLoginData: Winbits.saveLoginData
+
+  formatCurrency: (value) ->
+    "$#{value}"
+
+  formatPercentage: (value) ->
+    "#{value}%"
+
+  computeCartTotal: (itemsTotal, shippingTotal, bitsTotal) ->
+    total = itemsTotal - shippingTotal - bitsTotal
+
+  isLoggedIn: () ->
+    mediator.data.get('login-data')?
+
+  getVirtualCart: () ->
+    localStorage['wb-vcart'] or '[]'
+
+  saveVirtualCart: (cartData) ->
+    cartItems = (@toCartItem(x) for x in cartData.cartDetails)
+    vcart = JSON.stringify(cartItems)
+    localStorage['wb-vcart'] = vcart
+    rpc.storeVirtualCart(vcart)
+
+  toCartItem: (cartDetail) ->
+    cartItem = {}
+    cartItem[cartDetail.skuProfile.id] = cartDetail.quantity
+    cartItem
+
+  getResourceURL: (path) ->
+    apiURL = Winbits.env.get('api-url')
+    "#{apiURL}/#{path}"
 
 # Prevent creating new properties and stuff.
 Object.seal? utils

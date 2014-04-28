@@ -64,7 +64,23 @@
   .fail -> console.log ['ERROR', 'Unable to load App script :(']
   promises.push loadingAppScript
 
-  if not window.wbSkipRPC
+  rpcApi =
+    request: {}
+    getTokens: {}
+    saveApiToken: {}
+    deleteApiToken: {}
+    storeVirtualCart: {}
+    logout: {}
+    saveUtms: {}
+    getUtms: {}
+    facebookStatus: {}
+    facebookMe: {}
+
+  if window.wbSkipRPC
+    for own key of rpcApi
+      rpcApi[key] = Winbits.$.noop
+    Winbits.env.set('rpc', rpcApi)
+  else
     verifyingVerticalData = new $.Deferred().done (data) ->
       console.log 'Vertical data verified :)'
       currentVerticalId = data.meta.currentVerticalId
@@ -115,17 +131,7 @@
         remote: Winbits.env.get 'provider-url'
         onReady: deferred.resolve
       },
-      remote:
-        request: {}
-        getTokens: {}
-        saveApiToken: {}
-        deleteApiToken: {}
-        storeVirtualCart: {}
-        logout: {}
-        saveUtms: {}
-        getUtms: {}
-        facebookStatus: {}
-        facebookMe: {}
+      remote: rpcApi
 
       timeoutDeferred(deferred).promise()
 
