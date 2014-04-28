@@ -11,7 +11,6 @@ module.exports = class CartItemsView extends View
 
   initialize: ->
     super
-    console.log 'CartItemsView#initialize'
 
   attach: ->
     super
