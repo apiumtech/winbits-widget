@@ -1,4 +1,5 @@
 utils = Winbits.require 'lib/utils'
+$ = Winbits.$
 
 # Base model.
 module.exports = class Model extends Chaplin.Model
@@ -13,8 +14,9 @@ module.exports = class Model extends Chaplin.Model
   needsAuth: no
 
   sync: (method, model, options = {}) ->
-    options.headers = 'Accept-Language': 'es'
-    options.headers['Wb-Api-Token'] = utils.getApiToken() if @needsAuth
+    headers = 'Accept-Language': 'es'
+    headers['Wb-Api-Token'] = utils.getApiToken() if @needsAuth
+    options.headers = $.extend(headers, options.headers)
     super(method, model, options)
 
   parse: (data) ->

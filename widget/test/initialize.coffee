@@ -20,6 +20,7 @@ specs = [
   './views/cart-totals-view-spec'
   './views/cart-bits-view-spec'
   './views/cart-payment-methods-view-spec'
+  './models/virtual-cart-spec',
   './models/cart-spec',
 ]
 

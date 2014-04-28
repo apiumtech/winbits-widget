@@ -4,15 +4,19 @@ $ = Winbits.$
 
 describe 'CartSpec', ->
 
+  CART_URL = 'https://apidev.winbits.com/v1/orders/cart-items.json'
+
   before ->
     sinon.stub(utils, 'getApiToken').returns('XXX')
+    sinon.stub(utils, 'isLoggedIn').returns(yes)
 
   after ->
     utils.getApiToken.restore()
+    utils.isLoggedIn.restore()
 
   beforeEach ->
     @xhr = sinon.useFakeXMLHttpRequest()
-    requests = @.requests = []
+    requests = @requests = []
     @xhr.onCreate = (xhr) -> requests.push(xhr)
     @model = new Cart
 
@@ -20,23 +24,13 @@ describe 'CartSpec', ->
     @model.dispose()
     @xhr.restore()
 
-  it 'should be fetched', ->
+  it 'should use cart items url', ->
+    expect(@model.url()).to.be.equal(CART_URL)
+
+  it 'should fetch cart items', ->
     @model.fetch()
 
-    @request = @requests[0]
-    expect(@request.url).to.be.equal('https://apidev.winbits.com/v1/orders/virtual-cart-items.json')
-    expect(@request.requestHeaders).to.include.keys('Wb-Api-Token')
-
-  it 'should use virtual cart details url if not logged in', ->
-    sinon.stub(utils, 'isLoggedIn').returns(no)
-
-    expect(@model.url()).to.be.equal('https://apidev.winbits.com/v1/orders/virtual-cart-items.json')
-
-    utils.isLoggedIn.restore()
-
-  it 'should use cart details url if logged in', ->
-    sinon.stub(utils, 'isLoggedIn').returns(yes)
-
-    expect(@model.url()).to.be.equal('https://apidev.winbits.com/v1/orders/cart-items.json')
-
-    utils.isLoggedIn.restore()
+    request = @requests[0]
+    expect(request.url).to.be.equal(CART_URL)
+    expect(request.requestHeaders).to.has.property('Wb-Api-Token', 'XXX')
+    expect(request.requestHeaders).to.not.include.keys('Wb-VCart')

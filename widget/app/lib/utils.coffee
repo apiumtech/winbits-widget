@@ -331,6 +331,9 @@ _(utils).extend
   isLoggedIn: () ->
     mediator.data.get('login-data')?
 
+  getVirtualCart: () ->
+    localStorage['wb-vcart'] or '[]'
+
 # Prevent creating new properties and stuff.
 Object.seal? utils
 

@@ -15,3 +15,7 @@ module.exports = class Cart extends Model
     bitsTotal: 0,
     shippingTotal: 0,
     cashback: 0
+
+  sync: (method, model, options = {}) ->
+    options.headers = 'Wb-VCart': utils.getVirtualCart() if not utils.isLoggedIn()
+    super(method, model, options)
