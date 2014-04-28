@@ -13,22 +13,21 @@ _(cartUtils).extend
     env.get('api-url') + "/orders/#{resource}"
 
   addToUserCart: (cartItems = {}) ->
-    cartItems = @fixCartItemsParam(cartItems)
+    cartItems = @transformCartItems(cartItems)
     options =
       headers:
         'Wb-Api-Token': utils.getApiToken()
     utils.ajaxRequest(@getCartResourceUrl(), @applyDefaultAddToCartRequestDefaults(cartItems, options))
 
   addToVirtualCart: (cartItems = {}) ->
-    cartItems = @fixCartItemsParam(cartItems)
+    cartItems = @transformCartItems(cartItems)
     options =
       headers:
         'Wb-VCart': utils.getVirtualCart()
     utils.ajaxRequest(@getCartResourceUrl(), @applyDefaultAddToCartRequestDefaults(cartItems, options))
     .done((data)-> utils.saveVirtualCart(data.response))
 
-  fixCartItemsParam: (cartItems) ->
-    cartItems = if $.isArray(cartItems) then cartItems else [cartItems]
+  transformCartItems: (cartItems) ->
     (@transformCartItem(x) for x in cartItems)
 
   transformCartItem: (cartItem) ->

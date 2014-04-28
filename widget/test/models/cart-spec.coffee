@@ -32,5 +32,7 @@ describe 'CartSpec', ->
 
     request = @requests[0]
     expect(request.url).to.be.equal(CART_URL)
+    expect(request.method).to.be.equal('GET')
+    expect(request.async).to.be.true
     expect(request.requestHeaders).to.has.property('Wb-Api-Token', 'XXX')
     expect(request.requestHeaders).to.not.include.keys('Wb-VCart')

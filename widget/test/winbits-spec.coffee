@@ -14,18 +14,21 @@ describe 'WinbitsSpec', ->
     cartUtils.addToVirtualCart.restore()
     cartUtils.addToUserCart.restore()
 
-  it 'should delegate to addToVirtualCart when call addToCart & not logged in', ->
-    cartItems = id: 1, quantity: 1
+  it 'addToCart should transform parameter to Array', ->
+    cartItem = id: 1, quantity: 1
+    Winbits.addToCart(cartItem)
 
-    Winbits.addToCart(cartItems)
-
-    expect(cartUtils.addToVirtualCart).to.has.been.calledWith(cartItems)
+    expect(cartUtils.addToVirtualCart).to.has.been.calledWith([cartItem])
         .and.to.has.been.calledOn(cartUtils)
-        .and.to.has.been.calledOnce
 
-  it 'should delegate to addToUserCart when call addToCart & logged in', ->
+  it 'addToCart should delegate to addToVirtualCart when not logged in', ->
+    Winbits.addToCart([id: 1, quantity: 1])
+
+    expect(cartUtils.addToVirtualCart).and.to.has.been.calledOnce
+
+  it 'addToCart should delegate to addToUserCart when logged in', ->
     utils.isLoggedIn.returns(yes)
-    cartItems = id: 1, quantity: 1
+    cartItems = [id: 1, quantity: 1]
 
     Winbits.addToCart(cartItems)
 

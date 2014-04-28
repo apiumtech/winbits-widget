@@ -25,9 +25,10 @@ mediator.data = (->
   }
 )()
 
-Winbits.addToCart = ->
+Winbits.addToCart = (cartItems) ->
+  cartItems = if Winbits.$.isArray(cartItems) then cartItems else [cartItems]
   fn = if utils.isLoggedIn() then cartUtils.addToUserCart else cartUtils.addToVirtualCart
-  fn.apply(cartUtils, arguments)
+  fn.call(cartUtils, cartItems)
 
 appConfig =
   controllerSuffix: '-controller'
