@@ -20,7 +20,7 @@ describe 'WinbitsSpec', ->
     Winbits.addToCart(cartItems)
 
     expect(cartUtils.addToVirtualCart).to.has.been.calledWith(cartItems)
-        .and.to.has.been.calledOn(Winbits)
+        .and.to.has.been.calledOn(cartUtils)
         .and.to.has.been.calledOnce
 
   it 'should delegate to addToUserCart when call addToCart & logged in', ->
@@ -30,6 +30,6 @@ describe 'WinbitsSpec', ->
     Winbits.addToCart(cartItems)
 
     expect(cartUtils.addToUserCart).to.has.been.calledWith(cartItems)
-        .and.to.has.been.calledOn(Winbits)
+        .and.to.has.been.calledOn(cartUtils)
         .and.to.has.been.calledOnce
 
