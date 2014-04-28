@@ -10,9 +10,7 @@ describe 'NotLoggedInViewSpec', ->
   beforeEach ->
     @clock = sinon.useFakeTimers()
     currentVertical = id: 1, baseUrl: 'http://www.test-winbits.com', name: 'Winbits Test'
-    sinon.stub(rpc, 'facebookStatus', (callback)->
-      callback (status:'connected', authResponse:{userID:'100002184900102'})
-    )
+
     @envStub = sinon.stub(Winbits.env, 'get')
     .withArgs('current-vertical-id').returns(currentVertical.id)
     .withArgs('api-url').returns('https://apidev.winbits.com/v1')
@@ -29,13 +27,14 @@ describe 'NotLoggedInViewSpec', ->
 
   afterEach ->
     @clock.restore()
-    rpc.facebookStatus.restore()
     Winbits.env.get.restore()
     window.open.restore()
 
+    rpc.facebookStatus.restore?()
     utils.redirectTo.restore?()
     @view.facebookLoginInterval.restore?()
     @view.doFacebookLoginSuccess.restore?()
+    @view.doFacebookLoginError.restore?()
     @model.requestExpressFacebookLogin.restore?()
     #    $.fancybox.restore?()
 
@@ -73,17 +72,37 @@ describe 'NotLoggedInViewSpec', ->
         .and.to.have.been.calledOnce
 
   it 'should success authentication facebook', ->
+    sinon.stub(rpc, 'facebookStatus', (callback)->
+      callback (status:'connected', authResponse:{userID:'100002184900102'})
+    )
     sinon.stub(@view, 'doFacebookLoginSuccess')
+    sinon.stub(@view, 'doFacebookLoginError')
     sinon.stub(@model, 'requestExpressFacebookLogin').returns TestUtils.promises.resolved
     @view.publishEvent 'facebook-button-event'
     @clock.tick(150)
     expect(@model.requestExpressFacebookLogin).to.have.been.calledOnce
+    expect(@view.doFacebookLoginSuccess).to.have.been.calledOnce
+    expect(@view.doFacebookLoginError).to.have.been.not.calledOnce
 
-
-  it.skip 'should error authentication facebook', ->
-#    sinon.stub @view, 'facebookLoginInterval'
-#    stubModel = sinon.stub(@model, 'requestExpressfacebookLogin').returns TestUtils.promises.done
-    console.log ['modeloTest', @model]
+  it 'should error authentication facebook', ->
+    sinon.stub(rpc, 'facebookStatus', (callback)->
+      callback (status:'connected', authResponse:{userID:'100002184900102'})
+    )
+    sinon.stub(@view, 'doFacebookLoginSuccess')
+    sinon.stub(@view, 'doFacebookLoginError')
+    sinon.stub(@model, 'requestExpressFacebookLogin').returns TestUtils.promises.rejected
     @view.publishEvent 'facebook-button-event'
-#    @clock.tick(150)
-#    expect(stubModel).not.calledOnce
+    @clock.tick(150)
+    expect(@model.requestExpressFacebookLogin).to.have.been.calledOnce
+    expect(@view.doFacebookLoginSuccess).to.have.been.not.calledOnce
+    expect(@view.doFacebookLoginError).to.have.been.calledOnce
+
+
+  it 'should error authorization facebook', ->
+    sinon.stub(rpc, 'facebookStatus', (callback)->
+      callback (status:'not-authorized', authResponse:{userID:'100002184900102'})
+    )
+    sinon.stub(@model, 'requestExpressFacebookLogin')
+    @view.publishEvent 'facebook-button-event'
+    @clock.tick(150)
+    expect(@model.requestExpressFacebookLogin).not.calledOnce
