@@ -328,6 +328,9 @@ _(utils).extend
   computeCartTotal: (itemsTotal, shippingTotal, bitsTotal) ->
     total = itemsTotal - shippingTotal - bitsTotal
 
+  isLoggedIn: () ->
+    mediator.data.get('login-data')?
+
 # Prevent creating new properties and stuff.
 Object.seal? utils
 

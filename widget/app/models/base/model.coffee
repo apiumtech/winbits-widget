@@ -10,9 +10,13 @@ module.exports = class Model extends Chaplin.Model
   #   @on 'sync', @finishSync
   #   @on 'error', @unsync
 
-  needsAuth: false
+  needsAuth: no
 
   sync: (method, model, options = {}) ->
     options.headers = 'Accept-Language': 'es'
     options.headers['Wb-Api-Token'] = utils.getApiToken() if @needsAuth
     super(method, model, options)
+
+  parse: (data) ->
+    @meta = data.meta
+    data.response
