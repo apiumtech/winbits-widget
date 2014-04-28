@@ -31,12 +31,11 @@ module.exports = class NotLoggedInPageView extends View
 
   doFacebookLogin : (e)->
     e?.preventDefault()
-    that = @
     fbButton = @$(e?.currentTarget).prop('disabled', true)
     popup = @popupFacebookLogin()
-    timer = setInterval(->
-      that.facebookLoginInterval(fbButton, popup, timer)
-    , 100)
+    timer = setInterval($.proxy(->
+      @facebookLoginInterval(fbButton, popup, timer)
+    , @), 100)
 
   facebookLoginInterval: (fbButton, popup, timer)->
     if popup.closed
@@ -52,18 +51,16 @@ module.exports = class NotLoggedInPageView extends View
     popup
 
   expressFacebookLogin: ->
-    that = @
-    console.log ['api-url', Winbits.env.get('api-url')]
-    console.log ['rpc', env.get('rpc')]
-    env.get('rpc').facebookStatus (response)->
-      console.log ['status', response]
-      if response.status is "connected"
-        data = facebookId: response.authResponse.userID
-        that.model.requestExpressFacebookLogin(data, context:@ )
-          .done(that.doFacebookLoginSuccess)
-          .fail(that.doFacebookLoginError)
-      else
-        console.log "not conected to facebook "
+    env.get('rpc').facebookStatus $.proxy(@facebookStatusSuccess, @)
+
+  facebookStatusSuccess: (response)->
+    if response.status is "connected"
+      data = facebookId: response.authResponse.userID
+      promise = @model.requestExpressFacebookLogin(data, context:@)
+      promise.done(@doFacebookLoginSuccess).fail(@doFacebookLoginError)
+    else
+      console.log "not conected to facebook "
+
 
   doFacebookLoginSuccess: (data) ->
     console.log "express-facebook-login.json Success!"

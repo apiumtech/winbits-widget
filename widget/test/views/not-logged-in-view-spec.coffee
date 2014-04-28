@@ -4,36 +4,41 @@ NotLoggedInView =  require 'views/not-logged-in/not-logged-in-view'
 NotLoggedIn =  require 'models/not-logged-in/not-logged-in'
 utils = require 'lib/utils'
 $ = Winbits.$
-
+rpc = Winbits.env.get('rpc')
 
 describe 'NotLoggedInViewSpec', ->
-  @timeout 1500
   beforeEach ->
-    @model = new NotLoggedIn
-    @view = new NotLoggedInView model:@model
+    @clock = sinon.useFakeTimers()
     currentVertical = id: 1, baseUrl: 'http://www.test-winbits.com', name: 'Winbits Test'
-    @envStub =sinon.stub(Winbits.env, 'get')
+    sinon.stub(rpc, 'facebookStatus', (callback)->
+      callback (status:'connected', authResponse:{userID:'100002184900102'})
+    )
+    @envStub = sinon.stub(Winbits.env, 'get')
     .withArgs('current-vertical-id').returns(currentVertical.id)
     .withArgs('api-url').returns('https://apidev.winbits.com/v1')
     .withArgs('current-vertical').returns(currentVertical)
+    .withArgs('rpc').returns(rpc)
     .withArgs('verticals-data').returns([
-      currentVertical,
-    { id: 2, baseUrl: 'http://dev.mylooq.com', name: 'My LOOQ' }
+      currentVertical
+      { id: 2, baseUrl: 'http://dev.mylooq.com', name: 'My LOOQ' }
     ])
-    @envStub.withArgs('rpc').returns(facebookStatus:(callback)->
-      callback (status:'connected', authResponse:{userID:'100002184900102'})
-    )
 
     @windowsOpenStub = sinon.stub(window, 'open').returns(focus: $.noop, closed:yes)
-
-
-
+    @view = new NotLoggedInView
+    @model = @view.model
 
   afterEach ->
+    @clock.restore()
+    rpc.facebookStatus.restore()
+    Winbits.env.get.restore()
+    window.open.restore()
+
     utils.redirectTo.restore?()
-    window.open.restore?()
-#    $.fancybox.restore?()
-    Winbits.env.get.restore?()
+    @view.facebookLoginInterval.restore?()
+    @view.doFacebookLoginSuccess.restore?()
+    @model.requestExpressFacebookLogin.restore?()
+    #    $.fancybox.restore?()
+
     @model.dispose()
     @view.dispose()
 
@@ -68,15 +73,17 @@ describe 'NotLoggedInViewSpec', ->
         .and.to.have.been.calledOnce
 
   it 'should success authentication facebook', ->
-#    sinon.stub @view, 'facebookLoginInterval'
-  #    sinonStub= sinon.stub(@model, 'requestExpressfacebookLogin')
+    sinon.stub(@view, 'doFacebookLoginSuccess')
+    sinon.stub(@model, 'requestExpressFacebookLogin').returns TestUtils.promises.resolved
     @view.publishEvent 'facebook-button-event'
-#    expect(sinonStub).have.been.calledOnce
+    @clock.tick(150)
+    expect(@model.requestExpressFacebookLogin).to.have.been.calledOnce
 
 
-  it 'should error authentication facebook', ->
-    sinon.stub @view, 'facebookLoginInterval'
+  it.skip 'should error authentication facebook', ->
+#    sinon.stub @view, 'facebookLoginInterval'
 #    stubModel = sinon.stub(@model, 'requestExpressfacebookLogin').returns TestUtils.promises.done
     console.log ['modeloTest', @model]
     @view.publishEvent 'facebook-button-event'
+#    @clock.tick(150)
 #    expect(stubModel).not.calledOnce
