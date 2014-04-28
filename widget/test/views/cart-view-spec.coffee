@@ -1,6 +1,7 @@
 CartView = require 'views/cart/cart-view'
 Cart = require 'models/cart/cart'
 utils = require 'lib/utils'
+EventBroker = Chaplin.EventBroker
 $ = Winbits.$
 
 describe 'CartViewSpec', ->
@@ -88,6 +89,15 @@ describe 'CartViewSpec', ->
     expect(cartTotalsStub, 'cart totals view not rendered').to.have.been.calledOnce
     expect(cartBitsStub, 'cart bits view not rendered').to.have.been.calledOnce
     expect(cartPaymentMethodsStub, 'cart payment methods view not rendered').to.have.been.calledOnce
+
+  it 'should subscribe to "cart-changed" event', ->
+    sinon.stub(@view, 'onCartChanged')
+
+    EventBroker.publishEvent('cart-changed')
+
+    expect(@view.onCartChanged).to.has.been.calledOnce
+
+    @view.onCartChanged.restore()
 
   expectCartSubview = (viewSelector, parentId, subviewName) ->
     $subview = @view.$(viewSelector)

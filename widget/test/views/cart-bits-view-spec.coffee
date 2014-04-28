@@ -47,9 +47,11 @@ describe 'CartBitsViewSpec', ->
 
     @view.render()
 
-    expect(@view.$ 'input#wbi-cart-bits-slider').to.existExact(1)
+    $bitsSlider = @view.$ 'input#wbi-cart-bits-slider'
+    expect($bitsSlider).to.existExact(1)
         .and.to.has.$val('20')
         .and.to.has.data('step', 1)
+    expect($bitsSlider).to.has.data('max', 30)
 
   it 'should apply custom slider plugin for car bits slider', ->
     customSliderStub = sinon.spy($.fn, 'customSlider')

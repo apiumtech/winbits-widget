@@ -12,6 +12,12 @@ module.exports = class Model extends Chaplin.Model
   #   @on 'error', @unsync
 
   needsAuth: no
+  accessors: null
+
+  getAttributes: ->
+    data = Chaplin.utils.beget super
+    data[k] = @[k].bind(this) for k in fns if fns = @accessors
+    data
 
   sync: (method, model, options = {}) ->
     headers = 'Accept-Language': 'es'
@@ -22,3 +28,6 @@ module.exports = class Model extends Chaplin.Model
   parse: (data) ->
     @meta = data.meta
     data.response
+
+  setData: (data) ->
+    @set(@parse(data))
