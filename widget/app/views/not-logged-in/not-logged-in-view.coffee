@@ -52,14 +52,14 @@ module.exports = class NotLoggedInPageView extends View
     popup
 
   expressFacebookLogin: ->
-    model = @model
     that = @
+    console.log ['api-url', Winbits.env.get('api-url')]
+    console.log ['rpc', env.get('rpc')]
     env.get('rpc').facebookStatus (response)->
+      console.log ['status', response]
       if response.status is "connected"
-        mediator.data.set('fb-connected', yes)
         data = facebookId: response.authResponse.userID
-        console.log ['datos', @model]
-        model.requestExpressFacebookLogin(data, context:@ )
+        that.model.requestExpressFacebookLogin(data, context:@ )
           .done(that.doFacebookLoginSuccess)
           .fail(that.doFacebookLoginError)
       else
