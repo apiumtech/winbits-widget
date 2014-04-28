@@ -27,7 +27,7 @@ mediator.data = (->
 
 Winbits.addToCart = ->
   fn = if utils.isLoggedIn() then cartUtils.addToUserCart else cartUtils.addToVirtualCart
-  fn.apply(Winbits, arguments)
+  fn.apply(cartUtils, arguments)
 
 appConfig =
   controllerSuffix: '-controller'

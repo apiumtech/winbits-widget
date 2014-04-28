@@ -28,13 +28,19 @@ _(cartUtils).extend
     .done((data)-> utils.saveVirtualCart(data.response))
 
   fixCartItemsParam: (cartItems) ->
-    if $.isArray(cartItems) then cartItems else [cartItems]
+    cartItems = if $.isArray(cartItems) then cartItems else [cartItems]
+    (@transformCartItem(x) for x in cartItems)
+
+  transformCartItem: (cartItem) ->
+    skuProfileId: cartItem.id
+    quantity: cartItem.quantity
+    bits: cartItem.bits
 
   applyDefaultAddToCartRequestDefaults: (cartItems, options = {}) ->
     defaults =
       type: 'POST'
       dataType: 'json'
-      data: JSON.stringify(cartItems)
+      data: JSON.stringify(cartItems: cartItems)
       headers:
         'Accept-Language': 'es'
         'Content-Type': 'application/json;charset=utf-8'

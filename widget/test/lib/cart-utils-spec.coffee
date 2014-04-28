@@ -37,7 +37,7 @@ describe 'CartUtilsSpec', ->
     expect(request.async).to.be.true
     expect(request.requestHeaders).to.has.property('Wb-VCart', '[]')
     expect(request.requestHeaders).to.has.property('Content-Type', 'application/json;charset=utf-8')
-    expect(request.requestBody).to.be.equal('[{"id":1,"quantity":2}]')
+    expect(request.requestBody).to.be.equal('{"cartItems":[{"skuProfileId":1,"quantity":2}]}')
 
   it 'should request to add several items to virtual cart', ->
     promise = cartUtils.addToVirtualCart([{ id: 1, quantity: 2 }, { id: 2, quantity: 3 }])
@@ -49,7 +49,7 @@ describe 'CartUtilsSpec', ->
     expect(request.async).to.be.true
     expect(request.requestHeaders).to.has.property('Wb-VCart', '[]')
     expect(request.requestHeaders).to.has.property('Content-Type', 'application/json;charset=utf-8')
-    expect(request.requestBody).to.be.equal('[{"id":1,"quantity":2},{"id":2,"quantity":3}]')
+    expect(request.requestBody).to.be.equal('{"cartItems":[{"skuProfileId":1,"quantity":2},{"skuProfileId":2,"quantity":3}]}')
 
   it 'should save virtual cart when items successfully added', ->
     sinon.stub(utils, 'saveVirtualCart')
