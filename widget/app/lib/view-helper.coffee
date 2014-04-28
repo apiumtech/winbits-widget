@@ -92,15 +92,9 @@ Handlebars.registerHelper "eachActiveVertical", (options) ->
 Handlebars.registerHelper "formatCurrency", (value)->
   value = value() if $.isFunction(value)
   utils.formatCurrency(value)
+
 Handlebars.registerHelper "getContactName", () ->
   (this.firstName + ' ' + this.lastName).trim()
-
-Handlebars.registerHelper "getLocation", () ->
-  this.location
-
-Handlebars.registerHelper "getZipCode", () ->
-  this.zipCode
-Handlebars.registerHelper "formatCurrency", utils.formatCurrency
 
 Handlebars.registerHelper "getCartSaving", () ->
   utils.formatCurrency(@bitsTotal)
