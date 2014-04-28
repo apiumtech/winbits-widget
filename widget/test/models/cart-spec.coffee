@@ -34,3 +34,25 @@ describe 'CartSpec', ->
     expect(request.url).to.be.equal(CART_URL)
     expect(request.requestHeaders).to.has.property('Wb-Api-Token', 'XXX')
     expect(request.requestHeaders).to.not.include.keys('Wb-VCart')
+
+  it 'should add single item to user cart', ->
+    promise = @model.addToUserCart(id: 1, quantity: 2)
+    expect(promise).to.be.promise
+
+    request = @requests[0]
+    expect(request.url).to.be.equal(CART_URL)
+    expect(request.method).to.be.equal('POST')
+    expect(request.async).to.be.true
+    expect(request.requestHeaders).to.has.property('Wb-Api-Token', 'XXX')
+    expect(request.requestBody).to.be.equal('[{"id":1,"quantity":2}]')
+
+  it 'should add several items to user cart', ->
+    promise = @model.addToUserCart([{ id: 1, quantity: 2 }, { id: 2, quantity: 3 }])
+    expect(promise).to.be.promise
+
+    request = @requests[0]
+    expect(request.url).to.be.equal(CART_URL)
+    expect(request.method).to.be.equal('POST')
+    expect(request.async).to.be.true
+    expect(request.requestHeaders).to.has.property('Wb-Api-Token', 'XXX')
+    expect(request.requestBody).to.be.equal('[{"id":1,"quantity":2},{"id":2,"quantity":3}]')

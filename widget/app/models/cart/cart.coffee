@@ -25,14 +25,28 @@ module.exports = class Cart extends Model
     super(method, model, options)
 
   addToUserCart: (cartItems = {}) ->
+    cartItems = @fixCartItemsParam(cartItems)
+    options =
+      headers:
+        'Wb-Api-Token': utils.getApiToken()
+    utils.ajaxRequest(@cachedUrl, @applyDefaultAddToCartRequestDefaults(cartItems, options)
 
   addToVirtualCart: (cartItems = {}) ->
-    cartItems = if $.isArray(cartItems) then cartItems else [cartItems]
-    utils.ajaxRequest(@cachedUrl,
+    cartItems = @fixCartItemsParam(cartItems)
+    options =
+      headers:
+        'Wb-VCart': utils.getVirtualCart()
+    utils.ajaxRequest(@cachedUrl, @applyDefaultAddToCartRequestDefaults(cartItems, options)
+
+  fixCartItemsParam: (cartItems) ->
+    if $.isArray(cartItems) then cartItems else [cartItems]
+
+  applyDefaultAddToCartRequestDefaults: (cartItems, options = {}) ->
+    defaults =
       type: 'POST'
       dataType: 'json'
       data: JSON.stringify(cartItems)
-      headers:
-        'Accept-Language': 'es'
-        'Wb-VCart': utils.getVirtualCart()
-    )
+
+    requestOptions = $.extends({}, options)
+    requestOptions.headers = $.extends('Accept-Language': 'es', options.headers)
+    requestOptions

@@ -41,7 +41,7 @@ describe 'VirtualCartSpec', ->
 
   it 'should add single item to virtual cart', ->
     promise = @model.addToVirtualCart(id: 1, quantity: 2)
-    expectPromise(promise)
+    expect(promise).to.be.promise
 
     request = @requests[0]
     expect(request.url).to.be.equal(VIRTUAL_CART_URL)
@@ -52,7 +52,7 @@ describe 'VirtualCartSpec', ->
 
   it 'should add several items to virtual cart', ->
     promise = @model.addToVirtualCart([{ id: 1, quantity: 2 }, { id: 2, quantity: 3 }])
-    expectPromise(promise)
+    expect(promise).to.be.promise
 
     request = @requests[0]
     expect(request.url).to.be.equal(VIRTUAL_CART_URL)
@@ -60,8 +60,3 @@ describe 'VirtualCartSpec', ->
     expect(request.async).to.be.true
     expect(request.requestHeaders).to.has.property('Wb-VCart', '[]')
     expect(request.requestBody).to.be.equal('[{"id":1,"quantity":2},{"id":2,"quantity":3}]')
-
-  expectPromise = (promise) ->
-    expect(promise.done).to.be.a('function')
-    expect(promise.fail).to.be.a('function')
-    expect(promise.always).to.be.a('function')
