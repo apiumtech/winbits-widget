@@ -7,7 +7,6 @@ $ = Winbits.$
 env = Winbits.env
 
 module.exports = class MyProfileView extends View
-  container: '.wbc-my-account-container'
-  id: 'wbi-my-profile'
+  container: '#wb-profile'
   template: require './templates/my-profile'
 

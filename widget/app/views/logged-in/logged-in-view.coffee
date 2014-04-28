@@ -18,3 +18,6 @@ module.exports = class LoggedInView extends View
 
   attach: ->
     super
+    @$('#wbi-my-account-link').one('click', ->
+      mediator.data.set('tabs-swapped', yes)
+    )

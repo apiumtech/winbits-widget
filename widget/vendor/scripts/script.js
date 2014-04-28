@@ -735,7 +735,7 @@
 		return this.each(function(){
 			$(defaults.tabClass).hide().eq(0).show();
 			$(this).find(defaults.item).click(function(e){
-				e.preventDefault();
+//				e.preventDefault();
 				$(defaults.tabClass).hide();
 				var id = $(this).find('a').attr('href');
 				$(id).fadeToggle();

@@ -12,7 +12,6 @@ module.exports = class MyProfile extends Model
 
   initialize: (loginData = mediator.data.get 'login-data')->
     super
-    @subscribeEvent 'layun', -> console.log ['Layún Aquí']
     @subscribeEvent 'profile-changed', @loadProfile
     @set(@parse response: loginData) if loginData
 
