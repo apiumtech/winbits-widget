@@ -91,7 +91,7 @@ describe 'jQueryLocationSelectSpec', ->
     @$locationSelect.parent().find('li[rel=-1]').click()
 
     $otherField = @$locationSelect.parent().next()
-    expect($otherField).to.has.attr('style').that.match(/display:.*?block;/)
+    expect($otherField).to.be.displayed
 
   it 'should hide other field when other option is deselected', ->
     ajaxStub = sinon.stub($, 'ajax').returns(promiseResolvedWithData())
@@ -377,7 +377,7 @@ describe 'jQueryLocationSelectSpec', ->
 
     $locationField = @$locationSelect.parent().next()
     expect($locationField).to.has.value('Condesa')
-    expect($locationField).to.has.attr('style').that.match(/display:.*?block;/)
+    expect($locationField).to.be.displayed
 
   expectDefaultOptionExist = () ->
     value = ''
