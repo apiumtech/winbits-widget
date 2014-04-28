@@ -10,10 +10,12 @@ describe 'CartItemsViewSpec', ->
       generateCartDetail(2)
       generateCartDetail(3)
     ]
+    sinon.stub(@model, 'fetch')
     @view = new CartItemsView model: @model
 
   afterEach ->
     @view.dispose()
+    @model.fetch.restore()
     @model.dispose()
 
   it 'should be rendered', ->

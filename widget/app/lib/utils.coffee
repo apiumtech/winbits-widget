@@ -301,7 +301,7 @@ _(utils).extend
   ajaxRequest: Winbits.ajaxRequest
 
   getApiToken: ->
-    mediator.data.get('login-data').apiToken
+    mediator.data.get('login-data')?.apiToken
 
   saveApiToken: (apiToken) ->
     mediator.data.get('login-data').apiToken = apiToken

@@ -20,8 +20,9 @@ specs = [
   './views/cart-totals-view-spec'
   './views/cart-bits-view-spec'
   './views/cart-payment-methods-view-spec'
-  './models/virtual-cart-spec',
-  './models/cart-spec',
+  './models/virtual-cart-spec'
+  './models/cart-spec'
+  './views/virtual-cart-view-spec'
 ]
 
 for spec in specs
