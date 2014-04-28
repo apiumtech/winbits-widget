@@ -5,6 +5,7 @@ $ = Winbits.$
 describe 'VirtualCartSpec', ->
 
   VIRTUAL_CART_URL = 'https://apidev.winbits.com/v1/orders/virtual-cart-items.json'
+  ADD_TO_CART_SUCCESS_RESPONSE = '{"meta":{},"response":{}}'
 
   before ->
     sinon.stub(utils, 'getApiToken').returns(undefined)
@@ -25,6 +26,7 @@ describe 'VirtualCartSpec', ->
     @model.dispose()
     @xhr.restore()
     utils.ajaxRequest.restore()
+    utils.saveVirtualCart.restore?()
 
   it 'should use virtual cart items url', ->
     expect(@model.url()).to.be.equal(VIRTUAL_CART_URL)
@@ -38,25 +40,3 @@ describe 'VirtualCartSpec', ->
     expect(request.async).to.be.true
     expect(request.requestHeaders).to.has.property('Wb-VCart', '[]')
     expect(request.requestHeaders).to.not.include.keys('Wb-Api-Token')
-
-  it 'should add single item to virtual cart', ->
-    promise = @model.addToVirtualCart(id: 1, quantity: 2)
-    expect(promise).to.be.promise
-
-    request = @requests[0]
-    expect(request.url).to.be.equal(VIRTUAL_CART_URL)
-    expect(request.method).to.be.equal('POST')
-    expect(request.async).to.be.true
-    expect(request.requestHeaders).to.has.property('Wb-VCart', '[]')
-    expect(request.requestBody).to.be.equal('[{"id":1,"quantity":2}]')
-
-  it 'should add several items to virtual cart', ->
-    promise = @model.addToVirtualCart([{ id: 1, quantity: 2 }, { id: 2, quantity: 3 }])
-    expect(promise).to.be.promise
-
-    request = @requests[0]
-    expect(request.url).to.be.equal(VIRTUAL_CART_URL)
-    expect(request.method).to.be.equal('POST')
-    expect(request.async).to.be.true
-    expect(request.requestHeaders).to.has.property('Wb-VCart', '[]')
-    expect(request.requestBody).to.be.equal('[{"id":1,"quantity":2},{"id":2,"quantity":3}]')

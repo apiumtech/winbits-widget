@@ -34,7 +34,3 @@ describe 'VirtualCartViewSpec', ->
     @model.set(itemsCount: 10, itemsTotal: 100)
 
     expect(@view.render).to.have.been.calledOnce
-
-  it "should set addToCart function to model's addToVirtualCart function", ->
-    expect(@view.addToCart).to.be.a('function')
-      .and.to.be.equal(@model.addToVirtualCart)

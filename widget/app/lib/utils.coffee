@@ -334,6 +334,8 @@ _(utils).extend
   getVirtualCart: () ->
     localStorage['wb-vcart'] or '[]'
 
+  saveVirtualCart: (cartData) ->
+
 # Prevent creating new properties and stuff.
 Object.seal? utils
 
