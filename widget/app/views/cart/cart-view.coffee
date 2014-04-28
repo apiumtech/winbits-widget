@@ -12,6 +12,7 @@ module.exports = class CartView extends View
 
   initialize: ->
     super
+    @listenTo @model, 'change', -> @render()
     @model.fetch()
 
   render: ->
