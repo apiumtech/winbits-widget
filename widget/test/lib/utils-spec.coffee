@@ -1,6 +1,7 @@
 utils = require 'lib/utils'
 $ = Winbits.$
 rpc = Winbits.env.get('rpc')
+env = Winbits.env
 
 describe 'UtilsSpec', ->
 
@@ -9,6 +10,7 @@ describe 'UtilsSpec', ->
 
   afterEach ->
     rpc.storeVirtualCart.restore()
+    env.get.restore?()
 
   it 'saveVirtualCart should store virtual cart on localStorage', ->
     cartData =
@@ -21,7 +23,7 @@ describe 'UtilsSpec', ->
 
     expect(localStorage['wb-vcart']).to.be.equal('[{"1":2}]')
 
-  it 'saveVirtualCart should store virtual cart API domain', ->
+  it 'saveVirtualCart should store virtual cart on API domain', ->
     cartData =
       cartDetails: [
         quantity: 2
@@ -32,3 +34,9 @@ describe 'UtilsSpec', ->
 
     expect(rpc.storeVirtualCart).to.has.been.calledWith('[{"1":2}]')
         .and.to.has.been.calledOnce
+
+  it 'getResourceURL should build an API resource URL', ->
+    sinon.stub(env, 'get')
+    env.get.withArgs('api-url').returns('https://apitest.winbits.com/v1')
+
+    expect(utils.getResourceURL('xxx.json')).to.be.equal('https://apitest.winbits.com/v1/xxx.json')

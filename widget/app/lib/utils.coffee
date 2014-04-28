@@ -346,6 +346,10 @@ _(utils).extend
     cartItem[cartDetail.skuProfile.id] = cartDetail.quantity
     cartItem
 
+  getResourceURL: (path) ->
+    apiURL = Winbits.env.get('api-url')
+    "#{apiURL}/#{path}"
+
 # Prevent creating new properties and stuff.
 Object.seal? utils
 

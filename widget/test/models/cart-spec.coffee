@@ -4,7 +4,7 @@ $ = Winbits.$
 
 describe 'CartSpec', ->
 
-  CART_URL = 'https://apidev.winbits.com/v1/orders/cart-items.json'
+  CART_URL = utils.getResourceURL('orders/cart-items.json')
 
   before ->
     sinon.stub(utils, 'getApiToken').returns('XXX')

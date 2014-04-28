@@ -4,8 +4,8 @@ $ = Winbits.$
 
 describe 'CartUtilsSpec', ->
 
-  VIRTUAL_CART_URL = 'https://apidev.winbits.com/v1/orders/virtual-cart-items.json'
-  CART_URL = 'https://apidev.winbits.com/v1/orders/cart-items.json'
+  VIRTUAL_CART_URL = utils.getResourceURL('orders/virtual-cart-items.json')
+  CART_URL = utils.getResourceURL('orders/cart-items.json')
   ADD_TO_CART_SUCCESS_RESPONSE = '{"meta":{"status":200},"response":{"itemsTotal":10,"itemsCount":1,"shippingTotal":250,"cartDetails":[{"quantity":1,"skuProfile":{"id":1,"price":10,"fullPrice":100,"item":{"attributeLabel":"attributeLabel","name":"ItemGroupProfile","vertical":{"name":"_Test_","logo":"http://www.winbits-test.com"},"thumbnail":null},"attributes":[],"mainAttribute":{"name":"attributeName","label":"attributeLabel","type":"TEXT","value":"attributeValue"},"vertical":{"name":"_Test_","logo":"http://www.winbits-test.com"}},"min":1,"max":100,"warnings":null}],"cashback":0}}'
 
   before ->

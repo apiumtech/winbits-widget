@@ -4,8 +4,7 @@ $ = Winbits.$
 
 describe 'VirtualCartSpec', ->
 
-  VIRTUAL_CART_URL = 'https://apidev.winbits.com/v1/orders/virtual-cart-items.json'
-  ADD_TO_CART_SUCCESS_RESPONSE = '{"meta":{},"response":{}}'
+  VIRTUAL_CART_URL = utils.getResourceURL('orders/virtual-cart-items.json')
 
   before ->
     sinon.stub(utils, 'getApiToken').returns(undefined)
