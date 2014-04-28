@@ -1,5 +1,7 @@
 Application = require './application'
 routes = require './routes'
+cartUtils = require 'lib/cart-utils'
+utils = require 'lib/utils'
 mediator = Winbits.Chaplin.mediator
 
 mediator.data = (->
@@ -23,14 +25,24 @@ mediator.data = (->
   }
 )()
 
+Winbits.addToCart = (cartItems) ->
+  cartItems = if Winbits.$.isArray(cartItems) then cartItems else [cartItems]
+  fn = if utils.isLoggedIn() then cartUtils.addToUserCart else cartUtils.addToVirtualCart
+  fn.call(cartUtils, cartItems)
+
+appConfig =
+  controllerSuffix: '-controller'
+  pushState: no
+
+appConfig.routes = routes unless window.wbTestEnv
 if Winbits.env.get 'optimized'
   # Initialize the application on DOM ready event.
   Winbits.loadInterval = setInterval ->
     if Winbits.$(Winbits.env.get 'widget-container').length
       clearInterval Winbits.loadInterval
       delete Winbits.loadInterval
-      new Application routes: routes, controllerSuffix: '-controller', pushState: false
+      new Application appConfig
   , 5
 else
   Winbits.$ ->
-    new Application routes: routes, controllerSuffix: '-controller', pushState: false
+    new Application appConfig
