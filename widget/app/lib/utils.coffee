@@ -326,9 +326,6 @@ _(utils).extend
   formatPercentage: (value) ->
     "#{value}%"
 
-  computeCartTotal: (itemsTotal, shippingTotal, bitsTotal) ->
-    total = itemsTotal - shippingTotal - bitsTotal
-
   isLoggedIn: () ->
     mediator.data.get('login-data')?
 

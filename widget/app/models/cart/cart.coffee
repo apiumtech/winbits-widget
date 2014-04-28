@@ -8,7 +8,7 @@ $ = Winbits.$
 module.exports = class Cart extends Model
   url: cartUtils.getCartResourceUrl
   needsAuth: yes
-  accessors: ['cartTotal']
+  accessors: ['cartTotal', 'cartPercentageSaved']
   defaults:
     itemsTotal: 0,
     bitsTotal: 0,
@@ -24,3 +24,8 @@ module.exports = class Cart extends Model
 
   cartTotal: ->
     @get('itemsTotal') - @get('shippingTotal') - @get('bitsTotal')
+
+  cartPercentageSaved: ->
+    cartTotal = @cartTotal()
+    itemsTotal = @get('itemsTotal')
+    if itemsTotal then (1 - (cartTotal / itemsTotal)) * 100 else 0
