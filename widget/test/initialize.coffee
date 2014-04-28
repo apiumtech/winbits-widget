@@ -1,4 +1,3 @@
-
 specs = [
   './models/header-spec',
   './views/not-logged-in-view-spec',
@@ -13,8 +12,19 @@ specs = [
   './views/personal-data-view-spec'
   './views/social-media-view-spec'
   './views/change-password-view-spec'
-  './other/jquery-location-select-spec'
   './views/complete-register-view-spec'
+  './other/jquery-location-select-spec'
+  './views/cart-view-spec'
+  './views/cart-items-view-spec'
+  './views/cart-totals-view-spec'
+  './views/cart-bits-view-spec'
+  './views/cart-payment-methods-view-spec'
+  './models/virtual-cart-spec'
+  './models/cart-spec'
+  './views/virtual-cart-view-spec'
+  './lib/cart-utils-spec'
+  './winbits-spec'
+  './lib/utils-spec'
 ]
 
 for spec in specs

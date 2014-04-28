@@ -13,6 +13,7 @@ module.exports = class LoginView extends View
   initialize: ->
     super
     @delegate 'click', '#wbi-login-in-btn', @doLogin
+    @delegate 'click', '#wbi-login-facebook-btn', @doFacebookLogin
 
   attach: ->
     super
@@ -54,3 +55,7 @@ module.exports = class LoginView extends View
     error = utils.safeParse(xhr.responseText)
     message = if error then error.meta.message else textStatus
     @$('.errorDiv p').text(message).parent().css('display':'block')
+
+  doFacebookLogin: (e) ->
+    @publishEvent 'facebook-button-event', e
+

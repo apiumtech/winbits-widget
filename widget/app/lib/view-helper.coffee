@@ -1,4 +1,7 @@
 'use strict'
+
+require = Winbits.require
+utils = require 'lib/utils'
 Handlebars = Winbits.Handlebars
 env = Winbits.env
 $ = Winbits.$
@@ -86,3 +89,22 @@ Handlebars.registerHelper "eachActiveVertical", (options) ->
   else result = options.inverse @
   result
 
+Handlebars.registerHelper "formatCurrency", (value)->
+  value = value() if $.isFunction(value)
+  utils.formatCurrency(value)
+
+Handlebars.registerHelper "getCartSaving", () ->
+  utils.formatCurrency(@bitsTotal)
+
+Handlebars.registerHelper "joinAttributes", (mainAttribute, attributes) ->
+  attrs = [mainAttribute].concat(attributes)
+  attrs = ("#{x.name}: #{x.label}" for x in attrs)
+  attrs.join ', '
+
+Handlebars.registerHelper "eachOption", (min, max, options) ->
+  opts = (options.fn(value: x, text: x) for x in [min..max])
+  opts.join ''
+
+Handlebars.registerHelper "formatPercentage", (value) ->
+  value = value() if $.isFunction(value)
+  utils.formatPercentage(value)
