@@ -15,6 +15,7 @@ describe 'VirtualCartSpec', ->
     utils.isLoggedIn.restore()
 
   beforeEach ->
+    localStorage.removeItem('wb-vcart')
     @xhr = sinon.useFakeXMLHttpRequest()
     requests = @requests = []
     @xhr.onCreate = (xhr) -> requests.push(xhr)
