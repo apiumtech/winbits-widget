@@ -16,6 +16,23 @@ module.exports = class Cart extends Model
     shippingTotal: 0,
     cashback: 0
 
+  initialize: () ->
+    super
+    @cachedUrl = @url()
+
   sync: (method, model, options = {}) ->
     options.headers = 'Wb-VCart': utils.getVirtualCart() if not utils.isLoggedIn()
     super(method, model, options)
+
+  addToUserCart: (cartItems = {}) ->
+
+  addToVirtualCart: (cartItems = {}) ->
+    cartItems = if $.isArray(cartItems) then cartItems else [cartItems]
+    utils.ajaxRequest(@cachedUrl,
+      type: 'POST'
+      dataType: 'json'
+      data: JSON.stringify(cartItems)
+      headers:
+        'Accept-Language': 'es'
+        'Wb-VCart': utils.getVirtualCart()
+    )

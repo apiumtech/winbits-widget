@@ -17,7 +17,7 @@ describe 'VirtualCartViewSpec', ->
     @el = $('<li>', id: 'wbi-cart-holder').get(0)
     @model = new Cart
     sinon.stub(@model, 'fetch')
-    @view = new CartView container: @el, model: @model
+    @view = new CartView container: @el, model: @model, needsAuth: no
 
   afterEach ->
     @view.render.restore?()
@@ -34,3 +34,7 @@ describe 'VirtualCartViewSpec', ->
     @model.set(itemsCount: 10, itemsTotal: 100)
 
     expect(@view.render).to.have.been.calledOnce
+
+  it "should set addToCart function to model's addToVirtualCart function", ->
+    expect(@view.addToCart).to.be.a('function')
+      .and.to.be.equal(@model.addToVirtualCart)

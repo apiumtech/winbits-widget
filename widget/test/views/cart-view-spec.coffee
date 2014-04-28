@@ -76,6 +76,10 @@ describe 'CartViewSpec', ->
     @view.render()
     expect(@view.$ '#wbi-cart-counter').to.has.$text('5')
 
+  it "should set addToCart function to model's addToUserCart function", ->
+    expect(@view.addToCart).to.be.a('function')
+      .and.to.be.equal(@model.addToUserCart)
+
   expectCartSubview = (viewSelector, parentId, subviewName) ->
     $subview = @view.$(viewSelector)
     expect($subview).to.exist

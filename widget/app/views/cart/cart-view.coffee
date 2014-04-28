@@ -3,6 +3,7 @@ CartItemsView = require 'views/cart/cart-items-view'
 CartTotalsView = require 'views/cart/cart-totals-view'
 CartBitsView = require 'views/cart/cart-bits-view'
 CartPaymentMethodsView = require 'views/cart/cart-payment-methods-view'
+utils = require 'lib/utils'
 $ = Winbits.$
 
 module.exports = class CartView extends View
@@ -12,6 +13,7 @@ module.exports = class CartView extends View
 
   initialize: ->
     super
+    @addToCart = if utils.isLoggedIn() then @model.addToUserCart else @model.addToVirtualCart
     @listenTo @model, 'change', -> @render()
     @model.fetch()
 
