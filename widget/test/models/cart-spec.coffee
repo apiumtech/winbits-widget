@@ -36,3 +36,27 @@ describe 'CartSpec', ->
     expect(request.async).to.be.true
     expect(request.requestHeaders).to.has.property('Wb-Api-Token', 'XXX')
     expect(request.requestHeaders).to.not.include.keys('Wb-VCart')
+
+  it 'should has accessor for computed property cartTotal', ->
+    @model.set(itemsTotal: 100, shippingTotal: 50, bitsTotal: 20)
+
+    cartTotal = @model.cartTotal()
+    expect(@model.accessors).to.contain('cartTotal')
+    expect(cartTotal).to.be.equal(30)
+
+  it.skip 'should has accessor for computed property cartSaving', ->
+    cartSaving = @model.cartSaving()
+    expect(@model.accessors).to.contain('cartSaving')
+
+  it 'should has accessor for computed property cartPercentageSaved', ->
+    @model.set(itemsTotal: 100, shippingTotal: 50, bitsTotal: 20)
+
+    cartPercentageSaved = @model.cartPercentageSaved()
+    expect(@model.accessors).to.contain('cartPercentageSaved')
+    expect(cartPercentageSaved).to.be.equal(70)
+
+  it 'cartPercentageSaved should be zero if no itemsTotal is zero', ->
+    @model.set(itemsTotal: 0)
+
+    cartPercentageSaved = @model.cartPercentageSaved()
+    expect(cartPercentageSaved).to.be.equal(0)

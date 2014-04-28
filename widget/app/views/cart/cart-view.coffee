@@ -14,7 +14,7 @@ module.exports = class CartView extends View
   initialize: ->
     super
     @listenTo @model, 'change', -> @render()
-    @subscribeEvent 'cart-changed', @onCartChanged
+    @subscribeEvent 'cart-changed', -> @onCartChanged.apply(@, arguments)
     @model.fetch()
 
   render: ->
@@ -31,5 +31,4 @@ module.exports = class CartView extends View
     @$('#wbi-cart-info').dropMainMenu()
 
   onCartChanged: (cartData)->
-    console.log ['CART CHANGED']
-    @model.set(cartData)
+    @model.setData(cartData)

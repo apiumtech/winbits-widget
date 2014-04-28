@@ -89,14 +89,12 @@ Handlebars.registerHelper "eachActiveVertical", (options) ->
   else result = options.inverse @
   result
 
-Handlebars.registerHelper "formatCurrency", utils.formatCurrency
+Handlebars.registerHelper "formatCurrency", (value)->
+  value = value() if $.isFunction(value)
+  utils.formatCurrency(value)
 
 Handlebars.registerHelper "getCartSaving", () ->
   utils.formatCurrency(@bitsTotal)
-
-Handlebars.registerHelper "getCartTotal", () ->
-  total = utils.computeCartTotal(@itemsTotal, @shippingTotal, @bitsTotal)
-  utils.formatCurrency(total)
 
 Handlebars.registerHelper "joinAttributes", (mainAttribute, attributes) ->
   attrs = [mainAttribute].concat(attributes)
@@ -107,7 +105,6 @@ Handlebars.registerHelper "eachOption", (min, max, options) ->
   opts = (options.fn(value: x, text: x) for x in [min..max])
   opts.join ''
 
-Handlebars.registerHelper "getCartPercentageSaved", () ->
-  total = utils.computeCartTotal(@itemsTotal, @shippingTotal, @bitsTotal)
-  percentage = if @itemsTotal then (1 - (total / @itemsTotal)) * 100 else 0
-  utils.formatPercentage(percentage)
+Handlebars.registerHelper "formatPercentage", (value) ->
+  value = value() if $.isFunction(value)
+  utils.formatPercentage(value)

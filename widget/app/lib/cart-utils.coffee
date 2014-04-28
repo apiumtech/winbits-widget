@@ -19,6 +19,10 @@ _(cartUtils).extend
       headers:
         'Wb-Api-Token': utils.getApiToken()
     utils.ajaxRequest(@getCartResourceUrl(), @applyDefaultAddToCartRequestDefaults(cartItems, options))
+    .done(@publishCartChangedEvent)
+
+  publishCartChangedEvent: (data) ->
+    EventBroker.publishEvent('cart-changed', data)
 
   addToVirtualCart: (cartItems = {}) ->
     cartItems = @transformCartItems(cartItems)
@@ -29,9 +33,8 @@ _(cartUtils).extend
     .done(@addToVirtualCartSuccess)
 
   addToVirtualCartSuccess: (data) ->
-    cartData = data.response
-    utils.saveVirtualCart(cartData)
-    EventBroker.publishEvent('cart-changed', cartData)
+    utils.saveVirtualCart(data.response)
+    @publishCartChangedEvent(data)
 
   transformCartItems: (cartItems) ->
     (@transformCartItem(x) for x in cartItems)
