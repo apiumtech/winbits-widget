@@ -1,4 +1,3 @@
-
 specs = [
   # './models/header-spec',
   # './views/not-logged-in-view-spec',
@@ -25,6 +24,7 @@ specs = [
   './views/virtual-cart-view-spec'
   './lib/cart-utils-spec'
   './winbits-spec'
+  './lib/utils-spec'
 ]
 
 for spec in specs

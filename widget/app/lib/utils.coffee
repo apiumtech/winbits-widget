@@ -6,6 +6,7 @@ utils = Winbits.Chaplin.utils.beget Chaplin.utils
 $ = Winbits.$
 _ = Winbits._
 mediator = Winbits.Chaplin.mediator
+rpc = Winbits.env.get('rpc')
 
 # _(utils).extend
 #  someMethod: ->
@@ -335,6 +336,15 @@ _(utils).extend
     localStorage['wb-vcart'] or '[]'
 
   saveVirtualCart: (cartData) ->
+    cartItems = (@toCartItem(x) for x in cartData.cartDetails)
+    vcart = JSON.stringify(cartItems)
+    localStorage['wb-vcart'] = vcart
+    rpc.storeVirtualCart(vcart)
+
+  toCartItem: (cartDetail) ->
+    cartItem = {}
+    cartItem[cartDetail.skuProfile.id] = cartDetail.quantity
+    cartItem
 
 # Prevent creating new properties and stuff.
 Object.seal? utils
