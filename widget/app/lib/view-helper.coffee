@@ -1,5 +1,6 @@
 'use strict'
 Handlebars = Winbits.Handlebars
+utils = './utils'
 env = Winbits.env
 $ = Winbits.$
 _ = Winbits._
