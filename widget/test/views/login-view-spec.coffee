@@ -73,7 +73,6 @@ describe 'LoginViewSpec', ->
 
 
   it 'error is shown if request fail', ->
-    xhr = responseText: 'Server error'
     sinon.stub(@model, 'requestLogin').returns TestUtils.promises.rejected
     errorStub = sinon.stub(@view, 'doLoginError')
     @view.$('#wbi-login-in-btn').click()
@@ -81,4 +80,7 @@ describe 'LoginViewSpec', ->
     expect(errorStub).to.be.calledOnce
     expect(@view.$ '#wbi-login-in-btn').to.has.prop 'disabled', no
 
-
+  it 'should publish event facebook-button-event', ->
+    stub = sinon.stub @view, 'publishEvent'
+    @view.$('#wbi-login-facebook-btn').click()
+    expect(stub).to.have.been.calledOnce
