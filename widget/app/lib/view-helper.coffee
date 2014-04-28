@@ -89,7 +89,9 @@ Handlebars.registerHelper "eachActiveVertical", (options) ->
   else result = options.inverse @
   result
 
-Handlebars.registerHelper "formatCurrency", utils.formatCurrency
+Handlebars.registerHelper "formatCurrency", (value)->
+  value = value() if $.isFunction(value)
+  utils.formatCurrency(value)
 
 Handlebars.registerHelper "getCartSaving", () ->
   utils.formatCurrency(@bitsTotal)

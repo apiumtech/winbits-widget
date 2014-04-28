@@ -36,3 +36,10 @@ describe 'CartSpec', ->
     expect(request.async).to.be.true
     expect(request.requestHeaders).to.has.property('Wb-Api-Token', 'XXX')
     expect(request.requestHeaders).to.not.include.keys('Wb-VCart')
+
+  it 'should has accessor for cartTotal', ->
+    @model.set(itemsTotal: 100, shippingTotal: 50, bitsTotal: 20)
+
+    cartTotal = @model.cartTotal()
+
+    expect(cartTotal).to.be.equal(30)
