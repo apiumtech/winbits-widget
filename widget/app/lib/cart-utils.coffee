@@ -2,6 +2,7 @@
 # ------------------------------
 
 utils = require 'lib/utils'
+EventBroker = Chaplin.EventBroker
 $ = Winbits.$
 env = Winbits.env
 _ = Winbits._
@@ -25,7 +26,12 @@ _(cartUtils).extend
       headers:
         'Wb-VCart': utils.getVirtualCart()
     utils.ajaxRequest(@getCartResourceUrl(), @applyDefaultAddToCartRequestDefaults(cartItems, options))
-    .done((data)-> utils.saveVirtualCart(data.response))
+    .done(@addToVirtualCartSuccess)
+
+  addToVirtualCartSuccess: (data) ->
+    cartData = data.response
+    utils.saveVirtualCart(cartData)
+    EventBroker.publishEvent('cart-changed', cartData)
 
   transformCartItems: (cartItems) ->
     (@transformCartItem(x) for x in cartItems)
@@ -40,6 +46,7 @@ _(cartUtils).extend
       type: 'POST'
       dataType: 'json'
       data: JSON.stringify(cartItems: cartItems)
+      context: @
       headers:
         'Accept-Language': 'es'
         'Content-Type': 'application/json;charset=utf-8'

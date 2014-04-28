@@ -76,8 +76,24 @@ describe 'CartViewSpec', ->
     @view.render()
     expect(@view.$ '#wbi-cart-counter').to.has.$text('5')
 
+  it.skip 'should render all subviews along with it', ->
+    cartItemsStub = stubSubviewRender.call(@, 'cart-items')
+    cartTotalsStub = stubSubviewRender.call(@, 'cart-totals')
+    cartBitsStub = stubSubviewRender.call(@, 'cart-bits')
+    cartPaymentMethodsStub = stubSubviewRender.call(@, 'cart-payment-methods')
+
+    @view.render()
+
+    expect(cartItemsStub, 'cart items view not rendered').to.have.been.calledOnce
+    expect(cartTotalsStub, 'cart totals view not rendered').to.have.been.calledOnce
+    expect(cartBitsStub, 'cart bits view not rendered').to.have.been.calledOnce
+    expect(cartPaymentMethodsStub, 'cart payment methods view not rendered').to.have.been.calledOnce
+
   expectCartSubview = (viewSelector, parentId, subviewName) ->
     $subview = @view.$(viewSelector)
     expect($subview).to.exist
     expect($subview.parent()).to.has.id(parentId)
     expect(@view.subview(subviewName)).to.be.ok
+
+  stubSubviewRender = (subview) ->
+    sinon.stub(@view.subview(subview), 'render')

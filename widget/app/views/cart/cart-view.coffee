@@ -4,7 +4,6 @@ CartTotalsView = require 'views/cart/cart-totals-view'
 CartBitsView = require 'views/cart/cart-bits-view'
 CartPaymentMethodsView = require 'views/cart/cart-payment-methods-view'
 utils = require 'lib/utils'
-cartUtils = require 'lib/cart-utils'
 $ = Winbits.$
 
 module.exports = class CartView extends View
@@ -15,6 +14,7 @@ module.exports = class CartView extends View
   initialize: ->
     super
     @listenTo @model, 'change', -> @render()
+    @subscribeEvent 'cart-changed', @onCartChanged
     @model.fetch()
 
   render: ->
@@ -29,3 +29,7 @@ module.exports = class CartView extends View
   attach: ->
     super
     @$('#wbi-cart-info').dropMainMenu()
+
+  onCartChanged: (cartData)->
+    console.log ['CART CHANGED']
+    @model.set(cartData)
