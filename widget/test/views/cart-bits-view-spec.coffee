@@ -6,10 +6,12 @@ describe 'CartBitsViewSpec', ->
 
   beforeEach ->
     @model = new Cart
+    sinon.stub(@model, 'fetch')
     @view = new CartBitsView model: @model
 
   afterEach ->
     @view.dispose()
+    @model.fetch.restore()
     @model.dispose()
 
   it 'should be rendered', ->

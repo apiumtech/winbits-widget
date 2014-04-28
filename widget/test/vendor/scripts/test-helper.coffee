@@ -42,6 +42,15 @@ chai.use (chai, utils) ->
     , "element #{el} is not displayed"
     , "element #{el} is displayed"
 
+  chai.Assertion.addProperty 'promise', () ->
+    if @_obj
+      hasDone = typeof @_obj.done is 'function'
+      hasFail = typeof @_obj.fail is 'function'
+      hasAlways = typeof @_obj.always is 'function'
+    @assert hasDone and hasFail and hasAlways
+    , "is not a promise object"
+    , "is a promise object"
+
 window.TestUtils = {
   promises: {
     resolved: new $.Deferred().resolve().promise()
