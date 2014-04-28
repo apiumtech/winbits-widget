@@ -22,3 +22,6 @@ module.exports = class Model extends Chaplin.Model
   parse: (data) ->
     @meta = data.meta
     data.response
+
+  setData: (data) ->
+    @set(@parse(data))

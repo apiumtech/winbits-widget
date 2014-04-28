@@ -1,5 +1,6 @@
 cartUtils = require 'lib/cart-utils'
 utils = require 'lib/utils'
+EventBroker = Chaplin.EventBroker
 $ = Winbits.$
 
 describe 'CartUtilsSpec', ->
@@ -21,6 +22,7 @@ describe 'CartUtilsSpec', ->
     requests = @requests = []
     @xhr.onCreate = (xhr) -> requests.push(xhr)
     sinon.spy(utils, 'ajaxRequest')
+    sinon.stub(utils, 'saveVirtualCart')
 
   afterEach ->
     @xhr.restore()
@@ -40,18 +42,28 @@ describe 'CartUtilsSpec', ->
     expect(request.requestBody).to.be.equal('{"cartItems":[{"skuProfileId":1,"quantity":2},{"skuProfileId":2,"quantity":3}]}')
 
   it 'should save virtual cart when items successfully added', ->
-    sinon.stub(utils, 'saveVirtualCart')
     cartUtils.addToVirtualCart([id: 1, quantity: 2])
 
-    request = @requests[0]
-    request.respond(201, { "Content-Type": "application/json" }, ADD_TO_CART_SUCCESS_RESPONSE);
+    respondSuccess.call(@)
 
     expect(utils.saveVirtualCart).to.have.been.calledWith(JSON.parse(ADD_TO_CART_SUCCESS_RESPONSE).response)
         .and.to.be.calledOnce
 
+  it 'should trigger "cart-changed" event when items successfully added to virtual cart', ->
+    stub = sinon.stub()
+    EventBroker.subscribeEvent('cart-changed', stub)
+
+    cartUtils.addToVirtualCart([id: 1, quantity: 2])
+
+    respondSuccess.call(@)
+
+    expect(stub).to.have.been.calledWith(JSON.parse(ADD_TO_CART_SUCCESS_RESPONSE))
+        .and.to.be.calledOnce
+
+    EventBroker.unsubscribeEvent('cart-changed', stub)
+
   it 'should request to add items to user cart', ->
-    utils.getApiToken.returns('XXX')
-    utils.isLoggedIn.returns(yes)
+    setLoginContext()
     promise = cartUtils.addToUserCart([{ id: 1, quantity: 2 }, { id: 2, quantity: 3 }])
     expect(promise).to.be.promise
 
@@ -62,3 +74,25 @@ describe 'CartUtilsSpec', ->
     expect(request.requestHeaders).to.has.property('Wb-Api-Token', 'XXX')
     expect(request.requestHeaders).to.has.property('Content-Type', 'application/json;charset=utf-8')
     expect(request.requestBody).to.be.equal('{"cartItems":[{"skuProfileId":1,"quantity":2},{"skuProfileId":2,"quantity":3}]}')
+
+  it 'should trigger "cart-changed" event when items successfully added to cart', ->
+    setLoginContext()
+    stub = sinon.stub()
+    EventBroker.subscribeEvent('cart-changed', stub)
+
+    cartUtils.addToUserCart([id: 1, quantity: 2])
+
+    respondSuccess.call(@)
+
+    expect(stub).to.have.been.calledWith(JSON.parse(ADD_TO_CART_SUCCESS_RESPONSE))
+        .and.to.be.calledOnce
+
+    EventBroker.unsubscribeEvent('cart-changed', stub)
+
+  respondSuccess = () ->
+    request = @requests[0]
+    request.respond(200, { "Content-Type": "application/json" }, ADD_TO_CART_SUCCESS_RESPONSE)
+
+  setLoginContext = () ->
+    utils.getApiToken.returns('XXX')
+    utils.isLoggedIn.returns(yes)
