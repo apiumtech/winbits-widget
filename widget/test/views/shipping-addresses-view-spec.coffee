@@ -46,7 +46,6 @@ describe 'ShippingAddressesViewSpec', ->
 
   it "should request get shipping addresses", ->
     request = @requests[0]
-    request.respond(200, { "Content-Type": "application/json" }, SHIPPING_ADDRESSES_RESPONSE)
     expect(request.method).to.be.equal('GET')
     expect(request.url).to.be.equal(SHIPPING_ADDRESSES_URL)
 
