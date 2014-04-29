@@ -35,6 +35,7 @@ describe 'ShippingAddressesViewSpec', ->
     request.respond(200, { "Content-Type": "application/json" }, "")
     expect(@view.$('.shipCarrusel')).to.exist
     expect(@view.$('#wbi-add-new-shipping-address')).to.exist
+    expect(@view.$('#wbi-shipping-new-address-container')).to.exist
     expect(@view.$('#wbi-no-shipping-addreseses')).to.exist
 
 
@@ -43,6 +44,7 @@ describe 'ShippingAddressesViewSpec', ->
     request.respond(200, { "Content-Type": "application/json" }, SHIPPING_ADDRESSES_RESPONSE)
     expect(@view.$('.shipCarrusel')).to.exist
     expect(@view.$('#wbi-add-new-shipping-address')).to.exist
+    expect(@view.$('#wbi-shipping-new-address-container')).to.exist
     expect(@view.$('div#wbi-shipping-addreseses-container')).to.exist
     .and.has.a.child
 
