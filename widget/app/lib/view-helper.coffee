@@ -96,9 +96,6 @@ Handlebars.registerHelper "formatCurrency", (value)->
 Handlebars.registerHelper "getContactName", () ->
   (this.firstName + ' ' + this.lastName).trim()
 
-Handlebars.registerHelper "getCartSaving", () ->
-  utils.formatCurrency(@bitsTotal)
-
 Handlebars.registerHelper "joinAttributes", (mainAttribute, attributes) ->
   attrs = [mainAttribute].concat(attributes)
   attrs = ("#{x.name}: #{x.label}" for x in attrs)
