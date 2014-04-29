@@ -1,4 +1,4 @@
-    <div id = "wbi-shipping-addresses-view" class="shipCarrusel">
+<div id = "wbi-shipping-addresses-view" class="shipCarrusel">
 
     {{#unless addresses}}
       <div id="wbi-no-shipping-addreseses" class="addInfo"><span class="iconFont-close"></span>No tienes direcciones.</div>
@@ -34,55 +34,8 @@
 
     <div id="wbi-add-new-shipping-address" class="shippingAdd">
         <h3>AGREGAR DIRECCIÓN +</h3>
-        <span class="openClose"  data-showdiv=".shippingNewAddress" data-hidediv=".shipCarrusel">Da click para agregar</span>
+        <span class="openClose">Da click para agregar</span>
     </div>
 
 </div>
-<div id="wbi-shipping-new-address-container" class="shippingNewAddress">
-    <form id="shippingNewAddress" accept-charset="utf-8" action="#" method="post">
-        <div class="column">
-            <h3>NOMBRE</h3>
-            <input type="text" placeholder="Nombre" name="nombre" class="requiredField" data-requiredfield="Nombre Requerido">
-            <input type="text" placeholder="Apellido Paterno" name="apellidop" class="requiredField" data-requiredfield="Requerido">
-            <input type="text" placeholder="Apellido Materno" name="apellidom">
-        </div>
-        <div class="column">
-            <h3>DIRECCIÓN</h3>
-            <textarea placeholder="Calle" name="calle" class="requiredField" data-requiredfield="Requerido"></textarea>
-            <div class="inputNumber">
-                <input type="text" placeholder="# ext" class="requiredField" data-requiredfield="Requerido">
-                <input type="text" placeholder="# int">
-            </div>
-            <textarea placeholder="¿Entre qué calles?" name="entrecalles"></textarea>
-            <textarea placeholder="Referencias para llegar" name="referencias"></textarea>
-        </div>
-        <div class="column noH3">
-            <input type="text" placeholder="Codigo Postal" name="cp">
-            <input type="text" placeholder="Estado" name="estado">
-            <input type="text" placeholder="Delegación o Municipio" name="mpiodel">
-            <input type="text" placeholder="Colonia" name="colonia">
-            <input type="text" placeholder="Teléfono con lada" name="tel">
-        </div>
-        <div class="column columnLarge">
-            <h3>OPCIONES</h3>
-            <input type="checkbox" class="checkbox">
-            <label class="checkboxLabel">Hacer esta mi dirección principal</label>
-            <p class="note">Winbits guarda tu dirección para que puedas utilizarlas siempre que las necesites y tus compras sean mucho más fáciles. </p>
-            <div class="errorDiv"><p>Email no existe, favor de verificarlo</p></div>
-            <div class="submitButton">
-                <span class="btn btnCancel" data-showdiv=".shipCarrusel" data-hidediv=".shippingNewAddress">Cancelar</span>
-                <input type="submit" value="Guardar" class="btn">
-            </div>
-        </div>
-    </form>
-    <div class="thanks-div">
-        <div class="data" style="display: none">
-            <p>Procesando información</p>
-            <div class="loader"></div>
-        </div>
-        <div class="data">
-            <p>Tus datos quedaron guardados</p>
-            <a href="#" class="btn">Cerrar</a>
-        </div>
-    </div>
-</div>
+<div id="wbi-shipping-new-address-container" class="shippingNewAddress"></div>

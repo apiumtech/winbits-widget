@@ -2,6 +2,7 @@
 
 View = require 'views/base/view'
 utils = require 'lib/utils'
+AddNewShippingAddress = require './add-new-shipping-address-view'
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 env = Winbits.env
@@ -12,8 +13,15 @@ module.exports = class ShippingAddressesView extends View
 
   initialize: ->
     super
-    @listenTo @model,  'change', @render
+    @listenTo @model,  'change', -> @render()
     @model.fetch()
+    @delegate 'click', '#wbi-add-new-shipping-address' , @hideCarruselShowForm
+    console.log ["shipping address renderezing"]
+
+  render: ->
+    super
+    newShippingAddressContainer = @$el.find('#wbi-shipping-new-address-container').get(0)
+    @subview 'add-new-shipping-addresses', new AddNewShippingAddress, container: newShippingAddressContainer, model: @model
 
   attach: ->
     super
@@ -37,3 +45,8 @@ module.exports = class ShippingAddressesView extends View
           slideCSS: '.block-slide',
           initialSlide: '.carruselSCC-selected'
     })
+
+  hideCarruselShowForm:(e) ->
+    e.preventDefault()
+    @$('#wbi-shipping-addresses-view').slideUp()
+    @$('#wbi-shipping-new-address-container').slideDown()
