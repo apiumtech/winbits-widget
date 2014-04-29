@@ -9,8 +9,12 @@ _ = Winbits._
 
 cartUtils = {}
 _(cartUtils).extend
-  getCartResourceUrl: ->
-    resource = if utils.isLoggedIn() then 'cart-items.json' else 'virtual-cart-items.json'
+  getCartResourceUrl:(itemId) ->
+    resource
+    if not itemId
+      resource = if utils.isLoggedIn() then 'cart-items.json' else 'virtual-cart-items.json'
+    else
+      resource = if utils.isLoggedIn() then "cart-items/#{itemId}.json" else "virtual-cart-items/#{itemId}.json"
     env.get('api-url') + "/orders/#{resource}"
 
   addToUserCart: (cartItems = {}) ->

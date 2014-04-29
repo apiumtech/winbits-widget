@@ -33,3 +33,19 @@ module.exports = class Cart extends Model
   cartSaving: ->
     # TODO: Implementar algoritmo corecto cuando se defina
     @get 'bitsTotal'
+
+  requestToUpdateCart:(formData,itemId, options) ->
+    defaults =
+      type: "PUT"
+      contentType: "application/json"
+      dataType: "json"
+      data:JSON.stringify(formData)
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token": utils.getApiToken()
+
+    utils.ajaxRequest(
+        cartUtils.getCartResourceUrl(itemId),
+        $.extend(defaults, options)
+    )
+
