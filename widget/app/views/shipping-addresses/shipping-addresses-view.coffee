@@ -15,7 +15,8 @@ module.exports = class ShippingAddressesView extends View
     super
     @listenTo @model,  'change', -> @render()
     @model.fetch()
-    @delegate 'click', '#wbi-add-new-shipping-address' , @hideCarruselShowForm
+    @delegate 'click', '#wbi-add-new-shipping-address' , @showAddNewShipping
+    @delegate 'click', '#wbi-add-shipping-address-cancel', @cancelAddNewShipping
     console.log ["shipping address renderezing"]
 
   render: ->
@@ -46,7 +47,12 @@ module.exports = class ShippingAddressesView extends View
           initialSlide: '.carruselSCC-selected'
     })
 
-  hideCarruselShowForm:(e) ->
+  showAddNewShipping:(e) ->
     e.preventDefault()
     @$('#wbi-shipping-addresses-view').slideUp()
     @$('#wbi-shipping-new-address-container').slideDown()
+
+  cancelAddNewShipping: (e) ->
+    e.preventDefault()
+    @$('#wbi-shipping-addresses-view').slideDown()
+    @$('#wbi-shipping-new-address-container').slideUp()

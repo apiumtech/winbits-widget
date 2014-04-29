@@ -13,7 +13,6 @@ module.exports = class AddNewShippingAddressView extends View
 
   initialize: ->
     super
-    console.log ["add-new shipping address renderezing"]
 
   attach: ->
     super
