@@ -3,7 +3,6 @@
 LoggedInView =  require 'views/logged-in/logged-in-view'
 LoggedInModel = require 'models/logged-in/logged-in'
 utils = require 'lib/utils'
-EventBroker = Chaplin.EventBroker
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 
@@ -21,7 +20,6 @@ describe 'LoggedInViewSpec', ->
 
   afterEach ->
     utils.ajaxRequest.restore?()
-    @view.checkout.restore?()
     @view.dispose()
     mediator.data.clear()
 
@@ -33,17 +31,3 @@ describe 'LoggedInViewSpec', ->
       .and.to.has.text('0')
     expect(@view.$ '#wbi-user-cart').to.exist
     expect(@view.$ 'input#wbi-checkout-btn').to.exist
-
-  it 'should call checkout when checkout button is clicked', ->
-    sinon.stub(@view, 'checkout')
-
-    @view.$('#wbi-checkout-btn').click()
-
-    expect(@view.checkout).to.has.been.calledOnce
-
-  it 'should call checkout when "checkout-requested" event is triggered', ->
-    sinon.stub(@view, 'checkout')
-
-    EventBroker.publishEvent('checkout-requested')
-
-    expect(@view.checkout).to.has.been.calledOnce

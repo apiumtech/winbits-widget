@@ -33,3 +33,6 @@ module.exports = class Cart extends Model
   cartSaving: ->
     # TODO: Implementar algoritmo corecto cuando se defina
     @get 'bitsTotal'
+
+  requestCheckout: ->
+
