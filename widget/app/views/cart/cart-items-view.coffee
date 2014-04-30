@@ -28,31 +28,19 @@ module.exports = class CartItemsView extends View
     isLoggedIn = utils.isLoggedIn()
     if not isLoggedIn
       requestOptions.headers = {"Accept-Language": "es",'wb-vcart':utils.getVirtualCart()}
-    @doCartLoading(isLoggedIn)
+    cartUtils.doCartLoading()
     @model.requestToUpdateCart(data, itemId , requestOptions)
-      .done(@doUpdateItemRequestSuccess)
-      .fail(@doUpdateItemRequestError)
-      .always ->
-        $('#wbi-cart-info').click()
+    .done(@doUpdateItemRequestSuccess)
+    .fail(@doUpdateItemRequestError)
 
   doUpdateItemRequestSuccess: (data) ->
+    $.fancybox.close()
     if not utils.isLoggedIn()
       cartUtils.addToVirtualCartSuccess(data)
     else
       cartUtils.publishCartChangedEvent(data)
-
+    $('#wbi-cart-info').click()
 
   doUpdateItemRequestError: (xhr, textStatus)->
-    error = utils.safeParse(xhr.responseText)
-    messageText = "Error actualizando el registro #{textStatus}"
-    message = if error then error.meta.message else messageText
-    options = value: "Cerrar", title:'Error', onClosed: utils.redirectToLoggedInHome()
-    utils.showMessageModal(message, options)
-
-  doCartLoading: (isLoggedIn)->
-    message = "<div class='wbc-loader'/>"
-    options = icon:'iconFont-clock2',title:'Actualizando carrito ...', onClosed: utils.redirectToNotLoggedInHome()
-    if (isLoggedIn)
-      options.onClosed =  utils.redirectToLoggedInHome()
-    console.log ['options', options]
-    utils.showOnlyMessageModal(message, options)
+    @render()
+    cartUtils.showCartErrorMessage(xhr, textStatus)

@@ -24,6 +24,7 @@ _(cartUtils).extend
         'Wb-Api-Token': utils.getApiToken()
     utils.ajaxRequest(@getCartResourceUrl(), @applyDefaultAddToCartRequestDefaults(cartItems, options))
     .done(@publishCartChangedEvent)
+    .fail(@showCartErrorMessage)
 
   publishCartChangedEvent: (data) ->
     EventBroker.publishEvent('cart-changed', data)
@@ -35,6 +36,7 @@ _(cartUtils).extend
         'Wb-VCart': utils.getVirtualCart()
     utils.ajaxRequest(@getCartResourceUrl(), @applyDefaultAddToCartRequestDefaults(cartItems, options))
     .done(@addToVirtualCartSuccess)
+    .fail(@showCartErrorMessage)
 
   addToVirtualCartSuccess: (data) ->
     utils.saveVirtualCart(data.response)
@@ -47,6 +49,18 @@ _(cartUtils).extend
     skuProfileId: cartItem.id
     quantity: cartItem.quantity
     bits: cartItem.bits
+
+  showCartErrorMessage: (xhr, textStatus)->
+    error = utils.safeParse(xhr.responseText)
+    messageText = "Error actualizando el registro #{textStatus}"
+    message = if error then error.meta.message else messageText
+    options = icon:'iconFont-candado', value: "Cerrar", title:'Error'
+    utils.showMessageModal(message, options)
+
+  doCartLoading: ->
+    message = "<div class='wbc-loader'/>"
+    options = icon:'iconFont-clock2',title:'Actualizando carrito ...'
+    utils.showOnlyMessageModal(message, options)
 
   applyDefaultAddToCartRequestDefaults: (cartItems, options = {}) ->
     defaults =
