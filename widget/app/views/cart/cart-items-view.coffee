@@ -1,6 +1,8 @@
+'use strict'
 View = require 'views/base/view'
 $ = Winbits.$
 utils = require 'lib/utils'
+cartUtils = require 'lib/cart-utils'
 
 module.exports = class CartItemsView extends View
   container: '#wbi-cart-left-panel'
@@ -32,13 +34,20 @@ module.exports = class CartItemsView extends View
     @model.requestToUpdateCart(data, itemId , requestOptions)
       .done(@doUpdateItemRequestSuccess)
       .fail(@doUpdateItemRequestError)
-#    reject
-#    always
+      .always ->
+        $('#wbi-cart-info').click()
 
   doUpdateItemRequestSuccess: (data) ->
-    console.log ['success', data]
+    if not utils.isLoggedIn()
+      cartUtils.addToVirtualCartSuccess(data)
+    else
+      cartUtils.publishCartChangedEvent(data)
 
-  doUpdateItemRequestError: (xhr) ->
-    console.log ['error', xhr]
 
+  doUpdateItemRequestError: (xhr, textStatus)->
+    error = utils.safeParse(xhr.responseText)
+    messageText = "Error actualizando el registro #{textStatus}"
+    message = if error then error.meta.message else messageText
+    options = value: "Cerrar", title:'Error', onClosed: utils.redirectToLoggedInHome()
+    utils.showMessageModal(message, options)
 
