@@ -279,11 +279,11 @@ _(utils).extend
     catch e
       meta: message: 'El servidor no está disponible, por favor inténtalo más tarde.', status: 500
 
-  showMessageModal: (message, options)->
+  showMessageModal: (message, options, modalSelector = '#wbi-alert-modal')->
     options ?= {}
-    modalSelector = '#wbi-alert-modal'
     $modal = $(modalSelector)
     options.value ?= 'Ok'
+    options.cancelValue ?= 'Cancel'
     options.context ?= @
     options.onClosed ?= $.noop
     options.title ?= 'Confirma'
@@ -295,28 +295,16 @@ _(utils).extend
     onClosed = $.proxy(options.onClosed, options.context)
     $(".wbc-modal-message", $modal).html(message)
     $(".wbc-default-action", $modal).val options.value
+    $(".wbc-cancel-action", $modal).val options.cancelValue
     $(".wbc-modal-title", $modal).html(options.title)
     $(".wbc-modal-icon", $modal).html("<span class='#{options.icon}'></span>")
     $('<a>').wbfancybox(padding: 10, href: modalSelector, onClosed: onClosed).click()
 
-  showOnlyMessageModal: (message, options)->
-    options ?= {}
-    modalSelector = '#wbi-message-modal'
-    $modal = $(modalSelector)
-    options.context ?= @
-    options.onClosed ?= $.noop
-    options.title ?= 'Confirma'
-    options.icon ?="icontFont-question"
-    #    onStart = $.proxy(options.onStart or $.noop, context)
-    #    onCancel = $.proxy(options.onCancel or $.noop, context)
-    #    onComplete = $.proxy(options.onComplete or $.noop, context)
-    #    onCleanup = $.proxy(options.onCleanup or $.noop, context)
-    onClosed = $.proxy(options.onClosed, options.context)
-    $(".wbc-modal-message", $modal).html(message)
-    $(".wbc-modal-title", $modal).html(options.title)
-    $(".wbc-modal-icon", $modal).html("<span class='#{options.icon}'></span>")
-    $('<a>').wbfancybox(padding: 10, href: modalSelector, onClosed: onClosed).click()
-
+  showLoadingMessage: (message, options)->
+    defaults = icon:'iconFont-clock2',title:message
+    options = $.extend(defaults, options)
+    divLoader = "<div class='wbc-loader'></div>"
+    @showMessageModal(divLoader, options, '#wbi-message-modal')
 
   ajaxRequest: Winbits.ajaxRequest
 

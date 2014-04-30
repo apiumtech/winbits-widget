@@ -58,9 +58,8 @@ _(cartUtils).extend
     utils.showMessageModal(message, options)
 
   doCartLoading: ->
-    message = "<div class='wbc-loader'/>"
-    options = icon:'iconFont-clock2',title:'Actualizando carrito ...'
-    utils.showOnlyMessageModal(message, options)
+    message = "Actualizando carrito ..."
+    utils.showLoadingMessage(message)
 
   applyDefaultAddToCartRequestDefaults: (cartItems, options = {}) ->
     defaults =

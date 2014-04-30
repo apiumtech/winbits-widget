@@ -104,12 +104,12 @@ describe 'CartItemsViewSpec', ->
     expect(customSelectSpy).to.have.been.calledOnce
     expect(customSelectSpy.firstCall.returnValue).to.has.property('length', 3)
 
-  it.skip 'should render item price', ->
+  it 'should render item price', ->
     $cartItem = @view.$('#wbi-cart-items-list').children().eq(0)
 
     expect($cartItem.find '.wbc-item-price').to.has.$text('$200')
 
-  it.skip 'should render cart item vertical info', ->
+  it 'should render cart item vertical info', ->
     $cartItem = @view.$('#wbi-cart-items-list').children().eq(0)
 
     expect($cartItem.find '.wbc-item-vertical-logo').to.has.$class('vertical1')
