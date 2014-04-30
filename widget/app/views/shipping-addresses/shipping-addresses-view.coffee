@@ -17,6 +17,7 @@ module.exports = class ShippingAddressesView extends View
     @model.fetch()
     @delegate 'click', '#wbi-add-new-shipping-address' , @showAddNewShipping
     @delegate 'click', '#wbi-add-shipping-address-cancel', @cancelAddNewShipping
+    @delegate 'click', '#wbi-shipping-address-done-btn', @cancelAddNewShipping
     console.log ["shipping address renderezing"]
 
   render: ->
@@ -56,3 +57,6 @@ module.exports = class ShippingAddressesView extends View
     e.preventDefault()
     @$('#wbi-shipping-addresses-view').slideDown()
     @$('#wbi-shipping-new-address-container').slideUp()
+    if not @$('.thanks-div').is(':hidden')
+      @$('#wbi-shipping-thanks-div').slideUp()
+

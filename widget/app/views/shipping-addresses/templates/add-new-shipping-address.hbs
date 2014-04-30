@@ -1,46 +1,47 @@
-<form id="shippingNewAddress" accept-charset="utf-8">
+<form id="wbi-shipping-new-address-form">
         <div class="column">
             <h3>NOMBRE</h3>
-            <input type="text" placeholder="Nombre" name="nombre" class="requiredField" data-requiredfield="Nombre Requerido">
-            <input type="text" placeholder="Apellido Paterno" name="apellidop" class="requiredField" data-requiredfield="Requerido">
-            <input type="text" placeholder="Apellido Materno" name="apellidom">
+            <input type="text" placeholder="Nombre" name="firstName">
+            <input type="text" placeholder="Apellido Paterno" name="lastName">
+            <input type="text" placeholder="Apellido Materno" name="lastName2">
         </div>
         <div class="column">
             <h3>DIRECCIÓN</h3>
-            <textarea placeholder="Calle" name="calle" class="requiredField" data-requiredfield="Requerido"></textarea>
+            <textarea placeholder="Calle" name="street"></textarea>
             <div class="inputNumber">
-                <input type="text" placeholder="# ext" class="requiredField" data-requiredfield="Requerido">
-                <input type="text" placeholder="# int">
+                <input name="externalNumber" maxlength="5" type="text" placeholder="# ext">
+                <input name="internalNumber" maxlength="5" type="text" placeholder="# int">
             </div>
-            <textarea placeholder="¿Entre qué calles?" name="entrecalles"></textarea>
-            <textarea placeholder="Referencias para llegar" name="referencias"></textarea>
+            <textarea name="indications" maxlength="35" placeholder="¿Entre qué calles?" name="entrecalles"></textarea>
+            <textarea name="betweenStreets" maxlength="35" placeholder="Referencias para llegar" name="referencias"></textarea>
         </div>
         <div class="column noH3">
-            <input type="text" placeholder="Codigo Postal" name="cp">
-            <input type="text" placeholder="Estado" name="estado">
-            <input type="text" placeholder="Delegación o Municipio" name="mpiodel">
-            <input type="text" placeholder="Colonia" name="colonia">
-            <input type="text" placeholder="Teléfono con lada" name="tel">
+            <input type="text" placeholder="Codigo Postal" maxlength="5" name="zipCode" class="zipCode" >
+            <input type="text" placeholder="Estado" name="state">
+            <input type="text" placeholder="Delegación o Municipio" name="county">
+            <input type="text" placeholder="Colonia" name="location">
+            <input type="text" placeholder="Teléfono con lada" maxlength="15" name="phone">
         </div>
         <div class="column columnLarge">
             <h3>OPCIONES</h3>
             <input type="checkbox" class="checkbox">
             <label class="checkboxLabel">Hacer esta mi dirección principal</label>
             <p class="note">Winbits guarda tu dirección para que puedas utilizarlas siempre que las necesites y tus compras sean mucho más fáciles. </p>
-            <div class="errorDiv" style="display: none"><p>Email no existe, favor de verificarlo</p></div>
+            <div class="errorDiv" style="display: none"><p></p></div>
             <div class="submitButton">
                 <span id="wbi-add-shipping-address-cancel" class="btn btnCancel">Cancelar</span>
-                <input value="Guardar" class="btn">
+                <input id="wbi-add-shipping-address-submit-btn" value="Guardar" class="btn">
             </div>
         </div>
 </form>
-<div class="thanks-div">
-    <div class="data" style="display: none">
+
+<div id="wbi-shipping-thanks-div" class="thanks-div">
+    <div id="wbi-shipping-address-process" class="data" style="display: block">
          <p>Procesando información</p>
          <div class="loader"></div>
     </div>
-    <div class="data">
+    <div id="wbi-shipping-address-done" class="data" style="display: none">
          <p>Tus datos quedaron guardados</p>
-         <a href="#" class="btn">Cerrar</a>
+         <a id="wbi-shipping-address-done-btn" class="btn">Cerrar</a>
     </div>
 </div>
