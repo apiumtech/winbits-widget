@@ -1,27 +1,27 @@
 <form id="wbi-shipping-new-address-form">
         <div class="column">
             <h3>NOMBRE</h3>
-            <input type="text" placeholder="Nombre" name="firstName">
-            <input type="text" placeholder="Apellido Paterno" name="lastName">
+            <input type="text" placeholder="Nombre" name="firstName" class="requiredField" data-requiredfield="Nombre Requerido">
+            <input type="text" placeholder="Apellido Paterno" name="lastName" class="requiredField" data-requiredfield="Apellido Paterno Requerido">
             <input type="text" placeholder="Apellido Materno" name="lastName2">
         </div>
         <div class="column">
             <h3>DIRECCIÓN</h3>
-            <textarea placeholder="Calle" name="street"></textarea>
+            <textarea placeholder="Calle" name="street" class="requiredField" data-requiredfield="Requerido"></textarea>
             <div class="inputNumber">
-                <input name="externalNumber" maxlength="5" type="text" placeholder="# ext">
+                <input name="externalNumber" maxlength="5" type="text" placeholder="# ext" class="requiredField" data-requiredfield="Numero Externo Requerido" >
                 <input name="internalNumber" maxlength="5" type="text" placeholder="# int">
             </div>
-            <textarea name="indications" maxlength="35" placeholder="¿Entre qué calles?" name="entrecalles"></textarea>
-            <textarea name="betweenStreets" maxlength="35" placeholder="Referencias para llegar" name="referencias"></textarea>
+            <textarea name="indications" maxlength="35" placeholder="¿Entre qué calles?/Referencias para llegar" class="requiredField" data-requiredfield="Requerido"></textarea>
         </div>
         <div class="column noH3">
-            <input type="text" placeholder="Codigo Postal" maxlength="5" name="zipCode" class="zipCode" >
-            <input type="text" placeholder="Estado" name="state">
-            <input type="text" placeholder="Delegación o Municipio" name="county">
-            <input type="text" placeholder="Colonia" name="location">
-            <input type="text" placeholder="Teléfono con lada" maxlength="15" name="phone">
-        </div>
+            <input type="text" placeholder="Codigo Postal" name="zipCode" class="requiredField" data-requiredfield="Codigo Postal Requerido">
+            <input type="text" placeholder="Estado" name="state" class="requiredField" data-requiredfield="Requerido">
+            <input type="text" placeholder="Delegación o Municipio" name="city" class="requiredField" data-requiredfield="Requerido">
+            <select name="zipCodeInfo" class="select requiredField" data-requiredfield="Requerido" data-clase="selectRegister" data-inputselect="true">
+            </select>
+        <input type="text" placeholder="Teléfono con lada" name="phone" class="requiredField" data-requiredfield="Requerido">
+    </div>
         <div class="column columnLarge">
             <h3>OPCIONES</h3>
             <input type="checkbox" class="checkbox">

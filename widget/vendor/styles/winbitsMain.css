@@ -3652,6 +3652,9 @@ span.errorInputOK {
     top: 7px;
     right: -13px;
 }
+.referenceText {
+    height: 80px;
+}
 main {
     margin: 130px auto 0 auto;
 }

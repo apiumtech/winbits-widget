@@ -17,15 +17,17 @@ module.exports = class AddNewShippingAddressView extends View
 
   attach: ->
     super
+    @$('.requiredField').requiredField()
+    @$('[name=zipCodeInfo]').wblocationselect()
     @$('#wbi-shipping-new-address-form').validate
       errorElement: 'span',
       errorPlacement: ($error, $element) ->
         if $element.attr("name") in ["externalNumber"]
+          $error.appendTo $element.parent().parent()
+        else if $element.attr("name") in ["zipCodeInfo"]
           $error.appendTo $element.parent()
         else
           $error.insertAfter $element
-      groups:
-        locationNumber: ' externalNumber internalNumber '
       rules:
         firstName:
           required: yes
@@ -36,6 +38,7 @@ module.exports = class AddNewShippingAddressView extends View
         street:
           required: yes
         zipCode:
+          required: yes
           minlength:5
           digits:yes
           zipCodeDoesNotExist:yes
@@ -49,6 +52,13 @@ module.exports = class AddNewShippingAddressView extends View
           required: yes
         externalNumber:
           required: yes
+        state:
+          required: yes
+        city:
+          required: yes
+        zipCodeInfo:
+          required: yes
+          wbiSelectInfo: yes
 
   doSaveShippingAddress:(e)->
     e.preventDefault()
