@@ -3,6 +3,7 @@
 LoggedInView =  require 'views/logged-in/logged-in-view'
 LoggedInModel = require 'models/logged-in/logged-in'
 utils = require 'lib/utils'
+EventBroker = Chaplin.EventBroker
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 
@@ -37,5 +38,12 @@ describe 'LoggedInViewSpec', ->
     sinon.stub(@view, 'checkout')
 
     @view.$('#wbi-checkout-btn').click()
+
+    expect(@view.checkout).to.has.been.calledOnce
+
+  it 'should call checkout when "checkout-requested" event is triggered', ->
+    sinon.stub(@view, 'checkout')
+
+    EventBroker.publishEvent('checkout-requested')
 
     expect(@view.checkout).to.has.been.calledOnce

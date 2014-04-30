@@ -15,7 +15,8 @@ module.exports = class LoggedInView extends View
   initialize: ->
     super
     @listenTo @model, 'change', @render
-    @delegate 'click', '#wbi-checkout-btn', -> @checkout()
+    @delegate 'click', '#wbi-checkout-btn', -> @checkout.apply(@, arguments)
+    @subscribeEvent 'checkout-requested', -> @checkout.apply(@, arguments)
 
   attach: ->
     super
