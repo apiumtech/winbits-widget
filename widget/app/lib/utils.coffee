@@ -281,7 +281,7 @@ _(utils).extend
 
   showMessageModal: (message, options)->
     options ?= {}
-    modalSelector = '#wbi-message-modal'
+    modalSelector = '#wbi-alert-modal'
     $modal = $(modalSelector)
     options.value ?= 'Ok'
     options.context ?= @
@@ -298,6 +298,25 @@ _(utils).extend
     $(".wbc-modal-title", $modal).html(options.title)
     $(".wbc-modal-icon", $modal).html("<span class='#{options.icon}'></span>")
     $('<a>').wbfancybox(padding: 10, href: modalSelector, onClosed: onClosed).click()
+
+  showOnlyMessageModal: (message, options)->
+    options ?= {}
+    modalSelector = '#wbi-message-modal'
+    $modal = $(modalSelector)
+    options.context ?= @
+    options.onClosed ?= $.noop
+    options.title ?= 'Confirma'
+    options.icon ?="icontFont-question"
+    #    onStart = $.proxy(options.onStart or $.noop, context)
+    #    onCancel = $.proxy(options.onCancel or $.noop, context)
+    #    onComplete = $.proxy(options.onComplete or $.noop, context)
+    #    onCleanup = $.proxy(options.onCleanup or $.noop, context)
+    onClosed = $.proxy(options.onClosed, options.context)
+    $(".wbc-modal-message", $modal).html(message)
+    $(".wbc-modal-title", $modal).html(options.title)
+    $(".wbc-modal-icon", $modal).html("<span class='#{options.icon}'></span>")
+    $('<a>').wbfancybox(padding: 10, href: modalSelector, onClosed: onClosed).click()
+
 
   ajaxRequest: Winbits.ajaxRequest
 

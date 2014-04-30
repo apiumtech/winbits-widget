@@ -25,12 +25,10 @@ module.exports = class CartItemsView extends View
     itemId = quantity.closest("li").data("id")
     data = "quantity": quantity.val(), bits : 0
     requestOptions = context:@
-    if not utils.isLoggedIn()
+    isLoggedIn = utils.isLoggedIn()
+    if not isLoggedIn
       requestOptions.headers = {"Accept-Language": "es",'wb-vcart':utils.getVirtualCart()}
-
-    console.log  ['item Id ', itemId, 'data', data]
-#    generar fancy-loading
-#    enviar la peticion
+    @doCartLoading(isLoggedIn)
     @model.requestToUpdateCart(data, itemId , requestOptions)
       .done(@doUpdateItemRequestSuccess)
       .fail(@doUpdateItemRequestError)
@@ -51,3 +49,10 @@ module.exports = class CartItemsView extends View
     options = value: "Cerrar", title:'Error', onClosed: utils.redirectToLoggedInHome()
     utils.showMessageModal(message, options)
 
+  doCartLoading: (isLoggedIn)->
+    message = "<div class='wbc-loader'/>"
+    options = icon:'iconFont-clock2',title:'Actualizando carrito ...', onClosed: utils.redirectToNotLoggedInHome()
+    if (isLoggedIn)
+      options.onClosed =  utils.redirectToLoggedInHome()
+    console.log ['options', options]
+    utils.showOnlyMessageModal(message, options)
