@@ -15,9 +15,13 @@ module.exports = class LoggedInView extends View
   initialize: ->
     super
     @listenTo @model, 'change', @render
+    @delegate 'click', '#wbi-checkout-btn', -> @checkout()
 
   attach: ->
     super
     @$('#wbi-my-account-link').one('click', ->
       mediator.data.set('tabs-swapped', yes)
     )
+
+  checkout: ->
+    console.log('CHECKOUT')

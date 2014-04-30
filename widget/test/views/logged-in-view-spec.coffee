@@ -1,3 +1,5 @@
+'use strict'
+
 LoggedInView =  require 'views/logged-in/logged-in-view'
 LoggedInModel = require 'models/logged-in/logged-in'
 utils = require 'lib/utils'
@@ -6,13 +8,6 @@ $ = Winbits.$
 
 
 describe 'LoggedInViewSpec', ->
-  'use strict'
-
-  before ->
-    $.validator.setDefaults ignore: []
-
-  after ->
-    $.validator.setDefaults ignore: ':hidden'
 
   beforeEach ->
     @loginData =
@@ -25,6 +20,7 @@ describe 'LoggedInViewSpec', ->
 
   afterEach ->
     utils.ajaxRequest.restore?()
+    @view.checkout.restore?()
     @view.dispose()
     mediator.data.clear()
 
@@ -37,18 +33,9 @@ describe 'LoggedInViewSpec', ->
     expect(@view.$ '#wbi-user-cart').to.exist
     expect(@view.$ 'input#wbi-checkout-btn').to.exist
 
-#  it.skip 'do logout when clicked button', ->
-#    sinon.stub(@model, 'requestLogout').returns TestUtils.promises.resolved
-#    successStub = sinon.stub(@view, 'doLogoutSuccess')
-#    @view.$('#wbi-my-account-logout-btn').click()
-#
-#    expect(successStub).to.be.calledOnce
-#
-#  it.skip 'do not logout when clicked button and apiToken does not exist', ->
-#    sinon.stub(@model, 'requestLogout').returns TestUtils.promises.rejected
-#    errorStub = sinon.stub(@view, 'doLogoutError')
-#    @view.$('#wbi-my-account-logout-btn').click()
-#
-#    expect(errorStub).to.be.calledOnce
+  it 'should call checkout when checkout button is clicked', ->
+    sinon.stub(@view, 'checkout')
 
+    @view.$('#wbi-checkout-btn').click()
 
+    expect(@view.checkout).to.has.been.calledOnce
