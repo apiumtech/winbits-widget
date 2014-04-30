@@ -15,12 +15,11 @@
             <textarea name="indications" maxlength="35" placeholder="¿Entre qué calles?/Referencias para llegar" class="requiredField" data-requiredfield="Requerido"></textarea>
         </div>
         <div class="column noH3">
-            <input type="text" placeholder="Codigo Postal" name="zipCode" class="requiredField" data-requiredfield="Codigo Postal Requerido">
-            <input type="text" placeholder="Estado" name="state" class="requiredField" data-requiredfield="Requerido">
-            <input type="text" placeholder="Delegación o Municipio" name="city" class="requiredField" data-requiredfield="Requerido">
-            <select name="zipCodeInfo" class="select requiredField" data-requiredfield="Requerido" data-clase="selectRegister" data-inputselect="true">
-            </select>
-        <input type="text" placeholder="Teléfono con lada" name="phone" class="requiredField" data-requiredfield="Requerido">
+            <input type="text"  placeholder="Codigo Postal" name="zipCode" class="requiredField" data-requiredfield="Codigo Postal Requerido" maxlength="5">
+            <input type="text" placeholder="Estado" name="state" class="requiredField" data-requiredfield="Requerido" disabled="disabled" readonly="readonly">
+            <input type="text" placeholder="Delegación o Municipio" name="city" class="requiredField" data-requiredfield="Requerido" disabled="disabled" readonly="readonly">
+            <select id="wbi-shipping-address-zip-code-info" name="zipCodeInfo" class="select requiredField" data-requiredfield="Requerido" data-clase="selectRegister" data-inputselect="true"></select>
+        <input type="text" placeholder="Teléfono con lada" name="phone" class="requiredField" data-requiredfield="Requerido" maxlength="15">
     </div>
         <div class="column columnLarge">
             <h3>OPCIONES</h3>

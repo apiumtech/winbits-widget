@@ -18,7 +18,6 @@ module.exports = class ShippingAddressesView extends View
     @delegate 'click', '#wbi-add-new-shipping-address' , @showAddNewShipping
     @delegate 'click', '#wbi-add-shipping-address-cancel', @cancelAddNewShipping
     @delegate 'click', '#wbi-shipping-address-done-btn', @cancelAddNewShipping
-    console.log ["shipping address renderezing"]
 
   render: ->
     super

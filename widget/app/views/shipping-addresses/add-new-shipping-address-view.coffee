@@ -13,12 +13,13 @@ module.exports = class AddNewShippingAddressView extends View
 
   initialize: ->
     super
+#    @delegate 'change', 'select#wbi-shipping-address-zip-code-info', @setCityAndState
     @delegate 'click', '#wbi-add-shipping-address-submit-btn', @doSaveShippingAddress
 
   attach: ->
     super
     @$('.requiredField').requiredField()
-    @$('[name=zipCodeInfo]').wblocationselect()
+    @$('[name=zipCodeInfo]').wblocationselect().on "change", $.proxy @setCityAndState, @
     @$('#wbi-shipping-new-address-form').validate
       errorElement: 'span',
       errorPlacement: ($error, $element) ->
@@ -65,3 +66,9 @@ module.exports = class AddNewShippingAddressView extends View
     $form =  @$el.find("#wbi-shipping-new-address-form")
     if($form.valid())
        @$('#wbi-shipping-thanks-div').show()
+
+  setCityAndState: () ->
+     value = @$('select#wbi-shipping-address-zip-code-info').wblocationselect('value')
+     @$('[name="city"]').val(value.city)
+     @$('[name="state"]').val(value.state)
+     console.log ["Value", value]
