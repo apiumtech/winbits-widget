@@ -86,3 +86,4 @@ module.exports = class PersonalDataView extends View
     message = if error then error.meta.message else messageText
     options = value: "Cerrar", title:'Error', onClosed: utils.redirectToLoggedInHome()
     utils.showMessageModal(message, options)
+
