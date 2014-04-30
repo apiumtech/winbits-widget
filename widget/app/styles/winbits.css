@@ -27,3 +27,17 @@ label.error {
   display: block;
 }
 
+.wbc-loader {
+  background: #000000 url("../../images/misc/fancybox_loading.gif");
+  border: 10px solid #000000;
+  margin: 10px auto;
+  -webkit-border-radius: 10px;
+  -khtml-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+  height: 24px;
+  width: 24px;
+}
+
