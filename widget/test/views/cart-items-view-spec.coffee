@@ -104,8 +104,19 @@ describe 'CartItemsViewSpec', ->
     expect(customSelectSpy).to.have.been.calledOnce
     expect(customSelectSpy.firstCall.returnValue).to.has.property('length', 3)
 
+  it.skip 'should render item price', ->
+    $cartItem = @view.$('#wbi-cart-items-list').children().eq(0)
+
+    expect($cartItem.find '.wbc-item-price').to.has.$text('$200')
+
+  it.skip 'should render cart item vertical info', ->
+    $cartItem = @view.$('#wbi-cart-items-list').children().eq(0)
+
+    expect($cartItem.find '.wbc-item-vertical-logo').to.has.$class('vertical1')
+        .and.to.has.$attr('title', 'Vertical 1')
+
   generateCartDetail = (id) ->
-    vertical = name: "Vertical #{id}", logo: "//cdn.winbits.com/vertical-#{id}.jpg"
+    vertical = id: 1, name: "Vertical #{id}", logo: "//cdn.winbits.com/vertical-#{id}.jpg"
     colorLabel = ['Blanco', 'Negro', 'Rojo'][id] or 'Verde'
     colorValue = ['#fff', '#000', '#f00'][id] or '#0f0'
     size = ['C', 'M', 'G'][id] or 'XG'
