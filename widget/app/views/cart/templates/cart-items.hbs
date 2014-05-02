@@ -13,8 +13,8 @@
                 <option value="{{value}}" {{#compare value ../quantity}}selected{{/compare}}>{{text}}</option>
                 {{/eachOption}}
             </select>
-            <p class="priceItem wbc-item-price">$350.00</p>
-            <span class="iconVertical-t vertical2 wbc-item-vertical-logo" title="My LOOQ"></span>
+            <p class="priceItem wbc-item-price">${{getItemTotalPrice quantity skuProfile.fullPrice}}</p>
+            <span class="iconVertical-t vertical{{skuProfile.vertical.id}} wbc-item-vertical-logo" title="{{skuProfile.vertical.name}}"></span>
             <a href="#" class="iconFont-close wbc-item-delete-link" title="Eliminar"></a>
         </li>
         {{/each}}
