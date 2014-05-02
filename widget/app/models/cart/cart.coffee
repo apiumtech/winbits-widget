@@ -34,5 +34,12 @@ module.exports = class Cart extends Model
     # TODO: Implementar algoritmo corecto cuando se defina
     @get 'bitsTotal'
 
-  requestCheckout: ->
-
+  requestCheckout: (options)->
+    defaults =
+      type: 'POST'
+      headers:
+        'Wb-Api-Token': utils.getApiToken()
+      data: JSON.stringify(verticalId: utils.getCurrentVerticalId())
+    ajaxOptions = utils.setupAjaxOptions(options, defaults)
+    url = utils.getResourceURL('orders/checkout-json')
+    utils.ajaxRequest(url, ajaxOptions)

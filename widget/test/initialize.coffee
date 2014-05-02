@@ -22,7 +22,7 @@ specs = [
   # './views/cart-bits-view-spec',
   './views/cart-payment-methods-view-spec',
   # './models/virtual-cart-spec',
-  # './models/cart-spec',
+  './models/cart-spec',
   # './views/virtual-cart-view-spec',
   # './lib/cart-utils-spec',
   # './winbits-spec',

@@ -1,3 +1,5 @@
+'use strict'
+
 Cart = require 'models/cart/cart'
 utils = require 'lib/utils'
 $ = Winbits.$
@@ -9,10 +11,12 @@ describe 'CartSpec', ->
   before ->
     sinon.stub(utils, 'getApiToken').returns('XXX')
     sinon.stub(utils, 'isLoggedIn').returns(yes)
+    sinon.stub(utils, 'getCurrentVerticalId').returns(1)
 
   after ->
     utils.getApiToken.restore()
     utils.isLoggedIn.restore()
+    utils.getCurrentVerticalId.restore()
 
   beforeEach ->
     @xhr = sinon.useFakeXMLHttpRequest()
@@ -21,6 +25,7 @@ describe 'CartSpec', ->
     @model = new Cart
 
   afterEach ->
+    utils.ajaxRequest.restore?()
     @model.dispose()
     @xhr.restore()
 
@@ -60,3 +65,15 @@ describe 'CartSpec', ->
 
     cartPercentageSaved = @model.cartPercentageSaved()
     expect(cartPercentageSaved).to.be.equal(0)
+
+  it 'requestCheckout should request checkout service with correct options', ->
+    sinon.stub(utils, 'ajaxRequest')
+
+    @model.requestCheckout()
+    expect(utils.ajaxRequest).to.has.been.calledWithMatch(new RegExp('/orders/checkout\.json$'))
+        .and.to.has.been.calledOnce
+    ajaxOptions = utils.ajaxRequest.firstCall.args[1]
+    expect(ajaxOptions).to.be.an('object')
+        .and.to.has.property('type', 'POST')
+    expect(ajaxOptions).to.has.property('headers').eql('Wb-Api-Token': 'XXX')
+    expect(ajaxOptions).to.has.property('data', '{"verticalId":1}')

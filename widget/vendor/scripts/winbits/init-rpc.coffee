@@ -20,7 +20,10 @@
     if $.isPlainObject(url)
       options = url
       url = options.url
-    options = options or {}
+    defaultOptions =  dataType: 'json'
+    defaultHeaders = 'Accept-Language': 'es', 'Content-Type': 'application/json'
+    options = $.extend(defaultOptions, options)
+    options.headers = $.extend(defaultHeaders, options.headers)
     if ($.browser.msie and not /10.*/.test($.browser.version))
       context = options.context or @
       deferred = new $.Deferred()
