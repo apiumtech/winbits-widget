@@ -38,11 +38,6 @@ module.exports = class AddNewShippingAddressView extends View
           minlength: 2
         street:
           required: yes
-        zipCode:
-          required: yes
-          minlength:5
-          digits:yes
-          zipCodeDoesNotExist:yes
         phone:
           required: yes
           wbiPhone:yes
@@ -57,18 +52,38 @@ module.exports = class AddNewShippingAddressView extends View
           required: yes
         city:
           required: yes
+        zipCode:
+          minlength:5
+          digits:yes
+          required: yes
+          zipCodeDoesNotExist:yes
         zipCodeInfo:
           required: yes
           wbiSelectInfo: yes
+        location:
+          wbiLocation: yes
 
   doSaveShippingAddress:(e)->
     e.preventDefault()
     $form =  @$el.find("#wbi-shipping-new-address-form")
+    data = utils.serializeForm $form
     if($form.valid())
+       console.log ["serialize form data", data]
        @$('#wbi-shipping-thanks-div').show()
 
+
   setCityAndState: () ->
-     value = @$('select#wbi-shipping-address-zip-code-info').wblocationselect('value')
+     comboSelect = @$('select#wbi-shipping-address-zip-code-info')
+     valSelected = comboSelect.val()
+     if valSelected
+       value = comboSelect.wblocationselect('value')
+       @setCityAndStateDefault value
+     else
+       @$('[name="city"]').val('')
+       @$('[name="state"]').val('')
+
+
+  setCityAndStateDefault: (value)->
+    if value.id
      @$('[name="city"]').val(value.city)
      @$('[name="state"]').val(value.state)
-     console.log ["Value", value]
