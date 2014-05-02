@@ -65,5 +65,8 @@ module.exports = class ShippingAddressesView extends View
     data = utils.serializeForm $form
     if($form.valid())
        console.log ["serialize form data", data]
-#       @$('#wbi-shipping-thanks-div').show()
+       @$('#wbi-shipping-thanks-div').show()
        @model.save(data)
+        .done()
+        .fail()
+        .always()
