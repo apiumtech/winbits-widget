@@ -30,8 +30,8 @@ module.exports = class CartItemsView extends View
       requestOptions.headers = {"Accept-Language": "es",'wb-vcart':utils.getVirtualCart()}
     cartUtils.doCartLoading()
     @model.requestToUpdateCart(data, itemId , requestOptions)
-    .done(@doUpdateItemRequestSuccess)
-    .fail(@doUpdateItemRequestError)
+      .done(@doUpdateItemRequestSuccess)
+      .fail(@doUpdateItemRequestError)
 
   doUpdateItemRequestSuccess: (data) ->
     $.fancybox.close()
