@@ -18,6 +18,7 @@ module.exports = class ShippingAddressesView extends View
     @delegate 'click', '#wbi-add-new-shipping-address' , @showAddNewShipping
     @delegate 'click', '#wbi-add-shipping-address-cancel', @cancelAddNewShipping
     @delegate 'click', '#wbi-shipping-address-done-btn', @cancelAddNewShipping
+    @delegate 'click', '#wbi-add-shipping-address-submit-btn', @doSaveShippingAddress
 
   render: ->
     super
@@ -59,3 +60,10 @@ module.exports = class ShippingAddressesView extends View
     if not @$('.thanks-div').is(':hidden')
       @$('#wbi-shipping-thanks-div').slideUp()
 
+  doSaveShippingAddress: ->
+    $form =  @$el.find("#wbi-shipping-new-address-form")
+    data = utils.serializeForm $form
+    if($form.valid())
+       console.log ["serialize form data", data]
+#       @$('#wbi-shipping-thanks-div').show()
+       @model.save(data)

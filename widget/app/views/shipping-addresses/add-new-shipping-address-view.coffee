@@ -13,8 +13,7 @@ module.exports = class AddNewShippingAddressView extends View
 
   initialize: ->
     super
-#    @delegate 'change', 'select#wbi-shipping-address-zip-code-info', @setCityAndState
-    @delegate 'click', '#wbi-add-shipping-address-submit-btn', @doSaveShippingAddress
+#    @delegate 'click', '#wbi-add-shipping-address-submit-btn', @doSaveShippingAddress
 
   attach: ->
     super
@@ -47,7 +46,10 @@ module.exports = class AddNewShippingAddressView extends View
         betweenStreets:
           required: yes
         externalNumber:
+          minlength: 1
           required: yes
+        internalNumber:
+          minlength: 1
         state:
           required: yes
         city:
@@ -63,16 +65,7 @@ module.exports = class AddNewShippingAddressView extends View
         location:
           wbiLocation: yes
 
-  doSaveShippingAddress:(e)->
-    e.preventDefault()
-    $form =  @$el.find("#wbi-shipping-new-address-form")
-    data = utils.serializeForm $form
-    if($form.valid())
-       console.log ["serialize form data", data]
-       @$('#wbi-shipping-thanks-div').show()
-
-
-  setCityAndState: () ->
+  setCityAndState: ->
      comboSelect = @$('select#wbi-shipping-address-zip-code-info')
      valSelected = comboSelect.val()
      if valSelected

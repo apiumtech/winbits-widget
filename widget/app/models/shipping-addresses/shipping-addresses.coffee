@@ -13,3 +13,4 @@ module.exports = class ShippingAddresses extends Model
 
   parse: (data) ->
     addresses: data.response
+
