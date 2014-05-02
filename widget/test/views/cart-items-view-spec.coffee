@@ -143,6 +143,27 @@ describe 'CartItemsViewSpec', ->
     expect($UIRE).to.be.calledOnce
     expect($UIRS).to.not.be.calledOnce
 
+  it  'do request should delete success cart item', ->
+    sinon.stub(utils, 'showMessageModal')
+    sinon.stub(@model, 'requestToUpdateCart').returns TestUtils.promises.resolved
+    $UIRS = sinon.stub @view, 'doUpdateItemRequestSuccess'
+    $RIRE = sinon.stub @view, 'doDeleteItemRequestError'
+    $item1= @view.$('#wbi-cart-items-list').children('li')[0]
+    $($item1).find('.wbc-item-delete-link').click()
+    expect($UIRS).to.be.calledOnce
+    expect($RIRE).to.not.be.calledOnce
+
+
+  it  'do request should delete error cart item', ->
+    sinon.stub(utils, 'showMessageModal')
+    sinon.stub(@model, 'requestToUpdateCart').returns TestUtils.promises.rejected
+    $UIRS = sinon.stub @view, 'doUpdateItemRequestSuccess'
+    $RIRE = sinon.stub @view, 'doDeleteItemRequestError'
+    $item1= @view.$('#wbi-cart-items-list').children('li')[0]
+    $($item1).find('.wbc-item-delete-link').click()
+    expect($RIRE).to.be.calledOnce
+    expect($UIRS).to.not.be.calledOnce
+
   generateCartDetail = (id) ->
     vertical = id: 1, name: "Vertical #{id}", logo: "//cdn.winbits.com/vertical-#{id}.jpg"
     colorLabel = ['Blanco', 'Negro', 'Rojo'][id] or 'Verde'

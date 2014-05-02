@@ -14,6 +14,7 @@ module.exports = class CartItemsView extends View
 
   initialize: ->
     super
+    @delegate 'click', '.wbc-item-delete-link', @doDeleteItem
 
   attach: ->
     super
@@ -24,12 +25,8 @@ module.exports = class CartItemsView extends View
     quantity = @$('.wbc-item-quantity')
     itemId = quantity.closest("li").data("id")
     data = "quantity": quantity.val(), bits : 0
-    requestOptions = context:@
-    isLoggedIn = utils.isLoggedIn()
-    if not isLoggedIn
-      requestOptions.headers = {"Accept-Language": "es",'wb-vcart':utils.getVirtualCart()}
     cartUtils.doCartLoading()
-    @model.requestToUpdateCart(data, itemId , requestOptions)
+    @model.requestToUpdateCart(data, itemId , @cartRequestOptions())
       .done(@doUpdateItemRequestSuccess)
       .fail(@doUpdateItemRequestError)
 
@@ -39,8 +36,33 @@ module.exports = class CartItemsView extends View
       cartUtils.addToVirtualCartSuccess(data)
     else
       cartUtils.publishCartChangedEvent(data)
-    $('#wbi-cart-info').click()
+    if data.response.itemsTotal
+      $('#wbi-cart-info').click()
 
   doUpdateItemRequestError: (xhr, textStatus)->
     @render()
+    cartUtils.showCartErrorMessage(xhr, textStatus)
+
+  doDeleteItem: (e)->
+    e.preventDefault()
+    $itemId = $(e.currentTarget).closest('li').data("id")
+    requestOptions = @cartRequestOptions()
+    requestOptions.type = 'DELETE'
+    @doCartDeleteLoading()
+    @model.requestToUpdateCart(null,$itemId,requestOptions)
+      .done(@doUpdateItemRequestSuccess)
+      .fail(@doDeleteItemRequestError)
+
+  cartRequestOptions: ->
+    requestOptions = context:@
+    isLoggedIn = utils.isLoggedIn()
+    if not isLoggedIn
+      requestOptions.headers = {"Accept-Language": "es",'wb-vcart':utils.getVirtualCart()}
+    requestOptions
+
+  doCartDeleteLoading: ->
+    message = 'Eliminando artículo...'
+    utils.showLoadingMessage(message)
+
+  doDeleteItemRequestError: (xhr, textStatus)->
     cartUtils.showCartErrorMessage(xhr, textStatus)
