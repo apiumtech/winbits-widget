@@ -35,11 +35,18 @@ module.exports = class Cart extends Model
     @get 'bitsTotal'
 
   requestCheckout: (options)->
-    defaults =
-      type: 'POST'
-      headers:
-        'Wb-Api-Token': utils.getApiToken()
-      data: JSON.stringify(verticalId: utils.getCurrentVerticalId())
-    ajaxOptions = utils.setupAjaxOptions(options, defaults)
-    url = utils.getResourceURL('orders/checkout-json')
-    utils.ajaxRequest(url, ajaxOptions)
+    if @hasCartItems()
+      defaults =
+        type: 'POST'
+        headers:
+          'Wb-Api-Token': utils.getApiToken()
+        data: JSON.stringify(verticalId: utils.getCurrentVerticalId())
+      ajaxOptions = utils.setupAjaxOptions(options, defaults)
+      url = utils.getResourceURL('orders/checkout-json')
+      utils.ajaxRequest(url, ajaxOptions)
+    else
+      utils.showMessageModal('Para comprar, debe agregar artículos al carrito.')
+
+  hasCartItems: ->
+    itemsCount = @get('itemsCount')
+    itemsCount? and itemsCount > 0

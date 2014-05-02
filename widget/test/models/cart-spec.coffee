@@ -22,10 +22,11 @@ describe 'CartSpec', ->
     @xhr = sinon.useFakeXMLHttpRequest()
     requests = @requests = []
     @xhr.onCreate = (xhr) -> requests.push(xhr)
-    @model = new Cart
+    @model = new Cart itemsTotal: 100, shippingTotal: 50, bitsTotal: 20, itemsCount: 2
 
   afterEach ->
     utils.ajaxRequest.restore?()
+    utils.showMessageModal.restore?()
     @model.dispose()
     @xhr.restore()
 
@@ -43,8 +44,6 @@ describe 'CartSpec', ->
     expect(request.requestHeaders).to.not.include.keys('Wb-VCart')
 
   it 'should has accessor for computed property cartTotal', ->
-    @model.set(itemsTotal: 100, shippingTotal: 50, bitsTotal: 20)
-
     cartTotal = @model.cartTotal()
     expect(@model.accessors).to.contain('cartTotal')
     expect(cartTotal).to.be.equal(30)
@@ -54,8 +53,6 @@ describe 'CartSpec', ->
     expect(@model.accessors).to.contain('cartSaving')
 
   it 'should has accessor for computed property cartPercentageSaved', ->
-    @model.set(itemsTotal: 100, shippingTotal: 50, bitsTotal: 20)
-
     cartPercentageSaved = @model.cartPercentageSaved()
     expect(@model.accessors).to.contain('cartPercentageSaved')
     expect(cartPercentageSaved).to.be.equal(70)
@@ -66,7 +63,7 @@ describe 'CartSpec', ->
     cartPercentageSaved = @model.cartPercentageSaved()
     expect(cartPercentageSaved).to.be.equal(0)
 
-  it 'requestCheckout should request checkout service with correct options', ->
+  it 'should request checkout service with correct options', ->
     sinon.stub(utils, 'ajaxRequest')
 
     @model.requestCheckout()
@@ -77,3 +74,10 @@ describe 'CartSpec', ->
         .and.to.has.property('type', 'POST')
     expect(ajaxOptions).to.has.property('headers').eql('Wb-Api-Token': 'XXX')
     expect(ajaxOptions).to.has.property('data', '{"verticalId":1}')
+
+  it 'should show message if trying to checkout empty cart', ->
+    @model.set(itemsCount: 0)
+    sinon.stub(utils, 'showMessageModal')
+
+    @model.requestCheckout()
+    expect(utils.showMessageModal).to.has.been.calledOnce
