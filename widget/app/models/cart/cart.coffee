@@ -46,6 +46,7 @@ module.exports = class Cart extends Model
       utils.ajaxRequest(url, ajaxOptions)
     else
       utils.showMessageModal('Para comprar, debe agregar artículos al carrito.')
+      return
 
   hasCartItems: ->
     itemsCount = @get('itemsCount')

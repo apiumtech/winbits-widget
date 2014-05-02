@@ -64,9 +64,9 @@ describe 'CartSpec', ->
     expect(cartPercentageSaved).to.be.equal(0)
 
   it 'should request checkout service with correct options', ->
-    sinon.stub(utils, 'ajaxRequest')
+    sinon.stub(utils, 'ajaxRequest').returns(window.TestUtils.promises.resolved)
 
-    @model.requestCheckout()
+    result = @model.requestCheckout()
     expect(utils.ajaxRequest).to.has.been.calledWithMatch(new RegExp('/orders/checkout\.json$'))
         .and.to.has.been.calledOnce
     ajaxOptions = utils.ajaxRequest.firstCall.args[1]
@@ -74,10 +74,14 @@ describe 'CartSpec', ->
         .and.to.has.property('type', 'POST')
     expect(ajaxOptions).to.has.property('headers').eql('Wb-Api-Token': 'XXX')
     expect(ajaxOptions).to.has.property('data', '{"verticalId":1}')
+    expect(result).to.be.promise
+
+  it 'should redirect to checkout url if request succeeds'
 
   it 'should show message if trying to checkout empty cart', ->
     @model.set(itemsCount: 0)
     sinon.stub(utils, 'showMessageModal')
 
-    @model.requestCheckout()
+    result = @model.requestCheckout()
     expect(utils.showMessageModal).to.has.been.calledOnce
+    expect(result).to.not.be.ok
