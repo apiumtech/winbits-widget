@@ -4,6 +4,7 @@ utils = require 'lib/utils'
 cartUtils = require 'lib/cart-utils'
 mediator = Chaplin.mediator
 $ = Winbits.$
+env = Winbits.env
 
 module.exports = class Cart extends Model
   url: cartUtils.getCartResourceUrl
@@ -38,12 +39,15 @@ module.exports = class Cart extends Model
     if @hasCartItems()
       defaults =
         type: 'POST'
+        context: @
         headers:
           'Wb-Api-Token': utils.getApiToken()
         data: JSON.stringify(verticalId: utils.getCurrentVerticalId())
       ajaxOptions = utils.setupAjaxOptions(options, defaults)
-      url = utils.getResourceURL('orders/checkout-json')
+      url = utils.getResourceURL('orders/checkout.json')
       utils.ajaxRequest(url, ajaxOptions)
+        .done(@requestCheckoutSucceeds)
+        .fail(@requestCheckoutFails)
     else
       utils.showMessageModal('Para comprar, debe agregar artículos al carrito.')
       return
@@ -51,3 +55,13 @@ module.exports = class Cart extends Model
   hasCartItems: ->
     itemsCount = @get('itemsCount')
     itemsCount? and itemsCount > 0
+
+  requestCheckoutSucceeds: (data) ->
+    id = data.response.id
+    checkoutURL = env.get('checkout-url')
+    redirectURL = "#{checkoutURL}?orderId=#{id}"
+    window.location.assign(redirectURL)
+
+  requestCheckoutFails: (xhr) ->
+    data = JSON.parse(xhr.responseText)
+    utils.showMessageModal(data.meta.message)

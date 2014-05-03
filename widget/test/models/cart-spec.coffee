@@ -19,6 +19,7 @@ describe 'CartSpec', ->
     utils.getCurrentVerticalId.restore()
 
   beforeEach ->
+    sinon.stub(window.location, 'assign')
     @xhr = sinon.useFakeXMLHttpRequest()
     requests = @requests = []
     @xhr.onCreate = (xhr) -> requests.push(xhr)
@@ -27,6 +28,7 @@ describe 'CartSpec', ->
   afterEach ->
     utils.ajaxRequest.restore?()
     utils.showMessageModal.restore?()
+    window.location.assign.restore?()
     @model.dispose()
     @xhr.restore()
 
@@ -64,19 +66,26 @@ describe 'CartSpec', ->
     expect(cartPercentageSaved).to.be.equal(0)
 
   it 'should request checkout service with correct options', ->
-    sinon.stub(utils, 'ajaxRequest').returns(window.TestUtils.promises.resolved)
+    sinon.stub(utils, 'ajaxRequest').returns(new $.Deferred().resolve(response: id: 1))
 
     result = @model.requestCheckout()
-    expect(utils.ajaxRequest).to.has.been.calledWithMatch(new RegExp('/orders/checkout\.json$'))
+    expect(utils.ajaxRequest).to.has.been.calledWithMatch(/\/orders\/checkout\.json$/)
         .and.to.has.been.calledOnce
     ajaxOptions = utils.ajaxRequest.firstCall.args[1]
     expect(ajaxOptions).to.be.an('object')
         .and.to.has.property('type', 'POST')
+    expect(ajaxOptions).to.has.property('context', @model)
     expect(ajaxOptions).to.has.property('headers').eql('Wb-Api-Token': 'XXX')
     expect(ajaxOptions).to.has.property('data', '{"verticalId":1}')
     expect(result).to.be.promise
 
-  it 'should redirect to checkout url if request succeeds'
+  it 'should redirect to checkout url if request succeeds', ->
+    @model.requestCheckout()
+    request = @requests[0]
+    request.respond(200, 'Content-Type': 'application/json', '{"meta":{},"response":{"id":1}}')
+
+    expect(window.location.assign).to.has.been.calledWithMatch(/https:\/\/checkout\w+\.winbits\.com\?orderId=1/)
+        .and.to.has.been.calledOnce
 
   it 'should show message if trying to checkout empty cart', ->
     @model.set(itemsCount: 0)
@@ -85,3 +94,14 @@ describe 'CartSpec', ->
     result = @model.requestCheckout()
     expect(utils.showMessageModal).to.has.been.calledOnce
     expect(result).to.not.be.ok
+
+  it 'should show error message if checkout request fails', ->
+    sinon.stub(utils, 'showMessageModal')
+
+    @model.requestCheckout()
+    request = @requests[0]
+    request.respond(400, {}, '{"meta":{"status":400,"message":"Error en checkout!"},"response":{}}')
+
+    expect(utils.showMessageModal).to.has.been.calledWith('Error en checkout!')
+        .and.to.has.been.calledOnce
+
