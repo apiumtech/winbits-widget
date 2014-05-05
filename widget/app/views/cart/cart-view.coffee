@@ -3,6 +3,7 @@ CartItemsView = require 'views/cart/cart-items-view'
 CartTotalsView = require 'views/cart/cart-totals-view'
 CartBitsView = require 'views/cart/cart-bits-view'
 CartPaymentMethodsView = require 'views/cart/cart-payment-methods-view'
+Cart = require 'models/cart/cart'
 utils = require 'lib/utils'
 $ = Winbits.$
 
@@ -10,6 +11,7 @@ module.exports = class CartView extends View
   container: '#wbi-cart-holder'
   template: require './templates/cart'
   noWrap: yes
+  model: new Cart
 
   initialize: ->
     super

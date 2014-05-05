@@ -28,9 +28,8 @@
   <script src="{{baseUrl}}/javascripts/vendor.js"></script>
   <script type="text/javascript">
     Winbits = { checkoutConfig: {} };
-    Winbits.$ = $.noConflict(true);
+    Winbits.$ = $.noConflict();
     Backbone.$ = Winbits.$;
-    Winbits.Backbone = Backbone.noConflict();
     Winbits.checkoutConfig.orderId='<?echo $order_id?>';
     Winbits.checkoutConfig.providerUrl = '{{providerUrl}}';
     Winbits.token= '<?echo $token?>';

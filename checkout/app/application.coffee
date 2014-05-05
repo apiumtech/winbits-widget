@@ -16,7 +16,7 @@ module.exports = class Application
 
   initialize: (checkout)->
     @initBackbone()
-    @initMomentTimeZone
+    @initMomentTimeZone()
     Winbits.isCrapBrowser = util.isCrapBrowser
 
     @initCustomRules()
