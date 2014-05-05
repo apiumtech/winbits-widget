@@ -14,6 +14,7 @@ describe 'UtilsSpec', ->
 
   it 'saveVirtualCart should store virtual cart on localStorage', ->
     cartData =
+      cartItemsCount : 2
       cartDetails: [
         quantity: 2
         skuProfile: id: 1
@@ -25,6 +26,7 @@ describe 'UtilsSpec', ->
 
   it 'saveVirtualCart should store virtual cart on API domain', ->
     cartData =
+      cartItemsCount : 2
       cartDetails: [
         quantity: 2
         skuProfile: id: 1
