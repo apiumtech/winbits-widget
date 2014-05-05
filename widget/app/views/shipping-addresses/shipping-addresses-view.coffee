@@ -59,9 +59,11 @@ module.exports = class ShippingAddressesView extends View
     @$('#wbi-shipping-new-address-container').slideUp()
     if not @$('.thanks-div').is(':hidden')
       @$('#wbi-shipping-thanks-div').slideUp()
+      @initialize()
 
   doSaveShippingAddress: ->
     $form =  @$el.find("#wbi-shipping-new-address-form")
+    @$('.errorDiv p').hide()
     data = utils.serializeForm $form
     if($form.valid())
        @$('#wbi-shipping-thanks-div').show()
@@ -70,10 +72,11 @@ module.exports = class ShippingAddressesView extends View
         .fail(@errorSaveNewShippingAddress)
 
   successSaveNewShippingAddress:(data)->
-    console.log ["Data success for add shipping address", data.response]
     @$('#wbi-shipping-address-process').hide()
     @$('#wbi-shipping-address-done').show()
 
   errorSaveNewShippingAddress:(xhr)->
     @$('#wbi-shipping-thanks-div').hide()
-    console.log ["Data success for add shipping address", xhr.responseText]
+    error = utils.safeParse(xhr.responseText)
+    message = if error then error.meta.message else textStatus
+    @$('.errorDiv p').text(message).parent().css('display':'block')
