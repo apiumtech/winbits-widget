@@ -3,10 +3,11 @@
 
 # Delegate to Chaplin’s utils module.
 utils = Winbits.Chaplin.utils.beget Chaplin.utils
+mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 _ = Winbits._
-mediator = Winbits.Chaplin.mediator
-rpc = Winbits.env.get('rpc')
+env = Winbits.env
+rpc = env.get('rpc')
 
 # _(utils).extend
 #  someMethod: ->
@@ -279,11 +280,11 @@ _(utils).extend
     catch e
       meta: message: 'El servidor no está disponible, por favor inténtalo más tarde.', status: 500
 
-  showMessageModal: (message, options)->
+  showMessageModal: (message, options, modalSelector = '#wbi-alert-modal')->
     options ?= {}
-    modalSelector = '#wbi-message-modal'
     $modal = $(modalSelector)
     options.value ?= 'Ok'
+    options.cancelValue ?= 'Cancel'
     options.context ?= @
     options.onClosed ?= $.noop
     options.title ?= 'Confirma'
@@ -295,9 +296,16 @@ _(utils).extend
     onClosed = $.proxy(options.onClosed, options.context)
     $(".wbc-modal-message", $modal).html(message)
     $(".wbc-default-action", $modal).val options.value
+    $(".wbc-cancel-action", $modal).val options.cancelValue
     $(".wbc-modal-title", $modal).html(options.title)
     $(".wbc-modal-icon", $modal).html("<span class='#{options.icon}'></span>")
     $('<a>').wbfancybox(padding: 10, href: modalSelector, onClosed: onClosed).click()
+
+  showLoadingMessage: (message, options)->
+    defaults = icon:'iconFont-clock2',title:message
+    options = $.extend(defaults, options)
+    divLoader = "<div class='wbc-loader'></div>"
+    @showMessageModal(divLoader, options, '#wbi-message-modal')
 
   ajaxRequest: Winbits.ajaxRequest
 
@@ -306,14 +314,14 @@ _(utils).extend
 
   saveApiToken: (apiToken) ->
     mediator.data.get('login-data').apiToken = apiToken
-    localStorage.setItem(Winbits.env.get('api-token-name'), apiToken)
+    localStorage.setItem(env.get('api-token-name'), apiToken)
 
-    Winbits.env.get('rpc').saveApiToken apiToken, ->
+    rpc.saveApiToken apiToken, ->
       console.log 'ApiToken saved :)'
     , -> console.log 'Unable to save ApiToken :('
 
   deleteApiToken: ->
-    localStorage.removeItem(Winbits.env.get('api-token-name'))
+    localStorage.removeItem(env.get('api-token-name'))
 
   redirectTo: ->
     Winbits.Chaplin.utils.redirectTo.apply null, arguments
@@ -333,9 +341,13 @@ _(utils).extend
     localStorage['wb-vcart'] or '[]'
 
   saveVirtualCart: (cartData) ->
-    cartItems = (@toCartItem(x) for x in cartData.cartDetails)
-    vcart = JSON.stringify(cartItems)
-    localStorage['wb-vcart'] = vcart
+    vcart = "[]"
+    if(cartData.itemsCount > 0)
+      cartItems = (@toCartItem(x) for x in cartData.cartDetails)
+      vcart = JSON.stringify(cartItems)
+      localStorage['wb-vcart'] = vcart
+    else
+      localStorage.removeItem 'wb-vcart'
     rpc.storeVirtualCart(vcart)
 
   toCartItem: (cartDetail) ->
@@ -344,8 +356,16 @@ _(utils).extend
     cartItem
 
   getResourceURL: (path) ->
-    apiURL = Winbits.env.get('api-url')
+    apiURL = env.get('api-url')
     "#{apiURL}/#{path}"
+
+  setupAjaxOptions: (defaultOptions = {}, options) ->
+    ajaxOptions = $.extend({}, defaultOptions, options)
+    ajaxOptions.headers = $.extend({}, defaultOptions.headers, options.headers)
+    ajaxOptions
+
+  getCurrentVerticalId: ->
+    env.get('current-vertical-id')
 
 # Prevent creating new properties and stuff.
 Object.seal? utils

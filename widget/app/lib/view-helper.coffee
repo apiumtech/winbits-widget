@@ -108,3 +108,7 @@ Handlebars.registerHelper "eachOption", (min, max, options) ->
 Handlebars.registerHelper "formatPercentage", (value) ->
   value = value() if $.isFunction(value)
   utils.formatPercentage(value)
+
+Handlebars.registerHelper 'getItemTotalPrice', (val1, val2) ->
+  value = val1 * val2
+  value

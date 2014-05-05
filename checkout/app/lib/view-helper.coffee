@@ -5,7 +5,6 @@
 
 # Map helpers
 # -----------
-cartDetail = require 'views/templates/widget/cartDetail'
 mediator = require 'chaplin/mediator'
 util = require 'lib/util'
 
@@ -299,7 +298,7 @@ Array::unique = ->
       value for key, value of output
 
 amexOrCyberSource = (cardType)->
-    if cardType in ["Visa","MasterCard"] 
+    if cardType in ["Visa","MasterCard"]
         return "cybersource.token.msi."
     if cardType == "American Express"
         return "amex.msi."
@@ -315,7 +314,7 @@ amexOrCyberSourceWithOutMsi = (cardType)->
     ac?.split(".")[0]
 
 
-installmentLoans = (methods, cardType) -> 
+installmentLoans = (methods, cardType) ->
   ac = amexOrCyberSource cardType
 
   msi = ""
@@ -368,7 +367,7 @@ Handlebars.registerHelper "paymentMethodSupported", (identifier, options) ->
 Handlebars.registerHelper "paymentMethodSupportedMethods", (methods, identifier, options) ->
   supported = isMsiSupported methods, identifier, options
   if supported then options.fn this else options.inverse this
-  
+
 Handlebars.registerHelper "paymentMethodSupportedClass", (methods, cardType) ->
   html = new Handlebars.SafeString("creditcardNotEligible")
   ac = amexOrCyberSourceWithOutMsi cardType
@@ -378,7 +377,7 @@ Handlebars.registerHelper "paymentMethodSupportedDiv", (methods, cardType) ->
   html = new Handlebars.SafeString("<div class='creditcardNotEligible-overlay'><span class='creditcardNotEligible-span'>Lo sentimos. Esta compra acepta únicamente pago en efectivo o bits.</span></div>")
   ac = amexOrCyberSourceWithOutMsi cardType
   util.paymentMethodSupportedHtml methods, ac, html
-  
+
 allMsiPaymentsFunction = (methods) ->
   $ = Winbits.$
   $.grep methods, (paymentMethod)->
@@ -413,7 +412,7 @@ Handlebars.registerHelper "withMsiPayments", (options) ->
   msiPayments = msiPaymentsFunction allMsiPayments
 
   if msiPayments.length > 0 then options.fn(msiPayments: msiPayments) else options.inverse this
-  
+
 Handlebars.registerHelper "withMsiPaymentsMethods", (methods, options) ->
   $ = Winbits.$
 
@@ -454,9 +453,3 @@ Handlebars.registerHelper "showColony", (zipCodeInfo, zipCode) ->
     return "style='display: none;'"
   else
     return ''
-
-#******************************
-#Custom partial
-#******************************
-Handlebars.registerPartial("cartDetail",cartDetail )
-

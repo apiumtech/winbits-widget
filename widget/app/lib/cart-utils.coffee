@@ -9,8 +9,12 @@ _ = Winbits._
 
 cartUtils = {}
 _(cartUtils).extend
-  getCartResourceUrl: ->
-    resource = if utils.isLoggedIn() then 'cart-items.json' else 'virtual-cart-items.json'
+  getCartResourceUrl:(itemId) ->
+    resource
+    if not itemId
+      resource = if utils.isLoggedIn() then 'cart-items.json' else 'virtual-cart-items.json'
+    else
+      resource = if utils.isLoggedIn() then "cart-items/#{itemId}.json" else "virtual-cart-items/#{itemId}.json"
     env.get('api-url') + "/orders/#{resource}"
 
   addToUserCart: (cartItems = {}) ->
@@ -20,6 +24,7 @@ _(cartUtils).extend
         'Wb-Api-Token': utils.getApiToken()
     utils.ajaxRequest(@getCartResourceUrl(), @applyDefaultAddToCartRequestDefaults(cartItems, options))
     .done(@publishCartChangedEvent)
+    .fail(@showCartErrorMessage)
 
   publishCartChangedEvent: (data) ->
     EventBroker.publishEvent('cart-changed', data)
@@ -31,6 +36,7 @@ _(cartUtils).extend
         'Wb-VCart': utils.getVirtualCart()
     utils.ajaxRequest(@getCartResourceUrl(), @applyDefaultAddToCartRequestDefaults(cartItems, options))
     .done(@addToVirtualCartSuccess)
+    .fail(@showCartErrorMessage)
 
   addToVirtualCartSuccess: (data) ->
     utils.saveVirtualCart(data.response)
@@ -43,6 +49,17 @@ _(cartUtils).extend
     skuProfileId: cartItem.id
     quantity: cartItem.quantity
     bits: cartItem.bits
+
+  showCartErrorMessage: (xhr, textStatus)->
+    error = utils.safeParse(xhr.responseText)
+    messageText = "Error actualizando el registro #{textStatus}"
+    message = if error then error.meta.message else messageText
+    options = icon:'iconFont-candado', value: "Cerrar", title:'Error'
+    utils.showMessageModal(message, options)
+
+  doCartLoading: ->
+    message = "Actualizando carrito ..."
+    utils.showLoadingMessage(message)
 
   applyDefaultAddToCartRequestDefaults: (cartItems, options = {}) ->
     defaults =

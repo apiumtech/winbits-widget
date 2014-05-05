@@ -4,6 +4,7 @@ utils = require 'lib/utils'
 cartUtils = require 'lib/cart-utils'
 mediator = Chaplin.mediator
 $ = Winbits.$
+env = Winbits.env
 
 module.exports = class Cart extends Model
   url: cartUtils.getCartResourceUrl
@@ -33,3 +34,66 @@ module.exports = class Cart extends Model
   cartSaving: ->
     # TODO: Implementar algoritmo corecto cuando se defina
     @get 'bitsTotal'
+
+  requestToUpdateCart:(formData,itemId, options) ->
+    defaults =
+      type: "PUT"
+      contentType: "application/json"
+      dataType: "json"
+      data:JSON.stringify(formData)
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token": utils.getApiToken()
+
+    utils.ajaxRequest(
+        cartUtils.getCartResourceUrl(itemId),
+        $.extend(defaults, options)
+    )
+
+  requestCheckout: (options)->
+    if @hasCartItems()
+      defaults =
+        type: 'POST'
+        context: @
+        headers:
+          'Wb-Api-Token': utils.getApiToken()
+        data: JSON.stringify(verticalId: utils.getCurrentVerticalId())
+      ajaxOptions = utils.setupAjaxOptions(options, defaults)
+      url = utils.getResourceURL('orders/checkout.json')
+      utils.ajaxRequest(url, ajaxOptions)
+        .done(@requestCheckoutSucceeds)
+        .fail(@requestCheckoutFails)
+    else
+      utils.showMessageModal('Para comprar, debe agregar artículos al carrito.')
+      return
+
+  hasCartItems: ->
+    itemsCount = @get('itemsCount')
+    itemsCount? and itemsCount > 0
+
+  requestCheckoutSucceeds: (data) ->
+    # id = data.response.id
+    # checkoutURL = env.get('checkout-url')
+    # redirectURL = "#{checkoutURL}?orderId=#{id}"
+    # window.location.assign(redirectURL)
+    @postToCheckoutApp(data.response)
+
+  postToCheckoutApp: (order) ->
+    $chkForm = $('<form id="chk-form" method="POST" style="display:none"></form>')
+    checkoutURL = env.get('checkout-url')
+    $chkForm.attr('action', "#{checkoutURL}/checkout.php")
+    $chkForm.append $('<input type="hidden" name="token"/>').val(utils.getApiToken())
+    $chkForm.append $('<input type="hidden" name="order_id"/>').val(order.id)
+    bitsBalance = parseInt($('#wbi-my-bits').text() or '0')
+    $chkForm.append $('<input type="hidden" name="bits_balance"/>').val(bitsBalance)
+    currentVertical = env.get('current-vertical')
+    $chkForm.append $('<input type="hidden" name="vertical_id"/>').val(currentVertical.id)
+    $chkForm.append $('<input type="hidden" name="vertical_url"/>').val(currentVertical.baseUrl)
+    $chkForm.append $('<input type="hidden" name="timestamp"/>').val(new Date().getTime())
+
+    $chkForm.appendTo(document.body)
+    $chkForm.submit()
+
+  requestCheckoutFails: (xhr) ->
+    data = JSON.parse(xhr.responseText)
+    utils.showMessageModal(data.meta.message)
