@@ -59,7 +59,7 @@ module.exports = class ShippingAddressesView extends View
     @$('#wbi-shipping-new-address-container').slideUp()
     if not @$('.thanks-div').is(':hidden')
       @$('#wbi-shipping-thanks-div').slideUp()
-#      @model.fetch()
+      @model.fetch()
 
   doSaveShippingAddress: ->
     $form =  @$el.find("#wbi-shipping-new-address-form")
@@ -75,8 +75,10 @@ module.exports = class ShippingAddressesView extends View
     @$('#wbi-shipping-address-process').hide()
     @$('#wbi-shipping-address-done').show()
 
+
   errorSaveNewShippingAddress:(xhr)->
     @$('#wbi-shipping-thanks-div').hide()
     error = utils.safeParse(xhr.responseText)
     message = if error then error.meta.message else textStatus
     @$('.errorDiv p').text(message).parent().css('display':'block')
+
