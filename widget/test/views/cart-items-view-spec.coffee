@@ -110,7 +110,7 @@ describe 'CartItemsViewSpec', ->
   it  'should render item price', ->
     $cartItem = @view.$('#wbi-cart-items-list').children().eq(0)
 
-    expect($cartItem.find '.wbc-item-price').to.has.$text('$200')
+    expect($cartItem.find '.wbc-item-price').to.has.$text('$20')
 
   it  'should render cart item vertical info', ->
     $cartItem = @view.$('#wbi-cart-items-list').children().eq(0)
