@@ -61,7 +61,6 @@ module.exports = class Cart extends Model
     # checkoutURL = env.get('checkout-url')
     # redirectURL = "#{checkoutURL}?orderId=#{id}"
     # window.location.assign(redirectURL)
-    console.log ['DATA', data, @]
     @postToCheckoutApp(data.response)
 
   postToCheckoutApp: (order) ->
@@ -70,12 +69,15 @@ module.exports = class Cart extends Model
     $chkForm.attr('action', "#{checkoutURL}/checkout.php")
     $chkForm.append $('<input type="hidden" name="token"/>').val(utils.getApiToken())
     $chkForm.append $('<input type="hidden" name="order_id"/>').val(order.id)
-    bitsBalance = ($('#wbi-my-bits').text() or '0').toInteger()
+    bitsBalance = parseInt($('#wbi-my-bits').text() or '0')
     $chkForm.append $('<input type="hidden" name="bits_balance"/>').val(bitsBalance)
     currentVertical = env.get('current-vertical')
     $chkForm.append $('<input type="hidden" name="vertical_id"/>').val(currentVertical.id)
     $chkForm.append $('<input type="hidden" name="vertical_url"/>').val(currentVertical.baseUrl)
     $chkForm.append $('<input type="hidden" name="timestamp"/>').val(new Date().getTime())
+
+    $chkForm.appendTo(document.body)
+    $chkForm.submit()
 
   requestCheckoutFails: (xhr) ->
     data = JSON.parse(xhr.responseText)

@@ -120,7 +120,7 @@
         if apiToken
           Winbits.ajaxRequest Winbits.env.get('api-url') + '/users/express-login.json',
             type: 'POST',
-            data: apiToken: apiToken
+            data: JSON.stringify(apiToken: apiToken)
           .done deferred.resolve
           .fail deferred.reject
         else
