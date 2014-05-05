@@ -57,6 +57,8 @@ module.exports = class ShippingAddressesView extends View
     e.preventDefault()
     @$('#wbi-shipping-addresses-view').slideDown()
     @$('#wbi-shipping-new-address-container').slideUp()
+    $form = @$('#wbi-shipping-new-address-form')
+    utils.justResetForm($form)
     if not @$('.thanks-div').is(':hidden')
       @$('#wbi-shipping-thanks-div').slideUp()
       @model.fetch()
