@@ -59,7 +59,7 @@ module.exports = class ShippingAddressesView extends View
     @$('#wbi-shipping-new-address-container').slideUp()
     if not @$('.thanks-div').is(':hidden')
       @$('#wbi-shipping-thanks-div').slideUp()
-      @initialize()
+#      @model.fetch()
 
   doSaveShippingAddress: ->
     $form =  @$el.find("#wbi-shipping-new-address-form")
@@ -71,7 +71,7 @@ module.exports = class ShippingAddressesView extends View
         .done(@successSaveNewShippingAddress)
         .fail(@errorSaveNewShippingAddress)
 
-  successSaveNewShippingAddress:(data)->
+  successSaveNewShippingAddress:()->
     @$('#wbi-shipping-address-process').hide()
     @$('#wbi-shipping-address-done').show()
 
