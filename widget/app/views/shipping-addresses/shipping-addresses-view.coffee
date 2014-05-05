@@ -64,9 +64,16 @@ module.exports = class ShippingAddressesView extends View
     $form =  @$el.find("#wbi-shipping-new-address-form")
     data = utils.serializeForm $form
     if($form.valid())
-       console.log ["serialize form data", data]
        @$('#wbi-shipping-thanks-div').show()
-       @model.save(data)
-        .done()
-        .fail()
-        .always()
+       @model.requestSaveNewShippingAddress(data, context: @)
+        .done(@successSaveNewShippingAddress)
+        .fail(@errorSaveNewShippingAddress)
+
+  successSaveNewShippingAddress:(data)->
+    console.log ["Data success for add shipping address", data.response]
+    @$('#wbi-shipping-address-process').hide()
+    @$('#wbi-shipping-address-done').show()
+
+  errorSaveNewShippingAddress:(xhr)->
+    @$('#wbi-shipping-thanks-div').hide()
+    console.log ["Data success for add shipping address", xhr.responseText]

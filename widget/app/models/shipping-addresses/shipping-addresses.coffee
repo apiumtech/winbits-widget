@@ -14,3 +14,15 @@ module.exports = class ShippingAddresses extends Model
   parse: (data) ->
     addresses: data.response
 
+  requestSaveNewShippingAddress: (formData, options)->
+    defaults =
+      type: "POST"
+      contentType: "application/json"
+      dataType: "json"
+      data: JSON.stringify(formData)
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token": utils.getApiToken()
+
+    utils.ajaxRequest(env.get('api-url') +  "/users/shipping-addresses.json",
+        $.extend(defaults, options))
