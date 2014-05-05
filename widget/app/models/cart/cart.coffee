@@ -57,10 +57,25 @@ module.exports = class Cart extends Model
     itemsCount? and itemsCount > 0
 
   requestCheckoutSucceeds: (data) ->
-    id = data.response.id
+    # id = data.response.id
+    # checkoutURL = env.get('checkout-url')
+    # redirectURL = "#{checkoutURL}?orderId=#{id}"
+    # window.location.assign(redirectURL)
+    console.log ['DATA', data, @]
+    @postToCheckoutApp(data.response)
+
+  postToCheckoutApp: (order) ->
+    $chkForm = $('<form id="chk-form" method="POST" style="display:none"></form>')
     checkoutURL = env.get('checkout-url')
-    redirectURL = "#{checkoutURL}?orderId=#{id}"
-    window.location.assign(redirectURL)
+    $chkForm.attr('action', "#{checkoutURL}/checkout.php")
+    $chkForm.append $('<input type="hidden" name="token"/>').val(utils.getApiToken())
+    $chkForm.append $('<input type="hidden" name="order_id"/>').val(order.id)
+    bitsBalance = ($('#wbi-my-bits').text() or '0').toInteger()
+    $chkForm.append $('<input type="hidden" name="bits_balance"/>').val(bitsBalance)
+    currentVertical = env.get('current-vertical')
+    $chkForm.append $('<input type="hidden" name="vertical_id"/>').val(currentVertical.id)
+    $chkForm.append $('<input type="hidden" name="vertical_url"/>').val(currentVertical.baseUrl)
+    $chkForm.append $('<input type="hidden" name="timestamp"/>').val(new Date().getTime())
 
   requestCheckoutFails: (xhr) ->
     data = JSON.parse(xhr.responseText)
