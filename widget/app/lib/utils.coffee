@@ -340,10 +340,13 @@ _(utils).extend
     localStorage['wb-vcart'] or '[]'
 
   saveVirtualCart: (cartData) ->
-    if(cartData.cartItemsCount > 0)
+    vcart = "[]"
+    if(cartData.itemsCount > 0)
       cartItems = (@toCartItem(x) for x in cartData.cartDetails)
-    vcart = JSON.stringify(cartItems)
-    localStorage['wb-vcart'] = vcart
+      vcart = JSON.stringify(cartItems)
+      localStorage['wb-vcart'] = vcart
+    else
+      localStorage.removeItem 'wb-vcart'
     rpc.storeVirtualCart(vcart)
 
   toCartItem: (cartDetail) ->
