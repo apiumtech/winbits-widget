@@ -11,7 +11,6 @@ task("default", function() {
 });
 
 
-
 desc("task to build just must change environment before build");
 task("build", function() {
   var cmds;
@@ -19,6 +18,24 @@ task("build", function() {
   cmds = [
   "rm -rf public",
   "./node_modules/brunch/bin/brunch build --production"
+  ];
+  console.log("going to execute this");
+  console.log(cmds);
+  return jake.exec(cmds, (function() {
+    console.log("app ready");
+    return complete();
+  }), {
+    stdout: true
+  });
+});
+
+
+desc("task to build widget for qa environment");
+task("buildqa", function() {
+  var cmds;
+  cmds = [
+  "rm -rf public",
+  "./node_modules/brunch/bin/brunch build"
   ];
   console.log("going to execute this");
   console.log(cmds);
