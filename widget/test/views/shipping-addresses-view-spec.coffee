@@ -4,7 +4,6 @@ utils = require 'lib/utils'
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 
-
 describe 'ShippingAddressesViewSpec', ->
   'use strict'
 
@@ -52,4 +51,5 @@ describe 'ShippingAddressesViewSpec', ->
     request = @requests[0]
     expect(request.method).to.be.equal('GET')
     expect(request.url).to.be.equal(SHIPPING_ADDRESSES_URL)
+
 

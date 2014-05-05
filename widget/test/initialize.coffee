@@ -13,6 +13,7 @@ specs = [
   './views/social-media-view-spec',
   './views/change-password-view-spec',
   './views/shipping-addresses-view-spec',
+  './views/new-shipping-address-view-spec',
   './views/complete-register-view-spec',
   './other/jquery-location-select-spec',
   './other/jquery-location-select-spec',
