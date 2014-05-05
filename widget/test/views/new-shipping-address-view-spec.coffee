@@ -58,14 +58,21 @@ describe 'AddShippingAddressViewSpec', ->
     expect(@view.$('#wbi-add-shipping-address-error')).to.exist
 
 
-  it 'should call request request Save New Shipping Address', ->
+  it 'should call request Success Save New Shipping Address', ->
     sinon.stub(@model, 'requestSaveNewShippingAddress').returns TestUtils.promises.resolved
     resquestSuccess = sinon.stub(@view, 'successSaveNewShippingAddress')
-    console.log ["zipCodeInfo", @view.$('[name=zipCodeInfo]').val()]
     @view.$('#wbi-add-shipping-address-submit-btn').click()
     expect(@view.$('.error')).to.not.exist
     expect(resquestSuccess).to.calledOnce
 
+  it 'should call request Error Save New Shipping Address', ->
+    sinon.stub(@model, 'requestSaveNewShippingAddress').returns TestUtils.promises.rejected
+    resquestSuccess = sinon.stub(@view, 'successSaveNewShippingAddress')
+    resquestError = sinon.stub(@view, 'errorSaveNewShippingAddress')
+    @view.$('#wbi-add-shipping-address-submit-btn').click()
+    expect(@view.$('.error')).to.not.exist
+    expect(resquestSuccess).to.not.called
+    expect(resquestError).to.calledOnce
 
   it 'should not call request Save New Shipping for fail in validation', ->
     @view.$('[name=firstName]').val('')
