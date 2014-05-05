@@ -13,7 +13,7 @@ module.exports = class AddNewShippingAddressView extends View
 
   initialize: ->
     super
-#    @delegate 'click', '#wbi-add-shipping-address-submit-btn', @doSaveShippingAddress
+    @delegate 'click', '#wbi-add-shipping-address-submit-btn', @doSaveShippingAddress
 
   attach: ->
     super
@@ -35,6 +35,8 @@ module.exports = class AddNewShippingAddressView extends View
         lastName:
           required: yes
           minlength: 2
+        lastName2:
+          minlength: 2
         street:
           required: yes
         phone:
@@ -42,8 +44,6 @@ module.exports = class AddNewShippingAddressView extends View
           wbiPhone:yes
           minlength: 10
         indications:
-          required: yes
-        betweenStreets:
           required: yes
         externalNumber:
           minlength: 1
@@ -80,3 +80,24 @@ module.exports = class AddNewShippingAddressView extends View
     if value.id
      @$('[name="city"]').val(value.city)
      @$('[name="state"]').val(value.state)
+
+
+  doSaveShippingAddress: ->
+    $form =  @$el.find("#wbi-shipping-new-address-form")
+    @$('.errorDiv').css('display':'none')
+    if($form.valid())
+      @$('#wbi-shipping-thanks-div').show()
+      data = utils.serializeForm $form
+      @model.requestSaveNewShippingAddress(data, context: @)
+      .done(@successSaveNewShippingAddress)
+      .fail(@errorSaveNewShippingAddress)
+
+  successSaveNewShippingAddress:()->
+    @$('#wbi-shipping-address-process').hide()
+    @$('#wbi-shipping-address-done').show()
+
+  errorSaveNewShippingAddress:(xhr, textStatus)->
+    @$('#wbi-shipping-thanks-div').hide()
+    error = utils.safeParse(xhr.responseText)
+    message = if error then error.meta.message else textStatus
+    @$('.errorDiv p').text(message).parent().css('display':'block')

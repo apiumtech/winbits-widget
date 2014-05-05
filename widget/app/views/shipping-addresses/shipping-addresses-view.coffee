@@ -18,12 +18,12 @@ module.exports = class ShippingAddressesView extends View
     @delegate 'click', '#wbi-add-new-shipping-address' , @showAddNewShipping
     @delegate 'click', '#wbi-add-shipping-address-cancel', @cancelAddNewShipping
     @delegate 'click', '#wbi-shipping-address-done-btn', @cancelAddNewShipping
-    @delegate 'click', '#wbi-add-shipping-address-submit-btn', @doSaveShippingAddress
+
 
   render: ->
     super
-    newShippingAddressContainer = @$el.find('#wbi-shipping-new-address-container').get(0)
-    @subview 'add-new-shipping-addresses', new AddNewShippingAddress, container: newShippingAddressContainer, model: @model
+    newShippingAddressContainer = @$el.find('#wbi-shipping-new-address-container')
+    @subview 'add-new-shipping-addresses', new AddNewShippingAddress container: newShippingAddressContainer, model: @model
 
   attach: ->
     super
@@ -53,6 +53,7 @@ module.exports = class ShippingAddressesView extends View
     @$('#wbi-shipping-addresses-view').slideUp()
     @$('#wbi-shipping-new-address-container').slideDown()
 
+
   cancelAddNewShipping: (e) ->
     e.preventDefault()
     @$('#wbi-shipping-addresses-view').slideDown()
@@ -62,25 +63,3 @@ module.exports = class ShippingAddressesView extends View
     if not @$('.thanks-div').is(':hidden')
       @$('#wbi-shipping-thanks-div').slideUp()
       @model.fetch()
-
-  doSaveShippingAddress: ->
-    $form =  @$el.find("#wbi-shipping-new-address-form")
-    @$('.errorDiv p').hide()
-    data = utils.serializeForm $form
-    if($form.valid())
-       @$('#wbi-shipping-thanks-div').show()
-       @model.requestSaveNewShippingAddress(data, context: @)
-        .done(@successSaveNewShippingAddress)
-        .fail(@errorSaveNewShippingAddress)
-
-  successSaveNewShippingAddress:()->
-    @$('#wbi-shipping-address-process').hide()
-    @$('#wbi-shipping-address-done').show()
-
-
-  errorSaveNewShippingAddress:(xhr)->
-    @$('#wbi-shipping-thanks-div').hide()
-    error = utils.safeParse(xhr.responseText)
-    message = if error then error.meta.message else textStatus
-    @$('.errorDiv p').text(message).parent().css('display':'block')
-

@@ -1,3 +1,4 @@
+testUtils = require 'test/lib/test-utils'
 $ = Winbits.$
 
 describe 'jQueryLocationSelectSpec', ->
@@ -58,7 +59,7 @@ describe 'jQueryLocationSelectSpec', ->
     expect($otherField.get(0).tagName).to.match(/input/i)
 
   it 'should allow customize other option & field', ->
-    ajaxStub = sinon.stub($, 'ajax').returns(promiseResolvedWithData())
+    ajaxStub = sinon.stub($, 'ajax').returns(testUtils.promiseResolvedWithData())
     @$locationSelect.wblocationselect(otherOption: 'Otra Localidad...', otherFieldAttrs: { name: 'locationName' })
 
     @$locationSelect.wblocationselect('loadZipCode', '12345')
@@ -84,7 +85,7 @@ describe 'jQueryLocationSelectSpec', ->
     expect($otherField).to.has.attr('style').that.match(DISPLAY_NONE_REGEXP)
 
   it 'should show other field when other option is selected', ->
-    ajaxStub = sinon.stub($, 'ajax').returns(promiseResolvedWithData())
+    ajaxStub = sinon.stub($, 'ajax').returns(testUtils.promiseResolvedWithData())
     @$locationSelect.wblocationselect()
 
     @$locationSelect.wblocationselect('loadZipCode', '12345')
@@ -94,7 +95,7 @@ describe 'jQueryLocationSelectSpec', ->
     expect($otherField).to.be.displayed
 
   it 'should hide other field when other option is deselected', ->
-    ajaxStub = sinon.stub($, 'ajax').returns(promiseResolvedWithData())
+    ajaxStub = sinon.stub($, 'ajax').returns(testUtils.promiseResolvedWithData())
     @$locationSelect.wblocationselect()
 
     @$locationSelect.wblocationselect('loadZipCode', '12345')
@@ -149,7 +150,7 @@ describe 'jQueryLocationSelectSpec', ->
     expect(ajaxStub).to.not.have.been.called
 
   it 'should load zipCode when zip code is loaded using API', ->
-    ajaxStub = sinon.stub($, 'ajax').returns(promiseResolvedWithData())
+    ajaxStub = sinon.stub($, 'ajax').returns(testUtils.promiseResolvedWithData())
     @$locationSelect.wblocationselect()
 
     @$locationSelect.wblocationselect('loadZipCode', '12345')
@@ -165,7 +166,7 @@ describe 'jQueryLocationSelectSpec', ->
     expect(ajaxStub).to.not.have.been.called
 
   it 'should load zip code if the current loaded zip code is not the same as the new one', ->
-    ajaxStub = sinon.stub($, 'ajax').returns(promiseResolvedWithData())
+    ajaxStub = sinon.stub($, 'ajax').returns(testUtils.promiseResolvedWithData())
     @$locationSelect.wblocationselect()
 
     @$zipCodeInput.val('54321').trigger('textchange')
@@ -174,7 +175,7 @@ describe 'jQueryLocationSelectSpec', ->
     expect(ajaxStub).to.have.been.calledTwice
 
   it 'should load zip code when a valid zip code is entered after an invalid one', ->
-    ajaxStub = sinon.stub($, 'ajax').returns(promiseResolvedWithData())
+    ajaxStub = sinon.stub($, 'ajax').returns(testUtils.promiseResolvedWithData())
     @$locationSelect.wblocationselect()
 
     @$zipCodeInput.val('12345').trigger('textchange')
@@ -184,7 +185,7 @@ describe 'jQueryLocationSelectSpec', ->
     expect(ajaxStub).to.have.been.calledTwice
 
   it 'should select first non-default option when loaded', ->
-    ajaxStub = sinon.stub($, 'ajax').returns(promiseResolvedWithData())
+    ajaxStub = sinon.stub($, 'ajax').returns(testUtils.promiseResolvedWithData())
     @$locationSelect.wblocationselect()
 
     @$locationSelect.wblocationselect('loadZipCode', '12345')
@@ -192,7 +193,7 @@ describe 'jQueryLocationSelectSpec', ->
     expect(@$locationSelect).to.has.value('1')
 
   it 'should add other option when zipCode is loaded', ->
-    ajaxStub = sinon.stub($, 'ajax').returns(promiseResolvedWithData())
+    ajaxStub = sinon.stub($, 'ajax').returns(testUtils.promiseResolvedWithData())
     @$locationSelect.wblocationselect()
 
     @$locationSelect.wblocationselect('loadZipCode', '12345')
@@ -200,7 +201,7 @@ describe 'jQueryLocationSelectSpec', ->
     expectOtherOptionExist.call(@)
 
   it 'should load new options when zipCode is loaded', ->
-    ajaxStub = sinon.stub($, 'ajax').returns(promiseResolvedWithData())
+    ajaxStub = sinon.stub($, 'ajax').returns(testUtils.promiseResolvedWithData())
     @$locationSelect.wblocationselect()
 
     @$locationSelect.wblocationselect('loadZipCode', '12345')
@@ -247,7 +248,7 @@ describe 'jQueryLocationSelectSpec', ->
     expectOptionsAreResetToDefault.call(@)
 
   it 'should reset select value if an invalid zip code is written after a successful load', ->
-    ajaxStub = sinon.stub($, 'ajax').returns(promiseResolvedWithData())
+    ajaxStub = sinon.stub($, 'ajax').returns(testUtils.promiseResolvedWithData())
     @$locationSelect.wblocationselect()
 
     @$zipCodeInput.val('11000').trigger('textchange')
@@ -256,7 +257,7 @@ describe 'jQueryLocationSelectSpec', ->
     expect(@$locationSelect).to.has.value('')
 
   it 'should reset to default option when an invalid zip code is written after a successful load', ->
-    ajaxStub = sinon.stub($, 'ajax').returns(promiseResolvedWithData())
+    ajaxStub = sinon.stub($, 'ajax').returns(testUtils.promiseResolvedWithData())
     @$locationSelect.wblocationselect()
 
     @$zipCodeInput.val('11000').trigger('textchange')
@@ -276,8 +277,8 @@ describe 'jQueryLocationSelectSpec', ->
     expect(@$zipCodeInput).to.be.enabled
 
   it 'should set current zip code info by id using value', ->
-    currentZipCodeInfo = generateZipCodeInfo(id: 3, locationName: 'Polanco')
-    ajaxStub = sinon.stub($, 'ajax').returns(promiseResolvedWithData(currentZipCodeInfo))
+    currentZipCodeInfo = testUtils.generateZipCodeInfo(id: 3, locationName: 'Polanco')
+    ajaxStub = sinon.stub($, 'ajax').returns(testUtils.promiseResolvedWithData(currentZipCodeInfo))
     @$locationSelect.wblocationselect()
     @$locationSelect.wblocationselect('loadZipCode', '12345')
 
@@ -287,8 +288,8 @@ describe 'jQueryLocationSelectSpec', ->
     expect(@$locationSelect.data('_zip-code-info')).to.be.eql(currentZipCodeInfo)
 
   it 'should get current zip code info by id using value', ->
-    currentZipCodeInfo = generateZipCodeInfo(id: 5, locationName: 'Condesa')
-    ajaxStub = sinon.stub($, 'ajax').returns(promiseResolvedWithData(currentZipCodeInfo))
+    currentZipCodeInfo = testUtils.generateZipCodeInfo(id: 5, locationName: 'Condesa')
+    ajaxStub = sinon.stub($, 'ajax').returns(testUtils.promiseResolvedWithData(currentZipCodeInfo))
     @$locationSelect.wblocationselect()
     @$locationSelect.wblocationselect('loadZipCode', '12345')
 
@@ -298,7 +299,7 @@ describe 'jQueryLocationSelectSpec', ->
 
   it 'should value return empty object after being resetted', ->
     ajaxStub = sinon.stub($, 'ajax')
-        .onFirstCall().returns(promiseResolvedWithData())
+        .onFirstCall().returns(testUtils.promiseResolvedWithData())
         .onSecondCall().returns(PROMISE_RESOLVED_WITHOUT_DATA)
     @$locationSelect.wblocationselect()
 
@@ -308,7 +309,7 @@ describe 'jQueryLocationSelectSpec', ->
     expect(@$locationSelect.wblocationselect('value')).to.be.eql({})
 
   it 'should value return empty object if default option selected', ->
-    ajaxStub = sinon.stub($, 'ajax').returns(promiseResolvedWithData())
+    ajaxStub = sinon.stub($, 'ajax').returns(testUtils.promiseResolvedWithData())
     @$locationSelect.wblocationselect()
 
     @$locationSelect.wblocationselect('loadZipCode', '12345')
@@ -317,7 +318,7 @@ describe 'jQueryLocationSelectSpec', ->
     expect(@$locationSelect.wblocationselect('value')).to.be.eql({})
 
   it 'should not reset options if other option selected', ->
-    ajaxStub = sinon.stub($, 'ajax').returns(promiseResolvedWithData())
+    ajaxStub = sinon.stub($, 'ajax').returns(testUtils.promiseResolvedWithData())
     @$locationSelect.wblocationselect()
 
     @$locationSelect.wblocationselect('loadZipCode', '12345')
@@ -326,7 +327,7 @@ describe 'jQueryLocationSelectSpec', ->
     expectOptionsAreNotReset.call(@)
 
   it 'should not reset options if blank option selected', ->
-    ajaxStub = sinon.stub($, 'ajax').returns(promiseResolvedWithData())
+    ajaxStub = sinon.stub($, 'ajax').returns(testUtils.promiseResolvedWithData())
     @$locationSelect.wblocationselect()
 
     @$locationSelect.wblocationselect('loadZipCode', '12345')
@@ -355,8 +356,8 @@ describe 'jQueryLocationSelectSpec', ->
     expect(ajaxStub).to.not.have.been.called
 
   it 'should select attr value on first zip code load', ->
-    zipCodeInfo = generateZipCodeInfo(id: 3, locationName: 'Polanco')
-    ajaxStub = sinon.stub($, 'ajax').returns(promiseResolvedWithData(zipCodeInfo))
+    zipCodeInfo = testUtils.generateZipCodeInfo(id: 3, locationName: 'Polanco')
+    ajaxStub = sinon.stub($, 'ajax').returns(testUtils.promiseResolvedWithData(zipCodeInfo))
     @$locationSelect.attr('value', zipCodeInfo.id)
 
     @$locationSelect.wblocationselect()
@@ -366,7 +367,7 @@ describe 'jQueryLocationSelectSpec', ->
     expect(@$locationSelect.data('_zip-code-info')).to.be.eql(zipCodeInfo)
 
   it 'should load data location if provided', ->
-    ajaxStub = sinon.stub($, 'ajax').returns(promiseResolvedWithData())
+    ajaxStub = sinon.stub($, 'ajax').returns(testUtils.promiseResolvedWithData())
     @$locationSelect.attr('value', '')
     @$locationSelect.attr('data-location', 'Condesa')
 
@@ -421,24 +422,3 @@ describe 'jQueryLocationSelectSpec', ->
     expectOtherOptionExist.call(@)
     expect($options.length, 'Unexpected number of select options!').to.be.equal(4)
     expect($listOptions.length, 'Unexpected number of list options!').to.be.equal(4)
-
-  addZipCodeInput = (extraAttrs) ->
-    attrs = $.extend({ type:"text", name:"zipCode" }, extraAttrs)
-    $('<input>', attrs).appendTo(@$form)
-
-  promiseResolvedWithData = (extraZipCodeInfo) ->
-    zipCodeData = response: [generateZipCodeInfo(), generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
-    zipCodeData.response.push(extraZipCodeInfo) if extraZipCodeInfo
-    new $.Deferred().resolve(zipCodeData).promise()
-
-  generateZipCodeInfo = (data) ->
-    $.extend(
-      id: 1,
-      locationName: 'Lomas Chapultepec',
-      locationCode: '00',
-      locationType: 'Colonia',
-      county: 'Miguel Hidalgo',
-      city: 'Miguel Hidalgo',
-      state: 'DF',
-      zipCode: '11000'
-    , data)
