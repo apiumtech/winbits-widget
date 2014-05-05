@@ -3,10 +3,11 @@
 
 # Delegate to Chaplin’s utils module.
 utils = Winbits.Chaplin.utils.beget Chaplin.utils
+mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 _ = Winbits._
-mediator = Winbits.Chaplin.mediator
-rpc = Winbits.env.get('rpc')
+env = Winbits.env
+rpc = env.get('rpc')
 
 # _(utils).extend
 #  someMethod: ->
@@ -313,14 +314,14 @@ _(utils).extend
 
   saveApiToken: (apiToken) ->
     mediator.data.get('login-data').apiToken = apiToken
-    localStorage.setItem(Winbits.env.get('api-token-name'), apiToken)
+    localStorage.setItem(env.get('api-token-name'), apiToken)
 
-    Winbits.env.get('rpc').saveApiToken apiToken, ->
+    rpc.saveApiToken apiToken, ->
       console.log 'ApiToken saved :)'
     , -> console.log 'Unable to save ApiToken :('
 
   deleteApiToken: ->
-    localStorage.removeItem(Winbits.env.get('api-token-name'))
+    localStorage.removeItem(env.get('api-token-name'))
 
   redirectTo: ->
     Winbits.Chaplin.utils.redirectTo.apply null, arguments
@@ -355,8 +356,16 @@ _(utils).extend
     cartItem
 
   getResourceURL: (path) ->
-    apiURL = Winbits.env.get('api-url')
+    apiURL = env.get('api-url')
     "#{apiURL}/#{path}"
+
+  setupAjaxOptions: (defaultOptions = {}, options) ->
+    ajaxOptions = $.extend({}, defaultOptions, options)
+    ajaxOptions.headers = $.extend({}, defaultOptions.headers, options.headers)
+    ajaxOptions
+
+  getCurrentVerticalId: ->
+    env.get('current-vertical-id')
 
 # Prevent creating new properties and stuff.
 Object.seal? utils

@@ -5,9 +5,9 @@
       "name": "dev",
       "desc": "dev environment",
       "config": {
-        "apiUrl": "https://apici.winbits.com/v1",
-        "baseUrl": "http://widgets.winbits.com/qa",
-        "providerUrl": "https://apici.winbits.com/provider/",
+        "apiUrl": "https://apidev.winbits.com/v1",
+        "baseUrl": "https://checkoutdev.winbits.com",
+        "providerUrl": "https://apidev.winbits.com/provider/",
         "remoteDebug": true
       }
     },
@@ -16,7 +16,7 @@
       "desc": "ci environment",
       "config": {
         "apiUrl": "https://apici.winbits.com/v1",
-        "baseUrl": "http://widgets.winbits.com/ci",
+        "baseUrl": "http://checkoutci.winbits.com",
         "providerUrl": "https://apici.winbits.com/provider/",
         "remoteDebug": true
       }
@@ -26,7 +26,7 @@
       "desc": "qa environment",
       "config": {
         "apiUrl": "https://apiqa.winbits.com/v1",
-        "baseUrl": "http://widgets.winbits.com/qa",
+        "baseUrl": "http://checkoutqa.winbits.com",
         "providerUrl": "https://apiqa.winbits.com/provider/",
         "remoteDebug": true
       }
@@ -36,7 +36,7 @@
       "desc": "staging environment",
       "config": {
         "apiUrl": "https://apistaging.winbits.com/v1",
-        "baseUrl": "http://widgets.winbits.com/staging",
+        "baseUrl": "http://checkoutstaging.winbits.com",
         "providerUrl": "https://apistaging.winbits.com/provider/",
         "remoteDebug": false
       }
@@ -46,7 +46,7 @@
       "desc": "production environment",
       "config": {
         "apiUrl": "http://api.winbits.com/v1",
-        "baseUrl": "http://widget.winbits.com",
+        "baseUrl": "http://checkout.winbits.com",
         "providerUrl": "https://api.winbits.com/provider/",
         "remoteDebug": false
       }

@@ -1,10 +1,12 @@
+'use strict'
+
 View = require 'views/base/view'
 LoggedIn = require 'models/logged-in/logged-in'
 utils = require 'lib/utils'
 loginUtil = require 'lib/login-utils'
+mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 env = Winbits.env
-mediator = Winbits.Chaplin.mediator
 
 module.exports = class LoggedInView extends View
   container: '#wbi-header-wrapper'
@@ -15,9 +17,13 @@ module.exports = class LoggedInView extends View
   initialize: ->
     super
     @listenTo @model, 'change', @render
+    @delegate 'click', '#wbi-checkout-btn', @triggerCheckout
 
   attach: ->
     super
     @$('#wbi-my-account-link').one('click', ->
       mediator.data.set('tabs-swapped', yes)
     )
+
+  triggerCheckout: ->
+    @publishEvent('checkout-requested')
