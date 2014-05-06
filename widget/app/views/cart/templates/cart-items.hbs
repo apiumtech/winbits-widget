@@ -3,7 +3,7 @@
         {{#each cartDetails}}
         {{#with skuProfile}}
         <li data-id="{{id}}">
-            <a href="#"><img class="wbc-item-image imgItem" src="{{item.thumbnail}}" class="imgItem" alt="{{item.name}}"></a>
+            <a href="#"><img class="wbc-item-image imgItem" src="{{item.thumbnail}}" alt="{{item.name}}"></a>
             <p class="descriptionItem wbc-item-description">{{item.name}}</p>
             <p class="caracItem wbc-item-attributes">{{joinAttributes mainAttribute attributes}}</p>
         {{/with}}
