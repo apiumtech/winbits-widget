@@ -9,7 +9,7 @@ env = Winbits.env
 module.exports = class Cart extends Model
   url: cartUtils.getCartResourceUrl
   needsAuth: yes
-  accessors: ['cartTotal', 'cartPercentageSaved', 'cartSaving']
+  accessors: ['cartTotal', 'cartPercentageSaved', 'cartSaving', 'itemsFullTotal']
   defaults:
     itemsTotal: 0,
     bitsTotal: 0,
@@ -24,7 +24,16 @@ module.exports = class Cart extends Model
     super(method, model, options)
 
   cartTotal: ->
-    @get('itemsTotal') - @get('shippingTotal') - @get('bitsTotal')
+    @get('itemsTotal') + @get('shippingTotal') - @get('bitsTotal')
+
+
+  itemsFullTotal: ->
+    priceTotal = 0
+    if(@get('cartDetails'))
+      priceTotal = (detail.quantity * detail.skuProfile.fullPrice) for detail in @get('cartDetails')
+    priceTotal
+
+
 
   cartPercentageSaved: ->
     cartTotal = @cartTotal()
