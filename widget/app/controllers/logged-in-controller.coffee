@@ -39,6 +39,7 @@ module.exports = class LoggedInController extends Controller
           @view = new ChangePasswordView model: @model
 
         check: -> mediator.data.get 'change-password-composed'
+
       @reuse 'social-media-view', SocialMediaView
 
       @reuse 'shipping-addresses',
@@ -46,6 +47,8 @@ module.exports = class LoggedInController extends Controller
           mediator.data.set 'shipping-addresses-composed', yes
           @model = new ShippingAddresses
           @view = new ShippingAddressesView model:@model
+
+        check: -> mediator.data.get 'shipping-addresses-composed'
 
       @reuse 'user-cart-view',
         compose: ->
