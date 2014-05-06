@@ -112,5 +112,8 @@ Handlebars.registerHelper "formatPercentage", (value) ->
 Handlebars.registerHelper 'getItemTotalPrice', (val1, val2) ->
   val1 * val2
 
+Handlebars.registerHelper 'setIndex', (val1) ->
+  val1 + 1
+
 Handlebars.registerHelper "getIndex", (index) ->
   index + 1
