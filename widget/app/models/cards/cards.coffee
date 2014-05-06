@@ -9,11 +9,6 @@ env = Winbits.env
 module.exports = class Cart extends Model
   url: utils.getResourceURL('orders/card-subscription.json')
   needsAuth: yes
-  defaults:
-    itemsTotal: 0,
-    bitsTotal: 0,
-    shippingTotal: 0,
-    cashback: 0
 
   initialize: () ->
     super

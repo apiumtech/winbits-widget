@@ -1,17 +1,21 @@
 <div class="ccCarrusel">
+    {{#if cards}}
     <div class="block-carrusel">
         <div class="block-wrapper">
-            <div class="block-slide">
-                <div class="carruselSCC-div">
+            {{#each cards}}
+            <div class="block-slide" data-id="{{cardInfo.subscriptionId}}">
+                <div class="carruselSCC-div {{#if cardInfo.cardPrincipal}}carruselSCC-selected{{/if}}">
                    <div class="creditcardMenu">
                         <a href="#">edit</a>
                         <span class="iconFont-close" title="Eliminar"></span>
                     </div>
-                    <h3>Tarjeta 1</h3>
+                    <h3>Tarjeta {{getIndex @index}}</h3>
                     <address>
-                        <span>Master Card,</span>
-                        <span>xxxxxxxxx-2327</span>
-                        <span>06/13</span>
+                        {{#with cardInfo.cardData}}
+                        <span>{{cardType}},</span>
+                        <span>{{accountNumber}}</span>
+                        <span>{{expirationMonth}}/{{expirationYear}}</span>
+                        {{/with}}
                     </address>
                     <span class="iconFont-creditcard" title="Tu orden se pagará con esta tarjeta"></span>
                     <span class="note hover">Da click aqui para establecer como tarjeta principal</span>
@@ -19,93 +23,12 @@
                     <input type="radio" name="winbitsCCRadio" class="creditcardRadio" id="winbitsCCRadio1">
                 </div>
             </div>
-            <div class="block-slide">
-                <div class="carruselSCC-div">
-                    <div class="creditcardMenu">
-                        <a href="#">edit</a>
-                        <span class="iconFont-close" title="Eliminar"></span>
-                    </div>
-                    <h3>Tarjeta 2</h3>
-                    <address>
-                        <span>Master Card,</span>
-                        <span>xxxxxxxxx-2327</span>
-                        <span>06/13</span>
-                    </address>
-                    <span class="iconFont-creditcard" title="Tu orden se pagará con esta tarjeta"></span>
-                    <span class="note hover">Da click aqui para establecer como tarjeta principal</span>
-                    <input type="radio" name="winbitsCCRadio" class="creditcardRadio" id="winbitsCCRadio2">
-                </div>
-            </div>
-            <div class="block-slide">
-                <div class="carruselSCC-div">
-                    <div class="creditcardMenu">
-                        <a href="#">edit</a>
-                        <span class="iconFont-close" title="Eliminar"></span>
-                    </div>
-                    <h3>Tarjeta 2</h3>
-                    <address>
-                        <span>Master Card,</span>
-                        <span>xxxxxxxxx-2327</span>
-                        <span>06/13</span>
-                    </address>
-                    <span class="iconFont-creditcard" title="Tu orden se pagará con esta tarjeta"></span>
-                    <span class="note hover">Da click aqui para establecer como tarjeta principal</span>
-                    <input type="radio" name="winbitsCCRadio" class="creditcardRadio" id="winbitsCCRadio3" checked="checked">
-                </div>
-            </div>
-            <div class="block-slide">
-                <div class="carruselSCC-div">
-                    <div class="creditcardMenu">
-                        <a href="#">edit</a>
-                        <span class="iconFont-close" title="Eliminar"></span>
-                    </div>
-                    <h3>Tarjeta 2</h3>
-                    <address>
-                        <span>Master Card,</span>
-                        <span>xxxxxxxxx-2327</span>
-                        <span>06/13</span>
-                    </address>
-                    <span class="iconFont-creditcard" title="Tu orden se pagará con esta tarjeta"></span>
-                    <span class="note hover">Da click aqui para establecer como tarjeta principal</span>
-                    <input type="radio" name="winbitsCCRadio" class="creditcardRadio" id="winbitsCCRadio4">
-                </div>
-            </div>
-            <div class="block-slide">
-                <div class="carruselSCC-div">
-                    <div class="creditcardMenu">
-                        <a href="#">edit</a>
-                        <span class="iconFont-close" title="Eliminar"></span>
-                    </div>
-                    <h3>Tarjeta 2</h3>
-                    <address>
-                        <span>Master Card,</span>
-                        <span>xxxxxxxxx-2327</span>
-                        <span>06/13</span>
-                    </address>
-                    <span class="iconFont-creditcard" title="Tu orden se pagará con esta tarjeta"></span>
-                    <span class="note hover">Da click aqui para establecer como tarjeta principal</span>
-                    <input type="radio" name="winbitsCCRadio" class="creditcardRadio" id="winbitsCCRadio5">
-                </div>
-            </div>
-            <div class="block-slide">
-                <div class="carruselSCC-div carruselSCC-selected">
-                    <div class="creditcardMenu">
-                        <a href="#">edit</a>
-                        <span class="iconFont-close" title="Eliminar"></span>
-                    </div>
-                    <h3>Tarjeta 2</h3>
-                    <address>
-                        <span>Master Card,</span>
-                        <span>xxxxxxxxx-2327</span>
-                        <span>06/13</span>
-                    </address>
-                    <span class="iconFont-creditcard" title="Tu orden se pagará con esta tarjeta"></span>
-                    <span class="note hover">Da click aqui para establecer como tarjeta principal</span>
-                    <input type="radio" name="winbitsCCRadio" class="creditcardRadio" id="winbitsCCRadio6">
-                </div>
-            </div>
+            {{/each}}
         </div>
     </div>
+    {{else}}
+    <div class="wbc-no-cards-panel addInfo"><span class="iconFont-close"></span>No tienes tarjetas.</div>
+    {{/if}}
     <span class="iconFont-left" title="Anterior"></span>
     <span class="iconFont-right" title="Siguiente"></span>
     <div class="creditcardAdd">

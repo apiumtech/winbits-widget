@@ -9,6 +9,8 @@ module.exports = class CardsView extends View
 
   initialize: ->
     super
+    @listenTo @model, 'change', -> @render()
+    @model.fetch()
 
   attach: ->
     super
@@ -20,9 +22,9 @@ module.exports = class CardsView extends View
           optionsSwiper:{
             slideClass: 'block-slide',
             wrapperClass: 'block-wrapper',
-            grabCursor: true,
-            useCSS3Transforms: false,
-            cssWidthAndHeight: false,
+            grabCursor: yes,
+            useCSS3Transforms: no,
+            cssWidthAndHeight: no,
             slidesPerView: 4
             },
           arrowLeft: '.iconFont-left',
