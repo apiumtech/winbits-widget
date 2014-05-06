@@ -68,4 +68,12 @@ module.exports = class ShippingAddressesView extends View
   doDeleteShipping: (e) ->
     e.preventDefault()
     $itemId = $(e.currentTarget).closest('.block-slide').data("id")
-    console.log ["CLICK EN DELETE SHIPPING", $itemId]
+    @model.requestDeleteShippingAddress($itemId, context:@)
+     .done(@doSuccessDeleteShippingAddress)
+     .fail(@doErrorDeleteShippingAdddress)
+
+  doSuccessDeleteShippingAddress: ->
+    @model.fetch()
+
+  doErrorDeleteShippingAddress: (xhr) ->
+    console.log ["SHIPPING ADDRESS DOES NOT DELETED", xhr.responseText]
