@@ -7,7 +7,7 @@ $ = Winbits.$
 env = Winbits.env
 
 module.exports = class Cart extends Model
-  url: cartUtils.getCartResourceUrl
+  url: cartUtils.getCartResourceUrl()
   needsAuth: yes
   accessors: ['cartTotal', 'cartPercentageSaved', 'cartSaving']
   defaults:
