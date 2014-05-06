@@ -18,6 +18,7 @@ module.exports = class ShippingAddressesView extends View
     @delegate 'click', '#wbi-add-new-shipping-address' , @showAddNewShipping
     @delegate 'click', '#wbi-add-shipping-address-cancel', @cancelAddNewShipping
     @delegate 'click', '#wbi-shipping-address-done-btn', @cancelAddNewShipping
+    @delegate 'click', '#wbi-block-carrusel-shipping-address', @doDeleteShipping
 
 
   render: ->
@@ -63,3 +64,8 @@ module.exports = class ShippingAddressesView extends View
     if not @$('.thanks-div').is(':hidden')
       @$('#wbi-shipping-thanks-div').slideUp()
       @model.fetch()
+
+  doDeleteShipping: (e) ->
+    e.preventDefault()
+    $itemId = $(e.currentTarget).closest('.block-slide').data("id")
+    console.log ["CLICK EN DELETE SHIPPING", $itemId]

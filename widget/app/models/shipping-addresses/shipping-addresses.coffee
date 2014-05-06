@@ -26,3 +26,4 @@ module.exports = class ShippingAddresses extends Model
 
     utils.ajaxRequest(env.get('api-url') +  "/users/shipping-addresses.json",
         $.extend(defaults, options))
+
