@@ -14,7 +14,8 @@ module.exports = class HashController extends Controller
   expressLogin : (apiToken) ->
     utils.ajaxRequest Winbits.env.get('api-url') + '/users/express-login.json',
       type: 'POST',
-      data: apiToken: apiToken
+      dataType: "json"
+      data: JSON.stringify(apiToken: apiToken)
 
   expressLoginSuccess: (data) ->
     console.log 'Login data verified :)'
