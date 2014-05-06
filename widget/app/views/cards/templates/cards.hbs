@@ -1,5 +1,7 @@
 <div class="ccCarrusel">
-    {{#if cards}}
+    {{#unless cards}}
+    <div class="wbc-no-cards-panel addInfo"><span class="iconFont-close"></span>No tienes tarjetas.</div>
+    {{else}}
     <div class="block-carrusel">
         <div class="block-wrapper">
             {{#each cards}}
@@ -26,11 +28,9 @@
             {{/each}}
         </div>
     </div>
-    {{else}}
-    <div class="wbc-no-cards-panel addInfo"><span class="iconFont-close"></span>No tienes tarjetas.</div>
-    {{/if}}
     <span class="iconFont-left" title="Anterior"></span>
     <span class="iconFont-right" title="Siguiente"></span>
+    {{/unless}}
     <div class="creditcardAdd">
         <h3>AGREGAR TARJETA +</h3>
         <span class="openClose"  data-showdiv=".creditcardNew" data-hidediv=".ccCarrusel">Da click para agregar</span>
