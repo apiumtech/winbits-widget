@@ -75,9 +75,9 @@ module.exports = class ShippingAddressesView extends View
     utils.showConfirmationModal(message, options)
 
   doRequestDeleteShippingAddress:($itemId) ->
-   @model.requestDeleteShippingAddress($itemId, context:@)
-     .done(@doSuccessDeleteShippingAddress)
-     .fail(@doErrorDeleteShippingAddress)
+    @model.requestDeleteShippingAddress($itemId, context:@)
+      .done(@doSuccessDeleteShippingAddress)
+      .fail(@doErrorDeleteShippingAddress)
 
   doSuccessDeleteShippingAddress: ->
     message = "La dirección se ha eliminado correctamente"
