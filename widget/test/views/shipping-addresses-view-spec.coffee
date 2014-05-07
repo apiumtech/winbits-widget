@@ -26,12 +26,14 @@ describe 'ShippingAddressesViewSpec', ->
 
   afterEach ->
     @data.restore()
-    @view.dispose?()
-    @model.dispose?()
+    @view.dispose()
+    @model.dispose()
+    utils.showConfirmationModal.restore?()
 
   it 'shipping addreses view renderized with no addresses', ->
     request = @requests[0]
     request.respond(200, { "Content-Type": "application/json" }, "")
+
     expect(@view.$('.shipCarrusel')).to.exist
     expect(@view.$('#wbi-add-new-shipping-address')).to.exist
     expect(@view.$('#wbi-shipping-new-address-container')).to.exist
@@ -41,6 +43,7 @@ describe 'ShippingAddressesViewSpec', ->
   it 'shipping addreses view renderized with 1 address', ->
     request = @requests[0]
     request.respond(200, { "Content-Type": "application/json" }, SHIPPING_ADDRESSES_RESPONSE)
+
     expect(@view.$('.shipCarrusel')).to.exist
     expect(@view.$('#wbi-add-new-shipping-address')).to.exist
     expect(@view.$('#wbi-shipping-new-address-container')).to.exist
@@ -49,7 +52,44 @@ describe 'ShippingAddressesViewSpec', ->
 
   it "should request get shipping addresses", ->
     request = @requests[0]
+
     expect(request.method).to.be.equal('GET')
     expect(request.url).to.be.equal(SHIPPING_ADDRESSES_URL)
 
+  it "With shipping address exist icon to delete it", ->
+    request = @requests[0]
+    request.respond(200, { "Content-Type": "application/json" }, SHIPPING_ADDRESSES_RESPONSE)
+    deleteButton =@view.$('span.wbc-delete-shipping-link')
+
+    expect(deleteButton).to.exist
+
+  it "With NO shipping address doesn't exist icon to delete it", ->
+    deleteButton =@view.$('span.wbc-delete-shipping-link')
+
+    expect(deleteButton).to.not.exist
+
+  it "Should be called modal render", ->
+    sinon.stub(@view,'doDeleteShipping')
+    confirmationStub = sinon.stub(utils, 'showConfirmationModal')
+    request = @requests[0]
+    request.respond(200, { "Content-Type": "application/json" }, SHIPPING_ADDRESSES_RESPONSE)
+    @view.$('span.wbc-delete-shipping-link').click()
+
+    expect(confirmationStub).to.be.calledOnce
+
+  it "Should delete shipping address ", ->
+    sinon.stub(@model, 'requestDeleteShippingAddress').returns TestUtils.promises.resolved
+    successStub = sinon.stub(@view, 'doSuccessDeleteShippingAddress')
+    errorStub = sinon.stub(@view, 'doErrorDeleteShippingAddress')
+    @view.doRequestDeleteShippingAddress('1')
+    expect(successStub).to.be.calledOnce
+    expect(errorStub).to.not.be.calledOnce
+
+  it "Should NO delete shipping address with error in api", ->
+    sinon.stub(@model, 'requestDeleteShippingAddress').returns TestUtils.promises.rejected
+    successStub = sinon.stub(@view, 'doSuccessDeleteShippingAddress')
+    errorStub = sinon.stub(@view, 'doErrorDeleteShippingAddress')
+    @view.doRequestDeleteShippingAddress('1')
+    expect(successStub).to.not.be.calledOnce
+    expect(errorStub).to.be.calledOnce
 

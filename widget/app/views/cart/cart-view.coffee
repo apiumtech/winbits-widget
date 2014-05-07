@@ -15,9 +15,9 @@ module.exports = class CartView extends View
 
   initialize: ->
     super
-    @listenTo @model, 'change', -> @render()
+    # @listenTo @model, 'change', -> @render()
     @subscribeEvent 'cart-changed', -> @onCartChanged.apply(@, arguments)
-    @model.fetch()
+    @model.fetch(success: $.proxy(@render, @))
 
   render: ->
     super
@@ -34,3 +34,4 @@ module.exports = class CartView extends View
 
   onCartChanged: (cartData)->
     @model.setData(cartData)
+    @render()
