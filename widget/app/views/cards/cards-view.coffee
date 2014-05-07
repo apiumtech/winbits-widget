@@ -14,7 +14,7 @@ module.exports = class CardsView extends View
 
   attach: ->
     super
-    @$('.block-carrusel').changeBox(
+    @$('#wbi-cards-carousel').changeBox(
           activo: 'carruselSCC-selected',
           items: '.carruselSCC-div'
        )

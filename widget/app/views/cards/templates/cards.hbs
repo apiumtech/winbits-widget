@@ -1,11 +1,11 @@
 <div class="ccCarrusel">
     {{#unless cards}}
-    <div class="wbc-no-cards-panel addInfo"><span class="iconFont-close"></span>No tienes tarjetas.</div>
+    <div id="wbi-no-cards-panel" class="addInfo"><span class="iconFont-close"></span>No tienes tarjetas.</div>
     {{else}}
-    <div class="block-carrusel">
+    <div id="wbi-cards-carousel" class="block-carrusel">
         <div class="block-wrapper">
             {{#each cards}}
-            <div class="block-slide" data-id="{{cardInfo.subscriptionId}}">
+            <div class="block-slide wbc-card" data-id="{{cardInfo.subscriptionId}}">
                 <div class="carruselSCC-div {{#if cardInfo.cardPrincipal}}carruselSCC-selected{{/if}}">
                    <div class="creditcardMenu">
                         <a href="#">edit</a>
@@ -33,7 +33,7 @@
     {{/unless}}
     <div class="creditcardAdd">
         <h3>AGREGAR TARJETA +</h3>
-        <span class="openClose"  data-showdiv=".creditcardNew" data-hidediv=".ccCarrusel">Da click para agregar</span>
+        <span id="wbi-new-card-link" class="openClose"  data-showdiv=".creditcardNew" data-hidediv=".ccCarrusel">Da click para agregar</span>
     </div>
 </div>
 <div class="creditcardNew">
