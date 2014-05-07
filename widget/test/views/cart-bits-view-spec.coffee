@@ -35,7 +35,7 @@ describe 'CartBitsViewSpec', ->
         .and.to.has.$text('100')
 
   it 'should render cart percentage saved', ->
-    @model.set(itemsTotal: 100, shippingTotal: 50, bitsTotal: 20)
+    @model.set(itemsTotal: 100, shippingTotal: 250, bitsTotal: 20)
 
     @view.render()
 

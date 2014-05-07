@@ -38,7 +38,7 @@ module.exports = class Cart extends Model
   cartPercentageSaved: ->
     cartTotal = @cartTotal()
     itemsTotal = @get('itemsTotal')
-    if itemsTotal then (1 - (cartTotal / itemsTotal)) * 100 else 0
+    if itemsTotal then Math.ceil((1 - (cartTotal / itemsTotal)).toFixed(2) * 100 ) else 0
 
   cartSaving: ->
     # TODO: Implementar algoritmo corecto cuando se defina

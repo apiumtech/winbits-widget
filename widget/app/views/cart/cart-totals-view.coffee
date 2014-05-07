@@ -8,6 +8,7 @@ module.exports = class CartTotalsView extends View
 
   initialize: ->
     super
+    @listenTo @model, 'change', @render
 
   attach: ->
     super
