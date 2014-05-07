@@ -301,6 +301,13 @@ _(utils).extend
     $(".wbc-modal-icon", $modal).html("<span class='#{options.icon}'></span>")
     $('<a>').wbfancybox(padding: 10, href: modalSelector, onClosed: onClosed).click()
 
+
+  showConfirmationModal: (message, options) ->
+    console.log ["MESSAGE TO CONFIRMATION MODAL", message]
+    message= "HOLA AQUI"
+    @showMessageModal(message, options, '#wbi-confirmation-modal')
+
+
   showLoadingMessage: (message, options)->
     defaults = icon:'iconFont-clock2',title:message
     options = $.extend(defaults, options)
