@@ -10,6 +10,7 @@ module.exports = class CardsView extends View
   initialize: ->
     super
     @listenTo @model, 'change', -> @render()
+    @delegate 'click', '.wbc-card', -> @onCardClick.apply(@, arguments)
     @model.fetch()
 
   attach: ->
@@ -29,3 +30,9 @@ module.exports = class CardsView extends View
           slideCSS: '.block-slide',
           initialSlide: '.carruselSCC-selected'
     })
+
+  onCardClick: (e) ->
+    $card = $(e.currentTarget)
+    if not $card.children('.carruselSCC-selected').length
+      id = $card.data('id')
+      @model.requestSetDefaultCard(id)

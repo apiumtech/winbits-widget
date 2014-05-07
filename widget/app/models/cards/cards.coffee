@@ -16,3 +16,5 @@ module.exports = class Cart extends Model
   parse: ->
     parsedResponse = super
     cards: parsedResponse
+
+  requestSetDefaultCard: ->

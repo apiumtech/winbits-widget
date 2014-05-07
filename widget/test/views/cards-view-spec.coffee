@@ -14,6 +14,7 @@ describe 'CardsViewSpec', ->
   afterEach ->
     @view.render.restore?()
     @model.fetch.restore?()
+    @model.requestSetDefaultCard.restore?()
     @view.dispose()
     @model.dispose()
     $.fn.changeBox.restore?()
@@ -77,6 +78,23 @@ describe 'CardsViewSpec', ->
     $card = @view.$('.wbc-card').last()
     expect($card).to.has.data('id', 10)
     expect($card.find('.carruselSCC-div')).to.has.$class('carruselSCC-selected')
+
+  it 'should request to set as default card when non default card is clicked', ->
+    setModel.call(@)
+    sinon.stub(@model, 'requestSetDefaultCard')
+    $nonDefaultCard = @view.$('.wbc-card').first()
+
+    $nonDefaultCard.click()
+    expect(@model.requestSetDefaultCard).to.has.been.calledWith(5)
+        .and.to.has.been.calledOnce
+
+  it 'should request to set as default card when non default card is clicked', ->
+    setModel.call(@)
+    sinon.stub(@model, 'requestSetDefaultCard')
+    $defaultCard = @view.$('.wbc-card').last()
+
+    $defaultCard.click()
+    expect(@model.requestSetDefaultCard).to.not.has.been.called
 
   setModel = ->
     data = []
