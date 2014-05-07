@@ -11,12 +11,12 @@
                         <a href="#">edit</a>
                         <span class="iconFont-close" title="Eliminar"></span>
                     </div>
-                    <h3>Tarjeta {{getIndex @index}}</h3>
+                    <h3 class="wbc-card-index">Tarjeta {{getIndex @index}}</h3>
                     <address>
                         {{#with cardInfo.cardData}}
-                        <span>{{cardType}},</span>
-                        <span>{{accountNumber}}</span>
-                        <span>{{expirationMonth}}/{{expirationYear}}</span>
+                        <span class="wbc-card-type">{{cardType}},</span>
+                        <span class="wbc-card-number">{{accountNumber}}</span>
+                        <span class="wbc-expiration-date">{{expirationMonth}}/{{expirationYear}}</span>
                         {{/with}}
                     </address>
                     <span class="iconFont-creditcard" title="Tu orden se pagará con esta tarjeta"></span>

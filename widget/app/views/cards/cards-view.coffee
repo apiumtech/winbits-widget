@@ -14,11 +14,7 @@ module.exports = class CardsView extends View
 
   attach: ->
     super
-    @$('#wbi-cards-carousel').changeBox(
-          activo: 'carruselSCC-selected',
-          items: '.carruselSCC-div'
-       )
-    .carouselSwiper({
+    @$('#wbi-cards-carousel').carouselSwiper({
           optionsSwiper:{
             slideClass: 'block-slide',
             wrapperClass: 'block-wrapper',

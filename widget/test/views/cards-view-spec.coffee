@@ -31,15 +31,6 @@ describe 'CardsViewSpec', ->
     expect(@view.$('#wbi-new-card-link')).to.existExact(1)
     expect(@view.$('.wbc-card')).to.exist
 
-  it 'should apply changeBox plugin', ->
-    sinon.spy($.fn, 'changeBox')
-
-    setModel.call(@)
-
-    expect($.fn.changeBox).to.has.been.calledOnce
-    $chain = $.fn.changeBox.firstCall.returnValue
-    expect($chain).to.has.id('wbi-cards-carousel')
-
   it 'should apply carrouselSwipper plugin', ->
     sinon.spy($.fn, 'carouselSwiper')
 
@@ -64,10 +55,31 @@ describe 'CardsViewSpec', ->
 
     expect(@view.$('#wbi-no-cards-panel')).to.exist
 
-  it 'should render cards when cards are set in model', ->
-    @model.set('cards', [cardInfo:{ subscriptionId: 1, cardData: {} }])
+  it 'should render no cards panel when model is cleared', ->
+    @model.clear()
 
-    expect(@view.$('.wbc-card')).to.exist
-    expect(@view.$('.wbc-card').first()).to.has.data('id', 1)
+    expect(@view.$('#wbi-no-cards-panel')).to.exist
 
-  setModel = -> @model.set('cards', [cardInfo:{ subscriptionId: 1, cardData: {} }])
+  it 'should render non default card', ->
+    setModel.call(@)
+
+    $card = @view.$('.wbc-card').first()
+    expect($card).to.has.data('id', 5)
+    expect($card.find('.carruselSCC-div')).to.not.has.$class('carruselSCC-selected')
+    expect($card.find('.wbc-card-index')).to.has.$text('Tarjeta 1')
+    expect($card.find('.wbc-card-type')).to.has.$text('Master Card,')
+    expect($card.find('.wbc-card-number')).to.has.$text('12345')
+    expect($card.find('.wbc-expiration-date')).to.has.$text('10/18')
+
+  it 'should render default card', ->
+    setModel.call(@)
+
+    $card = @view.$('.wbc-card').last()
+    expect($card).to.has.data('id', 10)
+    expect($card.find('.carruselSCC-div')).to.has.$class('carruselSCC-selected')
+
+  setModel = ->
+    data = []
+    data.push cardInfo:{ subscriptionId: 5, cardData: { cardType: 'Master Card', accountNumber: '12345', expirationMonth: '10', expirationYear: '18' } }
+    data.push cardInfo:{ subscriptionId: 10, cardData: { cardType: 'Visa', accountNumber: '67890', expirationMonth: '12', expirationYear: '20' }, cardPrincipal: yes }
+    @model.set('cards', data)
