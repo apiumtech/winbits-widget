@@ -27,7 +27,7 @@
       $('<option>', value: '').text(@options.defaultOption).prependTo(@element)
 
     _createOtherInput: ->
-      otherFieldAttrs = $.extend({}, @options.otherFieldAttrs, { type: 'text', style: 'display:none;' })
+      otherFieldAttrs = $.extend({}, @options.otherFieldAttrs, { type: 'text', class:"wbc-location-field", style: 'display:none;' })
       @$locationField = $('<input>', otherFieldAttrs)
       @$locationField.insertAfter(@_wrapper)
       @$locationField.attr('placeholder', otherFieldAttrs.placeholder).placeholder()
@@ -41,7 +41,8 @@
       selectedValue = @element.val()
       @_saveZipCodeInfo(@_getZipCodeInfo(selectedValue))
       method = if selectedValue is '-1' then 'show' else 'hide'
-      @_wrapper.next().val('')[method]()
+      @_wrapper.nextAll('.wbc-location-field').val('')[method]()
+      @_cleanErrors()
 
     _saveZipCodeInfo: (zipCodeInfo) ->
       @element.data(@_zipCodeInfoKey, zipCodeInfo)
@@ -165,5 +166,8 @@
 
     _cleanErrors: ->
       @$zipCodeInput.data('_zip-code-not-found-error', no)
-      @$zipCodeInput.closest('form').validate().element(@$zipCodeInput)
+      $form = @$zipCodeInput.closest('form').validate()
+      $form.element(@$zipCodeInput)
+      $form.element(@$locationField)
+      $form.element(@element)
 )(jQuery)
