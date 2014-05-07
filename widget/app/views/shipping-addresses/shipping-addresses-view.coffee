@@ -19,6 +19,7 @@ module.exports = class ShippingAddressesView extends View
     @delegate 'click', '#wbi-add-shipping-address-cancel', @cancelAddNewShipping
     @delegate 'click', '#wbi-shipping-address-done-btn', @cancelAddNewShipping
     @delegate 'click', '.wbc-delete-shipping-link', @doDeleteShipping
+    @delegate 'click', '.wbc-edit-shipping-link', @doEditShippingAddress
 
 
   render: ->
@@ -62,8 +63,6 @@ module.exports = class ShippingAddressesView extends View
       @model.fetch()
 
   doDeleteShipping: (e)->
-    e.stopPropagation()
-    console.log ["click btn delete"]
     $itemId = $(e.currentTarget).closest('.block-slide').data("id")
     message = "¿Estás seguro de eliminar esta dirección de envío? <br><br> En caso de eliminarla las compras relacionadas a esta direccion no se verán afectadas"
     options =
@@ -89,3 +88,9 @@ module.exports = class ShippingAddressesView extends View
     message = "Hubo un error al intentar eliminar la direccion, intentalo mas tarde"
     options = value: "Continuar", title:'Error al eliminar', icon:'iconFont-close', onClosed: utils.redirectTo controller: 'home', action: 'index'
     utils.showMessageModal(message, options)
+
+  doEditShippingAddress: (e) ->
+    itemId = $(e.currentTarget).closest('.block-slide').data("id")
+    address = @model.getShippingAddress(itemId)
+    console.log ["address", address]
+#    @subview 'edit-address-view', new
