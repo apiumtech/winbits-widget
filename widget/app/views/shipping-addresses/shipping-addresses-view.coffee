@@ -18,7 +18,7 @@ module.exports = class ShippingAddressesView extends View
     @delegate 'click', '#wbi-add-new-shipping-address' , @showAddNewShipping
     @delegate 'click', '#wbi-add-shipping-address-cancel', @cancelAddNewShipping
     @delegate 'click', '#wbi-shipping-address-done-btn', @cancelAddNewShipping
-    @delegate 'click', '#wbi-block-carrusel-shipping-address', @doDeleteShipping
+    @delegate 'click', '.wbc-delete-link', @doDeleteShipping
 
 
   render: ->
@@ -29,11 +29,7 @@ module.exports = class ShippingAddressesView extends View
   attach: ->
     super
     #script to implement carrusel
-    @$('.block-carrusel').changeBox(
-          activo: 'carruselSCC-selected',
-          items: '.carruselSCC-div'
-       )
-    .carouselSwiper({
+    @$('.block-carrusel').carouselSwiper({
           optionsSwiper:{
             slideClass: 'block-slide',
             wrapperClass: 'block-wrapper',
@@ -66,14 +62,27 @@ module.exports = class ShippingAddressesView extends View
       @model.fetch()
 
   doDeleteShipping: (e) ->
-    e.preventDefault()
+    console.log ['SP']
+    e.stopPropagation()
     $itemId = $(e.currentTarget).closest('.block-slide').data("id")
-    utils.showConfirmationModal("¿Seguro que desea borrar esta direccion #{$itemId}? ")
-#    @model.requestDeleteShippingAddress($itemId, context:@)
-#     .done(@doSuccessDeleteShippingAddress)
-#     .fail(@doErrorDeleteShippingAddress)
+    message = "¿Estás seguro de eliminar esta dirección de envío? <br><br> En caso de eliminarla las compras relacionadas a esta direccion no se verán afectadas"
+    options =
+      value: "Aceptar"
+      title:'Confirmacion de borrado'
+      icon:'iconFont-question'
+      context: @
+      acceptAction: () -> @doRequestDeleteShippingAddress($itemId)
+    utils.showConfirmationModal(message, options)
+
+  doRequestDeleteShippingAddress:($itemId) ->
+   @model.requestDeleteShippingAddress($itemId, context:@)
+     .done(@doSuccessDeleteShippingAddress)
+     .fail(@doErrorDeleteShippingAddress)
 
   doSuccessDeleteShippingAddress: ->
+    message = "La dirección se ha eliminado correctamente"
+    options = value: "Continuar", title:'Direccion de envío eliminada', icon:'iconFont-ok', onClosed: utils.redirectTo controller: 'home', action: 'index'
+    utils.showMessageModal(message, options)
     @model.fetch()
 
   doErrorDeleteShippingAddress: (xhr) ->
