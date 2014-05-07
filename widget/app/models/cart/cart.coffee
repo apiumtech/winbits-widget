@@ -9,7 +9,7 @@ env = Winbits.env
 module.exports = class Cart extends Model
   url: cartUtils.getCartResourceUrl
   needsAuth: yes
-  accessors: ['cartTotal', 'cartPercentageSaved', 'cartSaving']
+  accessors: ['cartTotal', 'cartPercentageSaved', 'cartSaving', 'itemsFullTotal']
   defaults:
     itemsTotal: 0,
     bitsTotal: 0,
@@ -24,12 +24,21 @@ module.exports = class Cart extends Model
     super(method, model, options)
 
   cartTotal: ->
-    @get('itemsTotal') - @get('shippingTotal') - @get('bitsTotal')
+    @get('itemsTotal') + @get('shippingTotal') - @get('bitsTotal')
+
+
+  itemsFullTotal: ->
+    priceTotal = 0
+    if(@get('cartDetails'))
+      priceTotal = (detail.quantity * detail.skuProfile.fullPrice) for detail in @get('cartDetails')
+    priceTotal
+
+
 
   cartPercentageSaved: ->
     cartTotal = @cartTotal()
     itemsTotal = @get('itemsTotal')
-    if itemsTotal then (1 - (cartTotal / itemsTotal)) * 100 else 0
+    if itemsTotal then Math.ceil((1 - (cartTotal / itemsTotal)).toFixed(2) * 100 ) else 0
 
   cartSaving: ->
     # TODO: Implementar algoritmo corecto cuando se defina

@@ -17,7 +17,7 @@ describe 'CartViewSpec', ->
   beforeEach ->
     @el = $('<li>', id: 'wbi-cart-holder').get(0)
     @model = new Cart
-    sinon.stub(@model, 'fetch')
+    sinon.stub(@model, 'fetch').returns()
     @view = new CartView container: @el, model: @model
 
   afterEach ->

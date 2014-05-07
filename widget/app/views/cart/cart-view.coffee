@@ -1,3 +1,4 @@
+'use strict'
 View = require 'views/base/view'
 CartItemsView = require 'views/cart/cart-items-view'
 CartTotalsView = require 'views/cart/cart-totals-view'
