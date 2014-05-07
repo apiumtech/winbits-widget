@@ -28,6 +28,8 @@ specs = [
   './lib/cart-utils-spec',
   './winbits-spec',
   './lib/utils-spec'
+  './views/cards-view-spec'
+  './models/cards-spec'
 ]
 
 for spec in specs
