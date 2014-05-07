@@ -1,0 +1,93 @@
+<div class="ccCarrusel">
+    {{#unless cards}}
+    <div class="wbc-no-cards-panel addInfo"><span class="iconFont-close"></span>No tienes tarjetas.</div>
+    {{else}}
+    <div class="block-carrusel">
+        <div class="block-wrapper">
+            {{#each cards}}
+            <div class="block-slide" data-id="{{cardInfo.subscriptionId}}">
+                <div class="carruselSCC-div {{#if cardInfo.cardPrincipal}}carruselSCC-selected{{/if}}">
+                   <div class="creditcardMenu">
+                        <a href="#">edit</a>
+                        <span class="iconFont-close" title="Eliminar"></span>
+                    </div>
+                    <h3>Tarjeta {{getIndex @index}}</h3>
+                    <address>
+                        {{#with cardInfo.cardData}}
+                        <span>{{cardType}},</span>
+                        <span>{{accountNumber}}</span>
+                        <span>{{expirationMonth}}/{{expirationYear}}</span>
+                        {{/with}}
+                    </address>
+                    <span class="iconFont-creditcard" title="Tu orden se pagará con esta tarjeta"></span>
+                    <span class="note hover">Da click aqui para establecer como tarjeta principal</span>
+                    <span class="mesesSinIntereses-box">MESES SIN INTERESES</span>
+                    <input type="radio" name="winbitsCCRadio" class="creditcardRadio" id="winbitsCCRadio1">
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+    <span class="iconFont-left" title="Anterior"></span>
+    <span class="iconFont-right" title="Siguiente"></span>
+    {{/unless}}
+    <div class="creditcardAdd">
+        <h3>AGREGAR TARJETA +</h3>
+        <span class="openClose"  data-showdiv=".creditcardNew" data-hidediv=".ccCarrusel">Da click para agregar</span>
+    </div>
+</div>
+<div class="creditcardNew">
+    <form id="creditcardNew" accept-charset="utf-8" action="#" method="post">
+        <div class="column">
+            <h3>INFORMACIÓN</h3>
+            <input type="text" placeholder="Nombre" name="winbitsCreditCardName" id="winbitsCreditCard">
+            <input type="text" placeholder="Apellido" name="winbitsCreditCardLastname" id="winbitsCreditCardLastname">
+            <input type="text" placeholder="Número de Tarjeta" name="winbitsCreditCardNumber" id="winbitsCreditCardNumber">
+            <div class="divFechaExpiracion">
+                <label>Fecha de Expiración</label>
+                <input type="text" placeholder="dd" maxlength="2" name="winbitsCreditCardDD" id="winbitsCreditCardDD">
+                <input type="text" placeholder="aa" maxlength="2" name="winbitsCreditCardAA" id="winbitsCreditCardAA">
+            </div>
+            <div class="divNumSecurity">
+                <label for="winbitsCreditCardSecurity"># de Seguridad</label>
+                <input type="text" placeholder="###" maxlength="3" name="winbitsCreditCardSecurity" id="winbitsCreditCardSecurity">
+            </div>
+        </div>
+        <div class="column">
+            <h3>DIRECCIÓN</h3>
+            <select class="select" data-clase="selectRegister" name="winbitsCreditCardCountry" id="winbitsCreditCardCountry">
+                <option>País</option>
+                <option>México</option>
+                <option>USA</option>
+                <option>Puerto Rico</option>
+            </select>
+            <input type="text" placeholder="Calle" class="inputMedium" name="winbitsCreditCardStreet" id="winbitsCreditCardStreet">
+            <input type="text" placeholder="##" class="inputSmall" name="winbitsCreditCardNum" id="winbitsCreditCardNum">
+            <input type="text" placeholder="Colonia" name="winbitsCreditCardCol" id="winbitsCreditCardCol">
+            <input type="text" placeholder="Ciudad" name="winbitsCreditCardCity" id="winbitsCreditCardCity">
+            <input type="text" placeholder="Codigo Postal" name="winbitsCreditCardCP" id="winbitsCreditCardCP">
+            <input type="text" placeholder="Teléfono" name="winbitsCreditCardTel" id="winbitsCreditCardTel">
+        </div>
+        <div class="column columnLarge">
+            <h3>OPCIONES</h3>
+            <input type="checkbox" class="checkbox">
+            <label class="checkboxLabel">Hacer esta mi tarjeta principal</label>
+            <p class="note">Winbits puede guardar tus tarjetas de credito por ti, para que tu proxima compra sea mucho más rápida.</p>
+            <div class="errorDiv"><p>Email no existe, favor de verificarlo</p></div>
+            <div class="submitButton">
+                <span class="btn btnCancel openClose" data-showdiv=".ccCarrusel" data-hidediv=".creditcardNew">Cancelar</span>
+                <input type="submit" value="Guardar" class="btn">
+            </div>
+        </div>
+    </form>
+    <div class="thanks-div">
+        <div class="data" style="display: none">
+            <p>Procesando información</p>
+            <div class="loader"></div>
+        </div>
+        <div class="data">
+            <p>Tus datos quedaron guardados</p>
+            <a href="#" class="btn">Cerrar</a>
+        </div>
+    </div>
+</div>
