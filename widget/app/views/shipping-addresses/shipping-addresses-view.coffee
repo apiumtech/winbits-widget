@@ -18,7 +18,7 @@ module.exports = class ShippingAddressesView extends View
     @delegate 'click', '#wbi-add-new-shipping-address' , @showAddNewShipping
     @delegate 'click', '#wbi-add-shipping-address-cancel', @cancelAddNewShipping
     @delegate 'click', '#wbi-shipping-address-done-btn', @cancelAddNewShipping
-    @delegate 'click', '.wbc-delete-link', @doDeleteShipping
+    @delegate 'click', '.wbc-delete-shipping-link', @doDeleteShipping
 
 
   render: ->
@@ -45,13 +45,13 @@ module.exports = class ShippingAddressesView extends View
           initialSlide: '.carruselSCC-selected'
     })
 
-  showAddNewShipping:(e) ->
+  showAddNewShipping:(e)->
     e.preventDefault()
     @$('#wbi-shipping-addresses-view').slideUp()
     @$('#wbi-shipping-new-address-container').slideDown()
 
 
-  cancelAddNewShipping: (e) ->
+  cancelAddNewShipping: (e)->
     e.preventDefault()
     @$('#wbi-shipping-addresses-view').slideDown()
     @$('#wbi-shipping-new-address-container').slideUp()
@@ -61,8 +61,9 @@ module.exports = class ShippingAddressesView extends View
       @$('#wbi-shipping-thanks-div').slideUp()
       @model.fetch()
 
-  doDeleteShipping: (e) ->
+  doDeleteShipping: (e)->
     e.stopPropagation()
+    console.log ["click btn delete"]
     $itemId = $(e.currentTarget).closest('.block-slide').data("id")
     message = "¿Estás seguro de eliminar esta dirección de envío? <br><br> En caso de eliminarla las compras relacionadas a esta direccion no se verán afectadas"
     options =
@@ -84,5 +85,7 @@ module.exports = class ShippingAddressesView extends View
     utils.showMessageModal(message, options)
     @model.fetch()
 
-  doErrorDeleteShippingAddress: (xhr) ->
-    console.log ["SHIPPING ADDRESS DOES NOT DELETED", xhr.responseText]
+  doErrorDeleteShippingAddress: () ->
+    message = "Hubo un error al intentar eliminar la direccion, intentalo mas tarde"
+    options = value: "Continuar", title:'Error al eliminar', icon:'iconFont-close', onClosed: utils.redirectTo controller: 'home', action: 'index'
+    utils.showMessageModal(message, options)
