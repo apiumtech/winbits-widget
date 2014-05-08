@@ -6,6 +6,9 @@ mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 env = Winbits.env
 
+city = {}
+state = {}
+
 module.exports = class AddNewShippingAddressView extends View
   container: '#wbi-shipping-new-address-container'
   template: require './templates/add-new-shipping-address'
@@ -81,6 +84,8 @@ module.exports = class AddNewShippingAddressView extends View
     if value.id
      @$('[name="city"]').val(value.city)
      @$('[name="state"]').val(value.state)
+     city = value.city
+     state = value.state
 
 
   doSaveShippingAddress: ->
@@ -89,9 +94,17 @@ module.exports = class AddNewShippingAddressView extends View
     if($form.valid())
       @$('#wbi-shipping-thanks-div').show()
       data = utils.serializeForm $form
+      console.log ["data Serialized form", data]
       @model.requestSaveNewShippingAddress(data, context: @)
       .done(@successSaveNewShippingAddress)
       .fail(@errorSaveNewShippingAddress)
+
+  checkZipCodeInfo: ->
+    zipCodeInfo =@$('select#wbi-shipping-address-zip-code-info').wblocationselect('value')
+    if not zipCodeInfo.state
+      console.log ["Zip code info in other..."]
+      @$('[name="city"]').val city
+      @$('[name="state"]').val state
 
   successSaveNewShippingAddress:()->
     @$('#wbi-shipping-address-process').hide()

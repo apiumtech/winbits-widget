@@ -94,9 +94,8 @@ module.exports = class AddNewShippingAddressView extends View
       .done(@successSaveEditShippingAddress)
       .fail(@errorSaveEditShippingAddress)
 
-  checkZipCodeInfo:()->
+  checkZipCodeInfo: ->
     zipCodeInfo =@$('select#wbi-shipping-address-zip-code-info').wblocationselect('value')
-    console.log ["check zip Code Info", zipCodeInfo]
     if zipCodeInfo.locationName
       @$('[name="location"]').val zipCodeInfo.locationName
 
