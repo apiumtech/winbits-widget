@@ -36,8 +36,6 @@ module.exports = class CartBitsView extends View
       percentageSaved = utils.formatPercentage(@model.cartPercentageSaved())
       @$('#wbi-cart-percentage-saved').text(percentageSaved)
     ,@))
-
-#    if utils.isLoggedIn()
     $winbitsSlider.on('slidechange', $.proxy((e, ui) ->
       @delay = yes
       debounceSlide ui.value
@@ -62,6 +60,10 @@ module.exports = class CartBitsView extends View
     @publishEvent 'change-bits-data', bitsTotal
 
   updateCartBitsError: (xhr, textStatus) ->
+    $maxSelection = @$('#wbi-cart-bits-slider').data('max-selection')
+    $bitsTotal =$maxSelection - parseInt( $('#wbi-my-bits').text())
+    @model.set 'bitsTotal', $bitsTotal
+    @render()
     error = utils.safeParse(xhr.responseText)
     messageText = "Error guardando el registro #{textStatus}"
     message = if error then error.meta.message else messageText
