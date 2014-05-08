@@ -22,8 +22,11 @@ describe 'CardsViewSpec', ->
     @model.dispose()
     $.fn.changeBox.restore?()
     $.fn.carouselSwiper.restore?()
+    $.fn.slideDown.restore?()
+    $.fn.slideUp.restore?()
 
   it 'should be rendered without cards', ->
+    expect(@view.$('#wbi-cards-carousel-view')).to.existExact(1)
     expect(@view.$('#wbi-no-cards-panel')).to.existExact(1)
     expect(@view.$('#wbi-cards-carousel')).to.not.exist
     expect(@view.$('#wbi-new-card-link')).to.existExact(1)
@@ -114,6 +117,17 @@ describe 'CardsViewSpec', ->
 
     expect(@view.showNewCardView).to.has.been.calledOnce
     expect(@view.subview('new-card-view')).to.be.instanceof(NewCardView)
+
+  it 'should slides up cards carousel & slides down new card view', ->
+    sinon.spy($.fn, 'slideUp')
+    sinon.spy($.fn, 'slideDown')
+    @view.$('#wbi-new-card-link').click()
+
+    expect($.fn.slideUp).to.has.been.calledOnce
+    expect($.fn.slideUp.firstCall.returnValue).to.has.id('wbi-cards-carousel-view')
+    expect($.fn.slideDown).to.has.been.calledOnce
+    newCardView = @view.subview('new-card-view')
+    expect($.fn.slideDown.firstCall.returnValue).to.be.equal(newCardView.$el)
 
   setModel = ->
     data = []

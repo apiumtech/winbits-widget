@@ -30,6 +30,7 @@ specs = [
   # './lib/utils-spec'
   './views/cards-view-spec'
   './models/cards-spec'
+  './views/new-card-view-spec'
 ]
 
 for spec in specs

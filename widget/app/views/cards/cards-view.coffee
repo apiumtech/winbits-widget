@@ -1,6 +1,7 @@
 'use strict'
 
 View = require 'views/base/view'
+NewCardView = require 'views/cards/new-card-view'
 $ = Winbits.$
 DEFAULT_CARD_CLASS = 'carruselSCC-selected'
 
@@ -12,6 +13,7 @@ module.exports = class CardsView extends View
     super
     @listenTo @model, 'change', -> @render()
     @clickOnCardHandler = @delegate 'click', '.wbc-card', -> @onCardClick.apply(@, arguments)
+    @delegate 'click', '#wbi-new-card-link', -> @showNewCardView.apply(@, arguments)
     @model.fetch()
 
   attach: ->
@@ -53,4 +55,7 @@ module.exports = class CardsView extends View
     @$el[state]('click', '.wbc-card', @clickOnCardHandler)
 
   showNewCardView: ->
-
+    newCardView = new NewCardView
+    @subview('new-card-view', newCardView)
+    @$('#wbi-cards-carousel-view').slideUp()
+    newCardView.$el.slideDown()
