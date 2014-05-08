@@ -3,6 +3,8 @@
 View = require 'views/base/view'
 utils = require 'lib/utils'
 AddNewShippingAddress = require './add-new-shipping-address-view'
+EditShippingAddressView = require './edit-shipping-address-view'
+EditShippingAddressModel = require 'models/shipping-addresses/edit-shipping-address'
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 env = Winbits.env
@@ -17,7 +19,9 @@ module.exports = class ShippingAddressesView extends View
     @model.fetch()
     @delegate 'click', '#wbi-add-new-shipping-address' , @showAddNewShipping
     @delegate 'click', '#wbi-add-shipping-address-cancel', @cancelAddNewShipping
+    @delegate 'click', '#wbi-edit-shipping-address-cancel', @cancelEditShipping
     @delegate 'click', '#wbi-shipping-address-done-btn', @cancelAddNewShipping
+    @delegate 'click', '#wbi-edit-shipping-address-done-btn', @cancelEditShipping
     @delegate 'click', '.wbc-delete-shipping-link', @doDeleteShipping
     @delegate 'click', '.wbc-edit-shipping-link', @doEditShippingAddress
 
@@ -26,6 +30,7 @@ module.exports = class ShippingAddressesView extends View
     super
     newShippingAddressContainer = @$el.find('#wbi-shipping-new-address-container')
     @subview 'add-new-shipping-addresses', new AddNewShippingAddress container: newShippingAddressContainer, model: @model
+    @subview 'edit-address-view', new EditShippingAddressView container: '#wbi-edit-shipping-address-container'
 
   attach: ->
     super
@@ -58,9 +63,18 @@ module.exports = class ShippingAddressesView extends View
     @$('#wbi-shipping-new-address-container').slideUp()
     $form = @$('#wbi-shipping-new-address-form')
     utils.justResetForm($form)
-    if not @$('.thanks-div').is(':hidden')
-      @$('#wbi-shipping-thanks-div').slideUp()
-      @model.fetch()
+    $thanksDiv = @$('#wbi-shipping-thanks-div')
+    @checkThanksDivAndRenderView($thanksDiv)
+
+  cancelEditShipping: (e)->
+    e.preventDefault()
+    @$('#wbi-shipping-addresses-view').slideDown()
+    @$('#wbi-edit-shipping-address-container').slideUp()
+    $form = @$('#wbi-edit-shipping-address-form')
+    utils.justResetForm($form)
+    $thanksDiv = @$('#wbi-edit-shipping-thanks-div')
+    @checkThanksDivAndRenderView($thanksDiv)
+
 
   doDeleteShipping: (e)->
     $itemId = $(e.currentTarget).closest('.block-slide').data("id")
@@ -90,7 +104,16 @@ module.exports = class ShippingAddressesView extends View
     utils.showMessageModal(message, options)
 
   doEditShippingAddress: (e) ->
+    e.preventDefault()
     itemId = $(e.currentTarget).closest('.block-slide').data("id")
     address = @model.getShippingAddress(itemId)
-    console.log ["address", address]
-#    @subview 'edit-address-view', new
+    console.log ["address #{itemId}", address]
+    editModel = new EditShippingAddressModel(address)
+    @subview 'edit-address-view', new EditShippingAddressView container: '#wbi-edit-shipping-address-container', model: editModel
+    @$('#wbi-shipping-addresses-view').slideUp()
+    @$('#wbi-edit-shipping-address-container').slideDown()
+
+  checkThanksDivAndRenderView:($thanksDiv)->
+    if not $thanksDiv.is(':hidden')
+      $thanksDiv.slideUp()
+      @model.fetch()
