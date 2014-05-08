@@ -441,7 +441,6 @@
 				slide: function(event, ui){
 					$(obj).val(ui.value);
           var maxSelection, previousValue, value, $this=$(obj);
-//
           maxSelection = parseInt($this.data('max-selection') || '0');
           value = Math.min(maxSelection, ui.value);
           previousValue = $this.val();
@@ -449,7 +448,7 @@
           $this.parent().find(".slider-amount em").text(value);
           if (ui.value > maxSelection) {
             if (previousValue !== maxSelection) {
-              $this.slider('value', maxSelection);
+              $(this).slider('value', maxSelection);
             }
             return false;
           }

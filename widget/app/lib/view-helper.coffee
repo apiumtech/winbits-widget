@@ -123,9 +123,6 @@ Handlebars.registerHelper "getBitsMaxSelection", (defaultMax) ->
   defaultMax = defaultMax() if $.isFunction(defaultMax)
   $profile = mediator.data.get('login-data')
   $maxValue = defaultMax
-  console.log ['profile', defaultMax]
   if not (!$profile)
     $maxValue = $profile.bitsBalance
   $maxValue
-
-#  mediator.data.get('login-data').bitsBalance else defaultMax
