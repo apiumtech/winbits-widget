@@ -20,25 +20,25 @@ module.exports = class CartBitsView extends View
   doChangeSliderBits: (obj)->
     $winbitsSlider = obj.closest('div .ui-slider')
 
-
     debounceSlide = _.debounce( $.proxy((bits) ->
       @delay = no
       emValue = parseInt($winbitsSlider.find(".slider-amount em").text())
       if emValue is bits
         @updateBalanceValues($winbitsSlider, bits)
-    , @),1500)
+    , @),1000)
 
-
-    $winbitsSlider.on('slide', $.proxy((e, ui) ->
+    $winbitsSlider.on('slide', $.proxy((e, ui={}) ->
       slideValue = obj.data('max-selection')
       if ui.value <= slideValue then slideValue = ui.value
       @model.set 'bitsTotal', slideValue
       percentageSaved = utils.formatPercentage(@model.cartPercentageSaved())
       @$('#wbi-cart-percentage-saved').text(percentageSaved)
     ,@))
+
     $winbitsSlider.on('slidechange', $.proxy((e, ui) ->
+      $value = if ui?.value then ui.value else 0
       @delay = yes
-      debounceSlide ui.value
+      debounceSlide $value
     ,@))
 
   updateBalanceValues: ($slider, bits) ->
