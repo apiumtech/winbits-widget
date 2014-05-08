@@ -3,12 +3,18 @@ CartBitsView = require 'views/cart/cart-bits-view'
 Cart = require 'models/cart/cart'
 $ = Winbits.$
 _ = Winbits._
+mediator = Winbits.Chaplin.mediator
 
 describe 'CartBitsViewSpec', ->
 
   beforeEach ->
+    @loginData =
+      id: 19
+      apiToken: '6ue7zrBfNkxgNTvT4ReGpuh55yjNLRl6qEHiXMFyXFx6M3ymV21EaARwilDZK0zM'
+      bitsBalance: 0
+    mediator.data.set 'login-data', @loginData
     @clock = sinon.useFakeTimers()
-    @model = new Cart
+    @model = new Cart itemsTotal: 60
     @view = new CartBitsView model: @model
     @model = @view.model
     @view.render()
@@ -80,11 +86,33 @@ describe 'CartBitsViewSpec', ->
     expect(@view.updateBalanceValues).to.has.been.calledOnce
 
   it "should work slidechange event in bits's bar ", ->
-    @model.set 'itemsTotal', 60
-    @view.render()
     sinon.stub(@view, 'updateCartBits')
     $winbitsSlider = @view.$('.ui-slider')
     $winbitsSlider.find('.slider-amount em').text()
     $winbitsSlider.trigger('slidechange')
     @clock.tick(133100000)
     expect(@view.updateCartBits).to.has.been.calledOnce
+
+  it "update bits into cart success request", ->
+    sinon.stub(@model, 'updateCartBits').returns TestUtils.promises.resolved
+    successStub = sinon.stub(@view, 'updateCartBitsSuccess')
+    errorStub = sinon.stub(@view, 'updateCartBitsError')
+    $winbitsSlider = @view.$('.ui-slider')
+    $winbitsSlider.find('.slider-amount em').text()
+    $winbitsSlider.trigger('slidechange')
+    @clock.tick(133100000)
+    expect(successStub).to.be.calledOnce
+    expect(errorStub).to.not.be.calledOnce
+
+  it "update bits into cart error request", ->
+    sinon.stub(@model, 'updateCartBits').returns TestUtils.promises.rejected
+    successStub = sinon.stub(@view, 'updateCartBitsSuccess')
+    errorStub = sinon.stub(@view, 'updateCartBitsError')
+    $winbitsSlider = @view.$('.ui-slider')
+    $winbitsSlider.find('.slider-amount em').text()
+    $winbitsSlider.trigger('slidechange')
+    @clock.tick(133100000)
+    expect(errorStub).to.be.calledOnce
+    expect(successStub).to.not.be.calledOnce
+
+
