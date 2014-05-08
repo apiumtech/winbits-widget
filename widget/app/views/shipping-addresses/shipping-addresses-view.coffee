@@ -107,7 +107,6 @@ module.exports = class ShippingAddressesView extends View
     e.preventDefault()
     itemId = $(e.currentTarget).closest('.block-slide').data("id")
     address = @model.getShippingAddress(itemId)
-    console.log ["address #{itemId}", address]
     editModel = new EditShippingAddressModel(address)
     @subview 'edit-address-view', new EditShippingAddressView container: '#wbi-edit-shipping-address-container', model: editModel
     @$('#wbi-shipping-addresses-view').slideUp()

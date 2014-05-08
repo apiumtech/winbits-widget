@@ -6,9 +6,6 @@ mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 env = Winbits.env
 
-city = {}
-state = {}
-
 module.exports = class AddNewShippingAddressView extends View
   container: '#wbi-shipping-new-address-container'
   template: require './templates/add-new-shipping-address'
@@ -84,8 +81,6 @@ module.exports = class AddNewShippingAddressView extends View
     if value.id
      @$('[name="city"]').val(value.city)
      @$('[name="state"]').val(value.state)
-     city = value.city
-     state = value.state
 
 
   doSaveShippingAddress: ->
