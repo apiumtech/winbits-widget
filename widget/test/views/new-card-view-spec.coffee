@@ -3,7 +3,7 @@
 NewCardView = require 'views/cards/new-card-view'
 $ = Winbits.$
 
-describe 'CardsViewSpec', ->
+describe 'NewCardViewSpec', ->
 
   beforeEach ->
     @view = new NewCardView
