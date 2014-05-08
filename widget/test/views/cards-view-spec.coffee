@@ -2,6 +2,7 @@
 
 CardsView =  require 'views/cards/cards-view'
 Cards =  require 'models/cards/cards'
+NewCardView = require 'views/cards/new-card-view'
 $ = Winbits.$
 
 describe 'CardsViewSpec', ->
@@ -9,13 +10,15 @@ describe 'CardsViewSpec', ->
   beforeEach ->
     @model = new Cards
     sinon.stub(@model, 'fetch')
+    sinon.stub(@model, 'requestSetDefaultCard')
     @view = new CardsView model: @model
 
   afterEach ->
     @view.render.restore?()
-    @model.fetch.restore?()
-    @model.requestSetDefaultCard.restore?()
+    @view.showNewCardView.restore?()
     @view.dispose()
+    @model.fetch.restore()
+    @model.requestSetDefaultCard.restore()
     @model.dispose()
     $.fn.changeBox.restore?()
     $.fn.carouselSwiper.restore?()
@@ -81,7 +84,7 @@ describe 'CardsViewSpec', ->
 
   it 'should request to set as default card when non default card is clicked', ->
     setModel.call(@)
-    sinon.stub(@model, 'requestSetDefaultCard').returns(TestUtils.promises.idle)
+    @model.requestSetDefaultCard.returns(TestUtils.promises.idle)
     $nonDefaultCard = @view.$('.wbc-card').first()
 
     $nonDefaultCard.click()
@@ -90,7 +93,6 @@ describe 'CardsViewSpec', ->
 
   it 'should not request to set as default card when default card is clicked', ->
     setModel.call(@)
-    sinon.stub(@model, 'requestSetDefaultCard')
     $defaultCard = @view.$('.wbc-card').last()
 
     $defaultCard.click()
@@ -98,12 +100,20 @@ describe 'CardsViewSpec', ->
 
   it 'should set default card if request succeds', ->
     setModel.call(@)
-    sinon.stub(@model, 'requestSetDefaultCard').returns(getDefaultCardSolvedPromise.call(@))
+    @model.requestSetDefaultCard.returns(getDefaultCardSolvedPromise.call(@))
     $nonDefaultCard = @view.$('.wbc-card').first()
 
     $nonDefaultCard.click()
     expect($nonDefaultCard).to.has.$class('carruselSCC-selected')
     expect(@view.$('.carruselSCC-selected')).to.existExact(1)
+
+  it 'should show new card view when new card link is clicked', ->
+    sinon.spy(@view, 'showNewCardView')
+
+    @view.$('#wbi-new-card-link').click()
+
+    expect(@view.showNewCardView).to.has.been.calledOnce
+    expect(@view.subview('new-card-view')).to.be.instanceof(NewCardView)
 
   setModel = ->
     data = []

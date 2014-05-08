@@ -51,3 +51,6 @@ module.exports = class CardsView extends View
 
   turnCardsClickEvent: (state) ->
     @$el[state]('click', '.wbc-card', @clickOnCardHandler)
+
+  showNewCardView: ->
+
