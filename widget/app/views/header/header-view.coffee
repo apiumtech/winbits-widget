@@ -17,4 +17,4 @@ module.exports = class HeaderView extends View
   attach: ->
     super
     @$('.openClose').showHideDiv();
-    @$('.wbc-default-action', '#wbi-message-modal').click -> $.fancybox.close()
+    @$('.wbc-modal-panel').click (e)-> e.stopPropagation()

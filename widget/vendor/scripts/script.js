@@ -828,11 +828,3 @@
 // @codekit-prepend  "js/scripts/tabs.js";
 // @codekit-prepend  "js/scripts/toolTip.js";
 })(jQuery);
-(function(){
-	$('.select').customSelect();
-	$('.slideInput').customSlider();
-	$('.fancybox').fancyBox();
-	$('img').imageError({ src: '../images/misc/noImage.jpg'});
-	$('.requiredField').requiredField();
-	$('.openClose').showHideDiv();
-})();

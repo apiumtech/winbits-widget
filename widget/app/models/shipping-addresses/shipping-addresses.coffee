@@ -26,3 +26,15 @@ module.exports = class ShippingAddresses extends Model
 
     utils.ajaxRequest(env.get('api-url') +  "/users/shipping-addresses.json",
         $.extend(defaults, options))
+
+  requestDeleteShippingAddress: ($itemId, options)->
+    defaults =
+      type: "DELETE"
+      contentType: "application/json"
+      dataType: "json"
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token": utils.getApiToken()
+
+    utils.ajaxRequest(env.get('api-url') +  "/users/shipping-addresses/#{$itemId}.json",
+      $.extend(defaults, options))

@@ -6,12 +6,11 @@ describe 'CartTotalsViewSpec', ->
 
   beforeEach ->
     @model = new Cart
-    sinon.stub(@model, 'fetch')
     @view = new CartTotalsView model: @model
+    @view.render()
 
   afterEach ->
     @view.dispose()
-    @model.fetch.restore()
     @model.dispose()
 
   it 'should be rendered', ->
@@ -24,6 +23,7 @@ describe 'CartTotalsViewSpec', ->
   it 'should render default cart totals', ->
     zeroPesos = '$0'
     expect(@view.$('#wbi-cart-subtotal')).to.has.text(zeroPesos)
+    expect(@view.$('#wbi-cart-items-total')).to.has.text(zeroPesos)
     expect(@view.$('#wbi-cart-saving')).to.has.text(zeroPesos)
     expect(@view.$('#wbi-cart-shipping-cost')).to.has.text(zeroPesos)
     expect(@view.$('#wbi-cart-total')).to.has.text(zeroPesos)
@@ -36,4 +36,4 @@ describe 'CartTotalsViewSpec', ->
 
     @view.render()
 
-    expect(@view.$('#wbi-cart-total')).to.has.$text('$30')
+    expect(@view.$('#wbi-cart-total')).to.has.$text('$130')
