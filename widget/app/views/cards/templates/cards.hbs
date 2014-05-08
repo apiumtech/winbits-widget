@@ -5,8 +5,8 @@
     <div id="wbi-cards-carousel" class="block-carrusel">
         <div class="block-wrapper">
             {{#each cards}}
-            <div class="block-slide wbc-card" data-id="{{cardInfo.subscriptionId}}">
-                <div class="carruselSCC-div {{#if cardInfo.cardPrincipal}}carruselSCC-selected{{/if}}">
+            <div class="block-slide">
+                <div class="carruselSCC-div wbc-card {{#if cardInfo.cardPrincipal}}carruselSCC-selected{{/if}}" data-id="{{cardInfo.subscriptionId}}">
                    <div class="creditcardMenu">
                         <a href="#">edit</a>
                         <span class="iconFont-close" title="Eliminar"></span>
@@ -16,7 +16,7 @@
                         {{#with cardInfo.cardData}}
                         <span class="wbc-card-type">{{cardType}},</span>
                         <span class="wbc-card-number">{{accountNumber}}</span>
-                        <span class="wbc-expiration-date">{{expirationMonth}}/{{expirationYear}}</span>
+                        <span class="wbc-expiration-date">{{expirationMonth}}/{{substr expirationYear start=2 length= 2}}</span>
                         {{/with}}
                     </address>
                     <span class="iconFont-creditcard" title="Tu orden se pagará con esta tarjeta"></span>

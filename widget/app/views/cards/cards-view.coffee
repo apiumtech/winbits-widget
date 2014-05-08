@@ -2,6 +2,7 @@
 
 View = require 'views/base/view'
 $ = Winbits.$
+DEFAULT_CARD_CLASS = 'carruselSCC-selected'
 
 module.exports = class CardsView extends View
   container: '#wb-credit-cards'
@@ -10,7 +11,7 @@ module.exports = class CardsView extends View
   initialize: ->
     super
     @listenTo @model, 'change', -> @render()
-    @delegate 'click', '.wbc-card', -> @onCardClick.apply(@, arguments)
+    @clickOnCardHandler = @delegate 'click', '.wbc-card', -> @onCardClick.apply(@, arguments)
     @model.fetch()
 
   attach: ->
@@ -33,6 +34,20 @@ module.exports = class CardsView extends View
 
   onCardClick: (e) ->
     $card = $(e.currentTarget)
-    if not $card.children('.carruselSCC-selected').length
+    if not $card.is(".#{DEFAULT_CARD_CLASS}")
       id = $card.data('id')
-      @model.requestSetDefaultCard(id)
+      @cardCandidate = $card
+      @turnCardsClickEvent('off')
+      @model.requestSetDefaultCard(id, @)
+          .done(@setDefaultCardSucceds)
+          .always(-> @turnCardsClickEvent('on'))
+
+  setDefaultCardSucceds: ->
+    @getDefaultCard().removeClass(DEFAULT_CARD_CLASS)
+    @cardCandidate.addClass(DEFAULT_CARD_CLASS)
+
+  getDefaultCard: ->
+    @$(".wbc-card.#{DEFAULT_CARD_CLASS}")
+
+  turnCardsClickEvent: (state) ->
+    @$el[state]('click', '.wbc-card', @clickOnCardHandler)

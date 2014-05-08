@@ -77,18 +77,18 @@ describe 'CardsViewSpec', ->
 
     $card = @view.$('.wbc-card').last()
     expect($card).to.has.data('id', 10)
-    expect($card.find('.carruselSCC-div')).to.has.$class('carruselSCC-selected')
+    expect($card).to.has.$class('carruselSCC-selected')
 
   it 'should request to set as default card when non default card is clicked', ->
     setModel.call(@)
-    sinon.stub(@model, 'requestSetDefaultCard')
+    sinon.stub(@model, 'requestSetDefaultCard').returns(TestUtils.promises.idle)
     $nonDefaultCard = @view.$('.wbc-card').first()
 
     $nonDefaultCard.click()
-    expect(@model.requestSetDefaultCard).to.has.been.calledWith(5)
+    expect(@model.requestSetDefaultCard).to.has.been.calledWith(5, @view)
         .and.to.has.been.calledOnce
 
-  it 'should request to set as default card when non default card is clicked', ->
+  it 'should not request to set as default card when default card is clicked', ->
     setModel.call(@)
     sinon.stub(@model, 'requestSetDefaultCard')
     $defaultCard = @view.$('.wbc-card').last()
@@ -96,8 +96,20 @@ describe 'CardsViewSpec', ->
     $defaultCard.click()
     expect(@model.requestSetDefaultCard).to.not.has.been.called
 
+  it 'should set default card if request succeds', ->
+    setModel.call(@)
+    sinon.stub(@model, 'requestSetDefaultCard').returns(getDefaultCardSolvedPromise.call(@))
+    $nonDefaultCard = @view.$('.wbc-card').first()
+
+    $nonDefaultCard.click()
+    expect($nonDefaultCard).to.has.$class('carruselSCC-selected')
+    expect(@view.$('.carruselSCC-selected')).to.existExact(1)
+
   setModel = ->
     data = []
-    data.push cardInfo:{ subscriptionId: 5, cardData: { cardType: 'Master Card', accountNumber: '12345', expirationMonth: '10', expirationYear: '18' } }
-    data.push cardInfo:{ subscriptionId: 10, cardData: { cardType: 'Visa', accountNumber: '67890', expirationMonth: '12', expirationYear: '20' }, cardPrincipal: yes }
+    data.push cardInfo:{ subscriptionId: 5, cardData: { cardType: 'Master Card', accountNumber: '12345', expirationMonth: '10', expirationYear: '2018' } }
+    data.push cardInfo:{ subscriptionId: 10, cardData: { cardType: 'Visa', accountNumber: '67890', expirationMonth: '12', expirationYear: '2020' }, cardPrincipal: yes }
     @model.set('cards', data)
+
+  getDefaultCardSolvedPromise = ()->
+    new $.Deferred().resolveWith(@view).promise()
