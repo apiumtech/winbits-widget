@@ -1,40 +1,38 @@
 <form id="wbi-new-card-form" accept-charset="utf-8" action="#" method="post">
     <div class="column">
         <h3>INFORMACIÓN</h3>
-        <input type="text" placeholder="Nombre" name="winbitsCreditCardName" id="winbitsCreditCard">
-        <input type="text" placeholder="Apellido" name="winbitsCreditCardLastname" id="winbitsCreditCardLastname">
-        <input type="text" placeholder="Número de Tarjeta" name="winbitsCreditCardNumber" id="winbitsCreditCardNumber">
+        <input type="text" placeholder="Nombre" name="firstName" id="winbitsCreditCard">
+        <input type="text" placeholder="Apellido" name="lastName" id="winbitsCreditCardLastname">
+        <input type="text" placeholder="Número de Tarjeta" name="accountNumber" id="winbitsCreditCardNumber">
         <div class="divFechaExpiracion">
             <label>Fecha de Expiración</label>
-            <input type="text" placeholder="dd" maxlength="2" name="winbitsCreditCardDD" id="winbitsCreditCardDD">
-            <input type="text" placeholder="aa" maxlength="2" name="winbitsCreditCardAA" id="winbitsCreditCardAA">
+            <input type="text" placeholder="dd" maxlength="2" name="expirationMonth" id="winbitsCreditCardDD">
+            <input type="text" placeholder="aa" maxlength="2" name="expirationYear" id="winbitsCreditCardAA">
         </div>
         <div class="divNumSecurity">
             <label for="winbitsCreditCardSecurity"># de Seguridad</label>
-            <input type="text" placeholder="###" maxlength="3" name="winbitsCreditCardSecurity" id="winbitsCreditCardSecurity">
+            <input type="text" placeholder="###" maxlength="3" name="cvNumber" id="winbitsCreditCardSecurity">
         </div>
     </div>
     <div class="column">
         <h3>DIRECCIÓN</h3>
-        <select class="select" data-clase="selectRegister" name="winbitsCreditCardCountry" id="winbitsCreditCardCountry">
-            <option>País</option>
-            <option>México</option>
-            <option>USA</option>
-            <option>Puerto Rico</option>
+        <select class="wbc-country-field" data-clase="selectRegister">
+            <option value="">País</option>
+            <option value="1" selected="">México</option>
         </select>
-        <input type="text" placeholder="Calle" class="inputMedium" name="winbitsCreditCardStreet" id="winbitsCreditCardStreet">
-        <input type="text" placeholder="##" class="inputSmall" name="winbitsCreditCardNum" id="winbitsCreditCardNum">
-        <input type="text" placeholder="Colonia" name="winbitsCreditCardCol" id="winbitsCreditCardCol">
-        <input type="text" placeholder="Ciudad" name="winbitsCreditCardCity" id="winbitsCreditCardCity">
-        <input type="text" placeholder="Codigo Postal" name="winbitsCreditCardCP" id="winbitsCreditCardCP">
-        <input type="text" placeholder="Teléfono" name="winbitsCreditCardTel" id="winbitsCreditCardTel">
+        <input type="text" placeholder="Calle" class="inputMedium" name="street1" id="winbitsCreditCardStreet">
+        <input type="text" placeholder="##" class="inputSmall" name="number" id="winbitsCreditCardNum">
+        <input type="text" placeholder="Colonia" name="location" id="winbitsCreditCardCol">
+        <input type="text" placeholder="Ciudad" name="city" id="winbitsCreditCardCity">
+        <input type="text" placeholder="Codigo Postal" name="postalCode" id="winbitsCreditCardCP">
+        <input type="text" placeholder="Teléfono" name="phoneNumber" id="winbitsCreditCardTel">
     </div>
     <div class="column columnLarge">
         <h3>OPCIONES</h3>
-        <input type="checkbox" class="checkbox">
+        <input type="checkbox" class="checkbox" name="cardPrincipal" value="true">
         <label class="checkboxLabel">Hacer esta mi tarjeta principal</label>
         <p class="note">Winbits puede guardar tus tarjetas de credito por ti, para que tu proxima compra sea mucho más rápida.</p>
-        <div class="errorDiv"><p>Email no existe, favor de verificarlo</p></div>
+        <div class="errorDiv wbc-hide"><p>Email no existe, favor de verificarlo</p></div>
         <div class="submitButton">
             <span class="btn btnCancel openClose wbc-cancel-btn" data-showdiv=".ccCarrusel" data-hidediv=".creditcardNew">Cancelar</span>
             <input type="button" value="Guardar" class="btn" id="wbi-save-card-btn">
