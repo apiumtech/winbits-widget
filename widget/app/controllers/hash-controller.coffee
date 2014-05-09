@@ -33,14 +33,14 @@ module.exports = class HashController extends Controller
 
   switchUserSuccess: (data) ->
     if $.isEmptyObject data.response
-      @expressLoginError()
+      utils.redirectTo controller: 'home', action: 'index'
     else
       utils.saveLoginData data.response
       mediator.data.set 'login-data', data.response
       utils.redirectToLoggedInHome()
 
   expressLoginError: () ->
-    utils.redirectToNotLoggedInHome()
+    utils.redirectTo controller: 'home', action: 'index'
 
   resetPassword:(params) ->
     utils.redirectTo controller:'reset-password' ,action: 'index', params: params
