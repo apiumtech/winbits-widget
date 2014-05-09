@@ -82,7 +82,7 @@ describe 'CartBitsViewSpec', ->
     $winbitsSlider = @view.$('.ui-slider')
     $winbitsSlider.find('.slider-amount em').text()
     $winbitsSlider.trigger('slidechange')
-    @clock.tick(123100000)
+    @clock.tick(133100000)
     expect(@view.updateBalanceValues).to.has.been.calledOnce
 
   it "should work slidechange event in bits's bar ", ->
