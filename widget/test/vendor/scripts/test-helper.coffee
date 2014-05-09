@@ -55,6 +55,7 @@ window.TestUtils = {
   promises: {
     resolved: new $.Deferred().resolve().promise()
     rejected: new $.Deferred().reject().promise()
+    idle: new $.Deferred().promise()
   }
 }
 
