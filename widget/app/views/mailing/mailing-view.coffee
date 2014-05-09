@@ -17,3 +17,6 @@ module.exports = class MailingView extends View
   attach: ->
     super
     @$('#wbi-mailing-form').customCheckbox()
+    @$('#wbi-mailing-form').customRadio()
+    @$('.checkboxLabel').css('width', '150')
+    @$('#wbi-maling-btn').css('left', '0')
