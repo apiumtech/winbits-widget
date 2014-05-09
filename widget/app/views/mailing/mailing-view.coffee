@@ -13,10 +13,15 @@ module.exports = class MailingView extends View
   initialize: ->
     super
 #    @listenTo @model,  'change', -> @render()
+    @delegate 'click', '#wbi-mailing-btn', @doRequestSuscriptionsUpdate
 
   attach: ->
     super
     @$('#wbi-mailing-form').customCheckbox()
-    @$('#wbi-mailing-form').customRadio()
+    @$('#wbi-how-to-received').customRadio()
+    @$('#wbi-how-often-to-received').customRadio()
     @$('.checkboxLabel').css('width', '150')
-    @$('#wbi-maling-btn').css('left', '0')
+    @$('#wbi-mailing-btn').css('left', '0')
+
+  doRequestSuscriptionsUpdate: ->
+    console.log "Click on save mailing btn"
