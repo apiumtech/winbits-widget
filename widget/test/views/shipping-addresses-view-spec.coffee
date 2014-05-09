@@ -93,3 +93,23 @@ describe 'ShippingAddressesViewSpec', ->
     expect(successStub).to.not.be.calledOnce
     expect(errorStub).to.be.calledOnce
 
+  it "With shipping address exist link to edit it", ->
+    request = @requests[0]
+    request.respond(200, { "Content-Type": "application/json" }, SHIPPING_ADDRESSES_RESPONSE)
+    editButton =@view.$('a.wbc-edit-shipping-link')
+
+    expect(editButton).to.exist
+
+  it "With NO shipping address doesn't exist link to edit it", ->
+    editButton =@view.$('a.wbc-edit-shipping-link')
+    expect(editButton).to.not.exist
+
+
+  it "Should be called subView to edit", ->
+    sinon.stub(@view,'doEditShippingAddress')
+    getShippingAddressStub = sinon.stub(@model, 'getShippingAddress')
+    request = @requests[0]
+    request.respond(200, { "Content-Type": "application/json" }, SHIPPING_ADDRESSES_RESPONSE)
+    @view.$('a.wbc-edit-shipping-link').click()
+
+    expect(getShippingAddressStub).to.be.calledOnce
