@@ -1,27 +1,27 @@
 <div class="ccCarrusel">
     {{#unless cards}}
-    <div class="wbc-no-cards-panel addInfo"><span class="iconFont-close"></span>No tienes tarjetas.</div>
+    <div id="wbi-no-cards-panel" class="addInfo"><span class="iconFont-close"></span>No tienes tarjetas.</div>
     {{else}}
-    <div class="block-carrusel">
+    <div id="wbi-cards-carousel" class="block-carrusel">
         <div class="block-wrapper">
             {{#each cards}}
-            <div class="block-slide" data-id="{{cardInfo.subscriptionId}}">
-                <div class="carruselSCC-div {{#if cardInfo.cardPrincipal}}carruselSCC-selected{{/if}}">
+            <div class="block-slide">
+                <div class="carruselSCC-div wbc-card {{#if cardInfo.cardPrincipal}}carruselSCC-selected{{/if}}" data-id="{{cardInfo.subscriptionId}}">
                    <div class="creditcardMenu">
                         <a href="#">edit</a>
                         <span class="iconFont-close" title="Eliminar"></span>
                     </div>
-                    <h3>Tarjeta {{getIndex @index}}</h3>
+                    <h3 class="wbc-card-index">Tarjeta {{getIndex @index}}</h3>
                     <address>
                         {{#with cardInfo.cardData}}
-                        <span>{{cardType}},</span>
-                        <span>{{accountNumber}}</span>
-                        <span>{{expirationMonth}}/{{expirationYear}}</span>
+                        <span class="wbc-card-type">{{cardType}},</span>
+                        <span class="wbc-card-number">{{accountNumber}}</span>
+                        <span class="wbc-expiration-date">{{expirationMonth}}/{{substr expirationYear start=2 length= 2}}</span>
                         {{/with}}
                     </address>
                     <span class="iconFont-creditcard" title="Tu orden se pagará con esta tarjeta"></span>
                     <span class="note hover">Da click aqui para establecer como tarjeta principal</span>
-                    <span class="mesesSinIntereses-box">MESES SIN INTERESES</span>
+                    {{!-- <span class="mesesSinIntereses-box">MESES SIN INTERESES</span> --}}
                     <input type="radio" name="winbitsCCRadio" class="creditcardRadio" id="winbitsCCRadio1">
                 </div>
             </div>
@@ -33,7 +33,7 @@
     {{/unless}}
     <div class="creditcardAdd">
         <h3>AGREGAR TARJETA +</h3>
-        <span class="openClose"  data-showdiv=".creditcardNew" data-hidediv=".ccCarrusel">Da click para agregar</span>
+        <span id="wbi-new-card-link" class="openClose"  data-showdiv=".creditcardNew" data-hidediv=".ccCarrusel">Da click para agregar</span>
     </div>
 </div>
 <div class="creditcardNew">

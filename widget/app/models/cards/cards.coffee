@@ -16,3 +16,16 @@ module.exports = class Cart extends Model
   parse: ->
     parsedResponse = super
     cards: parsedResponse
+
+  requestSetDefaultCard: (id, context = @) ->
+    url = utils.getResourceURL("orders/card-subscription/#{id}/main.json")
+    options =
+      type: "PUT"
+      context: context
+      headers:
+        'Wb-Api-Token': utils.getApiToken()
+    utils.ajaxRequest(url, options)
+        .fail($.proxy(@requestSetDefaultCardFailed, @))
+
+  requestSetDefaultCardFailed: ->
+    console.log('Error al establecer la tarjeta como principal.')
