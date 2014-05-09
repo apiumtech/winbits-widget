@@ -1,3 +1,4 @@
+'use strict'
 Controller = require 'controllers/not-logged-in-controller'
 $ = Winbits.$
 utils = require 'lib/utils'
