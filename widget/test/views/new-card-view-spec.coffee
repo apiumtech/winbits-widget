@@ -68,7 +68,7 @@ describe 'NewCardViewSpec', ->
     $expirationMonth = @view.$('[name=expirationMonth]')
     $form = $expirationMonth.closest('form')
     validator = $form.validate()
-    invalidValues = ['-1', '00', '13']
+    invalidValues = ['00', '13']
     for value in invalidValues
       $expirationMonth.val(value)
       validator.element($expirationMonth)

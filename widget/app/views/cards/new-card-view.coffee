@@ -3,7 +3,6 @@
 View = require 'views/base/view'
 utils = require 'lib/utils'
 $ = Winbits.$
-INVALID_MONTH_MESSAGE = 'Escribe una fecha válida.'
 
 module.exports = class NewCardView extends View
   container: '#wb-credit-cards'
@@ -16,13 +15,25 @@ module.exports = class NewCardView extends View
 
   attach: ->
     super
+    @$('.requiredField').requiredField()
     @$('.wbc-country-field').customSelect()
     @$('[name=cardPrincipal]').parent().customCheckbox()
+    required =
+      required: yes
+      minlength: 1
     @$('#wbi-new-card-form').validate(
+      ignore: ''
       groups:
         cardExpiration: 'expirationMonth expirationYear'
+        streetAndNumber: 'street1 number'
       errorPlacement: ($error, $element) ->
-        if $element.attr('name') in ['expirationMonth', 'expirationYear']
+        name = $element.attr('name')
+        $errorPlaceholder = $element.closest('.wbc-error-placeholder')
+        if name in ['expirationMonth', 'expirationYear']
+          $error.appendTo $errorPlaceholder
+        else if name in ['street1', 'number']
+          $error.insertAfter $errorPlaceholder.find('[name=number]').parent()
+        else if name is 'country'
           $error.appendTo $element.parent()
         else
           $error.insertAfter $element
@@ -37,6 +48,7 @@ module.exports = class NewCardView extends View
         accountNumber:
           required: yes
           creditcard: yes
+          minlength: 15
         expirationMonth:
           required: yes
           minlength: 2
@@ -61,16 +73,16 @@ module.exports = class NewCardView extends View
         phoneNumber:
           required: yes
           wbiPhone: yes
-        state:
-          required: yes
         colony:
           required: yes
         city:
           required: yes
+        country:
+          required: yes
       messages:
         expirationMonth:
-          range: INVALID_MONTH_MESSAGE
-          digits: INVALID_MONTH_MESSAGE
+          range: $.validator.messages.wbExpirationMonth
+          digits: $.validator.messages.wExpirationMonth
         postalCode:
-          remote: 'Ingresa un CP válido.'
+          remote: $.validator.messages.wbZipCode
     )

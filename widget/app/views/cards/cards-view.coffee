@@ -8,6 +8,8 @@ DEFAULT_CARD_CLASS = 'carruselSCC-selected'
 module.exports = class CardsView extends View
   container: '#wb-credit-cards'
   template: require './templates/cards'
+  id: 'wbi-cards-carousel-view'
+  className: 'ccCarrusel'
 
   initialize: ->
     super
@@ -57,5 +59,5 @@ module.exports = class CardsView extends View
   showNewCardView: ->
     newCardView = new NewCardView
     @subview('new-card-view', newCardView)
-    @$('#wbi-cards-carousel-view').slideUp()
+    @$el.slideUp()
     newCardView.$el.slideDown()

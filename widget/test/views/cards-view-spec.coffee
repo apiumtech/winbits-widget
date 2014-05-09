@@ -26,7 +26,6 @@ describe 'CardsViewSpec', ->
     $.fn.slideUp.restore?()
 
   it 'should be rendered without cards', ->
-    expect(@view.$('#wbi-cards-carousel-view')).to.existExact(1)
     expect(@view.$('#wbi-no-cards-panel')).to.existExact(1)
     expect(@view.$('#wbi-cards-carousel')).to.not.exist
     expect(@view.$('#wbi-new-card-link')).to.existExact(1)
