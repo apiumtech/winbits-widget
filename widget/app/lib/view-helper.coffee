@@ -4,6 +4,7 @@ require = Winbits.require
 utils = require 'lib/utils'
 Handlebars = Winbits.Handlebars
 env = Winbits.env
+mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 _ = Winbits._
 # Application-specific view helpers
@@ -117,3 +118,11 @@ Handlebars.registerHelper 'setIndex', (val1) ->
 
 Handlebars.registerHelper "getIndex", (index) ->
   index + 1
+
+Handlebars.registerHelper "getBitsMaxSelection", (defaultMax) ->
+  defaultMax = defaultMax() if $.isFunction(defaultMax)
+  $profile = mediator.data.get('login-data')
+  $maxValue = defaultMax
+  if not (!$profile)
+    $maxValue = $profile.bitsBalance
+  $maxValue
