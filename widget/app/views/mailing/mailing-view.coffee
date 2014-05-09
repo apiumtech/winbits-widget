@@ -16,3 +16,4 @@ module.exports = class MailingView extends View
 
   attach: ->
     super
+    @$('#wbi-mailing-form').customCheckbox()
