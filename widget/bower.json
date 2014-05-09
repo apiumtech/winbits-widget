@@ -45,7 +45,7 @@
       "main":"yepnope.js"
     },
     "jquery-maskedinput":{
-      "main":"dist/query.maskedinput.js"
+      "main":"dist/jquery.maskedinput.js"
     }
   },
   "resolutions": {

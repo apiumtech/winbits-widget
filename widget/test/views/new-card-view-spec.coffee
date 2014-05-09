@@ -5,6 +5,12 @@ $ = Winbits.$
 
 describe 'NewCardViewSpec', ->
 
+  before ->
+    $.validator.setDefaults ignore: []
+
+  after ->
+    $.validator.setDefaults ignore: ':hidden'
+
   beforeEach ->
     @view = new NewCardView
 
@@ -12,6 +18,7 @@ describe 'NewCardViewSpec', ->
     @view.dispose()
     $.fn.customSelect.restore?()
     $.fn.customCheckbox.restore?()
+    $.fn.mask.restore?()
 
   it 'should render wrapper', ->
     expect(@view.$el).to.has.id('wbi-new-card-view')
@@ -33,7 +40,10 @@ describe 'NewCardViewSpec', ->
     expect($countrySelect).to.has.$val('1')
 
   it 'should render form fields', ->
-    fieldNames = ['firstName', 'lastName', 'accountNumber', 'expirationMonth', 'expirationYear', 'cvNumber', 'street1', 'number', 'phoneNumber', 'postalCode', 'location', 'city', 'cardPrincipal']
+    fieldNames = [
+        'firstName', 'lastName', 'accountNumber', 'expirationMonth', 'expirationYear',
+        # 'cvNumber',
+        'street1', 'number', 'phoneNumber', 'postalCode', 'colony', 'city', 'cardPrincipal']
     for fieldName in fieldNames
       $field = @view.$("[name=#{fieldName}]")
       expect($field).to.exist
@@ -45,3 +55,24 @@ describe 'NewCardViewSpec', ->
     expect($.fn.customCheckbox).to.has.been.calledOnce
     $checkWrapper = $.fn.customCheckbox.firstCall.returnValue
     expect($checkWrapper.find('[name=cardPrincipal]')).to.exist
+
+  it 'should apply customCheckbox plugin when rendered', ->
+    sinon.spy($.fn, 'customCheckbox')
+
+    @view.render()
+    expect($.fn.customCheckbox).to.has.been.calledOnce
+    $checkWrapper = $.fn.customCheckbox.firstCall.returnValue
+    expect($checkWrapper.find('[name=cardPrincipal]')).to.exist
+
+  it 'should show validate expiration month', ->
+    $expirationMonth = @view.$('[name=expirationMonth]')
+    $form = $expirationMonth.closest('form')
+    validator = $form.validate()
+    invalidValues = ['-1', '00', '13']
+    for value in invalidValues
+      $expirationMonth.val(value)
+      validator.element($expirationMonth)
+
+      expect($form.find('span.error')).to.exist
+            .and.to.has.$text('Escribe una fecha válida.')
+      validator.resetForm()

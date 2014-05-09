@@ -25,7 +25,14 @@
       /^[0-9]{10,15}/.test value
     else
       yes
-  ,"Ingresa un número telefónico valido")
+  ,"Ingresa un número telefónico válido.")
+
+  $.validator.addMethod("wbZipCode", (value) ->
+    if value
+      /^\d{5}/.test value
+    else
+      yes
+  ,"Ingresa un CP válido.")
 
   $.validator.addMethod("wbiSelectInfo", (value, element) ->
     $zipCode = Winbits.$(element).parent().parent().find('input[name=zipCode]')
