@@ -6,6 +6,7 @@ MyProfileView = require 'views/my-profile/my-profile-view'
 MyAccountView = require 'views/my-account/my-account-view'
 ShippingAddressesView = require 'views/shipping-addresses/shipping-addresses-view'
 ShippingAddresses = require 'models/shipping-addresses/shipping-addresses'
+MailingView = require 'views/mailing/mailing-view'
 SocialMediaView = require 'views/social-media/social-media-view'
 ChangePasswordView = require 'views/change-password/change-password-view'
 ChangePassword = require 'models/change-password/change-password'
@@ -51,6 +52,13 @@ module.exports = class LoggedInController extends Controller
           @view = new ShippingAddressesView model:@model
 
         check: -> mediator.data.get 'shipping-addresses-composed'
+
+      @reuse 'mailing',
+         compose: ->
+           mediator.data.set 'mailing-composed', yes
+           @view = new MailingView
+
+        check: -> mediator.data.get 'mailing-composed'
 
       @reuse 'user-cart-view',
         compose: ->
