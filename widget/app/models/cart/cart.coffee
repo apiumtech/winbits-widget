@@ -1,8 +1,8 @@
+'use strict'
 require = Winbits.require
 Model = require 'models/base/model'
 utils = require 'lib/utils'
 cartUtils = require 'lib/cart-utils'
-mediator = Chaplin.mediator
 $ = Winbits.$
 env = Winbits.env
 

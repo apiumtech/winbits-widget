@@ -348,6 +348,12 @@ _(utils).extend
   isLoggedIn: () ->
     mediator.data.get('login-data')?
 
+  isSwitchUser: ()->
+    if @isLoggedIn()
+      mediator.data.get('login-data').switchUser?
+    else
+      no
+
   getVirtualCart: () ->
     localStorage['wb-vcart'] or '[]'
 

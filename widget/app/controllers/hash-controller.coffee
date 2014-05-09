@@ -8,8 +8,14 @@ module.exports = class HashController extends Controller
 
   completeRegister: (obj)->
     @expressLogin(obj.apiToken)
-      .done @expressLoginSuccess
+      .done @completeRegisterSuccess
       .fail @expressLoginError
+
+  switchUser: (obj)->
+      @expressLogin(obj.apiToken)
+        .done @switchUserSuccess
+        .fail @expressLoginError
+
 
   expressLogin : (apiToken) ->
     utils.ajaxRequest Winbits.env.get('api-url') + '/users/express-login.json',
@@ -17,16 +23,21 @@ module.exports = class HashController extends Controller
       dataType: "json"
       data: JSON.stringify(apiToken: apiToken)
 
-  expressLoginSuccess: (data) ->
-    console.log 'Login data verified :)'
+  completeRegisterSuccess: (data) ->
     if $.isEmptyObject data.response
-      console.log ['error in api']
       @expressLoginError()
     else
-      console.log 'valid token'
       utils.saveLoginData data.response
       mediator.data.set 'login-data', data.response
       utils.redirectTo controller:'complete-register', action:'index'
+
+  switchUserSuccess: (data) ->
+    if $.isEmptyObject data.response
+      @expressLoginError()
+    else
+      utils.saveLoginData data.response
+      mediator.data.set 'login-data', data.response
+      utils.redirectToLoggedInHome()
 
   expressLoginError: () ->
     utils.redirectToNotLoggedInHome()
