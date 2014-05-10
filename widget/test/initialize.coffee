@@ -31,6 +31,7 @@ specs = [
   './views/cards-view-spec'
   './models/cards-spec'
   './views/new-card-view-spec'
+  './models/card-spec'
 ]
 
 for spec in specs

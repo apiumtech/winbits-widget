@@ -1,6 +1,7 @@
 'use strict'
 
 NewCardView = require 'views/cards/new-card-view'
+Card = require 'models/cards/card'
 $ = Winbits.$
 
 describe 'NewCardViewSpec', ->
@@ -12,13 +13,16 @@ describe 'NewCardViewSpec', ->
     $.validator.setDefaults ignore: ':hidden'
 
   beforeEach ->
-    @view = new NewCardView
+    @model = new Card
+    @view = new NewCardView model: @model
+    sinon.stub(@model, 'requestSaveNewCard').returns(TestUtils.promises.idle)
 
   afterEach ->
     @view.dispose()
+    @model.requestSaveNewCard.restore()
+    @model.dispose()
     $.fn.customSelect.restore?()
     $.fn.customCheckbox.restore?()
-    $.fn.mask.restore?()
 
   it 'should render wrapper', ->
     expect(@view.$el).to.has.id('wbi-new-card-view')
@@ -37,7 +41,7 @@ describe 'NewCardViewSpec', ->
     expect($.fn.customSelect).to.has.been.calledOnce
     $countrySelect = $.fn.customSelect.firstCall.returnValue
     expect($countrySelect).to.has.$class('wbc-country-field')
-    expect($countrySelect).to.has.$val('1')
+    expect($countrySelect).to.has.$val('MX')
 
   it 'should render form fields', ->
     fieldNames = [
@@ -76,3 +80,37 @@ describe 'NewCardViewSpec', ->
       expect($form.find('span.error')).to.exist
             .and.to.has.$text('Escribe una fecha válida.')
       validator.resetForm()
+
+  it 'should no request to save new card if data invalid', ->
+    @view.$('#wbi-save-card-btn').click()
+
+    expect(@model.requestSaveNewCard).to.not.has.been.called
+
+  it 'should request to save new card if data valid', ->
+    cardData = loadValidData.call(@)
+
+    @view.$('#wbi-save-card-btn').click()
+
+    expect(@model.requestSaveNewCard).to.has.been.calledWithMatch(cardData, @view)
+        .and.to.be.calledOnce
+
+  getValidCartData = ->
+    firstName: 'Steve'
+    lastName: 'Jobs'
+    accountNumber: '4111111111111111'
+    expirationMonth: '10'
+    expirationYear: '18'
+    country: 'MX'
+    street1: 'Reforma'
+    number: '1'
+    colony: 'Virreyes'
+    city: 'Mexico'
+    postalCode: '11000'
+    phoneNumber: '5553259000'
+
+  loadValidData = ->
+    cardData = getValidCartData()
+    $fields = @view.$(':input')
+    for own key, value of cardData
+      $fields.filter("[name=#{key}]").val(value)
+    cardData

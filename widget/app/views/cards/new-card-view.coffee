@@ -1,6 +1,7 @@
 'use strict'
 
 View = require 'views/base/view'
+Card = require 'models/cards/card'
 utils = require 'lib/utils'
 $ = Winbits.$
 
@@ -9,9 +10,11 @@ module.exports = class NewCardView extends View
   id: 'wbi-new-card-view'
   className: 'creditcardNew'
   template: require './templates/new-card'
+  model: new Card
 
   initialize: ->
     super
+    @delegate 'click', '#wbi-save-card-btn', @saveNewCard
 
   attach: ->
     super
@@ -86,3 +89,9 @@ module.exports = class NewCardView extends View
         postalCode:
           remote: $.validator.messages.wbZipCode
     )
+
+  saveNewCard: ->
+    $form = @$('#wbi-new-card-form')
+    if $form.valid()
+      cardData = utils.serializeForm($form)
+      @model.requestSaveNewCard(cardData, @)
