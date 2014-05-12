@@ -38,13 +38,13 @@ describe 'SwitchUserViewSpec', ->
     expect($view.find('em')).to.exist
     .and.to.has.text('Jacinto@yahoo.es')
 
-  it 'do logout when clicked button', ->
+  it 'do logout when clicked icon close switch user', ->
     sinon.stub(@model, 'requestLogout').returns TestUtils.promises.resolved
     successStub = sinon.stub(@view, 'doLogoutSuccess')
     @view.$('#wbi-switch-user-logout').click()
     expect(successStub).to.be.calledOnce
 
-  it 'do not logout when clicked button and apiToken does not exist', ->
+  it 'do not logout when clicked icon close switch user and  apiToken does not exist', ->
     sinon.stub(@model, 'requestLogout').returns TestUtils.promises.rejected
     errorStub = sinon.stub(@view, 'doLogoutError')
     @view.$('#wbi-switch-user-logout').click()
