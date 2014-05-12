@@ -1,15 +1,15 @@
+'use strict'
 require = Winbits.require
 Model = require 'models/base/model'
 utils = require 'lib/utils'
 cartUtils = require 'lib/cart-utils'
-mediator = Chaplin.mediator
 $ = Winbits.$
 env = Winbits.env
 
 module.exports = class Cart extends Model
   url: cartUtils.getCartResourceUrl
   needsAuth: yes
-  accessors: ['cartTotal', 'cartPercentageSaved', 'cartSaving']
+  accessors: ['cartTotal', 'cartPercentageSaved', 'cartSaving', 'itemsFullTotal', 'sliderTotal']
   defaults:
     itemsTotal: 0,
     bitsTotal: 0,
@@ -24,12 +24,24 @@ module.exports = class Cart extends Model
     super(method, model, options)
 
   cartTotal: ->
-    @get('itemsTotal') - @get('shippingTotal') - @get('bitsTotal')
+    @sliderTotal() - @get('bitsTotal')
+
+  sliderTotal: ->
+    @get('itemsTotal') + @get('shippingTotal')
+
+
+  itemsFullTotal: ->
+    priceTotal = 0
+    if(@get('cartDetails'))
+      priceTotal = (detail.quantity * detail.skuProfile.fullPrice) for detail in @get('cartDetails')
+    priceTotal
+
+
 
   cartPercentageSaved: ->
     cartTotal = @cartTotal()
     itemsTotal = @get('itemsTotal')
-    if itemsTotal then (1 - (cartTotal / itemsTotal)) * 100 else 0
+    if itemsTotal then Math.ceil((1 - (cartTotal / itemsTotal)).toFixed(2) * 100 ) else 0
 
   cartSaving: ->
     # TODO: Implementar algoritmo corecto cuando se defina
@@ -47,6 +59,21 @@ module.exports = class Cart extends Model
 
     utils.ajaxRequest(
         cartUtils.getCartResourceUrl(itemId),
+        $.extend(defaults, options)
+    )
+
+  updateCartBits:(formData, options) ->
+    defaults =
+      type: "PUT"
+      contentType: "application/json"
+      dataType: "json"
+      data:JSON.stringify(formData)
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token": utils.getApiToken()
+
+    utils.ajaxRequest(
+        env.get('api-url') + "/orders/update-cart-bits.json",
         $.extend(defaults, options)
     )
 

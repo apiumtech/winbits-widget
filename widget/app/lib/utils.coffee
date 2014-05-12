@@ -9,6 +9,8 @@ _ = Winbits._
 env = Winbits.env
 rpc = env.get('rpc')
 
+DEFAULT_API_ERROR_MESSAGE = 'El servidor no está disponible, por favor inténtalo más tarde.'
+
 # _(utils).extend
 #  someMethod: ->
 _(utils).extend
@@ -135,23 +137,26 @@ _(utils).extend
     $select.html '<option>Localidad</option>'
     $select.parent().find('ul').html '<li rel="Localidad">Localidad</li>'
 
-  showAjaxError: (jsonError) ->
-    error = JSON.parse(jsonError)
+  showApiError: (xhr) ->
+    errorJSON = xhr.responseText
+    error = @safeParse(errorJSON)
+    error.meta.message = DEFAULT_API_ERROR_MESSAGE if xhr.status >= 500
     @showError(error.meta.message)
 
-  showError: (errorMsg) ->
-    $errorModal = $('#wbi-error-modal')
-    $errorModal.find('.error-msg').text(errorMsg)
-    $errorModal.modal('show')
+  showError: (errorMsg, options) ->
+    defaults =
+      title: 'Error'
+      icon: 'iconFont-candado'
+    options = $.extend(defaults, options)
+    @showMessageModal(errorMsg, options)
 
-  showAjaxIndicator: (message) ->
-    message = if message? then message else 'Cargando...'
-    $ajaxModal = $('#wbi-ajax-modal')
-    $ajaxModal.find('.loading-msg').html(message)
-    $ajaxModal.modal('show')
+  showAjaxLoading: (message = 'Procesando información') ->
+    console.log ['Showing Ajax Loading']
+    $('#wbi-ajax-modal').show()
 
-  hideAjaxIndicator: () ->
-    $('#wbi-ajax-modal').modal('hide').find('.loading-msg').text('Cargando...')
+  hideAjaxLoading: ->
+    console.log ['Hiding Ajax Loading']
+    $('#wbi-ajax-modal').hide()
 
   getCreditCardType: (cardNumber) ->
     #start without knowing the credit card type
@@ -274,32 +279,42 @@ _(utils).extend
   hideDropMenus:()->
     $('.miCuentaDiv, .miCarritoDiv').slideUp()
 
-  safeParse: (jsonText)->
+  safeParse: (jsonText, message = DEFAULT_API_ERROR_MESSAGE)->
     try
       JSON.parse(jsonText)
     catch e
-      meta: message: 'El servidor no está disponible, por favor inténtalo más tarde.', status: 500
+      meta: message: message, status: 500
 
   showMessageModal: (message, options, modalSelector = '#wbi-alert-modal')->
     options ?= {}
     $modal = $(modalSelector)
     options.value ?= 'Ok'
-    options.cancelValue ?= 'Cancel'
     options.context ?= @
     options.onClosed ?= $.noop
-    options.title ?= 'Confirma'
+    options.title ?= 'Mensaje'
     options.icon ?="icontFont-question"
+    options.acceptAction ?= $.noop
+    options.acceptAction = $.proxy(options.acceptAction, options.context)
 #    onStart = $.proxy(options.onStart or $.noop, context)
 #    onCancel = $.proxy(options.onCancel or $.noop, context)
 #    onComplete = $.proxy(options.onComplete or $.noop, context)
 #    onCleanup = $.proxy(options.onCleanup or $.noop, context)
     onClosed = $.proxy(options.onClosed, options.context)
     $(".wbc-modal-message", $modal).html(message)
-    $(".wbc-default-action", $modal).val options.value
-    $(".wbc-cancel-action", $modal).val options.cancelValue
+    $(".wbc-default-action", $modal).unbind('click').click(options.acceptAction).click(@closeMessageModal).val options.value
     $(".wbc-modal-title", $modal).html(options.title)
     $(".wbc-modal-icon", $modal).html("<span class='#{options.icon}'></span>")
     $('<a>').wbfancybox(padding: 10, href: modalSelector, onClosed: onClosed).click()
+
+
+  showConfirmationModal: (message, options = {}) ->
+    $modal = $('#wbi-confirmation-modal')
+    options.cancelValue ?= 'Cancelar'
+    options.context ?= @
+    options.cancelAction ?= $.noop
+    options.cancelAction = $.proxy(options.cancelAction, options.context)
+    $(".wbc-cancel-action", $modal).unbind('click').click(options.cancelAction).click(@closeMessageModal).val options.cancelValue
+    @showMessageModal(message, options, $modal.selector)
 
   showLoadingMessage: (message, options)->
     defaults = icon:'iconFont-clock2',title:message
@@ -337,6 +352,12 @@ _(utils).extend
   isLoggedIn: () ->
     mediator.data.get('login-data')?
 
+  isSwitchUser: ()->
+    if @isLoggedIn()
+      mediator.data.get('login-data').switchUser?
+    else
+      no
+
   getVirtualCart: () ->
     localStorage['wb-vcart'] or '[]'
 
@@ -366,6 +387,8 @@ _(utils).extend
 
   getCurrentVerticalId: ->
     env.get('current-vertical-id')
+
+  closeMessageModal: $.fancybox.close
 
 # Prevent creating new properties and stuff.
 Object.seal? utils

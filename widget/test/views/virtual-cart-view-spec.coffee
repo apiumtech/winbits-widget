@@ -28,9 +28,4 @@ describe 'VirtualCartViewSpec', ->
   it 'should fetch virtual cart when initialized', ->
     expect(@model.fetch).to.has.been.calledOnce
 
-  it 'shold render when model changes', ->
-    sinon.stub(@view, 'render')
 
-    @model.set(itemsCount: 10, itemsTotal: 100)
-
-    expect(@view.render).to.have.been.calledOnce

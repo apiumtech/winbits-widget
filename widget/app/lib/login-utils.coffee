@@ -43,6 +43,15 @@ _(loginUtils).extend
     Winbits.trigger 'loggedout', [logoutData]
     utils.redirectToNotLoggedInHome()
 
+
+  doLogoutSuccess: (data) ->
+    @applyLogout(data.response)
+
+  doLogoutError: (xhr)->
+    #todo checar flujo si falla logout
+    @applyLogout()
+
+
     #    Winbits.rpc.logout(mediator.flags.fbConnect)
 #    @publishEvent "resetComponents"
 #    @publishEvent "showHeaderLogout"

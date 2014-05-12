@@ -17,6 +17,7 @@ module.exports = class LoggedInView extends View
   initialize: ->
     super
     @listenTo @model, 'change', @render
+    @subscribeEvent 'change-bits-data', @changeBitsValue
     @delegate 'click', '#wbi-checkout-btn', @triggerCheckout
 
   attach: ->
@@ -27,3 +28,8 @@ module.exports = class LoggedInView extends View
 
   triggerCheckout: ->
     @publishEvent('checkout-requested')
+
+  changeBitsValue:(bitsTotal = 0)->
+    $bitsBalance = mediator.data.get('login-data').bitsBalance - bitsTotal
+    @$('#wbi-my-bits').text $bitsBalance
+

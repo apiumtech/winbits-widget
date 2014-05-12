@@ -1,5 +1,4 @@
-(function($){
-
+(function($) {
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //      CAROUSELSWIPER: Iniciar carruseles on Swiper
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -165,11 +164,11 @@
 				if($(obj).prop('checked')){
 					$(this).removeClass(defaults.selectClass);
 					$(this).addClass(defaults.unSelectClass);
-					$(obj).attr('checked', false);
+					$(obj).prop('checked', false);
 				} else {
 					$(this).removeClass(defaults.unSelectClass);
 					$(this).addClass(defaults.selectClass);
-					$(obj).attr('checked', true);
+					$(obj).prop('checked', true);
 				}
 			});
 		};
@@ -278,7 +277,7 @@
 		},
 		addInput = function(obj){
 			if($(obj).data('inputselect')) {
-				selectContent = '<input type="text" class="'+ defaults.inputSelect +'" disabled="true">';
+				selectContent = '<input type="text" class="'+ defaults.inputSelect +'">';
 			} else {
 				selectContent = '<span class="'+ defaults.inputSelect +'"/>';
 			}
@@ -322,16 +321,15 @@
 		clickingTrigger = function(obj){
 			$(obj).parent().on('click', 'span.'+ defaults.claseTrigger, function(e){
 				e.stopPropagation();
+				$('.'+defaults.ulOptions).hide();
 				$(obj).siblings('.'+ defaults.inputSelect).toggleClass(defaults.claseActivo);
 				$(this).next('ul.'+ defaults.ulOptions).toggle();
 			});
 			clickingOption(obj);
 		},
 		clickingDocument = function(obj){
-			$(document).click(function () {
-				$(obj).siblings('.'+ defaults.inputSelect).removeClass(defaults.claseActivo);
-				$(obj).siblings('ul').hide();
-			});
+			$(obj).siblings('.'+ defaults.inputSelect).removeClass(defaults.claseActivo);
+			$('.'+defaults.ulOptions).hide();
 		},
 		clickingOption = function(obj){
 			$(obj).change().parent().on('click', 'ul li', function(e){
@@ -353,7 +351,6 @@
 					}
 				}
 				$(obj).siblings('ul').hide();
-				clickingDocument(obj);
 				$(obj).trigger('change');
 			});
 			$(obj).on('change', function(e){
@@ -361,6 +358,9 @@
 				if(defaults.onChangeSelect){
 					changeSelect(obj);
 				}
+			});
+			$(document).click(function(){
+				clickingDocument(obj);
 			});
 		},
 		resetSelected = function(obj){
@@ -557,11 +557,11 @@
 //      IMAGEERROR: Poner imagen de error cuando no la encuentre
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-	jQuery.fn.imageError = function(){
-		var defaults = {
-			src: 'images/misc/noImge.jpg',
+	jQuery.fn.imageError = function(options){
+		var defaults = $.extend({
+			src: 'images/misc/noImage.jpg',
 			alt: 'No se encontró la imagen'
-		};
+		}, options);
 		return this.each(function(){
 			$(this).error(function(){
 				$(this).attr({
@@ -634,6 +634,91 @@
 			}
 		});
 	};
+
+/* **********************************************
+     Begin mailingMenuCheckboxs.js
+********************************************** */
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//      MAILINGMENUCHECKBOXS: Eventos / efectos para los checkboxes y radios del menú
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+	jQuery.fn.mailingMenuCheckboxs = function(options){
+		var defaults = $.extend({
+			checkboxSpan: '.checkbox-span',
+			checkboxUnchecked: 'checkbox-unchecked',
+			checkboxChecked: 'checkbox-checked',
+			checkboxAll: '.checkall',
+			overlay: 'mailingOverlay',
+			radio: 'input[type="radio"]',
+			spanRadio: 'radio-span',
+			spanSelected: 'radio-selected'
+		}, options), overlay = 0,
+		checkAll = function(obj){
+			$(obj).find(defaults.checkboxAll).siblings(defaults.checkboxSpan).click(function(){
+				var checkUnchec = $(this).attr('class').split(' ')[1];
+				$(this).parent().siblings().each(function(){
+					if(!$(this).find(defaults.checkboxSpan).hasClass(checkUnchec)){
+						$(this).find(defaults.checkboxSpan).trigger('click');
+					}
+				});
+			});
+		},
+		checkEach = function(obj){
+			$(obj).find(defaults.checkboxSpan).each(function(){
+				checkCheckbox(this, obj, 1);
+			}).click(function(){
+				checkCheckbox(this, obj);
+			});
+		},
+		checkCheckbox = function(item, obj, init){
+			if($(item).hasClass(defaults.checkboxChecked)) {
+				overlay = overlay + 1;
+			} else {
+				if (!init){
+					overlay = overlay - 1;
+				}
+			}
+			if(overlay <= 0){
+				appendOverlay(obj);
+				overlay = 0;
+			} else {
+				removeOverlay(obj);
+			}
+		},
+		appendOverlay = function(obj){
+			if(!$(obj).find('.' + defaults.overlay).length) {
+				$(obj).append('<div class="'+ defaults.overlay + '"/>');
+				uncheckRadio(obj);
+			}
+		},
+		removeOverlay = function(obj){
+			if($(obj).find('.' + defaults.overlay).length) {
+				$(obj).find('.' + defaults.overlay).remove();
+			}
+		},
+		uncheckRadio = function(obj){
+			$(obj).find(defaults.radio).each(function(){
+				$(this).attr('checked', false);
+				$(this).parent().find('.'+defaults.spanRadio).removeClass(defaults.spanSelected);
+			});
+		};
+		return this.each(function(){
+			checkAll(this);
+			checkEach(this);
+		});
+	};
+
+
+
+
+    // var unchecked = 0;
+    // $('#wb-micuenta-mailing .checkbox-span').each(function(i){
+    //     if($(this).hasClass('checkbox-unchecked')) {
+    //         unchecked = unchecked + 1;
+    //     }
+    //     console.log(unchecked+' '+$('#wb-micuenta-mailing .checkbox-span').size());
+    // });
 
 /* **********************************************
      Begin requiredField.js
@@ -735,7 +820,7 @@
 		return this.each(function(){
 			$(defaults.tabClass).hide().eq(0).show();
 			$(this).find(defaults.item).click(function(e){
-//				e.preventDefault();
+				e.preventDefault();
 				$(defaults.tabClass).hide();
 				var id = $(this).find('a').attr('href');
 				$(id).fadeToggle();
@@ -753,9 +838,9 @@
 // ++++++++++++++++++++++++++++++++++++
 
 	jQuery.fn.toolTip = function(options){
-		var defaults = {
+		var defaults = $.extend({
 			clase: 'tooltip'
-		},
+		}, options),
 		asignaValor = function(obj){
 			var $this = $(obj), valor;
 			if ($this.text() !== '') {
@@ -795,9 +880,6 @@
 			$(obj).attr('title', valor);
 		};
 		return this.each(function(){
-			if(options){
-				defaults = $.extend(defaults, options);
-			}
 			var val = asignaValor(this);
 			if (val !== ''){
 				$(this).on({
@@ -808,31 +890,4 @@
 			}
 		});
 	};
-
-/* **********************************************
-     Begin scriptALL.js
-********************************************** */
-
-// @codekit-prepend  "js/scripts/carouselSwiper.js";
-// @codekit-prepend  "js/scripts/customCheckbox.js";
-// @codekit-prepend  "js/scripts/customRadio.js";
-// @codekit-prepend  "js/scripts/customSelect.js";
-// @codekit-prepend  "js/scripts/customSlider.js";
-// @codekit-prepend  "js/scripts/changeBox.js";
-// @codekit-prepend  "js/scripts/dropMainMenu.js";
-// @codekit-prepend  "js/scripts/imageError.js";
-// @codekit-prepend  "js/scripts/fancyBox.js";
-// @codekit-prepend  "js/scripts/requiredField.js";
-// @codekit-prepend  "js/scripts/scrollpane.js";
-// @codekit-prepend  "js/scripts/showHideDiv.js";
-// @codekit-prepend  "js/scripts/tabs.js";
-// @codekit-prepend  "js/scripts/toolTip.js";
-})(jQuery);
-(function(){
-	$('.select').customSelect();
-	$('.slideInput').customSlider();
-	$('.fancybox').fancyBox();
-	$('img').imageError({ src: '../images/misc/noImage.jpg'});
-	$('.requiredField').requiredField();
-	$('.openClose').showHideDiv();
-})();
+})(window.jQuery);
