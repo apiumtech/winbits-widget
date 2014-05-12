@@ -94,6 +94,7 @@ module.exports = class NewCardView extends View
   saveNewCard: ->
     $form = @$('#wbi-new-card-form')
     if $form.valid()
+      utils.showAjaxLoading()
       cardData = utils.serializeForm($form)
       @model.requestSaveNewCard(cardData, @)
 

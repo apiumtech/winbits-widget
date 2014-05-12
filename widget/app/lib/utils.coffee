@@ -144,14 +144,11 @@ _(utils).extend
     $errorModal.find('.error-msg').text(errorMsg)
     $errorModal.modal('show')
 
-  showAjaxIndicator: (message) ->
-    message = if message? then message else 'Cargando...'
-    $ajaxModal = $('#wbi-ajax-modal')
-    $ajaxModal.find('.loading-msg').html(message)
-    $ajaxModal.modal('show')
+  showAjaxLoading: (message = 'Procesando información') ->
+    $('#wbi-ajax-modal').show()
 
-  hideAjaxIndicator: () ->
-    $('#wbi-ajax-modal').modal('hide').find('.loading-msg').text('Cargando...')
+  hideAjaxLoading: ->
+    $('#wbi-ajax-modal').hide()
 
   getCreditCardType: (cardNumber) ->
     #start without knowing the credit card type

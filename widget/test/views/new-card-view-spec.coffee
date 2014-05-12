@@ -2,6 +2,7 @@
 
 NewCardView = require 'views/cards/new-card-view'
 Card = require 'models/cards/card'
+utils = require 'lib/utils'
 EventBroker = Chaplin.EventBroker
 $ = Winbits.$
 
@@ -27,6 +28,7 @@ describe 'NewCardViewSpec', ->
     $.fn.customSelect.restore?()
     $.fn.customCheckbox.restore?()
     $.fn.slideUp.restore?()
+    utils.showAjaxLoading.restore?()
 
   it 'should render wrapper', ->
     expect(@view.$el).to.has.id('wbi-new-card-view')
@@ -90,6 +92,12 @@ describe 'NewCardViewSpec', ->
 
     expect(@model.requestSaveNewCard).to.not.has.been.called
 
+  it 'should not show loading indicator if data invalid', ->
+    sinon.stub(utils, 'showAjaxLoading')
+    @view.$('#wbi-save-card-btn').click()
+
+    expect(utils.showAjaxLoading).to.not.has.been.called
+
   it 'should request to save new card if data valid', ->
     cardData = loadValidData.call(@)
 
@@ -97,6 +105,13 @@ describe 'NewCardViewSpec', ->
 
     expect(@model.requestSaveNewCard).to.has.been.calledWithMatch(cardData, @view)
         .and.to.be.calledOnce
+
+  it 'should show loading indicator if data is valid', ->
+    sinon.stub(utils, 'showAjaxLoading')
+    cardData = loadValidData.call(@)
+
+    @view.$('#wbi-save-card-btn').click()
+    expect(utils.showAjaxLoading).to.has.been.calledOnce
 
   it 'should hide view on cancel btn click', ->
     sinon.spy($.fn, 'slideUp')
