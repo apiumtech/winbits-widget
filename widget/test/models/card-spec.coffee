@@ -6,6 +6,12 @@ $ = Winbits.$
 
 describe 'CardSpec', ->
 
+  before ->
+    sinon.stub(utils, 'getApiToken').returns('XXX')
+
+  after ->
+    utils.getApiToken.restore()
+
   beforeEach ->
     sinon.stub(utils, 'ajaxRequest')
     @model = new Card
@@ -25,7 +31,9 @@ describe 'CardSpec', ->
     expect(utils.ajaxRequest).to.has.been.calledWithMatch('orders/card-subscription.json',
       type: 'POST'
       context: context
-      data: '{"firstName":"Steve","accountNumber":"12345"}'
+      data: '{"paymentInfo":{"firstName":"Steve","accountNumber":"12345"}}'
+      headers:
+        'Wb-Api-Token': 'XXX'
     ).and.to.has.been.calledOnce
     options = utils.ajaxRequest.firstCall.args[1]
     expect(options.context).to.be.equal(context)

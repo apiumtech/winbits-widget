@@ -14,7 +14,9 @@ module.exports = class Card extends Model
   requestSaveNewCard: (cardData, context = @)->
     options =
       type: 'POST'
-      data: JSON.stringify(cardData)
+      data: JSON.stringify(paymentInfo: cardData)
       context: context
+      headers:
+        'Wb-Api-Token': utils.getApiToken()
     url = utils.getResourceURL('orders/card-subscription.json')
     utils.ajaxRequest(url, options)

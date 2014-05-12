@@ -15,7 +15,7 @@ module.exports = class NewCardView extends View
   initialize: ->
     super
     @delegate 'click', '#wbi-save-card-btn', @saveNewCard
-    @delegate 'click', '.wbc-cancel-btn', @cancelSavingNewCard
+    @delegate 'click', '.wbc-cancel-btn', @hideNewCardView
 
   attach: ->
     super
@@ -97,7 +97,19 @@ module.exports = class NewCardView extends View
       utils.showAjaxLoading()
       cardData = utils.serializeForm($form)
       @model.requestSaveNewCard(cardData, @)
+          .done(@saveNewCardSucceds)
+          .always(@saveNewCardCompletes)
 
-  cancelSavingNewCard: ->
+  saveNewCardSucceds: ->
+    @publishEvent('cards-changed')
+    options =
+      acceptAction: @hideNewCardView
+      context: @
+    utils.showMessageModal('Tus datos fueron guardados correctamente.', options)
+
+  saveNewCardCompletes: ->
+    utils.hideAjaxLoading()
+
+  hideNewCardView: ->
     @$el.slideUp()
     @publishEvent('card-subview-hidden')

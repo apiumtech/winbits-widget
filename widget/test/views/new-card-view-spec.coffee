@@ -29,6 +29,8 @@ describe 'NewCardViewSpec', ->
     $.fn.customCheckbox.restore?()
     $.fn.slideUp.restore?()
     utils.showAjaxLoading.restore?()
+    utils.showMessageModal.restore?()
+    utils.hideAjaxLoading.restore?()
 
   it 'should render wrapper', ->
     expect(@view.$el).to.has.id('wbi-new-card-view')
@@ -112,6 +114,40 @@ describe 'NewCardViewSpec', ->
 
     @view.$('#wbi-save-card-btn').click()
     expect(utils.showAjaxLoading).to.has.been.calledOnce
+
+  it 'should publish "cards-changed" event if card saving succeds', ->
+    stub = sinon.stub()
+    EventBroker.subscribeEvent('cards-changed', stub)
+    @model.requestSaveNewCard.returns(new $.Deferred().resolveWith(@view).promise())
+    cardData = loadValidData.call(@)
+
+    @view.$('#wbi-save-card-btn').click()
+    expect(stub).to.has.been.calledOnce
+
+  it 'should show message to inform card was saved if card saving succeds', ->
+    sinon.stub(utils, 'showMessageModal')
+    @model.requestSaveNewCard.returns(new $.Deferred().resolveWith(@view).promise())
+    cardData = loadValidData.call(@)
+
+    @view.$('#wbi-save-card-btn').click()
+    expect(utils.showMessageModal).to.has.been.calledWith('Tus datos fueron guardados correctamente.', acceptAction: @view.hideNewCardView, context: @view)
+        .and.to.has.been.calledOnce
+
+  it 'should hide ajax loading if card saving succeds', ->
+    sinon.stub(utils, 'hideAjaxLoading')
+    @model.requestSaveNewCard.returns(new $.Deferred().resolveWith(@view).promise())
+    cardData = loadValidData.call(@)
+
+    @view.$('#wbi-save-card-btn').click()
+    expect(utils.hideAjaxLoading).to.has.been.calledOnce
+
+  it 'should hide ajax loading if card saving fails', ->
+    sinon.stub(utils, 'hideAjaxLoading')
+    @model.requestSaveNewCard.returns(new $.Deferred().rejectWith(@view).promise())
+    cardData = loadValidData.call(@)
+
+    @view.$('#wbi-save-card-btn').click()
+    expect(utils.hideAjaxLoading).to.has.been.calledOnce
 
   it 'should hide view on cancel btn click', ->
     sinon.spy($.fn, 'slideUp')

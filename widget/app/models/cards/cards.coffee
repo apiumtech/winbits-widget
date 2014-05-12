@@ -12,6 +12,7 @@ module.exports = class Cards extends Model
 
   initialize: () ->
     super
+    @subscribeEvent 'cards-changed', -> @fetch()
 
   parse: ->
     parsedResponse = super
