@@ -18,7 +18,7 @@ module.exports = class CartView extends View
     super
     # @listenTo @model, 'change', -> @render()
     @subscribeEvent 'cart-changed', -> @onCartChanged.apply(@, arguments)
-    @model.fetch(success: $.proxy(@render, @))
+    @model.fetch(success: $.proxy(@successFetch, @))
 
   render: ->
     super
@@ -36,3 +36,9 @@ module.exports = class CartView extends View
   onCartChanged: (cartData)->
     @model.setData(cartData)
     @render()
+
+  successFetch: (data)->
+    @onCartChanged data
+    $bitsTotal= @model.get 'bitsTotal'
+    @publishEvent 'change-bits-data', $bitsTotal
+

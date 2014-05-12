@@ -9,7 +9,7 @@ env = Winbits.env
 module.exports = class Cart extends Model
   url: cartUtils.getCartResourceUrl
   needsAuth: yes
-  accessors: ['cartTotal', 'cartPercentageSaved', 'cartSaving', 'itemsFullTotal']
+  accessors: ['cartTotal', 'cartPercentageSaved', 'cartSaving', 'itemsFullTotal', 'sliderTotal']
   defaults:
     itemsTotal: 0,
     bitsTotal: 0,
@@ -24,7 +24,10 @@ module.exports = class Cart extends Model
     super(method, model, options)
 
   cartTotal: ->
-    @get('itemsTotal') + @get('shippingTotal') - @get('bitsTotal')
+    @sliderTotal() - @get('bitsTotal')
+
+  sliderTotal: ->
+    @get('itemsTotal') + @get('shippingTotal')
 
 
   itemsFullTotal: ->
@@ -56,6 +59,21 @@ module.exports = class Cart extends Model
 
     utils.ajaxRequest(
         cartUtils.getCartResourceUrl(itemId),
+        $.extend(defaults, options)
+    )
+
+  updateCartBits:(formData, options) ->
+    defaults =
+      type: "PUT"
+      contentType: "application/json"
+      dataType: "json"
+      data:JSON.stringify(formData)
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token": utils.getApiToken()
+
+    utils.ajaxRequest(
+        env.get('api-url') + "/orders/update-cart-bits.json",
         $.extend(defaults, options)
     )
 
