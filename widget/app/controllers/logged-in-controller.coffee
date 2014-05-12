@@ -1,3 +1,4 @@
+'use strict'
 Controller = require "controllers/base/controller"
 LoggedInView = require 'views/logged-in/logged-in-view'
 utils = require 'lib/utils'
@@ -14,6 +15,8 @@ CartView = require 'views/cart/cart-view'
 Cart = require 'models/cart/cart'
 CardsView =  require 'views/cards/cards-view'
 Cards =  require 'models/cards/cards'
+SwitchUserView =  require 'views/switch-user/switch-user-view'
+SwitchUser =  require 'models/switch-user/switch-user'
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 
@@ -62,11 +65,20 @@ module.exports = class LoggedInController extends Controller
 
       @reuse 'cards-view',
         compose: ->
-          mediator.data.set 'profile-composed', yes
+          mediator.data.set 'cards-composed', yes
           @model = new Cards
           @view = new CardsView model: @model
 
-        check: -> mediator.data.get 'profile-composed'
+        check: -> mediator.data.get 'cards-composed'
+
+      if (utils.isSwitchUser())
+        @reuse 'switch-user-view',
+          compose: ->
+            mediator.data.set 'switch-user-composed', yes
+            @model = new SwitchUser
+            @view = new SwitchUserView model: @model
+
+          check: -> mediator.data.get 'switch-user-composed'
     else
       @redirectTo 'home#index'
 
