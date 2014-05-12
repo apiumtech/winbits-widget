@@ -9,7 +9,7 @@ _ = Winbits._
 env = Winbits.env
 rpc = env.get('rpc')
 
-DEFAULT_API_ERROR_MESSAGE = 'El servicio no está disponible, por favor inténtalo más tarde.'
+DEFAULT_API_ERROR_MESSAGE = 'El servidor no está disponible, por favor inténtalo más tarde.'
 
 # _(utils).extend
 #  someMethod: ->
