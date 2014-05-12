@@ -7,20 +7,19 @@ $ = Winbits.$
 env = Winbits.env
 
 module.exports = class AddNewShippingAddressView extends View
-  container: '#wbi-shipping-new-address-container'
-  template: require './templates/add-new-shipping-address'
-  noWrap: yes
+  container: '#wbi-edit-shipping-address-container'
+  template: require './templates/edit-shipping-address'
 
   initialize: ->
     super
-    @delegate 'click', '#wbi-add-shipping-address-submit-btn', @doSaveShippingAddress
+    @delegate 'click', '#wbi-edit-shipping-address-submit-btn', @doSaveShippingAddress
 
   attach: ->
     super
     @$('.requiredField').requiredField()
-    @$('#wbi-shipping-new-address-form').customCheckbox()
+    @$('#wbi-edit-shipping-address-form').customCheckbox()
     @$('[name=zipCodeInfo]').wblocationselect().on "change", $.proxy @setCityAndState, @
-    @$('#wbi-shipping-new-address-form').validate
+    @$('#wbi-edit-shipping-address-form').validate
       errorElement: 'span',
       errorPlacement: ($error, $element) ->
         if $element.attr("name") in ["externalNumber"]
@@ -71,7 +70,7 @@ module.exports = class AddNewShippingAddressView extends View
      valSelected = comboSelect.val()
      if valSelected
        value = comboSelect.wblocationselect('value')
-       @setCityAndStateDefault value
+       @setCityAndStateDefault(value)
      else
        @$('[name="city"]').val('')
        @$('[name="state"]').val('')
@@ -83,30 +82,29 @@ module.exports = class AddNewShippingAddressView extends View
      @$('[name="state"]').val(value.state)
 
 
-  doSaveShippingAddress: ->
-    $form =  @$el.find("#wbi-shipping-new-address-form")
+  doSaveShippingAddress: (e)->
+    itemId = $(e.currentTarget).closest('form#wbi-edit-shipping-address-form').data("id")
+    $form =  @$el.find("#wbi-edit-shipping-address-form")
     @$('.errorDiv').css('display':'none')
     if($form.valid())
-      @$('#wbi-shipping-thanks-div').show()
+      @$('#wbi-edit-shipping-thanks-div').show()
+      @checkZipCodeInfo()
       data = utils.serializeForm $form
-      console.log ["data Serialized form", data]
-      @model.requestSaveNewShippingAddress(data, context: @)
-      .done(@successSaveNewShippingAddress)
-      .fail(@errorSaveNewShippingAddress)
+      @model.requestSaveEditShippingAddress(itemId,data, context: @)
+      .done(@successSaveEditShippingAddress)
+      .fail(@errorSaveEditShippingAddress)
 
   checkZipCodeInfo: ->
     zipCodeInfo =@$('select#wbi-shipping-address-zip-code-info').wblocationselect('value')
-    if not zipCodeInfo.state
-      console.log ["Zip code info in other..."]
-      @$('[name="city"]').val city
-      @$('[name="state"]').val state
+    if zipCodeInfo.locationName
+      @$('[name="location"]').val zipCodeInfo.locationName
 
-  successSaveNewShippingAddress:()->
-    @$('#wbi-shipping-address-process').hide()
-    @$('#wbi-shipping-address-done').show()
+  successSaveEditShippingAddress:()->
+    @$('#wbi-edit-shipping-address-process').hide()
+    @$('#wbi-edit-shipping-address-done').show()
 
-  errorSaveNewShippingAddress:(xhr, textStatus)->
-    @$('#wbi-shipping-thanks-div').hide()
+  errorSaveEditShippingAddress:(xhr, textStatus)->
+    @$('#wbi-edit-shipping-thanks-div').hide()
     error = utils.safeParse(xhr.responseText)
     message = if error then error.meta.message else textStatus
     @$('.errorDiv p').text(message).parent().css('display':'block')

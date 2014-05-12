@@ -14,6 +14,7 @@ specs = [
   './views/change-password-view-spec'
   './views/shipping-addresses-view-spec'
   './views/new-shipping-address-view-spec'
+  './views/edit-shipping-address-view-spec'
   './views/complete-register-view-spec'
   './other/jquery-location-select-spec'
   './other/jquery-location-select-spec'
@@ -30,6 +31,9 @@ specs = [
   './lib/utils-spec'
   './views/cards-view-spec'
   './models/cards-spec'
+  './views/new-card-view-spec'
+  './models/card-spec'
+  './views/switch-user-view-spec'
 ]
 
 for spec in specs
