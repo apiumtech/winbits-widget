@@ -15,6 +15,7 @@ module.exports = class NewCardView extends View
   initialize: ->
     super
     @delegate 'click', '#wbi-save-card-btn', @saveNewCard
+    @delegate 'click', '.wbc-cancel-btn', @cancelSavingNewCard
 
   attach: ->
     super
@@ -95,3 +96,7 @@ module.exports = class NewCardView extends View
     if $form.valid()
       cardData = utils.serializeForm($form)
       @model.requestSaveNewCard(cardData, @)
+
+  cancelSavingNewCard: ->
+    @$el.slideUp()
+    @publishEvent('card-subview-hidden')

@@ -3,6 +3,7 @@
 CardsView =  require 'views/cards/cards-view'
 Cards =  require 'models/cards/cards'
 NewCardView = require 'views/cards/new-card-view'
+EventBroker = Chaplin.EventBroker
 $ = Winbits.$
 
 describe 'CardsViewSpec', ->
@@ -127,6 +128,13 @@ describe 'CardsViewSpec', ->
     expect($.fn.slideDown).to.has.been.calledOnce
     newCardView = @view.subview('new-card-view')
     expect($.fn.slideDown.firstCall.returnValue).to.be.equal(newCardView.$el)
+
+  it 'should show view when "card-subview-hidden" event is published', ->
+    sinon.spy($.fn, 'slideDown')
+
+    EventBroker.publishEvent('card-subview-hidden')
+    expect($.fn.slideDown).to.has.been.calledOnce
+    expect($.fn.slideDown.firstCall.returnValue).to.be.equal(@view.$el)
 
   setModel = ->
     data = []

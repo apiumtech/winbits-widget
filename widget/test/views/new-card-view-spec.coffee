@@ -2,15 +2,18 @@
 
 NewCardView = require 'views/cards/new-card-view'
 Card = require 'models/cards/card'
+EventBroker = Chaplin.EventBroker
 $ = Winbits.$
 
 describe 'NewCardViewSpec', ->
 
   before ->
     $.validator.setDefaults ignore: []
+    @xhr = sinon.useFakeXMLHttpRequest()
 
   after ->
     $.validator.setDefaults ignore: ':hidden'
+    @xhr.restore()
 
   beforeEach ->
     @model = new Card
@@ -23,6 +26,7 @@ describe 'NewCardViewSpec', ->
     @model.dispose()
     $.fn.customSelect.restore?()
     $.fn.customCheckbox.restore?()
+    $.fn.slideUp.restore?()
 
   it 'should render wrapper', ->
     expect(@view.$el).to.has.id('wbi-new-card-view')
@@ -31,7 +35,7 @@ describe 'NewCardViewSpec', ->
   it 'should be rendered', ->
     expect(@view.$('form#wbi-new-card-form')).to.existExact(1)
     expect(@view.$('#wbi-save-card-btn')).to.existExact(1)
-    expect(@view.$('.wbc-cancel-btn')).to.existExact(2)
+    expect(@view.$('.wbc-cancel-btn')).to.existExact(1)
     expect(@view.$('#wbi-new-card-status-layer')).to.existExact(1)
 
   it 'should apply customSelect plugin when rendered', ->
@@ -93,6 +97,20 @@ describe 'NewCardViewSpec', ->
 
     expect(@model.requestSaveNewCard).to.has.been.calledWithMatch(cardData, @view)
         .and.to.be.calledOnce
+
+  it 'should hide view on cancel btn click', ->
+    sinon.spy($.fn, 'slideUp')
+
+    @view.$('.wbc-cancel-btn').click()
+    expect($.fn.slideUp).to.has.been.calledOnce
+    expect($.fn.slideUp.firstCall.returnValue).to.be.equal(@view.$el)
+
+  it 'should publish "card-subview-hidden" event on cancel btn click', ->
+    stub = sinon.stub()
+    EventBroker.subscribeEvent('card-subview-hidden', stub)
+
+    @view.$('.wbc-cancel-btn').click()
+    expect(stub).to.has.been.calledOnce
 
   getValidCartData = ->
     firstName: 'Steve'

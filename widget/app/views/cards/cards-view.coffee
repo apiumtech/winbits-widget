@@ -16,6 +16,7 @@ module.exports = class CardsView extends View
     @listenTo @model, 'change', -> @render()
     @clickOnCardHandler = @delegate 'click', '.wbc-card', -> @onCardClick.apply(@, arguments)
     @delegate 'click', '#wbi-new-card-link', -> @showNewCardView.apply(@, arguments)
+    @subscribeEvent('card-subview-hidden', @showCardsView)
     @model.fetch()
 
   attach: ->
@@ -61,3 +62,6 @@ module.exports = class CardsView extends View
     @subview('new-card-view', newCardView)
     @$el.slideUp()
     newCardView.$el.slideDown()
+
+  showCardsView: ->
+    @$el.slideDown()
