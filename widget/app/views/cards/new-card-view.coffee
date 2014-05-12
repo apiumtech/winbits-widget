@@ -33,7 +33,7 @@ module.exports = class NewCardView extends View
       errorPlacement: ($error, $element) ->
         name = $element.attr('name')
         $errorPlaceholder = $element.closest('.wbc-error-placeholder')
-        if name in ['expirationMonth', 'expirationYear']
+        if name in ['expirationMonth', 'expirationYear', 'accountNumber']
           $error.appendTo $errorPlaceholder
         else if name in ['street1', 'number']
           $error.insertAfter $errorPlaceholder.find('[name=number]').parent()
@@ -90,6 +90,7 @@ module.exports = class NewCardView extends View
         postalCode:
           remote: $.validator.messages.wbZipCode
     )
+    @$('[name=accountNumber]').on('textchange', $.proxy(@updateCardLogo, @))
 
   saveNewCard: ->
     $form = @$('#wbi-new-card-form')
@@ -113,3 +114,19 @@ module.exports = class NewCardView extends View
   hideNewCardView: ->
     @$el.slideUp()
     @publishEvent('card-subview-hidden')
+
+  updateCardLogo: (e)->
+    $cardNumberField = $(e.currentTarget)
+    cardTypeDataKey = 'card-type'
+    cardNumber = $cardNumberField.val()
+    cardType = utils.getCreditCardType(cardNumber)
+    cardTypeClass = "iconFont-#{cardType}"
+    currentCardType = $cardNumberField.data(cardTypeDataKey)
+    currentCardTypeClass = "iconFont-#{currentCardType}"
+    @$('.wbc-card-logo').removeClass(currentCardTypeClass).addClass(cardTypeClass)
+    $cardNumberField.data(cardTypeDataKey, cardType)
+    @fixCardNumberMaxLengthByCardType(cardType, $cardNumberField)
+
+  fixCardNumberMaxLengthByCardType: (cardType, $cardNumberField)->
+    maxLength = if cardType isnt 'amex' then 16 else 15
+    $cardNumberField.attr('maxlength', maxLength)

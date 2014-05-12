@@ -9,6 +9,8 @@ _ = Winbits._
 env = Winbits.env
 rpc = env.get('rpc')
 
+DEFAULT_API_ERROR_MESSAGE = 'El servicio no está disponible, por favor inténtalo más tarde.'
+
 # _(utils).extend
 #  someMethod: ->
 _(utils).extend
@@ -135,14 +137,18 @@ _(utils).extend
     $select.html '<option>Localidad</option>'
     $select.parent().find('ul').html '<li rel="Localidad">Localidad</li>'
 
-  showAjaxError: (jsonError) ->
-    error = JSON.parse(jsonError)
+  showApiError: (xhr) ->
+    errorJSON = xhr.responseText
+    error = @safeParse(errorJSON)
+    error.meta.message = DEFAULT_API_ERROR_MESSAGE if xhr.status >= 500
     @showError(error.meta.message)
 
-  showError: (errorMsg) ->
-    $errorModal = $('#wbi-error-modal')
-    $errorModal.find('.error-msg').text(errorMsg)
-    $errorModal.modal('show')
+  showError: (errorMsg, options) ->
+    defaults =
+      title: 'Error'
+      icon: 'iconFont-candado'
+    options = $.extend(defaults, options)
+    @showMessageModal(errorMsg, options)
 
   showAjaxLoading: (message = 'Procesando información') ->
     console.log ['Showing Ajax Loading']
@@ -273,11 +279,11 @@ _(utils).extend
   hideDropMenus:()->
     $('.miCuentaDiv, .miCarritoDiv').slideUp()
 
-  safeParse: (jsonText)->
+  safeParse: (jsonText, message = DEFAULT_API_ERROR_MESSAGE)->
     try
       JSON.parse(jsonText)
     catch e
-      meta: message: 'El servidor no está disponible, por favor inténtalo más tarde.', status: 500
+      meta: message: message, status: 500
 
   showMessageModal: (message, options, modalSelector = '#wbi-alert-modal')->
     options ?= {}
@@ -285,7 +291,7 @@ _(utils).extend
     options.value ?= 'Ok'
     options.context ?= @
     options.onClosed ?= $.noop
-    options.title ?= 'Confirma'
+    options.title ?= 'Mensaje'
     options.icon ?="icontFont-question"
     options.acceptAction ?= $.noop
     options.acceptAction = $.proxy(options.acceptAction, options.context)

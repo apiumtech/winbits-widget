@@ -164,11 +164,11 @@
 				if($(obj).prop('checked')){
 					$(this).removeClass(defaults.selectClass);
 					$(this).addClass(defaults.unSelectClass);
-					$(obj).attr('checked', false);
+					$(obj).prop('checked', false);
 				} else {
 					$(this).removeClass(defaults.unSelectClass);
 					$(this).addClass(defaults.selectClass);
-					$(obj).attr('checked', true);
+					$(obj).prop('checked', true);
 				}
 			});
 		};

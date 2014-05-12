@@ -20,3 +20,5 @@ module.exports = class Card extends Model
         'Wb-Api-Token': utils.getApiToken()
     url = utils.getResourceURL('orders/card-subscription.json')
     utils.ajaxRequest(url, options)
+        .fail($.proxy(utils.showApiError, utils))
+
