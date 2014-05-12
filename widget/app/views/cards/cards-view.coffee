@@ -1,17 +1,22 @@
 'use strict'
 
 View = require 'views/base/view'
+NewCardView = require 'views/cards/new-card-view'
 $ = Winbits.$
 DEFAULT_CARD_CLASS = 'carruselSCC-selected'
 
 module.exports = class CardsView extends View
   container: '#wb-credit-cards'
   template: require './templates/cards'
+  id: 'wbi-cards-carousel-view'
+  className: 'ccCarrusel'
 
   initialize: ->
     super
     @listenTo @model, 'change', -> @render()
     @clickOnCardHandler = @delegate 'click', '.wbc-card', -> @onCardClick.apply(@, arguments)
+    @delegate 'click', '#wbi-new-card-link', -> @showNewCardView.apply(@, arguments)
+    @subscribeEvent('card-subview-hidden', @showCardsView)
     @model.fetch()
 
   attach: ->
@@ -51,3 +56,12 @@ module.exports = class CardsView extends View
 
   turnCardsClickEvent: (state) ->
     @$el[state]('click', '.wbc-card', @clickOnCardHandler)
+
+  showNewCardView: ->
+    newCardView = new NewCardView
+    @subview('new-card-view', newCardView)
+    @$el.slideUp()
+    newCardView.$el.slideDown()
+
+  showCardsView: ->
+    @$el.slideDown()

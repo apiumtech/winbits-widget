@@ -2,6 +2,7 @@
 
 Cards =  require 'models/cards/cards'
 utils = require 'lib/utils'
+EventBroker = Chaplin.EventBroker
 $ = Winbits.$
 
 describe 'CardsSpec', ->
@@ -46,3 +47,9 @@ describe 'CardsSpec', ->
     request.respond(200, 'Content-Type': 'application/json', '{"meta":{},"response":[{"cardInfo":{}}]}')
 
     expect(@model.get('cards')).to.be.deep.eql([{ cardInfo: {} }])
+
+  it 'should fetch model when "cards-changed" event is published', ->
+    sinon.stub(@model, 'fetch')
+    EventBroker.publishEvent('cards-changed')
+
+    expect(@model.fetch).to.has.been.calledOnce
