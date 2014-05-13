@@ -1,29 +1,27 @@
 <form id="wbi-mailing-form" accept-charset="utf-8" action="#" method="post">
     <div class="column">
         <h3>¿De cuál de nuestros sitios te gustaría recibir información?</h3>
-        <input type="checkbox" value="Looq" name="winbitsSuscription1" id="winbitsSuscription1">
-        <label for="winbitsSuscription1" class="checkboxLabel">Looq</label>
-        <input type="checkbox" value="Clickonero" name="winbitsSuscription2" id="winbitsSuscription2">
-        <label for="winbitsSuscription2" class="checkboxLabel">Clickonero</label>
-        <input type="checkbox" value="MiPlan" name="winbitsSuscription3" id="winbitsSuscription3">
-        <label for="winbitsSuscription3" class="checkboxLabel">Mi Plan</label>
-        <input type="checkbox" value="Travel" name="winbitsSuscription4" id="winbitsSuscription4">
-        <label for="winbitsSuscription4" class="checkboxLabel">Travel</label>
+
+        {{#each subscriptions}}
+        <input {{#if active}}checked="checked"{{/if}} type="checkbox" value="{{id}}" id="wbi-subscription-{{id}}" class="wbc-subscription-check">
+        <label for="wbi-subscription-{{id}}" class="checkboxLabel">{{name}}</label>
+        {{/each}}
+
         <input id="wbi-checkbox-all" type="checkbox" value="Travel" class="checkall">
         <label class="checkboxLabel">Todos / Ninguno</label>
     </div>
     <div id="wbi-how-to-received" class="column">
         <h3>¿Cómo te gustaría recibir la información?</h3>
-        <input type="radio" value="Allinone" name="winbitsSuscription5">
+        <input type="radio" value="Allinone" name="newsletterFormat">
         <label class="checkboxLabel">Todo en un correo</label>
-        <input type="radio" value="individualMail" name="winbitsSuscription5">
+        <input type="radio" value="individualMail" name="newsletterFormat">
         <label class="checkboxLabel">Correos individuales</label>
     </div>
     <div id="wbi-how-often-to-received" class="column">
         <h3>¿Con qué frecuencia te gustaría recibir nuestros correos?</h3>
-        <input type="radio" value="Alldays" name="winbitsSuscription6">
+        <input type="radio" value="Alldays" name="newsletterPeriodicity">
         <label class="checkboxLabel">Todos los días</label>
-        <input type="radio" value="Onemailweek" name="winbitsSuscription6">
+        <input type="radio" value="Onemailweek" name="newsletterPeriodicity">
         <label class="checkboxLabel">Un correo por semana</label>
     </div>
     <input id="wbi-mailing-btn" type="button" class="btn editBtn" value="Guardar">

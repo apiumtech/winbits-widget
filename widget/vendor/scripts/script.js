@@ -219,7 +219,7 @@
 		},
 		unchecRadio = function(obj){
 			$(obj).find(defaults.radio).each(function(){
-				$(this).attr('checked', false);
+				$(this).prop('checked', false);
 				$(this).parent().find('.'+defaults.spanRadio).removeClass(defaults.spanSelected);
 			});
 		},
@@ -228,7 +228,7 @@
 				var $input = $(this).parent().find(defaults.radio);
 				unchecRadio(obj);
 				if(!($input.prop('checked'))){
-					$input.attr('checked', true);
+					$input.prop('checked', true);
 					if($input.length) {
 						$(this).addClass(defaults.spanSelected);
 					}
