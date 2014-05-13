@@ -106,7 +106,7 @@
 
     {{#withMsiPaymentsMethods methods}}
       {{#each msiPayments}}
-        {{#compare identifier 'cybersource.+' operator='matches'}}
+        {{#compare identifier 'cybersource.msi+' operator='matches'}}
           <li class="debitCreditCard li-method" id="li-cybersource_msi">
             <span class="paymentIcon creditCard"></span>
             <p>MESES SIN INTERESES</p>

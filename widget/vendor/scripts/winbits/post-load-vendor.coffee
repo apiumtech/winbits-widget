@@ -14,6 +14,13 @@
       options.onCleanup.apply(@, arguments) if $.isFunction options.onCleanup
     @fancybox allOptions
 
+  $.extend($.validator.messages,
+    required: 'Campo obligatorio.'
+    creditcard: 'Ingresa un número de tarjeta válido.'
+    wbZipCode: 'Ingresa un CP válido.'
+    wbExpirationMonth: 'Escribe una fecha válida.'
+  )
+
   $.validator.addMethod("zipCodeDoesNotExist", (value, element) ->
     $element = Winbits.$(element)
     data = $element.data('_zip-code-not-found-error')
@@ -25,7 +32,7 @@
       /^[0-9]{10,15}/.test value
     else
       yes
-  ,"Ingresa un número telefónico valido")
+  ,"Ingresa un número telefónico válido.")
 
   $.validator.addMethod("wbiSelectInfo", (value, element) ->
     $zipCode = Winbits.$(element).parent().parent().find('input[name=zipCode]')
@@ -61,6 +68,13 @@
     else
       false
   , "Ingresa una fecha valida"
+
+  $.validator.addMethod("wbZipCode", (value) ->
+    if value
+      /^\d{5}/.test value
+    else
+      yes
+  )
 
   moment.tz.add
     zones:
