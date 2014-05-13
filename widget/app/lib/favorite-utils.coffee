@@ -20,10 +20,10 @@ _(wishListUtils).extend
       .done(@publishWishListChangeEvent)
       .fail(@showWishListErrorMessage)
 
-  removeFromWishList: (options) ->
+  deleteFromWishList: (options) ->
     options = options or {}
     if utils.isLoggedIn()
-      utils.ajaxRequest(@getWishListResourceUrl(options.brandId), @applyDefaultAddToWishListRequestDefaults([data:{}, type:'DELETE']))
+      utils.ajaxRequest(@getWishListResourceUrl(options.brandId), @applyDefaultDeleteToWishListRequestDefaults(options))
       .done(@publishWishListChangeEvent)
       .fail(@showWishListErrorMessage)
 
@@ -42,6 +42,16 @@ _(wishListUtils).extend
     defaults =
       type: 'POST'
       data: JSON.stringify(brandId: options.brandId)
+      context: @
+      headers:
+        'Wb-Api-Token': utils.getApiToken()
+    requestOptions = $.extend({}, defaults, options)
+    requestOptions.headers = $.extend({}, defaults.headers, options.headers)
+    requestOptions
+
+  applyDefaultDeleteToWishListRequestDefaults: (options = {}) ->
+    defaults =
+      type: 'DELETE'
       context: @
       headers:
         'Wb-Api-Token': utils.getApiToken()

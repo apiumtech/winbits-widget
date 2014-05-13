@@ -15,10 +15,12 @@ module.exports = class FavoritesView extends View
     super
     @listenTo @model,  'change', -> @render()
     @model.fetch()
-    @delegate 'click', '#wbi-add-favorite-brand-test', @addFavorite
+    @subscribeEvent 'favorites-changed', -> @onFavoritesChanged.apply(@, arguments)
 
-  addFavorite: ->
-    options = brandId: '1'
-    console.log ['BRAND OPTIONS', options]
-    favoriteUtils.addToWishList(options)
+  onFavoritesChanged: (data)->
+    console.log ["WAS HERE", data]
+    @model.setData(data)
+
+
+
 
