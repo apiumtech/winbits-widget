@@ -9,7 +9,7 @@ module.exports = class NewCardView extends CardView
 
   initialize: ->
     super
-    @delegate 'click', '#wbi-save-card-btn', @saveNewCard
+    @delegate 'click', '.wbc-save-card-btn', @saveNewCard
 
   saveNewCard: ->
     $form = @$('.wbc-card-form')
