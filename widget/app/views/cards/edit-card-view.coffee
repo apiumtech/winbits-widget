@@ -6,6 +6,7 @@ $ = Winbits.$
 
 module.exports = class EditCardView extends CardView
   id: 'wbi-edit-card-view'
+  template: require './templates/edit-card'
 
   initialize: ->
     super

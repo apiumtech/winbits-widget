@@ -8,7 +8,7 @@ $ = Winbits.$
 module.exports = class CardView extends View
   container: '#wb-credit-cards'
   className: 'creditcardNew'
-  template: require './templates/card'
+  template: require './templates/new-card'
   model: new Card
 
   initialize: ->
