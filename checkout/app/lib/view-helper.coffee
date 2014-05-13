@@ -303,6 +303,12 @@ amexOrCyberSource = (cardType)->
     if cardType == "American Express"
         return "amex.msi."
 
+amexOrCyberSourceRegular = (cardType)->
+    if cardType in ["Visa","MasterCard"]
+        return "cybersource.msi."
+    if cardType == "American Express"
+        return "amex.msi."
+
 getCardTypeFromIdentifier = (identifier) ->
   if new RegExp("cybersource\.msi\..+").test(identifier)
       return "Visa"
@@ -321,11 +327,19 @@ installmentLoans = (methods, cardType) ->
   if (methods?)
       msi = (method.identifier.substring(ac?.length, method?.identifier?.length) for method in methods when method.identifier.match ac).unique()
 
+installmentLoansRegular = (methods, cardType) ->
+  ac = amexOrCyberSourceRegular cardType
+
+  msi = ""
+  if (methods?)
+      msi = (method.identifier.substring(ac?.length, method?.identifier?.length) for method in methods when method.identifier.match ac).unique()
+
 supportMsi = (supportInstallments, methods, msi) ->
   supportInstallments == true and (msi?.length or methods == undefined)
 
 Handlebars.registerHelper "howManyInstallmentLoans", (supportInstallments, methods, cardType) ->
   msi = installmentLoans methods, cardType
+  console.log 'jou meni', cardType, msi
   if (supportMsi supportInstallments, methods, msi)
       option = ("<option value=#{num}>#{num}</option>" for num in msi)
       return new Handlebars.SafeString(option);
@@ -399,7 +413,7 @@ Handlebars.registerHelper "checkoutPaymentNewCard", (identifier, regex, methods,
   compare = new RegExp(regex).test(identifier)
   if compare
       cardType = getCardTypeFromIdentifier identifier
-      msi = installmentLoans methods, cardType
+      msi = installmentLoansRegular methods, cardType
       options.fn msi:msi
   else
       options.inverse this
@@ -418,6 +432,7 @@ Handlebars.registerHelper "withMsiPaymentsMethods", (methods, options) ->
 
   allMsiPayments = allMsiPaymentsFunction methods
   msiPayments = msiPaymentsFunction allMsiPayments
+  console.log 'msiPayments', msiPayments
 
   if msiPayments.length > 0 then options.fn(msiPayments: msiPayments, paymentMethods: methods) else options.inverse this
 
