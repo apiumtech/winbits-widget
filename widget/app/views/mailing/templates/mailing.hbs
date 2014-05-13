@@ -3,8 +3,8 @@
         <h3>¿De cuál de nuestros sitios te gustaría recibir información?</h3>
 
         {{#each subscriptions}}
-        <input {{#if active}}checked="checked"{{/if}} type="checkbox" value="{{id}}" id="wbi-subscription-{{id}}" class="wbc-subscription-check">
-        <label for="wbi-subscription-{{id}}" class="checkboxLabel">{{name}}</label>
+        <input {{#if active}}checked="checked"{{/if}} type="checkbox" value="{{id}}" class="wbc-subscription-check">
+        <label class="checkboxLabel">{{name}}</label>
         {{/each}}
 
         <input id="wbi-checkbox-all" type="checkbox" value="Travel" class="checkall">
