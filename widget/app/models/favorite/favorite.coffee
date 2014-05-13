@@ -13,7 +13,6 @@ module.exports = class Favorites extends Model
     super
 
   parse: (data)->
-    console.log ['parse model',data]
     if data.response and data.response.length >= 10
       @set 'brandTotal', true
       @set 'brandsHidden', data.response.slice(10, data.response.length)

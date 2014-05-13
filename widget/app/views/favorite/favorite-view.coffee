@@ -18,7 +18,6 @@ module.exports = class FavoritesView extends View
     @subscribeEvent 'favorites-changed', -> @onFavoritesChanged.apply(@, arguments)
 
   onFavoritesChanged: (data)->
-    console.log ["WAS HERE", data]
     @model.setData(data)
 
 

@@ -29,6 +29,7 @@ specs = [
   './lib/cart-utils-spec'
   './winbits-spec'
   './lib/utils-spec'
+  './lib/favorite-utils-spec'
   './views/cards-view-spec'
   './models/cards-spec'
   './views/new-card-view-spec'
