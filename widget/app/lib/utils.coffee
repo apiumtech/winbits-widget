@@ -151,11 +151,9 @@ _(utils).extend
     @showMessageModal(errorMsg, options)
 
   showAjaxLoading: (message = 'Procesando información') ->
-    console.log ['Showing Ajax Loading']
     $('#wbi-ajax-loading-layer').show()
 
   hideAjaxLoading: ->
-    console.log ['Hiding Ajax Loading']
     $('#wbi-ajax-loading-layer').hide()
 
   getCreditCardType: (cardNumber) ->
