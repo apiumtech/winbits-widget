@@ -152,11 +152,11 @@ _(utils).extend
 
   showAjaxLoading: (message = 'Procesando información') ->
     console.log ['Showing Ajax Loading']
-    $('#wbi-ajax-modal').show()
+    $('#wbi-ajax-loading-layer').show()
 
   hideAjaxLoading: ->
     console.log ['Hiding Ajax Loading']
-    $('#wbi-ajax-modal').hide()
+    $('#wbi-ajax-loading-layer').hide()
 
   getCreditCardType: (cardNumber) ->
     #start without knowing the credit card type
