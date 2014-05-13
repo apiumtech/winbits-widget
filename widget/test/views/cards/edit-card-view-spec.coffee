@@ -43,20 +43,20 @@ describe 'EditCardViewSpec', ->
       expect($(input)).to.not.has.$attr('value')
 
   it.skip 'should no request to save new card if data invalid', ->
-    @view.$('#wbi-save-card-btn').click()
+    @view.$('#wbc-save-card-btn').click()
 
     expect(@model.requestSaveNewCard).to.not.has.been.called
 
   it.skip 'should not show loading indicator if data invalid', ->
     sinon.stub(utils, 'showAjaxLoading')
-    @view.$('#wbi-save-card-btn').click()
+    @view.$('#wbc-save-card-btn').click()
 
     expect(utils.showAjaxLoading).to.not.has.been.called
 
   it.skip 'should request to save new card if data valid', ->
     cardData = loadValidData.call(@)
 
-    @view.$('#wbi-save-card-btn').click()
+    @view.$('#wbc-save-card-btn').click()
 
     expect(@model.requestSaveNewCard).to.has.been.calledWithMatch(cardData, @view)
         .and.to.be.calledOnce
@@ -65,7 +65,7 @@ describe 'EditCardViewSpec', ->
     sinon.stub(utils, 'showAjaxLoading')
     cardData = loadValidData.call(@)
 
-    @view.$('#wbi-save-card-btn').click()
+    @view.$('#wbc-save-card-btn').click()
     expect(utils.showAjaxLoading).to.has.been.calledOnce
 
   it.skip 'should publish "cards-changed" event if card saving succeds', ->
@@ -74,7 +74,7 @@ describe 'EditCardViewSpec', ->
     @model.requestSaveNewCard.returns(new $.Deferred().resolveWith(@view).promise())
     cardData = loadValidData.call(@)
 
-    @view.$('#wbi-save-card-btn').click()
+    @view.$('#wbc-save-card-btn').click()
     expect(stub).to.has.been.calledOnce
 
   it.skip 'should show message to inform card was saved if card saving succeds', ->
@@ -82,7 +82,7 @@ describe 'EditCardViewSpec', ->
     @model.requestSaveNewCard.returns(new $.Deferred().resolveWith(@view).promise())
     cardData = loadValidData.call(@)
 
-    @view.$('#wbi-save-card-btn').click()
+    @view.$('#wbc-save-card-btn').click()
     expect(utils.showMessageModal).to.has.been.calledWith('Tus datos fueron guardados correctamente.', acceptAction: @view.hideNewCardView, context: @view)
         .and.to.has.been.calledOnce
 
@@ -91,7 +91,7 @@ describe 'EditCardViewSpec', ->
     @model.requestSaveNewCard.returns(new $.Deferred().resolveWith(@view).promise())
     cardData = loadValidData.call(@)
 
-    @view.$('#wbi-save-card-btn').click()
+    @view.$('#wbc-save-card-btn').click()
     expect(utils.hideAjaxLoading).to.has.been.calledOnce
 
   it.skip 'should hide ajax loading if card saving fails', ->
@@ -99,7 +99,7 @@ describe 'EditCardViewSpec', ->
     @model.requestSaveNewCard.returns(new $.Deferred().rejectWith(@view).promise())
     cardData = loadValidData.call(@)
 
-    @view.$('#wbi-save-card-btn').click()
+    @view.$('#wbc-save-card-btn').click()
     expect(utils.hideAjaxLoading).to.has.been.calledOnce
 
   getValidCartData = ->

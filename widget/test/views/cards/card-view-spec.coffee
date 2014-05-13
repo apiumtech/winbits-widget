@@ -36,7 +36,7 @@ describe 'CardViewSpec', ->
 
   it 'should be rendered', ->
     expect(@view.$('form.wbc-card-form')).to.existExact(1)
-    expect(@view.$('#wbi-save-card-btn')).to.existExact(1)
+    expect(@view.$('.wbc-save-card-btn')).to.existExact(1)
     expect(@view.$('.wbc-cancel-btn')).to.existExact(1)
     $cardLogo = @view.$('.wbc-card-logo')
     expect($cardLogo).to.existExact(1)
