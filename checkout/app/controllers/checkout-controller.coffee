@@ -56,6 +56,7 @@ module.exports = class CheckoutController extends ChaplinController
     @cards = new Cards
 
     @payments.set methods:@order_data.paymentMethods
+    console.log 'peiments', @order_data.paymentMethods
 
     # @orderDetailView.render()
     @paymentView.render()

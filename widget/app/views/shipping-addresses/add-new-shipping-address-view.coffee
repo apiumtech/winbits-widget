@@ -89,7 +89,6 @@ module.exports = class AddNewShippingAddressView extends View
     if($form.valid())
       @$('#wbi-shipping-thanks-div').show()
       data = utils.serializeForm $form
-      console.log ["data Serialized form", data]
       @model.requestSaveNewShippingAddress(data, context: @)
       .done(@successSaveNewShippingAddress)
       .fail(@errorSaveNewShippingAddress)
