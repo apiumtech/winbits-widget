@@ -1,3 +1,4 @@
+'use strict'
 
 specs = [
   # './models/header-spec'
@@ -35,6 +36,7 @@ specs = [
   './models/cards/card-spec'
   # './views/switch-user-view-spec'
   './views/cards/new-card-view-spec'
+  # './views/cards/edit-card-view-spec'
 ]
 
 for spec in specs

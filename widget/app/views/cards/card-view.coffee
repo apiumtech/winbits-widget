@@ -7,14 +7,12 @@ $ = Winbits.$
 
 module.exports = class CardView extends View
   container: '#wb-credit-cards'
-  id: 'wbi-new-card-view'
   className: 'creditcardNew'
   template: require './templates/card'
   model: new Card
 
   initialize: ->
     super
-    @delegate 'click', '#wbi-save-card-btn', @saveNewCard
     @delegate 'click', '.wbc-cancel-btn', @hideNewCardView
 
   attach: ->
@@ -91,25 +89,6 @@ module.exports = class CardView extends View
           remote: $.validator.messages.wbZipCode
     )
     @$('[name=accountNumber]').on('textchange', $.proxy(@updateCardLogo, @))
-
-  saveNewCard: ->
-    $form = @$('#wbi-new-card-form')
-    if $form.valid()
-      utils.showAjaxLoading()
-      cardData = utils.serializeForm($form)
-      @model.requestSaveNewCard(cardData, @)
-          .done(@saveNewCardSucceds)
-          .always(@saveNewCardCompletes)
-
-  saveNewCardSucceds: ->
-    @publishEvent('cards-changed')
-    options =
-      acceptAction: @hideNewCardView
-      context: @
-    utils.showMessageModal('Tus datos fueron guardados correctamente.', options)
-
-  saveNewCardCompletes: ->
-    utils.hideAjaxLoading()
 
   hideNewCardView: ->
     @$el.slideUp()

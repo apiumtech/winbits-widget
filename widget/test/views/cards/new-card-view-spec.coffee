@@ -1,6 +1,6 @@
 'use strict'
 
-NewCardView = require 'views/cards/card-view'
+NewCardView = require 'views/cards/new-card-view'
 Card = require 'models/cards/card'
 utils = require 'lib/utils'
 EventBroker = Chaplin.EventBroker
