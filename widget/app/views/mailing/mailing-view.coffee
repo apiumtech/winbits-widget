@@ -13,20 +13,44 @@ module.exports = class MailingView extends View
 
   initialize: () ->
     super
+    @listenTo @model,  'change', -> @render()
     @delegate 'click', '#wbi-mailing-btn', @doRequestSuscriptionsUpdate
+    @delegate 'click', '#wbi-mailing-thanks-btn-close', @doCloseThanksDiv
 
   attach: ->
     super
-    @$('#wbi-mailing-form').customCheckbox()
+    @$('#wbi-mailing-form').customCheckbox().mailingMenuCheckboxs()
     @$('#wbi-how-to-received').customRadio()
     @$('#wbi-how-often-to-received').customRadio()
     @$('.checkboxLabel').css('width', '150')
     @$('#wbi-mailing-btn').css('left', '0')
 
   doRequestSuscriptionsUpdate: ->
-    subscriptions = _.map( @$('.wbc-subscription-check'),(check)-> {id: $(check).val(), active: $(check).prop(':checked')})
+    subscriptions = _.map( @$('.wbc-subscription-check'),
+                           (check)->
+                               $chk =  $(check)
+                               return {id: $chk.val(), active: $chk.prop('checked')}
+                          )
     $form =  @$("#wbi-mailing-form")
     data = utils.serializeForm($form,subscriptions: subscriptions)
-    console.log ["Serialize form", data]
-    #var a = {subscriptions: Winbits._.map(Winbits.$('.wbc-subscription-check'), function(check) { return {id: Winbits.$(check).val(), active: Winbits.$(check).prop('checked')}; }) }
+    utils.showAjaxLoading()
+    @model.requestUpdateSubscriptions(data, context: @)
+     .done(@successSubscriptionsUpdate)
+     .fail(@errorSubscriptionsUpdate)
+     .always(@hideAjaxLoading)
 
+  successSubscriptionsUpdate:() ->
+    @$('#wbi-mailing-thanks-process').hide()
+    @$('#wbi-mailing-thanks-success').show()
+
+  @hideAjaxLoading: ()->
+    utils.hideAjaxLoading()
+
+  errorSubscriptionsUpdate: () ->
+    @$('#wbi-mailing-thanks-div').hide()
+    message = "Hubo un error al intentar actualizar las subscripciones, intentalo mas tarde"
+    options = value: "Continuar", title:'Error al actualizar', icon:'iconFont-close', onClosed: utils.redirectTo controller: 'home', action: 'index'
+    utils.showMessageModal(message, options)
+
+  doCloseThanksDiv: ->
+    @$('#wbi-mailing-thanks-div').slideUp()

@@ -1,4 +1,4 @@
-<form id="wbi-mailing-form" accept-charset="utf-8" action="#" method="post">
+<form id="wbi-mailing-form" accept-charset="utf-8">
     <div class="column">
         <h3>¿De cuál de nuestros sitios te gustaría recibir información?</h3>
 
@@ -27,12 +27,12 @@
     <input id="wbi-mailing-btn" type="button" class="btn editBtn" value="Guardar">
 </form>
 <div id="wbi-mailing-thanks-div" class="thanks-div">
-    <div class="data">
+    <div id="wbi-mailing-thanks-process" class="data" style="display: block">
         <p>Procesando información</p>
         <div class="loader"></div>
     </div>
-    <div class="data">
+    <div id="wbi-mailing-thanks-success" class="data" style="display: none">
         <p>Tus datos quedaron guardados</p>
-        <a href="#" class="btn">Cerrar</a>
+        <a id="wbi-mailing-thanks-btn-close"class="btn">Cerrar</a>
     </div>
 </div>
