@@ -136,6 +136,14 @@ describe 'CardsViewSpec', ->
     expect($.fn.slideDown).to.has.been.calledOnce
     expect($.fn.slideDown.firstCall.returnValue).to.be.equal(@view.$el)
 
+  it 'should bind event on card edit links', ->
+    sinon.spy(@view, @editCard)
+
+    for editCardLink in @$('wbc-edit-card-link')
+      $(editCardLink).click()
+
+    expect(@view.@editCard).to.has.been.calledTwice
+
   setModel = ->
     data = []
     data.push cardInfo:{ subscriptionId: 5, cardData: { cardType: 'Master Card', accountNumber: '12345', expirationMonth: '10', expirationYear: '2018' } }
