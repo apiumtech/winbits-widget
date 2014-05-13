@@ -1,52 +1,27 @@
 <div id='wb-micuenta-favorites'>
   <p>Aqui encontraras todas las marcas que haz marcado como favoritas, cuando vuelvan a alguno de nuestros sitios, te
     notificaremos via e-mail.</p>
-  {{#unless favorites}}
-  <div class="addInfo"><span class="iconFont-close"></span>No tienes marcas favoritas.</div>
+  {{#unless brands}}
+    <div class="addInfo"><span class="iconFont-close"></span>No tienes marcas favoritas.</div>
   {{else}}
-  <a href="#">ver todos</a>
-
-  <ul>
-    <li>
-      <span>NIKE</span>
-      <a href="#" class="iconFont-close" title="Eliminar"></a>
-    </li>
-    <li>
-      <span>TOMMY</span>
-      <a href="#" class="iconFont-close" title="Eliminar"></a>
-    </li>
-    <li>
-      <span>BROOKS BROTHE...</span>
-      <a href="#" class="iconFont-close" title="Eliminar"></a>
-    </li>
-    <li>
-      <span>REEBOOK</span>
-      <a href="#" class="iconFont-close" title="Eliminar"></a>
-    </li>
-    <li>
-      <span>TOSHIBA</span>
-      <a href="#" class="iconFont-close" title="Eliminar"></a>
-    </li>
-    <li>
-      <span>ADIDAS</span>
-      <a href="#" class="iconFont-close" title="Eliminar"></a>
-    </li>
-    <li>
-      <span>STEVE MAIDEN</span>
-      <a href="#" class="iconFont-close" title="Eliminar"></a>
-    </li>
-    <li>
-      <span>MARC JACOBS</span>
-      <a href="#" class="iconFont-close" title="Eliminar"></a>
-    </li>
-    <li>
-      <span>SAMSUNG</span>
-      <a href="#" class="iconFont-close" title="Eliminar"></a>
-    </li>
-    <li>
-      <span>ADIR</span>
-      <a href="#" class="iconFont-close" title="Eliminar"></a>
-    </li>
-  </ul>
+    {{#if brandTotal}}
+    <a href="#">ver todos</a>
+    {{/if}}
+    <ul>
+      {{#each brands}}
+      <li data-id={{id}} >
+        <span>{{name}}</span>
+        <a class="iconFont-close wbc-delete-brand-link" title="Eliminar"></a>
+      </li>
+      {{/each}}
+      {{#if brandsHidden}}
+        {{#each brandsHidden}}
+          <li data-id={{id}} style="display:none;">
+            <span>{{name}}</span>
+            <a class="iconFont-close wbc-delete-brand-link" title="Eliminar"></a>
+          </li>
+        {{/each}}
+      {{/if}}
+    </ul>
   {{/unless}}
   </div>

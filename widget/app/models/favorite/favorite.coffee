@@ -7,11 +7,16 @@ _ = Winbits._
 
 module.exports = class Favorites extends Model
   url: env.get('api-url') + '/users/wish-list-items.json'
+  needsAuth: true
 
-  needAuth: yes
+  initialize: ->
+    super
 
   parse: (data)->
-    brands: data.response
-
-
+    if data.response and data.response.length >= 10
+      @set 'brandTotal', true
+      @set 'brandsHidden', data.response.slice(10, data.response.length)
+      brands: data.response.slice(0, 10)
+    else
+      brands: data.response
 
