@@ -1,3 +1,4 @@
+'use strict'
 favoriteUtils = require 'lib/favorite-utils'
 utils = require 'lib/utils'
 EventBroker = Chaplin.EventBroker
