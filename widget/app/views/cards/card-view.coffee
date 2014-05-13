@@ -23,7 +23,7 @@ module.exports = class CardView extends View
     required =
       required: yes
       minlength: 1
-    @$('#wbi-new-card-form').validate(
+    @$('.wbc-card-form').validate(
       ignore: ''
       groups:
         cardExpiration: 'expirationMonth expirationYear'

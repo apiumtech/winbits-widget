@@ -38,20 +38,11 @@ describe 'NewCardViewSpec', ->
     expect(@view.$el).to.has.id('wbi-new-card-view')
     expect(@view.$el).to.has.$class('creditcardNew')
 
-  it 'should be rendered', ->
-    expect(@view.$('form#wbi-new-card-form')).to.existExact(1)
-    expect(@view.$('#wbi-save-card-btn')).to.existExact(1)
-    expect(@view.$('.wbc-cancel-btn')).to.existExact(1)
-    expect(@view.$('#wbi-new-card-status-layer')).to.existExact(1)
-    $cardLogo = @view.$('.wbc-card-logo')
-    expect($cardLogo).to.existExact(1)
-    expect($cardLogo).to.has.$attr('class').that.not.match(/iconFont-+/)
-
   it 'should render form input fields without value attribute', ->
     for input in @view.$('input[type=text]')
       expect($(input)).to.not.has.$attr('value')
 
-  it 'should no request to save new card if data invalid', ->
+  it 'should not request to save new card if data invalid', ->
     @view.$('#wbi-save-card-btn').click()
 
     expect(@model.requestSaveNewCard).to.not.has.been.called

@@ -12,7 +12,7 @@ module.exports = class NewCardView extends CardView
     @delegate 'click', '#wbi-save-card-btn', @saveNewCard
 
   saveNewCard: ->
-    $form = @$('#wbi-new-card-form')
+    $form = @$('.wbc-card-form')
     if $form.valid()
       utils.showAjaxLoading()
       cardData = utils.serializeForm($form)

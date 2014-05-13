@@ -1,12 +1,12 @@
 'use strict'
 
-EditCardView = require 'views/cards/card-view'
+EditCardView = require 'views/cards/edit-card-view'
 Card = require 'models/cards/card'
 utils = require 'lib/utils'
 EventBroker = Chaplin.EventBroker
 $ = Winbits.$
 
-describe 'NewCardViewSpec', ->
+describe 'EditCardViewSpec', ->
 
   before ->
     $.validator.setDefaults ignore: []
@@ -37,15 +37,6 @@ describe 'NewCardViewSpec', ->
   it 'should render wrapper', ->
     expect(@view.$el).to.has.id('wbi-edit-card-view')
     expect(@view.$el).to.has.$class('creditcardNew')
-
-  it.skip 'should be rendered', ->
-    expect(@view.$('form#wbi-new-card-form')).to.existExact(1)
-    expect(@view.$('#wbi-save-card-btn')).to.existExact(1)
-    expect(@view.$('.wbc-cancel-btn')).to.existExact(1)
-    expect(@view.$('#wbi-new-card-status-layer')).to.existExact(1)
-    $cardLogo = @view.$('.wbc-card-logo')
-    expect($cardLogo).to.existExact(1)
-    expect($cardLogo).to.has.$attr('class').that.not.match(/iconFont-+/)
 
   it.skip 'should render form input fields without value attribute', ->
     for input in @view.$('input[type=text]')
