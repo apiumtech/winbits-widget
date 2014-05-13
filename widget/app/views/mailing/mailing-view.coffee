@@ -40,14 +40,14 @@ module.exports = class MailingView extends View
      .always(@hideAjaxLoading)
 
   successSubscriptionsUpdate:() ->
-    @$('#wbi-mailing-thanks-process').hide()
-    @$('#wbi-mailing-thanks-success').show()
+    message = "Tus cambios han sido guardados exitosamente"
+    options = value: "Aceptar", title:'Cambios Guardados', icon:'iconFont-candado', onClosed: utils.redirectTo controller: 'home', action: 'index'
+    utils.showMessageModal(message, options)
 
-  @hideAjaxLoading: ()->
+  hideAjaxLoading: ()->
     utils.hideAjaxLoading()
 
   errorSubscriptionsUpdate: () ->
-    @$('#wbi-mailing-thanks-div').hide()
     message = "Hubo un error al intentar actualizar las subscripciones, intentalo mas tarde"
     options = value: "Continuar", title:'Error al actualizar', icon:'iconFont-close', onClosed: utils.redirectTo controller: 'home', action: 'index'
     utils.showMessageModal(message, options)
