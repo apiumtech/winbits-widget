@@ -23,7 +23,7 @@ module.exports = class MailingView extends View
     @$('#wbi-mailing-btn').css('left', '0')
 
   doRequestSuscriptionsUpdate: ->
-    console.log  ["model to setting", @model.attributes]
+    console.log  ["model to setting", @model]
     console.log "Click on save mailing btn"
 
     #var a = {subscriptions: Winbits._.map(Winbits.$('.wbc-subscription-check'), function(check) { return {id: Winbits.$(check).val(), active: Winbits.$(check).prop('checked')}; }) }

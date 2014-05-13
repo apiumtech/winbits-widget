@@ -12,16 +12,16 @@
     </div>
     <div id="wbi-how-to-received" class="column">
         <h3>¿Cómo te gustaría recibir la información?</h3>
-        <input type="radio" value="Allinone" name="newsletterFormat">
+        <input type="radio" value="unified" name="newsletterFormat" {{#compare newsletterFormat 'unified'}}checked="checked"{{/compare}}>
         <label class="checkboxLabel">Todo en un correo</label>
-        <input type="radio" value="individualMail" name="newsletterFormat">
+        <input type="radio" value="separated" name="newsletterFormat" {{#compare newsletterFormat 'separated'}}checked="checked"{{/compare}}>
         <label class="checkboxLabel">Correos individuales</label>
     </div>
     <div id="wbi-how-often-to-received" class="column">
         <h3>¿Con qué frecuencia te gustaría recibir nuestros correos?</h3>
-        <input type="radio" value="Alldays" name="newsletterPeriodicity">
+        <input type="radio" value="daily" name="newsletterPeriodicity" {{#compare newsletterPeriodicity 'daily'}}checked="checked"{{/compare}}>
         <label class="checkboxLabel">Todos los días</label>
-        <input type="radio" value="Onemailweek" name="newsletterPeriodicity">
+        <input type="radio" value="weekly" name="newsletterPeriodicity" {{#compare newsletterPeriodicity 'weekly'}}checked="checked"{{/compare}}>
         <label class="checkboxLabel">Un correo por semana</label>
     </div>
     <input id="wbi-mailing-btn" type="button" class="btn editBtn" value="Guardar">

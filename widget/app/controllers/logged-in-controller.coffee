@@ -61,9 +61,9 @@ module.exports = class LoggedInController extends Controller
          compose: ->
            mediator.data.set 'mailing-composed', yes
            loginData = loginData = mediator.data.get 'login-data'
-           @model = new MailingModel subscriptions: loginData.subscriptions,
-                                     newsletterPeriodicity: loginData.profile.newsletterPeriodicity,
-                                     newsletterFormat: loginData.profile.newsletterFormat
+
+           @model = new MailingModel subscriptions: loginData.subscriptions, newsletterPeriodicity: loginData.profile.newsletterPeriodicity, newsletterFormat: loginData.profile.newsletterFormat
+
            @view = new MailingView model:@model
 
         check: -> mediator.data.get 'mailing-composed'
