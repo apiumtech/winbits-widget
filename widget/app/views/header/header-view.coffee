@@ -17,4 +17,7 @@ module.exports = class HeaderView extends View
   attach: ->
     super
     @$('.openClose').showHideDiv();
-    @$('.wbc-modal-panel').click (e)-> e.stopPropagation()
+    for selector in ['#fancybox-overlay', '#fancybox-wrap']
+      $(document).on('click', selector, @stopPropagationHandler)
+
+  stopPropagationHandler: (e) -> e.stopPropagation()

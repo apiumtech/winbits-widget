@@ -33,6 +33,7 @@ describe 'MyAccountViewSpec', ->
     expect(@view.$el).to.has.classes(['dropMenu','miCuentaDiv'])
     expect(@view.$ 'input#wbi-my-account-logout-btn').to.exist
     .and.to.has.class('btn').and.to.has.value("Log Out")
+    expect(@view.$ '#wbi-ajax-loading-layer').to.exist
 
   it 'do logout when clicked button', ->
     sinon.stub(@model, 'requestLogout').returns TestUtils.promises.resolved
