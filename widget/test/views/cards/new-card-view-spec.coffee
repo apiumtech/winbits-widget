@@ -9,11 +9,9 @@ $ = Winbits.$
 describe 'NewCardViewSpec', ->
 
   before ->
-    $.validator.setDefaults ignore: []
     @xhr = sinon.useFakeXMLHttpRequest()
 
   after ->
-    $.validator.setDefaults ignore: ':hidden'
     @xhr.restore()
 
   beforeEach ->
@@ -112,7 +110,6 @@ describe 'NewCardViewSpec', ->
     country: 'MX'
     street1: 'Reforma'
     number: '1'
-    colony: 'Virreyes'
     city: 'Mexico'
     state: 'DF'
     postalCode: '11000'

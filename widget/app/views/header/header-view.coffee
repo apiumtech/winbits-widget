@@ -16,8 +16,10 @@ module.exports = class HeaderView extends View
 
   attach: ->
     super
-    @$('.openClose').showHideDiv();
-    for selector in ['#fancybox-overlay', '#fancybox-wrap']
+    @$('.openClose').showHideDiv()
+    for selector in ['#fancybox-overlay', '#fancybox-wrap', '.wbc-stop-propagation']
       $(document).on('click', selector, @stopPropagationHandler)
 
-  stopPropagationHandler: (e) -> e.stopPropagation()
+  stopPropagationHandler: (e) ->
+    console.log ['Stopping propagation']
+    e.stopPropagation()

@@ -10,4 +10,21 @@ module.exports = class EditCardView extends CardView
 
   initialize: ->
     super
-    # @delegate 'click', '#wbi-save-card-btn', @saveNewCard
+    @delegate 'click', '.wbc-save-card-btn', @updateCard
+
+  updateCard: (e) ->
+    $form = @$('.wbc-card-form')
+    if $form.valid()
+      cardData = utils.serializeForm($form)
+      utils.showAjaxLoading()
+      @model.requestUpdateCard(cardData, @)
+          .done(@requestUpdateCardSucceds)
+          .always(@requestUpdateCardCompletes)
+
+  requestUpdateCardSucceds: ->
+    @publishEvent('cards-changed')
+    options = acceptAction: @hideCardView, context: @
+    utils.showMessageModal('Tus datos se han guardado correctamente.', options)
+
+  requestUpdateCardCompletes: ->
+    utils.hideAjaxLoading()
