@@ -9,6 +9,7 @@ env = Winbits.env
 
 module.exports = class FavoritesView extends View
   container: '#wb-favorites'
+  id: 'wb-micuenta-favorites'
   template: require './templates/favorite'
 
   initialize: ->

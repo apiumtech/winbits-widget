@@ -27,14 +27,12 @@ describe 'FavoriteViewSpec', ->
   it 'favorite view renderized with no brands', ->
     request = @requests[0]
     request.respond(200, { "Content-Type": "application/json" }, "")
-    expect(@view.$('#wb-micuenta-favorites')).to.exist
     expect(@view.$('div.addInfo')).to.exist
 
 
   it 'favorite view renderized with have at least one brand', ->
     request = @requests[0]
     request.respond(200, { "Content-Type": "application/json" }, FAVORITE_RESPONSE)
-    expect(@view.$('#wb-micuenta-favorites')).to.exist
     expect(@view.$('a.wbc-delete-brand-link')).to.exist
 
   it "should request get all brands", ->

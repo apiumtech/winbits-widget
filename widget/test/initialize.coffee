@@ -13,6 +13,7 @@ specs = [
   './views/social-media-view-spec'
   './views/change-password-view-spec'
   './views/shipping-addresses-view-spec'
+  './views/mailing-view-spec'
   './views/new-shipping-address-view-spec'
   './views/edit-shipping-address-view-spec'
   './views/complete-register-view-spec'
@@ -36,6 +37,7 @@ specs = [
   './models/card-spec'
   './views/switch-user-view-spec'
   './views/favorite-view-spec'
+  './views/account-history-view-spec'
 ]
 
 for spec in specs
