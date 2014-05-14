@@ -1,0 +1,50 @@
+<form accept-charset="utf-8" action="#" method="post" class="wbc-card-form wbc-error-placeholder">
+    <div class="column">
+        <h3>INFORMACIÓN</h3>
+        {{#with cardData}}
+        <input type="text" placeholder="Nombre" class="requiredField wbc-field-firstName" data-requiredfield="Nombre Requerido" maxlength="30" value="{{firstName}}" readonly="true">
+        <input type="text" placeholder="Apellido(s)" class="requiredField wbc-field-lastName" data-requiredfield="Apellido(s) Requerido" maxlength="50" value="{{lastName}}" readonly="true">
+        {{/with}}
+        <div class="wbc-error-placeholder">
+            <input type="text" placeholder="Número de Tarjeta" class="requiredField creditcardField wbc-field-accountNumber" data-requiredfield="Número de Tarjeta Requerido" maxlength="16" value="{{cardData.accountNumber}}" readonly="true" data-card-type="{{wbCardType}}"><span class="logoCC wbc-card-logo iconFont-{{wbCardType}}"></span>
+        </div>
+        {{#with cardData}}
+        <div class="divFechaExpiracion wbc-error-placeholder">
+            <label>Fecha de Expiración</label>
+            <input type="text" placeholder="dd" maxlength="2" name="expirationMonth" id="winbitsCreditCardDD" maxlength="2" value="{{expirationMonth}}">
+            <input type="text" placeholder="aa" maxlength="2" name="expirationYear" id="winbitsCreditCardAA" class="requiredField" data-requiredfield="Fecha de Expiración Requerido" maxlength="2" value="{{substr expirationYear start=2 length=2}}">
+        </div>
+        {{/with}}
+        {{!-- <div class="divNumSecurity">
+            <label for="winbitsCreditCardSecurity"># de Seguridad</label>
+            <input type="text" placeholder="###" maxlength="3" name="cvNumber" id="winbitsCreditCardSecurity" maxlength="4">
+        </div> --}}
+    </div>
+    <div class="column">
+        <h3>DIRECCIÓN</h3>
+        {{#with cardAddress}}
+        <select class="select wbc-country-field requiredField" data-clase="selectRegister" id="winbitsCreditCardCountry" data-requiredfield="País Requerido" name="country" value="{{country}}">
+            <option value="">País</option>
+            <option value="MX" selected="">México</option>
+        </select>
+        <input type="text" placeholder="Calle" class="inputMedium" name="street1" id="winbitsCreditCardStreet" maxlength="40" value="{{street1}}">
+        <input type="text" placeholder="##" class="inputSmall requiredField" name="number" id="winbitsCreditCardNum" data-requiredfield="Calle y Número Requeridos" maxlength="10" value="{{number}}">
+        <input type="text" placeholder="Colonia" name="colony" id="winbitsCreditCardCol" class="requiredField" data-requiredfield="Colonia Requerido" maxlength="40" value="{{colony}}">
+        <input type="text" placeholder="Ciudad" name="city" id="winbitsCreditCardCity" class="requiredField" data-requiredfield="Ciudad Requerido" maxlength="40" value="{{city}}">
+        <input type="text" placeholder="Estado" name="state" id="winbitsCreditCardState" class="requiredField" data-requiredfield="Estado Requerido" maxlength="40" value="{{state}}">
+        <input type="text" placeholder="Código Postal" name="postalCode" id="winbitsCreditCardCP" class="requiredField" data-requiredfield="Código Postal Requerido" maxlength="5" value="{{postalCode}}">
+        {{/with}}
+        <input type="text" placeholder="Teléfono" name="phoneNumber" id="winbitsCreditCardTel" class="requiredField" data-requiredfield="Teléfono Requerido" maxlength="15" value="{{cardData.phoneNumber}}">
+    </div>
+    <div class="column columnLarge">
+        <h3>OPCIONES</h3>
+        <input type="checkbox" class="checkbox" name="cardPrincipal" value="true" {{#if cardPrincipal}}checked="checked"{{/if}}>
+        <label class="checkboxLabel">Hacer esta mi tarjeta principal</label>
+        <p class="note">Winbits puede guardar tus tarjetas de credito por ti, para que tu proxima compra sea mucho más rápida.</p>
+        <div class="errorDiv wbc-hide"><p>Email no existe, favor de verificarlo</p></div>
+        <div class="submitButton">
+            <span class="btn btnCancel openClose wbc-cancel-btn" data-showdiv=".ccCarrusel" data-hidediv=".creditcardNew">Cancelar</span>
+            <input type="button" value="Guardar" class="btn wbc-save-card-btn">
+        </div>
+    </div>
+</form>

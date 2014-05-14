@@ -4,6 +4,7 @@ require = Winbits.require
 Model = require 'models/base/model'
 utils = require 'lib/utils'
 $ = Winbits.$
+_ = Winbits._
 env = Winbits.env
 
 module.exports = class Cards extends Model
@@ -30,3 +31,8 @@ module.exports = class Cards extends Model
 
   requestSetDefaultCardFailed: ->
     console.log('Error al establecer la tarjeta como principal.')
+
+  getCardById: (cardId) ->
+    cardId = cardId.toString() if cardId
+    cards = @get('cards')
+    _.find(cards, (card) -> card.cardInfo.subscriptionId is cardId)

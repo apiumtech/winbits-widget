@@ -16,7 +16,7 @@ module.exports = class CardsView extends View
 
   initialize: ->
     super
-    console.log "CardsView#initialize"
+    @delegate 'click', '.wbc-edit-card-link', -> @editCard.apply(@, arguments)
     @subscribeEvent 'loggedOut', @resetModel
 
   resetModel: ->
@@ -43,16 +43,16 @@ module.exports = class CardsView extends View
 
     @$el.find(".wb-card-list-item").on "click",  (e)->
       that.selectCard(e)
-      
+
     @$el.find(".wb-edit-card-link").on "click", (e) ->
       that.showEditCardForm(e)
 
     @$el.find( "#wbi-edit-card-form").on "submit", (e) ->
         that.submitEditCardForm(e)
-        
+
     @$el.find( ".wb-cancel-card-form-btn").on "click", (e) ->
         that.cancelSaveUpdateCard(e)
-    
+
     @$el.find(".wb-card-form").validate
       groups:
         cardExpiration: 'expirationMonth expirationYear'
