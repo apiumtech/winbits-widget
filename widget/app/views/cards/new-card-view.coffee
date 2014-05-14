@@ -25,7 +25,8 @@ module.exports = class NewCardView extends CardView
     options =
       acceptAction: @hideNewCardView
       context: @
-    utils.showMessageModal('Tus datos fueron guardados correctamente.', options)
+      icon: 'iconFont-ok'
+    utils.showMessageModal('Tus datos se han guardado correctamente.', options)
 
   saveNewCardCompletes: ->
     utils.hideAjaxLoading()
