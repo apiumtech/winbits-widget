@@ -142,7 +142,8 @@ describe 'EditCardViewSpec', ->
     editCardData.call(@)
 
     @view.$('.wbc-save-card-btn').click()
-    expect(utils.showMessageModal).to.has.been.calledWith('Tus datos se han guardado correctamente.', acceptAction: @view.hideCardView, context: @view)
+    expectedOptions = acceptAction: @view.hideCardView, context: @view, icon: 'iconFont-ok'
+    expect(utils.showMessageModal).to.has.been.calledWith('Tus datos se han guardado correctamente.', expectedOptions)
         .and.to.has.been.calledOnce
 
   it 'should hide ajax loading if card saving succeds', ->

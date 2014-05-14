@@ -23,7 +23,10 @@ module.exports = class EditCardView extends CardView
 
   requestUpdateCardSucceds: ->
     @publishEvent('cards-changed')
-    options = acceptAction: @hideCardView, context: @
+    options =
+      context: @
+      icon: 'iconFont-ok'
+      onClosed: @hideCardView
     utils.showMessageModal('Tus datos se han guardado correctamente.', options)
 
   requestUpdateCardCompletes: ->
