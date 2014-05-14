@@ -19,7 +19,7 @@ module.exports = class CardsView extends View
     @clickOnCardHandler = @delegate 'click', '.wbc-card', -> @onCardClick.apply(@, arguments)
     @delegate 'click', '#wbi-new-card-link', -> @showNewCardView.apply(@, arguments)
     @delegate 'click', '.wbc-edit-card-link', -> @editCard.apply(@, arguments)
-    @subscribeEvent('card-view-hidden', @showCardsView)
+    @subscribeEvent 'card-view-hidden', @showCardsView
     @model.fetch()
 
   attach: ->

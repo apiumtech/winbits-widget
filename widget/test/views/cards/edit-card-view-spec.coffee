@@ -142,7 +142,7 @@ describe 'EditCardViewSpec', ->
     editCardData.call(@)
 
     @view.$('.wbc-save-card-btn').click()
-    expectedOptions = acceptAction: @view.hideCardView, context: @view, icon: 'iconFont-ok'
+    expectedOptions = onClosed: @view.hideCardView, context: @view, icon: 'iconFont-ok'
     expect(utils.showMessageModal).to.has.been.calledWith('Tus datos se han guardado correctamente.', expectedOptions)
         .and.to.has.been.calledOnce
 
