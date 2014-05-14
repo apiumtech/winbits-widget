@@ -1,4 +1,5 @@
 'use strict'
+
 View = require 'views/base/view'
 MyAccount = require 'models/my-account/my-account'
 utils = require 'lib/utils'
