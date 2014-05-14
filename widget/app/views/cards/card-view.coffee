@@ -13,7 +13,7 @@ module.exports = class CardView extends View
 
   initialize: ->
     super
-    @delegate 'click', '.wbc-cancel-btn', @hideNewCardView
+    @delegate 'click', '.wbc-cancel-btn', @hideCardView
 
   attach: ->
     super
@@ -60,13 +60,15 @@ module.exports = class CardView extends View
           required: yes
           minlength: 2
           digits: yes
-        # cvNumber:
-        #   required: yes
-        #   digits: yes
-        #   minlength: 3
         street1:
           required: yes
         number:
+          required: yes
+        city:
+          required: yes
+        state:
+          required: yes
+        country:
           required: yes
         postalCode:
           required: yes
@@ -75,12 +77,6 @@ module.exports = class CardView extends View
         phoneNumber:
           required: yes
           wbiPhone: yes
-        colony:
-          required: yes
-        city:
-          required: yes
-        country:
-          required: yes
       messages:
         expirationMonth:
           range: $.validator.messages.wbExpirationMonth
@@ -90,9 +86,9 @@ module.exports = class CardView extends View
     )
     @$('[name=accountNumber]').on('textchange', $.proxy(@updateCardLogo, @))
 
-  hideNewCardView: ->
+  hideCardView: ->
     @$el.slideUp()
-    @publishEvent('card-subview-hidden')
+    @publishEvent('card-view-hidden')
 
   updateCardLogo: (e)->
     $cardNumberField = $(e.currentTarget)

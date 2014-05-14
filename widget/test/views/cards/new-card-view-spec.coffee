@@ -9,11 +9,9 @@ $ = Winbits.$
 describe 'NewCardViewSpec', ->
 
   before ->
-    $.validator.setDefaults ignore: []
     @xhr = sinon.useFakeXMLHttpRequest()
 
   after ->
-    $.validator.setDefaults ignore: ':hidden'
     @xhr.restore()
 
   beforeEach ->
@@ -83,7 +81,7 @@ describe 'NewCardViewSpec', ->
     cardData = loadValidData.call(@)
 
     @view.$('.wbc-save-card-btn').click()
-    expectedOptions = acceptAction: @view.hideNewCardView, context: @view, icon: 'iconFont-ok'
+    expectedOptions = acceptAction: @view.hideCardView, context: @view, icon: 'iconFont-ok'
     expect(utils.showMessageModal).to.has.been.calledWith('Tus datos se han guardado correctamente.', expectedOptions)
         .and.to.has.been.calledOnce
 
@@ -112,7 +110,6 @@ describe 'NewCardViewSpec', ->
     country: 'MX'
     street1: 'Reforma'
     number: '1'
-    colony: 'Virreyes'
     city: 'Mexico'
     state: 'DF'
     postalCode: '11000'

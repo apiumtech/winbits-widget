@@ -115,7 +115,7 @@ describe 'CardsViewSpec', ->
     expect($nonDefaultCard).to.has.$class('carruselSCC-selected')
     expect(@view.$('.carruselSCC-selected')).to.existExact(1)
 
-  it 'should show new card view when new card link is clicked', ->
+  it 'should show card view when new card link is clicked', ->
     sinon.spy(@view, 'showNewCardView')
 
     @view.$('#wbi-new-card-link').click()
@@ -134,10 +134,10 @@ describe 'CardsViewSpec', ->
     newCardView = @view.subview('new-card-view')
     expect($.fn.slideDown.firstCall.returnValue).to.be.equal(newCardView.$el)
 
-  it 'should show view when "card-subview-hidden" event is published', ->
+  it 'should show view when "card-view-hidden" event is published', ->
     sinon.spy($.fn, 'slideDown')
 
-    EventBroker.publishEvent('card-subview-hidden')
+    EventBroker.publishEvent('card-view-hidden')
     expect($.fn.slideDown).to.has.been.calledOnce
     expect($.fn.slideDown.firstCall.returnValue).to.be.equal(@view.$el)
 

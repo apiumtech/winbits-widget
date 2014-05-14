@@ -1,12 +1,13 @@
 <form accept-charset="utf-8" action="#" method="post" class="wbc-card-form wbc-error-placeholder">
+    <input type="hidden" name="cardId" value="{{subscriptionId}}">
     <div class="column">
         <h3>INFORMACIÓN</h3>
         {{#with cardData}}
-        <input type="text" placeholder="Nombre" class="requiredField wbc-field-firstName" data-requiredfield="Nombre Requerido" maxlength="30" value="{{firstName}}" readonly="true">
-        <input type="text" placeholder="Apellido(s)" class="requiredField wbc-field-lastName" data-requiredfield="Apellido(s) Requerido" maxlength="50" value="{{lastName}}" readonly="true">
+        <input type="text" placeholder="Nombre" class="requiredField wbc-field-firstName" data-requiredfield="Nombre Requerido" maxlength="30" value="{{firstName}}" disabled>
+        <input type="text" placeholder="Apellido(s)" class="requiredField wbc-field-lastName" data-requiredfield="Apellido(s) Requerido" maxlength="50" value="{{lastName}}" disabled>
         {{/with}}
         <div class="wbc-error-placeholder">
-            <input type="text" placeholder="Número de Tarjeta" class="requiredField creditcardField wbc-field-accountNumber" data-requiredfield="Número de Tarjeta Requerido" maxlength="16" value="{{cardData.accountNumber}}" readonly="true" data-card-type="{{wbCardType}}"><span class="logoCC wbc-card-logo iconFont-{{wbCardType}}"></span>
+            <input type="text" placeholder="Número de Tarjeta" class="requiredField creditcardField wbc-field-accountNumber" data-requiredfield="Número de Tarjeta Requerido" maxlength="16" value="{{cardData.accountNumber}}" disabled data-card-type="{{wbCardType}}"><span class="logoCC wbc-card-logo iconFont-{{wbCardType}}"></span>
         </div>
         {{#with cardData}}
         <div class="divFechaExpiracion wbc-error-placeholder">
@@ -29,7 +30,7 @@
         </select>
         <input type="text" placeholder="Calle" class="inputMedium" name="street1" id="winbitsCreditCardStreet" maxlength="40" value="{{street1}}">
         <input type="text" placeholder="##" class="inputSmall requiredField" name="number" id="winbitsCreditCardNum" data-requiredfield="Calle y Número Requeridos" maxlength="10" value="{{number}}">
-        <input type="text" placeholder="Colonia" name="colony" id="winbitsCreditCardCol" class="requiredField" data-requiredfield="Colonia Requerido" maxlength="40" value="{{colony}}">
+        {{!-- <input type="text" placeholder="Colonia" name="colony" id="winbitsCreditCardCol" class="requiredField" data-requiredfield="Colonia Requerido" maxlength="40" value="{{colony}}"> --}}
         <input type="text" placeholder="Ciudad" name="city" id="winbitsCreditCardCity" class="requiredField" data-requiredfield="Ciudad Requerido" maxlength="40" value="{{city}}">
         <input type="text" placeholder="Estado" name="state" id="winbitsCreditCardState" class="requiredField" data-requiredfield="Estado Requerido" maxlength="40" value="{{state}}">
         <input type="text" placeholder="Código Postal" name="postalCode" id="winbitsCreditCardCP" class="requiredField" data-requiredfield="Código Postal Requerido" maxlength="5" value="{{postalCode}}">

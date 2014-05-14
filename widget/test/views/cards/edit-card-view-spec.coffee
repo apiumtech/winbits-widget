@@ -9,21 +9,20 @@ $ = Winbits.$
 describe 'EditCardViewSpec', ->
 
   before ->
-    $.validator.setDefaults ignore: []
     @xhr = sinon.useFakeXMLHttpRequest()
 
   after ->
-    $.validator.setDefaults ignore: ':hidden'
     @xhr.restore()
 
   beforeEach ->
     @model = new Card getCardModelAttributes()
     @view = new EditCardView model: @model
-    sinon.stub(@model, 'requestSaveNewCard').returns(TestUtils.promises.idle)
+    sinon.stub(@model, 'requestUpdateCard').returns(TestUtils.promises.idle)
+    sinon.stub(utils, 'showAjaxLoading')
 
   afterEach ->
     @view.dispose()
-    @model.requestSaveNewCard.restore()
+    @model.requestUpdateCard.restore()
     @model.dispose()
     $.fn.customSelect.restore?()
     $.fn.customCheckbox.restore?()
@@ -76,11 +75,11 @@ describe 'EditCardViewSpec', ->
       $field = @view.$(".wbc-field-#{fieldName}")
       expect($field).to.not.has.$attr('name')
 
-  it 'should render card data form fields non-editable', ->
+  it 'should render card data form fields disabled', ->
     fieldNames = ['firstName', 'lastName', 'accountNumber']
     for fieldName in fieldNames
       $field = @view.$(".wbc-field-#{fieldName}")
-      expect($field).to.has.$attr('readonly')
+      expect($field).to.has.$attr('disabled')
 
   it 'should render checkbox as checked if card is principal', ->
     $field = @view.$("[name=cardPrincipal]")
@@ -109,77 +108,95 @@ describe 'EditCardViewSpec', ->
     expect(@.view.$('.wbc-card-logo')).to.has.$class('iconFont-visa')
     expect(@.view.$('.wbc-field-accountNumber').data('card-type')).to.be.equal('visa')
 
-  it.skip 'should not show loading indicator if data invalid', ->
-    sinon.stub(utils, 'showAjaxLoading')
-    @view.$('#wbc-save-card-btn').click()
+  it 'should not show loading indicator if data invalid', ->
+    @view.$('[name=state]').val('')
+    @view.$('.wbc-save-card-btn').click()
 
     expect(utils.showAjaxLoading).to.not.has.been.called
 
-  it.skip 'should request to save new card if data valid', ->
-    cardData = loadValidData.call(@)
+  it 'should request to update card if data valid', ->
+    cardData = editCardData.call(@)
 
-    @view.$('#wbc-save-card-btn').click()
-
-    expect(@model.requestSaveNewCard).to.has.been.calledWithMatch(cardData, @view)
+    @view.$('.wbc-save-card-btn').click()
+    expect(@model.requestUpdateCard).to.has.been.calledWithMatch(cardData, @view)
         .and.to.be.calledOnce
 
-  it.skip 'should show loading indicator if data is valid', ->
-    sinon.stub(utils, 'showAjaxLoading')
-    cardData = loadValidData.call(@)
+  it 'should show loading indicator if data is valid', ->
+    editCardData.call(@)
 
-    @view.$('#wbc-save-card-btn').click()
+    @view.$('.wbc-save-card-btn').click()
     expect(utils.showAjaxLoading).to.has.been.calledOnce
 
-  it.skip 'should publish "cards-changed" event if card saving succeds', ->
+  it 'should publish "cards-changed" event if card update succeds', ->
     stub = sinon.stub()
     EventBroker.subscribeEvent('cards-changed', stub)
-    @model.requestSaveNewCard.returns(new $.Deferred().resolveWith(@view).promise())
-    cardData = loadValidData.call(@)
+    @model.requestUpdateCard.returns(new $.Deferred().resolveWith(@view).promise())
+    editCardData.call(@)
 
-    @view.$('#wbc-save-card-btn').click()
+    @view.$('.wbc-save-card-btn').click()
     expect(stub).to.has.been.calledOnce
 
-  it.skip 'should show message to inform card was saved if card saving succeds', ->
+  it 'should show message to inform card was update if card update succeds', ->
     sinon.stub(utils, 'showMessageModal')
-    @model.requestSaveNewCard.returns(new $.Deferred().resolveWith(@view).promise())
-    cardData = loadValidData.call(@)
+    @model.requestUpdateCard.returns(new $.Deferred().resolveWith(@view).promise())
+    editCardData.call(@)
 
-    @view.$('#wbc-save-card-btn').click()
-    expect(utils.showMessageModal).to.has.been.calledWith('Tus datos fueron guardados correctamente.', acceptAction: @view.hideNewCardView, context: @view)
+    @view.$('.wbc-save-card-btn').click()
+    expectedOptions = acceptAction: @view.hideCardView, context: @view, icon: 'iconFont-ok'
+    expect(utils.showMessageModal).to.has.been.calledWith('Tus datos se han guardado correctamente.', expectedOptions)
         .and.to.has.been.calledOnce
 
-  it.skip 'should hide ajax loading if card saving succeds', ->
+  it 'should hide ajax loading if card saving succeds', ->
     sinon.stub(utils, 'hideAjaxLoading')
-    @model.requestSaveNewCard.returns(new $.Deferred().resolveWith(@view).promise())
-    cardData = loadValidData.call(@)
+    @model.requestUpdateCard.returns(new $.Deferred().resolveWith(@view).promise())
+    editCardData.call(@)
 
-    @view.$('#wbc-save-card-btn').click()
+    @view.$('.wbc-save-card-btn').click()
     expect(utils.hideAjaxLoading).to.has.been.calledOnce
 
-  it.skip 'should hide ajax loading if card saving fails', ->
+  it 'should hide ajax loading if card saving fails', ->
     sinon.stub(utils, 'hideAjaxLoading')
-    @model.requestSaveNewCard.returns(new $.Deferred().rejectWith(@view).promise())
-    cardData = loadValidData.call(@)
+    @model.requestUpdateCard.returns(new $.Deferred().rejectWith(@view).promise())
+    editCardData.call(@)
 
-    @view.$('#wbc-save-card-btn').click()
+    @view.$('.wbc-save-card-btn').click()
     expect(utils.hideAjaxLoading).to.has.been.calledOnce
 
   getCardModelAttributes = ->
-    "cardData":
-        "accountNumber": "XXXXXXXXXXXX1111"
-        "expirationMonth": "05"
-        "expirationYear": "2015"
-        "cardType": "Visa"
-        "currency": "MXN"
-        "firstName": "STEVE"
-        "lastName": "JOBS"
-        "phoneNumber": "5553259000"
-    "cardAddress":
-        "country": "MX"
-        "postalCode": "11000"
-        "state": "Distrito Federal"
-        "street1": "Reforma"
-        "number": "1"
-        "city": "Mexico"
-    "subscriptionId": "9997000101139083"
-    "cardPrincipal": yes
+    cardData:
+        accountNumber: "XXXXXXXXXXXX1111"
+        expirationMonth: "05"
+        expirationYear: "2015"
+        cardType: "Visa"
+        currency: "MXN"
+        firstName: "STEVE"
+        lastName: "JOBS"
+        phoneNumber: "5553259000"
+    cardAddress:
+        country: "MX"
+        postalCode: "11000"
+        state: "Distrito Federal"
+        street1: "Reforma"
+        number: "1"
+        city: "Mexico"
+    subscriptionId: "9997000101139083"
+    cardPrincipal: yes
+
+  editCardData = ->
+    editData =
+        number: '666'
+        city: 'Monterrey'
+    for own fieldName, fieldValue of editData
+      @view.$("[name=#{fieldName}]").val(fieldValue)
+    updateData =
+        cardId: "9997000101139083"
+        expirationMonth: "05"
+        expirationYear: "15"
+        country: "MX"
+        street1: "Reforma"
+        state: "Distrito Federal"
+        postalCode: "11000"
+        phoneNumber: "5553259000"
+        cardPrincipal: "true"
+    $.extend(updateData, editData)
+

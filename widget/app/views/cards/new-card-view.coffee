@@ -23,7 +23,7 @@ module.exports = class NewCardView extends CardView
   saveNewCardSucceds: ->
     @publishEvent('cards-changed')
     options =
-      acceptAction: @hideNewCardView
+      onClosed: @hideCardView
       context: @
       icon: 'iconFont-ok'
     utils.showMessageModal('Tus datos se han guardado correctamente.', options)
