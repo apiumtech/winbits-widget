@@ -23,7 +23,7 @@
     </div>
         <div class="column columnLarge">
             <h3>OPCIONES</h3>
-            <input name="main" type="checkbox" class="checkbox" value="true">
+            <input name="main" {{#if main}}checked="checked"{{/if}} type="checkbox" class="checkbox" value="true">
             <label class="checkboxLabel">Hacer esta mi dirección principal</label>
             <p class="note">Winbits guarda tu dirección para que puedas utilizarlas siempre que las necesites y tus compras sean mucho más fáciles. </p>
             <div id="wbi-edit-shipping-address-error" class="errorDiv" style="display: none"><p></p></div>
