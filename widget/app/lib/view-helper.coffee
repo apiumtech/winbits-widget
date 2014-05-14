@@ -126,3 +126,4 @@ Handlebars.registerHelper "getBitsMaxSelection", (defaultMax) ->
   if not (!$profile)
     $maxValue = $profile.bitsBalance
   $maxValue
+
