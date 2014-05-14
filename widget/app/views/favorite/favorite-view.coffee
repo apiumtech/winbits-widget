@@ -30,7 +30,7 @@ module.exports = class FavoritesView extends View
       title: 'Eliminar de Favoritos'
       icon: 'iconFont-question'
       context: @
-      acceptAction: () ->@doRequestDeleteBrand($itemId)
+      acceptAction: () -> @doRequestDeleteBrand($itemId)
     utils.showConfirmationModal(message, options)
 
   doRequestDeleteBrand: (brandId)->

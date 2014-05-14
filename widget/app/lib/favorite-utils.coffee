@@ -15,17 +15,15 @@ _(wishListUtils).extend
 
   addToWishList: (options) ->
     options = options or {}
-    if utils.isLoggedIn()
-      utils.ajaxRequest(@getWishListResourceUrl(), @applyDefaultAddToWishListRequestDefaults(options))
-      .done(@publishWishListChangeEvent)
-      .fail(@showWishListErrorMessage)
+    utils.ajaxRequest(@getWishListResourceUrl(), @applyDefaultAddToWishListRequestDefaults(options))
+    .done(@publishWishListChangeEvent)
+    .fail(@showWishListErrorMessage)
 
   deleteFromWishList: (options) ->
     options = options or {}
-    if utils.isLoggedIn()
-      utils.ajaxRequest(@getWishListResourceUrl(options.brandId), @applyDefaultDeleteToWishListRequestDefaults(options))
-      .done(@publishWishListChangeEvent)
-      .fail(@showWishListErrorMessage)
+    utils.ajaxRequest(@getWishListResourceUrl(options.brandId), @applyDefaultDeleteToWishListRequestDefaults(options))
+    .done(@publishWishListChangeEvent)
+    .fail(@showWishListErrorMessage)
 
   publishWishListChangeEvent: (data) ->
     EventBroker.publishEvent 'favorites-changed', data
