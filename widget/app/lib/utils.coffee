@@ -151,7 +151,9 @@ _(utils).extend
     @showMessageModal(errorMsg, options)
 
   showAjaxLoading: (message = 'Procesando información') ->
-    $('#wbi-ajax-loading-layer').show()
+    $loadingLayer = $('#wbi-ajax-loading-layer')
+    $loadingLayer.find('.wbc-loading-message').text(message)
+    $loadingLayer.show()
 
   hideAjaxLoading: ->
     $('#wbi-ajax-loading-layer').hide()
