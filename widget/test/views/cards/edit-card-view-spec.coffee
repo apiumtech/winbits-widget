@@ -107,6 +107,7 @@ describe 'EditCardViewSpec', ->
 
   it 'should render card logo', ->
     expect(@.view.$('.wbc-card-logo')).to.has.$class('iconFont-visa')
+    expect(@.view.$('.wbc-field-accountNumber').data('card-type')).to.be.equal('visa')
 
   it.skip 'should not show loading indicator if data invalid', ->
     sinon.stub(utils, 'showAjaxLoading')

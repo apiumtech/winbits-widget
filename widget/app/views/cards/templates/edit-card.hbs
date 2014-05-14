@@ -6,7 +6,7 @@
         <input type="text" placeholder="Apellido(s)" class="requiredField wbc-field-lastName" data-requiredfield="Apellido(s) Requerido" maxlength="50" value="{{lastName}}" readonly="true">
         {{/with}}
         <div class="wbc-error-placeholder">
-            <input type="text" placeholder="Número de Tarjeta" class="requiredField creditcardField wbc-field-accountNumber" data-requiredfield="Número de Tarjeta Requerido" maxlength="16" value="{{cardData.accountNumber}}" readonly="true"><span class="logoCC wbc-card-logo {{cardTypeClass}}"></span>
+            <input type="text" placeholder="Número de Tarjeta" class="requiredField creditcardField wbc-field-accountNumber" data-requiredfield="Número de Tarjeta Requerido" maxlength="16" value="{{cardData.accountNumber}}" readonly="true" data-card-type="{{wbCardType}}"><span class="logoCC wbc-card-logo iconFont-{{wbCardType}}"></span>
         </div>
         {{#with cardData}}
         <div class="divFechaExpiracion wbc-error-placeholder">

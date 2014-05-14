@@ -7,7 +7,7 @@ $ = Winbits.$
 
 module.exports = class Card extends Model
   needsAuth: yes
-  accessors: ['cardTypeClass']
+  accessors: ['wbCardType']
 
   initialize: ->
     super
@@ -23,5 +23,7 @@ module.exports = class Card extends Model
     utils.ajaxRequest(url, options)
         .fail($.proxy(utils.showApiError, utils))
 
-  cardTypeClass: ->
-    'iconFont-visa'
+  wbCardType: ->
+    cardType = @get('cardData').cardType
+    cardType = 'amex' if cardType is 'American Express'
+    cardType.toLowerCase()
