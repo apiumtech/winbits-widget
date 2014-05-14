@@ -288,7 +288,7 @@ _(utils).extend
   showMessageModal: (message, options, modalSelector = '#wbi-alert-modal')->
     options ?= {}
     $modal = $(modalSelector)
-    options.value ?= 'Ok'
+    options.value ?= 'Aceptar'
     options.context ?= @
     options.onClosed ?= $.noop
     options.title ?= 'Mensaje'

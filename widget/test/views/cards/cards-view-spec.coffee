@@ -2,7 +2,7 @@
 
 CardsView =  require 'views/cards/cards-view'
 Cards =  require 'models/cards/cards'
-NewCardView = require 'views/cards/new-card-view'
+CardView = require 'views/cards/card-view'
 EventBroker = Chaplin.EventBroker
 $ = Winbits.$
 
@@ -12,14 +12,18 @@ describe 'CardsViewSpec', ->
     @model = new Cards
     sinon.stub(@model, 'fetch')
     sinon.stub(@model, 'requestSetDefaultCard')
+    sinon.stub(@model, 'getCardById').returns(cardInfo: cardData: { cardType: 'Visa' }, cardAddress: {})
     @view = new CardsView model: @model
 
   afterEach ->
     @view.render.restore?()
     @view.showNewCardView.restore?()
+    @view.editCard.restore?()
+    @view.showEditCardView.restore?()
     @view.dispose()
     @model.fetch.restore()
     @model.requestSetDefaultCard.restore()
+    @model.getCardById.restore()
     @model.dispose()
     $.fn.changeBox.restore?()
     $.fn.carouselSwiper.restore?()
@@ -77,6 +81,7 @@ describe 'CardsViewSpec', ->
     expect($card.find('.wbc-card-type')).to.has.$text('Master Card,')
     expect($card.find('.wbc-card-number')).to.has.$text('12345')
     expect($card.find('.wbc-expiration-date')).to.has.$text('10/18')
+    expect($card.find('.wbc-edit-card-link')).to.existExact(1)
 
   it 'should render default card', ->
     setModel.call(@)
@@ -116,7 +121,7 @@ describe 'CardsViewSpec', ->
     @view.$('#wbi-new-card-link').click()
 
     expect(@view.showNewCardView).to.has.been.calledOnce
-    expect(@view.subview('new-card-view')).to.be.instanceof(NewCardView)
+    expect(@view.subview('new-card-view')).to.be.instanceof(CardView)
 
   it 'should slides up cards carousel & slides down new card view', ->
     sinon.spy($.fn, 'slideUp')
@@ -136,10 +141,28 @@ describe 'CardsViewSpec', ->
     expect($.fn.slideDown).to.has.been.calledOnce
     expect($.fn.slideDown.firstCall.returnValue).to.be.equal(@view.$el)
 
+  it 'should bind event on card edit links', ->
+    sinon.spy(@view, 'editCard')
+    sinon.stub(@view, 'showEditCardView')
+    setModel.call(@)
+
+    @view.$('.wbc-edit-card-link').click()
+
+    expect(@view.editCard).to.has.been.calledTwice
+    expect(@view.showEditCardView).to.has.been.calledTwice
+    expect(@view.showEditCardView.firstCall).to.has.been.calledWith(5)
+    expect(@view.showEditCardView.secondCall).to.has.been.calledWith(10)
+
+  it 'showEditCardView should get card data from model', ->
+    cardId = 5
+    @view.showEditCardView(cardId)
+    expect(@model.getCardById).to.has.been.calledWith(cardId)
+        .and.to.has.been.calledOnce
+
   setModel = ->
     data = []
-    data.push cardInfo:{ subscriptionId: 5, cardData: { cardType: 'Master Card', accountNumber: '12345', expirationMonth: '10', expirationYear: '2018' } }
-    data.push cardInfo:{ subscriptionId: 10, cardData: { cardType: 'Visa', accountNumber: '67890', expirationMonth: '12', expirationYear: '2020' }, cardPrincipal: yes }
+    data.push cardInfo:{ subscriptionId: '5', cardData: { cardType: 'Master Card', accountNumber: '12345', expirationMonth: '10', expirationYear: '2018' }, cardAddress: {} }
+    data.push cardInfo:{ subscriptionId: '10', cardData: { cardType: 'Visa', accountNumber: '67890', expirationMonth: '12', expirationYear: '2020' }, cardAddress: {}, cardPrincipal: yes }
     @model.set('cards', data)
 
   getDefaultCardSolvedPromise = ()->
