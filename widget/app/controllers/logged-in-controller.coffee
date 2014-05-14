@@ -9,6 +9,8 @@ ShippingAddressesView = require 'views/shipping-addresses/shipping-addresses-vie
 ShippingAddressesModel = require 'models/shipping-addresses/shipping-addresses'
 MailingModel = require 'models/mailing/mailing'
 MailingView = require 'views/mailing/mailing-view'
+FavoriteView = require 'views/favorite/favorite-view'
+Favorite = require 'models/favorite/favorite'
 SocialMediaView = require 'views/social-media/social-media-view'
 ChangePasswordView = require 'views/change-password/change-password-view'
 ChangePassword = require 'models/change-password/change-password'
@@ -81,6 +83,14 @@ module.exports = class LoggedInController extends Controller
           @view = new CardsView model: @model
 
         check: -> mediator.data.get 'cards-composed'
+
+      @reuse 'favorite-view',
+        compose: ->
+          mediator.data.set 'favorite-composed', yes
+          @model = new Favorite
+          @view = new FavoriteView model: @model
+
+        check: -> mediator.data.get 'favorite-composed'
 
       if (utils.isSwitchUser())
         @reuse 'switch-user-view',
