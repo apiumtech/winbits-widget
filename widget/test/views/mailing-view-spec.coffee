@@ -14,11 +14,15 @@ describe 'MailingViewSpec', ->
     $.validator.setDefaults ignore: ':hidden'
 
   beforeEach ->
+    sinon.stub(utils,'showAjaxLoading').returns ''
+    sinon.stub(utils,'hideAjaxLoading').returns ''
     subscriptions = [{"id":2,"name":"My Looq","active":false},{"id":3,"name":"Panda Sports","active":true},{"id":4,"name":"clickOnero","active":true}]
     @model = new MailingModel subscriptions: subscriptions, newsletterPeriodicity: 'weekly', newsletterFormat: 'separated'
     @view = new MailingView model: @model
 
   afterEach ->
+    utils.showAjaxLoading.restore?()
+    utils.hideAjaxLoading.restore?()
     @view.dispose()
     @model.dispose()
 
