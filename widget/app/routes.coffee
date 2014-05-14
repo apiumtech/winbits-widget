@@ -7,6 +7,7 @@ module.exports = (match) ->
   match 'wb-recover-password', 'recover-password#index'
   match 'wb-reset-password', 'reset-password#index'
   match 'wb-complete-register', 'complete-register#index'
+  match 'wb-bits-history', 'your-bits#index'
 
   #Hash controller
   match 'wb-complete-register-:apiToken', 'hash#completeRegister'
