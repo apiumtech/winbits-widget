@@ -1,6 +1,7 @@
 Application = require './application'
 routes = require './routes'
 cartUtils = require 'lib/cart-utils'
+wishListUtils = require 'lib/favorite-utils'
 utils = require 'lib/utils'
 mediator = Winbits.Chaplin.mediator
 
@@ -29,6 +30,14 @@ Winbits.addToCart = (cartItems) ->
   cartItems = if Winbits.$.isArray(cartItems) then cartItems else [cartItems]
   fn = if utils.isLoggedIn() then cartUtils.addToUserCart else cartUtils.addToVirtualCart
   fn.call(cartUtils, cartItems)
+
+Winbits.addToWishList = (options ) ->
+  fn = if utils.isLoggedIn() then wishListUtils.addToWishList
+  fn.call(wishListUtils,options)
+
+Winbits.deleteFromWishList = (options) ->
+  fn = if utils.isLoggedIn() then wishListUtils.deleteFromWishList
+  fn.call(wishListUtils,options)
 
 appConfig =
   controllerSuffix: '-controller'

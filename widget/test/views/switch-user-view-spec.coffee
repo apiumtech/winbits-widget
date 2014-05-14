@@ -26,9 +26,9 @@ describe 'SwitchUserViewSpec', ->
 
   afterEach ->
     utils.ajaxRequest.restore?()
-    @view.dispose?()
-    @model.dispose?()
-    mediator.data.clear?()
+    @view.dispose()
+    @model.dispose()
+    mediator.data.clear()
 
   it 'switch user view renderized', ->
     $view = @view.$el
