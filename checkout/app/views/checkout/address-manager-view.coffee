@@ -179,6 +179,8 @@ module.exports = class CheckoutSiteView extends View
           lastName:
             required: true
             minlength: 2
+          lastName2:
+            minlength: 2
           phone:
             required: true
             minlength: 7
@@ -190,12 +192,8 @@ module.exports = class CheckoutSiteView extends View
             required: true
           internalNumber:
             minlength: 1
-          betweenStreets:
-            required: true
-            minlength: 4
           indications:
             required: true
-            minlength: 2
           zipCode:
             required: true
             minlength: 5

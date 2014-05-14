@@ -230,7 +230,11 @@ Handlebars.registerHelper "select", (value, options) ->
   select.innerHTML
 
 Handlebars.registerHelper "getContactName", () ->
-  (this.firstName + ' ' + this.lastName).trim()
+  nameAndLastName = getNameAndLastName this
+  if this.lastName2? then ((nameAndLastName + ' ' + this.lastName2).trim()) else nameAndLastName  
+
+getNameAndLastName = (shippingAddress) ->
+  (shippingAddress.firstName + ' ' + shippingAddress.lastName).trim()
 
 Handlebars.registerHelper "getLocation", () ->
   this.location
