@@ -127,7 +127,16 @@ Handlebars.registerHelper "getBitsMaxSelection", (defaultMax) ->
     $maxValue = $profile.bitsBalance
   $maxValue
 
+Handlebars.registerHelper "generateTicketPaymentDownloadUrl", (paymentCapture) ->
+  capture = JSON.parse (paymentCapture)
+  capture.downloadUrl
+
 Handlebars.registerHelper "toDefaultDateFormat", (dateString) ->
   if dateString
     date = new Date(dateString)
-    date.getDate() + '/' + (date.getMonth()+1) + '/' + date.getFullYear()
+    $month = (date.getMonth()+1)
+    $day = date.getDate()
+    $monthText = if $month < 10 then "0 #{$month}" else $month
+    $dayText = if $day < 10 then "0 #{$day}" else $day
+
+    $dayText + '/' + $monthText + '/' + date.getFullYear()
