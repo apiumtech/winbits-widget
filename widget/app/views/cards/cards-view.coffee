@@ -107,10 +107,11 @@ module.exports = class CardsView extends View
         .always(@requestDeleteCardCompletes)
 
   requestDeleteCardSucceds: ->
+    @model.deleteCard(@cardIdToDelete)
     options =
       icon: 'iconFont-ok'
     utils.showMessageModal('La tarjeta ha sido eliminada correctamente.', options)
-    @model.deleteCard(@cardIdToDelete)
+    @model.fetch()
 
   requestDeleteCardCompletes: ->
     utils.hideAjaxLoading()

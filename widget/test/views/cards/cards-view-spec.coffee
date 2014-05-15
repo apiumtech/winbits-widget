@@ -230,6 +230,15 @@ describe 'CardsViewSpec', ->
     expect(@model.deleteCard).to.has.been.calledWith(cardId)
         .and.to.has.been.calledOnce
 
+  it 'should fetch model if card delete request succeds', ->
+    @model.fetch.restore?()
+    sinon.stub(@model, 'fetch')
+    cardId = '666'
+    @view.cardIdToDelete = cardId
+
+    @view.requestDeleteCardSucceds()
+    expect(@model.fetch).to.has.been.calledOnce
+
   it 'should hide ajax loading indicator if delete card request succeds', sinon.test ->
     @model.requestDeleteCard.returns(new $.Deferred().rejectWith(@view).promise())
 
