@@ -53,3 +53,16 @@ describe 'CardsSpec', ->
     EventBroker.publishEvent('cards-changed')
 
     expect(@model.fetch).to.has.been.calledOnce
+
+  it 'should request to delete card and return promise', sinon.test ->
+    cardId = '666'
+    context = {}
+    @spy(utils.ajaxRequest)
+
+    returnValue = @model.requestDeleteCard(cardId, context)
+    request = @requests[0]
+    request.respond(200, 'Content-Type': 'application/json', '{"meta":{},"response":{}')
+
+    expect(utils.ajaxRequest).to.has.been.calledWithMatch('orders/card-subscription/666.json', type: 'DELETE')
+        .and.to.has.been.calledOnce
+    expect(returnValue).to.be.promise
