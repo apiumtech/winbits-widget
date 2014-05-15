@@ -7,6 +7,7 @@ env = Winbits.env
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 _ = Winbits._
+moment = Winbits.moment
 # Application-specific view helpers
 # http://handlebarsjs.com/#helpers
 # --------------------------------
@@ -133,10 +134,4 @@ Handlebars.registerHelper "generateTicketPaymentDownloadUrl", (paymentCapture) -
 
 Handlebars.registerHelper "toDefaultDateFormat", (dateString) ->
   if dateString
-    date = new Date(dateString)
-    $month = (date.getMonth()+1)
-    $day = date.getDate()
-    $monthText = if $month < 10 then "0 #{$month}" else $month
-    $dayText = if $day < 10 then "0 #{$day}" else $day
-
-    $dayText + '/' + $monthText + '/' + date.getFullYear()
+    moment(new Date(dateString)).format('DD/MM/YYYY');
