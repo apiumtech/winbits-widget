@@ -311,6 +311,7 @@ _(utils).extend
     $modal = $('#wbi-confirmation-modal')
     options.cancelValue ?= 'Cancelar'
     options.context ?= @
+    options.icon ?= 'iconFont-question'
     options.cancelAction ?= $.noop
     options.cancelAction = $.proxy(options.cancelAction, options.context)
     $(".wbc-cancel-action", $modal).unbind('click').click(options.cancelAction).click(@closeMessageModal).val options.cancelValue

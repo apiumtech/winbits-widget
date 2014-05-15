@@ -4,6 +4,7 @@ View = require 'views/base/view'
 NewCardView = require 'views/cards/new-card-view'
 EditCardView = require 'views/cards/edit-card-view'
 Card = require 'models/cards/card'
+utils = require 'lib/utils'
 $ = Winbits.$
 DEFAULT_CARD_CLASS = 'carruselSCC-selected'
 
@@ -19,6 +20,7 @@ module.exports = class CardsView extends View
     @clickOnCardHandler = @delegate 'click', '.wbc-card', -> @onCardClick.apply(@, arguments)
     @delegate 'click', '#wbi-new-card-link', -> @showNewCardView.apply(@, arguments)
     @delegate 'click', '.wbc-edit-card-link', -> @editCard.apply(@, arguments)
+    @delegate 'click', '.wbc-delete-card-link', -> @deleteCard.apply(@, arguments)
     @subscribeEvent 'card-view-hidden', @showCardsView
     @model.fetch()
 
@@ -72,8 +74,11 @@ module.exports = class CardsView extends View
   editCard: (e) ->
     e.stopPropagation()
     e.preventDefault()
-    cardId = $(e.currentTarget).closest('.wbc-card').data('id')
+    cardId = @getClickedCardId(e)
     @showEditCardView(cardId)
+
+  getClickedCardId: (e) ->
+    $(e.currentTarget).closest('.wbc-card').data('id')
 
   showEditCardView: (cardId) ->
     card = @model.getCardById(cardId)
@@ -82,3 +87,31 @@ module.exports = class CardsView extends View
     @subview('edit-card-view', editCardView)
     @$el.slideUp()
     editCardView.$el.slideDown()
+
+  deleteCard: (e) ->
+    e.stopPropagation()
+    cardId = @getClickedCardId(e)
+    @confirmCardDeletion(cardId)
+
+  confirmCardDeletion: (cardId) ->
+    @cardIdToDelete = cardId
+    options =
+      acceptAction: @cardDeletionConfirmed
+      context: @
+    utils.showConfirmationModal('¿Estás seguro de que deseas eliminar esta tarjeta?', options)
+
+  cardDeletionConfirmed: ->
+    utils.showAjaxLoading()
+    @model.requestDeleteCard(@cardIdToDelete, @)
+        .done(@requestDeleteCardSucceds)
+        .always(@requestDeleteCardCompletes)
+
+  requestDeleteCardSucceds: ->
+    @model.deleteCard(@cardIdToDelete)
+    options =
+      icon: 'iconFont-ok'
+    utils.showMessageModal('La tarjeta ha sido eliminada correctamente.', options)
+    @model.fetch()
+
+  requestDeleteCardCompletes: ->
+    utils.hideAjaxLoading()
