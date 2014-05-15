@@ -127,3 +127,7 @@ Handlebars.registerHelper "getBitsMaxSelection", (defaultMax) ->
     $maxValue = $profile.bitsBalance
   $maxValue
 
+Handlebars.registerHelper "toDefaultDateFormat", (dateString) ->
+  if dateString
+    date = new Date(dateString)
+    date.getDate() + '/' + (date.getMonth()+1) + '/' + date.getFullYear()
