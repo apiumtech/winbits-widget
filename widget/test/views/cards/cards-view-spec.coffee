@@ -3,6 +3,7 @@
 CardsView =  require 'views/cards/cards-view'
 Cards =  require 'models/cards/cards'
 CardView = require 'views/cards/card-view'
+utils = require 'lib/utils'
 EventBroker = Chaplin.EventBroker
 $ = Winbits.$
 
@@ -13,7 +14,11 @@ describe 'CardsViewSpec', ->
     sinon.stub(@model, 'fetch')
     sinon.stub(@model, 'requestSetDefaultCard')
     sinon.stub(@model, 'getCardById').returns(cardInfo: cardData: { cardType: 'Visa' }, cardAddress: {})
+    sinon.stub(@model, 'requestDeleteCard').returns(TestUtils.promises.idle)
+    sinon.stub(@model, 'deleteCard')
     @view = new CardsView model: @model
+    @sandbox = sinon.sandbox.create()
+    @sandbox.stub(utils)
 
   afterEach ->
     @view.render.restore?()
@@ -25,11 +30,10 @@ describe 'CardsViewSpec', ->
     @model.fetch.restore()
     @model.requestSetDefaultCard.restore()
     @model.getCardById.restore()
+    @model.requestDeleteCard.restore()
+    @model.deleteCard()
     @model.dispose()
-    $.fn.changeBox.restore?()
-    $.fn.carouselSwiper.restore?()
-    $.fn.slideDown.restore?()
-    $.fn.slideUp.restore?()
+    @sandbox.restore()
 
   it 'should be rendered without cards', ->
     expect(@view.$('#wbi-no-cards-panel')).to.existExact(1)
@@ -43,8 +47,8 @@ describe 'CardsViewSpec', ->
     expect(@view.$('#wbi-new-card-link')).to.existExact(1)
     expect(@view.$('.wbc-card')).to.exist
 
-  it 'should apply carrouselSwipper plugin', ->
-    sinon.spy($.fn, 'carouselSwiper')
+  it 'should apply carrouselSwipper plugin', sinon.test ->
+    @spy($.fn, 'carouselSwiper')
 
     setModel.call(@)
 
@@ -125,9 +129,9 @@ describe 'CardsViewSpec', ->
     expect(@view.showNewCardView).to.has.been.calledOnce
     expect(@view.subview('new-card-view')).to.be.instanceof(CardView)
 
-  it 'should slides up cards carousel & slides down new card view', ->
-    sinon.spy($.fn, 'slideUp')
-    sinon.spy($.fn, 'slideDown')
+  it 'should slides up cards carousel & slides down new card view', sinon.test ->
+    @spy($.fn, 'slideUp')
+    @spy($.fn, 'slideDown')
     @view.$('#wbi-new-card-link').click()
 
     expect($.fn.slideUp).to.has.been.calledOnce
@@ -136,8 +140,8 @@ describe 'CardsViewSpec', ->
     newCardView = @view.subview('new-card-view')
     expect($.fn.slideDown.firstCall.returnValue).to.be.equal(newCardView.$el)
 
-  it 'should show view when "card-view-hidden" event is published', ->
-    sinon.spy($.fn, 'slideDown')
+  it 'should show view when "card-view-hidden" event is published', sinon.test ->
+    @spy($.fn, 'slideDown')
 
     EventBroker.publishEvent('card-view-hidden')
     expect($.fn.slideDown).to.has.been.calledOnce
@@ -156,7 +160,7 @@ describe 'CardsViewSpec', ->
     expect(@view.showEditCardView.secondCall).to.has.been.calledWith(10)
 
   it 'showEditCardView should get card data from model', ->
-    cardId = 5
+    cardId = '5'
     @view.showEditCardView(cardId)
     expect(@model.getCardById).to.has.been.calledWith(cardId)
         .and.to.has.been.calledOnce
@@ -175,12 +179,62 @@ describe 'CardsViewSpec', ->
 
     @view.confirmCardDeletion.restore()
 
-  it.skip 'confirmCardDeletion should show message to confirm card deletion', ->
-    sinon.stub(utils, 'showConfirmationModal')
-    cardId = 5
+  it 'should store card id to delete in instance variable', ->
+    cardId = '5'
     @view.confirmCardDeletion(cardId)
-    expect(utils.showConfirmationModal).to.has.been.calledWith('¿Estás seguro de que deseas eliminar esta tarjeta?')
+    expect(@view.cardIdToDelete).to.be.equal(cardId)
+
+  it 'confirmCardDeletion should show message to confirm card deletion', ->
+    @view.confirmCardDeletion('5')
+    expectedOptions =
+        acceptAction: @view.cardDeletionConfirmed
+        context: @view
+    expect(utils.showConfirmationModal).to.has.been.calledWith('¿Estás seguro de que deseas eliminar esta tarjeta?', expectedOptions)
         .and.to.has.been.calledOnce
+
+  it 'cardDeletionConfirmed should request to delete card', ->
+    cardId = '666'
+    @view.cardIdToDelete = cardId
+
+    @view.cardDeletionConfirmed()
+    expect(@model.requestDeleteCard).to.has.been.calledWith(cardId, @view)
+        .and.to.has.been.calledOnce
+
+  it 'cardDeletionConfirmed should show ajax loading indicator', ->
+    @view.cardDeletionConfirmed()
+    expect(utils.showAjaxLoading).to.has.been.calledOnce
+
+  it 'should call requestDeleteCardSucceds if delete card request succeds', sinon.test ->
+    @stub(@view, 'requestDeleteCardSucceds')
+    @model.requestDeleteCard.returns(new $.Deferred().resolveWith(@view).promise())
+
+    @view.cardDeletionConfirmed()
+    expect(@view.requestDeleteCardSucceds).to.has.been.calledOnce
+
+  it 'should hide ajax loading indicator if delete card request succeds', sinon.test ->
+    @model.requestDeleteCard.returns(new $.Deferred().resolveWith(@view).promise())
+
+    @view.cardDeletionConfirmed()
+    expect(utils.hideAjaxLoading).to.has.been.calledOnce
+
+  it 'should show message to inform card was deleted if card delete request succeds', ->
+    @view.requestDeleteCardSucceds()
+    expect(utils.showMessageModal).to.has.been.calledWith('La tarjeta ha sido eliminada correctamente.', icon: 'iconFont-ok')
+        .and.to.has.been.calledOnce
+
+  it 'should delete card from model if card delete request succeds', ->
+    cardId = '666'
+    @view.cardIdToDelete = cardId
+
+    @view.requestDeleteCardSucceds()
+    expect(@model.deleteCard).to.has.been.calledWith(cardId)
+        .and.to.has.been.calledOnce
+
+  it 'should hide ajax loading indicator if delete card request succeds', sinon.test ->
+    @model.requestDeleteCard.returns(new $.Deferred().rejectWith(@view).promise())
+
+    @view.cardDeletionConfirmed()
+    expect(utils.hideAjaxLoading).to.has.been.calledOnce
 
   setModel = ->
     data = []
@@ -188,5 +242,5 @@ describe 'CardsViewSpec', ->
     data.push cardInfo:{ subscriptionId: '10', cardData: { cardType: 'Visa', accountNumber: '67890', expirationMonth: '12', expirationYear: '2020' }, cardAddress: {}, cardPrincipal: yes }
     @model.set('cards', data)
 
-  getDefaultCardSolvedPromise = ()->
+  getDefaultCardSolvedPromise = ->
     new $.Deferred().resolveWith(@view).promise()

@@ -36,3 +36,8 @@ module.exports = class Cards extends Model
     cardId = cardId.toString() if cardId
     cards = @get('cards')
     _.find(cards, (card) -> card.cardInfo.subscriptionId is cardId)
+
+  requestDeleteCard: (cardId) ->
+
+  deleteCard: (cardId) ->
+
