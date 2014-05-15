@@ -20,6 +20,7 @@ describe 'CardsViewSpec', ->
     @view.showNewCardView.restore?()
     @view.editCard.restore?()
     @view.showEditCardView.restore?()
+    @view.deleteCard.restore?()
     @view.dispose()
     @model.fetch.restore()
     @model.requestSetDefaultCard.restore()
@@ -82,6 +83,7 @@ describe 'CardsViewSpec', ->
     expect($card.find('.wbc-card-number')).to.has.$text('12345')
     expect($card.find('.wbc-expiration-date')).to.has.$text('10/18')
     expect($card.find('.wbc-edit-card-link')).to.existExact(1)
+    expect($card.find('.wbc-delete-card-link')).to.existExact(1)
 
   it 'should render default card', ->
     setModel.call(@)
@@ -157,6 +159,27 @@ describe 'CardsViewSpec', ->
     cardId = 5
     @view.showEditCardView(cardId)
     expect(@model.getCardById).to.has.been.calledWith(cardId)
+        .and.to.has.been.calledOnce
+
+  it 'should bind event on card delete links', ->
+    sinon.spy(@view, 'deleteCard')
+    sinon.stub(@view, 'confirmCardDeletion')
+    setModel.call(@)
+
+    @view.$('.wbc-delete-card-link').click()
+
+    expect(@view.deleteCard).to.has.been.calledTwice
+    expect(@view.confirmCardDeletion).to.has.been.calledTwice
+    expect(@view.confirmCardDeletion.firstCall).to.has.been.calledWith(5)
+    expect(@view.confirmCardDeletion.secondCall).to.has.been.calledWith(10)
+
+    @view.confirmCardDeletion.restore()
+
+  it.skip 'confirmCardDeletion should show message to confirm card deletion', ->
+    sinon.stub(utils, 'showConfirmationModal')
+    cardId = 5
+    @view.confirmCardDeletion(cardId)
+    expect(utils.showConfirmationModal).to.has.been.calledWith('¿Estás seguro de que deseas eliminar esta tarjeta?')
         .and.to.has.been.calledOnce
 
   setModel = ->

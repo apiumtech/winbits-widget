@@ -19,6 +19,7 @@ module.exports = class CardsView extends View
     @clickOnCardHandler = @delegate 'click', '.wbc-card', -> @onCardClick.apply(@, arguments)
     @delegate 'click', '#wbi-new-card-link', -> @showNewCardView.apply(@, arguments)
     @delegate 'click', '.wbc-edit-card-link', -> @editCard.apply(@, arguments)
+    @delegate 'click', '.wbc-delete-card-link', -> @deleteCard.apply(@, arguments)
     @subscribeEvent 'card-view-hidden', @showCardsView
     @model.fetch()
 
@@ -72,8 +73,11 @@ module.exports = class CardsView extends View
   editCard: (e) ->
     e.stopPropagation()
     e.preventDefault()
-    cardId = $(e.currentTarget).closest('.wbc-card').data('id')
+    cardId = @getCurrentCardId(e)
     @showEditCardView(cardId)
+
+  getCurrentCardId: (e) ->
+    $(e.currentTarget).closest('.wbc-card').data('id')
 
   showEditCardView: (cardId) ->
     card = @model.getCardById(cardId)
@@ -82,3 +86,13 @@ module.exports = class CardsView extends View
     @subview('edit-card-view', editCardView)
     @$el.slideUp()
     editCardView.$el.slideDown()
+
+  deleteCard: (e) ->
+    e.stopPropagation()
+    cardId = @getCurrentCardId(e)
+    @confirmCardDeletion(cardId)
+
+  confirmCardDeletion: () ->
+    options =
+      acceptAction: @model.requestDeleteCard
+    utils.showConfirmationModal('¿Estás seguro de que deseas eliminar esta tarjeta?')
