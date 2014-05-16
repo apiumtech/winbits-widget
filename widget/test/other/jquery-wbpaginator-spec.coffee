@@ -77,17 +77,17 @@ describe 'jQueryWbPaginatorSpec', ->
 
     expect(@$el.wbpaginator('option', 'max')).to.be.equal(10)
 
-  it 'should generate pager', ->
+  it 'should generate pager text', ->
     @$el.wbpaginator(total: 100)
 
-    $pager = @$el.find('p.wbc-pager')
+    $pager = @$el.find('p.wbc-pager-text')
     expect($pager).to.existExact(1)
     expect($pager).to.has.$text('Página 1 de 10')
 
   it 'should generate pages list', ->
     @$el.wbpaginator(total: 100)
 
-    expect(@$el.find('ul.wbc-pages')).to.existExact(1)
+    expect(@$el.find('ul.wbc-pagers')).to.existExact(1)
 
   it 'should generate previous pager', ->
     @$el.wbpaginator(total: 100)
@@ -99,7 +99,7 @@ describe 'jQueryWbPaginatorSpec', ->
   it 'should generate previous pager as the first pager', ->
     @$el.wbpaginator(total: 100)
 
-    $firstPager = @$el.find('ul.wbc-pages').children().first()
+    $firstPager = @$el.find('ul.wbc-pagers').children().first()
     expect($firstPager).to.has.$class('wbc-previous-pager')
 
   it 'should generate previous pager link', ->
@@ -125,7 +125,7 @@ describe 'jQueryWbPaginatorSpec', ->
   it 'should generate next pager as the last pager', ->
     @$el.wbpaginator(total: 100)
 
-    $firstPager = @$el.find('ul.wbc-pages').children().last()
+    $firstPager = @$el.find('ul.wbc-pagers').children().last()
     expect($firstPager).to.has.$class('wbc-next-pager')
 
   it 'should generate next pager link', ->
@@ -141,21 +141,115 @@ describe 'jQueryWbPaginatorSpec', ->
     $arrowSpan = @$el.find('.wbc-next-pager-link').children()
     expect($arrowSpan).to.has.$class('iconFont-arrowRight')
 
-  it 'should generate correct number of pages', ->
+  it 'should generate correct number of pagers', ->
     @$el.wbpaginator(total: 100)
 
-    expect(@$el.find('li.wbc-page').length).to.be.equal(10)
-    expect(@$el.find('a.wbc-page-link').length).to.be.equal(10)
+    expect(@$el.find('li.wbc-pager').length).to.be.equal(10)
+    expect(@$el.find('a.wbc-pager-link').length).to.be.equal(10)
 
-  it 'should generate pages', ->
+  it 'should generate pagers', ->
     @$el.wbpaginator(total: 100)
 
-    $pages = @$el.find('li.wbc-page')
+    $pagers = @$el.find('li.wbc-pager')
     for page in [1, 10]
-      $page = $pages.eq(page - 1)
-      expect($page).to.has.$text(page.toString())
+      $pager = $pagers.eq(page - 1)
+      expect($pager).to.has.$text(page.toString())
+      $pagerLink = $pager.find('a')
+      expect($pagerLink.data('_id')).to.be.equal(page)
 
   it 'should render correct page option', ->
     @$el.wbpaginator(total: 100, page: 5)
 
-    expect(@$el.find('.wbc-pager')).to.has.$text('Página 5 de 10')
+    expect(@$el.find('.wbc-pager-text')).to.has.$text('Página 5 de 10')
+
+  it 'should render correct total pages', ->
+    @$el.wbpaginator(total: 53, max: 5)
+
+    expect(@$el.find('.wbc-pager-text')).to.has.$text('Página 1 de 11')
+
+  it 'should move to previous page if previous page link is clicked', ->
+    @$el.wbpaginator(total: 100, page: 10)
+
+    @$el.find('.wbc-previous-pager-link').click()
+    expect(@$el.find('.wbc-pager-text')).to.has.$text('Página 9 de 10')
+
+    expect(@$el.wbpaginator('option', 'page')).to.be.equal(9)
+
+  it 'should trigger change event previous page link is clicked', ->
+    stub = sinon.stub()
+    @$el.wbpaginator(total: 100, page: 10, change: stub)
+
+    @$el.find('.wbc-previous-pager-link').click()
+
+    expect(stub).to.has.been.calledOnce
+    expect(stub.firstCall.args[1]).to.be.eql(total: 100, max: 10, page: 9, offset: 80)
+
+  it 'should not move the page if previous page link is clicked and current page is 1', ->
+    @$el.wbpaginator(total: 100, page: 1)
+
+    @$el.find('.wbc-previous-pager-link').click()
+
+    expect(@$el.wbpaginator('option', 'page')).to.be.equal(1)
+    expect(@$el.find('.wbc-pager-text')).to.has.$text('Página 1 de 10')
+
+  it 'should not trigger change event if previous page link is clicked and current page is 1', ->
+    stub = sinon.stub()
+    @$el.wbpaginator(total: 100, page: 1, change: stub)
+
+    @$el.find('.wbc-previous-pager-link').click()
+
+    expect(stub).to.has.not.been.called
+
+  it 'should move to next page if next page link is clicked', ->
+    @$el.wbpaginator(total: 100, page: 1)
+
+    @$el.find('.wbc-next-pager-link').click()
+
+    expect(@$el.wbpaginator('option', 'page')).to.be.equal(2)
+    expect(@$el.find('.wbc-pager-text')).to.has.$text('Página 2 de 10')
+
+  it 'should trigger change event next page link is clicked', ->
+    stub = sinon.stub()
+    @$el.wbpaginator(total: 100, page: 1, change: stub)
+
+    @$el.find('.wbc-next-pager-link').click()
+
+    expect(stub).to.has.been.calledOnce
+    expect(stub.firstCall.args[1]).to.be.eql(total: 100, max: 10, page: 2, offset: 10)
+
+  it 'should not move the page if next page link is clicked and current page is the last possible page', ->
+    @$el.wbpaginator(total: 100, page: 10)
+
+    @$el.find('.wbc-next-pager-link').click()
+
+    expect(@$el.wbpaginator('option', 'page')).to.be.equal(10)
+    expect(@$el.find('.wbc-pager-text')).to.has.$text('Página 10 de 10')
+
+  it 'should not trigger change event if next page link is clicked and current page is 1', ->
+    stub = sinon.stub()
+    @$el.wbpaginator(total: 100, page: 10, change: stub)
+
+    @$el.find('.wbc-next-pager-link').click()
+
+    expect(stub).to.has.not.been.called
+
+  _.each [1, 5, 10], (page) ->
+    it "should move to page #{page} when corresponding pager link is clicked", ->
+      @$el.wbpaginator(total: 100, page: 3)
+
+      @$el.find('.wbc-pager-link').eq(page - 1).click()
+
+      expect(@$el.wbpaginator('option', 'page')).to.be.equal(page)
+      expect(@$el.find('.wbc-pager-text')).to.has.$text("Página #{page} de 10")
+  , @
+
+  _.each [1, 5, 10], (page) ->
+    it "should trigger change event when pager link #{page} is clicked", ->
+      stub = sinon.stub()
+      @$el.wbpaginator(total: 100, page: 3, change: stub)
+
+      @$el.find('.wbc-pager-link').eq(page - 1).click()
+
+      expect(stub).to.has.been.calledOnce
+      expect(stub.firstCall.args[1]).to.be.eql(total: 100, max: 10, page: page, offset: 10 * (page - 1))
+  , @
