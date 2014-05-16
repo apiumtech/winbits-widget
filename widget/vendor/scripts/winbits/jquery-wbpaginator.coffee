@@ -7,15 +7,26 @@
       page: 1
 
     _create: ->
+      @options.total = @_constrainTotal(@options.total)
       @options.max = @_constrainMax(@options.max)
       @options.page = @_constrainPage(@options.page)
 
+    _constrainTotal: (total) ->
+      if typeof total is 'number'
+        Math.ceil(total)
+
     _constrainMax: (max) ->
-      if max in [1..@options.total] then max else 10
+      if typeof max is 'number' and max >= 1 and max <= @options.total
+        Math.ceil(max)
+      else
+        10
 
     _constrainPage: (page) ->
       totalPages = @_totalPages()
-      if page in [1..totalPages] then page else 1
+      if typeof page is 'number' and page >= 1 and page <= totalPages
+        Math.ceil(page)
+      else
+        1
 
     _totalPages: ->
       Math.floor(@options.total / @options.max)
