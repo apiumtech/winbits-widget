@@ -6,6 +6,8 @@
       max: 10
       page: 1
 
+    _MAX_PAGES: 10
+
     _create: ->
       @options.total = @_constrainTotal(@options.total)
       @options.max = @_constrainMax(@options.max)
@@ -46,13 +48,28 @@
       $('<ul></ul>', class: 'wbc-pagers').appendTo(@element)
 
     _generatePagers: ->
-      totalPages = @_totalPages()
-      for page in [1..totalPages]
+      for page in @_getPagesRange()
         $pager = $('<li></li>', class: 'wbc-pager')
         $('<a></a>', href: '#', class: 'wbc-pager-link').text(page).data('_id', page).appendTo($pager)
         @_pagersList.append($pager)
+      $pagers = @_pagersList.children()
+      if @_totalPages() > @_MAX_PAGES
+        @_generateEllipsisPager()
+      $pagers
 
-      @_pagersList.children()
+    _getPagesRange: ->
+      totalPages = @_totalPages()
+      if totalPages > @_MAX_PAGES
+        halfRangeSize = Math.floor(@_MAX_PAGES / 2)
+        [1..halfRangeSize].concat([(totalPages - halfRangeSize + 1)..totalPages])
+      else
+        [1..totalPages]
+
+    _generateEllipsisPager: ->
+      middleIndex = Math.floor(@_MAX_PAGES / 2)
+      $pagerEllipsis = $('<li></li>', class: 'wbc-pager-ellipsis')
+      $('<a></a>', href: '#').text('...').appendTo($pagerEllipsis)
+      @_pagersList.children().eq(middleIndex).before($pagerEllipsis)
 
     _generatePreviousPagePager: ->
       $previousPager = $('<li></li>', class: 'wbc-previous-pager pager-prev')
@@ -67,12 +84,12 @@
       $nextPager.appendTo(@_pagersList)
 
     _bindPagersEvents: ->
+      @_pagersList.on('click', 'a', (e) -> e.preventDefault())
       @_pagersList.on('click', 'a.wbc-previous-pager-link', $.proxy(@_previousPagerLinkClicked, @))
       @_pagersList.on('click', 'a.wbc-next-pager-link', $.proxy(@_nextPagerLinkClicked, @))
       @_pagersList.on('click', 'a.wbc-pager-link', $.proxy(@_pagerLinkClicked, @))
 
     _previousPagerLinkClicked: (e) ->
-      e.preventDefault()
       if @options.page > 1
         @options.page = @options.page - 1
         @_refreshPager()
@@ -85,14 +102,12 @@
       @options.max * (@options.page - 1)
 
     _nextPagerLinkClicked: (e) ->
-      e.preventDefault()
       if @options.page < @_totalPages()
         @options.page = @options.page + 1
         @_refreshPager()
         @_trigger('change', e, total: @options.total, max: @options.max, page: @options.page, offset: @_offset())
 
     _pagerLinkClicked: (e) ->
-      e.preventDefault()
       $pagerLink = $(e.currentTarget)
       @options.page = $pagerLink.data('_id')
       @_refreshPager()

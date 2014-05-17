@@ -141,11 +141,14 @@ describe 'jQueryWbPaginatorSpec', ->
     $arrowSpan = @$el.find('.wbc-next-pager-link').children()
     expect($arrowSpan).to.has.$class('iconFont-arrowRight')
 
-  it 'should generate correct number of pagers', ->
-    @$el.wbpaginator(total: 100)
+  _.each [1, 5, 10], (totalPages) ->
+    it "should generate exact pagers if total pages are 10 or less: #{totalPages}", ->
+      max = 10
+      @$el.wbpaginator(total: totalPages * max, max: 10)
 
-    expect(@$el.find('li.wbc-pager').length).to.be.equal(10)
-    expect(@$el.find('a.wbc-pager-link').length).to.be.equal(10)
+      expect(@$el.find('li.wbc-pager').length).to.be.equal(totalPages)
+      expect(@$el.find('a.wbc-pager-link').length).to.be.equal(totalPages)
+  , @
 
   it 'should generate pagers', ->
     @$el.wbpaginator(total: 100)
@@ -253,3 +256,40 @@ describe 'jQueryWbPaginatorSpec', ->
       expect(stub).to.has.been.calledOnce
       expect(stub.firstCall.args[1]).to.be.eql(total: 100, max: 10, page: page, offset: 10 * (page - 1))
   , @
+
+  it 'should render at most 10 pagers', ->
+    @$el.wbpaginator(total: 100, max: 8)
+
+    expect(@$el.find('.wbc-pager').length).to.be.equal(10)
+
+  it 'should render ellipsis in the middle of the pagers when there are more than 10 pages', ->
+    @$el.wbpaginator(total: 150, max: 10)
+
+    expect(@$el.find('.wbc-pager-ellipsis')).to.existExact(1)
+    $pagerEllipsis = @$el.find('.wbc-pagers').children().eq(5)
+    expect($pagerEllipsis).to.has.$class('wbc-pager-ellipsis')
+    expect($pagerEllipsis).to.has.$text('...')
+
+  it 'should not change page if ellipsis pager is clicked', ->
+    stub = sinon.stub()
+    @$el.wbpaginator(total: 150, max: 10, page: 5, change: stub)
+
+    @$el.find('.wbc-pager-ellipsis').click()
+
+    expect(stub).to.not.has.been.called
+    expect(@$el.wbpaginator('option', 'page')).to.be.equal(5)
+
+  it 'should not render ellipsis if total pages are less than 10', ->
+    @$el.wbpaginator(total: 90, max: 10)
+
+    expect(@$el.find('.wbc-pager-ellipsis')).to.not.exist
+
+  it 'should render first 5 pagers and last 5 pagers if total pagers are more than 10', ->
+    stub = sinon.stub()
+    @$el.wbpaginator(total: 140, max: 10, change: stub)
+
+    $pagers = @$el.find('.wbc-pager')
+    expectedPages = ['1', '2', '3', '4', '5', '10', '11', '12', '13', '14']
+    for index in [0..9]
+      $pager = $pagers.eq(index)
+      expect($pager).to.has.$text(expectedPages[index])
