@@ -2,16 +2,17 @@
 
 (($) ->
   $.widget 'winbits.wbpaginator',
+    _MAX_PAGES: 10
+
     options:
       max: 10
       page: 1
 
-    _MAX_PAGES: 10
-
     _create: ->
-      @options.total = @_constrainTotal(@options.total)
-      @options.max = @_constrainMax(@options.max)
-      @options.page = @_constrainPage(@options.page)
+      @_setOption('total', @options.total)
+      @_setOption('max', @options.max)
+      @_updateTotalPages()
+      @_setOption('page', @options.page)
       @_pager = @_generatePager()
       @_pagersList = @_generatePagersList()
       @_previousPager = @_generatePreviousPagePager()
@@ -19,30 +20,41 @@
       @_nextPager = @_generateNextPagePager()
       @_bindPagersEvents()
 
-    _constrainTotal: (total) ->
-      if typeof total is 'number'
-        Math.ceil(total)
+    _setOption: (key, value) ->
+      constrainFunction = @_constrainFunctions[key]
+      if typeof constrainFunction is 'function'
+        value = constrainFunction.call(@, value)
+      @_super(key, value)
 
-    _constrainMax: (max) ->
-      if typeof max is 'number' and max >= 1 and max <= @options.total
-        Math.ceil(max)
-      else
-        10
+    _constrainFunctions:
+      total: (total) ->
+        if typeof total is 'number'
+          Math.ceil(total)
 
-    _constrainPage: (page) ->
-      totalPages = @_totalPages()
-      if typeof page is 'number' and page >= 1 and page <= totalPages
-        Math.ceil(page)
-      else
-        1
+      max: (max) ->
+        if typeof max is 'number' and max >= 1 and max <= @options.total
+          Math.ceil(max)
+        else
+          10
 
-    _totalPages: ->
+      page: (page) ->
+        if typeof page is 'number' and page >= 1 and page <= @_totalPages
+          Math.ceil(page)
+        else
+          1
+
+    _updateTotalPages: ->
+      @_totalPages = @_getTotalPages()
+
+    _setOptions: (options) ->
+      @_super(options)
+
+    _getTotalPages: ->
       Math.ceil(@options.total / @options.max)
 
     _generatePager: ->
       page = @options.page
-      totalPages = @_totalPages()
-      $('<p></p>', class: 'wbc-pager-text').text("Página #{page} de #{totalPages}").appendTo(@element)
+      $('<p></p>', class: 'wbc-pager-text').text("Página #{page} de #{@_totalPages}").appendTo(@element)
 
     _generatePagersList: ->
       $('<ul></ul>', class: 'wbc-pagers').appendTo(@element)
@@ -53,17 +65,16 @@
         $('<a></a>', href: '#', class: 'wbc-pager-link').text(page).data('_id', page).appendTo($pager)
         @_pagersList.append($pager)
       $pagers = @_pagersList.children()
-      if @_totalPages() > @_MAX_PAGES
+      if @_totalPages > @_MAX_PAGES
         @_generateEllipsisPager()
       $pagers
 
     _getPagesRange: ->
-      totalPages = @_totalPages()
-      if totalPages > @_MAX_PAGES
+      if @_totalPages > @_MAX_PAGES
         halfRangeSize = Math.floor(@_MAX_PAGES / 2)
-        [1..halfRangeSize].concat([(totalPages - halfRangeSize + 1)..totalPages])
+        [1..halfRangeSize].concat([(@_totalPages - halfRangeSize + 1)..@_totalPages])
       else
-        [1..totalPages]
+        [1..@_totalPages]
 
     _generateEllipsisPager: ->
       middleIndex = Math.floor(@_MAX_PAGES / 2)
@@ -93,23 +104,31 @@
       if @options.page > 1
         @options.page = @options.page - 1
         @_refreshPager()
-        @_trigger('change', e, total: @options.total, max: @options.max, page: @options.page, offset: @_offset())
+        @_triggerChangePageEvent(e)
+
+    _triggerChangePageEvent: (e) ->
+      @_trigger('change', e,
+        total: @options.total
+        max: @options.max
+        page: @options.page
+        offset: @_computeOffset()
+      )
 
     _refreshPager: ->
-      @_pager.text("Página #{@options.page} de #{@_totalPages()}")
+      @_pager.text("Página #{@options.page} de #{@_totalPages}")
 
-    _offset: ->
+    _computeOffset: ->
       @options.max * (@options.page - 1)
 
     _nextPagerLinkClicked: (e) ->
-      if @options.page < @_totalPages()
+      if @options.page < @_totalPages
         @options.page = @options.page + 1
         @_refreshPager()
-        @_trigger('change', e, total: @options.total, max: @options.max, page: @options.page, offset: @_offset())
+        @_triggerChangePageEvent(e)
 
     _pagerLinkClicked: (e) ->
       $pagerLink = $(e.currentTarget)
       @options.page = $pagerLink.data('_id')
       @_refreshPager()
-      @_trigger('change', e, total: @options.total, max: @options.max, page: @options.page, offset: @_offset())
+      @_triggerChangePageEvent(e)
 )(jQuery)

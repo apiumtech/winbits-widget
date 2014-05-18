@@ -45,5 +45,5 @@ specs = [
 ]
 
 for spec in _.unique(specs)
-    console.log ['Executing Spec -> ', spec]
-    require spec
+  console.log ['Executing Spec -> ', spec]
+  require spec

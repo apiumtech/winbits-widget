@@ -84,7 +84,7 @@ describe 'jQueryWbPaginatorSpec', ->
     expect($pager).to.existExact(1)
     expect($pager).to.has.$text('Página 1 de 10')
 
-  it 'should generate pages list', ->
+  it 'should generate pagers list', ->
     @$el.wbpaginator(total: 100)
 
     expect(@$el.find('ul.wbc-pagers')).to.existExact(1)
