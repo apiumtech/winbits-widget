@@ -1,3 +1,6 @@
+'use strict'
+
+_ = Winbits._
 
 specs = [
   './models/header-spec'
@@ -18,7 +21,6 @@ specs = [
   './views/edit-shipping-address-view-spec'
   './views/complete-register-view-spec'
   './other/jquery-location-select-spec'
-  './other/jquery-location-select-spec'
   './views/cart/cart-view-spec'
   './views/cart/cart-items-view-spec'
   './views/cart/cart-totals-view-spec'
@@ -31,15 +33,17 @@ specs = [
   './winbits-spec'
   './lib/utils-spec'
   './lib/favorite-utils-spec'
-  './views/cards-view-spec'
-  './models/cards-spec'
-  './views/new-card-view-spec'
-  './models/card-spec'
+  './views/cards/cards-view-spec'
+  './models/cards/cards-spec'
+  './views/cards/new-card-view-spec'
+  './models/cards/card-spec'
+  './views/cards/edit-card-view-spec'
   './views/switch-user-view-spec'
   './views/favorite-view-spec'
   './views/account-history-view-spec'
+  './other/jquery-wbpaginator-spec'
 ]
 
-for spec in specs
-    console.log ['Executing Spec -> ', spec]
-    require spec
+for spec in _.unique(specs)
+  console.log ['Executing Spec -> ', spec]
+  require spec
