@@ -131,3 +131,7 @@ Handlebars.registerHelper "toDefaultDateFormat", (dateString) ->
   if dateString
     date = new Date(dateString)
     date.getDate() + '/' + (date.getMonth()+1) + '/' + date.getFullYear()
+
+Handlebars.registerHelper "abs", (amount) ->
+  if amount
+     amount * -1

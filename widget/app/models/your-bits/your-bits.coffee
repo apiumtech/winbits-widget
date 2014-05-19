@@ -10,7 +10,5 @@ module.exports = class Mailing extends Model
   initialize: ->
     super
 
-  parse: (data) ->
-    balance: data.response.balance
-    transactions: data.response.transactions
-    transactionsSize: data.response.transactions.length + 1
+  getTotalTransactions: () ->
+    @meta.totalTransactions
