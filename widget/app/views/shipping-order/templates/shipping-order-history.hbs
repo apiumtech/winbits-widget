@@ -31,58 +31,9 @@
           <span class="dataTable-num"># DE RASTREO</span>
           <span class="dataTable-site">SITIO</span>
         </div>
-       {{#each orders}}
-        <div class="dataTable-fila">
-          <div class="dataTable-desc">
-            <p>Orden: {{orderNumber}}</p>
-
-            <p>Fecha de compra: {{toDefaultDateFormat dateOfPurchase}}</p>
-
-            <p>Total: ${{total}} </p>
-          </div>
-          {{#each details}}
-          <div class="dataTable-bodyItems">
-            <div class="dataTable-item">
-              <div class="dataTable-photo">
-                <img src="{{thumbnail.url}}" width="62" height="79"
-                     alt="{{name}}"/>
-              </div>
-              <div class="dataTable-prod">
-                <strong>{{name}}</strong>
-                <strong>{{brand}}</strong>
-
-                <p>{{attributeLabel}}: {{attributeName}}</p>
-
-                {{#each attributes}}
-                  <p>{{name}}: {{label}} </p>
-                {{/each}}
-
-                <span class="iconFont-coupons icon-green" title="Cupones Listos"></span>
-              </div>
-              <div class="dataTable-cant">
-                {{quantity}}
-              </div>
-              <div class="dataTable-status">
-                {{status.0.status}}
-              </div>
-              <div class="dataTable-num">
-                <a href="#">{{tracingNumber}}</a>
-              </div>
-              <div class="dataTable-site">
-                <span class="iconVertical-t vertical{{vertical.id}}" title="{{vertical.name}}"></span>
-              </div>
-            </div>
-            {{/each}}
-          </div>
-          {{#each ticketPayments}}
-            <div class="download-ficha">
-              <a href="{{generateTicketPaymentDownloadUrl paymentCapture}}" target="_blank">Descarga ficha {{#compare identifier 'oxxo.bc'}}OXXO{{else}}HSBC{{/compare}}</a>
-            </div>
-          {{/each}}
+        <div id="wbi-shipping-order-history-table-div">
 
         </div>
-
-       {{/each}}
         <div class="dataTable-pager">
           <p>Página 1 de 14</p>
           <ul>

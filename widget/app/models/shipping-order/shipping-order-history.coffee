@@ -12,4 +12,4 @@ module.exports = class Mailing extends Model
     super
 
   parse: (data) ->
-    orders: data.response
+    orders: super
