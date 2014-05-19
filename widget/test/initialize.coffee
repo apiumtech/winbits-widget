@@ -40,6 +40,7 @@ specs = [
   './views/switch-user-view-spec'
   './views/favorite-view-spec'
   './views/account-history-view-spec'
+  './views/shipping-order-history-view-spec'
 ]
 
 for spec in specs

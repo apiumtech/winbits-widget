@@ -25,6 +25,5 @@ module.exports = class HistoryView extends View
     @$('.select').customSelect()
 
   backToVertical:()->
-    console.log ["MODEL YOUR BITS", @model]
     $('main .wrapper').show()
     utils.redirectToLoggedInHome()
