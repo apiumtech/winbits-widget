@@ -281,27 +281,23 @@ describe 'jQueryWbPaginatorSpec', ->
 
   it 'should not change page if ellipsis pager is clicked', ->
     stub = sinon.stub()
-    @$el.wbpaginator(total: 150, max: 10, page: 5, change: stub)
+    @$el.wbpaginator(total: 150, page: 5, change: stub)
 
     @$el.find('.wbc-pager-ellipsis').click()
 
     expect(stub).to.not.has.been.called
-    expectCurrentPage.call(@, 5)
+    expectCurrentPage.call(@, 5, 15)
 
   it 'should not render ellipsis if total pages are less than 10', ->
     @$el.wbpaginator(total: 90, max: 10)
 
     expect(@$el.find('.wbc-pager-ellipsis')).to.not.exist
 
-  it 'should render first 5 pagers and last 5 pagers if total pagers are more than 10', ->
+  it 'should render first and last 5 pagers if there are more than 10', ->
     stub = sinon.stub()
     @$el.wbpaginator(total: 140, max: 10, change: stub)
 
-    $pagers = @$el.find('.wbc-pager')
-    expectedPages = ['1', '2', '3', '4', '5', '10', '11', '12', '13', '14']
-    for index in [0..9]
-      $pager = $pagers.eq(index)
-      expect($pager).to.has.$text(expectedPages[index])
+    expectPagersFor.call(@, [1, 2, 3, 4, 5, 10, 11, 12, 13, 14])
 
   expectPaginatorIsRendered = () ->
     expect(@$el.find('p.wbc-pager-text')).to.existExact(1)
