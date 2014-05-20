@@ -13,3 +13,9 @@ module.exports = class Mailing extends Model
 
   parse: (data) ->
     orders: super
+
+  getTotal: ->
+    if (@meta)
+      @meta.totalCount
+    else
+      0
