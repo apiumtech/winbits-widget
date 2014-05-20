@@ -1,7 +1,5 @@
 'use strict'
 
-_ = Winbits._
-
 specs = [
   './models/header-spec'
   './views/not-logged-in-view-spec'
@@ -42,8 +40,9 @@ specs = [
   './views/favorite-view-spec'
   './views/account-history-view-spec'
   './other/jquery-wbpaginator-spec'
+  './views/shipping-order-history-view-spec'
 ]
 
-for spec in _.unique(specs)
-  console.log ['Executing Spec -> ', spec]
-  require spec
+for spec in specs
+    console.log ['Executing Spec -> ', spec]
+    require spec
