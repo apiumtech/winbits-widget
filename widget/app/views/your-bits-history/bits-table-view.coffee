@@ -15,11 +15,10 @@ module.exports = class BitsTableView extends View
 
   initialize:()->
     super
-    @listenTo @model, 'change', @refreshHistory
+    @listenTo @model,  'change', -> @refreshHistory()
 
   attach:()->
     super
-    @$('.wbc-paginator').wbpaginator(total: 20, max: @params.max, change: $.proxy(@pageChanged, @))
 
   refreshHistory: ->
     @render()
