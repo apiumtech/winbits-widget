@@ -10,11 +10,5 @@ module.exports = class YourBitsModel extends Model
   initialize: ->
     super
 
-  parse: (data) ->
-    console.log console.log ["META>>>>>>",data.meta]
-    @meta = data.meta
-    data.response
-
-
   getTotalTransactions: () ->
     @meta.totalTransactions
