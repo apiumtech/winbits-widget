@@ -7,6 +7,7 @@ env = Winbits.env
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 _ = Winbits._
+moment = Winbits.moment
 # Application-specific view helpers
 # http://handlebarsjs.com/#helpers
 # --------------------------------
@@ -127,11 +128,10 @@ Handlebars.registerHelper "getBitsMaxSelection", (defaultMax) ->
     $maxValue = $profile.bitsBalance
   $maxValue
 
+Handlebars.registerHelper "generateTicketPaymentDownloadUrl", (paymentCapture) ->
+  capture = JSON.parse (paymentCapture)
+  capture.downloadUrl
+
 Handlebars.registerHelper "toDefaultDateFormat", (dateString) ->
   if dateString
-    date = new Date(dateString)
-    date.getDate() + '/' + (date.getMonth()+1) + '/' + date.getFullYear()
-
-Handlebars.registerHelper "abs", (amount) ->
-  if amount
-     amount * -1
+    moment(new Date(dateString)).format('DD/MM/YYYY');

@@ -29,7 +29,7 @@ describe 'FavoriteViewSpec', ->
     favoriteUtils.publishWishListChangeEvent.restore?()
     favoriteUtils.showWishListErrorMessage.restore?()
 
-  it 'favorite view renderized with no brands', sinon.test ->
+  it 'favorite view renderized with no brands', ->
     request = @requests[0]
     request.respond(200, { "Content-Type": "application/json" }, "")
     expect(@view.$('div.addInfo')).to.exist

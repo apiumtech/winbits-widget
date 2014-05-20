@@ -1,4 +1,3 @@
-testUtils = require 'test/lib/test-utils'
 $ = Winbits.$
 _ = Winbits._
 
@@ -77,219 +76,299 @@ describe 'jQueryWbPaginatorSpec', ->
 
     expect(@$el.wbpaginator('option', 'max')).to.be.equal(10)
 
-  it 'should generate pager text', ->
+  it 'should render paginator hidden if total is not specified', ->
+    @$el.wbpaginator()
+
+    expect(@$el).to.not.be.displayed
+    expectPaginatorIsRendered.call(@)
+
+  it 'should render paginator hidden if there is just one page', ->
+    @$el.wbpaginator(total: 10)
+
+    expect(@$el).to.not.be.displayed
+    expectPaginatorIsRendered.call(@)
+
+  it 'should render paginator visible if there are several pages', ->
+    @$el.wbpaginator(total: 100)
+
+    expect(@$el).to.be.displayed
+    expectPaginatorIsRendered.call(@)
+
+  it 'should render page text', ->
     @$el.wbpaginator(total: 100)
 
     $pager = @$el.find('p.wbc-pager-text')
     expect($pager).to.existExact(1)
     expect($pager).to.has.$text('Página 1 de 10')
 
-  it 'should generate pagers list', ->
-    @$el.wbpaginator(total: 100)
+  it 'should render previous pager', ->
+    @$el.wbpaginator(total: 100, page: 5)
 
-    expect(@$el.find('ul.wbc-pagers')).to.existExact(1)
-
-  it 'should generate previous pager', ->
-    @$el.wbpaginator(total: 100)
-
-    $previousPager = @$el.find('li.wbc-previous-pager')
-    expect($previousPager).to.existExact(1)
+    $previousPager = @$el.find('.wbc-previous-pager')
     expect($previousPager).to.has.$class('pager-prev')
+    $pagerLink = $previousPager.children('a')
+    expect($pagerLink).to.has.$text(' Ant')
+    $spanArrow = $pagerLink.children('span')
+    expect($spanArrow).to.existExact(1)
+    expect($spanArrow).to.has.$class('iconFont-arrowLeft')
 
-  it 'should generate previous pager as the first pager', ->
+  it 'should render previous pager as the first pager', ->
     @$el.wbpaginator(total: 100)
 
     $firstPager = @$el.find('ul.wbc-pagers').children().first()
     expect($firstPager).to.has.$class('wbc-previous-pager')
 
-  it 'should generate previous pager link', ->
+  it 'should render previous pager invisible if current page is first page', ->
+    @$el.wbpaginator(total: 100, page: 1)
+
+    $previousPager = @$el.find('.wbc-previous-pager')
+    expect($previousPager).to.be.invisible
+
+  it 'should render next pager', ->
     @$el.wbpaginator(total: 100)
 
-    $previousPagerLink = @$el.find('a.wbc-previous-pager-link')
-    expect($previousPagerLink).to.existExact(1)
-    expect($previousPagerLink.parent()).to.has.$class('wbc-previous-pager')
-    expect($previousPagerLink).to.has.$text(' Ant')
-
-  it 'should generate previous pager arrow', ->
-    @$el.wbpaginator(total: 100)
-    $arrowSpan = @$el.find('.wbc-previous-pager-link').children()
-    expect($arrowSpan).to.has.$class('iconFont-arrowLeft')
-
-  it 'should generate next pager', ->
-    @$el.wbpaginator(total: 100)
-
-    $nextPager = @$el.find('li.wbc-next-pager')
-    expect($nextPager).to.existExact(1)
+    $nextPager = @$el.find('.wbc-next-pager')
     expect($nextPager).to.has.$class('pager-next')
+    $pagerLink = $nextPager.children('a')
+    expect($pagerLink).to.has.$text('Sig ')
+    $spanArrow = $pagerLink.children('span')
+    expect($spanArrow).to.existExact(1)
+    expect($spanArrow).to.has.$class('iconFont-arrowRight')
 
-  it 'should generate next pager as the last pager', ->
+  it 'should render next pager as the last pager', ->
     @$el.wbpaginator(total: 100)
 
     $firstPager = @$el.find('ul.wbc-pagers').children().last()
     expect($firstPager).to.has.$class('wbc-next-pager')
 
-  it 'should generate next pager link', ->
-    @$el.wbpaginator(total: 100)
+  it 'should render next pager invisible if current page is the last page', ->
+    @$el.wbpaginator(total: 100, page: 10)
 
-    $nextPagerLink = @$el.find('a.wbc-next-pager-link')
-    expect($nextPagerLink).to.existExact(1)
-    expect($nextPagerLink.parent()).to.has.$class('wbc-next-pager')
-    expect($nextPagerLink).to.has.$text('Sig ')
+    $nextPager = @$el.find('.wbc-next-pager')
+    expect($nextPager).to.be.invisible
 
-  it 'should generate next pager arrow', ->
-    @$el.wbpaginator(total: 100)
-    $arrowSpan = @$el.find('.wbc-next-pager-link').children()
-    expect($arrowSpan).to.has.$class('iconFont-arrowRight')
+  it 'should render pagers', ->
+    @$el.wbpaginator(total: 150)
 
-  _.each [1, 5, 10], (totalPages) ->
-    it "should generate exact pagers if total pages are 10 or less: #{totalPages}", ->
+    expectPagersFor.call(@, [1, 2, 3, 4, 5, 11, 12, 13, 14, 15])
+
+  _.each [1, 3, 5, 7, 10], (totalPages) ->
+    it "should render visible pagers if pages <= 10: #{totalPages}", ->
       max = 10
-      @$el.wbpaginator(total: totalPages * max, max: 10)
+      @$el.wbpaginator(total: totalPages * max, max: max)
 
-      expect(@$el.find('li.wbc-pager').length).to.be.equal(totalPages)
-      expect(@$el.find('a.wbc-pager-link').length).to.be.equal(totalPages)
+      expectPagersFor.call(@, [1..totalPages])
+
+    it "should not display ellipsis pager if pages <= 10: #{totalPages}", ->
+      max = 10
+      @$el.wbpaginator(total: totalPages * max, max: max)
+
+      $pagerEllipsis = @$el.find('.wbc-ellipsis-pager')
+      expect($pagerEllipsis).to.not.be.displayed
   , @
 
-  it 'should generate pagers', ->
-    @$el.wbpaginator(total: 100)
+  it 'should display ellipsis pager it there are more than 10 pages', ->
+    @$el.wbpaginator(total: 150)
 
-    $pagers = @$el.find('li.wbc-pager')
-    for page in [1, 10]
-      $pager = $pagers.eq(page - 1)
-      expect($pager).to.has.$text(page.toString())
-      $pagerLink = $pager.find('a')
-      expect($pagerLink.data('_id')).to.be.equal(page)
+    $pagerEllipsis = @$el.find('.wbc-pagers').children().eq(6)
+    expect($pagerEllipsis).to.has.$class('wbc-ellipsis-pager')
+    expect($pagerEllipsis).to.be.displayed
+    expect($pagerEllipsis.find('a')).to.has.$text('...')
 
-  it 'should render correct page option', ->
+  it 'should render current page option', ->
     @$el.wbpaginator(total: 100, page: 5)
 
-    expect(@$el.find('.wbc-pager-text')).to.has.$text('Página 5 de 10')
+    expectCurrentPage.call(@, 5)
 
   it 'should render correct total pages', ->
     @$el.wbpaginator(total: 53, max: 5)
 
     expect(@$el.find('.wbc-pager-text')).to.has.$text('Página 1 de 11')
 
-  it 'should move to previous page if previous page link is clicked', ->
+  it 'should move to previous page if previous pager is clicked', ->
     @$el.wbpaginator(total: 100, page: 10)
 
-    @$el.find('.wbc-previous-pager-link').click()
-    expect(@$el.find('.wbc-pager-text')).to.has.$text('Página 9 de 10')
+    @$el.find('.wbc-previous-pager').click()
+    expectCurrentPage.call(@, 9)
 
-    expect(@$el.wbpaginator('option', 'page')).to.be.equal(9)
-
-  it 'should trigger change event previous page link is clicked', ->
+  it 'should trigger change event when previous pager is clicked', ->
     stub = sinon.stub()
     @$el.wbpaginator(total: 100, page: 10, change: stub)
 
-    @$el.find('.wbc-previous-pager-link').click()
+    @$el.find('.wbc-previous-pager').click()
 
     expect(stub).to.has.been.calledOnce
-    expect(stub.firstCall.args[1]).to.be.eql(total: 100, max: 10, page: 9, offset: 80)
+    uiArg = stub.firstCall.args[1]
+    expect(uiArg).to.be.eql(total: 100, max: 10, page: 9, offset: 80)
 
-  it 'should not move the page if previous page link is clicked and current page is 1', ->
+  it 'should not move to previous page when current page is first page', ->
     @$el.wbpaginator(total: 100, page: 1)
 
-    @$el.find('.wbc-previous-pager-link').click()
+    @$el.find('.wbc-previous-pager').click()
 
-    expect(@$el.wbpaginator('option', 'page')).to.be.equal(1)
-    expect(@$el.find('.wbc-pager-text')).to.has.$text('Página 1 de 10')
+    expectCurrentPage.call(@, 1)
 
-  it 'should not trigger change event if previous page link is clicked and current page is 1', ->
+  it 'should not trigger "change" event if trying to move below first page', ->
     stub = sinon.stub()
     @$el.wbpaginator(total: 100, page: 1, change: stub)
 
-    @$el.find('.wbc-previous-pager-link').click()
+    @$el.find('.wbc-previous-pager').click()
 
     expect(stub).to.has.not.been.called
 
-  it 'should move to next page if next page link is clicked', ->
+  it 'should move to next page when next pager is clicked', ->
     @$el.wbpaginator(total: 100, page: 1)
 
-    @$el.find('.wbc-next-pager-link').click()
+    @$el.find('.wbc-next-pager').click()
 
-    expect(@$el.wbpaginator('option', 'page')).to.be.equal(2)
-    expect(@$el.find('.wbc-pager-text')).to.has.$text('Página 2 de 10')
+    expectCurrentPage.call(@, 2)
 
   it 'should trigger change event next page link is clicked', ->
     stub = sinon.stub()
     @$el.wbpaginator(total: 100, page: 1, change: stub)
 
-    @$el.find('.wbc-next-pager-link').click()
+    @$el.find('.wbc-next-pager').click()
 
     expect(stub).to.has.been.calledOnce
-    expect(stub.firstCall.args[1]).to.be.eql(total: 100, max: 10, page: 2, offset: 10)
+    uiArg = stub.firstCall.args[1]
+    expect(uiArg).to.be.eql(total: 100, max: 10, page: 2, offset: 10)
 
-  it 'should not move the page if next page link is clicked and current page is the last possible page', ->
+  it 'should not move to next page if current page is last page', ->
     @$el.wbpaginator(total: 100, page: 10)
 
-    @$el.find('.wbc-next-pager-link').click()
+    @$el.find('.wbc-next-pager').click()
 
-    expect(@$el.wbpaginator('option', 'page')).to.be.equal(10)
-    expect(@$el.find('.wbc-pager-text')).to.has.$text('Página 10 de 10')
+    expectCurrentPage.call(@, 10)
 
-  it 'should not trigger change event if next page link is clicked and current page is 1', ->
+  it 'should not trigger "change" event if trying to move beyond last page', ->
     stub = sinon.stub()
     @$el.wbpaginator(total: 100, page: 10, change: stub)
 
-    @$el.find('.wbc-next-pager-link').click()
+    @$el.find('.wbc-next-pager').click()
 
     expect(stub).to.has.not.been.called
 
   _.each [1, 5, 10], (page) ->
-    it "should move to page #{page} when corresponding pager link is clicked", ->
+    it "should move to page #{page} when corresponding pager is clicked", ->
       @$el.wbpaginator(total: 100, page: 3)
 
-      @$el.find('.wbc-pager-link').eq(page - 1).click()
+      @$el.find('.wbc-pager').eq(page - 1).click()
 
-      expect(@$el.wbpaginator('option', 'page')).to.be.equal(page)
-      expect(@$el.find('.wbc-pager-text')).to.has.$text("Página #{page} de 10")
+      expectCurrentPage.call(@, page)
   , @
 
   _.each [1, 5, 10], (page) ->
-    it "should trigger change event when pager link #{page} is clicked", ->
+    it "should trigger change event when pager #{page} is clicked", ->
       stub = sinon.stub()
       @$el.wbpaginator(total: 100, page: 3, change: stub)
 
-      @$el.find('.wbc-pager-link').eq(page - 1).click()
+      @$el.find('.wbc-pager').eq(page - 1).click()
 
       expect(stub).to.has.been.calledOnce
-      expect(stub.firstCall.args[1]).to.be.eql(total: 100, max: 10, page: page, offset: 10 * (page - 1))
+      expectedUiArg = total: 100, max: 10, page: page, offset: 10 * (page - 1)
+      expect(stub.firstCall.args[1]).to.be.eql(expectedUiArg)
   , @
 
-  it 'should render at most 10 pagers', ->
-    @$el.wbpaginator(total: 100, max: 8)
+  it 'should not trigger "change" event when current page pager is clicked', ->
+    page = 3
+    stub = sinon.stub()
+    @$el.wbpaginator(total: 100, page: page, change: stub)
 
-    expect(@$el.find('.wbc-pager').length).to.be.equal(10)
+    @$el.find('.wbc-pager').eq(page - 1).click()
 
-  it 'should render ellipsis in the middle of the pagers when there are more than 10 pages', ->
-    @$el.wbpaginator(total: 150, max: 10)
-
-    expect(@$el.find('.wbc-pager-ellipsis')).to.existExact(1)
-    $pagerEllipsis = @$el.find('.wbc-pagers').children().eq(5)
-    expect($pagerEllipsis).to.has.$class('wbc-pager-ellipsis')
-    expect($pagerEllipsis).to.has.$text('...')
+    expect(stub).to.not.has.been.called
+    expectCurrentPage.call(@, page)
 
   it 'should not change page if ellipsis pager is clicked', ->
     stub = sinon.stub()
-    @$el.wbpaginator(total: 150, max: 10, page: 5, change: stub)
+    @$el.wbpaginator(total: 150, page: 5, change: stub)
 
     @$el.find('.wbc-pager-ellipsis').click()
 
     expect(stub).to.not.has.been.called
-    expect(@$el.wbpaginator('option', 'page')).to.be.equal(5)
+    expectCurrentPage.call(@, 5, 15)
 
   it 'should not render ellipsis if total pages are less than 10', ->
     @$el.wbpaginator(total: 90, max: 10)
 
     expect(@$el.find('.wbc-pager-ellipsis')).to.not.exist
 
-  it 'should render first 5 pagers and last 5 pagers if total pagers are more than 10', ->
+  it 'should render first and last 5 pagers if there are more than 10', ->
     stub = sinon.stub()
     @$el.wbpaginator(total: 140, max: 10, change: stub)
 
+    expectPagersFor.call(@, [1, 2, 3, 4, 5, 10, 11, 12, 13, 14])
+
+  it 'should show previous pager when moving to second page', ->
+    @$el.wbpaginator(total: 100)
+
+    @$el.find('.wbc-next-pager').click()
+    expect(@$el.find('.wbc-previous-pager')).to.not.be.invisible
+
+  it 'should hide previous pager when moving to first page', ->
+    @$el.wbpaginator(total: 100, page: 2)
+
+    @$el.find('.wbc-previous-pager').click()
+    expect(@$el.find('.wbc-previous-pager')).to.be.invisible
+
+  it 'should hide previous pager when clicking first page pager', ->
+    @$el.wbpaginator(total: 100, page: 5)
+
+    @$el.find('.wbc-pager').first().click()
+    expect(@$el.find('.wbc-previous-pager')).to.be.invisible
+
+  it 'should show next pager when moving to penultimate page', ->
+    @$el.wbpaginator(total: 100, page: 10)
+
+    @$el.find('.wbc-previous-pager').click()
+    expect(@$el.find('.wbc-next-pager')).to.not.be.invisible
+
+  it 'should hide next pager when moving to last page', ->
+    @$el.wbpaginator(total: 100, page: 9)
+
+    @$el.find('.wbc-next-pager').click()
+    expect(@$el.find('.wbc-next-pager')).to.be.invisible
+
+  it 'should hide next pager when clicking last page pager', ->
+    @$el.wbpaginator(total: 100, page: 5)
+
+    @$el.find('.wbc-pager').last().click()
+    expect(@$el.find('.wbc-next-pager')).to.be.invisible
+
+  expectPaginatorIsRendered = () ->
+    expect(@$el.find('p.wbc-pager-text')).to.existExact(1)
+    $pagersList = @$el.find('ul.wbc-pagers')
+    expect($pagersList).to.existExact(1)
+    $pagers = $pagersList.children('li')
+    expect($pagers.length).to.be.equal(13)
+    expect($pagers.filter('.wbc-previous-pager')).to.existExact(1)
+    expect($pagers.filter('.wbc-pager')).to.existExact(10)
+    expect($pagers.filter('.wbc-next-pager')).to.existExact(1)
+    expect($pagers.filter('.wbc-ellipsis-pager')).to.existExact(1)
+    for pager in $pagers
+      $link = $(pager).find('a')
+      expect($link).to.existExact(1)
+      expect($link).to.has.$attr('href', '#')
+
+  expectPagersFor = (pages) ->
     $pagers = @$el.find('.wbc-pager')
-    expectedPages = ['1', '2', '3', '4', '5', '10', '11', '12', '13', '14']
-    for index in [0..9]
-      $pager = $pagers.eq(index)
-      expect($pager).to.has.$text(expectedPages[index])
+    $pagers.slice(0, pages.length).each (index, pager) ->
+      page = pages[index]
+      $pager = $(pager)
+      expect($pager).to.be.displayed
+      expect($pager.data('_page')).to.be.equal(page)
+      expect($pager.find('a')).to.has.$text(page.toString())
+
+    $pagers.slice(pages.length).each (index, pager) ->
+      $pager = $(pager)
+      expect($pager).to.not.be.displayed
+      expect($pager.data('_page')).to.not.be.ok
+      expect($pager).to.has.$text('')
+
+  expectCurrentPage = (page, totalPages = 10) ->
+    expectedPagerText = "Página #{page} de #{totalPages}"
+    expect(@$el.find('.wbc-pager-text')).to.has.$text(expectedPagerText)
+    $currentPage = @$el.find('.wbc-current-page')
+    expect($currentPage).to.existExact(1)
+    expect($currentPage.data('_page')).to.be.equal(page)
+    expect(@$el.wbpaginator('option', 'page')).to.be.equal(page)

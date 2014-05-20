@@ -23,6 +23,7 @@ module.exports = class FavoritesView extends View
     @model.setData(data)
 
   doDeleteBrand: (e)->
+    e.preventDefault()
     $itemId = $(e.currentTarget).closest('li').data('id')
     message = '¿Estás seguro que deseas eliminar esta marca de tus favoritos?'
     options =
