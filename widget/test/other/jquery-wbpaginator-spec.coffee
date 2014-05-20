@@ -112,7 +112,7 @@ describe 'jQueryWbPaginatorSpec', ->
     expect($spanArrow).to.existExact(1)
     expect($spanArrow).to.has.$class('iconFont-arrowLeft')
 
-  it 'should generate previous pager as the first pager', ->
+  it 'should render previous pager as the first pager', ->
     @$el.wbpaginator(total: 100)
 
     $firstPager = @$el.find('ul.wbc-pagers').children().first()
@@ -124,7 +124,7 @@ describe 'jQueryWbPaginatorSpec', ->
     $previousPager = @$el.find('.wbc-previous-pager')
     expect($previousPager).to.be.invisible
 
-  it 'should generate next pager', ->
+  it 'should render next pager', ->
     @$el.wbpaginator(total: 100)
 
     $nextPager = @$el.find('.wbc-next-pager')
@@ -135,7 +135,7 @@ describe 'jQueryWbPaginatorSpec', ->
     expect($spanArrow).to.existExact(1)
     expect($spanArrow).to.has.$class('iconFont-arrowRight')
 
-  it 'should generate next pager as the last pager', ->
+  it 'should render next pager as the last pager', ->
     @$el.wbpaginator(total: 100)
 
     $firstPager = @$el.find('ul.wbc-pagers').children().last()
@@ -153,12 +153,27 @@ describe 'jQueryWbPaginatorSpec', ->
     expectPagersFor.call(@, [1, 2, 3, 4, 5, 11, 12, 13, 14, 15])
 
   _.each [1, 3, 5, 7, 10], (totalPages) ->
-    it "should render visible pagers if less than 10 pages: #{totalPages}", ->
+    it "should render visible pagers if pages <= 10: #{totalPages}", ->
       max = 10
       @$el.wbpaginator(total: totalPages * max, max: max)
 
       expectPagersFor.call(@, [1..totalPages])
+
+    it "should not display ellipsis pager if pages <= 10: #{totalPages}", ->
+      max = 10
+      @$el.wbpaginator(total: totalPages * max, max: max)
+
+      $pagerEllipsis = @$el.find('.wbc-ellipsis-pager')
+      expect($pagerEllipsis).to.not.be.displayed
   , @
+
+  it 'should display ellipsis pager it there are more than 10 pages', ->
+    @$el.wbpaginator(total: 150)
+
+    $pagerEllipsis = @$el.find('.wbc-pagers').children().eq(6)
+    expect($pagerEllipsis).to.has.$class('wbc-ellipsis-pager')
+    expect($pagerEllipsis).to.be.displayed
+    expect($pagerEllipsis.find('a')).to.has.$text('...')
 
   it 'should render correct page option', ->
     @$el.wbpaginator(total: 100, page: 5)
@@ -256,19 +271,6 @@ describe 'jQueryWbPaginatorSpec', ->
       expect(stub).to.has.been.calledOnce
       expect(stub.firstCall.args[1]).to.be.eql(total: 100, max: 10, page: page, offset: 10 * (page - 1))
   , @
-
-  it 'should render at most 10 pagers', ->
-    @$el.wbpaginator(total: 100, max: 8)
-
-    expect(@$el.find('.wbc-pager').length).to.be.equal(10)
-
-  it 'should render ellipsis in the middle of the pagers when there are more than 10 pages', ->
-    @$el.wbpaginator(total: 150, max: 10)
-
-    expect(@$el.find('.wbc-pager-ellipsis')).to.existExact(1)
-    $pagerEllipsis = @$el.find('.wbc-pagers').children().eq(5)
-    expect($pagerEllipsis).to.has.$class('wbc-pager-ellipsis')
-    expect($pagerEllipsis).to.has.$text('...')
 
   it 'should not change page if ellipsis pager is clicked', ->
     stub = sinon.stub()

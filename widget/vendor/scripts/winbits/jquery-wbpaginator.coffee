@@ -84,7 +84,8 @@
       middleIndex = @_getMiddleIndex()
       @_$ellipsisPager = @_createPager('wbc-ellipsis-pager', '')
         .insertAfter(@_$headPagers.last())
-        .find('a').text('...')
+
+      @_$ellipsisPager.find('a').text('...')
 
     _createTailPagers: ->
       startIndex = @_getMiddleIndex() + 1
@@ -184,6 +185,7 @@
     _refreshPagers: ->
       @_refreshHeadPagers()
       @_refreshTailPagers()
+      @_refreshEllipsisPager()
 
     _refreshHeadPagers: ->
       @_refreshPagersRange(@_$headPagers, @_getHeadPageRange())
@@ -209,11 +211,16 @@
     _getTailPageRange: ->
       middleIndex = @_getMiddleIndex()
       if @_totalPages > middleIndex
-        startPage = @_totalPages - middleIndex + 1
+        startPage = middleIndex + 1
         endPage = @_totalPages
-        if @_totalPages <= @_MAX_PAGES
-          startPage = middleIndex + 1
+        if @_totalPages > @_MAX_PAGES
+          startPage = @_totalPages - middleIndex + 1
         [startPage..endPage]
       else
         []
+
+    _refreshEllipsisPager: ->
+      fn = 'hide'
+      fn = 'show' if @_totalPages > @_MAX_PAGES
+      @_$ellipsisPager[fn]()
 )(jQuery)
