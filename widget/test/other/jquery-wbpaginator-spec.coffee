@@ -185,90 +185,99 @@ describe 'jQueryWbPaginatorSpec', ->
 
     expect(@$el.find('.wbc-pager-text')).to.has.$text('Página 1 de 11')
 
-  it.only 'should move to previous page if previous pager is clicked', ->
+  it 'should move to previous page if previous pager is clicked', ->
     @$el.wbpaginator(total: 100, page: 10)
 
     @$el.find('.wbc-previous-pager').click()
     expectCurrentPage.call(@, 9)
 
-  it 'should trigger change event previous page link is clicked', ->
+  it 'should trigger change event when previous pager is clicked', ->
     stub = sinon.stub()
     @$el.wbpaginator(total: 100, page: 10, change: stub)
 
-    @$el.find('.wbc-previous-pager-link').click()
+    @$el.find('.wbc-previous-pager').click()
 
     expect(stub).to.has.been.calledOnce
-    expect(stub.firstCall.args[1]).to.be.eql(total: 100, max: 10, page: 9, offset: 80)
+    uiArg = stub.firstCall.args[1]
+    expect(uiArg).to.be.eql(total: 100, max: 10, page: 9, offset: 80)
 
-  it 'should not move the page if previous page link is clicked and current page is 1', ->
+  it 'should not move to previous page when current page is first page', ->
     @$el.wbpaginator(total: 100, page: 1)
 
-    @$el.find('.wbc-previous-pager-link').click()
+    @$el.find('.wbc-previous-pager').click()
 
-    expect(@$el.wbpaginator('option', 'page')).to.be.equal(1)
-    expect(@$el.find('.wbc-pager-text')).to.has.$text('Página 1 de 10')
+    expectCurrentPage.call(@, 1)
 
-  it 'should not trigger change event if previous page link is clicked and current page is 1', ->
+  it 'should not trigger "change" event if trying to move below first page', ->
     stub = sinon.stub()
     @$el.wbpaginator(total: 100, page: 1, change: stub)
 
-    @$el.find('.wbc-previous-pager-link').click()
+    @$el.find('.wbc-previous-pager').click()
 
     expect(stub).to.has.not.been.called
 
-  it 'should move to next page if next page link is clicked', ->
+  it 'should move to next page when next pager is clicked', ->
     @$el.wbpaginator(total: 100, page: 1)
 
-    @$el.find('.wbc-next-pager-link').click()
+    @$el.find('.wbc-next-pager').click()
 
-    expect(@$el.wbpaginator('option', 'page')).to.be.equal(2)
-    expect(@$el.find('.wbc-pager-text')).to.has.$text('Página 2 de 10')
+    expectCurrentPage.call(@, 2)
 
   it 'should trigger change event next page link is clicked', ->
     stub = sinon.stub()
     @$el.wbpaginator(total: 100, page: 1, change: stub)
 
-    @$el.find('.wbc-next-pager-link').click()
+    @$el.find('.wbc-next-pager').click()
 
     expect(stub).to.has.been.calledOnce
-    expect(stub.firstCall.args[1]).to.be.eql(total: 100, max: 10, page: 2, offset: 10)
+    uiArg = stub.firstCall.args[1]
+    expect(uiArg).to.be.eql(total: 100, max: 10, page: 2, offset: 10)
 
-  it 'should not move the page if next page link is clicked and current page is the last possible page', ->
+  it 'should not move to next page if current page is last page', ->
     @$el.wbpaginator(total: 100, page: 10)
 
-    @$el.find('.wbc-next-pager-link').click()
+    @$el.find('.wbc-next-pager').click()
 
-    expect(@$el.wbpaginator('option', 'page')).to.be.equal(10)
-    expect(@$el.find('.wbc-pager-text')).to.has.$text('Página 10 de 10')
+    expectCurrentPage.call(@, 10)
 
-  it 'should not trigger change event if next page link is clicked and current page is 1', ->
+  it 'should not trigger "change" event if trying to move beyond last page', ->
     stub = sinon.stub()
     @$el.wbpaginator(total: 100, page: 10, change: stub)
 
-    @$el.find('.wbc-next-pager-link').click()
+    @$el.find('.wbc-next-pager').click()
 
     expect(stub).to.has.not.been.called
 
   _.each [1, 5, 10], (page) ->
-    it "should move to page #{page} when corresponding pager link is clicked", ->
+    it "should move to page #{page} when corresponding pager is clicked", ->
       @$el.wbpaginator(total: 100, page: 3)
 
-      @$el.find('.wbc-pager-link').eq(page - 1).click()
+      @$el.find('.wbc-pager').eq(page - 1).click()
 
-      expect(@$el.wbpaginator('option', 'page')).to.be.equal(page)
-      expect(@$el.find('.wbc-pager-text')).to.has.$text("Página #{page} de 10")
+      expectCurrentPage.call(@, page)
   , @
 
   _.each [1, 5, 10], (page) ->
-    it "should trigger change event when pager link #{page} is clicked", ->
+    it "should trigger change event when pager #{page} is clicked", ->
       stub = sinon.stub()
       @$el.wbpaginator(total: 100, page: 3, change: stub)
 
-      @$el.find('.wbc-pager-link').eq(page - 1).click()
+      @$el.find('.wbc-pager').eq(page - 1).click()
 
       expect(stub).to.has.been.calledOnce
-      expect(stub.firstCall.args[1]).to.be.eql(total: 100, max: 10, page: page, offset: 10 * (page - 1))
+      expectedUiArg = total: 100, max: 10, page: page, offset: 10 * (page - 1)
+      expect(stub.firstCall.args[1]).to.be.eql(expectedUiArg)
   , @
+
+  it 'should not trigger "change" event when current page pager is clicked', ->
+    page = 3
+    stub = sinon.stub()
+    @$el.wbpaginator(total: 100, page: page, change: stub)
+
+    @$el.find('.wbc-pager').eq(page - 1).click()
+
+    expect(stub).to.not.has.been.called
+    expectCurrentPage.call(@, page)
 
   it 'should not change page if ellipsis pager is clicked', ->
     stub = sinon.stub()
@@ -277,7 +286,7 @@ describe 'jQueryWbPaginatorSpec', ->
     @$el.find('.wbc-pager-ellipsis').click()
 
     expect(stub).to.not.has.been.called
-    expect(@$el.wbpaginator('option', 'page')).to.be.equal(5)
+    expectCurrentPage.call(@, 5)
 
   it 'should not render ellipsis if total pages are less than 10', ->
     @$el.wbpaginator(total: 90, max: 10)

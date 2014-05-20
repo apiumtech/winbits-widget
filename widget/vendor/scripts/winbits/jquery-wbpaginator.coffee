@@ -102,7 +102,7 @@
 
     _createNextPagePager: ->
       @_$nextPager = $('<li></li>', class: 'wbc-next-pager pager-next')
-      $pagerLink = $('<a></a>', href: '#', class: 'wbc-next-pager-link')
+      $pagerLink = $('<a></a>', href: '#')
         .text('Sig ')
         .appendTo(@_$nextPager)
       $('<span></span>', class: 'iconFont-arrowRight').appendTo($pagerLink)
@@ -139,14 +139,19 @@
     _nextPagerClicked: (e) ->
       if @options.page < @_totalPages
         @options.page = @options.page + 1
-        @_refreshPagerText()
+        @_refreshCurrentPage()
         @_triggerChangePageEvent(e)
 
     _pagerClicked: (e) ->
-      $pagerLink = $(e.currentTarget)
-      @options.page = $pagerLink.data('_id')
-      @_refreshPagerText()
-      @_triggerChangePageEvent(e)
+      $pager = $(e.currentTarget)
+      page = $pager.data('_page')
+      if not @_isCurrentPage(page)
+        @options.page = page
+        @_refreshCurrentPage()
+        @_triggerChangePageEvent(e)
+
+    _isCurrentPage: (page) ->
+      @_$currentPage? and @_$currentPage.data('_page') is page
 
     _refresh: ->
       @_refreshPaginator()
@@ -226,17 +231,10 @@
       @_$ellipsisPager[fn]()
 
     _refreshCurrentPage: ->
-      @_refreshPagerText()
-      if @_$currentPage?
-        if @_$currentPage.data('_page') isnt @options.page
-          @_$currentPage.removeClass(@_CURRENT_PAGE_CLASS)
-          @_setCurrentPage()
-      else
-        @_setCurrentPage()
-
-    _setCurrentPage: ->
       page = @options.page
+      @_refreshPagerText()
       $allPagers = @_$headPagers.add(@_$tailPagers)
+      $allPagers.removeClass(@_CURRENT_PAGE_CLASS)
       @_$currentPage = $allPagers.filter () ->
         $(@).data('_page') is page
       @_$currentPage.addClass(@_CURRENT_PAGE_CLASS)
