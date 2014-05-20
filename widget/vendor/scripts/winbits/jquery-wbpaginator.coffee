@@ -17,7 +17,6 @@
       @_setOption('page', @options.page)
       @_createPagerText()
       @_createPagersList()
-      @_setCurrentPage()
       @_bindPagersEvents()
       @_refresh()
 
@@ -228,16 +227,14 @@
 
     _refreshCurrentPage: ->
       @_refreshPagerText()
-      console.log ['CP', @_$currentPage.data('_page'), @_$currentPage.attr('class')]
-      if @_$currentPage.data('_page') isnt @options.page
-        @_$currentPage.removeClass(@_CURRENT_PAGE_CLASS)
-        @_setCurrentPage()
+      $allPagers = @_$headPagers.add(@_$tailPagers)
+      $allPagers.removeClass(@_CURRENT_PAGE_CLASS)
+      @_setCurrentPage()
 
     _setCurrentPage: ->
       page = @options.page
-      $allPagers = @_$headPagers.add(@_tailPagers)
+      $allPagers = @_$headPagers.add(@_$tailPagers)
       @_$currentPage = $allPagers.filter () ->
-        console.log ['CHECKING PAGE', page, $(@).data('_page'), $(@).text()]
         $(@).data('_page') is page
       @_$currentPage.addClass(@_CURRENT_PAGE_CLASS)
 )(jQuery)
