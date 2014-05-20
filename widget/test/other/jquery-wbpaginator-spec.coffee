@@ -1,7 +1,7 @@
 $ = Winbits.$
 _ = Winbits._
 
-describe 'jQueryWbPaginatorSpec', ->
+describe.only 'jQueryWbPaginatorSpec', ->
 
   beforeEach ->
     @$el = $('<div></div>')
@@ -298,6 +298,42 @@ describe 'jQueryWbPaginatorSpec', ->
     @$el.wbpaginator(total: 140, max: 10, change: stub)
 
     expectPagersFor.call(@, [1, 2, 3, 4, 5, 10, 11, 12, 13, 14])
+
+  it 'should show previous pager when moving to second page', ->
+    @$el.wbpaginator(total: 100)
+
+    @$el.find('.wbc-next-pager').click()
+    expect(@$el.find('.wbc-previous-pager')).to.not.be.invisible
+
+  it 'should hide previous pager when moving to first page', ->
+    @$el.wbpaginator(total: 100, page: 2)
+
+    @$el.find('.wbc-previous-pager').click()
+    expect(@$el.find('.wbc-previous-pager')).to.be.invisible
+
+  it 'should hide previous pager when clicking first page pager', ->
+    @$el.wbpaginator(total: 100, page: 5)
+
+    @$el.find('.wbc-pager').first().click()
+    expect(@$el.find('.wbc-previous-pager')).to.be.invisible
+
+  it 'should show next pager when moving to penultimate page', ->
+    @$el.wbpaginator(total: 100, page: 10)
+
+    @$el.find('.wbc-previous-pager').click()
+    expect(@$el.find('.wbc-next-pager')).to.not.be.invisible
+
+  it 'should hide next pager when moving to last page', ->
+    @$el.wbpaginator(total: 100, page: 9)
+
+    @$el.find('.wbc-next-pager').click()
+    expect(@$el.find('.wbc-next-pager')).to.be.invisible
+
+  it 'should hide next pager when clicking last page pager', ->
+    @$el.wbpaginator(total: 100, page: 5)
+
+    @$el.find('.wbc-pager').last().click()
+    expect(@$el.find('.wbc-next-pager')).to.be.invisible
 
   expectPaginatorIsRendered = () ->
     expect(@$el.find('p.wbc-pager-text')).to.existExact(1)
