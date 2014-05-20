@@ -120,8 +120,7 @@
       if @options.page > 1
         @options.page = @options.page - 1
         @_refreshCurrentPage()
-        @_refreshPreviousPager()
-        @_refreshNextPager()
+        @_refreshNavigationPagers()
         @_triggerChangePageEvent(e)
 
     _triggerChangePageEvent: (e) ->
@@ -141,9 +140,8 @@
     _nextPagerClicked: (e) ->
       if @options.page < @_totalPages
         @options.page = @options.page + 1
-        @_refreshPreviousPager()
-        @_refreshNextPager()
         @_refreshCurrentPage()
+        @_refreshNavigationPagers()
         @_triggerChangePageEvent(e)
 
     _pagerClicked: (e) ->
@@ -152,8 +150,7 @@
       if not @_isCurrentPage(page)
         @options.page = page
         @_refreshCurrentPage()
-        @_refreshPreviousPager()
-        @_refreshNextPager()
+        @_refreshNavigationPagers()
         @_triggerChangePageEvent(e)
 
     _isCurrentPage: (page) ->
@@ -161,8 +158,7 @@
 
     _refresh: ->
       @_refreshPaginator()
-      @_refreshPreviousPager()
-      @_refreshNextPager()
+      @_refreshNavigationPagers()
       @_refreshPagers()
       @_refreshCurrentPage()
 
@@ -178,7 +174,9 @@
     _areThereSeveralPages: ->
       @_totalPages > 1
 
-    _refreshNavigationPager
+    _refreshNavigationPagers: ->
+      @_refreshPreviousPager()
+      @_refreshNextPager()
 
     _refreshPreviousPager: ->
       visibility = 'visible'

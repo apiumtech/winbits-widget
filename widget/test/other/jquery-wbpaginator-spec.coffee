@@ -1,7 +1,7 @@
 $ = Winbits.$
 _ = Winbits._
 
-describe.only 'jQueryWbPaginatorSpec', ->
+describe 'jQueryWbPaginatorSpec', ->
 
   beforeEach ->
     @$el = $('<div></div>')
