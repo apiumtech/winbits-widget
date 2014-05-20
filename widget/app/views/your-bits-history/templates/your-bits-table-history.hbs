@@ -1,62 +1,47 @@
-    {{#unless transactions}}
-        <div class="accordeonContent">
-            <div class="addInfo"><span class="iconFont-close"></span>No tienes movimientos de bits.</div>
-        </div>
-    {{else}}
-        <div class="accordeonContent">
-            <div class="accordeonSelectDiv">
-                <select class="select" data-clase="selectRegister">
-                    <option>Ordenar por...</option>
-                    <option>Item 1</option>
-                </select>
-            </div>
-            <div class="dataTable totalBitsTable">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>TOTAL</th>
-                        <th>BITS</th>
-                        <th>FECHA</th>
-                        <th>VENCIMIENTO</th>
-                        <th>CONCEPTO</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {{#each transactions}}
-                        {{#compare @index 0}}
-                        <tr class="totalBits">
-                            <td rowspan="10">$ {{balance}} Bits</td>
-                            {{#compare amount 0 operator=">"}}
-                                    <td>${{amount}} </td>
-                            {{else}}
-                                    <td class="minusBits">- ${{abs amount}} </td>
-                            {{/compare}}
-                            <td>{{toDefaultDateFormat dateCreated}}</td>
-                            <td>{{toDefaultDateFormat expirationDate}}</td>
-                            <td>{{concept}}</td>
-                        </tr>
-                        {{else}}
-                          {{#compare amount 0 operator=">"}}
-                             <tr>
-                                <td>${{amount}} </td>
-                                <td>{{toDefaultDateFormat dateCreated}}</td>
-                                <td>{{toDefaultDateFormat expirationDate}}</td>
-                                <td>{{concept}}</td>
-                              </tr>
-                          {{else}}
-                              <tr>
-                                  <td class="minusBits">- ${{abs amount}} </td>
-                                  <td>{{toDefaultDateFormat dateCreated}}</td>
-                                  <td>--</td>
-                                  <td>{{concept}}</td>
-                              </tr>
-                          {{/compare}}
-                        {{/compare}}
-                    {{/each}}
-                    </tbody>
-                </table>
-            </div>
-        <div class="dataTable-pager wbc-paginator">
-        </div>
-    </div>
-    {{/unless}}
+ <table>
+        <thead>
+        <tr>
+            <th>TOTAL</th>
+            <th>BITS</th>
+            <th>FECHA</th>
+            <th>VENCIMIENTO</th>
+            <th>CONCEPTO</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each transactions}}
+            {{#compare @index 0}}
+            <tr class="totalBits">
+                <td rowspan="10">$ {{balance}} Bits</td>
+                {{#compare amount 0 operator=">"}}
+                        <td>${{amount}} </td>
+                {{else}}
+                        <td class="minusBits">- ${{abs amount}} </td>
+                {{/compare}}
+                <td>{{toDefaultDateFormat dateCreated}}</td>
+                <td>{{toDefaultDateFormat expirationDate}}</td>
+                <td>{{concept}}</td>
+            </tr>
+            {{else}}
+              {{#compare amount 0 operator=">"}}
+                 <tr>
+                    <td>${{amount}} </td>
+                    <td>{{toDefaultDateFormat dateCreated}}</td>
+                    <td>{{toDefaultDateFormat expirationDate}}</td>
+                    <td>{{concept}}</td>
+                  </tr>
+              {{else}}
+                  <tr>
+                      <td class="minusBits">- ${{abs amount}} </td>
+                      <td>{{toDefaultDateFormat dateCreated}}</td>
+                      <td>--</td>
+                      <td>{{concept}}</td>
+                  </tr>
+              {{/compare}}
+            {{/compare}}
+        {{/each}}
+        </tbody>
+    </table>
+</div>
+<div class="dataTable-pager wbc-paginator">
+</div>

@@ -23,6 +23,10 @@ module.exports = class YourBitsHistoryView extends View
     @subscribeEvent 'bits-history-params-changed', @paramsChanged
     @model.fetch(@params)
 
+  attach:()->
+    super
+    @$('.select').customSelect()
+
   paramsChanged: (params)->
     $.extend(@params, params)
     @model.fetch(@params)

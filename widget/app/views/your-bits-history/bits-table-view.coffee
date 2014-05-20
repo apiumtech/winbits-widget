@@ -19,7 +19,6 @@ module.exports = class BitsTableView extends View
 
   attach:()->
     super
-    @$('.select').customSelect()
     @$('.wbc-paginator').wbpaginator(total: 20, max: @params.max, change: $.proxy(@pageChanged, @))
 
   refreshHistory: ->
