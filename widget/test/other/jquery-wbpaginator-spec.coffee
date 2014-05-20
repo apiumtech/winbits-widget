@@ -147,6 +147,15 @@ describe 'jQueryWbPaginatorSpec', ->
     $nextPager = @$el.find('.wbc-next-pager')
     expect($nextPager).to.be.invisible
 
+  it 'should render pagers', ->
+    @$el.wbpaginator(total: 150)
+
+    $pagers = @$el.find('.wbc-pager')
+    for page in [1, 10]
+      $pager = $pagers.eq(page - 1)
+      expect($pager).to.has.$text(page.toString())
+      expect($pager.data('_page')).to.be.equal(page)
+
   _.each [1, 5, 10], (totalPages) ->
     it "should generate exact pagers if total pages are 10 or less: #{totalPages}", ->
       max = 10
@@ -155,16 +164,6 @@ describe 'jQueryWbPaginatorSpec', ->
       expect(@$el.find('li.wbc-pager').length).to.be.equal(totalPages)
       expect(@$el.find('a.wbc-pager-link').length).to.be.equal(totalPages)
   , @
-
-  it 'should generate pagers', ->
-    @$el.wbpaginator(total: 100)
-
-    $pagers = @$el.find('li.wbc-pager')
-    for page in [1, 10]
-      $pager = $pagers.eq(page - 1)
-      expect($pager).to.has.$text(page.toString())
-      $pagerLink = $pager.find('a')
-      expect($pagerLink.data('_id')).to.be.equal(page)
 
   it 'should render correct page option', ->
     @$el.wbpaginator(total: 100, page: 5)
