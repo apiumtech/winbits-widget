@@ -3,6 +3,7 @@
 (($) ->
   $.widget 'winbits.wbpaginator',
     _MAX_PAGES: 10
+    _CURRENT_PAGE_CLASS: 'wbc-current-page'
 
     options:
       max: 10
@@ -16,6 +17,7 @@
       @_setOption('page', @options.page)
       @_createPagerText()
       @_createPagersList()
+      @_setCurrentPage()
       @_bindPagersEvents()
       @_refresh()
 
@@ -54,7 +56,6 @@
     _createPagerText: ->
       page = @options.page
       @_pagerText = $('<p></p>', class: 'wbc-pager-text')
-        .text("Página #{page} de #{@_totalPages}")
         .appendTo(@element)
 
     _createPagersList: ->
@@ -119,7 +120,7 @@
     _previousPagerClicked: (e) ->
       if @options.page > 1
         @options.page = @options.page - 1
-        @_refreshPagerText()
+        @_refreshCurrentPage()
         @_triggerChangePageEvent(e)
 
     _triggerChangePageEvent: (e) ->
@@ -153,6 +154,7 @@
       @_refreshPreviousPager()
       @_refreshNextPager()
       @_refreshPagers()
+      @_refreshCurrentPage()
 
     _refreshPaginator: ->
       fn = 'hide'
@@ -223,4 +225,19 @@
       fn = 'hide'
       fn = 'show' if @_totalPages > @_MAX_PAGES
       @_$ellipsisPager[fn]()
+
+    _refreshCurrentPage: ->
+      @_refreshPagerText()
+      console.log ['CP', @_$currentPage.data('_page'), @_$currentPage.attr('class')]
+      if @_$currentPage.data('_page') isnt @options.page
+        @_$currentPage.removeClass(@_CURRENT_PAGE_CLASS)
+        @_setCurrentPage()
+
+    _setCurrentPage: ->
+      page = @options.page
+      $allPagers = @_$headPagers.add(@_tailPagers)
+      @_$currentPage = $allPagers.filter () ->
+        console.log ['CHECKING PAGE', page, $(@).data('_page'), $(@).text()]
+        $(@).data('_page') is page
+      @_$currentPage.addClass(@_CURRENT_PAGE_CLASS)
 )(jQuery)

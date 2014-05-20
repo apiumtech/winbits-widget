@@ -175,23 +175,21 @@ describe 'jQueryWbPaginatorSpec', ->
     expect($pagerEllipsis).to.be.displayed
     expect($pagerEllipsis.find('a')).to.has.$text('...')
 
-  it 'should render correct page option', ->
+  it 'should render current page option', ->
     @$el.wbpaginator(total: 100, page: 5)
 
-    expect(@$el.find('.wbc-pager-text')).to.has.$text('Página 5 de 10')
+    expectCurrentPage.call(@, 5)
 
   it 'should render correct total pages', ->
     @$el.wbpaginator(total: 53, max: 5)
 
     expect(@$el.find('.wbc-pager-text')).to.has.$text('Página 1 de 11')
 
-  it 'should move to previous page if previous page link is clicked', ->
+  it.only 'should move to previous page if previous pager is clicked', ->
     @$el.wbpaginator(total: 100, page: 10)
 
-    @$el.find('.wbc-previous-pager-link').click()
-    expect(@$el.find('.wbc-pager-text')).to.has.$text('Página 9 de 10')
-
-    expect(@$el.wbpaginator('option', 'page')).to.be.equal(9)
+    @$el.find('.wbc-previous-pager').click()
+    expectCurrentPage.call(@, 9)
 
   it 'should trigger change event previous page link is clicked', ->
     stub = sinon.stub()
@@ -324,3 +322,11 @@ describe 'jQueryWbPaginatorSpec', ->
       expect($pager).to.not.be.displayed
       expect($pager.data('_page')).to.not.be.ok
       expect($pager).to.has.$text('')
+
+  expectCurrentPage = (page, totalPages = 10) ->
+    expectedPagerText = "Página #{page} de #{totalPages}"
+    expect(@$el.find('.wbc-pager-text')).to.has.$text(expectedPagerText)
+    $currentPage = @$el.find('.wbc-current-page')
+    expect($currentPage).to.existExact(1)
+    expect($currentPage.data('_page')).to.be.equal(page)
+    expect(@$el.wbpaginator('option', 'page')).to.be.equal(page)
