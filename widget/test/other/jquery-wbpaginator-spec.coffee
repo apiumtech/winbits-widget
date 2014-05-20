@@ -1,4 +1,3 @@
-testUtils = require 'test/lib/test-utils'
 $ = Winbits.$
 _ = Winbits._
 
@@ -77,24 +76,41 @@ describe 'jQueryWbPaginatorSpec', ->
 
     expect(@$el.wbpaginator('option', 'max')).to.be.equal(10)
 
-  it 'should generate pager text', ->
+  it 'should render paginator hidden if total is not specified', ->
+    @$el.wbpaginator()
+
+    expect(@$el).to.not.be.displayed
+    expectPaginatorIsRendered.call(@)
+
+  it 'should render paginator hidden if there is just one page', ->
+    @$el.wbpaginator(total: 10)
+
+    expect(@$el).to.not.be.displayed
+    expectPaginatorIsRendered.call(@)
+
+  it 'should render paginator visible if there are several pages', ->
+    @$el.wbpaginator(total: 100)
+
+    expect(@$el).to.be.displayed
+    expectPaginatorIsRendered.call(@)
+
+  it 'should render page text', ->
     @$el.wbpaginator(total: 100)
 
     $pager = @$el.find('p.wbc-pager-text')
     expect($pager).to.existExact(1)
     expect($pager).to.has.$text('Página 1 de 10')
 
-  it 'should generate pagers list', ->
-    @$el.wbpaginator(total: 100)
+  it 'should render previous pager', ->
+    @$el.wbpaginator(total: 100, page: 5)
 
-    expect(@$el.find('ul.wbc-pagers')).to.existExact(1)
-
-  it 'should generate previous pager', ->
-    @$el.wbpaginator(total: 100)
-
-    $previousPager = @$el.find('li.wbc-previous-pager')
-    expect($previousPager).to.existExact(1)
+    $previousPager = @$el.find('.wbc-previous-pager')
     expect($previousPager).to.has.$class('pager-prev')
+    $pagerLink = $previousPager.children('a')
+    expect($pagerLink).to.has.$text(' Ant')
+    $spanArrow = $pagerLink.children('span')
+    expect($spanArrow).to.existExact(1)
+    expect($spanArrow).to.has.$class('iconFont-arrowLeft')
 
   it 'should generate previous pager as the first pager', ->
     @$el.wbpaginator(total: 100)
@@ -102,25 +118,22 @@ describe 'jQueryWbPaginatorSpec', ->
     $firstPager = @$el.find('ul.wbc-pagers').children().first()
     expect($firstPager).to.has.$class('wbc-previous-pager')
 
-  it 'should generate previous pager link', ->
-    @$el.wbpaginator(total: 100)
+  it 'should render previous pager invisible if current page is first page', ->
+    @$el.wbpaginator(total: 100, page: 1)
 
-    $previousPagerLink = @$el.find('a.wbc-previous-pager-link')
-    expect($previousPagerLink).to.existExact(1)
-    expect($previousPagerLink.parent()).to.has.$class('wbc-previous-pager')
-    expect($previousPagerLink).to.has.$text(' Ant')
-
-  it 'should generate previous pager arrow', ->
-    @$el.wbpaginator(total: 100)
-    $arrowSpan = @$el.find('.wbc-previous-pager-link').children()
-    expect($arrowSpan).to.has.$class('iconFont-arrowLeft')
+    $previousPager = @$el.find('.wbc-previous-pager')
+    expect($previousPager).to.be.invisible
 
   it 'should generate next pager', ->
     @$el.wbpaginator(total: 100)
 
-    $nextPager = @$el.find('li.wbc-next-pager')
-    expect($nextPager).to.existExact(1)
+    $nextPager = @$el.find('.wbc-next-pager')
     expect($nextPager).to.has.$class('pager-next')
+    $pagerLink = $nextPager.children('a')
+    expect($pagerLink).to.has.$text('Sig ')
+    $spanArrow = $pagerLink.children('span')
+    expect($spanArrow).to.existExact(1)
+    expect($spanArrow).to.has.$class('iconFont-arrowRight')
 
   it 'should generate next pager as the last pager', ->
     @$el.wbpaginator(total: 100)
@@ -128,18 +141,11 @@ describe 'jQueryWbPaginatorSpec', ->
     $firstPager = @$el.find('ul.wbc-pagers').children().last()
     expect($firstPager).to.has.$class('wbc-next-pager')
 
-  it 'should generate next pager link', ->
-    @$el.wbpaginator(total: 100)
+  it 'should render next pager invisible if current page is the last page', ->
+    @$el.wbpaginator(total: 100, page: 10)
 
-    $nextPagerLink = @$el.find('a.wbc-next-pager-link')
-    expect($nextPagerLink).to.existExact(1)
-    expect($nextPagerLink.parent()).to.has.$class('wbc-next-pager')
-    expect($nextPagerLink).to.has.$text('Sig ')
-
-  it 'should generate next pager arrow', ->
-    @$el.wbpaginator(total: 100)
-    $arrowSpan = @$el.find('.wbc-next-pager-link').children()
-    expect($arrowSpan).to.has.$class('iconFont-arrowRight')
+    $nextPager = @$el.find('.wbc-next-pager')
+    expect($nextPager).to.be.invisible
 
   _.each [1, 5, 10], (totalPages) ->
     it "should generate exact pagers if total pages are 10 or less: #{totalPages}", ->
@@ -293,3 +299,17 @@ describe 'jQueryWbPaginatorSpec', ->
     for index in [0..9]
       $pager = $pagers.eq(index)
       expect($pager).to.has.$text(expectedPages[index])
+
+  expectPaginatorIsRendered = () ->
+    expect(@$el.find('p.wbc-pager-text')).to.existExact(1)
+    $pagersList = @$el.find('ul.wbc-pagers')
+    expect($pagersList).to.existExact(1)
+    $pagers = $pagersList.children('li')
+    expect($pagers.length).to.be.equal(13)
+    expect($pagers.filter('.wbc-previous-pager')).to.existExact(1)
+    expect($pagers.filter('.wbc-pager')).to.existExact(10)
+    expect($pagers.filter('.wbc-next-pager')).to.existExact(1)
+    expect($pagers.filter('.wbc-ellipsis-pager')).to.existExact(1)
+    for pager in $pagers
+      $pager = $(pager)
+      expect($pager.find('a')).to.existExact(1)

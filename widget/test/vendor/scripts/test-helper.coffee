@@ -33,7 +33,8 @@ chai.use (chai, utils) ->
     , "expected exactly #{expected} #{el} to exist but found #{existent}"
     , "expected more or less #{el} to exist than #{expected}"
 
-  # Revisa si el elemento está desplegado conforme al valor de la regla CSS 'display'.
+  # Revisa si el elemento está desplegado conforme al valor de la regla CSS
+  # 'display'.
   # Espera que @_obj sea un objeto jQuery.
   chai.Assertion.addProperty 'displayed', () ->
     el = inspect(@_obj)
@@ -41,6 +42,16 @@ chai.use (chai, utils) ->
     @assert not regexp.test(@_obj.attr('style'))
     , "element #{el} is not displayed"
     , "element #{el} is displayed"
+
+  # Revisa si el elemento está visible conforme al valor de la regla CSS
+  # 'visibility'.
+  # Espera que @_obj sea un objeto jQuery.
+  chai.Assertion.addProperty 'invisible', () ->
+    el = inspect(@_obj)
+    regexp = /visibility:\s*hidden;/i
+    @assert regexp.test(@_obj.attr('style'))
+    , "element #{el} is not invisible"
+    , "element #{el} is invisible"
 
   chai.Assertion.addProperty 'promise', () ->
     if @_obj

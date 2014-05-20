@@ -9,16 +9,15 @@
       page: 1
 
     _create: ->
+      @element.hide()
       @_setOption('total', @options.total)
       @_setOption('max', @options.max)
       @_updateTotalPages()
       @_setOption('page', @options.page)
       @_createPagerText()
-      @_pagersList = @_createPagersList()
-      @_previousPager = @_createPreviousPagePager()
-      @_createPagers()
-      @_nextPager = @_createNextPagePager()
+      @_createPagersList()
       @_bindPagersEvents()
+      @_refresh()
 
     _setOption: (key, value) ->
       constrainFunction = @_constrainFunctions[key]
@@ -59,50 +58,38 @@
         .appendTo(@element)
 
     _createPagersList: ->
-      $('<ul></ul>', class: 'wbc-pagers').appendTo(@element)
+      @_$pagersList = $('<ul></ul>', class: 'wbc-pagers').appendTo(@element)
+      @_createPagers()
 
     _createPagers: ->
-      # @_createHeadPagers()
-      # @_createEllipsisPager()
-      # @_createTailPagers()
-      for page in @_getPagesRange()
-        $pager = $('<li></li>', class: 'wbc-pager')
-        $('<a></a>', href: '#', class: 'wbc-pager-link')
-          .text(page).data('_id', page).appendTo($pager)
-        @_pagersList.append($pager)
-      $pagers = @_pagersList.children()
-      if @_totalPages > @_MAX_PAGES
-        @_createPagerEllipsis()
+      @_createHeadPagers()
+      @_createTailPagers()
+      @_createEllipsisPager()
+      @_createPreviousPagePager()
+      @_createNextPagePager()
 
     _createHeadPagers: ->
-      middleIndex = @_getMiddleIndex()
-      pagers = (@_createPager() for i in [1..middleIndex])
-      @_headePagers = $(pagers).appendTo(@_pagersList)
+      endIndex = @_getMiddleIndex()
+      headPagers = (@_createPager().get(0) for i in [1..endIndex])
+      @_$headPagers = $(headPagers).appendTo(@_$pagersList)
 
     _getMiddleIndex: ->
-      Math.floor(@_MAXPAGES / 2)
+      Math.floor(@_MAX_PAGES / 2)
 
-    _createPager: (pagerClass = 'wbc-pager', pagerLinkClass = 'wbc-pager-link') ->
-      $pager = $('<li></li>', class: pagerClass)
-      $('<a></a>', href: '#', class: pagerLinkClass).appendTo($pager)
-      $pager
+    _createPager: (pagerClass = 'wbc-pager', linkClass = 'wbc-pager-link') ->
+      $('<li></li>', class: pagerClass)
+        .append('<a></a>', href: '#', class: linkClass)
 
     _createEllipsisPager: ->
       middleIndex = @_getMiddleIndex()
-      @_ellipsisPager = @_createPager('wbc-pager-ellipsis', '')
-      @_ellipsisPager.find('a').text('...')
-      @_pagersList.append(@_ellipsisPager)
-
-    _createPagerEllipsis: ->
-      middleIndex = Math.floor(@_MAX_PAGES / 2)
-      $pagerEllipsis = $('<li></li>', class: 'wbc-pager-ellipsis')
-      $('<a></a>', href: '#').text('...').appendTo($pagerEllipsis)
-      @_pagersList.children().eq(middleIndex).before($pagerEllipsis)
+      @_$ellipsisPager = @_createPager('wbc-ellipsis-pager', '')
+        .insertAfter(@_$headPagers.last())
+        .find('a').text('...')
 
     _createTailPagers: ->
-      middleIndex = @_MAX_PAGES - @_getMiddleIndex()
-      pagers = (@_createPager() for i in [middleIndex..@MAX_PAGES])
-      @_tailPagers = $(pagers).appendTo(@_pagersList)
+      startIndex = @_getMiddleIndex() + 1
+      tailPagers = (@_createPager().get(0) for i in [startIndex..@_MAX_PAGES])
+      @_$tailPagers = $(tailPagers).appendTo(@_$pagersList)
 
     _getPagesRange: ->
       if @_totalPages > @_MAX_PAGES
@@ -113,24 +100,30 @@
         [1..@_totalPages]
 
     _createPreviousPagePager: ->
-      $previousPager = $('<li></li>', class: 'wbc-previous-pager pager-prev')
-      $previousPagerLink = $('<a></a>', href: '#', class: 'wbc-previous-pager-link').text(' Ant').appendTo($previousPager)
-      $('<span></span>', class: 'iconFont-arrowLeft').appendTo($previousPagerLink)
-      $previousPager.prependTo(@_pagersList)
+      @_$previousPager = $('<li></li>', class: 'wbc-previous-pager pager-prev')
+      $pagerLink = $('<a></a>', href: '#')
+        .text(' Ant')
+        .appendTo(@_$previousPager)
+      $('<span></span>', class: 'iconFont-arrowLeft').prependTo($pagerLink)
+      @_$previousPager.prependTo(@_$pagersList)
 
     _createNextPagePager: ->
-      $nextPager = $('<li></li>', class: 'wbc-next-pager pager-next')
-      $nextPagerLink = $('<a></a>', href: '#', class: 'wbc-next-pager-link').text('Sig ').appendTo($nextPager)
-      $('<span></span>', class: 'iconFont-arrowRight').appendTo($nextPagerLink)
-      $nextPager.appendTo(@_pagersList)
+      @_$nextPager = $('<li></li>', class: 'wbc-next-pager pager-next')
+      $pagerLink = $('<a></a>', href: '#', class: 'wbc-next-pager-link')
+        .text('Sig ')
+        .appendTo(@_$nextPager)
+      $('<span></span>', class: 'iconFont-arrowRight').appendTo($pagerLink)
+      @_$nextPager.appendTo(@_$pagersList)
 
     _bindPagersEvents: ->
-      @_pagersList.on('click', 'a', (e) -> e.preventDefault())
-      @_pagersList.on('click', 'a.wbc-previous-pager-link', $.proxy(@_previousPagerLinkClicked, @))
-      @_pagersList.on('click', 'a.wbc-next-pager-link', $.proxy(@_nextPagerLinkClicked, @))
-      @_pagersList.on('click', 'a.wbc-pager-link', $.proxy(@_pagerLinkClicked, @))
+      @_$pagersList.on('click', 'a', (e) -> e.preventDefault())
+      @_$pagersList.on('click', 'li.wbc-previous-pager',
+        $.proxy(@_previousPagerClicked, @))
+      @_$pagersList.on('click', 'li.wbc-next-pager',
+        $.proxy(@_nextPagerClicked, @))
+      @_$pagersList.on('click', 'li.wbc-pager', $.proxy(@_pagerClicked, @))
 
-    _previousPagerLinkClicked: (e) ->
+    _previousPagerClicked: (e) ->
       if @options.page > 1
         @options.page = @options.page - 1
         @_refreshPager()
@@ -150,15 +143,49 @@
     _computeOffset: ->
       @options.max * (@options.page - 1)
 
-    _nextPagerLinkClicked: (e) ->
+    _nextPagerClicked: (e) ->
       if @options.page < @_totalPages
         @options.page = @options.page + 1
         @_refreshPager()
         @_triggerChangePageEvent(e)
 
-    _pagerLinkClicked: (e) ->
+    _pagerClicked: (e) ->
       $pagerLink = $(e.currentTarget)
       @options.page = $pagerLink.data('_id')
       @_refreshPager()
       @_triggerChangePageEvent(e)
+
+    _refresh: ->
+      @_refreshPaginator()
+      @_refreshPreviousPager()
+      @_refreshNextPager()
+
+    _refreshPaginator: ->
+      fn = 'hide'
+      fn = 'show' if @_isTotalValid() and @_areThereSeveralPages()
+      @element[fn]()
+
+    _isTotalValid: ->
+      total = @options.total
+      typeof total is 'number' and total > 0
+
+    _areThereSeveralPages: ->
+      @_totalPages > 1
+
+    _refreshPreviousPager: ->
+      visibility = 'visible'
+      visibility = 'hidden' if @_isFirstPage()
+      @_$previousPager.css('visibility', visibility)
+
+    _isFirstPage: ->
+      @options.page is 1
+
+    _refreshNextPager: ->
+      visibility = 'visible'
+      visibility = 'hidden' if @_isLastPage()
+      @_$nextPager.css('visibility', visibility)
+
+    _isLastPage: ->
+      @options.page is @_totalPages
+
 )(jQuery)
