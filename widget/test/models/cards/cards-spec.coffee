@@ -26,6 +26,7 @@ describe 'CardsSpec', ->
   afterEach ->
     @model.dispose()
     @xhr.restore()
+    utils.ajaxRequest.restore?()
 
   it 'should has correct default config', ->
     expect(@model.url).to.match(/\/orders\/card-subscription\.json$/)
@@ -53,3 +54,44 @@ describe 'CardsSpec', ->
     EventBroker.publishEvent('cards-changed')
 
     expect(@model.fetch).to.has.been.calledOnce
+
+  it 'should request to delete card and return promise', ->
+    cardId = '666'
+    context = {}
+    sinon.spy(utils, 'ajaxRequest')
+
+    returnValue = @model.requestDeleteCard(cardId, context)
+    request = @requests[0]
+    request.respond(200, 'Content-Type': 'application/json', '{"meta":{},"response":{}')
+
+    expectedOptions =
+      type: 'DELETE'
+      context: context
+      headers:
+        'Wb-Api-Token': 'XXX'
+    expect(utils.ajaxRequest).to.has.been.calledWithMatch('orders/card-subscription/666.json', expectedOptions)
+        .and.to.has.been.calledOnce
+    expect(returnValue).to.be.promise
+
+  it 'should show api error if request to delete card fails', ->
+    sinon.stub(utils, 'ajaxRequest').returns(TestUtils.promises.rejected)
+    sinon.stub(utils, 'showApiError')
+
+    @model.requestDeleteCard('666', {})
+    expect(utils.showApiError).to.has.been.calledOnce
+
+  it 'should delete card from model attributes by card id', ->
+    cards = [
+      { cardInfo: subscriptionId: '555' }
+      { cardInfo: subscriptionId: '666' }
+      { cardInfo: subscriptionId: '777' }
+    ]
+    @model.set('cards', cards)
+
+    @model.deleteCard('666')
+
+    expectedCards = [
+      { cardInfo: subscriptionId: '555' }
+      { cardInfo: subscriptionId: '777' }
+    ]
+    expect(@model.get('cards')).to.be.eql(expectedCards)

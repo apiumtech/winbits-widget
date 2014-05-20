@@ -19,7 +19,6 @@ specs = [
   './views/edit-shipping-address-view-spec'
   './views/complete-register-view-spec'
   './other/jquery-location-select-spec'
-  './other/jquery-location-select-spec'
   './views/cart/cart-view-spec'
   './views/cart/cart-items-view-spec'
   './views/cart/cart-totals-view-spec'
@@ -40,6 +39,8 @@ specs = [
   './views/switch-user-view-spec'
   './views/favorite-view-spec'
   './views/account-history-view-spec'
+  './other/jquery-wbpaginator-spec'
+  './views/shipping-order-history-view-spec'
 ]
 
 for spec in specs

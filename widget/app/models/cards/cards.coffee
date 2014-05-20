@@ -36,3 +36,22 @@ module.exports = class Cards extends Model
     cardId = cardId.toString() if cardId
     cards = @get('cards')
     _.find(cards, (card) -> card.cardInfo.subscriptionId is cardId)
+
+  requestDeleteCard: (cardId, context) ->
+    path = "orders/card-subscription/#{cardId}.json"
+    options =
+      type: 'DELETE'
+      context: context
+      headers:
+        'Wb-Api-Token': utils.getApiToken()
+    utils.ajaxRequest(utils.getResourceURL(path), options)
+        .fail(@requestDeleteCardFails)
+
+  requestDeleteCardFails: (xhr) ->
+    utils.showApiError(xhr)
+
+  deleteCard: (cardId) ->
+    cardId = cardId.toString() if cardId
+    cards = @get('cards')
+    newCards = _.filter(cards, (card) -> card.cardInfo.subscriptionId isnt cardId)
+    @set('cards', newCards)
