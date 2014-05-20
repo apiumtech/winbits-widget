@@ -227,9 +227,12 @@
 
     _refreshCurrentPage: ->
       @_refreshPagerText()
-      $allPagers = @_$headPagers.add(@_$tailPagers)
-      $allPagers.removeClass(@_CURRENT_PAGE_CLASS)
-      @_setCurrentPage()
+      if @_$currentPage?
+        if @_$currentPage.data('_page') isnt @options.page
+          @_$currentPage.removeClass(@_CURRENT_PAGE_CLASS)
+          @_setCurrentPage()
+      else
+        @_setCurrentPage()
 
     _setCurrentPage: ->
       page = @options.page
