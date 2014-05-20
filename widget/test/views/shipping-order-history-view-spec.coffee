@@ -5,7 +5,7 @@ utils = require 'lib/utils'
 
 describe 'ShippingOrderHistoryViewSpec', ->
 
-  SHIPPING_ORDERS_HISTORY_URL = utils.getResourceURL("users/orders.json")
+  SHIPPING_ORDERS_HISTORY_URL = utils.getResourceURL("users/orders.json?max=10")
   SHIPPING_ORDERS_HISTORY_RESPONSE = '{"meta":{"status":200},"response":[{"orderNumber":"1405151329--47","dateOfPurchase":"2014-11-15T13:30:59-06:00","total":10,"status":"PAID","estimatedDeliveryDate":null,"details":[{"name":"nameTo24","brand":"Brand","amount":10,"quantity":1,"status":[{"status":"IN_WAREHOUSE","quantity":1,"sort":0}],"tracingNumber":["---------"],"vertical":{"id":2,"active":true,"baseUrl":"http://dev.mylooq.com","logo":null,"maxPerVertical":100,"name":"Looq","order":0},"attributeLabel":"atributoLabel","attributeName":"atributoName2","attributeValue":"AtributoLAbel","attributeType":"TEXT","attributes":[{"name":"attribute1","label":"label1","value":"value1","type":"TEXT"}],"thumbnail":{"url":"http://d17puf58klsok4.cloudfront.net/Thumbnail/Thumbnail_2014392314_LEGO.jpg","type":"THUMB"},"estimatedDeliveryDate":null}],"ticketPayments":[]}]}'
 
   beforeEach ->
