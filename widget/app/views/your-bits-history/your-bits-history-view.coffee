@@ -7,7 +7,7 @@ mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 env = Winbits.env
 
-module.exports = class HistoryView extends View
+module.exports = class YourBitsHistoryView extends View
   container: 'main'
   className: 'widgetWinbitsMain'
   template: require './templates/your-bits-history'
@@ -16,13 +16,12 @@ module.exports = class HistoryView extends View
 
   initialize:()->
     super
-    @listenTo @model, 'change:transactions', @refreshHistory
-    @model.fetch(@params)
     @delegate 'click', '#wbi-your-bits-history-btn-back', @backToVertical
     $('#wbi-my-account-div').slideUp()
     $('main .wrapper').hide()
     $('main .widgetWinbitsMain').show()
     @subscribeEvent 'bits-history-params-changed', @paramsChanged
+    @model.fetch(@params)
 
   paramsChanged: (params)->
     $.extend(@params, params)
@@ -30,6 +29,7 @@ module.exports = class HistoryView extends View
 
   render: ->
     super
+    console.log console.log ["Model to set subview", @model]
     @subview('bits-table-view', new BitsTableView model: @model)
 
   backToVertical:()->
