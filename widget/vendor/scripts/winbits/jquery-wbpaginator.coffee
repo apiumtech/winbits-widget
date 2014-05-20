@@ -76,13 +76,13 @@
     _getMiddleIndex: ->
       Math.floor(@_MAX_PAGES / 2)
 
-    _createPager: (pagerClass = 'wbc-pager', linkClass = 'wbc-pager-link') ->
+    _createPager: (pagerClass = 'wbc-pager') ->
       $('<li></li>', class: pagerClass)
-        .append('<a></a>', href: '#', class: linkClass)
+        .append($('<a></a>', href: '#'))
 
     _createEllipsisPager: ->
       middleIndex = @_getMiddleIndex()
-      @_$ellipsisPager = @_createPager('wbc-ellipsis-pager', '')
+      @_$ellipsisPager = @_createPager('wbc-ellipsis-pager')
         .insertAfter(@_$headPagers.last())
 
       @_$ellipsisPager.find('a').text('...')

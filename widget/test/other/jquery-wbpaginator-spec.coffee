@@ -346,8 +346,9 @@ describe 'jQueryWbPaginatorSpec', ->
     expect($pagers.filter('.wbc-next-pager')).to.existExact(1)
     expect($pagers.filter('.wbc-ellipsis-pager')).to.existExact(1)
     for pager in $pagers
-      $pager = $(pager)
-      expect($pager.find('a')).to.existExact(1)
+      $link = $(pager).find('a')
+      expect($link).to.existExact(1)
+      expect($link).to.has.$attr('href', '#')
 
   expectPagersFor = (pages) ->
     $pagers = @$el.find('.wbc-pager')
