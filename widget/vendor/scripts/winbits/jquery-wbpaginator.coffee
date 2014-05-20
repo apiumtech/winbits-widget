@@ -91,14 +91,6 @@
       tailPagers = (@_createPager().get(0) for i in [startIndex..@_MAX_PAGES])
       @_$tailPagers = $(tailPagers).appendTo(@_$pagersList)
 
-    _getPagesRange: ->
-      if @_totalPages > @_MAX_PAGES
-        halfRangeSize = Math.floor(@_MAX_PAGES / 2)
-        [1..halfRangeSize]
-          .concat([(@_totalPages - halfRangeSize + 1)..@_totalPages])
-      else
-        [1..@_totalPages]
-
     _createPreviousPagePager: ->
       @_$previousPager = $('<li></li>', class: 'wbc-previous-pager pager-prev')
       $pagerLink = $('<a></a>', href: '#')
@@ -126,7 +118,7 @@
     _previousPagerClicked: (e) ->
       if @options.page > 1
         @options.page = @options.page - 1
-        @_refreshPager()
+        @_refreshPagerText()
         @_triggerChangePageEvent(e)
 
     _triggerChangePageEvent: (e) ->
@@ -137,7 +129,7 @@
         offset: @_computeOffset()
       )
 
-    _refreshPager: ->
+    _refreshPagerText: ->
       @_pagerText.text("Página #{@options.page} de #{@_totalPages}")
 
     _computeOffset: ->
@@ -146,19 +138,20 @@
     _nextPagerClicked: (e) ->
       if @options.page < @_totalPages
         @options.page = @options.page + 1
-        @_refreshPager()
+        @_refreshPagerText()
         @_triggerChangePageEvent(e)
 
     _pagerClicked: (e) ->
       $pagerLink = $(e.currentTarget)
       @options.page = $pagerLink.data('_id')
-      @_refreshPager()
+      @_refreshPagerText()
       @_triggerChangePageEvent(e)
 
     _refresh: ->
       @_refreshPaginator()
       @_refreshPreviousPager()
       @_refreshNextPager()
+      @_refreshPagers()
 
     _refreshPaginator: ->
       fn = 'hide'
@@ -188,4 +181,39 @@
     _isLastPage: ->
       @options.page is @_totalPages
 
+    _refreshPagers: ->
+      @_refreshHeadPagers()
+      @_refreshTailPagers()
+
+    _refreshHeadPagers: ->
+      @_refreshPagersRange(@_$headPagers, @_getHeadPageRange())
+
+    _refreshPagersRange: ($pagers, pages) ->
+      $pagers.each (index, pager) ->
+        page = pages[index]
+        text = ''
+        fn = 'hide'
+        if page?
+          text = page.toString()
+          fn = 'show'
+        $(pager).data('_page', page)[fn]().find('a').text(text)
+
+    _getHeadPageRange: ->
+      startPage = 1
+      endPage = Math.min(@_totalPages, @_getMiddleIndex())
+      [startPage..endPage]
+
+    _refreshTailPagers: ->
+      @_refreshPagersRange(@_$tailPagers, @_getTailPageRange())
+
+    _getTailPageRange: ->
+      middleIndex = @_getMiddleIndex()
+      if @_totalPages > middleIndex
+        startPage = @_totalPages - middleIndex + 1
+        endPage = @_totalPages
+        if @_totalPages <= @_MAX_PAGES
+          startPage = middleIndex + 1
+        [startPage..endPage]
+      else
+        []
 )(jQuery)
