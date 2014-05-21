@@ -56,7 +56,9 @@
     day = '0' + day if day and day.length == 1
     month = $this.find('#wbi-birthdate-month').val()
     month = '0' + month if month and month.length == 1
-    year = '19' + $this.find('#wbi-birthdate-year').val()
+    year = $this.find('#wbi-birthdate-year').val()
+    currentYear = parseInt(moment().format('YYYY').slice(-2))
+    year =  (if year > currentYear then "19" else "20") + year
     "#{year}-#{month}-#{day}"
 
   $.validator.addMethod 'validateDate', (value, element)->
