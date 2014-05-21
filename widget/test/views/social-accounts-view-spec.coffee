@@ -1,12 +1,12 @@
 'use strict'
 
-SocialMediaView = require 'views/social-media/social-media-view'
+SocialMediaView = require 'views/social-accounts/social-accounts-view'
 utils = require 'lib/utils'
 $ = Winbits.$
 _ = Winbits._
 mediator = Winbits.Chaplin.mediator
 
-describe 'SocialMediaViewSpec', ->
+describe 'SocialAccountsViewSpec', ->
 
   beforeEach ->
     @loginData =

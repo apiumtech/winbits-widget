@@ -13,7 +13,8 @@ FavoriteView = require 'views/favorite/favorite-view'
 Favorite = require 'models/favorite/favorite'
 AccountHistoryView = require 'views/account-history/account-history-view'
 AccountHistory = require 'models/account-history/account-history'
-SocialMediaView = require 'views/social-media/social-media-view'
+SocialAccountsView = require 'views/social-accounts/social-accounts-view'
+SocialAccounts = require 'models/social-accounts/social-accounts'
 ChangePasswordView = require 'views/change-password/change-password-view'
 ChangePassword = require 'models/change-password/change-password'
 PersonalDataView = require 'views/personal-data/personal-data-view'
@@ -52,7 +53,12 @@ module.exports = class LoggedInController extends Controller
 
         check: -> mediator.data.get 'change-password-composed'
 
-      @reuse 'social-media-view', SocialMediaView
+      @reuse 'social-media-view',
+        compose: ->
+          mediator.data.set 'social-accounts-composed', yes
+          @model = new SocialAccounts
+          @view = new SocialAccountsView model:@model
+        check: -> mediator.data.get 'social-accounts-composed'
 
       @reuse 'shipping-addresses',
         compose: ->
