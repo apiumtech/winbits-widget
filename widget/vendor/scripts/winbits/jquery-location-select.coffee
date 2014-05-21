@@ -51,7 +51,7 @@
       @element.data(@_zipCodeInfoKey)
 
     _getZipCodeInfo: (id) ->
-      @element.children("[value=#{id}]").data(@_zipCodeInfoKey) or {}
+      @element.children("[value='#{id}']").data(@_zipCodeInfoKey) or {}
 
     _connectZipCodeInput: ->
       @$zipCodeInput = @element.closest('form').find(@options.zipCodeInput)
@@ -113,7 +113,7 @@
       $list = @_wrapper.find('ul')
       selectValue = @_determineSelectValue()
       if selectValue
-        $list.children("li[rel=#{selectValue}]").click()
+        $list.children("li[rel='#{selectValue}']").click()
       else
         $list.children().eq(1).click()
 
@@ -161,7 +161,7 @@
 
     value: (id) ->
       return @_getCurrentZipCodeInfo() unless id
-      @_wrapper.find("li[rel=#{id}]").click()
+      @_wrapper.find("li[rel='#{id}']").click()
       @element
 
     _cleanErrors: ->
