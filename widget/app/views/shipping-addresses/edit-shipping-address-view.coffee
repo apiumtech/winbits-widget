@@ -6,7 +6,7 @@ mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 env = Winbits.env
 
-module.exports = class AddNewShippingAddressView extends View
+module.exports = class EditShippingAddressView extends View
   container: '#wbi-edit-shipping-address-container'
   template: require './templates/edit-shipping-address'
 
