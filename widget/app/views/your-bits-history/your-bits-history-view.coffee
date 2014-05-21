@@ -23,7 +23,7 @@ module.exports = class YourBitsHistoryView extends View
     $('main .widgetWinbitsMain').show()
     @subscribeEvent 'bits-history-params-changed', @paramsChanged
 
-  attach:()->
+  attach: ->
     super
     @$('.select').customSelect()
     @$('.wbc-paginator').wbpaginator(total: @model.getTotalTransactions(), max: @params.max, change: $.proxy(@pageChanged, @))
@@ -32,17 +32,13 @@ module.exports = class YourBitsHistoryView extends View
     $.extend(@params, params)
     @model.fetch {data:@params}
 
+  pageChanged: (e, ui) ->
+    params = max: ui.max, offset: ui.offset
+    @paramsChanged(params)
+
   backToVertical:()->
     $('main .wrapper').show()
     utils.redirectToLoggedInHome()
-
-  pageChanged: (e, ui) ->
-    params = max: ui.max, offset: ui.offset
-    @updateParams(params)
-
-  updateParams: (params) ->
-    $.extend(@params, params)
-    @model.fetch(data: @params)
 
   render: ()->
     super

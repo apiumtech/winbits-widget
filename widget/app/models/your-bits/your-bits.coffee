@@ -10,5 +10,8 @@ module.exports = class YourBitsModel extends Model
   initialize: ->
     super
 
-  getTotalTransactions: () ->
-    @meta.totalTransactions
+  getTotalTransactions: ()->
+    if (@meta)
+      @meta.totalTransactions
+    else
+      0

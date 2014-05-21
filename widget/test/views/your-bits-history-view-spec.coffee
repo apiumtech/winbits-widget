@@ -33,9 +33,11 @@ describe 'YourBitsHistoryViewSpec', ->
     expect(request.url).to.be.equal(YOUR_BITS_URL)
 
 
-  it 'your bits history view renderized with orders', ->
+  it 'your bits history view renderized with transactions', ->
     request = @requests[0]
     request.respond(200, { "Content-Type": "application/json" }, YOUR_BITS_RESPONSE)
     @view.render()
+    expect(@model.attributes.transactions).not.equal(undefined)
     expect(@view.$('.accordeonSelectDiv')).to.exist
-    expect(@view.$('.totalBitsTable')).to.not.exist
+    expect(@view.$('.dataTable')).to.exist
+    expect(@view.$('.addInfo span')).to.not.exist
