@@ -3,11 +3,11 @@
         <h3>¿De cuál de nuestros sitios te gustaría recibir información?</h3>
 
         {{#each subscriptions}}
-        <input {{#if active}}checked="checked"{{/if}} type="checkbox" value="{{id}}" class="wbc-subscription-check">
+        <input {{#if active}}checked="checked"{{/if}} type="checkbox" name="verticals" value="{{id}}" class="wbc-subscription-check">
         <label class="checkboxLabel">{{name}}</label>
         {{/each}}
 
-        <input id="wbi-checkbox-all" type="checkbox" value="Travel" class="checkall">
+        <input id="wbi-checkbox-all" type="checkbox" value="All/None" class="checkall">
         <label class="checkboxLabel">Todos / Ninguno</label>
     </div>
     <div id="wbi-how-to-received" class="column">
