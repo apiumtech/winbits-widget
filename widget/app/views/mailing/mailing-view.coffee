@@ -19,6 +19,14 @@ module.exports = class MailingView extends View
 
   attach: ->
     super
+    @$('#wbi-mailing-form').validate
+      errorPlacement: ($error, $element) ->
+        if $element.attr("verticals")
+          $error.appendTo $element.parent()
+      rules:
+        verticals:
+          required: true
+
     @$('#wbi-mailing-form').customCheckbox().mailingMenuCheckboxs()
     @$('#wbi-how-to-received').customRadio()
     @$('#wbi-how-often-to-received').customRadio()
@@ -26,18 +34,28 @@ module.exports = class MailingView extends View
     @$('#wbi-mailing-btn').css('left', '0')
 
   doRequestSuscriptionsUpdate: ->
-    subscriptions = _.map( @$('.wbc-subscription-check'),
+    $form =@$('#wbi-mailing-form')
+    if $form.valid()
+        subscriptions = _.map( @$('.wbc-subscription-check'),
                            (check)->
                                $chk =  $(check)
                                return {id: $chk.val(), active: $chk.prop('checked')}
                           )
-    $form =  @$("#wbi-mailing-form")
-    data = utils.serializeForm($form,subscriptions: subscriptions)
-    utils.showAjaxLoading()
-    @model.requestUpdateSubscriptions(data, context: @)
-     .done(@successSubscriptionsUpdate)
-     .fail(@errorSubscriptionsUpdate)
-     .always(@hideAjaxLoading)
+        $form =  @$("#wbi-mailing-form")
+        data = utils.serializeForm($form,subscriptions: subscriptions)
+        utils.showAjaxLoading()
+        @model.requestUpdateSubscriptions(data, context: @)
+          .done(@successSubscriptionsUpdate)
+          .fail(@errorSubscriptionsUpdate)
+          .always(@hideAjaxLoading)
+    else
+      @notValidateSubscriptions()
+
+  notValidateSubscriptions: ->
+    message = "Se debe de seleccionar almenos un sitio"
+    options = value: "Continuar", title:'Error Subscripciones', icon:'iconFont-info', onClosed: utils.redirectTo controller: 'home', action: 'index'
+    utils.showMessageModal(message, options)
+
 
   successSubscriptionsUpdate:() ->
     message = "Tus cambios han sido guardados exitosamente"

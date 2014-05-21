@@ -195,9 +195,11 @@ _(utils).extend
     value
 
   getGender: ($form) ->
-    gender = $form.find("[name=gender][checked]").val()
-    if gender
-      gender = if gender is 'H' then 'male' else 'female'
+    gender = ''
+    if $form.find(".wbc-gender-male").prop('checked')
+      gender = 'male'
+    else if $form.find(".wbc-gender-female").prop('checked')
+      gender = 'female'
     gender
 
   calculateCartTotal: (total, bitsTotal) ->
