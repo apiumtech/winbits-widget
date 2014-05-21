@@ -26,7 +26,7 @@ module.exports = class ShippingOrderHistoryView extends View
   attach: ->
     super
     @$('.select').customSelect()
-    @$('#wbi-shipping-order-history-paginator').wbpaginator(total: @model.getTotal(), max: @params.max, change: $.proxy(@pageChanged, @))
+    @$('#wbi-shipping-order-history-paginator').wbpaginator(total: 200, max: @params.max, change: $.proxy(@pageChanged, @))
 
   paramsChanged: (params)->
     $.extend @params, params
