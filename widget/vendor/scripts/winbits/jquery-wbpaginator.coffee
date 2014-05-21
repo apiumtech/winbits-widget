@@ -13,25 +13,34 @@
 
     _create: ->
       @element.hide()
-      @_setOption('total', @options.total)
-      @_setOption('max', @options.max)
+      @options.total = @_constrainOption('total', @options.total)
+      @options.max = @_constrainOption('max', @options.max)
       @_updateTotalPages()
-      @_setOption('page', @options.page)
+      @options.page = @_constrainOption('page', @options.page)
       @_createPagerText()
       @_createPagersList()
       @_bindPagersEvents()
       @_refresh()
+
+    _constrainOption: (key, value) ->
+      constrainFunction = @_constrainFunctions[key]
+      if typeof constrainFunction is 'function'
+        value = constrainFunction.call(@, value)
+      value
 
     _setOption: (key, value) ->
       constrainFunction = @_constrainFunctions[key]
       if typeof constrainFunction is 'function'
         value = constrainFunction.call(@, value)
       @_super(key, value)
+      @_refresh()
 
     _constrainFunctions:
       total: (total) ->
         if typeof total is 'number'
           Math.ceil(total)
+        else
+          0
 
       max: (max) ->
         if typeof max is 'number' and max >= 1 and max <= @options.total
@@ -148,6 +157,7 @@
       @_$currentPage? and @_$currentPage.data('_page') is page
 
     _refresh: ->
+      @_updateTotalPages()
       @_refreshPaginator()
       @_refreshPagers()
       @_refreshCurrentPage()

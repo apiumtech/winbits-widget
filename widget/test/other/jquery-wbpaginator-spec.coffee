@@ -372,12 +372,19 @@ describe 'jQueryWbPaginatorSpec', ->
     expectPagersFor.call(@, [1, 2, 11, 12, 13, 14, 15, 16, 17, 19, 20])
     expectCurrentPage.call(@, 14, 20)
 
-  it 'should change paginator when clicking middle range page', ->
-    @$el.wbpaginator(total: 200)
+  it 'should change paginator when seting new total option', ->
+    @$el.wbpaginator(total: 100, page: 9)
 
-    @$el.find('.wbc-pager').eq(8).click()
+    @$el.wbpaginator('option', 'total', 200)
     expectPagersFor.call(@, [1, 2, 6, 7, 8, 9, 10, 11, 12, 19, 20])
     expectCurrentPage.call(@, 9, 20)
+
+  it 'should change paginator when seting new options', ->
+    @$el.wbpaginator(total: 100, page: 9)
+
+    @$el.wbpaginator('option', total: 300, page: 11, max: 15)
+    expectPagersFor.call(@, [1, 2, 8, 9, 10, 11, 12, 13, 14, 19, 20])
+    expectCurrentPage.call(@, 11, 20)
 
   expectPaginatorIsRendered = () ->
     expect(@$el.find('p.wbc-pager-text')).to.existExact(1)
