@@ -383,8 +383,8 @@ describe 'jQueryLocationSelectSpec', ->
   expectDefaultOptionExist = () ->
     value = ''
     text = 'Colonia/Asentamiento'
-    $defaultOption = @$locationSelect.children("option[value=#{value}]")
-    $defaultListOption = @$locationSelect.parent().find("li[rel=#{value}]")
+    $defaultOption = @$locationSelect.children("option[value='#{value}']")
+    $defaultListOption = @$locationSelect.parent().find("li[rel='#{value}']")
     expect($defaultOption, 'Expect just 1 default option to exist!').to.has.property('length', 1)
     expectSelectOption($defaultOption, value, text)
     expect($defaultListOption, 'Expect just 1 default list option to exist!').to.has.property('length', 1)
@@ -393,8 +393,8 @@ describe 'jQueryLocationSelectSpec', ->
   expectOtherOptionExist = () ->
     value = '-1'
     text = 'Otra...'
-    $otherOption = @$locationSelect.children("option[value=#{value}]")
-    $otherListOption = @$locationSelect.parent().find("li[rel=#{value}]")
+    $otherOption = @$locationSelect.children("option[value='#{value}']")
+    $otherListOption = @$locationSelect.parent().find("li[rel='#{value}']")
     expect($otherOption, 'Expect just 1 other option exist!').to.has.property('length', 1)
     expectSelectOption($otherOption, value, text)
     expect($otherListOption, 'Expect just 1 other list option exist!').to.has.property('length', 1)

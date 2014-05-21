@@ -1,7 +1,24 @@
 <div  class="wrapper historical">
     <div>
         <h2>Historial de Bits</h2>
-        <div id="wbi-bits-history-view"></div>
+        <div class="accordeonContent">
+        {{#unless transactions}}
+            <div class="addInfo"><span class="iconFont-close">No tienes movimientos de bits.</span></div>
+        {{else}}
+            <div class="accordeonSelectDiv">
+                <select class="select" data-clase="selectRegister">
+                    <option>Ordenar por...</option>
+                    <option>Estatus</option>
+                </select>
+            </div>
+            <div class="dataTable totalBitsTable">
+                <div id="wbi-bits-history-view">
+
+                 </div>
+            </div>
+        {{/unless}}
+            <div class="dataTable-pager wbc-paginator"> </div>
+        </div>
     </div>
     <input id="wbi-your-bits-history-btn-back" type="submit" value="Back to site" class="btn btnBackToSite">
 </div>

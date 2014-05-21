@@ -135,3 +135,6 @@ Handlebars.registerHelper "generateTicketPaymentDownloadUrl", (paymentCapture) -
 Handlebars.registerHelper "toDefaultDateFormat", (dateString) ->
   if dateString
     moment(new Date(dateString)).format('DD/MM/YYYY');
+
+Handlebars.registerHelper "abs", (number) ->
+  Math.abs(number)
