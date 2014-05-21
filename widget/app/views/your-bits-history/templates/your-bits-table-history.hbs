@@ -1,0 +1,46 @@
+ <table>
+        <thead>
+        <tr>
+            <th>TOTAL</th>
+            <th>BITS</th>
+            <th>FECHA</th>
+            <th>VENCIMIENTO</th>
+            <th>CONCEPTO</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each transactions}}
+            {{#compare @index 0}}
+            <tr class="totalBits">
+                <td rowspan="10">$ {{balance}} Bits</td>
+                {{#compare amount 0 operator=">"}}
+                        <td>${{amount}} </td>
+                {{else}}
+                        <td class="minusBits">- ${{abs amount}} </td>
+                {{/compare}}
+                <td>{{toDefaultDateFormat dateCreated}}</td>
+                <td>{{toDefaultDateFormat expirationDate}}</td>
+                <td>{{concept}}</td>
+            </tr>
+            {{else}}
+              {{#compare amount 0 operator=">"}}
+                 <tr>
+                    <td>${{amount}} </td>
+                    <td>{{toDefaultDateFormat dateCreated}}</td>
+                    <td>{{toDefaultDateFormat expirationDate}}</td>
+                    <td>{{concept}}</td>
+                  </tr>
+              {{else}}
+                  <tr>
+                      <td class="minusBits">- ${{abs amount}} </td>
+                      <td>{{toDefaultDateFormat dateCreated}}</td>
+                      <td>--</td>
+                      <td>{{concept}}</td>
+                  </tr>
+              {{/compare}}
+            {{/compare}}
+        {{/each}}
+        </tbody>
+    </table>
+</div>
+

@@ -151,12 +151,12 @@ _(utils).extend
     @showMessageModal(errorMsg, options)
 
   showAjaxLoading: (message = 'Procesando información') ->
-    console.log ['Showing Ajax Loading']
-    $('#wbi-ajax-modal').show()
+    $loadingLayer = $('#wbi-ajax-loading-layer')
+    $loadingLayer.find('.wbc-loading-message').text(message)
+    $loadingLayer.show()
 
   hideAjaxLoading: ->
-    console.log ['Hiding Ajax Loading']
-    $('#wbi-ajax-modal').hide()
+    $('#wbi-ajax-loading-layer').hide()
 
   getCreditCardType: (cardNumber) ->
     #start without knowing the credit card type
@@ -288,7 +288,7 @@ _(utils).extend
   showMessageModal: (message, options, modalSelector = '#wbi-alert-modal')->
     options ?= {}
     $modal = $(modalSelector)
-    options.value ?= 'Ok'
+    options.value ?= 'Aceptar'
     options.context ?= @
     options.onClosed ?= $.noop
     options.title ?= 'Mensaje'
@@ -311,6 +311,7 @@ _(utils).extend
     $modal = $('#wbi-confirmation-modal')
     options.cancelValue ?= 'Cancelar'
     options.context ?= @
+    options.icon ?= 'iconFont-question'
     options.cancelAction ?= $.noop
     options.cancelAction = $.proxy(options.cancelAction, options.context)
     $(".wbc-cancel-action", $modal).unbind('click').click(options.cancelAction).click(@closeMessageModal).val options.cancelValue

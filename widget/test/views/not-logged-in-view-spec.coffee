@@ -10,6 +10,7 @@ describe 'NotLoggedInViewSpec', ->
   beforeEach ->
     @clock = sinon.useFakeTimers()
     currentVertical = id: 1, baseUrl: 'http://www.test-winbits.com', name: 'Winbits Test'
+    sinon.stub($.fancybox, "close")
 
     @envStub = sinon.stub(Winbits.env, 'get')
     .withArgs('current-vertical-id').returns(currentVertical.id)
@@ -36,7 +37,7 @@ describe 'NotLoggedInViewSpec', ->
     @view.doFacebookLoginSuccess.restore?()
     @view.doFacebookLoginError.restore?()
     @model.requestExpressFacebookLogin.restore?()
-    #    $.fancybox.restore?()
+    $.fancybox.close.restore?()
 
     @model.dispose()
     @view.dispose()

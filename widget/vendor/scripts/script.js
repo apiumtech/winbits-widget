@@ -219,7 +219,7 @@
 		},
 		unchecRadio = function(obj){
 			$(obj).find(defaults.radio).each(function(){
-				$(this).attr('checked', false);
+				$(this).prop('checked', false);
 				$(this).parent().find('.'+defaults.spanRadio).removeClass(defaults.spanSelected);
 			});
 		},
@@ -228,7 +228,7 @@
 				var $input = $(this).parent().find(defaults.radio);
 				unchecRadio(obj);
 				if(!($input.prop('checked'))){
-					$input.attr('checked', true);
+					$input.prop('checked', true);
 					if($input.length) {
 						$(this).addClass(defaults.spanSelected);
 					}
@@ -439,18 +439,19 @@
 				min: +$(obj).data('min'),
 				max: +datamax,
 				slide: function(event, ui){
-					$(obj).val(ui.value);
-					$(obj).parent().find('.'+ defaults.amount +' em').text(+ui.value);
-					if($(obj).data('moveprice')) {
-						priceItem.text(price - ui.value);
-					}
-					if($(obj).data('percent') && $(obj).data('realprice')){
-						percent = 100 - parseInt((100 * (price - ui.value)) / realprice, 10);
-						percentItem.text(percent);
-					}
-					if($(obj).data('save')){
-						$('.'+$(obj).data('saveitem')).text($(obj).data('save')+ui.value);
-					}
+          $(obj).val(ui.value);
+          var maxSelection, previousValue, value, $this=$(obj);
+          maxSelection = parseInt($this.data('max-selection') || '0');
+          value = Math.min(maxSelection, ui.value);
+          previousValue = $this.val();
+          $this.val(value);
+          $this.parent().find(".slider-amount em").text(value);
+          if (ui.value > maxSelection) {
+            if (previousValue !== maxSelection) {
+              $(this).slider('value', maxSelection);
+            }
+            return false;
+          }
 				},
 				step: $(obj).data('step')
 			});
@@ -643,71 +644,71 @@
 //      MAILINGMENUCHECKBOXS: Eventos / efectos para los checkboxes y radios del menú
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-	jQuery.fn.mailingMenuCheckboxs = function(options){
-		var defaults = $.extend({
-			checkboxSpan: '.checkbox-span',
-			checkboxUnchecked: 'checkbox-unchecked',
-			checkboxChecked: 'checkbox-checked',
-			checkboxAll: '.checkall',
-			overlay: 'mailingOverlay',
-			radio: 'input[type="radio"]',
-			spanRadio: 'radio-span',
-			spanSelected: 'radio-selected'
-		}, options), overlay = 0,
-		checkAll = function(obj){
-			$(obj).find(defaults.checkboxAll).siblings(defaults.checkboxSpan).click(function(){
-				var checkUnchec = $(this).attr('class').split(' ')[1];
-				$(this).parent().siblings().each(function(){
-					if(!$(this).find(defaults.checkboxSpan).hasClass(checkUnchec)){
-						$(this).find(defaults.checkboxSpan).trigger('click');
-					}
-				});
-			});
-		},
-		checkEach = function(obj){
-			$(obj).find(defaults.checkboxSpan).each(function(){
-				checkCheckbox(this, obj, 1);
-			}).click(function(){
-				checkCheckbox(this, obj);
-			});
-		},
-		checkCheckbox = function(item, obj, init){
-			if($(item).hasClass(defaults.checkboxChecked)) {
-				overlay = overlay + 1;
-			} else {
-				if (!init){
-					overlay = overlay - 1;
-				}
-			}
-			if(overlay <= 0){
-				appendOverlay(obj);
-				overlay = 0;
-			} else {
-				removeOverlay(obj);
-			}
-		},
-		appendOverlay = function(obj){
-			if(!$(obj).find('.' + defaults.overlay).length) {
-				$(obj).append('<div class="'+ defaults.overlay + '"/>');
-				uncheckRadio(obj);
-			}
-		},
-		removeOverlay = function(obj){
-			if($(obj).find('.' + defaults.overlay).length) {
-				$(obj).find('.' + defaults.overlay).remove();
-			}
-		},
-		uncheckRadio = function(obj){
-			$(obj).find(defaults.radio).each(function(){
-				$(this).attr('checked', false);
-				$(this).parent().find('.'+defaults.spanRadio).removeClass(defaults.spanSelected);
-			});
-		};
-		return this.each(function(){
-			checkAll(this);
-			checkEach(this);
-		});
-	};
+    jQuery.fn.mailingMenuCheckboxs = function(options){
+        var defaults = $.extend({
+                checkboxSpan: '.checkbox-span',
+                checkboxUnchecked: 'checkbox-unchecked',
+                checkboxChecked: 'checkbox-checked',
+                checkboxAll: '.checkall',
+                overlay: 'mailingOverlay',
+                radio: 'input[type="radio"]',
+                spanRadio: 'radio-span',
+                spanSelected: 'radio-selected'
+            }, options), overlay = 0,
+            checkAll = function(obj){
+                $(obj).find(defaults.checkboxAll).siblings(defaults.checkboxSpan).click(function(){
+                    var checkUnchec = $(this).attr('class').split(' ')[1];
+                    $(this).parent().siblings().each(function(){
+                        if(!$(this).find(defaults.checkboxSpan).hasClass(checkUnchec)){
+                            $(this).find(defaults.checkboxSpan).trigger('click');
+                        }
+                    });
+                });
+            },
+            checkEach = function(obj){
+                $(obj).find(defaults.checkboxSpan).each(function(){
+                    checkCheckbox(this, obj, 1);
+                }).click(function(){
+                        checkCheckbox(this, obj);
+                    });
+            },
+            checkCheckbox = function(item, obj, init){
+                if($(item).hasClass(defaults.checkboxChecked)) {
+                    overlay = overlay + 1;
+                } else {
+                    if (!init){
+                        overlay = overlay - 1;
+                    }
+                }
+                if(overlay <= 0){
+                    appendOverlay(obj);
+                    overlay = 0;
+                } else {
+                    removeOverlay(obj);
+                }
+            },
+            appendOverlay = function(obj){
+                if(!$(obj).find('.' + defaults.overlay).length) {
+                    $(obj).append('<div class="'+ defaults.overlay + '"/>');
+                    uncheckRadio(obj);
+                }
+            },
+            removeOverlay = function(obj){
+                if($(obj).find('.' + defaults.overlay).length) {
+                    $(obj).find('.' + defaults.overlay).remove();
+                }
+            },
+            uncheckRadio = function(obj){
+                $(obj).find(defaults.radio).each(function(){
+                    $(this).attr('checked', false);
+                    $(this).parent().find('.'+defaults.spanRadio).removeClass(defaults.spanSelected);
+                });
+            };
+        return this.each(function(){
+            checkAll(this);
+            checkEach(this);
+        });
+    };
 
 
 

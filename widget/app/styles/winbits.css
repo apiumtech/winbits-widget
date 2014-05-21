@@ -41,3 +41,7 @@ label.error {
   width: 24px;
 }
 
+.wbc-current-page {
+  font-weight: bold;
+  background-color: lightgray;
+}
