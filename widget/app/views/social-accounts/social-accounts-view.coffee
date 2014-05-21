@@ -45,10 +45,15 @@ module.exports = class SocialMediaView extends View
 
   facebookStatusSuccess: (response)->
     if response.status is "connected"
-      console.log ['FBEst', response]
       @model.set 'facebook', yes
     else
-      console.log "not conected to facebook "
+      @showErrorMessageLinkSocialAccount()
+
+
+  showErrorMessageLinkSocialAccount: ->
+    message = 'Para poder ligar tu cuenta de Facebook o Twitter debes terminar el proceso y aceptar todos los privilegios solicitados.'
+    options = value:'Aceptar', title: 'Error al ligar red social', icon : 'iconFont-close'
+    utils.showMessageModal(message, options)
 
   doUnlinkFacebook: (e)->
     e.preventDefault()
