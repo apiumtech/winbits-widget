@@ -46,7 +46,7 @@ module.exports = class SocialMediaView extends View
 
   facebookStatusSuccess: (response)->
     if response.status is "connected"
-      @model.set 'facebook', yes
+      @model.set 'Facebook', yes
     else
       @showErrorMessageLinkSocialAccount()
 
