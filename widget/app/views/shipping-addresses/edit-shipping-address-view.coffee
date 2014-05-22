@@ -65,21 +65,35 @@ module.exports = class EditShippingAddressView extends View
         location:
           wbiLocation: yes
 
+    @validFormAfterAttach()
+
+  validFormAfterAttach: ->
+    window.setTimeout @validFormAfter, 115
+
+  validFormAfter: ->
+    $form =$('#wbi-edit-shipping-address-form')
+    if $form.is(':visible')
+      $form.valid()
+
   setCityAndState: ->
      comboSelect = @$('select#wbi-shipping-address-zip-code-info')
      valSelected = comboSelect.val()
      if valSelected
-       value = comboSelect.wblocationselect('value')
-       @setCityAndStateDefault(value)
+       value = @selectZipCodeInfo(comboSelect, valSelected)
+       @setCityAndStateDefault value
      else
        @$('[name="city"]').val('')
        @$('[name="state"]').val('')
 
+  selectZipCodeInfo:(comboSelect,value)->
+    if value > 0
+      return comboSelect.wblocationselect('value')
+    else
+      return comboSelect.wblocationselect('firstValue')
 
   setCityAndStateDefault: (value)->
-    if value.id
-     @$('[name="city"]').val(value.city)
-     @$('[name="state"]').val(value.state)
+    @$('[name="city"]').val(value.city)
+    @$('[name="state"]').val(value.state)
 
 
   doSaveShippingAddress: (e)->
@@ -98,6 +112,7 @@ module.exports = class EditShippingAddressView extends View
     zipCodeInfo =@$('select#wbi-shipping-address-zip-code-info').wblocationselect('value')
     if zipCodeInfo.locationName
       @$('[name="location"]').val zipCodeInfo.locationName
+
 
   successSaveEditShippingAddress:()->
     @$('#wbi-edit-shipping-address-process').hide()

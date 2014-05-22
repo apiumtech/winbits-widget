@@ -70,15 +70,20 @@ module.exports = class AddNewShippingAddressView extends View
      comboSelect = @$('select#wbi-shipping-address-zip-code-info')
      valSelected = comboSelect.val()
      if valSelected
-       value = comboSelect.wblocationselect('value')
+       value = @selectZipCodeInfo(comboSelect, valSelected)
        @setCityAndStateDefault value
      else
        @$('[name="city"]').val('')
        @$('[name="state"]').val('')
 
+  selectZipCodeInfo:(comboSelect,value)->
+    if value > 0
+      return comboSelect.wblocationselect('value')
+    else
+      return comboSelect.wblocationselect('firstValue')
+
 
   setCityAndStateDefault: (value)->
-    if value.id
      @$('[name="city"]').val(value.city)
      @$('[name="state"]').val(value.state)
 
