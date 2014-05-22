@@ -35,3 +35,16 @@ module.exports = class SocialAccounts extends Model
 
   connectLink: (data)->
     "#{env.get('api-url')}/users/connect/#{data}"
+
+  requestGetSocialAccounts:(options)->
+    defaults =
+      type: "GET"
+      contentType: "application/json"
+      dataType: "json"
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token": utils.getApiToken()
+    utils.ajaxRequest "#{env.get('api-url')}/users/social-accounts", $.extend(defaults, options)
+
+  connectLink: (data)->
+    "#{env.get('api-url')}/users/connect/#{data}"

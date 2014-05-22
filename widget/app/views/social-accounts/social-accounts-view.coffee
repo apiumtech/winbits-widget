@@ -24,9 +24,10 @@ module.exports = class SocialMediaView extends View
   doLinkFacebook: (e)->
     e.preventDefault()
     @model.requestConnectionLink('facebook', context: @)
-      .done(@successConnectLink)
+      .done(@successConnectFacebookLink)
+      .fail(@showErrorMessageLinkSocialAccount)
 
-  successConnectLink: (data)->
+  successConnectFacebookLink: (data)->
     popup =  window.open("", "facebook", "menubar=0,resizable=0,width=800,height=500")
     popup.postMessage
     popup.window.location.href = data.response.socialUrl
@@ -60,6 +61,39 @@ module.exports = class SocialMediaView extends View
 
   doLinkTwitter: (e)->
     e.preventDefault()
+    @model.requestConnectionLink('twitter', context: @)
+    .done(@successConnectTwitterLink)
+    .fail(@showErrorMessageLinkSocialAccount)
+
+  successConnectTwitterLink: (data)->
+    popup =  window.open("", "twitter", "menubar=0,resizable=0,width=800,height=500")
+    popup.postMessage
+    popup.window.location.href = data.response.socialUrl
+    popup.focus()
+    timer = setInterval($.proxy(->
+      @twitterLinkedInterval(popup, timer)
+    , @), 100)
+
+  twitterLinkedInterval: (popup, timer)->
+    if popup.closed
+      clearInterval timer
+      @validTwitterAccount()
+
+  validTwitterAccount:->
+    @model.requestGetSocialAccounts(context:@)
+      .done(@doValidateAccount)
+      .fail(@showErrorMessageLinkSocialAccount)
+
+  doValidateAccount: (data, name, available)->
+    for socialAccount in data.response.socialAccounts
+      if socialAccount.name == name
+        if socialAccount.available == available
+          @showErrorMessageLinkSocialAccount()
+        else
+          @model.set name, available
+
+
+
 
   doUnlinkTwitter: (e)->
     e.preventDefault()
