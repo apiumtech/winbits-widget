@@ -4,10 +4,12 @@ $ = Winbits.$
 describe 'jQueryLocationSelectSpec', ->
 
   DISPLAY_NONE_REGEXP = /display:\s*none;/
-  PROMISE_RESOLVED_WITHOUT_DATA = new $.Deferred().resolve(response: []).promise()
+  PROMISE_RESOLVED_WITHOUT_DATA = new $.Deferred()
+    .resolve(response: []).promise()
 
   beforeEach ->
-    @$form = $('<form><input type="text" name="zipCode"><select></select></form>')
+    @$form = $('<form></form>')
+      .append('<input type="text" name="zipCode"><select></select>')
     @$form.validate
       ignore: []
       rules:
@@ -367,7 +369,8 @@ describe 'jQueryLocationSelectSpec', ->
     expect(@$locationSelect.data('_zip-code-info')).to.be.eql(zipCodeInfo)
 
   it 'should load data location if provided', ->
-    ajaxStub = sinon.stub($, 'ajax').returns(testUtils.promiseResolvedWithData())
+    ajaxStub = sinon.stub($, 'ajax')
+      .returns(testUtils.promiseResolvedWithData())
     @$locationSelect.attr('value', '')
     @$locationSelect.attr('data-location', 'Condesa')
 
@@ -380,14 +383,27 @@ describe 'jQueryLocationSelectSpec', ->
     expect($locationField).to.has.value('Condesa')
     expect($locationField).to.be.displayed
 
+  it 'should expose a function to get first value', ->
+    ajaxStub = sinon.stub($, 'ajax')
+      .returns(testUtils.promiseResolvedWithData())
+
+    @$locationSelect.wblocationselect()
+    @$locationSelect.wblocationselect('loadZipCode', '12345')
+
+    firstValue = @$locationSelect.wblocationselect('firstValue')
+    expect(firstValue).to.be.ok
+    expect(firstValue.id).to.be.equal(1)
+
   expectDefaultOptionExist = () ->
     value = ''
     text = 'Colonia/Asentamiento'
     $defaultOption = @$locationSelect.children("option[value='#{value}']")
     $defaultListOption = @$locationSelect.parent().find("li[rel='#{value}']")
-    expect($defaultOption, 'Expect just 1 default option to exist!').to.has.property('length', 1)
+    expect($defaultOption, 'Expect just 1 default option to exist!')
+      .to.has.property('length', 1)
     expectSelectOption($defaultOption, value, text)
-    expect($defaultListOption, 'Expect just 1 default list option to exist!').to.has.property('length', 1)
+    expect($defaultListOption, 'Expect just 1 default list option to exist!')
+      .to.has.property('length', 1)
     expectListOption($defaultListOption, value, text)
 
   expectOtherOptionExist = () ->
