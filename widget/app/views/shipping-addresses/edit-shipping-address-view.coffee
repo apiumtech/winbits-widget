@@ -68,7 +68,7 @@ module.exports = class EditShippingAddressView extends View
     @validFormAfterAttach()
 
   validFormAfterAttach: ->
-    window.setTimeout @validFormAfter, 115
+    window.setTimeout @validFormAfter, 220
 
   validFormAfter: ->
     $form =$('#wbi-edit-shipping-address-form')
