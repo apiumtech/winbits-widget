@@ -18,9 +18,9 @@ module.exports = class SocialAccounts extends Model
     socialAccounts = _.clone(response.socialAccounts)
     for socialAccount in socialAccounts
       if socialAccount.name is 'Facebook'
-        socialAccountsStatus.facebook = socialAccount.available
+        socialAccountsStatus.Facebook = socialAccount.available
       else
-        socialAccountsStatus.twitter = socialAccount.available
+        socialAccountsStatus.Twitter = socialAccount.available
     socialAccountsStatus
 
   requestConnectionLink:(formData, options)->

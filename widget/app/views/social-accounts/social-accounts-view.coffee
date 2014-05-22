@@ -81,16 +81,22 @@ module.exports = class SocialMediaView extends View
 
   validTwitterAccount:->
     @model.requestGetSocialAccounts(context:@)
-      .done(@doValidateAccount)
+      .done(@doValidateTwitterAccount)
       .fail(@showErrorMessageLinkSocialAccount)
 
-  doValidateAccount: (data, name, available)->
-    for socialAccount in data.response.socialAccounts
+  doValidateTwitterAccount: (data)->
+    console.log ['SOCIAL ACCOUNT', data]
+    @validateChangeAccount(data.response.socialAccounts, 'Twitter', yes)
+
+
+  validateChangeAccount:(socialAccounts, name, available)->
+    for socialAccount in socialAccounts
       if socialAccount.name == name
         if socialAccount.available == available
-          @showErrorMessageLinkSocialAccount()
-        else
           @model.set name, available
+        else
+          @showErrorMessageLinkSocialAccount()
+
 
 
 
