@@ -18,7 +18,7 @@ specs = [
   './views/new-shipping-address-view-spec'
   './views/edit-shipping-address-view-spec'
   './views/complete-register-view-spec'
-  './other/jquery-location-select-spec'
+  './other/jquery-wblocationselect-spec'
   './views/cart/cart-view-spec'
   './views/cart/cart-items-view-spec'
   './views/cart/cart-totals-view-spec'
@@ -45,5 +45,5 @@ specs = [
 ]
 
 for spec in specs
-    console.log ['Executing Spec -> ', spec]
-    require spec
+  console.log ['Executing Spec -> ', spec]
+  require spec
