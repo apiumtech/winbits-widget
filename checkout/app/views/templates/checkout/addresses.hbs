@@ -30,8 +30,9 @@
       <div class="column">
         <h3>CONTACTO</h3>
           <input type="text" class="required" placeholder="Nombre" name="firstName" value="{{firstName}}"  id="winbitsShippingName" maxlength="30">
-          <input type="text" class="required" placeholder="Apellido(s)" name="lastName" value="{{lastName}}"  id="winbitsShippingLastname" maxlength="50">
-          <input type="text" placeholder="Teléfono a 10 dígitos" name="phone" id="winbitsShippingTel" value="{{phone}}" maxlength="10">
+          <input type="text" class="required" placeholder="Apellido Paterno" name="lastName" value="{{lastName}}"  id="winbitsShippingLastname" maxlength="50">
+          <input type="text" placeholder="Apellido Materno" name="lastName2" value="{{lastName2}}" id="winbitsShippingLastname2" >
+          <input type="text" placeholder="Teléfono" name="phone" id="winbitsShippingTel" value="{{phone}}" maxlength="10">
       </div>
       <div class="column">
         <h3>DIRECCIÓN</h3>
@@ -42,23 +43,18 @@
             <input type="text" placeholder="# ext" class="required" name="externalNumber" value="{{externalNumber}}" maxlength="25" style="width: 63px;">
             <input type="text" placeholder="# int" name="internalNumber" value="{{internalNumber}}" maxlength="25" style="width: 63px;">
         </div>
-        <textarea placeholder="¿Entre qué calles?" class="required" name="betweenStreets">{{betweenStreets}}</textarea>
-        <textarea placeholder="Referencias para llegar" class="required" name="indications">{{indications}}</textarea>
+        <textarea placeholder="¿Entre qué calles?/Referencias para llegar" class="required" name="indications">{{indications}}</textarea>
           <input type="text" name="zipCode" placeholder="Código Postal" class="required digits zipCode" value="{{zipCode}}" maxlength="5">
-          <select class="select zipCodeInfo" data-clase="selectRegister" name="zipCodeInfo">
-          <option>Colonia/Asentamiento:</option>
-          <option value="-1">Otro...</option>
-        </select>
-          <input type="text" placeholder="Colonia" name="location" value="{{location}}" maxlength="50" {{#if zipCodeInfo}}style="display: none;"{{/if}}>
-          <input type="text" placeholder="Delegación o Municipio" name="county" value="{{county}}" readonly="" maxlength="50">
+          <select id="wbi-shipping-address-zip-code-info" name="zipCodeInfo" class="select requiredField" data-requiredfield="Requerido" data-clase="selectRegister" value="{{#if zipCodeInfo}}{{zipCodeInfo.id}}{{/if}}"  {{#if location}}data-location="{{location}}"{{/if}}></select>
           <input type="text" placeholder="Estado" value="{{state}}" name="state" readonly="" maxlength="30">
+          <input type="text" placeholder="Delegación o Municipio" name="county" value="{{county}}" readonly="" maxlength="50">
+          <input type="text" placeholder="Colonia" name="location" value="{{location}}" maxlength="50" {{#if zipCodeInfo}}style="display: none;"{{/if}}>
       </div>
       <div class="column columnLarge">
         <h3>OPCIONES</h3>
           <input type="checkbox" class="checkbox" {{#if main}}checked="checked"{{/if}} name="main" id="winbitsShippingPrincipal">
         <label for="winbitsShippingPrincipal" class="checkboxLabel">Hacer esta mi dirección principal</label>
         <p class="note">Winbits puede salvar tu dirección para que en tu próxima visita tus compras sean más faciles de realizar.</p>
-        <div class="errorDiv"><p></p></div>
         <div class="submitButton">
           <span id="btnCancel" class="btn btnCancel">Cancelar</span>
           <input class="btn btnUpdate" id="btnUpdate-{{id}}" type="button" value="Continuar">
@@ -86,9 +82,7 @@
         </div>
         <textarea placeholder="¿Entre qué calles?/Referencias para llegar" class="required" name="indications"></textarea>
         <input type="text" placeholder="Código Postal" class="required digits zipCode" maxlength="5" name="zipCode">
-        <select class="select zipCodeInfo" data-clase="selectRegister" placeholder="Localidad" name="zipCodeInfo">
-          <option>Colonia/Asentamiento:</option>
-        </select>
+        <select id="wbi-shipping-address-zip-code-info" name="zipCodeInfo" class="select requiredField" data-requiredfield="Requerido" data-clase="selectRegister" data-inputselect="true" value="{{#if zipCodeInfo}}{{zipCodeInfo.id}}{{/if}}"  {{#if location}}data-location="{{location}}"{{/if}}></select>
         <input type="text" placeholder="Estado" id="winbitsShippingState" name="state" readonly="" maxlength="30">
         <input type="text" placeholder="Delegación o Municipio" id="winbitsShippingCounty" name="county" readonly="" maxlength="50">
         <input type="text" placeholder="Colonia" name="location" style="display: none;" maxlength="50">
@@ -98,7 +92,6 @@
         <input type="checkbox" class="checkbox" name="main" id="winbitsShippingPrincipal">
         <label for="winbitsShippingPrincipal" class="checkboxLabel">Hacer esta mi dirección principal</label>
         <p class="note">Winbits puede salvar tu dirección para que en tu próxima visita tus compras sean más faciles de realizar.</p>
-        <div class="errorDiv"><p></p></div>
         <div class="submitButton">
           <span id="btnCancel" class="btn btnCancel">Cancelar</span>
           <input id="btnSubmit" type="button" value="Continuar" class="btn">

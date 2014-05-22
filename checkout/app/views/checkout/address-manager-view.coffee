@@ -4,7 +4,6 @@ util = require 'lib/util'
 vendor = require 'lib/vendor'
 config = require 'config'
 mediator = require 'chaplin/mediator'
-zipCode = require 'lib/zipCode'
 
 # Site view is a top-level view which is bound to body.
 module.exports = class CheckoutSiteView extends View
@@ -25,11 +24,8 @@ module.exports = class CheckoutSiteView extends View
     @delegate "click" , ".delete-address", @deleteAddress
     @delegate "click" , "#btnContinuar", @addressContinuar
     @delegate "click" , ".shippingItem", @selectShipping
-    @delegate 'textchange', '.zipCode', @findZipcode
-    @delegate 'change', 'select.zipCodeInfo', @changeZipCodeInfo
-
+  
   deleteAddress: (e)->
-    console.log "deleting address"
     $currentTarget = @$(e.currentTarget)
     that = @
     id =  $currentTarget.attr("id").split("-")[1]
@@ -39,17 +35,14 @@ module.exports = class CheckoutSiteView extends View
       @model.sync 'delete', @model,
         url: config.apiUrl + "/users/shipping-addresses/" + id + '.json',
         error: ->
-          console.log "error",
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
         success: ->
-          console.log "success"
           that.model.actualiza()
         complete: ->
           util.hideAjaxIndicator()
 
   selectShipping: (e)->
     $currentTarget = @$(e.currentTarget)
-    console.log $currentTarget.attr("id")
     id =  $currentTarget.attr("id").split("-")[1]
     @$(".shippingItem").removeClass("shippingSelected")
     $currentTarget.addClass("shippingSelected")
@@ -91,9 +84,7 @@ module.exports = class CheckoutSiteView extends View
 
   addressSubmit: (e)->
     e.preventDefault()
-    console.log "AddressSubmit"
     $form = @$el.find("#shippingNewAddress")
-    console.log $form.valid()
     if $form.valid()
       data: JSON.stringify(formData)
       formData = util.serializeForm($form)
@@ -101,17 +92,14 @@ module.exports = class CheckoutSiteView extends View
       if formData.zipCodeInfo and formData.zipCodeInfo > 0
         formData.zipCodeInfo  = {"id": formData.zipCodeInfo}
       formData.main = formData.hasOwnProperty('main')
-      console.log formData
       @model.set formData
       submitButton = $form.find("#btnSubmit").prop('disabled', true)
       that = @
       @model.sync 'create', @model,
         context: {$submitButton: submitButton}
         error: ->
-          console.log "error",
         headers: { 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
         success: ->
-          console.log "success"
           that.model.actualiza()
         complete: ->
           this.$submitButton.prop('disabled', false)
@@ -119,7 +107,6 @@ module.exports = class CheckoutSiteView extends View
 
   addressUpdate: (e)->
     e.preventDefault()
-    console.log "AddressUpdate"
     $currentTarget = @$(e.currentTarget)
     id =  $currentTarget.attr("id").split("-")[1]
     $form = @$el.find("#shippingEditAddress-" + id)
@@ -129,7 +116,6 @@ module.exports = class CheckoutSiteView extends View
       if formData.zipCodeInfo and formData.zipCodeInfo > 0
         formData.zipCodeInfo  = {"id": formData.zipCodeInfo}
       formData.main = formData.hasOwnProperty('main')
-      console.log formData
       @model.set formData
       that = @
       submitUpdate = $form.find('.btnUpdate').prop('disabled', true)
@@ -137,30 +123,44 @@ module.exports = class CheckoutSiteView extends View
         context: {$submitUpdate: submitUpdate}
         url: config.apiUrl + "/users/shipping-addresses/" + formData.id + '.json',
         error: ->
-          console.log "error",
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
         success: ->
-          console.log "success"
           that.model.actualiza()
         complete: ->
           this.$submitUpdate.prop('disabled', false)
+  
+  setCityAndState: ->
+     comboSelect = @$('select#wbi-shipping-address-zip-code-info')
+     valSelected = comboSelect.val()
+     if valSelected
+       value = comboSelect.wblocationselect('value')
+       @setCityAndStateDefault(value)
+     else
+       @$('[name="city"]').val('')
+       @$('[name="state"]').val('')
+
+  setCityAndStateDefault: (value)->
+    if value.id
+     @$('[name="city"]').val(value.city)
+     @$('[name="state"]').val(value.state)
 
   attach: ->
     super
-    console.log "AddressManagerView#attach"
     that = @
     $editForms = @$("form.shippingEditAddress")
+    @$el.find('[name=zipCodeInfo]').wblocationselect()
     $editForms.each ->
       $form = that.$(this)
       $select = $form.find('.select')
       $zipCode = $form.find('.zipCode')
       $zipCodeExtra = $form.find('.zipCodeInfoExtra')
-      zipCode(Winbits.$).find $zipCode.val(), $select, $zipCodeExtra.val()
-      unless $zipCode.val().length < 5
-        vendor.customSelect($select)
+
+      #zipCode(Winbits.$).find $zipCode.val(), $select, $zipCodeExtra.val()
+      #unless $zipCode.val().length < 5
+      #  vendor.customSelect($select)
 
     $form = @$el.find('form#shippingNewAddress')
-    vendor.customSelect($form.find(".select"))
+    #vendor.customSelect($form.find(".select"))
 
     $editForms.add($form).each ->
       Winbits.$(@).validate
@@ -220,32 +220,3 @@ module.exports = class CheckoutSiteView extends View
 
     $shippingAddresses = @$el.find('li.wb-shipping-address')
     $shippingAddresses.first().addClass('shippingSelected') if $shippingAddresses.filter('.shippingSelected').length is 0
-
-  findZipcode: (event)->
-    event.preventDefault()
-    console.log "find zipCode"
-    $currentTarget = @$(event.currentTarget)
-    $slt = $currentTarget.parent().find(".select")
-    zipCode(Winbits.$).find $currentTarget.val(), $slt
-    if not $currentTarget.val()
-      $currentTarget.closest('form').valid()
-
-  changeZipCodeInfo: (e) ->
-    $ = Winbits.$
-    $select = $(e.currentTarget)
-    zipCodeInfoId = $select.val()
-    $form = $select.closest('form')
-    $fields = $form.find('[name=location], [name=county], [name=state]')
-    if not zipCodeInfoId
-      $fields.show().val('').attr('readonly', '').filter('[name=location]').hide()
-    else if zipCodeInfoId is '-1'
-      $fields.show().removeAttr('readonly')
-    else
-      $fields.show().attr('readonly', '').filter('[name=location]').hide()
-    $option = $select.children('[value=' + zipCodeInfoId + ']')
-    zipCodeInfo = $option.data 'zip-code-info'
-    if zipCodeInfo
-      $form.find('input.zipCode').val zipCodeInfo.zipCode
-      $fields.filter('[name=county]').val zipCodeInfo.county
-      $fields.filter('[name=state]').val zipCodeInfo.state
-    $form.valid()

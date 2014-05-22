@@ -20,6 +20,8 @@ exports.config =
         ]
         after: [
           'test/vendor/scripts/test-helper.js'
+          'vendor/scripts/script.js', # Script de Yadira
+          'vendor/scripts/winbits/jquery-location-select.coffee'
         ]
 
     stylesheets:

@@ -56,14 +56,11 @@ module.exports = class CheckoutController extends ChaplinController
     @cards = new Cards
 
     @payments.set methods:@order_data.paymentMethods
-    console.log 'peiments', @order_data.paymentMethods
 
     # @orderDetailView.render()
     @paymentView.render()
 
-    console.log @order_data
     @orderDetails.on "change", ->
-      console.log "here order details changeed"
       that.orderDetailView.render()
 
     @orderDetails.set @orderDetails.completeOrderModel @order_data, parseFloat(Winbits.checkoutConfig.bitsBalance)
@@ -74,12 +71,10 @@ module.exports = class CheckoutController extends ChaplinController
     @paymentView.cardsView = @cardsView
 
     @payments.on "change", ->
-      console.log "on change payment"
       that.paymentView.render()
       that.cardsView.render()
 
     @cards.on 'change', ->
-      console.log "Cards model changed"
       that.cardsView.render()
 
     @addressCK.on "change", ->

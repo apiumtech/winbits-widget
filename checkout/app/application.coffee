@@ -28,6 +28,8 @@ module.exports = class Application
 
     Object.freeze? this
 
+    Winbits.env = get: -> config.apiUrl
+
   # Create additional mediator properties.
   initMediator: ->
     # Add additional application-specific properties and methods
