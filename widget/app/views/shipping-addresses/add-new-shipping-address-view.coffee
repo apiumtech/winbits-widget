@@ -93,13 +93,6 @@ module.exports = class AddNewShippingAddressView extends View
       .done(@successSaveNewShippingAddress)
       .fail(@errorSaveNewShippingAddress)
 
-  checkZipCodeInfo: ->
-    zipCodeInfo =@$('select#wbi-shipping-address-zip-code-info').wblocationselect('value')
-    if not zipCodeInfo.state
-      console.log ["Zip code info in other..."]
-      @$('[name="city"]').val city
-      @$('[name="state"]').val state
-
   successSaveNewShippingAddress:()->
     @$('#wbi-shipping-address-process').hide()
     @$('#wbi-shipping-address-done').show()
