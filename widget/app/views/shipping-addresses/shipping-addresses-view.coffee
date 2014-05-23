@@ -63,7 +63,8 @@ module.exports = class ShippingAddressesView extends View
       @shippingCandidate = $shipping
       @turnShippingClickEvent('off')
       @model.requestSetDefaultShipping(id,dataChange, @)
-      .done(@setDefaulShippingSucceds)
+      .done(@setDefaultShippingSucceds)
+      .fail(@setDefaultShippingError)
       .always(-> @turnShippingClickEvent('on'))
       .always(-> utils.hideAjaxLoading())
 
@@ -74,7 +75,12 @@ module.exports = class ShippingAddressesView extends View
     else
       return $.extend(dataChange, data, main: true)
 
-  setDefaulShippingSucceds: ->
+  setDefaultShippingError: ->
+    message = "Por el momento no es posible marcar como dirección principal, inténtalo más tarde"
+    options = value: "Continuar", title:'Error', icon:'iconFont-info', onClosed: utils.redirectTo controller: 'home', action: 'index'
+    utils.showMessageModal(message, options)
+
+  setDefaultShippingSucceds: ->
     @getDefaultShipping().removeClass(DEFAULT_SHIPPING_CLASS)
     @shippingCandidate.children().addClass(DEFAULT_SHIPPING_CLASS)
 
