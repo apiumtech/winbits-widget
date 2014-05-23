@@ -28,6 +28,16 @@ module.exports = class ShippingAddresses extends Model
     utils.ajaxRequest(env.get('api-url') +  "/users/shipping-addresses.json",
         $.extend(defaults, options))
 
+  requestSetDefaultShipping: (id,data,context= @) ->
+    url = utils.getResourceURL("/users/shipping-addresses/#{id}.json")
+    options =
+      type: "PUT"
+      context: context
+      data: JSON.stringify(data)
+      headers:
+        'Wb-Api-Token': utils.getApiToken()
+    utils.ajaxRequest(url, options)
+
   requestSaveEditShippingAddress: (itemId,formData, options)->
     defaults =
       type: "PUT"
