@@ -78,7 +78,6 @@ describe 'SocialAccountsLinkViewSpec', ->
     sinon.stub(@view, 'successConnectTwitterLink')
     @view.$('.wbc-twitter-link').click()
     @server.requests[0].respond(200, { "Content-Type": "application/json" }, TWITTER_RESPONSE)
-    console.log ['server request', @server.requests]
     expect(@view.successConnectTwitterLink).to.be.calledOnce
 
   it "Should be called error when the api response with twitter", ->

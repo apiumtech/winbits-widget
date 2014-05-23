@@ -66,7 +66,6 @@ module.exports = class SocialMediaView extends View
     .fail(@showErrorMessageLinkSocialAccount)
 
   successConnectTwitterLink: (data)->
-    console.log ['data', data]
     popup =  window.open("", "twitter", "menubar=0,resizable=0,width=800,height=500")
     popup.postMessage
     popup.window?.location.href = data.response.socialUrl
