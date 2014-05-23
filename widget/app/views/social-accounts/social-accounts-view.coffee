@@ -23,6 +23,7 @@ module.exports = class SocialMediaView extends View
 
   doLinkFacebook: (e)->
     e.preventDefault()
+    utils.showAjaxLoading()
     @model.requestConnectionLink('facebook', context: @)
       .done(@successConnectFacebookLink)
       .fail(@showErrorMessageLinkSocialAccount)
@@ -49,9 +50,11 @@ module.exports = class SocialMediaView extends View
       @model.set 'Facebook', yes
     else
       @showErrorMessageLinkSocialAccount()
+    utils.hideAjaxLoading()
 
 
   showErrorMessageLinkSocialAccount: ->
+    utils.hideAjaxLoading()
     message = 'Para poder ligar tu cuenta de Facebook o Twitter debes terminar el proceso y aceptar todos los privilegios solicitados.'
     options = value:'Aceptar', title: 'Error al ligar red social', icon : 'iconFont-close'
     utils.showMessageModal(message, options)
@@ -61,6 +64,7 @@ module.exports = class SocialMediaView extends View
 
   doLinkTwitter:  (e)->
     e.preventDefault()
+    utils.showAjaxLoading()
     @model.requestConnectionLink('twitter', context: @)
     .done(@successConnectTwitterLink)
     .fail(@showErrorMessageLinkSocialAccount)
@@ -96,6 +100,7 @@ module.exports = class SocialMediaView extends View
           @model.set name, available
         else
           @showErrorMessageLinkSocialAccount()
+    utils.hideAjaxLoading()
 
 
 
