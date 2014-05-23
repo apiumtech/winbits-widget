@@ -1,3 +1,4 @@
+'use strict'
 require = Winbits.require
 utils = require 'lib/utils'
 Model = require 'models/base/model'

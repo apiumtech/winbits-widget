@@ -22,21 +22,29 @@ module.exports = class CompleteRegisterView extends View
     @$('#wbi-complete-register-form').validate
       ignore:''
       errorPlacement: ($error, $element) ->
-        if $element.attr("name") in ["zipCodeInfo"]
+        if $element.attr("name") in ["wbi-birthdate-day", "wbi-birthdate-month", "wbi-birthdate-year", "zipCodeInfo"]
           $error.appendTo $element.parent()
         else
           $error.insertAfter $element
+      groups:
+        birthDate: ' wbi-birthdate-day wbi-birthdate-month wbi-birthdate-year'
       rules:
         name:
           minlength:2
         lastName:
           minlength: 2
-        zipCode:
-          minlength:5
+        'wbi-birthdate-day':
+          validateDate: yes
+        'wbi-birthdate-month':
+          validateDate: yes
+        'wbi-birthdate-year':
+          validateDate: yes
+        phone:
+          wbiPhone: yes
+        zipcode:
+          minlength: 5
           digits:yes
           zipCodeDoesNotExist:yes
-        phone:
-          wbiPhone:yes
         location:
           wbiLocation: yes
         zipCodeInfo:
