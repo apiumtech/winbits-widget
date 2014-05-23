@@ -8,6 +8,7 @@ EditShippingAddressModel = require 'models/shipping-addresses/edit-shipping-addr
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 env = Winbits.env
+DEFAULT_SHIPPING_CLASS = 'carruselSCC-selected'
 
 module.exports = class ShippingAddressesView extends View
   container: '#wb-shipping-addresses'
@@ -17,6 +18,7 @@ module.exports = class ShippingAddressesView extends View
     super
     @listenTo @model,  'change', -> @render()
     @model.fetch()
+    @clickOnShippingHandler = @delegate 'click', '.wbc-shipping', -> @onShippingClick.apply(@, arguments)
     @delegate 'click', '#wbi-add-new-shipping-address' , @showAddNewShipping
     @delegate 'click', '#wbi-add-shipping-address-cancel', @cancelAddNewShipping
     @delegate 'click', '#wbi-edit-shipping-address-cancel', @cancelEditShipping
@@ -51,11 +53,47 @@ module.exports = class ShippingAddressesView extends View
           initialSlide: '.carruselSCC-selected'
     })
 
+  onShippingClick: (e) ->
+    $shipping = $(e.currentTarget)
+    if not $shipping.children(".#{DEFAULT_SHIPPING_CLASS}").length > 0
+      utils.showAjaxLoading()
+      id = $shipping.closest('.block-slide').data('id')
+      data = @model.getShippingAddress(id)
+      dataChange = @checkZipCodeInfoAndChange(data)
+      @shippingCandidate = $shipping
+      @turnShippingClickEvent('off')
+      @model.requestSetDefaultShipping(id,dataChange, @)
+      .done(@setDefaultShippingSucceds)
+      .fail(@setDefaultShippingError)
+      .always(-> @turnShippingClickEvent('on'))
+      .always(-> utils.hideAjaxLoading())
+
+  checkZipCodeInfoAndChange: (data)->
+    dataChange={}
+    if not data.zipCodeInfo
+      return $.extend(dataChange, data, {main: true, zipCodeInfo: "-1"})
+    else
+      return $.extend(dataChange, data, main: true)
+
+  setDefaultShippingError: ->
+    message = "Por el momento no es posible marcar como dirección principal, inténtalo más tarde"
+    options = value: "Continuar", title:'Error', icon:'iconFont-info', onClosed: utils.redirectTo controller: 'home', action: 'index'
+    utils.showMessageModal(message, options)
+
+  setDefaultShippingSucceds: ->
+    @getDefaultShipping().removeClass(DEFAULT_SHIPPING_CLASS)
+    @shippingCandidate.children().addClass(DEFAULT_SHIPPING_CLASS)
+
+  getDefaultShipping: ->
+    @$(".#{DEFAULT_SHIPPING_CLASS}")
+
+  turnShippingClickEvent: (state) ->
+    @$el[state]('click', '.wbc-shipping', @clickOnShippingHandler)
+
   showAddNewShipping:(e)->
     e.preventDefault()
     @$('#wbi-shipping-addresses-view').slideUp()
     @$('#wbi-shipping-new-address-container').slideDown()
-
 
   cancelAddNewShipping: (e)->
     e.preventDefault()
@@ -105,6 +143,7 @@ module.exports = class ShippingAddressesView extends View
 
   doEditShippingAddress: (e) ->
     e.preventDefault()
+    e.stopPropagation()
     itemId = $(e.currentTarget).closest('.block-slide').data("id")
     address = @model.getShippingAddress(itemId)
     editModel = new EditShippingAddressModel(address)

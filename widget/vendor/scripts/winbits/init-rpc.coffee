@@ -20,25 +20,30 @@
     if $.isPlainObject(url)
       options = url
       url = options.url
-    defaultOptions =  dataType: 'json'
-    defaultHeaders = 'Accept-Language': 'es', 'Content-Type': 'application/json'
+    defaultOptions =
+      dataType: 'json'
+      context: @
+    defaultHeaders =
+      'Accept-Language': 'es'
+      'Content-Type': 'application/json'
     options = $.extend(defaultOptions, options)
     options.headers = $.extend(defaultHeaders, options.headers)
     if ($.browser.msie and not /10.*/.test($.browser.version))
-      context = options.context or @
+      context = options.context
+      success = options.success
+      error = options.error
+      complete = options.complete
       deferred = new $.Deferred()
-      deferred.then ->
-        options.success.apply(context, arguments) if $.isFunction options.success
-        options.complete.call(context) if $.isFunction options.complete
-      , ->
-        options.error.apply(context, arguments) if $.isFunction options.error
-        options.complete.call(context) if $.isFunction options.complete
-      Winbits.env('rpc').request url, options, deferred.resolve, deferred.reject
+      deferred.done($.proxy(success, context)) if $.isFunction(success)
+      deferred.fail($.proxy(error, context)) if $.isFunction(error)
+      deferred.always($.proxy(complete, context)) if $.isFunction(complete)
+      Winbits.env.get('rpc')
+        .request(url, options, deferred.resolve, deferred.reject)
       deferred.promise()
     else
       $.ajax(url,options)
 
-  Winbits.saveLoginData=(loginData) ->
+  Winbits.saveLoginData = (loginData) ->
     localStorage.setItem Winbits.env.get('api-token-name'), loginData.apiToken
     Winbits.env.get('rpc').saveApiToken loginData.apiToken
 

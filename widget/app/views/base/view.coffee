@@ -39,6 +39,10 @@ module.exports = class View extends Chaplin.View
       # Return the view.
       this
 
+  attach: ->
+    super
+    @$(':input[placeholder]').not('[type="password"]').placeholder()
+
   # This method is called after a specific `render` of a derived class.
 
   Handlebars.registerHelper "debug", (optionalValue) ->

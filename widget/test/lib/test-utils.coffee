@@ -8,7 +8,10 @@ testUtils = {}
 #  someMethod: ->
 _(testUtils).extend
   promiseResolvedWithData: (extraZipCodeInfo) ->
-    zipCodeData = response: [@generateZipCodeInfo(), @generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')]
+    zipCodeData = response: [
+      @generateZipCodeInfo()
+      @generateZipCodeInfo(id: 2, locationName: 'Lomas Virreyes')
+    ]
     zipCodeData.response.push(extraZipCodeInfo) if extraZipCodeInfo
     new $.Deferred().resolve(zipCodeData).promise()
 

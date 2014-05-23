@@ -113,3 +113,20 @@ describe 'ShippingAddressesViewSpec', ->
     @view.$('a.wbc-edit-shipping-link').click()
 
     expect(getShippingAddressStub).to.be.calledOnce
+
+  it "Should be called request Set Main Shipping", ->
+    sinon.stub(@view,'doEditShippingAddress')
+    onShippingClickStub = sinon.stub(@view, 'onShippingClick')
+    request = @requests[0]
+    request.respond(200, { "Content-Type": "application/json" }, SHIPPING_ADDRESSES_RESPONSE)
+    @view.$('.wbc-shipping').click()
+
+    expect(@view.$('.wbc-shipping')).to.exist
+    expect(onShippingClickStub).to.be.calledOnce
+
+  it "Should NO be called request Set Main Shipping with no addresses", ->
+    sinon.stub(@view,'doEditShippingAddress')
+    onShippingClickStub = sinon.stub(@view, 'onShippingClick')
+
+    expect(@view.$('.wbc-shipping')).to.not.exist
+    expect(onShippingClickStub).to.not.be.calledOnce

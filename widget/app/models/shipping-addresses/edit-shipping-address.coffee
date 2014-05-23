@@ -10,8 +10,9 @@ module.exports = class EditShippingAddresses extends Model
   initialize: ()->
     super
 
-  parse: (data) ->
-    address: data
+  parse: ->
+    super
+
 
   requestSaveEditShippingAddress: (itemId,formData, options)->
     defaults =
@@ -25,3 +26,7 @@ module.exports = class EditShippingAddresses extends Model
 
     utils.ajaxRequest(env.get('api-url') +  "/users/shipping-addresses/#{itemId}.json",
       $.extend(defaults, options))
+
+  getZipCode:()->
+    console.log ["publisZipCode"]
+    @get("zipCode")

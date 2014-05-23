@@ -27,10 +27,12 @@
       $('<option>', value: '').text(@options.defaultOption).prependTo(@element)
 
     _createOtherInput: ->
-      otherFieldAttrs = $.extend({}, @options.otherFieldAttrs, { type: 'text', class:"wbc-location-field", style: 'display:none;' })
+      otherFieldAttrs = $.extend({}, @options.otherFieldAttrs,
+        { type: 'text', class:"wbc-location-field", style: 'display:none;' })
       @$locationField = $('<input>', otherFieldAttrs)
       @$locationField.insertAfter(@_wrapper)
-      @$locationField.attr('placeholder', otherFieldAttrs.placeholder).placeholder()
+      @$locationField.attr('placeholder', otherFieldAttrs.placeholder)
+        .placeholder()
 
     _enhanceSelect: ->
       @element.customSelect()
@@ -170,4 +172,7 @@
       $form.element(@$zipCodeInput)
       $form.element(@$locationField)
       $form.element(@element)
+
+    firstValue: ->
+      @element.children().eq(1).data(@_zipCodeInfoKey)
 )(jQuery)
