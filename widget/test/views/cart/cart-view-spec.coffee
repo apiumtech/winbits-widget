@@ -36,13 +36,13 @@ describe 'CartViewSpec', ->
     expect(@view.$ '#wbi-cart-right-panel').to.exist
 
   it 'should apply dropMainMenu plugin on cart info', ->
-    dropMainMenuStub = sinon.stub()
-    viewStub = sinon.stub(@view, '$').returns(dropMainMenu: dropMainMenuStub)
+    sinon.spy($.fn, 'dropMainMenu')
 
     @view.render()
 
-    expect(viewStub).to.have.been.calledWith('#wbi-cart-info')
-    expect(dropMainMenuStub).to.have.been.calledOnce
+    expect($.fn.dropMainMenu).to.have.been.calledOnce
+    expect($.fn.dropMainMenu.firstCall.returnValue, 'ID inválido')
+      .to.has.id('wbi-cart-info')
 
   it 'should render cart items view as subview', ->
     expectCartSubview.call(@, '#wbi-cart-items', 'wbi-cart-left-panel', 'cart-items')
