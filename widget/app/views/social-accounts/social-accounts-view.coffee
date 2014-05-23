@@ -6,7 +6,7 @@ env = Winbits.env
 
 module.exports = class SocialMediaView extends View
   container: '#wb-profile'
-  id : 'wbi-social-media-panel'
+  id : 'wbi-social-accounts-panel'
   template: require './templates/social-accounts'
 
   initialize: ->
@@ -28,10 +28,9 @@ module.exports = class SocialMediaView extends View
       .fail(@showErrorMessageLinkSocialAccount)
 
   successConnectFacebookLink: (data)->
-    console.log ['WAS HERE']
     popup =  window.open("", "facebook", "menubar=0,resizable=0,width=800,height=500")
     popup.postMessage
-    popup.window.location.href = data?.response.socialUrl
+    popup.window?.location.href = data.response.socialUrl
     popup.focus()
     timer = setInterval($.proxy(->
       @facebookLinkedInterval(popup, timer)
@@ -67,9 +66,10 @@ module.exports = class SocialMediaView extends View
     .fail(@showErrorMessageLinkSocialAccount)
 
   successConnectTwitterLink: (data)->
+    console.log ['data', data]
     popup =  window.open("", "twitter", "menubar=0,resizable=0,width=800,height=500")
     popup.postMessage
-    popup.window.location.href = data.response.socialUrl
+    popup.window?.location.href = data.response.socialUrl
     popup.focus()
     timer = setInterval($.proxy(->
       @twitterLinkedInterval(popup, timer)
