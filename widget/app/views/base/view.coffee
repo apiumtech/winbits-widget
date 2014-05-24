@@ -40,7 +40,7 @@ module.exports = class View extends Chaplin.View
       this
 
   attach: ->
-    super
+    # super
     @$(':input[placeholder]').not('[type="password"]').placeholder()
 
   # This method is called after a specific `render` of a derived class.
