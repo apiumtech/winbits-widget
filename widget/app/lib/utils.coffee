@@ -393,6 +393,8 @@ _(utils).extend
 
   closeMessageModal: $.fancybox.close
 
+
+
 # Prevent creating new properties and stuff.
 Object.seal? utils
 
