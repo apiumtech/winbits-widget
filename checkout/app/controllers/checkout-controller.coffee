@@ -1,6 +1,6 @@
 ChaplinController = require 'chaplin/controller/controller'
 CheckoutSiteView = require 'views/checkout/checkout-site-view'
-AddressManagerView = require "views/checkout/address-manager-view"
+AddressManagerView = require "views/checkout/shipping-addresses/address-manager-view"
 PaymentView = require "views/checkout/payment-view"
 AddressCK = require "models/checkout/addressCK"
 OrderDetails = require "models/checkout/orderDetails"

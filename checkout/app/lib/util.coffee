@@ -326,3 +326,4 @@ module.exports =
 
   hideDropMenus:()->
     Winbits.$('.miCuentaDiv, .miCarritoDiv').slideUp()
+  

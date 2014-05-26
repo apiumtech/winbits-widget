@@ -20,3 +20,18 @@ module.exports = class AddressCK extends ChaplinModel
       success: ->
         console.log "success load Virtual cart"
 
+  requestSaveNewShippingAddress: (formData, options)->
+    defaults =
+      type: "POST"
+      contentType: "application/json"
+      dataType: "json"
+      data: JSON.stringify(formData)
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token": util.retrieveKey(config.apiTokenName)
+
+    console.log JSON.stringify formData
+        
+    util.ajaxRequest(@url,
+      Winbits.$.extend(defaults, options))
+

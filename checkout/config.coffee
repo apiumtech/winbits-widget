@@ -30,6 +30,7 @@ exports.config =
         'test/stylesheets/test.css': /^test/
       order:
         after: ['vendor/styles/helpers.css']
+        after: ['vendor/styles/winbitsMain.css']
 
     templates:
       joinTo: 'javascripts/app.js'
