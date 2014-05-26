@@ -50,22 +50,9 @@
   # Winbits promises
   loadAppScript = () ->
     deferred = new $.Deferred()
-    yepnope.injectJs Winbits.env.get('base-url') + '/javascripts/app.js', deferred.resolve
+    baseUrl = Winbits.env.get('base-url')
+    yepnope.injectJs  "#{baseUrl}/javascripts/app.js", deferred.resolve
     timeoutDeferred(deferred).promise()
-
-  # loadAppScript = () ->
-  #   deferred = new $.Deferred()
-  #   script = document.createElement("script")
-  #   script.setAttribute "type", "text/javascript"
-  #   script.setAttribute "src", Winbits.env.get('base-url') + '/javascripts/app.js'
-  #   if script.readyState
-  #     script.onreadystatechange = -> # For old versions of IE
-  #       deferred.resolve()  if @readyState is "complete" or @readyState is "loaded"
-  #       return
-  #   else # Other browsers
-  #     script.onload = deferred.resolve
-  #   (document.getElementsByTagName("head")[0] or document.documentElement).appendChild script
-  #   timeoutDeferred(deferred).promise()
 
   loadingAppScript = loadAppScript().done ->
     console.log 'App script loaded :)'
@@ -95,14 +82,16 @@
       Winbits.env.set 'current-vertical-id', currentVerticalId
       verticalsData = data.response
       Winbits.env.set 'verticals-data', verticalsData
-      currentVertical = (v for v in verticalsData when v.id is currentVerticalId)
-      Winbits.env.set 'current-vertical', currentVertical[0]
+      result = (v for v in verticalsData when v.id is currentVerticalId)
+      currentVertical = result.pop()
+      Winbits.env.set 'current-vertical', currentVertical
     .fail -> console.log ['ERROR', 'Unable to verify vertical data :(']
     promises.push verifyingVerticalData.promise()
 
     verifyVerticalData = ((deferred) ->
       ->
-        Winbits.ajaxRequest Winbits.env.get('api-url') + '/users/verticals.json',
+        apiUrl = Winbits.env.get('api-url')
+        Winbits.ajaxRequest "#{apiUrl}/users/verticals.json",
           data: hostname: location.hostname
         .done deferred.resolve
         .fail deferred.reject
@@ -123,7 +112,8 @@
     verifyLoginData = ((deferred) ->
       (apiToken) ->
         if apiToken
-          Winbits.ajaxRequest Winbits.env.get('api-url') + '/users/express-login.json',
+          apiUrl = Winbits.env.get('api-url')
+          Winbits.ajaxRequest  "#{apiUrl}/users/express-login.json",
             type: 'POST',
             data: JSON.stringify(apiToken: apiToken)
           .done deferred.resolve

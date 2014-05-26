@@ -96,7 +96,7 @@ Handlebars.registerHelper "formatCurrency", (value)->
   utils.formatCurrency(value)
 
 Handlebars.registerHelper "getContactName", () ->
-  (this.firstName + ' ' + this.lastName).trim()
+  $.trim(this.firstName + ' ' + this.lastName)
 
 Handlebars.registerHelper "joinAttributes", (mainAttribute, attributes) ->
   attrs = [mainAttribute].concat(attributes)

@@ -19,7 +19,8 @@ module.exports = class CartItemsView extends View
   attach: ->
     super
     @$el.scrollpane(parent: '#wbi-cart-drop')
-    @$('.wbc-item-quantity').customSelect().on "change", $.proxy @doUpdateItem, @
+    @$('.wbc-item-quantity').customSelect()
+      .on("change", $.proxy(@doUpdateItem, @))
 
   doUpdateItem:() ->
     quantity = @$('.wbc-item-quantity')

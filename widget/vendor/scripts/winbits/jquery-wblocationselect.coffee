@@ -16,12 +16,16 @@
     _zipCodeRegExp: /\d{5}/
 
     _create: ->
+      @_setAjax()
       @_createDefaultOption()
       @_enhanceSelect()
       @_createOtherInput()
       @_connectZipCodeInput()
       zipCode = @$zipCodeInput.val()
       @loadZipCode(zipCode) if zipCode
+
+    _setAjax: ->
+      @_ajax = @options.ajax or $.wblocationselect.ajax or $.ajax
 
     _createDefaultOption: ->
       $('<option>', value: '').text(@options.defaultOption).prependTo(@element)
@@ -72,7 +76,7 @@
       if @_isValidZipCode(zipCode)
         @$zipCodeInput.prop('disabled', yes)
         apiUrl = Winbits.env.get('api-url')
-        $.ajax("#{apiUrl}/users/locations/#{zipCode}.json",
+        @_ajax("#{apiUrl}/users/locations/#{zipCode}.json",
           dataType: 'json'
         ).done($.proxy(@_loadZipCodeDone, @))
         .always($.proxy(@_loadZipCodeAlways, @))
@@ -175,4 +179,6 @@
 
     firstValue: ->
       @element.children().eq(1).data(@_zipCodeInfoKey)
+
+  $.wblocationselect = {}
 )(jQuery)
