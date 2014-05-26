@@ -362,7 +362,7 @@ _(utils).extend
       no
 
   getVirtualCart: () ->
-      env.get('vCart')
+      env.get('vCart') or '[]'
 
   saveVirtualCart: (cartData) ->
     vcart = "[]"
