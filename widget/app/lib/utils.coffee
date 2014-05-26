@@ -362,7 +362,7 @@ _(utils).extend
       no
 
   getVirtualCart: () ->
-    localStorage['wb-vcart'] or '[]'
+      env.get('vCart') or '[]'
 
   saveVirtualCart: (cartData) ->
     vcart = "[]"
