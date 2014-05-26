@@ -64,10 +64,10 @@
             var vcartToken = Winbits.retrieveKey(Winbits.cartTokenKey);
             if (!vcartToken) {
               vcartToken = '[]';
-              Winbits.storeKey(Winbits.cartTokenKey, vcartToken);
             }
+            Winbits.storeKey(Winbits.cartTokenKey, vcartToken);
             tokens.vcartToken = vcartToken;
-            console.log(['W: The tokens', tokens]);
+            console.log(['W: The tokens >>>', tokens]);
 
            return tokens;
 

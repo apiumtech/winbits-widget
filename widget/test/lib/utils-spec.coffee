@@ -42,3 +42,17 @@ describe 'UtilsSpec', ->
     env.get.withArgs('api-url').returns('https://apitest.winbits.com/v1')
 
     expect(utils.getResourceURL('xxx.json')).to.be.equal('https://apitest.winbits.com/v1/xxx.json')
+
+  it 'saveVirtualCartInStorage should store virtual cart on localStorage when don\'t pass params', ->
+    utils.saveVirtualCartInStorage()
+    expect(localStorage['wb-vcart']).to.be.equal('[]')
+
+  it 'saveVirtualCart should store virtual cart on API domain when don\'t have cart details ', ->
+    cartData =
+      itemsCount : 2
+      cartDetails: []
+
+    utils.saveVirtualCart(cartData)
+
+    expect(rpc.storeVirtualCart).to.has.been.calledWith('[]')
+    .and.to.has.been.calledOnce

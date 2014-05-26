@@ -16,9 +16,8 @@ module.exports = class CartView extends View
 
   initialize: ->
     super
-    # @listenTo @model, 'change', -> @render()
     @subscribeEvent 'cart-changed', -> @onCartChanged.apply(@, arguments)
-    @model.fetch(success: $.proxy(@successFetch, @))
+    @restoreCart()
 
   render: ->
     super
@@ -41,4 +40,24 @@ module.exports = class CartView extends View
     @onCartChanged data
     $bitsTotal= @model.get 'bitsTotal'
     @publishEvent 'change-bits-data', $bitsTotal
+
+  restoreCart: ->
+    virtualCart = utils.getVirtualCart()
+    if(utils.isLoggedIn())
+      console.log ['IS LOGGED IN']
+      unless virtualCart is "[]"
+        console.log ['HAVE A VIRTUAL CART NOT NULL']
+        formData = virtualCartData : JSON.parse(virtualCart)
+        @model.transferVirtualCart(formData, context:@)
+        .done(@successTransferVirtualCart)
+      else
+        console.log ['HAVE A VIRTUAL CART NULL']
+        @model.fetch(success: $.proxy(@successFetch, @))
+    else
+      console.log ['IS NOT LOGGED IN']
+      @model.fetch(success: $.proxy(@successFetch, @))
+
+  successTransferVirtualCart: (data)->
+    utils.saveVirtualCartInStorage()
+    @successFetch(data)
 

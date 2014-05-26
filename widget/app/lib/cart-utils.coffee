@@ -15,7 +15,7 @@ _(cartUtils).extend
       resource = if utils.isLoggedIn() then 'cart-items.json' else 'virtual-cart-items.json'
     else
       resource = if utils.isLoggedIn() then "cart-items/#{itemId}.json" else "virtual-cart-items/#{itemId}.json"
-    env.get('api-url') + "/orders/#{resource}"
+    utils.getResourceURL "orders/#{resource}"
 
   addToUserCart: (cartItems = {}) ->
     cartItems = @transformCartItems(cartItems)

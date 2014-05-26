@@ -1,7 +1,6 @@
 Controller = require "controllers/base/controller"
 NotLoggedInView = require 'views/not-logged-in/not-logged-in-view'
 CartView = require 'views/cart/cart-view'
-Cart = require 'models/cart/cart'
 utils = require 'lib/utils'
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
