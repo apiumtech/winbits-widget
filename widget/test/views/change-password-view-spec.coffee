@@ -8,7 +8,7 @@ $ = Winbits.$
 _ = Winbits._
 mediator = Winbits.Chaplin.mediator
 
-describe.only 'ChangePasswordViewSpec', ->
+describe 'ChangePasswordViewSpec', ->
 
   before ->
     $.validator.setDefaults({ignore:[]})
