@@ -295,7 +295,7 @@ _(utils).extend
     options.onClosed ?= $.noop
     options.title ?= 'Mensaje'
     options.icon ?="icontFont-question"
-    options.acceptAction ?= $.noop
+    options.acceptAction ?= @closeMessageModal
     options.acceptAction = $.proxy(options.acceptAction, options.context)
 #    onStart = $.proxy(options.onStart or $.noop, context)
 #    onCancel = $.proxy(options.onCancel or $.noop, context)
@@ -303,7 +303,7 @@ _(utils).extend
 #    onCleanup = $.proxy(options.onCleanup or $.noop, context)
     onClosed = $.proxy(options.onClosed, options.context)
     $(".wbc-modal-message", $modal).html(message)
-    $(".wbc-default-action", $modal).unbind('click').click(options.acceptAction).click(@closeMessageModal).val options.value
+    $(".wbc-default-action", $modal).unbind('click').click(options.acceptAction).val options.value
     $(".wbc-modal-title", $modal).html(options.title)
     $(".wbc-modal-icon", $modal).html("<span class='#{options.icon}'></span>")
     $('<a>').wbfancybox(padding: 10, href: modalSelector, onClosed: onClosed).click()
@@ -314,9 +314,9 @@ _(utils).extend
     options.cancelValue ?= 'Cancelar'
     options.context ?= @
     options.icon ?= 'iconFont-question'
-    options.cancelAction ?= $.noop
+    options.cancelAction ?= @closeMessageModal
     options.cancelAction = $.proxy(options.cancelAction, options.context)
-    $(".wbc-cancel-action", $modal).unbind('click').click(options.cancelAction).click(@closeMessageModal).val options.cancelValue
+    $(".wbc-cancel-action", $modal).unbind('click').click(options.cancelAction).val options.cancelValue
     @showMessageModal(message, options, $modal.selector)
 
   showLoadingMessage: (message, options)->

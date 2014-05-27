@@ -1,3 +1,4 @@
+'use strict'
 View = require 'views/base/view'
 utils = require 'lib/utils'
 $ = Winbits.$
@@ -32,30 +33,18 @@ module.exports = class ModalRegisterView extends View
     $('<a>').wbfancybox(href: '#wbi-register-modal', onClosed: -> utils.redirectTo controller: 'home', action: 'index').click()
 
   register: (e)->
-    @$('.errorDiv').css('display':'none'
+    @$('.errorDiv').css('display':'none')
     e.preventDefault()
-    console.log "RegisterView#register"
-    $form =  @$el.find("#wbi-register-form")
+    $form =  @$("#wbi-register-form")
     formData = verticalId: env.get('current-vertical-id')
-    formData = utils.serializeForm($form, formData))
+    formData = utils.serializeForm($form, formData)
     if utils.validateForm($form)
       submitButton = @$(e.currentTarget).prop('disabled', true)
-      utils.ajaxRequest( env.get('api-url') + "/users/register.json",
-        type: "POST"
-        contentType: "application/json"
-        dataType: "json"
-        data: JSON.stringify(formData)
-        xhrFields:
-          withCredentials: true
-        context: @
-        headers:
-          "Accept-Language": "es"
-        success: @doRegisterSuccess
-        error: @doRegisterError
-        complete: ->
-          console.log "Request Completed!"
-          submitButton.prop('disabled', false)
-      )
+      @model.requestRegisterUser(formData, context:@)
+        .done @doRegisterSuccess
+        .fail @doRegisterError
+        .always(-> submitButton.prop('disabled', false))
+
 
   doRegisterSuccess: (data) ->
     console.log "Request Success!"
@@ -65,6 +54,22 @@ module.exports = class ModalRegisterView extends View
 
   doRegisterError: (xhr, textStatus) ->
     error = utils.safeParse(xhr.responseText)
-    message = if error then error.meta.message else textStatus
-    console.log xhr
-    @$('.errorDiv p').text(message).parent().css('display':'block')
+    message = ""
+    value = ""
+    title = ""
+    icon = "ok"
+    code = error.code or error.meta.code
+    if code is 'AFER001'
+      message = "Esta cuenta de correo ya está registrada. Si no recuerdas tu contraseña, da click en recuperar contraseña."
+      value = "Recuperar contraseña"
+      title = "Cuenta registrada"
+      icon = "candado"
+    if code is 'AFER026'
+      message = if error then error.meta.message else textStatus
+    options =
+      value: value
+      title:title
+      icon:"iconFont-#{icon}"
+      onClosed: utils.redirectToNotLoggedInHome()
+      acceptAction: () -> utils.redirectTo(controller:'recover-password', action:'index')
+    utils.showMessageModal(message, options)

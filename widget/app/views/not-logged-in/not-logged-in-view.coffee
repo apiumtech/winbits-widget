@@ -24,6 +24,7 @@ module.exports = class NotLoggedInPageView extends View
     console.log 'not-logged-in-view#attach'
 
   onLoginButtonClick: ->
+    mediator.data.set 'virtual-checkout', no
     utils.redirectTo controller: 'login', action: 'index'
 
   onRegisterLinkClick: ->
