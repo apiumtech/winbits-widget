@@ -42,18 +42,22 @@ module.exports = class ChangePasswordView extends MyProfileView
       @model.requestChangePassword(data, context: @)
       .done(@doChangePasswordSuccess)
       .fail(@doChangePasswordError)
-      .always(@doChangePasswordAlways(submitButton))
+      .always(-> @doChangePasswordAlways(submitButton))
 
   doChangePasswordAlways: (submitButton)->
     submitButton.prop('disabled', no)
-    @doResetPasswordView
+    @doResetPasswordView()
 
 
 
   doChangePasswordSuccess: (data) ->
     console.log "Request Change Password Success!"
     message = "Tu password fue actualizado correctamente."
-    options = value: "Continuar", title:'Cambio de password exitoso', icon:'iconFont-ok', onClosed: utils.redirectTo controller:'my-account', action:'index'
+    options =
+      value: "Continuar"
+      title:'Cambio de password exitoso'
+      icon:'iconFont-ok'
+      onClosed: -> utils.redirectTo controller:'my-account', action:'index'
     utils.showMessageModal(message, options)
 
 
@@ -61,9 +65,12 @@ module.exports = class ChangePasswordView extends MyProfileView
     error = utils.safeParse(xhr.responseText)
     messageText = "Error cambiando el password #{textStatus}"
     message = if error then error.meta.message else messageText
-    options = value: "Cerrar", title:'Error', icon: 'iconFont-no', onClosed: utils.redirectTo controller:'my-account', action:'index'
+    options =
+      value: "Cerrar"
+      title:'Error'
+      icon: 'iconFont-no'
+      onClosed: -> utils.redirectTo controller:'my-account', action:'index'
     utils.showMessageModal(message, options)
 
   doResetPasswordView: ->
     @$el.find('input[type=password]').val(null)
-

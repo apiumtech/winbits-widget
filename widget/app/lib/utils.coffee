@@ -362,16 +362,17 @@ _(utils).extend
       no
 
   getVirtualCart: () ->
-      env.get('vCart') or '[]'
+    mediator.data.get('virtual-cart') or '[]'
 
   saveVirtualCart: (cartData) ->
     vcart = "[]"
     if(cartData.itemsCount > 0)
       cartItems = (@toCartItem(x) for x in cartData.cartDetails)
       vcart = JSON.stringify(cartItems)
-      localStorage['wb-vcart'] = vcart
-    else
-      localStorage.removeItem 'wb-vcart'
+    @saveVirtualCartInStorage(vcart)
+
+  saveVirtualCartInStorage: (vcart = "[]")->
+    mediator.data.set('virtual-cart', vcart)
     rpc.storeVirtualCart(vcart)
 
   toCartItem: (cartDetail) ->

@@ -10,6 +10,7 @@ mediator.data = (->
   # e.g. Chaplin.mediator.prop = null
   data =
     'login-data': Winbits.env.get 'login-data'
+    'virtual-cart': Winbits.env.get('virtual-cart')
   {
   get: (property)->
     data[property]

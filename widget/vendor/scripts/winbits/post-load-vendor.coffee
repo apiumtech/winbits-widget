@@ -111,9 +111,11 @@
     links: {}
   moment().tz("America/Mexico_City").format()
 
-  Winbits.$ = $.noConflict(true)
+  $.wblocationselect.ajax = Winbits.ajaxRequest
+  Winbits.$ = $.noConflict(yes)
   Winbits._ = _.noConflict()
   Backbone.$ = Winbits.$
+  Backbone.ajax = Winbits.ajaxRequest
   Winbits.Backbone = Backbone.noConflict()
   Winbits.easyXDM = easyXDM.noConflict('Winbits')
   Winbits.moment = window.moment
@@ -131,7 +133,7 @@
     console.log ['WIDGET TOTAL LOAD TIME (ms)', widgetLoadTime]
     Winbits.trigger 'initialized'
   .fail ->
-    delete Winbits
+    window.Winbits = undefined
     alert('Unable to load Winbits Widget!')
 
   delete Winbits.promises

@@ -410,8 +410,7 @@ describe 'jQueryWbLocationSelectSpec', ->
     expect($locationField).to.be.displayed
 
   it 'should expose a function to get first value', ->
-    ajaxStub = sinon.stub($, 'ajax')
-      .returns(testUtils.promiseResolvedWithData())
+    sinon.stub($, 'ajax').returns(testUtils.promiseResolvedWithData())
 
     @$locationSelect.wblocationselect()
     @$locationSelect.wblocationselect('loadZipCode', '12345')
@@ -419,6 +418,28 @@ describe 'jQueryWbLocationSelectSpec', ->
     firstValue = @$locationSelect.wblocationselect('firstValue')
     expect(firstValue).to.be.ok
     expect(firstValue.id).to.be.equal(1)
+
+  it 'should allow overwrite AJAX function with option', ->
+    sinon.spy($, 'ajax')
+    ajaxStub = sinon.stub().returns(testUtils.promiseResolvedWithData())
+
+    @$locationSelect.wblocationselect(ajax: ajaxStub)
+    @$locationSelect.wblocationselect('loadZipCode', '12345')
+
+    expect(ajaxStub).to.has.been.calledOnce
+    expect($.ajax).to.not.has.been.called
+
+  it 'should allow overwrite AJAX function with global widget defaults', ->
+    sinon.spy($, 'ajax')
+    ajaxStub = sinon.stub().returns(testUtils.promiseResolvedWithData())
+    $.wblocationselect.ajax = ajaxStub
+
+    @$locationSelect.wblocationselect()
+    @$locationSelect.wblocationselect('loadZipCode', '12345')
+
+    expect(ajaxStub).to.has.been.calledOnce
+    expect($.ajax).to.not.has.been.called
+    $.wblocationselect.ajax = undefined
 
   expectDefaultOptionExist = () ->
     value = ''

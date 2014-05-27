@@ -10,7 +10,7 @@
         "facebookClientId": "486640894740634",
         "baseUrl": "http://widgetdev.winbits.com",
         "providerUrl": "https://apidev.winbits.com/provider/",
-        "remoteDebug": false
+        "remoteDebug": true
       }
     },
     {
@@ -34,7 +34,7 @@
         "baseUrl": "http://widgetqa.winbits.com",
         "facebookClientId": "494663817271863",
         "providerUrl": "https://apiqa.winbits.com/provider/",
-        "remoteDebug": true
+        "remoteDebug": false
       }
     },
     {
@@ -63,4 +63,3 @@
     }
   ]
 }
-
