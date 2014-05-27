@@ -3,6 +3,7 @@
 ChangePasswordView = require 'views/change-password/change-password-view'
 ChangePassword = require 'models/change-password/change-password'
 utils = require 'lib/utils'
+testUtils = require 'test/lib/test-utils'
 $ = Winbits.$
 _ = Winbits._
 mediator = Winbits.Chaplin.mediator
@@ -37,12 +38,13 @@ describe 'ChangePasswordViewSpec', ->
   it 'change password renderized', ->
     expect(@view.$ '#wbi-change-password-form').to.exist
 
-  it 'do request should succed to change password', ->
-    sinon.stub(@model, 'requestChangePassword').returns TestUtils.promises.resolved
-    successStub = sinon.stub(@view, 'doChangePasswordSuccess')
+  it 'do request should succeed to change password', ->
+    sinon.stub(@model, 'requestChangePassword')
+      .returns testUtils.resolvedPromiseWith(@view)
+    sinon.stub(@view, 'doChangePasswordSuccess')
     @view.$('input[type=password]').val('qweqwe')
     @view.$('#wbi-change-password-btn').click()
-    expect(successStub).to.be.calledOnce
+    expect(@view.doChangePasswordSuccess).to.be.calledOnce
     expect(@view.$ '.error').to.not.exist
 
   it 'do not makes request if form invalid', ->
@@ -57,7 +59,8 @@ describe 'ChangePasswordViewSpec', ->
     expect(@view.$ '.error').to.exist
 
   it 'error is shown if api return error', ->
-    sinon.stub(@model, 'requestChangePassword').returns TestUtils.promises.rejected
+    sinon.stub(@model, 'requestChangePassword')
+      .returns testUtils.rejectedPromiseWith(@view)
     errorStub = sinon.stub(@view, 'doChangePasswordError')
     @view.$('#wbi-change-password-btn').click()
 
@@ -66,7 +69,8 @@ describe 'ChangePasswordViewSpec', ->
 
   it 'error is shown if request fail', ->
     xhr = responseText: 'Server error'
-    sinon.stub(@model, 'requestChangePassword').returns TestUtils.promises.rejected
+    sinon.stub(@model, 'requestChangePassword')
+      .returns testUtils.rejectedPromiseWith(@view)
     errorStub = sinon.stub(@view, 'doChangePasswordError')
     @view.$('#wbi-change-password-btn').click()
 
