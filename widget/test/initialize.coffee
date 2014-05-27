@@ -24,6 +24,7 @@ specs = [
   './views/cart/cart-items-view-spec'
   './views/cart/cart-totals-view-spec'
   './views/cart/cart-bits-view-spec'
+  './views/remember-complete-register-spec'
   './views/cart/cart-payment-methods-view-spec'
   './models/virtual-cart-spec'
   './models/cart-spec'

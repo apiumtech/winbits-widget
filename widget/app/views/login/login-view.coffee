@@ -46,6 +46,7 @@ module.exports = class LoginView extends View
         .always(-> $submitButton.prop('disabled', false))
 
   doLoginSuccess: (data) ->
+    console.log ["DATA SUCCESS",data]
     mediator.data.set 'profile-composed', no
     response = data.response
     loginUtil.applyLogin(response)
@@ -66,7 +67,6 @@ module.exports = class LoginView extends View
       utils.showConfirmationModal(message, options)
     else
       $.fancybox.close()
-
 
   doLoginError: (xhr, textStatus) ->
     error = utils.safeParse(xhr.responseText)
