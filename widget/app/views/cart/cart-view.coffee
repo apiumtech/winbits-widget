@@ -44,17 +44,13 @@ module.exports = class CartView extends View
   restoreCart: ->
     virtualCart = utils.getVirtualCart()
     if(utils.isLoggedIn())
-      console.log ['IS LOGGED IN']
       unless virtualCart is "[]"
-        console.log ['HAVE A VIRTUAL CART NOT NULL']
         formData = virtualCartData : JSON.parse(virtualCart)
         @model.transferVirtualCart(formData, context:@)
         .done(@successTransferVirtualCart)
       else
-        console.log ['HAVE A VIRTUAL CART NULL']
         @model.fetch(success: $.proxy(@successFetch, @))
     else
-      console.log ['IS NOT LOGGED IN']
       @model.fetch(success: $.proxy(@successFetch, @))
 
   successTransferVirtualCart: (data)->

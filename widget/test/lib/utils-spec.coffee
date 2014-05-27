@@ -2,6 +2,7 @@ utils = require 'lib/utils'
 $ = Winbits.$
 rpc = Winbits.env.get('rpc')
 env = Winbits.env
+mediator = Winbits.Chaplin.mediator
 
 describe 'UtilsSpec', ->
 
@@ -12,7 +13,7 @@ describe 'UtilsSpec', ->
     rpc.storeVirtualCart.restore()
     env.get.restore?()
 
-  it 'saveVirtualCart should store virtual cart on localStorage', ->
+  it 'saveVirtualCart should store virtual cart on mediator', ->
     cartData =
       itemsCount : 2
       cartDetails: [
@@ -22,7 +23,7 @@ describe 'UtilsSpec', ->
 
     utils.saveVirtualCart(cartData)
 
-    expect(localStorage['wb-vcart']).to.be.equal('[{"1":2}]')
+    expect(mediator.data.get('virtual-cart')).to.be.equal('[{"1":2}]')
 
   it 'saveVirtualCart should store virtual cart on API domain', ->
     cartData =
@@ -43,9 +44,9 @@ describe 'UtilsSpec', ->
 
     expect(utils.getResourceURL('xxx.json')).to.be.equal('https://apitest.winbits.com/v1/xxx.json')
 
-  it 'saveVirtualCartInStorage should store virtual cart on localStorage when don\'t pass params', ->
+  it 'saveVirtualCartInStorage should store virtual cart on mediator when don\'t pass params', ->
     utils.saveVirtualCartInStorage()
-    expect(localStorage['wb-vcart']).to.be.equal('[]')
+    expect(mediator.data.get('virtual-cart')).to.be.equal('[]')
 
   it 'saveVirtualCart should store virtual cart on API domain when don\'t have cart details ', ->
     cartData =

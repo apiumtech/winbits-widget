@@ -362,7 +362,7 @@ _(utils).extend
       no
 
   getVirtualCart: () ->
-      env.get('vCart') or '[]'
+    mediator.data.get('virtual-cart') or '[]'
 
   saveVirtualCart: (cartData) ->
     vcart = "[]"
@@ -372,7 +372,7 @@ _(utils).extend
     @saveVirtualCartInStorage(vcart)
 
   saveVirtualCartInStorage: (vcart = "[]")->
-    localStorage['wb-vcart'] = vcart
+    mediator.data.set('virtual-cart', vcart)
     rpc.storeVirtualCart(vcart)
 
   toCartItem: (cartDetail) ->
