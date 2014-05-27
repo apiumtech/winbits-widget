@@ -2,9 +2,9 @@
   <ul>
       {{#each addresses}}
       <li class="shippingItem wb-shipping-address {{#if main}}shippingSelected{{/if}}" id="shippingItem-{{id}}">
-        <div class="shippingMenu">
+      <div class="shippingMenu" data-id={{id}}>
           <a href="#" class="edit-address" id="editAddress-{{id}}">edit</a>
-          <span class="icon closeButton delete-address" id="deleteAddress-{{id}}">cerrar</span>
+          <span class="icon closeButton wbc-delete-shipping-link" id="deleteAddress-{{id}}">cerrar</span>
         </div>
         <h3>DIRECCIÓN {{index}}</h3>
         <address>
@@ -21,6 +21,7 @@
       <span id="aNewAddress">Da click para agregar</span>
     </li>
   </ul>
+  <div id="wbi-add-shipping-address-error" class="errorDiv" style="display: none"><p></p></div>
   <input type="button"  id="btnContinuar" class="btn btnCheckout" value="Continuar">
 </div>
 <div id="wbi-shipping-new-address-container" class="shippingNewAddress"></div>

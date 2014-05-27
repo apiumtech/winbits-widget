@@ -1,6 +1,6 @@
 View = require 'views/base/view'
 template = require 'views/templates/checkout/addresses'
-util = require 'lib/util'
+utils = require 'lib/util'
 vendor = require 'lib/vendor'
 config = require 'config'
 mediator = require 'chaplin/mediator'
@@ -16,8 +16,9 @@ module.exports = class AddressManagerView extends View
   initialize: ->
     super
     @listenTo @model,  'change', -> @render()
-    #@model.actualiza()
     @delegate 'click', '#aNewAddress' , @showAddNewShipping
+    @delegate 'click', '.wbc-delete-shipping-link', @doDeleteShipping
+    
     @shippingAddressNew = new AddNewShippingAddress model: @model, autoRender: yes
   
   render: ->
@@ -32,26 +33,32 @@ module.exports = class AddressManagerView extends View
   attach: ->
    super
    
-  # that = @
-    #$editForms = @$("form.shippingEditAddress")
-
-    #$editForms.each ->
-    # $form = that.$(this)
-    # $select = $form.find('.select')
-    # $zipCode = $form.find('.zipCode')
-    # $zipCodeExtra = $form.find('.zipCodeInfoExtra')
-      #zipCode(Winbits.$).find $zipCode.val(), $select, $zipCodeExtra.val()
-      #unless $zipCode.val().length < 5
-      #  vendor.customSelect($select)
-
-    #$form = @$el.find('form#shippingNewAddress')
-    #vendor.customSelect($form.find(".select"))
-
-    #$shippingAddresses = @$el.find('li.wb-shipping-address')
-    #$shippingAddresses.first().addClass('shippingSelected') if $shippingAddresses.filter('.shippingSelected').length is 0
-  
   showAddNewShipping:(e)->
     e.preventDefault()
     @$('#wbi-shipping-addresses-view').hide()
     @$('#wbi-shipping-new-address-container').show()
+    @$('.errorDiv p').text('').parent().css('display':'none')
+  
+  doDeleteShipping: (e)->
+    $currentTarget = @$(e.currentTarget)
+    that = @
+    itemId =  Winbits.$(e.currentTarget).closest('.shippingMenu').data("id")
+    answer = confirm '¿En verdad quieres eliminar esta dirección de envío?'
+    if answer
+      utils.showAjaxIndicator('Eliminando dirección de envío...')
+      @model.requestDeleteShippingAddress(itemId, context:@)
+        .done(@doSuccessDeleteShippingAddress)
+        .fail(@doErrorDeleteShippingAddress)
+        .complete(@doCompleteDeleteShippingAddress)
 
+  doErrorDeleteShippingAddress:(xhr, textStatus) ->
+    headers:{ 'Accept-Language': 'es', 'WB-Api-Token': Winbits.env.get('api-url')}
+    error = utils.safeParse(xhr.responseText)
+    message = if error then error.meta.message else textStatus
+    @$('.errorDiv p').text(message).parent().css('display':'block')
+
+  doSuccessDeleteShippingAddress: ->
+    @model.actualiza()
+  
+  doCompleteDeleteShippingAddress: ->
+    utils.hideAjaxIndicator()

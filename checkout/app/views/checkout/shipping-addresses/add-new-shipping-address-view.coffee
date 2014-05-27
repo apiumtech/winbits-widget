@@ -9,8 +9,6 @@ module.exports = class AddNewShippingAddressView extends View
   
   initialize: ->
     super
-    @delegate 'click', '#wbi-add-shipping-address-submit-btn', @doSaveShippingAddress
-    @delegate 'click', '#wbi-add-shipping-address-cancel-btn', @showShippingAddressesView
   
   render: ->
     super
@@ -19,6 +17,8 @@ module.exports = class AddNewShippingAddressView extends View
   attach: ->
     super
     console.log 'atachiiing'
+    @delegate 'click', '#wbi-add-shipping-address-submit-btn', @doSaveShippingAddress
+    @delegate 'click', '#wbi-add-shipping-address-cancel-btn', @showShippingAddressesView
     @$('.requiredField').requiredField()
     @$('#wbi-shipping-new-address-form').customCheckbox()
     @$('[name=zipCodeInfo]').wblocationselect().on "change", Winbits.$.proxy @setCityAndState, @
@@ -86,7 +86,8 @@ module.exports = class AddNewShippingAddressView extends View
 
 
   doSaveShippingAddress:(e) ->
-    e.stopPropagation()
+    e.stopImmediatePropagation()
+    e.preventDefault()
     console.log 'saviiing'
     $form =  @$el.find("#wbi-shipping-new-address-form")
     @$('.errorDiv').css('display':'none')
@@ -111,7 +112,6 @@ module.exports = class AddNewShippingAddressView extends View
 
   successAddingShippingAddresses:() ->
     @model.actualiza()
-    #@showShippingAddressesView
       
 
   errorSaveNewShippingAddress:(xhr, textStatus)->
@@ -119,6 +119,3 @@ module.exports = class AddNewShippingAddressView extends View
     message = if error then error.meta.message else textStatus
     @$('.errorDiv p').text(message).parent().css('display':'block')
   
-  
-  #completeSveNewShippingAddress:()->
-  #$form.find("#wbi-add-shipping-address-submit-btn").prop('disabled', true)
