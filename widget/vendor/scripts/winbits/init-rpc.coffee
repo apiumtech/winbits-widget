@@ -162,7 +162,7 @@
 
     getTokens.promise.done (tokens) ->
       console.log 'Tokens got :)'
-      Winbits.env.set('vCart', tokens.vcartToken)
+      Winbits.env.set('virtual-cart', tokens.vcartToken)
       verifyLoginData(tokens.apiToken)
     .fail ->
       console.log ['ERROR', 'Unable to get tokens :(']
