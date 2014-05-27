@@ -3,6 +3,7 @@ utils = require 'lib/utils'
 loginUtil = require 'lib/login-utils'
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
+_ = Winbits._
 env = Winbits.env
 
 module.exports = class LoginView extends View
@@ -48,7 +49,11 @@ module.exports = class LoginView extends View
     mediator.data.set 'profile-composed', no
     response = data.response
     loginUtil.applyLogin(response)
-    if data.response.showRemainder == true
+    utils.redirectTo(controller: 'logged-in', action: 'index')
+    @doCheckShowRemainder(data)
+
+  doCheckShowRemainder:(data)->
+    if data.response.showRemainder is yes
       message = "Recuerda que puedes ganar <strong>$#{data.response.cashbackForComplete}</strong> en bits al completar tu registro"
       options =
         value: "Completa registro"
@@ -56,11 +61,12 @@ module.exports = class LoginView extends View
         cancelValue: 'Llénalo después'
         icon:'iconFont-computer'
         context: @
-        acceptAction: () -> Winbits.$('#wbi-my-account-link').click()
+        acceptAction: () ->
+          Winbits.$('#wbi-my-account-link').click()
       utils.showConfirmationModal(message, options)
     else
       $.fancybox.close()
-    utils.redirectTo controller: 'logged-in', action: 'index'
+
 
   doLoginError: (xhr, textStatus) ->
     error = utils.safeParse(xhr.responseText)
