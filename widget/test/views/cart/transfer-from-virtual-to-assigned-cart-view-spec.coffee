@@ -3,6 +3,7 @@ CartView = require 'views/cart/cart-view'
 Cart = require 'models/cart/cart'
 utils = require 'lib/utils'
 $ = Winbits.$
+mediator = Winbits.Chaplin.mediator
 
 describe 'TransferFromVirtualToAssignedCartViewSpec', ->
 
@@ -22,6 +23,7 @@ describe 'TransferFromVirtualToAssignedCartViewSpec', ->
     utils.getApiToken.restore()
     utils.isLoggedIn.restore?()
     utils.getVirtualCart.restore?()
+    utils.saveVirtualCartInStorage.restore?()
     @model.fetch.restore?()
     @model.transferVirtualCart.restore?()
     @view.dispose()
@@ -70,3 +72,35 @@ describe 'TransferFromVirtualToAssignedCartViewSpec', ->
     expect(@server.requests[1].method).to.be.equal 'POST'
     expect(@model.fetch).to.not.has.been.calledOnce
     expect(@view.successTransferVirtualCart).to.has.been.called
+
+  it 'transfer virtual cart when have a success response and virtual-checkout true', ->
+    mediator.data.set 'virtual-checkout', yes
+    sinon.stub(utils, 'isLoggedIn').returns(yes)
+    sinon.stub(utils, 'saveVirtualCartInStorage')
+    sinon.stub(@view, 'successFetch')
+    sinon.stub(utils, 'getVirtualCart').returns('[{"2":1}]')
+    sinon.stub(@model, 'fetch').returns()
+    sinon.stub(@view, 'publishEvent')
+    @view.restoreCart()
+    @server.requests[1].respond(200, {"Content-Type":"aplication/json"},ASSIGNED_CART_RESPONSE)
+    expect(@server.requests[1].method).to.be.equal 'POST'
+    expect(@model.fetch).to.not.has.been.calledOnce
+    expect(@view.publishEvent).to.has.been.calledOnce
+    expect(@view.successFetch).to.has.been.calledOnce
+    expect(utils.saveVirtualCartInStorage).to.has.been.calledOnce
+
+  it 'transfer virtual cart when have a success response and virtual-checkout false', ->
+    mediator.data.set 'virtual-checkout', no
+    sinon.stub(utils, 'isLoggedIn').returns(yes)
+    sinon.stub(utils, 'saveVirtualCartInStorage')
+    sinon.stub(@view, 'successFetch')
+    sinon.stub(utils, 'getVirtualCart').returns('[{"2":1}]')
+    sinon.stub(@model, 'fetch').returns()
+    sinon.stub(@view, 'publishEvent')
+    @view.restoreCart()
+    @server.requests[1].respond(200, {"Content-Type":"aplication/json"},ASSIGNED_CART_RESPONSE)
+    expect(@server.requests[1].method).to.be.equal 'POST'
+    expect(@model.fetch).to.not.has.been.calledOnce
+    expect(@view.publishEvent).to.not.has.been.called
+    expect(@view.successFetch).to.has.been.calledOnce
+    expect(utils.saveVirtualCartInStorage).to.has.been.calledOnce
