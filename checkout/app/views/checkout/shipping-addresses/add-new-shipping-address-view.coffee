@@ -9,11 +9,16 @@ module.exports = class AddNewShippingAddressView extends View
   
   initialize: ->
     super
-
-  attach: ->
-    super
     @delegate 'click', '#wbi-add-shipping-address-submit-btn', @doSaveShippingAddress
     @delegate 'click', '#wbi-add-shipping-address-cancel-btn', @showShippingAddressesView
+  
+  render: ->
+    super
+    console.log 'renderiiiiing'
+  
+  attach: ->
+    super
+    console.log 'atachiiing'
     @$('.requiredField').requiredField()
     @$('#wbi-shipping-new-address-form').customCheckbox()
     @$('[name=zipCodeInfo]').wblocationselect().on "change", Winbits.$.proxy @setCityAndState, @
@@ -80,14 +85,16 @@ module.exports = class AddNewShippingAddressView extends View
      @$('[name="state"]').val(value.state)
 
 
-  doSaveShippingAddress: ->
+  doSaveShippingAddress:(e) ->
+    e.stopPropagation()
+    console.log 'saviiing'
     $form =  @$el.find("#wbi-shipping-new-address-form")
     @$('.errorDiv').css('display':'none')
     if($form.valid())
       data = utils.serializeForm $form
       $form.find("#wbi-add-shipping-address-submit-btn").prop('disabled', true)
       @model.requestSaveNewShippingAddress(data, context: @)
-      .done(@showShippingAddressesView)
+      .done(@successAddingShippingAddresses)
       .fail(@errorSaveNewShippingAddress)
       .complete(@completeSveNewShippingAddress)
   
@@ -99,9 +106,13 @@ module.exports = class AddNewShippingAddressView extends View
       @$('[name="state"]').val state
 
   showShippingAddressesView:()->
-    @model.actualiza()
     Winbits.$('#wbi-shipping-new-address-container').hide()  
     Winbits.$('#wbi-shipping-addresses-view').show()
+
+  successAddingShippingAddresses:() ->
+    @model.actualiza()
+    #@showShippingAddressesView
+      
 
   errorSaveNewShippingAddress:(xhr, textStatus)->
     error = utils.safeParse(xhr.responseText)

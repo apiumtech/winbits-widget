@@ -11,22 +11,19 @@ AddressCK = require 'models/checkout/addressCK'
 # Site view is a top-level view which is bound to body.
 module.exports = class AddressManagerView extends View
   container: '.shippingAddressesContainer'
-  #autoRender: yes
-  #regions:
-  #'#header-container': 'header'
-  #'#page-container': 'main'
   template: template
 
   initialize: ->
     super
     @listenTo @model,  'change', -> @render()
-    @model.actualiza()
+    #@model.actualiza()
     @delegate 'click', '#aNewAddress' , @showAddNewShipping
     @shippingAddressNew = new AddNewShippingAddress model: @model, autoRender: yes
   
   render: ->
     super
     @shippingAddressNew.render()
+    #@subview 'new-shipping-addresses', shippingAddressNew
   
   dispose: ->
     super
@@ -34,6 +31,7 @@ module.exports = class AddressManagerView extends View
 
   attach: ->
    super
+   
   # that = @
     #$editForms = @$("form.shippingEditAddress")
 
@@ -56,3 +54,4 @@ module.exports = class AddressManagerView extends View
     e.preventDefault()
     @$('#wbi-shipping-addresses-view').hide()
     @$('#wbi-shipping-new-address-container').show()
+

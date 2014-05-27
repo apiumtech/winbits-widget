@@ -6,7 +6,7 @@ module.exports = class AddressCK extends ChaplinModel
   initialize: (attributes, option) ->
     super
     @url = config.apiUrl + "/users/shipping-addresses.json"
-    #@actualiza()
+    @actualiza()
 
       #collection.resolve()
   parse: (response) ->
