@@ -46,9 +46,20 @@ module.exports = class LoginView extends View
 
   doLoginSuccess: (data) ->
     mediator.data.set 'profile-composed', no
-    $.fancybox.close()
     response = data.response
     loginUtil.applyLogin(response)
+    if data.response.showRemainder == true
+      message = "Recuerda que puedes ganar <strong>$#{data.response.cashbackForComplete}</strong> en bits al completar tu registro"
+      options =
+        value: "Completa registro"
+        title:'¡Completa tu registro!'
+        cancelValue: 'Llénalo después'
+        icon:'iconFont-computer'
+        context: @
+        acceptAction: () -> Winbits.$('#wbi-my-account-link').click()
+      utils.showConfirmationModal(message, options)
+    else
+      $.fancybox.close()
     utils.redirectTo controller: 'logged-in', action: 'index'
 
   doLoginError: (xhr, textStatus) ->
