@@ -1,7 +1,7 @@
 testUtils = require 'test/lib/test-utils'
 $ = Winbits.$
 
-describe.only 'jQueryWbLocationSelectSpec', ->
+describe 'jQueryWbLocationSelectSpec', ->
 
   DISPLAY_NONE_REGEXP = /display:\s*none;/
   PROMISE_RESOLVED_WITHOUT_DATA = new $.Deferred()
