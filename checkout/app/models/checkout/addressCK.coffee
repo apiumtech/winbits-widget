@@ -6,7 +6,7 @@ module.exports = class AddressCK extends ChaplinModel
   initialize: (attributes, option) ->
     super
     @url = config.apiUrl + "/users/shipping-addresses.json"
-    @actualiza()
+    #@actualiza()
 
       #collection.resolve()
   parse: (response) ->
@@ -30,8 +30,6 @@ module.exports = class AddressCK extends ChaplinModel
         "Accept-Language": "es"
         "WB-Api-Token": util.retrieveKey(config.apiTokenName)
 
-    console.log JSON.stringify formData
-        
     util.ajaxRequest(@url,
       Winbits.$.extend(defaults, options))
 

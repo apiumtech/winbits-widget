@@ -1,5 +1,7 @@
 vendor = require 'lib/vendor'
 
+DEFAULT_API_ERROR_MESSAGE = 'El servidor no está disponible, por favor inténtalo más tarde.'
+
 module.exports =
   $ : window.Winbits.$
   storeKey : (key, value) ->
@@ -327,3 +329,8 @@ module.exports =
   hideDropMenus:()->
     Winbits.$('.miCuentaDiv, .miCarritoDiv').slideUp()
   
+  safeParse: (jsonText, message = DEFAULT_API_ERROR_MESSAGE)->
+    try
+      JSON.parse(jsonText)
+    catch e
+      meta: message: message, status: 500
