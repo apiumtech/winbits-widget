@@ -51,7 +51,6 @@ module.exports = class ChangePasswordView extends MyProfileView
 
 
   doChangePasswordSuccess: (data) ->
-    console.log "Request Change Password Success!"
     message = "Tu password fue actualizado correctamente."
     options =
       value: "Continuar"
