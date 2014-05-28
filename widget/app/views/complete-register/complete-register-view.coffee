@@ -12,7 +12,7 @@ module.exports = class CompleteRegisterView extends View
   initialize: ->
     super
     @delegate 'click', '#wbi-complete-register-btn', @completeRegister
-    @delegate 'click', '#wbi-complete-register-after-link', -> $.fancybox.close()
+    @delegate 'click', '#wbi-complete-register-after-link', utils.closeMessageModal
 
   attach: ->
     super
@@ -67,7 +67,7 @@ module.exports = class CompleteRegisterView extends View
   doCompleteRegisterSuccess: (data) ->
     @publishEvent 'profile-changed', data
     mediator.data.set 'login-data', data.response
-    $.fancybox.close()
+    utils.closeMessageModal()
 
 
   doCompleteRegisterError: (xhr, textStatus)->
