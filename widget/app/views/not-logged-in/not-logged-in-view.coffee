@@ -63,7 +63,6 @@ module.exports = class NotLoggedInPageView extends View
 
 
   doFacebookLoginSuccess: (data) ->
-    console.log ["data", data]
     mediator.data.set 'profile-composed', no
     response = data.response
     loginUtils.applyLogin(response)
