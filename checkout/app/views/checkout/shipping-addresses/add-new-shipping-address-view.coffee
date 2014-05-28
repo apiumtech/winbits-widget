@@ -12,21 +12,19 @@ module.exports = class AddNewShippingAddressView extends View
   
   render: ->
     super
-    console.log 'renderiiiiing'
   
   attach: ->
     super
-    console.log 'atachiiing'
     @delegate 'click', '#wbi-add-shipping-address-submit-btn', @doSaveShippingAddress
     @delegate 'click', '#wbi-add-shipping-address-cancel-btn', @showShippingAddressesView
     @$('.requiredField').requiredField()
     @$('#wbi-shipping-new-address-form').customCheckbox()
     @$('[name=zipCodeInfo]').wblocationselect().on "change", Winbits.$.proxy @setCityAndState, @
     @$('#wbi-shipping-new-address-form').validate
-      errorElement: 'span',
+      errorElement: 'label',
       errorPlacement: ($error, $element) ->
         if $element.attr("name") in ["externalNumber"]
-          $error.appendTo $element.parent().parent()
+          $error.appendTo $element.parent()
         else if $element.attr("name") in ["zipCodeInfo"]
           $error.appendTo $element.parent()
         else
@@ -97,7 +95,7 @@ module.exports = class AddNewShippingAddressView extends View
       @model.requestSaveNewShippingAddress(data, context: @)
       .done(@successAddingShippingAddresses)
       .fail(@errorSaveNewShippingAddress)
-      .complete(@completeSveNewShippingAddress)
+      .complete(@completeSaveNewShippingAddress)
   
   checkZipCodeInfo: ->
     zipCodeInfo =@$('#wbi-shipping-address-zip-code-info').wblocationselect('value')

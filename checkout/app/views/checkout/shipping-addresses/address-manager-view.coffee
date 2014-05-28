@@ -4,8 +4,8 @@ utils = require 'lib/util'
 vendor = require 'lib/vendor'
 config = require 'config'
 mediator = require 'chaplin/mediator'
-#zipCode = require 'lib/zipCode'
 AddNewShippingAddress = require './add-new-shipping-address-view'
+EditShippingAddressView = require './edit-new-shipping-address-view'
 AddressCK = require 'models/checkout/addressCK'
 
 # Site view is a top-level view which is bound to body.
@@ -18,17 +18,19 @@ module.exports = class AddressManagerView extends View
     @listenTo @model,  'change', -> @render()
     @delegate 'click', '#aNewAddress' , @showAddNewShipping
     @delegate 'click', '.wbc-delete-shipping-link', @doDeleteShipping
-    
-    @shippingAddressNew = new AddNewShippingAddress model: @model, autoRender: yes
+    @delegate 'click', '.wbc-edit-shipping-link', @doEditShipping
+    @subscribeEvent 'updateShippingAddressView', @updateShippingAddressView
+    @shippingAddressNew = new AddNewShippingAddress model: @model, autoRender: no
+    @editShippingAddressView = new EditShippingAddressView
   
   render: ->
     super
     @shippingAddressNew.render()
-    #@subview 'new-shipping-addresses', shippingAddressNew
   
   dispose: ->
     super
     @shippingAddressNew.dispose()
+    @editShippingAddressView.dispose()
 
   attach: ->
    super
@@ -62,3 +64,16 @@ module.exports = class AddressManagerView extends View
   
   doCompleteDeleteShippingAddress: ->
     utils.hideAjaxIndicator()
+   
+  doEditShipping:(e) ->
+    e.preventDefault()
+    itemId = Winbits.$(e.currentTarget).closest('.shippingMenu').data("id")
+    address = @model.getShippingAddress itemId
+    editModel = new AddressCK address
+    @editShippingAddressView = new EditShippingAddressView model: editModel, autoRender: no
+    @editShippingAddressView.render()
+    @$('#wbi-shipping-addresses-view').hide()
+    @$('#wbi-edit-shipping-address-container').show()
+  
+  updateShippingAddressView: ->
+    @model.actualiza()

@@ -2,24 +2,24 @@
     <fieldset>
       <div class="column">
         <h3>CONTACTO</h3>
-            <input type="text" placeholder="Nombre" name="firstName" class="requiredField" data-requiredfield="Nombre Requerido">
-            <input type="text" placeholder="Apellido Paterno" name="lastName" class="requiredField" data-requiredfield="Apellido Paterno Requerido">
+            <input type="text" placeholder="Nombre" name="firstName" class="required" data-requiredfield="Nombre Requerido">
+            <input type="text" placeholder="Apellido Paterno" name="lastName" class="required" data-requiredfield="Apellido Paterno Requerido">
             <input type="text" placeholder="Apellido Materno" name="lastName2">
-            <input type="text" placeholder="Teléfono con lada" name="phone" class="requiredField" data-requiredfield="Telefono con LADA Requerido" maxlength="15">
+            <input type="text" placeholder="Teléfono con lada" name="phone" class="required" data-requiredfield="Telefono con LADA Requerido" maxlength="15">
       </div>
       <div class="column">
         <h3>DIRECCIÓN</h3>
-            <textarea placeholder="Calle" name="street" class="requiredField" data-requiredfield="Requerido"></textarea>
+            <textarea placeholder="Calle" name="street" class="required" data-requiredfield="Requerido"></textarea>
             <div class="inputNumber">
-                <input name="externalNumber" maxlength="5" type="text" placeholder="# ext" class="requiredField" data-requiredfield="Numero Externo Requerido" >
+                <input name="externalNumber" maxlength="5" type="text" placeholder="# ext" class="required" data-requiredfield="Numero Externo Requerido" >
                 <input name="internalNumber" maxlength="5" type="text" placeholder="# int">
             </div>
-            <textarea name="indications" maxlength="35" placeholder="¿Entre qué calles?/Referencias para llegar" class="requiredField" data-requiredfield="Requerido"></textarea>
+            <textarea name="indications" maxlength="35" placeholder="¿Entre qué calles?/Referencias para llegar" class="required" data-requiredfield="Requerido"></textarea>
             <div>
-              <input type="text"  placeholder="Codigo Postal" name="zipCode" class="requiredField" data-requiredfield="Codigo Postal Requerido" maxlength="5">
-              <input type="text" placeholder="Estado" name="state" class="requiredField" data-requiredfield="Requerido" disabled="disabled" readonly="readonly">
-              <input type="text" placeholder="Delegación o Municipio" name="city" class="requiredField" data-requiredfield="Requerido" disabled="disabled" readonly="readonly">
-              <select id="wbi-shipping-address-zip-code-info" name="zipCodeInfo" class="select requiredField" data-requiredfield="Requerido" data-clase="selectRegister" data-inputselect="true"></select>
+              <input type="text"  placeholder="Codigo Postal" name="zipCode" class="required" data-requiredfield="Codigo Postal Requerido" maxlength="5">
+              <input type="text" placeholder="Estado" name="state" class="required" data-requiredfield="Requerido" disabled="disabled" readonly="readonly">
+              <input type="text" placeholder="Delegación o Municipio" name="city" class="required" data-requiredfield="Requerido" disabled="disabled" readonly="readonly">
+              <select id="wbi-shipping-address-zip-code-info" name="zipCodeInfo" class="select required" data-requiredfield="Requerido" data-clase="selectRegister" data-inputselect="true"></select>
             </div>
       </div>
       <div class="column columnLarge">
@@ -35,4 +35,3 @@
       </div>
     </fieldset>
   </form>
-</div>
