@@ -18,6 +18,7 @@ module.exports = class LoggedInView extends View
     super
     @listenTo @model, 'change', @render
     @subscribeEvent 'change-bits-data', @changeBitsValue
+    @subscribeEvent 'profile-changed', @loadBalance
     @delegate 'click', '#wbi-checkout-btn', @triggerCheckout
 
   attach: ->
@@ -33,3 +34,9 @@ module.exports = class LoggedInView extends View
     $bitsBalance = mediator.data.get('login-data').bitsBalance - bitsTotal
     @$('#wbi-my-bits').text $bitsBalance
 
+  loadBalance:(data) ->
+    console.log ["SUBSCRIBE EVENT IN SAVE PROFILE", data.response.bitsBalance]
+    console.log ["MODEL IN LOGGED IN VIEW", @model.get('bitsBalance')]
+    if data.response.cashback > 0
+      @changeBitsValue(-data.response.cashback)
+      $('#wbi-account-bits-total').text(data.response.bitsBalance)
