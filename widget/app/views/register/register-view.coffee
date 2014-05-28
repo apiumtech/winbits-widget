@@ -54,22 +54,32 @@ module.exports = class ModalRegisterView extends View
 
   doRegisterError: (xhr, textStatus) ->
     error = utils.safeParse(xhr.responseText)
-    message = ""
-    value = ""
-    title = ""
-    icon = "ok"
+    defaultOptionsMessage=
+      message : "Error"
+      title : "Error"
+      icon : "ok"
     code = error.code or error.meta.code
     if code is 'AFER001'
-      message = "Esta cuenta de correo ya está registrada. Si no recuerdas tu contraseña, da click en recuperar contraseña."
-      value = "Recuperar contraseña"
-      title = "Cuenta registrada"
-      icon = "candado"
+      defaultOptionsMessage = @errorWhenIsAFER001 defaultOptionsMessage
     if code is 'AFER026'
       message = if error then error.meta.message else textStatus
+    @showMessageErrorModal(defaultOptionsMessage)
+
+  errorWhenIsAFER001: (defaults) ->
     options =
-      value: value
-      title:title
-      icon:"iconFont-#{icon}"
+      message : "Esta cuenta de correo ya está registrada. Si no recuerdas tu contraseña, da click en recuperar contraseña."
+      value : "Recuperar contraseña"
+      title : "Cuenta registrada"
+      icon : "candado"
+      acceptAction : () -> utils.redirectTo(controller:'recover-password', action:'index')
+    $.extend(defaults, options)
+    defaults
+
+  showMessageErrorModal: (defaultOptionsMessage)->
+    options =
+      value: defaultOptionsMessage.value?
+      title: defaultOptionsMessage.title
+      icon:"iconFont-#{defaultOptionsMessage.icon}"
       onClosed: utils.redirectToNotLoggedInHome()
-      acceptAction: () -> utils.redirectTo(controller:'recover-password', action:'index')
-    utils.showMessageModal(message, options)
+      acceptAction: defaultOptionsMessage.acceptAction
+    utils.showMessageModal(defaultOptionsMessage.message, options)
