@@ -49,7 +49,6 @@ module.exports = class LoginView extends View
     mediator.data.set 'profile-composed', no
     response = data.response
     loginUtil.applyLogin(response)
-    utils.redirectTo(controller: 'logged-in', action: 'index')
     @doCheckShowRemainder(data)
 
   doCheckShowRemainder:(data)->
@@ -63,9 +62,12 @@ module.exports = class LoginView extends View
         context: @
         acceptAction: () ->
           Winbits.$('#wbi-my-account-link').click()
+          utils.closeMessageModal()
       utils.showConfirmationModal(message, options)
     else
       $.fancybox.close()
+
+    utils.redirectTo(controller: 'logged-in', action: 'index')
 
   doLoginError: (xhr, textStatus) ->
     error = utils.safeParse(xhr.responseText)

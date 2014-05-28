@@ -71,7 +71,6 @@ module.exports = class NotLoggedInPageView extends View
       console.log ["Show Complete Register.", data.response.profile]
       utils.redirectTo controller:'complete-register', action:'index'
     else
-      utils.redirectToLoggedInHome()
       @doCheckShowRemainder data
 
   doCheckShowRemainder:(data)->
@@ -85,9 +84,12 @@ module.exports = class NotLoggedInPageView extends View
         context: @
         acceptAction: () ->
           Winbits.$('#wbi-my-account-link').click()
+          utils.closeMessageModal()
       utils.showConfirmationModal(message, options)
     else
       $.fancybox.close()
+
+    utils.redirectToLoggedInHome()
 
   doFacebookLoginError: (xhr, textStatus, errorThrown) ->
     console.log "express-facebook-login.json Error!"

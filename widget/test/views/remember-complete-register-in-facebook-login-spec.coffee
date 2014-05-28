@@ -49,6 +49,7 @@ describe 'RememberCompleteRegisterInFacebookLoginSpec', ->
     @view.doFacebookLoginError.restore?()
     @model.requestExpressFacebookLogin.restore?()
     $.fancybox.close.restore?()
+    utils.showConfirmationModal.restore()
 
     @model.dispose()
     @view.dispose()
@@ -62,7 +63,7 @@ describe 'RememberCompleteRegisterInFacebookLoginSpec', ->
     @clock.tick(150)
     @server.requests[0].respond(200, { "Content-Type": "application/json" }, LOGIN_FACEBOOK_RESPONSE)
     expect(utilsShowConfirmationCompleteRegister).to.be.called
-    utils.showConfirmationModal.restore()
+
 
   it 'should NOT view remember complete register in success authentication facebook', ->
     utilsShowConfirmationCompleteRegister = sinon.stub(utils,'showConfirmationModal')
@@ -73,4 +74,3 @@ describe 'RememberCompleteRegisterInFacebookLoginSpec', ->
     @clock.tick(150)
     @server.requests[0].respond(200, { "Content-Type": "application/json" }, LOGIN_FACEBOOK_RESPONSE_FALSE)
     expect(utilsShowConfirmationCompleteRegister).to.not.be.called
-    utils.showConfirmationModal.restore()
