@@ -72,4 +72,7 @@ describe 'RegisterViewSpec', ->
     expect( @view.doRegisterError).to.have.been.callOnce
     expect( @view.showMessageErrorModal).to.have.been.callOnce
 
-
+  it 'should publish event facebook-button-event', ->
+    stub = sinon.stub @view, 'publishEvent'
+    @view.$('#wbi-register-facebook-link').click()
+    expect(stub).to.have.been.calledOnce

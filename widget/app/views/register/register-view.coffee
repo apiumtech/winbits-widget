@@ -12,6 +12,7 @@ module.exports = class ModalRegisterView extends View
   initialize: ->
     super
     @delegate 'click', '#wbi-register-button', @register
+    @delegate 'click', '#wbi-register-facebook-link', @doFacebookRegister
 
   attach: ->
     super
@@ -77,9 +78,13 @@ module.exports = class ModalRegisterView extends View
 
   showMessageErrorModal: (defaultOptionsMessage)->
     options =
-      value: defaultOptionsMessage.value?
+      value: defaultOptionsMessage.value
       title: defaultOptionsMessage.title
       icon:"iconFont-#{defaultOptionsMessage.icon}"
       onClosed: utils.redirectToNotLoggedInHome()
       acceptAction: defaultOptionsMessage.acceptAction
     utils.showMessageModal(defaultOptionsMessage.message, options)
+
+  doFacebookRegister: (e) ->
+    e.preventDefault()
+    @publishEvent 'facebook-button-event', e
