@@ -30,15 +30,17 @@
     options.headers = $.extend(defaultHeaders, options.headers)
     if ($.browser.msie and not /10.*/.test($.browser.version))
       context = options.context
-      success = options.success
-      error = options.error
-      complete = options.complete
       deferred = new $.Deferred()
-      deferred.done($.proxy(success, context)) if $.isFunction(success)
-      deferred.fail($.proxy(error, context)) if $.isFunction(error)
-      deferred.always($.proxy(complete, context)) if $.isFunction(complete)
-      Winbits.env.get('rpc')
-        .request(url, options, deferred.resolve, deferred.reject)
+        .done(options.success)
+        .fail(options.error)
+        .always(options.complete)
+      unsupportedOptions = ['context', 'success', 'error', 'complete']
+      delete options[property] for property in unsupportedOptions
+      Winbits.env.get('rpc').request(url, options, ->
+        deferred.resolveWith(options.context, arguments)
+      , ->
+        deferred.rejectWith(options.context, arguments)
+      )
       deferred.promise()
     else
       $.ajax(url,options)

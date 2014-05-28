@@ -25,7 +25,7 @@ describe 'CompleteRegisterViewSpec', ->
     @view.attach()
 
   afterEach ->
-    @view.showAsModal.restore?()
+    @view.showAsModal.restore()
     utils.ajaxRequest.restore?()
     mediator.data.clear()
     @view.dispose()
