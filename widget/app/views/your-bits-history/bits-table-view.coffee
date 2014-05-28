@@ -4,6 +4,7 @@ View = require 'views/base/view'
 utils = require 'lib/utils'
 mediator = Winbits.Chaplin.mediator
 env = Winbits.env
+$ = Winbits.$
 
 module.exports = class BitsTableView extends View
   container: '#wbi-bits-history-view'
@@ -11,7 +12,7 @@ module.exports = class BitsTableView extends View
 
   initialize:()->
     super
-    @listenTo @model,  'change', -> @refreshHistory()
+    @listenTo @model,  'change', -> $.proxy(@refreshHistory, @)
 
   attach:()->
     super
