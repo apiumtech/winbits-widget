@@ -9,6 +9,7 @@ module.exports = class NotLoggedInController extends Controller
   # You may also persist models etc.
   beforeAction: ->
     super
+    $('main .wrapper').show()
     if not mediator.data.get 'login-data'
       @reuse 'not-logged-in', NotLoggedInView
       @reuse 'virtual-cart-view', CartView, { container: '#wbi-virtual-cart' }

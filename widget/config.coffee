@@ -12,6 +12,7 @@ exports.config =
       # even if they aren't specified in order.before.
         before: [
           'bower_components/console-polyfill/index.js'
+          'bower_components/modernizr/modernizr.js'
           'bower_components/jquery/dist/jquery.js'
           'bower_components/jquery.browser/dist/jquery.browser.js'
           'vendor/scripts/winbits/init-env.coffee'
