@@ -37,9 +37,9 @@
       unsupportedOptions = ['context', 'success', 'error', 'complete']
       delete options[property] for property in unsupportedOptions
       Winbits.env.get('rpc').request(url, options, ->
-        deferred.resolveWith(options.context, arguments)
+        deferred.resolveWith(context, arguments)
       , ->
-        deferred.rejectWith(options.context, arguments)
+        deferred.rejectWith(context, arguments)
       )
       deferred.promise()
     else
