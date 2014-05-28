@@ -67,7 +67,6 @@ module.exports = class LoginView extends View
     else
       $.fancybox.close()
 
-
   doLoginError: (xhr, textStatus) ->
     error = utils.safeParse(xhr.responseText)
     message = if error then error.meta.message else textStatus

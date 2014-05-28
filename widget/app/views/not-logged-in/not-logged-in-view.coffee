@@ -63,7 +63,6 @@ module.exports = class NotLoggedInPageView extends View
 
 
   doFacebookLoginSuccess: (data) ->
-    console.log "express-facebook-login.json Success!"
     console.log ["data", data]
     mediator.data.set 'profile-composed', no
     response = data.response
@@ -73,6 +72,22 @@ module.exports = class NotLoggedInPageView extends View
       utils.redirectTo controller:'complete-register', action:'index'
     else
       utils.redirectToLoggedInHome()
+      @doCheckShowRemainder data
+
+  doCheckShowRemainder:(data)->
+    if data.response.showRemainder is yes
+      message = "Recuerda que puedes ganar <strong>$#{data.response.cashbackForComplete}</strong> en bits al completar tu registro"
+      options =
+        value: "Completa registro"
+        title:'¡Completa tu registro!'
+        cancelValue: 'Llénalo después'
+        icon:'iconFont-computer'
+        context: @
+        acceptAction: () ->
+          Winbits.$('#wbi-my-account-link').click()
+      utils.showConfirmationModal(message, options)
+    else
+      $.fancybox.close()
 
   doFacebookLoginError: (xhr, textStatus, errorThrown) ->
     console.log "express-facebook-login.json Error!"
