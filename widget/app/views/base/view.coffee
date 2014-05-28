@@ -22,26 +22,26 @@ module.exports = class View extends Chaplin.View
     templateFunc
 
   render: ->
-      # Do not render if the object was disposed
-      # (render might be called as an event handler which wasn’t
-      # removed correctly).
-      return false if @disposed
+    # Do not render if the object was disposed
+    # (render might be called as an event handler which wasn’t
+    # removed correctly).
+    return false if @disposed
 
-      templateFunc = @getTemplateFunction()
+    templateFunc = @getTemplateFunction()
 
-      if typeof templateFunc is 'function'
-        # Call the template function passing the template data.
-        html = templateFunc @getTemplateData()
+    if typeof templateFunc is 'function'
+      # Call the template function passing the template data.
+      html = templateFunc @getTemplateData()
 
-        # Replace HTML
-        @$el.html html
+      # Replace HTML
+      @$el.html html
 
-      # Return the view.
-      this
+    # Return the view.
+    this
 
-  # attach: ->
-  #   super
-  #   @$(':input[placeholder]').not('[type="password"]').placeholder()
+  attach: ->
+    super
+    @$(':input[placeholder]').not('[type="password"]').placeholder()
 
   # This method is called after a specific `render` of a derived class.
 
