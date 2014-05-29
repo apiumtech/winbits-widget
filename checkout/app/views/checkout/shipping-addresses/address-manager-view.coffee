@@ -15,13 +15,15 @@ module.exports = class AddressManagerView extends View
 
   initialize: ->
     super
+    @subscribeEvent 'updateShippingAddressView', @updateShippingAddressView
     @listenTo @model,  'change', -> @render()
     @delegate 'click', '#aNewAddress' , @showAddNewShipping
     @delegate 'click', '.wbc-delete-shipping-link', @doDeleteShipping
     @delegate 'click', '.wbc-edit-shipping-link', @doEditShipping
-    @subscribeEvent 'updateShippingAddressView', @updateShippingAddressView
     @shippingAddressNew = new AddNewShippingAddress model: @model, autoRender: no
     @editShippingAddressView = new EditShippingAddressView
+    @delegate "click" , "#btnContinuar", @addressContinuar
+
   
   render: ->
     super
@@ -81,3 +83,16 @@ module.exports = class AddressManagerView extends View
     Winbits.$('#wbi-edit-shipping-address-container').html('')  
     Winbits.$('#wbi-edit-shipping-address-container').hide()
     Winbits.$('#wbi-shipping-addresses-view').show()
+
+   addressContinuar: (e)->
+     $addresSelected = @$(".shippingSelected")
+     if $addresSelected.attr("id") != undefined
+       id = $addresSelected.attr("id").split("-")[1]
+       if id
+         mediator.post_checkout.shippingAddress = id
+         @publishEvent "showStep", ".checkoutPaymentContainer"
+         @$("#choosen-address-" + mediator.post_checkout.shippingAddress).show()
+       else
+         util.showError('Selecciona una dirección de envío para continuar')
+     else
+       util.showError('Agrega una dirección de envío para continuar') 

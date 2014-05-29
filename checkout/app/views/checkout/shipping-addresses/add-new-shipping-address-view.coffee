@@ -91,6 +91,7 @@ module.exports = class AddNewShippingAddressView extends View
     if($form.valid())
       data = utils.serializeForm $form
       $form.find("#wbi-add-shipping-address-submit-btn").prop('disabled', true)
+      utils.showAjaxIndicator('Agregando dirección de envío...')
       @model.requestSaveNewShippingAddress(data, context: @)
       .done(@successAddingShippingAddresses)
       .fail(@errorSaveNewShippingAddress)
@@ -104,8 +105,13 @@ module.exports = class AddNewShippingAddressView extends View
       @$('[name="state"]').val state
 
   showShippingAddressesView:()->
+    $form = @$('#wbi-shipping-new-address-form')
+    utils.justResetForm($form)
     Winbits.$('#wbi-shipping-new-address-container').hide()  
     Winbits.$('#wbi-shipping-addresses-view').show()
+  
+  completeSaveNewShippingAddress: ->
+    utils.hideAjaxIndicator()
 
   successAddingShippingAddresses:() ->
     @model.actualiza()
