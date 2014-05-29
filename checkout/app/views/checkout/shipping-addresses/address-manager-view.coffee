@@ -76,4 +76,8 @@ module.exports = class AddressManagerView extends View
     @$('#wbi-edit-shipping-address-container').show()
   
   updateShippingAddressView: ->
+    console.log 'model updating'
     @model.actualiza()
+    Winbits.$('#wbi-edit-shipping-address-container').html('')  
+    Winbits.$('#wbi-edit-shipping-address-container').hide()
+    Winbits.$('#wbi-shipping-addresses-view').show()

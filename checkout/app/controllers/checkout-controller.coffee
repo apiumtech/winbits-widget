@@ -24,6 +24,7 @@ module.exports = class CheckoutController extends ChaplinController
     @order_id = orderId
     util.showAjaxIndicator('Inicializando checkout...')
     that= @
+    Winbits.$.wblocationselect.ajax = util.ajaxRequest
     util.ajaxRequest( config.apiUrl + "/orders/orders/"+ orderId + "/checkoutInfo.json",
       dataType: "json"
       headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }

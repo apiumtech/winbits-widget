@@ -63,22 +63,36 @@ module.exports = class EditNewShippingAddressView extends View
           wbiSelectInfo: yes
         location:
           wbiLocation: yes
+    
+    @validFormAfterAttach()
 
+  validFormAfterAttach: ->
+    window.setTimeout @validFormAfter, 275
+
+  validFormAfter: ->
+    $form =Winbits.$('#wbi-edit-shipping-address-form')
+    if $form.is(':visible')
+      $form.valid()
+      
   setCityAndState: ->
      comboSelect = @$('#wbi-shipping-address-zip-code-info')
      valSelected = comboSelect.val()
      if valSelected
-       value = comboSelect.wblocationselect('value')
-       @setCityAndStateDefault(value)
+       value = @selectZipCodeInfo(comboSelect, valSelected)
+       @setCityAndStateDefault value
      else
        @$('[name="city"]').val('')
        @$('[name="state"]').val('')
 
+  selectZipCodeInfo:(comboSelect,value)->
+    if value > 0
+      return comboSelect.wblocationselect('value')
+    else
+      return comboSelect.wblocationselect('firstValue')
 
   setCityAndStateDefault: (value)->
-    if value.id
-     @$('[name="city"]').val(value.city)
-     @$('[name="state"]').val(value.state)
+    @$('[name="city"]').val(value.city)
+    @$('[name="state"]').val(value.state)
 
 
   doSaveShippingAddress: (e)->
@@ -105,7 +119,6 @@ module.exports = class EditNewShippingAddressView extends View
     EventBroker.publishEvent 'updateShippingAddressView'
 
   errorSaveEditShippingAddress:(xhr, textStatus)->
-    #@$('#wbi-edit-shipping-thanks-div').hide()
     error = utils.safeParse(xhr.responseText)
     message = if error then error.meta.message else textStatus
     @$('.errorDiv p').text(message).parent().css('display':'block')
