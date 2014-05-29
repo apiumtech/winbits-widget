@@ -11,7 +11,6 @@ module.exports = class Application extends Chaplin.Application
 
   initialize: ->
     super
-    Winbits.isCrapBrowser = utils.isCrapBrowser
 
   initMediator: ->
     # Add additional application-specific properties and methods
