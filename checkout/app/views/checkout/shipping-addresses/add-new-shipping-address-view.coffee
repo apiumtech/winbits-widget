@@ -95,7 +95,7 @@ module.exports = class AddNewShippingAddressView extends View
       @model.requestSaveNewShippingAddress(data, context: @)
       .done(@successAddingShippingAddresses)
       .fail(@errorSaveNewShippingAddress)
-      .complete(@completeSaveNewShippingAddress)
+      .always(@completeSaveNewShippingAddress)
   
   checkZipCodeInfo: ->
     zipCodeInfo =@$('#wbi-shipping-address-zip-code-info').wblocationselect('value')
@@ -114,8 +114,7 @@ module.exports = class AddNewShippingAddressView extends View
     utils.hideAjaxIndicator()
 
   successAddingShippingAddresses:() ->
-    @model.actualiza()
-      
+    @publishEvent 'addresses-changed' 
 
   errorSaveNewShippingAddress:(xhr, textStatus)->
     error = utils.safeParse(xhr.responseText)

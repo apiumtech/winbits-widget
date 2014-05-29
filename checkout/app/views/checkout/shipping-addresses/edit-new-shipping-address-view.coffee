@@ -109,7 +109,6 @@ module.exports = class EditNewShippingAddressView extends View
       @model.requestSaveEditShippingAddress(itemId,data, context: @)
       .done(@successSaveEditShippingAddress)
       .fail(@errorSaveEditShippingAddress)
-      .complete(@completeSaveNewShippingAddress)
 
   checkZipCodeInfo: ->
     zipCodeInfo =@$('select#wbi-shipping-address-zip-code-info').wblocationselect('value')
@@ -117,10 +116,9 @@ module.exports = class EditNewShippingAddressView extends View
       @$('[name="location"]').val zipCodeInfo.locationName
 
   successSaveEditShippingAddress:()->
+    Winbits.$('.errorDiv').css('display':'none')
     utils.hideAjaxIndicator()
-  
-  completeSaveNewShippingAddress: ->
-    EventBroker.publishEvent 'updateShippingAddressView'
+    @publishEvent 'addresses-changed'
 
   errorSaveEditShippingAddress:(xhr, textStatus)->
     error = utils.safeParse(xhr.responseText)
@@ -130,6 +128,7 @@ module.exports = class EditNewShippingAddressView extends View
   showShippingAddressesView:(e) ->
     e.stopImmediatePropagation()
     e.preventDefault()
+    Winbits.$('.errorDiv').css('display':'none')
     Winbits.$('#wbi-edit-shipping-address-container').html('')  
     Winbits.$('#wbi-edit-shipping-address-container').hide()
     Winbits.$('#wbi-shipping-addresses-view').show()

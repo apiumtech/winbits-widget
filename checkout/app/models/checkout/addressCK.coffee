@@ -20,19 +20,6 @@ module.exports = class AddressCK extends ChaplinModel
       success: ->
         console.log "success load Virtual cart"
 
-  requestSaveNewShippingAddress: (formData, options)->
-    defaults =
-      type: "POST"
-      contentType: "application/json"
-      dataType: "json"
-      data: JSON.stringify(formData)
-      headers:
-        "Accept-Language": "es"
-        "WB-Api-Token": util.retrieveKey(config.apiTokenName)
-
-    util.ajaxRequest(@url,
-      Winbits.$.extend(defaults, options))
-
   requestDeleteShippingAddress: (itemId, options)->
     defaults =
       type: "DELETE"
@@ -48,17 +35,3 @@ module.exports = class AddressCK extends ChaplinModel
   getShippingAddress:(itemId) ->
      _.find(@get("addresses"),(address) -> itemId is address.id )
   
-  requestSaveEditShippingAddress: (itemId,formData, options)->
-    defaults =
-      type: "PUT"
-      contentType: "application/json"
-      dataType: "json"
-      data: JSON.stringify(formData)
-      headers:
-        "Accept-Language": "es"
-        "WB-Api-Token": util.retrieveKey(config.apiTokenName)
-
-    util.ajaxRequest(Winbits.env.get('api-url') +  "/users/shipping-addresses/#{itemId}.json",
-      Winbits.$.extend(defaults, options))
-
-    @actualiza()
