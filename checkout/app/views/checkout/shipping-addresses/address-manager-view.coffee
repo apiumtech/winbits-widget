@@ -22,8 +22,8 @@ module.exports = class AddressManagerView extends View
     @delegate 'click', '.wbc-edit-shipping-link', @doEditShipping
     @shippingAddressNew = new AddNewShippingAddress model: @model, autoRender: no
     @editShippingAddressView = new EditShippingAddressView
+    @delegate "click" , ".shippingItem", @selectShipping
     @delegate "click" , "#btnContinuar", @addressContinuar
-
   
   render: ->
     super
@@ -93,6 +93,14 @@ module.exports = class AddressManagerView extends View
          @publishEvent "showStep", ".checkoutPaymentContainer"
          @$("#choosen-address-" + mediator.post_checkout.shippingAddress).show()
        else
-         util.showError('Selecciona una dirección de envío para continuar')
+         utils.showError('Selecciona una dirección de envío para continuar')
      else
-       util.showError('Agrega una dirección de envío para continuar') 
+       utils.showError('Agrega una dirección de envío para continuar') 
+
+   selectShipping: (e)->
+     $currentTarget = @$(e.currentTarget)
+     id =  $currentTarget.attr("id").split("-")[1]
+     @$(".shippingItem").removeClass("shippingSelected")
+     $currentTarget.addClass("shippingSelected")
+     mediator.post_checkout.shippingAddress = id
+

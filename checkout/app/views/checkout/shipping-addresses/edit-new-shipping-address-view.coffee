@@ -103,7 +103,7 @@ module.exports = class EditNewShippingAddressView extends View
     $form =  @$el.find("#wbi-edit-shipping-address-form")
     @$('.errorDiv').css('display':'none')
     if($form.valid())
-      utils.showAjaxIndicator('Agregando dirección de envío...')
+      utils.showAjaxIndicator('Actualizando dirección de envío...')
       @checkZipCodeInfo()
       data = utils.serializeForm $form
       @model.requestSaveEditShippingAddress(itemId,data, context: @)
