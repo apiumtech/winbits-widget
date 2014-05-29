@@ -115,8 +115,8 @@ module.exports = class SocialMediaView extends View
       title: 'Desligar redes sociales'
       icon: 'iconFont-candado'
       context: @
-      cancelAction: @doAlwaysDeleteSocialAccount
-      onClosed: @doAlwaysDeleteSocialAccount
+      cancelAction: @doCancelDeleteSocialAccount
+      onClosed: @doCancelDeleteSocialAccount
       acceptAction: () -> @doRequestDeleteSocialAccount(socialAccount)
     utils.showConfirmationModal(message, options)
 
@@ -135,3 +135,9 @@ module.exports = class SocialMediaView extends View
 
   doAlwaysDeleteSocialAccount: ->
     utils.hideAjaxLoading()
+
+
+  doCancelDeleteSocialAccount: ->
+    utils.hideAjaxLoading()
+    utils.closeMessageModal()
+
