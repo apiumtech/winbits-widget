@@ -16,6 +16,7 @@ module.exports = class YourBitsHistoryView extends View
 
   initialize:()->
     super
+    @listenTo @model,  'change', -> $.proxy(@render, @)
     @model.fetch data:@params, success: $.proxy(@render, @)
     @delegate 'click', '#wbi-your-bits-history-btn-back', @backToVertical
     $('#wbi-my-account-div').slideUp()
@@ -30,11 +31,14 @@ module.exports = class YourBitsHistoryView extends View
 
   paramsChanged: (params)->
     $.extend(@params, params)
-    @model.fetch {data:@params}
+    @updateHistory()
 
   pageChanged: (e, ui) ->
     params = max: ui.max, offset: ui.offset
     @paramsChanged(params)
+
+  updateHistory: ->
+    @model.fetch {data:@params}
 
   backToVertical:()->
     $('main .wrapper').show()

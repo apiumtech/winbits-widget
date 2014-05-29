@@ -21,6 +21,7 @@ describe 'SocialAccountsViewSpec', ->
 
   afterEach ->
     utils.redirectTo.restore?()
+    utils.showConfirmationModal.restore?()
     $.fancybox.close.restore?()
     @model.dispose()
     @view.dispose()
@@ -67,3 +68,16 @@ describe 'SocialAccountsViewSpec', ->
     sinon.stub(@model, 'requestConnectionLink').returns TestUtils.promises.resolved
     @view.$('.wbc-twitter-link').click()
     expect(@model.requestConnectionLink).to.have.been.calledOnce
+
+  it 'should success social account unlink facebook', ->
+    @model.set 'Facebook', yes
+    sinon.stub(utils, 'showConfirmationModal')
+    @view.$('.wbc-facebook-unlink').click()
+    expect(utils.showConfirmationModal).to.have.been.calledOnce
+
+
+  it 'should success social account unlink twitter', ->
+    @model.set 'Twitter', yes
+    sinon.stub(utils, 'showConfirmationModal')
+    @view.$('.wbc-twitter-unlink').click()
+    expect(utils.showConfirmationModal).to.have.been.calledOnce

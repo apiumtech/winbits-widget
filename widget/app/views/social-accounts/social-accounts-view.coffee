@@ -61,6 +61,7 @@ module.exports = class SocialMediaView extends View
 
   doUnlinkFacebook: (e)->
     e.preventDefault()
+    @doShowConfirmSocialAccountDelete('Facebook')
 
   doLinkTwitter:  (e)->
     e.preventDefault()
@@ -102,9 +103,35 @@ module.exports = class SocialMediaView extends View
           @showErrorMessageLinkSocialAccount()
     utils.hideAjaxLoading()
 
-
-
-
-
   doUnlinkTwitter: (e)->
     e.preventDefault()
+    @doShowConfirmSocialAccountDelete('Twitter')
+
+  doShowConfirmSocialAccountDelete:(socialAccount)->
+    utils.showAjaxLoading()
+    message = "¿Estás seguro que deseas desligar tu cuenta de #{socialAccount.toLowerCase()}?"
+    options =
+      value: 'Aceptar'
+      title: 'Desligar redes sociales'
+      icon: 'iconFont-candado'
+      context: @
+      cancelAction: @doAlwaysDeleteSocialAccount
+      onClosed: @doAlwaysDeleteSocialAccount
+      acceptAction: () -> @doRequestDeleteSocialAccount(socialAccount)
+    utils.showConfirmationModal(message, options)
+
+  doRequestDeleteSocialAccount: (socialAccount)->
+    @model.requestDeleteSocialAccount(socialAccount.toLowerCase(), context:@)
+    .done(->
+      @model.set socialAccount, no
+      utils.closeMessageModal())
+    .fail(@doFailDeleteSocialAccount)
+    .always(@doAlwaysDeleteSocialAccount)
+
+  doFailDeleteSocialAccount: ->
+    message = 'El servidor no está disponible, por favor inténtalo más tarde.'
+    options = value: "Cerrar"
+    utils.showError(message, options)
+
+  doAlwaysDeleteSocialAccount: ->
+    utils.hideAjaxLoading()
