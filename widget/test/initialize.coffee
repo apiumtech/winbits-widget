@@ -11,22 +11,26 @@ specs = [
   './views/recover-password-view-spec'
   './views/reset-password-view-spec'
   './views/personal-data-view-spec'
-  './views/social-media-view-spec'
+  './views/social-account/social-accounts-view-spec'
+  './views/social-account/social-accounts-link-view-spec'
   './views/change-password-view-spec'
   './views/shipping-addresses-view-spec'
   './views/mailing-view-spec'
   './views/new-shipping-address-view-spec'
   './views/edit-shipping-address-view-spec'
   './views/complete-register-view-spec'
-  './other/jquery-location-select-spec'
+  './other/jquery-wblocationselect-spec'
   './views/cart/cart-view-spec'
   './views/cart/cart-items-view-spec'
   './views/cart/cart-totals-view-spec'
   './views/cart/cart-bits-view-spec'
+  './views/remember-complete-register-in-normal-login-spec'
+  './views/remember-complete-register-in-facebook-login-spec'
   './views/cart/cart-payment-methods-view-spec'
   './models/virtual-cart-spec'
   './models/cart-spec'
-  './views/virtual-cart-view-spec'
+  './views/cart/virtual-cart-view-spec'
+  './views/cart/transfer-from-virtual-to-assigned-cart-view-spec'
   './lib/cart-utils-spec'
   './winbits-spec'
   './lib/utils-spec'
@@ -45,5 +49,5 @@ specs = [
 ]
 
 for spec in specs
-    console.log ['Executing Spec -> ', spec]
-    require spec
+  console.log ['Executing Spec -> ', spec]
+  require spec

@@ -65,15 +65,26 @@ module.exports = class Cart extends Model
   updateCartBits:(formData, options) ->
     defaults =
       type: "PUT"
-      contentType: "application/json"
-      dataType: "json"
       data:JSON.stringify(formData)
       headers:
         "Accept-Language": "es"
         "WB-Api-Token": utils.getApiToken()
 
     utils.ajaxRequest(
-        env.get('api-url') + "/orders/update-cart-bits.json",
+        utils.getResourceURL("orders/update-cart-bits.json"),
+        $.extend(defaults, options)
+    )
+
+  transferVirtualCart:(formData, options) ->
+    defaults =
+      type: "POST"
+      data:JSON.stringify(formData)
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token": utils.getApiToken()
+
+    utils.ajaxRequest(
+        utils.getResourceURL("orders/assign-virtual-cart.json"),
         $.extend(defaults, options)
     )
 

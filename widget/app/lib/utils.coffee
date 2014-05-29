@@ -22,8 +22,9 @@ _(utils).extend
 
   getUrlParams : ->
     vars = []
-    hash = `undefined`
-    hashes = window.location.href.slice(window.location.href.indexOf("?") + 1).split("&")
+    hash = undefined
+    indexOfQuestionMark = window.location.href.indexOf("?")
+    hashes = window.location.href.slice(indexOfQuestionMark + 1).split("&")
     i = 0
 
     while i < hashes.length
@@ -54,7 +55,7 @@ _(utils).extend
 
   focusForm:  (form) ->
     $form = $(form)
-    if not @isCrapBrowser()
+    if not Winbits.isCrapBrowser
       $form.find('input:visible:not([disabled]), textarea:visible:not([disabled])').first().focus()
 
   alertErrors : ($) ->
@@ -75,10 +76,13 @@ _(utils).extend
     formData
 
   getBirthdate: ($form) ->
-   birthdate = (@getYear($form) + '-' + @getMonth($form) + '-' + @getDay($form))
-   if birthdate.length != 10
-     birthdate = null
-   birthdate
+    year = @getYear($form)
+    month = @getMonth($form)
+    day = @getDay($form)
+    birthdate = "#{year}-#{month}-#{day}"
+    if birthdate.length isnt 10
+      birthdate = null
+    birthdate
 
   getDay: ($form) ->
     @getDateValue($form, ".wbc-day") or ''
@@ -195,9 +199,11 @@ _(utils).extend
     value
 
   getGender: ($form) ->
-    gender = $form.find("[name=gender][checked]").val()
-    if gender
-      gender = if gender is 'H' then 'male' else 'female'
+    gender = ''
+    if $form.find(".wbc-gender-male").prop('checked')
+      gender = 'male'
+    else if $form.find(".wbc-gender-female").prop('checked')
+      gender = 'female'
     gender
 
   calculateCartTotal: (total, bitsTotal) ->
@@ -256,9 +262,6 @@ _(utils).extend
         $($.find('#wbi-cancel-card-token-payment-btn')).click()
         appendCopy.remove()
 
-  isCrapBrowser: ->
-    $.browser.msie and not /10.*/.test($.browser.version)
-
   paymentMethodSupportedHtml: (methods, ac, html) ->
     if not methods
       return new Handlebars.SafeString("")
@@ -293,7 +296,7 @@ _(utils).extend
     options.onClosed ?= $.noop
     options.title ?= 'Mensaje'
     options.icon ?="icontFont-question"
-    options.acceptAction ?= $.noop
+    options.acceptAction ?= @closeMessageModal
     options.acceptAction = $.proxy(options.acceptAction, options.context)
 #    onStart = $.proxy(options.onStart or $.noop, context)
 #    onCancel = $.proxy(options.onCancel or $.noop, context)
@@ -301,7 +304,7 @@ _(utils).extend
 #    onCleanup = $.proxy(options.onCleanup or $.noop, context)
     onClosed = $.proxy(options.onClosed, options.context)
     $(".wbc-modal-message", $modal).html(message)
-    $(".wbc-default-action", $modal).unbind('click').click(options.acceptAction).click(@closeMessageModal).val options.value
+    $(".wbc-default-action", $modal).unbind('click').click(options.acceptAction).val options.value
     $(".wbc-modal-title", $modal).html(options.title)
     $(".wbc-modal-icon", $modal).html("<span class='#{options.icon}'></span>")
     $('<a>').wbfancybox(padding: 10, href: modalSelector, onClosed: onClosed).click()
@@ -312,9 +315,9 @@ _(utils).extend
     options.cancelValue ?= 'Cancelar'
     options.context ?= @
     options.icon ?= 'iconFont-question'
-    options.cancelAction ?= $.noop
+    options.cancelAction ?= @closeMessageModal
     options.cancelAction = $.proxy(options.cancelAction, options.context)
-    $(".wbc-cancel-action", $modal).unbind('click').click(options.cancelAction).click(@closeMessageModal).val options.cancelValue
+    $(".wbc-cancel-action", $modal).unbind('click').click(options.cancelAction).val options.cancelValue
     @showMessageModal(message, options, $modal.selector)
 
   showLoadingMessage: (message, options)->
@@ -360,16 +363,17 @@ _(utils).extend
       no
 
   getVirtualCart: () ->
-    localStorage['wb-vcart'] or '[]'
+    mediator.data.get('virtual-cart') or '[]'
 
   saveVirtualCart: (cartData) ->
     vcart = "[]"
     if(cartData.itemsCount > 0)
       cartItems = (@toCartItem(x) for x in cartData.cartDetails)
       vcart = JSON.stringify(cartItems)
-      localStorage['wb-vcart'] = vcart
-    else
-      localStorage.removeItem 'wb-vcart'
+    @saveVirtualCartInStorage(vcart)
+
+  saveVirtualCartInStorage: (vcart = "[]")->
+    mediator.data.set('virtual-cart', vcart)
     rpc.storeVirtualCart(vcart)
 
   toCartItem: (cartDetail) ->
@@ -390,6 +394,8 @@ _(utils).extend
     env.get('current-vertical-id')
 
   closeMessageModal: $.fancybox.close
+
+
 
 # Prevent creating new properties and stuff.
 Object.seal? utils

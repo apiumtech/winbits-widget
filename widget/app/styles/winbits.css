@@ -45,3 +45,7 @@ label.error {
   font-weight: bold;
   background-color: lightgray;
 }
+
+.placeholder, .placeholder.error {
+  color: #aaa !important;
+}

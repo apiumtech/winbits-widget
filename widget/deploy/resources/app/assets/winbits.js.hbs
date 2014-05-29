@@ -21,7 +21,7 @@
       if (typeof callback === 'function') {
         var eventData = eventsTriggered[event];
         if (eventData) {
-          callback.apply(context || {}, eventData);
+          callback.apply(context || {}, eventData || []);
         } else {
           var callbacks = eventCallbacks[event] || [];
           callback._ctx = context;
@@ -36,7 +36,7 @@
       if (callbacks) {
         for (i = 0, len = callbacks.length; i < len; i++) {
           callback = callbacks[i];
-          callback.apply(callback._ctx || {}, args);
+          callback.apply(callback._ctx || {}, args || []);
         }
       }
       eventsTriggered[event] = args;

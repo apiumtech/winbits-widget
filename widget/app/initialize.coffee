@@ -10,6 +10,7 @@ mediator.data = (->
   # e.g. Chaplin.mediator.prop = null
   data =
     'login-data': Winbits.env.get 'login-data'
+    'virtual-cart': Winbits.env.get('virtual-cart')
   {
   get: (property)->
     data[property]
@@ -25,11 +26,12 @@ mediator.data = (->
     return
   }
 )()
+# mediator.data.set('virtual-cart', Winbits.env.get('virtual-cart'))
 
 Winbits.addToCart = (cartItems) ->
   cartItems = if Winbits.$.isArray(cartItems) then cartItems else [cartItems]
-  fn = if utils.isLoggedIn() then cartUtils.addToUserCart else cartUtils.addToVirtualCart
-  fn.call(cartUtils, cartItems)
+  fnName = if utils.isLoggedIn() then 'addToUserCart' else 'addToVirtualCart'
+  cartUtils[fnName].call(cartUtils, cartItems)
 
 Winbits.addToWishList = (options ) ->
   fn = if utils.isLoggedIn() then wishListUtils.addToWishList
@@ -44,7 +46,7 @@ appConfig =
   pushState: no
 
 appConfig.routes = routes unless window.wbTestEnv
-if Winbits.env.get 'optimized'
+if Winbits.env.get('optimized') and not Winbits.isCrapBrowser
   # Initialize the application on DOM ready event.
   Winbits.loadInterval = setInterval ->
     if Winbits.$(Winbits.env.get 'widget-container').length
@@ -53,5 +55,6 @@ if Winbits.env.get 'optimized'
       new Application appConfig
   , 5
 else
+  console.log ['Initializing widget when DOM ready']
   Winbits.$ ->
     new Application appConfig

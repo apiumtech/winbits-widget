@@ -7,6 +7,7 @@ CartPaymentMethodsView = require 'views/cart/cart-payment-methods-view'
 Cart = require 'models/cart/cart'
 utils = require 'lib/utils'
 $ = Winbits.$
+mediator = Winbits.Chaplin.mediator
 
 module.exports = class CartView extends View
   container: '#wbi-cart-holder'
@@ -16,9 +17,8 @@ module.exports = class CartView extends View
 
   initialize: ->
     super
-    # @listenTo @model, 'change', -> @render()
     @subscribeEvent 'cart-changed', -> @onCartChanged.apply(@, arguments)
-    @model.fetch(success: $.proxy(@successFetch, @))
+    @restoreCart()
 
   render: ->
     super
@@ -41,4 +41,23 @@ module.exports = class CartView extends View
     @onCartChanged data
     $bitsTotal= @model.get 'bitsTotal'
     @publishEvent 'change-bits-data', $bitsTotal
+
+  restoreCart: ->
+    virtualCart = utils.getVirtualCart()
+    if(utils.isLoggedIn())
+      unless virtualCart is "[]"
+        formData = virtualCartData : JSON.parse(virtualCart)
+        @model.transferVirtualCart(formData, context:@)
+        .done(@successTransferVirtualCart)
+      else
+        @model.fetch(success: $.proxy(@successFetch, @))
+    else
+      @model.fetch(success: $.proxy(@successFetch, @))
+
+  successTransferVirtualCart: (data)->
+    utils.saveVirtualCartInStorage()
+    @successFetch(data)
+    if(mediator.data.get 'virtual-checkout')
+      @publishEvent 'checkout-requested'
+    mediator.data.set 'virtual-checkout', no
 

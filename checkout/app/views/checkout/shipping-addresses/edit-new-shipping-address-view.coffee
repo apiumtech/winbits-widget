@@ -84,6 +84,7 @@ module.exports = class EditNewShippingAddressView extends View
   doSaveShippingAddress: (e)->
     e.stopImmediatePropagation()
     e.preventDefault()
+    console.log 'updatiiiing'
     itemId = Winbits.$("#wbi-edit-shipping-address-form").data('id')
     $form =  @$el.find("#wbi-edit-shipping-address-form")
     @$('.errorDiv').css('display':'none')
@@ -102,9 +103,6 @@ module.exports = class EditNewShippingAddressView extends View
 
   successSaveEditShippingAddress:()->
     EventBroker.publishEvent 'updateShippingAddressView'
-    Winbits.$('#wbi-edit-shipping-address-container').html('')  
-    Winbits.$('#wbi-edit-shipping-address-container').hide()
-    Winbits.$('#wbi-shipping-addresses-view').show()
 
   errorSaveEditShippingAddress:(xhr, textStatus)->
     #@$('#wbi-edit-shipping-thanks-div').hide()

@@ -86,7 +86,6 @@ module.exports = class AddNewShippingAddressView extends View
   doSaveShippingAddress:(e) ->
     e.stopImmediatePropagation()
     e.preventDefault()
-    console.log 'saviiing'
     $form =  @$el.find("#wbi-shipping-new-address-form")
     @$('.errorDiv').css('display':'none')
     if($form.valid())
@@ -109,7 +108,11 @@ module.exports = class AddNewShippingAddressView extends View
     Winbits.$('#wbi-shipping-addresses-view').show()
 
   successAddingShippingAddresses:() ->
+    console.log 'model updating'
     @model.actualiza()
+    Winbits.$('#wbi-edit-shipping-address-container').html('')  
+    Winbits.$('#wbi-edit-shipping-address-container').hide()
+    Winbits.$('#wbi-shipping-addresses-view').show()
       
 
   errorSaveNewShippingAddress:(xhr, textStatus)->

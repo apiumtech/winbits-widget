@@ -3,6 +3,7 @@
 View = require 'views/base/view'
 utils = require 'lib/utils'
 $ = Winbits.$
+mediator = Winbits.Chaplin.mediator
 
 module.exports = class CartPaymentMethodsView extends View
   container: '#wbi-cart-right-panel'
@@ -18,5 +19,10 @@ module.exports = class CartPaymentMethodsView extends View
     super
 
   checkout: ->
-    utils.showLoadingMessage('Generando orden...')
-    @model.requestCheckout()
+    if utils.isLoggedIn()
+      utils.showLoadingMessage('Generando orden...')
+      @model.requestCheckout()
+    else
+      mediator.data.set 'virtual-checkout', yes
+      utils.redirectTo controller:'login', action:'index'
+

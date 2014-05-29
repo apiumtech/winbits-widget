@@ -40,20 +40,32 @@ describe 'CartPaymentMethodsViewSpec', ->
 
     expect(@view.checkout).to.has.been.calledOnce
 
-  it 'checkout should show loading message prior to request checkout', ->
-    sinon.stub(utils, 'showLoadingMessage')
-    sinon.stub(@model, 'requestCheckout')
+  it 'checkout should show loading message prior to request checkout', sinon.test ->
+    @stub(utils, 'isLoggedIn').returns yes
+    @stub(utils, 'showLoadingMessage')
+    @stub(@model, 'requestCheckout')
 
     @view.checkout()
 
     expect(utils.showLoadingMessage).to.has.been.calledWith('Generando orden...')
         .and.to.has.been.calledOnce
 
-  it 'checkout should request checkout service through model', ->
-    sinon.stub(utils, 'showLoadingMessage')
-    sinon.stub(@model, 'requestCheckout')
+  it 'checkout should request checkout service through model', sinon.test ->
+    @stub(utils, 'isLoggedIn').returns yes
+    @stub(utils, 'showLoadingMessage')
+    @stub(@model, 'requestCheckout')
 
     @view.checkout()
 
     expect(@model.requestCheckout).to.has.been.calledOnce
+
+  it 'checkout call login', sinon.test ->
+    @stub(utils, 'isLoggedIn').returns no
+    @stub(utils, 'redirectTo')
+    @stub(utils, 'showLoadingMessage')
+    @stub(@model, 'requestCheckout')
+
+    @view.checkout()
+    expect(@model.requestCheckout).to.not.has.been.called
+    expect(utils.redirectTo).to.has.been.calledOnce
 

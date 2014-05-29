@@ -12,11 +12,11 @@
     </div>
     <div class="divGender requiredField" data-requiredfield="Género Requerido">
       <label>Género</label>
-      <input type="radio" value="H" name="gender" {{#compare gender 'male'}}checked="checked"{{/compare}}>
-      <input type="radio" value="M" name="gender" {{#compare gender 'female'}}checked="checked"{{/compare}}>
+      <input type="radio" value="H" class="wbc-gender-male" name="gender" {{#compare gender 'male'}}checked="checked"{{/compare}}>
+      <input type="radio" value="M" class="wbc-gender-female" name="gender" {{#compare gender 'female'}}checked="checked"{{/compare}}>
     </div>
     <input type="text" placeholder="Código Postal" maxlength="5" name="zipCode" class="zipCode" value="{{zipCode}}">
-    <select class="select zipCodeInfo" value="{{#if zipCodeInfo}}{{zipCodeInfo.id}}{{/if}}" data-location="{{location}}" data-clase="selectRegister" data-inputselect="true" name="zipCodeInfo">
+    <select class="select zipCodeInfo" value="{{#if zipCodeInfo}}{{zipCodeInfo.id}}{{/if}}" data-location="{{location}}" data-clase="selectRegister" name="zipCodeInfo">
     </select>
     <input type="text" id="winbitsProfilePhone" name="phone" placeholder="Teléfono" value="{{phone}}" maxlength="15">
     <input type="button" value="Guardar" class="btn editBtn" id="wbi-update-profile-btn">

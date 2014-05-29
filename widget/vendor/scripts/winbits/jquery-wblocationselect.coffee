@@ -16,6 +16,7 @@
     _zipCodeRegExp: /\d{5}/
 
     _create: ->
+      @_setAjax()
       @_createDefaultOption()
       @_enhanceSelect()
       @_createOtherInput()
@@ -23,14 +24,19 @@
       zipCode = @$zipCodeInput.val()
       @loadZipCode(zipCode) if zipCode
 
+    _setAjax: ->
+      @_ajax = @options.ajax or $.wblocationselect.ajax or $.ajax
+
     _createDefaultOption: ->
       $('<option>', value: '').text(@options.defaultOption).prependTo(@element)
 
     _createOtherInput: ->
-      otherFieldAttrs = $.extend({}, @options.otherFieldAttrs, { type: 'text', class:"wbc-location-field", style: 'display:none;' })
+      otherFieldAttrs = $.extend({}, @options.otherFieldAttrs,
+        { type: 'text', class:"wbc-location-field", style: 'display:none;' })
       @$locationField = $('<input>', otherFieldAttrs)
       @$locationField.insertAfter(@_wrapper)
-      @$locationField.attr('placeholder', otherFieldAttrs.placeholder).placeholder()
+      @$locationField.attr('placeholder', otherFieldAttrs.placeholder)
+        .placeholder()
 
     _enhanceSelect: ->
       @element.customSelect()
@@ -70,7 +76,7 @@
       if @_isValidZipCode(zipCode)
         @$zipCodeInput.prop('disabled', yes)
         apiUrl = Winbits.env.get('api-url')
-        $.ajax("#{apiUrl}/users/locations/#{zipCode}.json",
+        @_ajax("#{apiUrl}/users/locations/#{zipCode}.json",
           dataType: 'json'
         ).done($.proxy(@_loadZipCodeDone, @))
         .always($.proxy(@_loadZipCodeAlways, @))
@@ -170,4 +176,9 @@
       $form.element(@$zipCodeInput)
       $form.element(@$locationField)
       $form.element(@element)
+
+    firstValue: ->
+      @element.children().eq(1).data(@_zipCodeInfoKey)
+
+  $.wblocationselect = {}
 )(jQuery)

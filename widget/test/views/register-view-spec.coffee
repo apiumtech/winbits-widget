@@ -1,11 +1,15 @@
+'use strict'
 RegisterView = require 'views/register/register-view'
+Register = require 'models/register/register'
 utils =  require 'lib/utils'
 $ = Winbits.$
 email = 'test@winbits.com'
 password = "1234567"
 
 describe 'RegisterViewSpec', ->
-  'use strict'
+
+  REGISTER_ERROR_RESPONSE_AFER001 = '{"meta":{"status":400,"message":"La cuenta de correo que intentas introducir ya existe","code":"AFER001"},"response":{}}'
+  REGISTER_URL = utils.getResourceURL 'users/register.json'
 
   before ->
     $.validator.setDefaults({ ignore: [] });
@@ -14,58 +18,61 @@ describe 'RegisterViewSpec', ->
     $.validator.setDefaults({ ignore: ':hidden' });
 
   beforeEach ->
-    @registerView = new RegisterView autoAttach: false
-    sinon.stub(@registerView, 'showAsModal')
-    @registerView.attach()
-    @registerView.$('[name=email]').val email
-    @registerView.$('[name=password]').val password
-    @registerView.$('[name=passwordConfirm]').val password
+    @server = sinon.fakeServer.create()
+    @model = new Register
+    @view = new RegisterView model:@model, autoAttach: no
+    sinon.stub(@view, 'showAsModal')
+    @view.attach()
+    @view.$('[name=email]').val email
+    @view.$('[name=password]').val password
+    @view.$('[name=passwordConfirm]').val password
 
   afterEach ->
-    @registerView.showAsModal.restore?()
+    @server.restore()
+    @view.showAsModal.restore()
     utils.ajaxRequest.restore?()
-    @registerView.dispose()
+    @view.dispose()
 
   it 'register view rendered',  ->
-    expect(@registerView.$el).has.id('wbi-register-modal')
-    expect(@registerView.$ '#wbi-register-form').is.rendered
+    expect(@view.$el).has.id('wbi-register-modal')
+    expect(@view.$ '#wbi-register-form').is.rendered
 
-  it 'do login should succed to Register', ->
-    sinon.stub(utils, 'ajaxRequest').yieldsTo('success', {})
-    successStub = sinon.stub(@registerView, 'doRegisterSuccess')
-    @registerView.$('#wbi-register-button').click()
+  it 'do register should succed to Register', ->
+    sinon.stub(@model, 'requestRegisterUser').returns TestUtils.promises.resolved
+    successStub = sinon.stub(@view, 'doRegisterSuccess')
+    @view.$('#wbi-register-button').click()
     expect(successStub).to.be.calledOnce
-    expect(@registerView.$ '.error').to.not.exist
+    expect(@view.$ '.error').to.not.exist
 
   it 'do not makes request if form invalid', ->
-    ajaxRequestStub = sinon.stub(utils, 'ajaxRequest')
-    @registerView.$('[name=password]').val('')
-    @registerView.$('#wbi-register-button').click()
+    sinon.stub(@model, 'requestRegisterUser')
+    @view.$('[name=password]').val('')
+    @view.$('#wbi-register-button').click()
 
-    expect(ajaxRequestStub).to.not.be.called
+    expect(@model.requestRegisterUser).to.not.be.called
 
   it 'show validation errors if form invalid', ->
-    @registerView.$('[name=password]').val('')
-    @registerView.$('#wbi-register-button').click()
+    @view.$('[name=password]').val('')
+    @view.$('#wbi-register-button').click()
+    expect(@view.$ '.error').to.exist
 
-    expect(@registerView.$ '.error').to.exist
+  it 'should call doRegisterError when the server respond with error', ->
+    sinon.stub(@view, 'doRegisterError')
+    @view.$('#wbi-register-button').click()
+    @server.requests[0].respond(400, {"Content-Type":"aplication/json"},REGISTER_ERROR_RESPONSE_AFER001)
+    expect( @view.doRegisterError).to.have.been.callOnce
+    expect( @server.requests[0].url).to.have.been.equals REGISTER_URL
+    expect( @server.requests[0].responseText).to.have.been.equals REGISTER_ERROR_RESPONSE_AFER001
 
-  it 'error is shown if api return error', ->
-    xhr = responseText: '{"meta":{"message":"Todo es culpa de Layún!"}}'
-    ajaxRequestStub = sinon.stub(utils, 'ajaxRequest').yieldsToOn('error', @registerView, xhr)
-    @registerView.$('#wbi-register-button').click()
 
-    expectAjaxArgs.call(@, ajaxRequestStub, "Todo es culpa de Layún!")
+  it 'should call shwMessageErrorModal when the server respond with error', ->
+    sinon.stub(@view, 'showMessageErrorModal')
+    @view.$('#wbi-register-button').click()
+    @server.requests[0].respond(400, {"Content-Type":"aplication/json"},REGISTER_ERROR_RESPONSE_AFER001)
+    expect( @view.doRegisterError).to.have.been.callOnce
+    expect( @view.showMessageErrorModal).to.have.been.callOnce
 
-  it 'error is shown if request fail', ->
-    xhr = responseText: 'Server error'
-    ajaxRequestStub = sinon.stub(utils, 'ajaxRequest').yieldsToOn('error', @registerView, xhr)
-    @registerView.$('#wbi-register-button').click()
-
-    expectAjaxArgs.call(@, ajaxRequestStub, "El servidor no está disponible, por favor inténtalo más tarde.")
-
-  expectAjaxArgs = (ajaxRequestStub, errorText)->
-    ajaxConfigArg = ajaxRequestStub.args[0][1]
-    expect(ajaxConfigArg).to.has.property('context', @registerView)
-    expect(ajaxConfigArg).to.has.property('data')
-    expect(@registerView.$ '.errorDiv p').to.has.text(errorText)
+  it 'should publish event facebook-button-event', ->
+    stub = sinon.stub @view, 'publishEvent'
+    @view.$('#wbi-register-facebook-link').click()
+    expect(stub).to.have.been.calledOnce

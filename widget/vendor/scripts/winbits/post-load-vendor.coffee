@@ -6,7 +6,7 @@
 #
 (->
   $.fn.wbfancybox = (options) ->
-    defaults = padding: 0, transitionIn: 'none', transitionOut: 'none'
+    defaults = padding: 0, transitionIn: 'none', transitionOut: 'none', changeSpeed: 150
     allOptions = Winbits.$.extend {}, defaults, options
     allOptions.onCleanup = ->
       $ = Winbits.$
@@ -56,7 +56,9 @@
     day = '0' + day if day and day.length == 1
     month = $this.find('#wbi-birthdate-month').val()
     month = '0' + month if month and month.length == 1
-    year = '19' + $this.find('#wbi-birthdate-year').val()
+    year = $this.find('#wbi-birthdate-year').val()
+    currentYear = parseInt(moment().format('YYYY').slice(-2))
+    year =  (if year > currentYear then "19" else "20") + year
     "#{year}-#{month}-#{day}"
 
   $.validator.addMethod 'validateDate', (value, element)->
@@ -109,9 +111,11 @@
     links: {}
   moment().tz("America/Mexico_City").format()
 
-  Winbits.$ = $.noConflict(true)
+  $.wblocationselect.ajax = Winbits.ajaxRequest
+  Winbits.$ = $.noConflict(yes)
   Winbits._ = _.noConflict()
   Backbone.$ = Winbits.$
+  Backbone.ajax = Winbits.ajaxRequest
   Winbits.Backbone = Backbone.noConflict()
   Winbits.easyXDM = easyXDM.noConflict('Winbits')
   Winbits.moment = window.moment
@@ -129,7 +133,7 @@
     console.log ['WIDGET TOTAL LOAD TIME (ms)', widgetLoadTime]
     Winbits.trigger 'initialized'
   .fail ->
-    delete Winbits
+    window.Winbits = undefined
     alert('Unable to load Winbits Widget!')
 
   delete Winbits.promises

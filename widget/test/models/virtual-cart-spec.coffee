@@ -33,7 +33,6 @@ describe 'VirtualCartSpec', ->
 
   it 'should fetch virtual cart items', ->
     @model.fetch()
-
     request = @requests[0]
     expect(request.url).to.be.equal(VIRTUAL_CART_URL)
     expect(request.method).to.be.equal('GET')
