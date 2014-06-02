@@ -10,11 +10,9 @@ _ = Winbits._
 cartUtils = {}
 _(cartUtils).extend
   getCartResourceUrl:(itemId) ->
-    resource
-    if not itemId
-      resource = if utils.isLoggedIn() then 'cart-items.json' else 'virtual-cart-items.json'
-    else
-      resource = if utils.isLoggedIn() then "cart-items/#{itemId}.json" else "virtual-cart-items/#{itemId}.json"
+    resource = if itemId then "cart-items/#{itemId}.json" else 'cart-items.json'
+    if not utils.isLoggedIn()
+      resource = "virtual-#{resource}"
     utils.getResourceURL "orders/#{resource}"
 
   addToUserCart: (cartItems = {}) ->
@@ -22,7 +20,8 @@ _(cartUtils).extend
     options =
       headers:
         'Wb-Api-Token': utils.getApiToken()
-    utils.ajaxRequest(@getCartResourceUrl(), @applyDefaultAddToCartRequestDefaults(cartItems, options))
+    options = @applyAddToCartRequestDefaults(cartItems, options)
+    utils.ajaxRequest(@getCartResourceUrl(), options)
     .done(@publishCartChangedEvent)
     .fail(@showCartErrorMessage)
 
@@ -34,7 +33,8 @@ _(cartUtils).extend
     options =
       headers:
         'Wb-VCart': utils.getVirtualCart()
-    utils.ajaxRequest(@getCartResourceUrl(), @applyDefaultAddToCartRequestDefaults(cartItems, options))
+    options = @applyAddToCartRequestDefaults(cartItems, options)
+    utils.ajaxRequest(@getCartResourceUrl(), options)
     .done(@addToVirtualCartSuccess)
     .fail(@showCartErrorMessage)
 
@@ -61,7 +61,7 @@ _(cartUtils).extend
     message = "Actualizando carrito ..."
     utils.showLoadingMessage(message)
 
-  applyDefaultAddToCartRequestDefaults: (cartItems, options = {}) ->
+  applyAddToCartRequestDefaults: (cartItems, options = {}) ->
     defaults =
       type: 'POST'
       dataType: 'json'

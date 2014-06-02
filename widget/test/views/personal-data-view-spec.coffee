@@ -9,6 +9,8 @@ mediator = Winbits.Chaplin.mediator
 
 describe 'PersonalDataViewSpec', ->
 
+  RESPONSE_CASHBACK_UPDATED = '{"meta":{"status":200},"response":{"id":109,"email":"you_fhater@hotmail.com","apiToken":"HMfRfZ55FFkK5A7OvdG06oTlbD9GoYSOq77EvskAjNd7DT7VQWYXB27IzIzELMT4","bitsBalance":130,"profile":{"name":"qweqwe","lastName":"qweqwe","birthdate":"1999-11-11","gender":"male","zipCodeInfo":{"id":1,"locationName":"qwqqq","locationCode":"1","locationType":"qwqq","county":"as","city":"mex","state":"qwq","zipCode":"11111"},"zipCode":"11111","location":"qwqqq","phone":"123123123123123","newsletterPeriodicity":"weekly","newsletterFormat":"unified","wishListCount":1,"waitingListCount":0,"pendingOrdersCount":1},"socialAccounts":[{"name":"Facebook","providerId":"facebook","logo":"facebook.png","available":true},{"name":"Twitter","providerId":"twitter","logo":"twitter.png","available":false}],"subscriptions":[{"id":2,"name":"Looq","active":false},{"id":3,"name":"Sportlet","active":false},{"id":4,"name":"clickOnero","active":false},{"id":16,"name":"vertical-23-d9XSuSr","active":false}],"mainShippingAddres":{"id":3,"firstName":"qweqwe","lastName":"qweqwe","betweenStreets":"qweqwe","indications":"qwe","main":true,"zipCodeInfo":{"id":1,"locationName":"qwqqq","locationCode":"1","locationType":"qwqq","county":"as","city":"mex","state":"qwq","zipCode":"11111"},"zipCode":"11111","location":"qwqqq","county":"as","state":"qwq","lastName2":null,"street":"qwe","internalNumber":"qwe","externalNumber":"qwe","phone":"1231231231"},"loginRedirectUrl":"http://localhost/widgets/logout.html","cashbackForComplete":100,"cashback":100}}'
+
   before ->
     $.validator.setDefaults({ ignore: [] });
 
@@ -16,6 +18,7 @@ describe 'PersonalDataViewSpec', ->
     $.validator.setDefaults({ ignore: ':hidden' });
 
   beforeEach ->
+    @server = sinon.fakeServer.create()
     @loginData =
       apiToken: 'XXX'
       profile: { name: 'Jorge', lastName:"Moreno", gender:'male', phone:'0431256789', birthdate:'1988-11-11'}
@@ -26,9 +29,12 @@ describe 'PersonalDataViewSpec', ->
     @view.attach()
 
   afterEach ->
+    @server.restore()
     utils.ajaxRequest.restore?()
+    utils.updateProfile.restore?()
     @view.dispose()
     @model.dispose()
+
 
   it 'personal data renderized', ->
     expect(@view.$ '#wbi-personal-data-form').to.exist
@@ -84,8 +90,6 @@ describe 'PersonalDataViewSpec', ->
     expect(errorStub).to.be.calledOnce
     expect(@view.$ '#wbi-update-profile-btn').to.has.prop 'disabled', no
 
-
-
   it 'show validation errors if day is invalid', ->
     @view.$('#wbi-birthdate-day').val('58')
     @view.$('#wbi-birthdate-month').val('02')
@@ -110,3 +114,15 @@ describe 'PersonalDataViewSpec', ->
     expect(successStub).to.be.calledOnce
     expect(@view.$ '.error').to.not.exist
 
+  it 'do request should succed to update with refactor', ->
+    sinon.stub(@model, 'requestUpdateProfile').returns TestUtils.promises.resolved
+    successStub = sinon.stub(utils, 'updateProfile')
+    @view.$('#wbi-update-profile-btn').click()
+    expect(successStub).to.be.calledOnce
+
+
+  it 'do request should succed to update with refactor', ->
+    console.log [@server.requests]
+    successStub = sinon.stub(utils, 'updateProfile')
+    @view.$('#wbi-update-profile-btn').click()
+    expect(successStub).to.be.calledOnce
