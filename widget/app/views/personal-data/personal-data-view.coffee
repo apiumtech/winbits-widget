@@ -77,8 +77,7 @@ module.exports = class PersonalDataView extends View
       .always -> submitButton.prop('disabled', no)
 
   doUpdateProfileSuccess: (data) ->
-    mediator.data.set 'login-data', data.response
-    @publishEvent 'profile-changed', data
+    utils.updateProfile(data)
 
 
   doUpdateProfileError: (xhr, textStatus)->

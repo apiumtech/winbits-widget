@@ -14,9 +14,6 @@ module.exports = class CartBitsView extends View
     super
     @subscribeEvent 'bits-updated', @updateMaxSelection
 
-  updateMaxSelection:()->
-    @$('#wbi-cart-bits-slider').data('max-selection', mediator.data.get('login-data').bitsBalance)
-
   attach: ->
     super
     $winbitsSlider = @$('#wbi-cart-bits-slider').customSlider()
@@ -75,6 +72,10 @@ module.exports = class CartBitsView extends View
     message = if error then error.meta.message else messageText
     options = value: "Cerrar", title:'Error'
     utils.showMessageModal(message, options)
+
+
+  updateMaxSelection:()->
+    @$('#wbi-cart-bits-slider').data('max-selection', mediator.data.get('login-data').bitsBalance)
 
 
 
