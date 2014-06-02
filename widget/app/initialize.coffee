@@ -55,6 +55,5 @@ if Winbits.env.get('optimized') and not Winbits.isCrapBrowser
       new Application appConfig
   , 5
 else
-  console.log ['Initializing widget when DOM ready']
   Winbits.$ ->
     new Application appConfig

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -18,12 +19,28 @@
       window._ = Winbits._;
       window.Backbone = Winbits.Backbone;
 
-      yepnope.injectJs('javascripts/test-vendor.js', function() {
+      var loadSpecs = function() {
+        console.log('Loading specs...');
         yepnope.injectJs('javascripts/test.js', function() {
           require('test/initialize');
           console.log('Running mocha');
           (window.mochaPhantomJS || mocha).run();
         });
+      };
+
+      var loadSpecsForIE = function() {
+        console.log('Loading sinon-ie prior to specs...');
+        yepnope.injectJs('js/sinon-ie-1.10.2.js', function() {
+          loadSpecs();
+        });
+      };
+
+      yepnope.injectJs('javascripts/test-vendor.js', function() {
+        if (Winbits.$.browser.msie) {
+          loadSpecsForIE();
+        } else {
+          loadSpecs();
+        }
       });
     });
   })();

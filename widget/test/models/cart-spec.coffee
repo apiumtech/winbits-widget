@@ -19,7 +19,6 @@ describe 'CartSpec', ->
     utils.getCurrentVerticalId.restore()
 
   beforeEach ->
-    sinon.stub(window.location, 'assign')
     @xhr = sinon.useFakeXMLHttpRequest()
     requests = @requests = []
     @xhr.onCreate = (xhr) -> requests.push(xhr)
@@ -29,7 +28,6 @@ describe 'CartSpec', ->
   afterEach ->
     utils.ajaxRequest.restore?()
     utils.showMessageModal.restore?()
-    window.location.assign.restore?()
     @model.postToCheckoutApp.restore()
     @model.dispose()
     @xhr.restore()
@@ -108,4 +106,3 @@ describe 'CartSpec', ->
 
     expect(utils.showMessageModal).to.has.been.calledWith('Error en checkout!')
         .and.to.has.been.calledOnce
-
