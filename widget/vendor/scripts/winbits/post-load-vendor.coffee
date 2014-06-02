@@ -6,7 +6,11 @@
 #
 (->
   $.fn.wbfancybox = (options) ->
-    defaults = padding: 0, transitionIn: 'none', transitionOut: 'none', changeSpeed: 150
+    defaults =
+      padding: 0
+      transitionIn: 'none'
+      transitionOut: 'none'
+      changeSpeed: 150
     allOptions = Winbits.$.extend {}, defaults, options
     allOptions.onCleanup = ->
       $ = Winbits.$

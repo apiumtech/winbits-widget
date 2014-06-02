@@ -49,3 +49,7 @@ label.error {
 .placeholder, .placeholder.error {
   color: #aaa !important;
 }
+
+/* .placeholder { color: #aaa; height: 100% !important; }
+::-webkit-input-placeholder { color: #aaa; }
+input:-moz-placeholder, textarea:-moz-placeholder { color: #aaa; } */
