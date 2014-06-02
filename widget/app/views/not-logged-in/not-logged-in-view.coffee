@@ -68,7 +68,6 @@ module.exports = class NotLoggedInPageView extends View
     response = data.response
     loginUtils.applyLogin(response)
     if 201 is data.meta.status
-      console.log ["Show Complete Register.", data.response.profile]
       utils.redirectTo controller:'complete-register', action:'index'
     else
       @doCheckShowRemainder data

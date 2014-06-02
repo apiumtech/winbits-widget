@@ -18,6 +18,7 @@ module.exports = class LoggedInView extends View
     super
     @listenTo @model, 'change', @render
     @subscribeEvent 'change-bits-data', @changeBitsValue
+    @subscribeEvent 'cashback-bits-won', @cashBackBitsChange
     @delegate 'click', '#wbi-checkout-btn', @triggerCheckout
 
   attach: ->
@@ -29,7 +30,15 @@ module.exports = class LoggedInView extends View
   triggerCheckout: ->
     @publishEvent('checkout-requested')
 
-  changeBitsValue:(bitsTotal = 0)->
+  changeBitsValue: ->
+    bitsTotal = mediator.data.get('bits-to-cart')
     $bitsBalance = mediator.data.get('login-data').bitsBalance - bitsTotal
     @$('#wbi-my-bits').text $bitsBalance
 
+  cashBackBitsChange:(cashback) ->
+    if cashback > 0
+      message = "¡Felicidades! Has ganado $#{cashback} bits por completar tu registro"
+      options = value : "Aceptar", title:"¡Registro completo!", onClosed:utils.redirectToLoggedInHome
+      utils.showMessageModal(message, options)
+      @changeBitsValue()
+#      $('#wbi-account-bits-total').text(data.response.bitsBalance)

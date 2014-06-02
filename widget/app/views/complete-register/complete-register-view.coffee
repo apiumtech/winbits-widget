@@ -65,8 +65,7 @@ module.exports = class CompleteRegisterView extends View
         .always -> submitButton.prop('disabled', no)
 
   doCompleteRegisterSuccess: (data) ->
-    @publishEvent 'profile-changed', data
-    mediator.data.set 'login-data', data.response
+    utils.updateProfile(data)
     utils.closeMessageModal()
 
 

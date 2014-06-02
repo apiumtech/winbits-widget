@@ -79,11 +79,11 @@ module.exports = class PersonalDataView extends View
              submitButton.prop('disabled', no)
 
   doUpdateProfileSuccess: (data) ->
-    @publishEvent 'profile-changed', data
-    mediator.data.set 'login-data', data.response
+    utils.updateProfile(data)
     options =
       icon: 'iconFont-ok'
     utils.showMessageModal('Tus datos personales han sido actualizados correctamente.', options)
+
 
 
   doUpdateProfileError: (xhr, textStatus)->
