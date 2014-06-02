@@ -39,8 +39,8 @@ module.exports = class CartView extends View
 
   successFetch: (data)->
     @onCartChanged data
-    $bitsTotal= @model.get 'bitsTotal'
-    @publishEvent 'change-bits-data', $bitsTotal
+    mediator.data.set 'bits-to-cart', @model.get 'bitsTotal'
+    @publishEvent 'change-bits-data'
 
   restoreCart: ->
     virtualCart = utils.getVirtualCart()

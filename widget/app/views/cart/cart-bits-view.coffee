@@ -1,6 +1,7 @@
 View = require 'views/base/view'
 $ = Winbits.$
 _ = Winbits._
+mediator = Winbits.Chaplin.mediator
 utils = require 'lib/utils'
 
 module.exports = class CartBitsView extends View
@@ -11,6 +12,10 @@ module.exports = class CartBitsView extends View
 
   initialize: ->
     super
+    @subscribeEvent 'bits-updated', @updateMaxSelection
+
+  updateMaxSelection:()->
+    @$('#wbi-cart-bits-slider').data('max-selection', mediator.data.get('login-data').bitsBalance)
 
   attach: ->
     super
@@ -57,7 +62,8 @@ module.exports = class CartBitsView extends View
   updateCartBitsSuccess: (data) ->
     bitsTotal= data.response.bitsTotal
     @model.set 'bitsTotal', bitsTotal
-    @publishEvent 'change-bits-data', bitsTotal
+    mediator.data.set 'bits-to-cart', bitsTotal
+    @publishEvent 'change-bits-data'
 
   updateCartBitsError: (xhr, textStatus) ->
     $maxSelection = @$('#wbi-cart-bits-slider').data('max-selection')
