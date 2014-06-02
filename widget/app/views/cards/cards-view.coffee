@@ -45,12 +45,15 @@ module.exports = class CardsView extends View
   onCardClick: (e) ->
     $card = $(e.currentTarget)
     if not $card.is(".#{DEFAULT_CARD_CLASS}")
+      utils.showAjaxLoading()
       id = $card.data('id')
       @cardCandidate = $card
       @turnCardsClickEvent('off')
       @model.requestSetDefaultCard(id, @)
           .done(@setDefaultCardSucceds)
-          .always(-> @turnCardsClickEvent('on'))
+          .always(->
+                  @turnCardsClickEvent('on')
+                  utils.hideAjaxLoading())
 
   setDefaultCardSucceds: ->
     @getDefaultCard().removeClass(DEFAULT_CARD_CLASS)

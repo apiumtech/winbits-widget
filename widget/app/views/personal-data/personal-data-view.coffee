@@ -81,6 +81,9 @@ module.exports = class PersonalDataView extends View
   doUpdateProfileSuccess: (data) ->
     @publishEvent 'profile-changed', data
     mediator.data.set 'login-data', data.response
+    options =
+      icon: 'iconFont-ok'
+    utils.showMessageModal('Tus datos personales han sido actualizados correctamente.', options)
 
 
   doUpdateProfileError: (xhr, textStatus)->
