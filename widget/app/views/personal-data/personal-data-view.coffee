@@ -80,11 +80,6 @@ module.exports = class PersonalDataView extends View
 
   doUpdateProfileSuccess: (data) ->
     utils.updateProfile(data)
-    options =
-      icon: 'iconFont-ok'
-    utils.showMessageModal('Tus datos personales han sido actualizados correctamente.', options)
-
-
 
   doUpdateProfileError: (xhr, textStatus)->
     error = utils.safeParse(xhr.responseText)
