@@ -29,8 +29,8 @@ exports.config =
         'stylesheets/app.css': /^(app\/styles\/app|vendor)/
         'test/stylesheets/test.css': /^test/
       order:
-        after: ['vendor/styles/helpers.css']
-        after: ['vendor/styles/winbitsMain.css']
-
+        after: ['vendor/styles/helpers.css',
+                'vendor/styles/winbitsMain.css'
+        ]
     templates:
       joinTo: 'javascripts/app.js'
