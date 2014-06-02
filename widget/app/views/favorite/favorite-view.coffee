@@ -36,6 +36,7 @@ module.exports = class FavoritesView extends View
 
   doRequestDeleteBrand: (brandId)->
     favoriteUtils.deleteFromWishList({brandId:brandId})
+    utils.closeMessageModal()
 
 
 
