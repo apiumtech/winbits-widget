@@ -2,6 +2,7 @@
 
 View = require 'views/base/view'
 utils = require 'lib/utils'
+loginUtils = require 'lib/login-utils'
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 env = Winbits.env
@@ -76,8 +77,7 @@ module.exports = class PersonalDataView extends View
       .always -> submitButton.prop('disabled', no)
 
   doUpdateProfileSuccess: (data) ->
-    @publishEvent 'profile-changed', data
-    mediator.data.set 'login-data', data.response
+    utils.updateProfile(data)
 
 
   doUpdateProfileError: (xhr, textStatus)->
