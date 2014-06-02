@@ -17,12 +17,14 @@ describe 'CartViewSpec', ->
   beforeEach ->
     @el = $('<li>', id: 'wbi-cart-holder').get(0)
     @model = new Cart
-    sinon.stub(@model, 'fetch').returns()
+    sinon.stub(@model, 'fetch')
+    sinon.stub(@model, 'isCartEmpty').returns(no)
     @view = new CartView container: @el, model: @model
 
   afterEach ->
     @view.dispose()
     @model.fetch.restore()
+    @model.isCartEmpty.restore()
     @model.dispose()
 
   it 'should be rendered', ->
@@ -85,10 +87,14 @@ describe 'CartViewSpec', ->
 
     @view.render()
 
-    expect(cartItemsStub, 'cart items view not rendered').to.have.been.calledOnce
-    expect(cartTotalsStub, 'cart totals view not rendered').to.have.been.calledOnce
-    expect(cartBitsStub, 'cart bits view not rendered').to.have.been.calledOnce
-    expect(cartPaymentMethodsStub, 'cart payment methods view not rendered').to.have.been.calledOnce
+    expect(cartItemsStub, 'cart items view not rendered')
+      .to.have.been.calledOnce
+    expect(cartTotalsStub, 'cart totals view not rendered')
+      .to.have.been.calledOnce
+    expect(cartBitsStub, 'cart bits view not rendered')
+      .to.have.been.calledOnce
+    expect(cartPaymentMethodsStub, 'cart payment methods view not rendered')
+      .to.have.been.calledOnce
 
   it 'should subscribe to "cart-changed" event', ->
     sinon.stub(@view, 'onCartChanged')
@@ -98,6 +104,20 @@ describe 'CartViewSpec', ->
     expect(@view.onCartChanged).to.has.been.calledOnce
 
     @view.onCartChanged.restore()
+
+  it 'should allow to open cart if not empty', ->
+    @model.isCartEmpty.returns(no)
+    $cartDrop = @view.$('#wbi-cart-drop').hide()
+
+    @view.$('#wbi-cart-info').click()
+    expect($cartDrop).to.be.displayed
+
+  it 'should not open cart if empty', ->
+    @model.isCartEmpty.returns(yes)
+    $cartDrop = @view.$('#wbi-cart-drop').hide()
+
+    @view.$('#wbi-cart-info').click()
+    expect($cartDrop).to.not.be.displayed
 
   expectCartSubview = (viewSelector, parentId, subviewName) ->
     $subview = @view.$(viewSelector)

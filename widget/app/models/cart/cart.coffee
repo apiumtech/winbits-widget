@@ -109,6 +109,9 @@ module.exports = class Cart extends Model
     itemsCount = @get('itemsCount')
     itemsCount? and itemsCount > 0
 
+  isCartEmpty: ->
+    not @hasCartItems()
+
   requestCheckoutSucceeds: (data) ->
     # id = data.response.id
     # checkoutURL = env.get('checkout-url')
