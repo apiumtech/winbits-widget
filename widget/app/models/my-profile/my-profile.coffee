@@ -28,14 +28,12 @@ module.exports = class MyProfile extends Model
   requestUpdateProfile:(formData, options) ->
     defaults =
       type: "PUT"
-      contentType: "application/json"
-      dataType: "json"
       data:JSON.stringify(formData)
       headers:
         "Accept-Language": "es"
         "WB-Api-Token": utils.getApiToken()
 
     utils.ajaxRequest(
-        env.get('api-url') + "/users/profile.json",
+        utils.getResourceURL("users/profile.json"),
         $.extend(defaults, options)
     )

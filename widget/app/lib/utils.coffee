@@ -22,8 +22,9 @@ _(utils).extend
 
   getUrlParams : ->
     vars = []
-    hash = `undefined`
-    hashes = window.location.href.slice(window.location.href.indexOf("?") + 1).split("&")
+    hash = undefined
+    indexOfQuestionMark = window.location.href.indexOf("?")
+    hashes = window.location.href.slice(indexOfQuestionMark + 1).split("&")
     i = 0
 
     while i < hashes.length
@@ -54,7 +55,7 @@ _(utils).extend
 
   focusForm:  (form) ->
     $form = $(form)
-    if not @isCrapBrowser()
+    if not Winbits.isCrapBrowser
       $form.find('input:visible:not([disabled]), textarea:visible:not([disabled])').first().focus()
 
   alertErrors : ($) ->
@@ -75,10 +76,13 @@ _(utils).extend
     formData
 
   getBirthdate: ($form) ->
-   birthdate = (@getYear($form) + '-' + @getMonth($form) + '-' + @getDay($form))
-   if birthdate.length != 10
-     birthdate = null
-   birthdate
+    year = @getYear($form)
+    month = @getMonth($form)
+    day = @getDay($form)
+    birthdate = "#{year}-#{month}-#{day}"
+    if birthdate.length isnt 10
+      birthdate = null
+    birthdate
 
   getDay: ($form) ->
     @getDateValue($form, ".wbc-day") or ''
@@ -257,9 +261,6 @@ _(utils).extend
       append.find("a").on "click": (e) ->
         $($.find('#wbi-cancel-card-token-payment-btn')).click()
         appendCopy.remove()
-
-  isCrapBrowser: ->
-    $.browser.msie and not /10.*/.test($.browser.version)
 
   paymentMethodSupportedHtml: (methods, ac, html) ->
     if not methods

@@ -26,25 +26,29 @@ module.exports = class SocialAccounts extends Model
   requestConnectionLink:(formData, options)->
     defaults =
       type: "POST"
-      contentType: "application/json"
-      dataType: "json"
       headers:
         "Accept-Language": "es"
         "WB-Api-Token": utils.getApiToken()
     utils.ajaxRequest @connectLink(formData), $.extend(defaults, options)
 
   connectLink: (data)->
-    "#{env.get('api-url')}/users/connect/#{data}"
+    utils.getResourceURL("users/connect/#{data}")
 
   requestGetSocialAccounts:(options)->
     defaults =
       type: "GET"
-      contentType: "application/json"
-      dataType: "json"
       headers:
         "Accept-Language": "es"
         "WB-Api-Token": utils.getApiToken()
-    utils.ajaxRequest "#{env.get('api-url')}/users/social-accounts", $.extend(defaults, options)
+    utils.ajaxRequest(utils.getResourceURL("users/social-accounts"), $.extend(defaults, options))
 
-  connectLink: (data)->
-    "#{env.get('api-url')}/users/connect/#{data}"
+  requestDeleteSocialAccount:(formData, options)->
+    defaults =
+      type: "Delete"
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token": utils.getApiToken()
+    utils.ajaxRequest @socialAccountUrl(formData), $.extend(defaults, options)
+
+  socialAccountUrl: (data)->
+    utils.getResourceURL("users/social-account/#{data}")

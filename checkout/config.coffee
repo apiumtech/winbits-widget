@@ -20,6 +20,8 @@ exports.config =
         ]
         after: [
           'test/vendor/scripts/test-helper.js'
+          'vendor/scripts/script.js', # Script de Yadira
+          'vendor/scripts/winbits/jquery-location-select.coffee'
         ]
 
     stylesheets:
@@ -27,7 +29,8 @@ exports.config =
         'stylesheets/app.css': /^(app\/styles\/app|vendor)/
         'test/stylesheets/test.css': /^test/
       order:
-        after: ['vendor/styles/helpers.css']
-
+        after: ['vendor/styles/helpers.css',
+                'vendor/styles/winbitsMain.css'
+        ]
     templates:
       joinTo: 'javascripts/app.js'

@@ -12,6 +12,7 @@ describe 'SocialAccountsLinkViewSpec', ->
   FACEBOOK_RESPONSE = '{"meta":{"status":200},"response":{"socialUrl":"https://graph.facebook.com/oauth/authorize?client_id=486640894740634&response_type=code&redirect_uri=https%3A%2F%2Fapidev.winbits.com%2Fv1%2Fusers%2Fconnect%2Ffacebook%3Fuser%3Dyou_fhater%2540hotmail.com&scope=publish_actions,publish_stream,share_item"}}'
   SOCIAL_ACCOUNTS_WITH_LINK_RESPONSE = '{"meta":{"status":200},"response":{"socialAccounts":[{"name":"Facebook","providerId":"facebook","logo":"facebook.png","available":true},{"name":"Twitter","providerId":"twitter","logo":"twitter.png","available":true}]}}'
   SOCIAL_ACCOUNTS_WITHOUT_LINK_RESPONSE = '{"meta":{"status":200},"response":{"socialAccounts":[{"name":"Facebook","providerId":"facebook","logo":"facebook.png","available":false},{"name":"Twitter","providerId":"twitter","logo":"twitter.png","available":false}]}}'
+  SUCCESS_DELETE_SOCIAL_ACCOUNT = '{"meta":{"status":200},"response":{}}'
 
   beforeEach ->
     @server = sinon.fakeServer.create()
@@ -35,9 +36,8 @@ describe 'SocialAccountsLinkViewSpec', ->
     @server.restore()
     @view.dispose()
     @model.dispose()
-
-
     utils.showConfirmationModal.restore?()
+    utils.showError.restore?()
     utils.ajaxRequest.restore?()
 
   it "Should be called success when the api response with facebook", ->
@@ -120,3 +120,38 @@ describe 'SocialAccountsLinkViewSpec', ->
     @server.requests[1].respond(400, { "Content-Type": "application/json" }, '')
     expect(@view.showErrorMessageLinkSocialAccount).to.be.calledOnce
 
+  it "Should be set in model Facebook unlink success", ->
+    @model.set 'Facebook', yes
+    console.log [@server.requests]
+    sinon.stub @model, 'set'
+    @view.doRequestDeleteSocialAccount('Facebook')
+    @server.requests[0].respond(200, { "Content-Type": "application/json" }, SUCCESS_DELETE_SOCIAL_ACCOUNT)
+    expect(@model.set).to.have.been.calledOnce
+
+  it "Should be set in model Twitter unlink success", ->
+    @model.set 'Twitter', yes
+    console.log [@server.requests]
+    sinon.stub @model, 'set'
+    @view.doRequestDeleteSocialAccount('Twitter')
+    @server.requests[0].respond(200, { "Content-Type": "application/json" }, SUCCESS_DELETE_SOCIAL_ACCOUNT)
+    expect(@model.set).to.have.been.calledOnce
+
+  it "Should be set in model Facebook unlink fail", ->
+    @model.set 'Facebook', yes
+    console.log [@server.requests]
+    sinon.stub @model, 'set'
+    sinon.stub utils, 'showError'
+    @view.doRequestDeleteSocialAccount('Facebook')
+    @server.requests[0].respond(500, { "Content-Type": "application/json" }, '')
+    expect(@model.set).to.not.have.been.called
+    expect(utils.showError).to.have.been.calledOnce
+
+  it "Should be set in model Twitter unlink fail", ->
+    @model.set 'Twitter', yes
+    console.log [@server.requests]
+    sinon.stub @model, 'set'
+    sinon.stub utils, 'showError'
+    @view.doRequestDeleteSocialAccount('Twitter')
+    @server.requests[0].respond(500, { "Content-Type": "application/json" }, '')
+    expect(@model.set).to.not.have.been.called
+    expect(utils.showError).to.have.been.calledOnce

@@ -15,6 +15,9 @@
     ,timeout
     deferred
 
+  Winbits.isCrapBrowser =
+    Winbits.$.browser.msie and Winbits.$.browser.versionNumber < 10
+
   Winbits.ajaxRequest = (url, options) ->
     $ = Winbits.$
     if $.isPlainObject(url)
@@ -28,7 +31,7 @@
       'Content-Type': 'application/json'
     options = $.extend(defaultOptions, options)
     options.headers = $.extend(defaultHeaders, options.headers)
-    if ($.browser.msie and not /10.*/.test($.browser.version))
+    if Winbits.isCrapBrowser
       context = options.context
       deferred = new $.Deferred()
         .done(options.success)
@@ -36,10 +39,13 @@
         .always(options.complete)
       unsupportedOptions = ['context', 'success', 'error', 'complete']
       delete options[property] for property in unsupportedOptions
-      Winbits.env.get('rpc').request(url, options, ->
-        deferred.resolveWith(context, arguments)
-      , ->
-        deferred.rejectWith(context, arguments)
+      Winbits.env.get('rpc').request(url, options, (response) ->
+        args = [response.data, response.textStatus, response.jqXHR]
+        deferred.resolveWith(context, args)
+      , (response) ->
+        message = response.message
+        args = [message.jqXHR, message.textStatus, message.errorThrown]
+        deferred.rejectWith(context, args)
       )
       deferred.promise()
     else

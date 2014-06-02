@@ -1,6 +1,6 @@
 ChaplinController = require 'chaplin/controller/controller'
 CheckoutSiteView = require 'views/checkout/checkout-site-view'
-AddressManagerView = require "views/checkout/address-manager-view"
+AddressManagerView = require "views/checkout/shipping-addresses/address-manager-view"
 PaymentView = require "views/checkout/payment-view"
 AddressCK = require "models/checkout/addressCK"
 OrderDetails = require "models/checkout/orderDetails"
@@ -24,6 +24,7 @@ module.exports = class CheckoutController extends ChaplinController
     @order_id = orderId
     util.showAjaxIndicator('Inicializando checkout...')
     that= @
+    Winbits.$.wblocationselect.ajax = util.ajaxRequest
     util.ajaxRequest( config.apiUrl + "/orders/orders/"+ orderId + "/checkoutInfo.json",
       dataType: "json"
       headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
@@ -56,14 +57,11 @@ module.exports = class CheckoutController extends ChaplinController
     @cards = new Cards
 
     @payments.set methods:@order_data.paymentMethods
-    console.log 'peiments', @order_data.paymentMethods
 
     # @orderDetailView.render()
     @paymentView.render()
 
-    console.log @order_data
     @orderDetails.on "change", ->
-      console.log "here order details changeed"
       that.orderDetailView.render()
 
     @orderDetails.set @orderDetails.completeOrderModel @order_data, parseFloat(Winbits.checkoutConfig.bitsBalance)
@@ -74,12 +72,10 @@ module.exports = class CheckoutController extends ChaplinController
     @paymentView.cardsView = @cardsView
 
     @payments.on "change", ->
-      console.log "on change payment"
       that.paymentView.render()
       that.cardsView.render()
 
     @cards.on 'change', ->
-      console.log "Cards model changed"
       that.cardsView.render()
 
     @addressCK.on "change", ->
