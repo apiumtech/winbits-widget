@@ -100,10 +100,13 @@ module.exports = class AddNewShippingAddressView extends View
 
   successSaveNewShippingAddress:()->
     utils.hideAjaxLoading()
-    @$('#wbi-shipping-thanks-div').show()
+    options =
+      context: @
+      icon: 'iconFont-ok'
+      onClosed: -> @publishEvent 'addresses-changed'
+    utils.showMessageModal('La Direccion de envio ha sido agregada correctamente.', options)
 
   errorSaveNewShippingAddress:(xhr, textStatus)->
-    @$('#wbi-shipping-thanks-div').hide()
     error = utils.safeParse(xhr.responseText)
     message = if error then error.meta.message else textStatus
     @$('.errorDiv p').text(message).parent().css('display':'block')

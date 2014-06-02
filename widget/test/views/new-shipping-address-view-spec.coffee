@@ -52,7 +52,6 @@ describe 'AddShippingAddressViewSpec', ->
     @model.dispose()
 
   it 'add shipping addreses view should be rendered', ->
-    expect(@view.$('#wbi-shipping-thanks-div')).to.exist
     expect(@view.$('#wbi-add-shipping-address-submit-btn')).to.exist
     expect(@view.$('#wbi-add-shipping-address-cancel')).to.exist
     expect(@view.$('#wbi-add-shipping-address-error')).to.exist

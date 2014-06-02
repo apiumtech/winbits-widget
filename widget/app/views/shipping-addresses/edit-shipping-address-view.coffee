@@ -107,6 +107,7 @@ module.exports = class EditShippingAddressView extends View
       @model.requestSaveEditShippingAddress(itemId,data, context: @)
       .done(@successSaveEditShippingAddress)
       .fail(@errorSaveEditShippingAddress)
+      .always(@completeSaveEditShippingAddress)
 
   checkZipCodeInfo: ->
     zipCodeInfo =@$('select#wbi-shipping-address-zip-code-info').wblocationselect('value')
@@ -114,12 +115,20 @@ module.exports = class EditShippingAddressView extends View
       @$('[name="location"]').val zipCodeInfo.locationName
 
 
-  successSaveEditShippingAddress:()->
+  completeSaveEditShippingAddress: ->
     utils.hideAjaxLoading()
-    @$('#wbi-edit-shipping-thanks-div').show()
+
+
+  successSaveEditShippingAddress:()->
+    @publishEvent 'addresses-changed'
+    options =
+      context: @
+      icon: 'iconFont-ok'
+      onClosed: @$('#wbi-edit-shipping-address-cancel').click
+    utils.showMessageModal('La Dirección de envio ha sido actualizada correctamente.', options)
+
 
   errorSaveEditShippingAddress:(xhr, textStatus)->
-    @$('#wbi-edit-shipping-thanks-div').hide()
     error = utils.safeParse(xhr.responseText)
     message = if error then error.meta.message else textStatus
     @$('.errorDiv p').text(message).parent().css('display':'block')
