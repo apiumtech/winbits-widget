@@ -28,6 +28,8 @@ module.exports = class Application
 
     Object.freeze? this
 
+    Winbits.env = get: -> config.apiUrl
+
   # Create additional mediator properties.
   initMediator: ->
     # Add additional application-specific properties and methods
@@ -115,3 +117,26 @@ module.exports = class Application
       $zipCode = $element.closest('form').find('[name=zipCode]')
       not ($zipCode.val() and $element.children().length == 1)
     ,"Codigo Postal No Existe")
+
+    Winbits.$.validator.addMethod("wbiSelectInfo", (value, element) ->
+      $zipCode = Winbits.$(element).parent().parent().find('input[name=zipCode]')
+      if($zipCode.val())
+        value.length >= 1
+      else
+        yes
+    ,"Selecccione una opción valida")
+
+    Winbits.$.validator.addMethod("wbiLocation", (value, element) ->
+      $element = Winbits.$(element)
+      if $element.is(':visible')
+        if !$element.val() then no else yes
+      else
+        yes
+    ,"Campo es requerido.")
+    
+    Winbits.$.validator.addMethod("wbiPhone", (value) ->
+      if value
+        /^[0-9]{10,15}/.test value
+      else
+        yes
+    ,"Ingresa un número telefónico válido.")
