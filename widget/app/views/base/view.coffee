@@ -41,7 +41,7 @@ module.exports = class View extends Chaplin.View
 
   attach: ->
     super
-    @$(':input[placeholder]').not('[type="password1"]').placeholder()
+    @$(':input[placeholder]').placeholder()
 
   # This method is called after a specific `render` of a derived class.
 

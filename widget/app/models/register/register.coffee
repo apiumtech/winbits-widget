@@ -14,6 +14,6 @@ module.exports = class Register extends Model
       data:JSON.stringify(formData)
 
     utils.ajaxRequest(
-        utils.getResourceURL("users/register.json"),
-        $.extend(defaults, options)
+      utils.getResourceURL("users/register.json"),
+      $.extend(defaults, options)
     )

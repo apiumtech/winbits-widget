@@ -20,6 +20,6 @@ module.exports = class ChangePassword extends Model
         "WB-Api-Token": utils.getApiToken()
 
     utils.ajaxRequest(
-        env.get('api-url') + "/users/change-password.json",
-        $.extend(defaults, options)
+      env.get('api-url') + "/users/change-password.json",
+      $.extend(defaults, options)
     )

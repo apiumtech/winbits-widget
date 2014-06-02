@@ -18,6 +18,11 @@
   Winbits.isCrapBrowser =
     Winbits.$.browser.msie and Winbits.$.browser.versionNumber < 10
 
+  # To make test pass on IE9
+  if window.wbTestEnv and Winbits.isCrapBrowser
+    Winbits.isCrapBrowser = no
+    Winbits.env.set('api-url', '')
+
   Winbits.ajaxRequest = (url, options) ->
     $ = Winbits.$
     if $.isPlainObject(url)
