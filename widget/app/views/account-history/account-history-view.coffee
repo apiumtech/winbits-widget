@@ -11,3 +11,13 @@ module.exports = class HistoryView extends View
   id: 'wb-micuenta-history'
   template: require './templates/account-history'
 
+  initialize: ->
+    super
+    @listenTo @model, 'change', @render
+    @subscribeEvent 'bits-updated', @updateBits
+
+  updateBits: ->
+    @model.set 'bitsTotal', mediator.data.get('login-data').bitsBalance
+
+
+

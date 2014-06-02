@@ -6,6 +6,7 @@ utils = Winbits.Chaplin.utils.beget Chaplin.utils
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 _ = Winbits._
+EventBroker = Winbits.Chaplin.EventBroker
 env = Winbits.env
 rpc = env.get('rpc')
 
@@ -394,6 +395,19 @@ _(utils).extend
     env.get('current-vertical-id')
 
   closeMessageModal: $.fancybox.close
+
+  updateProfile: (data)->
+    $loginDataActual = _.clone mediator.data.get 'login-data'
+    mediator.data.set 'login-data', data.response
+    @publishEvent 'profile-changed', data
+    if data.response.cashback > 0
+      @publishEvent 'cashback-bits-won', data.response.cashback
+    if data.response.bitsBalance != $loginDataActual.bitsBalance
+      @publishEvent 'bits-updated'
+
+
+  publishEvent: (event, data = {})->
+    EventBroker.publishEvent event, data
 
 
 
