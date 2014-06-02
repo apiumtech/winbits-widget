@@ -21,15 +21,34 @@
   <script type="text/javascript">
   Winbits.on('initialized', function() {
     console.log('WINBITS WIDGET INITIALIZED');
+    Winbits.$(function() {
+      Winbits.$('#wbt-add-to-cart').click(function() {
+        var $container = Winbits.$(this).parent();
+        var id = $container.find('#wbt-id').val();
+        id = Winbits.$.isNumeric(id) ? parseInt(id) : 1;
+        var quantity = $container.find('#wbt-quantity').val();
+        quantity = Winbits.$.isNumeric(quantity) ? parseInt(quantity) : 2;
+        var data = { id: id, quantity: quantity };
+        console.log(['Calling addToCart with -> ', data])
+        Winbits.addToCart(data);
+      });
+    });
   });
   </script>
 </head>
 <body>
 <header></header>
 <main>
-    <div class="wrapper">
-        <img src="images/looq_home_980.jpg" alt="">
-    </div>
+  <div style="text-align:center;">
+    <label for="wbt-id">ID (1):</label>
+    <input id="wbt-id" name="id" type="text" value="1">
+    <label for="wbt-quantity">Cantidad (2):</label>
+    <input id="wbt-quantity" name="quantity" type="text" value="2">
+    <button id="wbt-add-to-cart">Agregar a Carrito</button>
+  </div>
+  <div class="wrapper">
+    <img src="images/looq_home_980.jpg" alt="">
+  </div>
 </main>
 <footer></footer>
 </body>
