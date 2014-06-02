@@ -70,10 +70,13 @@ module.exports = class PersonalDataView extends View
     data = utils.serializeProfileForm $form
     if($form.valid())
       submitButton = @$(e.currentTarget).prop('disabled', yes)
+      utils.showAjaxLoading()
       @model.requestUpdateProfile(data, context: @)
       .done(@doUpdateProfileSuccess)
       .fail(@doUpdateProfileError)
-      .always -> submitButton.prop('disabled', no)
+      .always ->
+             utils.hideAjaxLoading()
+             submitButton.prop('disabled', no)
 
   doUpdateProfileSuccess: (data) ->
     @publishEvent 'profile-changed', data

@@ -92,15 +92,15 @@ module.exports = class AddNewShippingAddressView extends View
     $form =  @$el.find("#wbi-shipping-new-address-form")
     @$('.errorDiv').css('display':'none')
     if($form.valid())
-      @$('#wbi-shipping-thanks-div').show()
+      utils.showAjaxLoading()
       data = utils.serializeForm $form
       @model.requestSaveNewShippingAddress(data, context: @)
       .done(@successSaveNewShippingAddress)
       .fail(@errorSaveNewShippingAddress)
 
   successSaveNewShippingAddress:()->
-    @$('#wbi-shipping-address-process').hide()
-    @$('#wbi-shipping-address-done').show()
+    utils.hideAjaxLoading()
+    @$('#wbi-shipping-thanks-div').show()
 
   errorSaveNewShippingAddress:(xhr, textStatus)->
     @$('#wbi-shipping-thanks-div').hide()

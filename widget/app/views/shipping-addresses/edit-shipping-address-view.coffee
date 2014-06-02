@@ -101,7 +101,7 @@ module.exports = class EditShippingAddressView extends View
     $form =  @$el.find("#wbi-edit-shipping-address-form")
     @$('.errorDiv').css('display':'none')
     if($form.valid())
-      @$('#wbi-edit-shipping-thanks-div').show()
+      utils.showAjaxLoading()
       @checkZipCodeInfo()
       data = utils.serializeForm $form
       @model.requestSaveEditShippingAddress(itemId,data, context: @)
@@ -115,8 +115,8 @@ module.exports = class EditShippingAddressView extends View
 
 
   successSaveEditShippingAddress:()->
-    @$('#wbi-edit-shipping-address-process').hide()
-    @$('#wbi-edit-shipping-address-done').show()
+    utils.hideAjaxLoading()
+    @$('#wbi-edit-shipping-thanks-div').show()
 
   errorSaveEditShippingAddress:(xhr, textStatus)->
     @$('#wbi-edit-shipping-thanks-div').hide()
