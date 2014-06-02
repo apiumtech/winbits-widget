@@ -124,7 +124,7 @@ module.exports = class EditShippingAddressView extends View
     options =
       context: @
       icon: 'iconFont-ok'
-      onClosed: @$('#wbi-edit-shipping-address-cancel').click
+      onClosed: @$('#wbi-edit-shipping-address-cancel').click()
     utils.showMessageModal('La Dirección de envio ha sido actualizada correctamente.', options)
 
 
