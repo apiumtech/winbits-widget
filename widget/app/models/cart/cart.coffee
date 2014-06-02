@@ -117,20 +117,20 @@ module.exports = class Cart extends Model
     @postToCheckoutApp(data.response)
 
   postToCheckoutApp: (order) ->
-    # $chkForm = $('<form id="chk-form" method="POST" style="display:none"></form>')
-    # checkoutURL = env.get('checkout-url')
-    # $chkForm.attr('action', "#{checkoutURL}/checkout.php")
-    # $chkForm.append $('<input type="hidden" name="token"/>').val(utils.getApiToken())
-    # $chkForm.append $('<input type="hidden" name="order_id"/>').val(order.id)
-    # bitsBalance = parseInt($('#wbi-my-bits').text() or '0')
-    # $chkForm.append $('<input type="hidden" name="bits_balance"/>').val(bitsBalance)
-    # currentVertical = env.get('current-vertical')
-    # $chkForm.append $('<input type="hidden" name="vertical_id"/>').val(currentVertical.id)
-    # $chkForm.append $('<input type="hidden" name="vertical_url"/>').val(currentVertical.baseUrl)
-    # $chkForm.append $('<input type="hidden" name="timestamp"/>').val(new Date().getTime())
-    #
-    # $chkForm.appendTo(document.body)
-    # $chkForm.submit()
+    $chkForm = $('<form id="chk-form" method="POST" style="display:none"></form>')
+    checkoutURL = env.get('checkout-url')
+    $chkForm.attr('action', "#{checkoutURL}/checkout.php")
+    $chkForm.append $('<input type="hidden" name="token"/>').val(utils.getApiToken())
+    $chkForm.append $('<input type="hidden" name="order_id"/>').val(order.id)
+    bitsBalance = parseInt($('#wbi-my-bits').text() or '0')
+    $chkForm.append $('<input type="hidden" name="bits_balance"/>').val(bitsBalance)
+    currentVertical = env.get('current-vertical')
+    $chkForm.append $('<input type="hidden" name="vertical_id"/>').val(currentVertical.id)
+    $chkForm.append $('<input type="hidden" name="vertical_url"/>').val(currentVertical.baseUrl)
+    $chkForm.append $('<input type="hidden" name="timestamp"/>').val(new Date().getTime())
+
+    $chkForm.appendTo(document.body)
+    $chkForm.submit()
 
   requestCheckoutFails: (xhr) ->
     data = JSON.parse(xhr.responseText)
