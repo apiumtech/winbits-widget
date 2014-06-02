@@ -402,6 +402,10 @@ _(utils).extend
     @publishEvent 'profile-changed', data
     if data.response.cashback > 0
       @publishEvent 'cashback-bits-won', data.response.cashback
+    else
+      message = "Tus datos se han guardado correctamente"
+      options = icon: 'iconFont-ok', title:'Perfil actualizado', value:'Aceptar'
+      @showMessageModal(message, options)
     if data.response.bitsBalance != $loginDataActual.bitsBalance
       @publishEvent 'bits-updated'
 
