@@ -115,6 +115,7 @@ module.exports = class ShippingAddressesView extends View
 
 
   doDeleteShipping: (e)->
+    e.stopPropagation()
     $itemId = $(e.currentTarget).closest('.block-slide').data("id")
     message = "¿Estás seguro de eliminar esta dirección de envío? <br><br> En caso de eliminarla las compras relacionadas a esta direccion no se verán afectadas"
     options =
