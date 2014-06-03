@@ -504,9 +504,13 @@
 			contenedor: '.dropMenu',
 			claseActivo: 'active',
 			wrapper: '.wrapper',
-			closeBtn: '.miCuenta-close'
+			closeBtn: '.miCuenta-close',
+			beforeOpen: $.noop
 		}, options), claseObj,
 		clickingTrigger = function(obj){
+			if (!$(obj).is(defaults.claseActivo) && defaults.beforeOpen() === false) {
+				return;
+			}
 			$(obj).siblings(defaults.contenedor).stop(true, true).slideToggle();
 			$(obj).toggleClass(defaults.claseActivo);
 		},

@@ -34,7 +34,7 @@ module.exports = class CartView extends View
 
   attach: ->
     super
-    @$('#wbi-cart-info').dropMainMenu().click($.proxy(@openCloseCart, @))
+    @$('#wbi-cart-info').dropMainMenu(beforeOpen: $.proxy(@shouldOpenCart, @))
 
   onCartChanged: (cartData)->
     @model.setData(cartData)
@@ -64,8 +64,5 @@ module.exports = class CartView extends View
       @publishEvent 'checkout-requested'
     mediator.data.set 'virtual-checkout', no
 
-  openCloseCart: (e) ->
-    console.log('Open Close Cart')
-    if @model.isCartEmpty()
-      console.log('Returning no')
-      return no
+  shouldOpenCart: ->
+    not @model.isCartEmpty()
