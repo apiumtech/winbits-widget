@@ -119,6 +119,13 @@ describe 'CartViewSpec', ->
     @view.$('#wbi-cart-info').click()
     expect($cartDrop).to.not.be.displayed
 
+  it 'should open cart when items are added', ->
+    @model.isCartEmpty.returns(yes)
+    $cartDrop = @view.$('#wbi-cart-drop').hide()
+
+    EventBroker.publishEvent('cart-changed', cartDetails: [])
+    expect($cartDrop).to.be.displayed
+
   expectCartSubview = (viewSelector, parentId, subviewName) ->
     $subview = @view.$(viewSelector)
     expect($subview).to.exist

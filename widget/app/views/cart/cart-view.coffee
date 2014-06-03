@@ -36,9 +36,13 @@ module.exports = class CartView extends View
     super
     @$('#wbi-cart-info').dropMainMenu(beforeOpen: $.proxy(@shouldOpenCart, @))
 
-  onCartChanged: (cartData)->
+  onCartChanged: (cartData) ->
+    @openCart()
     @model.setData(cartData)
     @render()
+
+  openCart: ->
+    if @$('#wbi-cart-drop').is(':hidden')
 
   successFetch: (data)->
     @onCartChanged data
