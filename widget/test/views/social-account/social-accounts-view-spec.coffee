@@ -18,8 +18,11 @@ describe 'SocialAccountsViewSpec', ->
     mediator.data.set 'login-data', @loginData
     @model = new SocialAccounts @loginData
     @view = new SocialAccountsView model:@model
+    @windowsOpenStub = sinon.stub(window, 'open').returns(focus: $.noop, closed:yes)
+
 
   afterEach ->
+    window.open.restore()
     utils.redirectTo.restore?()
     utils.showConfirmationModal.restore?()
     $.fancybox.close.restore?()
