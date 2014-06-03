@@ -45,7 +45,6 @@ module.exports = class CartView extends View
     @render()
 
   openCart: ->
-    console.log('Opening cart...')
     if @$('#wbi-cart-drop').is(':hidden')
       @$('#wbi-cart-info').trigger('click')
 

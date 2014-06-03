@@ -85,22 +85,15 @@ describe 'CartViewSpec', ->
     @view.render()
     expect(@view.$ '#wbi-cart-counter').to.has.$text('5')
 
-  it.skip 'should render all subviews along with it', ->
-    cartItemsStub = stubSubviewRender.call(@, 'cart-items')
-    cartTotalsStub = stubSubviewRender.call(@, 'cart-totals')
-    cartBitsStub = stubSubviewRender.call(@, 'cart-bits')
-    cartPaymentMethodsStub = stubSubviewRender.call(@, 'cart-payment-methods')
+  it 'should render all subviews along with it', sinon.test ->
+    @stub(@view, 'subview')
 
     @view.render()
-
-    expect(cartItemsStub, 'cart items view not rendered')
-      .to.have.been.calledOnce
-    expect(cartTotalsStub, 'cart totals view not rendered')
-      .to.have.been.calledOnce
-    expect(cartBitsStub, 'cart bits view not rendered')
-      .to.have.been.calledOnce
-    expect(cartPaymentMethodsStub, 'cart payment methods view not rendered')
-      .to.have.been.calledOnce
+    expect(@view.subview.callCount).to.be.equal(4)
+    expect(@view.subview).to.have.been.calledWith('cart-items')
+    expect(@view.subview).to.have.been.calledWith('cart-totals')
+    expect(@view.subview).to.have.been.calledWith('cart-bits')
+    expect(@view.subview).to.have.been.calledWith('cart-payment-methods')
 
   it 'should subscribe to "cart-changed" event', ->
     sinon.stub(@view, 'onCartChanged')
@@ -143,6 +136,3 @@ describe 'CartViewSpec', ->
     expect($subview).to.exist
     expect($subview.parent()).to.has.id(parentId)
     expect(@view.subview(subviewName)).to.be.ok
-
-  stubSubviewRender = (subview) ->
-    sinon.stub(@view.subview(subview), 'render')
