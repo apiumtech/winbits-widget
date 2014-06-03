@@ -19,12 +19,14 @@ describe 'CartViewSpec', ->
     @model = new Cart
     sinon.stub(@model, 'fetch')
     sinon.stub(@model, 'isCartEmpty').returns(no)
+    sinon.stub(@model, 'setData')
     @view = new CartView container: @el, model: @model
 
   afterEach ->
     @view.dispose()
     @model.fetch.restore()
     @model.isCartEmpty.restore()
+    @model.setData.restore()
     @model.dispose()
 
   it 'should be rendered', ->
@@ -47,16 +49,20 @@ describe 'CartViewSpec', ->
       .to.has.id('wbi-cart-info')
 
   it 'should render cart items view as subview', ->
-    expectCartSubview.call(@, '#wbi-cart-items', 'wbi-cart-left-panel', 'cart-items')
+    expectCartSubview.call(@, '#wbi-cart-items', 'wbi-cart-left-panel',
+      'cart-items')
 
   it 'should render cart totals view as subview', ->
-    expectCartSubview.call(@, '#wbi-cart-totals', 'wbi-cart-right-panel', 'cart-totals')
+    expectCartSubview.call(@, '#wbi-cart-totals', 'wbi-cart-right-panel',
+      'cart-totals')
 
   it 'should render cart bits view as subview', ->
-    expectCartSubview.call(@, '#wbi-cart-bits', 'wbi-cart-right-panel', 'cart-bits')
+    expectCartSubview.call(@, '#wbi-cart-bits', 'wbi-cart-right-panel',
+      'cart-bits')
 
   it 'should render cart payment methods view as subview', ->
-    expectCartSubview.call(@, '#wbi-cart-payment-methods', 'wbi-cart-right-panel', 'cart-payment-methods')
+    expectCartSubview.call(@, '#wbi-cart-payment-methods',
+      'wbi-cart-right-panel', 'cart-payment-methods')
 
   it 'should render subviews into right panel in the correct order', ->
     $rightPanelChildren = @view.$('#wbi-cart-right-panel').children()
@@ -119,11 +125,17 @@ describe 'CartViewSpec', ->
     @view.$('#wbi-cart-info').click()
     expect($cartDrop).to.not.be.displayed
 
-  it 'should open cart when items are added', ->
-    @model.isCartEmpty.returns(yes)
+  it 'should open cart when items are added', sinon.test ->
+    @stub(@view, 'openCart')
+
+    EventBroker.publishEvent('cart-changed')
+    expect(@view.openCart).to.has.been.calledOnce
+
+  it 'should open cart programatically', ->
+    @model.isCartEmpty.returns(no)
     $cartDrop = @view.$('#wbi-cart-drop').hide()
 
-    EventBroker.publishEvent('cart-changed', cartDetails: [])
+    @view.openCart()
     expect($cartDrop).to.be.displayed
 
   expectCartSubview = (viewSelector, parentId, subviewName) ->

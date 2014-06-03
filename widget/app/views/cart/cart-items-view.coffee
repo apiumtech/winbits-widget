@@ -37,8 +37,6 @@ module.exports = class CartItemsView extends View
       cartUtils.addToVirtualCartSuccess(data)
     else
       cartUtils.publishCartChangedEvent(data)
-    if data.response.itemsTotal
-      $('#wbi-cart-info').click()
 
   doUpdateItemRequestError: (xhr, textStatus)->
     @render()

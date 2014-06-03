@@ -508,11 +508,13 @@
 			beforeOpen: $.noop
 		}, options), claseObj,
 		clickingTrigger = function(obj){
-			if (!$(obj).is(defaults.claseActivo) && defaults.beforeOpen() === false) {
+			var $obj = $(obj);
+			var $dropMenu = $(obj).siblings(defaults.contenedor);
+			if ($dropMenu.is(':hidden') && defaults.beforeOpen() === false) {
 				return;
 			}
-			$(obj).siblings(defaults.contenedor).stop(true, true).slideToggle();
-			$(obj).toggleClass(defaults.claseActivo);
+			$dropMenu.stop(true, true).slideToggle();
+			$obj.toggleClass(defaults.claseActivo);
 		},
 		closeSiblings = function(obj){
 			$(obj).siblings(defaults.contenedor).stop(true, true).slideUp();

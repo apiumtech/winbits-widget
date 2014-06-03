@@ -37,15 +37,20 @@ module.exports = class CartView extends View
     @$('#wbi-cart-info').dropMainMenu(beforeOpen: $.proxy(@shouldOpenCart, @))
 
   onCartChanged: (cartData) ->
+    @updateCartModel(cartData)
     @openCart()
-    @model.setData(cartData)
+
+  updateCartModel: (data) ->
+    @model.setData(data)
     @render()
 
   openCart: ->
+    console.log('Opening cart...')
     if @$('#wbi-cart-drop').is(':hidden')
+      @$('#wbi-cart-info').trigger('click')
 
   successFetch: (data)->
-    @onCartChanged data
+    @updateCartModel data
     mediator.data.set 'bits-to-cart', @model.get 'bitsTotal'
     @publishEvent 'change-bits-data'
 
