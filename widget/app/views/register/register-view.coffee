@@ -62,9 +62,42 @@ module.exports = class ModalRegisterView extends View
     code = error.code or error.meta.code
     if code is 'AFER001'
       defaultOptionsMessage = @errorWhenIsAFER001 defaultOptionsMessage
+
     if code is 'AFER026'
-      message = if error then error.meta.message else textStatus
+      resendConfirmUrl = error.response.resendConfirmUrl
+      @confirmURL = encodeComponent = encodeURI(resendConfirmUrl.substring(resendConfirmUrl.indexOf('users')))
+      defaultOptionsMessage = @errorWhenIsAFER206 defaultOptionsMessage
+
     @showMessageErrorModal(defaultOptionsMessage)
+
+
+  errorWhenIsAFER206: (defaults) ->
+    options =
+      message :"Esta cuenta ya esta registrada,es necesario confirmar tu cuenta de correo. Si no encuentras nuestro mail de confirmación, revisa tu bandeja de SPAM"
+      value : "Reenviar correo de confirmación"
+      title : "Mail no confirmado"
+      icon : "computerDoc"
+      context: @
+      acceptAction : @doRequestResendConfirmationMail
+      onClosed: $.noop
+    $.extend(defaults, options)
+
+  doRequestResendConfirmationMail: () ->
+    @model.requestResendConfirmationMail(@confirmURL)
+     .done(@doSuccessRequestResendConfirmationMail)
+     .fail(-> console.log ["ERROR SENDING MAIL"])
+
+  doSuccessRequestResendConfirmationMail: ->
+#    $.fancybox.close()
+    message = 'Un mensaje de confirmación ha sido enviado a tu cuenta de correo.'
+    options =
+      value: 'Aceptar'
+      title: 'Correo Enviado'
+      icon: "iconFont-email2"
+      acceptAction: ->
+                     utils.redirectTo(controller:'home', action:'index')
+                     $.fancybox.close()
+    utils.showMessageModal(message, options)
 
   errorWhenIsAFER001: (defaults) ->
     options =
@@ -74,15 +107,15 @@ module.exports = class ModalRegisterView extends View
       icon : "candado"
       acceptAction : () -> utils.redirectTo(controller:'recover-password', action:'index')
     $.extend(defaults, options)
-    defaults
 
   showMessageErrorModal: (defaultOptionsMessage)->
     options =
       value: defaultOptionsMessage.value
       title: defaultOptionsMessage.title
       icon:"iconFont-#{defaultOptionsMessage.icon}"
-      onClosed: utils.redirectToNotLoggedInHome()
+      context: defaultOptionsMessage.context
       acceptAction: defaultOptionsMessage.acceptAction
+      onClosed: defaultOptionsMessage.onClosed ? utils.redirectToNotLoggedInHome()
     utils.showMessageModal(defaultOptionsMessage.message, options)
 
   doFacebookRegister: (e) ->
