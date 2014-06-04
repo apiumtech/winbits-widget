@@ -17,3 +17,11 @@ module.exports = class Register extends Model
       utils.getResourceURL("users/register.json"),
       $.extend(defaults, options)
     )
+
+  requestResendConfirmationMail:(confirmURL)->
+    defaults =
+      dataType: "json"
+      headers:
+        "Accept-Language": "es"
+    utils.ajaxRequest(
+      utils.getResourceURL(confirmURL),defaults)

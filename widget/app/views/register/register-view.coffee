@@ -62,9 +62,13 @@ module.exports = class ModalRegisterView extends View
     code = error.code or error.meta.code
     if code is 'AFER001'
       defaultOptionsMessage = @errorWhenIsAFER001 defaultOptionsMessage
+      @showMessageErrorModal(defaultOptionsMessage)
     if code is 'AFER026'
-      message = if error then error.meta.message else textStatus
-    @showMessageErrorModal(defaultOptionsMessage)
+      resendConfirmUrl = error.response.resendConfirmUrl
+      confirmURL = encodeComponent = encodeURI(resendConfirmUrl.substring(resendConfirmUrl.indexOf('users')))
+      console.log utils.getResourceURL(confirmURL)
+      @model.requestResendConfirmationMail(confirmURL)
+       .done(-> console.log ["MAIL SENDED"])
 
   errorWhenIsAFER001: (defaults) ->
     options =
