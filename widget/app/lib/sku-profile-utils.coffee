@@ -16,12 +16,14 @@ _(skuProfileUtils).extend
 
   getSkuProfileInfo: (options) ->
     options = options or {}
+    if not options.id
+      throw "Argument 'id' is required!"
     if utils.isLoggedIn()
       options.headers = 'Wb-Api-Token': utils.getApiToken()
     data = if utils.isLoggedIn() then {userId: mediator.data.get('login-data').id} else {}
     utils.ajaxRequest(@getSkuProfileResourceUrl(options.id), @applyDefaultPostSkuProfile(data, options))
-    .done(@publishSkuProfileChangeEvent)
-    .fail(@showSkuProfileErrorMessage)
+    .done(@doneSkuProfileChangeEvent)
+    .fail(@failSkuProfileErrorMessage)
 
   getSkuProfilesInfo: (options) ->
     options = options or {}
@@ -32,18 +34,14 @@ _(skuProfileUtils).extend
     data = if utils.isLoggedIn() then {userId: mediator.data.get('login-data').id} else {}
     data.ids = options.ids.join()
     utils.ajaxRequest(@getSkuProfileResourceUrl(), @applyDefaultPostSkuProfile(data, options))
-    .done(@publishSkuProfileChangeEvent)
-    .fail(@showSkuProfileErrorMessage)
+    .done(@doneSkuProfileChangeEvent)
+    .fail(@failSkuProfileErrorMessage)
 
-  publishSkuProfileChangeEvent: ->
+  doneSkuProfileChangeEvent: ->
     console.log ["Carga de sku profile exitosa"]
 
-  showSkuProfileErrorMessage: (xhr, textStatus)->
-    error = utils.safeParse(xhr.responseText)
-    messageText = "Error actualizando el registro #{textStatus}"
-    message = if error then error.meta.message else messageText
-    options = icon:'iconFont-candado', value: "Cerrar", title:'Error'
-    utils.showMessageModal(message, options)
+  failSkuProfileErrorMessage: (xhr, textStatus)->
+    console.log ["Carga de sku profile fallida"]
 
   applyDefaultPostSkuProfile: (formData, options = {}) ->
     console.log ['data', formData ]
