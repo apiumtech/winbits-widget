@@ -1,5 +1,9 @@
 # Application-specific utilities
 # ------------------------------
+ModalTemplates =
+  '#wbi-alert-modal': require 'templates/alert-modal'
+  '#wbi-message-modal': require 'templates/message-modal'
+  '#wbi-confirmation-modal': require 'templates/confirmation-modal'
 
 # Delegate to Chaplin’s utils module.
 utils = Winbits.Chaplin.utils.beget Chaplin.utils
@@ -291,7 +295,6 @@ _(utils).extend
 
   showMessageModal: (message, options, modalSelector = '#wbi-alert-modal')->
     options ?= {}
-    $modal = $(modalSelector)
     options.value ?= 'Aceptar'
     options.context ?= @
     options.onClosed ?= $.noop
@@ -299,16 +302,17 @@ _(utils).extend
     options.icon ?="icontFont-question"
     options.acceptAction ?= @closeMessageModal
     options.acceptAction = $.proxy(options.acceptAction, options.context)
+    options.message = message
 #    onStart = $.proxy(options.onStart or $.noop, context)
 #    onCancel = $.proxy(options.onCancel or $.noop, context)
 #    onComplete = $.proxy(options.onComplete or $.noop, context)
 #    onCleanup = $.proxy(options.onCleanup or $.noop, context)
     onClosed = $.proxy(options.onClosed, options.context)
-    $(".wbc-modal-message", $modal).html(message)
-    $(".wbc-default-action", $modal).unbind('click').click(options.acceptAction).val options.value
-    $(".wbc-modal-title", $modal).html(options.title)
-    $(".wbc-modal-icon", $modal).html("<span class='#{options.icon}'></span>")
-    $('<a>').wbfancybox(padding: 10, href: modalSelector, onClosed: onClosed).click()
+    content = ModalTemplates[modalSelector](options)
+    $.fancybox(content, padding: 10, onClosed: onClosed, onComplete: ->
+      $(".wbc-default-action", '#fancybox-content').click(options.acceptAction)
+      $(".wbc-cancel-action", '#fancybox-content').click(options.cancelAction) if $.isFunction(options.cancelAction)
+    )
 
 
   showConfirmationModal: (message, options = {}) ->
@@ -318,7 +322,6 @@ _(utils).extend
     options.icon ?= 'iconFont-question'
     options.cancelAction ?= @closeMessageModal
     options.cancelAction = $.proxy(options.cancelAction, options.context)
-    $(".wbc-cancel-action", $modal).unbind('click').click(options.cancelAction).val options.cancelValue
     @showMessageModal(message, options, $modal.selector)
 
   showLoadingMessage: (message, options)->
