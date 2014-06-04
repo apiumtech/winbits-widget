@@ -69,7 +69,7 @@ describe 'NotLoggedInViewSpec', ->
     sinon.stub @view, 'facebookLoginInterval'
     @view.publishEvent 'facebook-button-event'
     expect(@windowsOpenStub).have.been.calledWith('https://apidev.winbits.com/v1/users/facebook-login/connect?verticalId=1',
-        "facebook", "menubar=0,resizable=0,width=800,height=500")
+        "facebook", "menubar=0,resizable=0,width=980,height=500")
         .and.to.have.been.calledOnce
 
   it 'should success authentication facebook', ->
