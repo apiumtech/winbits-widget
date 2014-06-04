@@ -35,6 +35,7 @@ specs = [
   './winbits-spec'
   './lib/utils-spec'
   './lib/favorite-utils-spec'
+  './lib/sku-profile-utils-spec'
   './views/cards/cards-view-spec'
   './models/cards/cards-spec'
   './views/cards/new-card-view-spec'
