@@ -11,7 +11,7 @@ wishListUtils = {}
 _(wishListUtils).extend
   getWishListResourceUrl:(itemId) ->
     resource = if itemId then "/#{itemId}" else ''
-    env.get('api-url') + "/users/wish-list-items#{resource}.json"
+    utils.getResourceURL("users/wish-list-items#{resource}.json")
 
   addToWishList: (options) ->
     options = options or {}

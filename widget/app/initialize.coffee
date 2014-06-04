@@ -2,6 +2,7 @@ Application = require './application'
 routes = require './routes'
 cartUtils = require 'lib/cart-utils'
 wishListUtils = require 'lib/favorite-utils'
+skuProfileUtils = require 'lib/sku-profile-utils'
 utils = require 'lib/utils'
 mediator = Winbits.Chaplin.mediator
 
@@ -40,6 +41,14 @@ Winbits.addToWishList = (options ) ->
 Winbits.deleteFromWishList = (options) ->
   fn = if utils.isLoggedIn() then wishListUtils.deleteFromWishList
   fn.call(wishListUtils,options)
+
+Winbits.getSkuProfileInfo= (options) ->
+  fn = skuProfileUtils.getSkuProfileInfo
+  fn.call(skuProfileUtils, options)
+
+Winbits.getSkuProfilesInfo= (options) ->
+  fn = skuProfileUtils.getSkuProfilesInfo
+  fn.call(skuProfileUtils, options)
 
 appConfig =
   controllerSuffix: '-controller'
