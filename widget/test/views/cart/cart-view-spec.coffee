@@ -17,12 +17,16 @@ describe 'CartViewSpec', ->
   beforeEach ->
     @el = $('<li>', id: 'wbi-cart-holder').get(0)
     @model = new Cart
-    sinon.stub(@model, 'fetch').returns()
+    sinon.stub(@model, 'fetch')
+    sinon.stub(@model, 'isCartEmpty').returns(no)
+    sinon.stub(@model, 'setData')
     @view = new CartView container: @el, model: @model
 
   afterEach ->
     @view.dispose()
     @model.fetch.restore()
+    @model.isCartEmpty.restore()
+    @model.setData.restore()
     @model.dispose()
 
   it 'should be rendered', ->
@@ -45,16 +49,20 @@ describe 'CartViewSpec', ->
       .to.has.id('wbi-cart-info')
 
   it 'should render cart items view as subview', ->
-    expectCartSubview.call(@, '#wbi-cart-items', 'wbi-cart-left-panel', 'cart-items')
+    expectCartSubview.call(@, '#wbi-cart-items', 'wbi-cart-left-panel',
+      'cart-items')
 
   it 'should render cart totals view as subview', ->
-    expectCartSubview.call(@, '#wbi-cart-totals', 'wbi-cart-right-panel', 'cart-totals')
+    expectCartSubview.call(@, '#wbi-cart-totals', 'wbi-cart-right-panel',
+      'cart-totals')
 
   it 'should render cart bits view as subview', ->
-    expectCartSubview.call(@, '#wbi-cart-bits', 'wbi-cart-right-panel', 'cart-bits')
+    expectCartSubview.call(@, '#wbi-cart-bits', 'wbi-cart-right-panel',
+      'cart-bits')
 
   it 'should render cart payment methods view as subview', ->
-    expectCartSubview.call(@, '#wbi-cart-payment-methods', 'wbi-cart-right-panel', 'cart-payment-methods')
+    expectCartSubview.call(@, '#wbi-cart-payment-methods',
+      'wbi-cart-right-panel', 'cart-payment-methods')
 
   it 'should render subviews into right panel in the correct order', ->
     $rightPanelChildren = @view.$('#wbi-cart-right-panel').children()
@@ -77,18 +85,15 @@ describe 'CartViewSpec', ->
     @view.render()
     expect(@view.$ '#wbi-cart-counter').to.has.$text('5')
 
-  it.skip 'should render all subviews along with it', ->
-    cartItemsStub = stubSubviewRender.call(@, 'cart-items')
-    cartTotalsStub = stubSubviewRender.call(@, 'cart-totals')
-    cartBitsStub = stubSubviewRender.call(@, 'cart-bits')
-    cartPaymentMethodsStub = stubSubviewRender.call(@, 'cart-payment-methods')
+  it 'should render all subviews along with it', sinon.test ->
+    @stub(@view, 'subview')
 
     @view.render()
-
-    expect(cartItemsStub, 'cart items view not rendered').to.have.been.calledOnce
-    expect(cartTotalsStub, 'cart totals view not rendered').to.have.been.calledOnce
-    expect(cartBitsStub, 'cart bits view not rendered').to.have.been.calledOnce
-    expect(cartPaymentMethodsStub, 'cart payment methods view not rendered').to.have.been.calledOnce
+    expect(@view.subview.callCount).to.be.equal(4)
+    expect(@view.subview).to.have.been.calledWith('cart-items')
+    expect(@view.subview).to.have.been.calledWith('cart-totals')
+    expect(@view.subview).to.have.been.calledWith('cart-bits')
+    expect(@view.subview).to.have.been.calledWith('cart-payment-methods')
 
   it 'should subscribe to "cart-changed" event', ->
     sinon.stub(@view, 'onCartChanged')
@@ -99,11 +104,35 @@ describe 'CartViewSpec', ->
 
     @view.onCartChanged.restore()
 
+  it 'should allow to open cart if not empty', ->
+    @model.isCartEmpty.returns(no)
+    $cartDrop = @view.$('#wbi-cart-drop').hide()
+
+    @view.$('#wbi-cart-info').click()
+    expect($cartDrop).to.be.displayed
+
+  it 'should not open cart if empty', ->
+    @model.isCartEmpty.returns(yes)
+    $cartDrop = @view.$('#wbi-cart-drop').hide()
+
+    @view.$('#wbi-cart-info').click()
+    expect($cartDrop).to.not.be.displayed
+
+  it 'should open cart when items are added', sinon.test ->
+    @stub(@view, 'openCart')
+
+    EventBroker.publishEvent('cart-changed')
+    expect(@view.openCart).to.has.been.calledOnce
+
+  it 'should open cart programatically', ->
+    @model.isCartEmpty.returns(no)
+    $cartDrop = @view.$('#wbi-cart-drop').hide()
+
+    @view.openCart()
+    expect($cartDrop).to.be.displayed
+
   expectCartSubview = (viewSelector, parentId, subviewName) ->
     $subview = @view.$(viewSelector)
     expect($subview).to.exist
     expect($subview.parent()).to.has.id(parentId)
     expect(@view.subview(subviewName)).to.be.ok
-
-  stubSubviewRender = (subview) ->
-    sinon.stub(@view.subview(subview), 'render')

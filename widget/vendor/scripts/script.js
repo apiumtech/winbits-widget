@@ -504,11 +504,17 @@
 			contenedor: '.dropMenu',
 			claseActivo: 'active',
 			wrapper: '.wrapper',
-			closeBtn: '.miCuenta-close'
+			closeBtn: '.miCuenta-close',
+			beforeOpen: $.noop
 		}, options), claseObj,
 		clickingTrigger = function(obj){
-			$(obj).siblings(defaults.contenedor).stop(true, true).slideToggle();
-			$(obj).toggleClass(defaults.claseActivo);
+			var $obj = $(obj);
+			var $dropMenu = $(obj).siblings(defaults.contenedor);
+			if ($dropMenu.is(':hidden') && defaults.beforeOpen() === false) {
+				return;
+			}
+			$dropMenu.stop(true, true).slideToggle();
+			$obj.toggleClass(defaults.claseActivo);
 		},
 		closeSiblings = function(obj){
 			$(obj).siblings(defaults.contenedor).stop(true, true).slideUp();
