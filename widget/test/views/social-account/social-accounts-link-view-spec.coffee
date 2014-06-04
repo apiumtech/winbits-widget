@@ -47,10 +47,10 @@ describe 'SocialAccountsLinkViewSpec', ->
     expect(@view.successConnectFacebookLink).to.be.calledOnce
 
   it "Should be called error when the api response with facebook", ->
-    sinon.stub(@view, 'showErrorMessageLinkSocialAccount')
+    sinon.stub(@view, 'showErrorMessageApi')
     @view.$('.wbc-facebook-link').click()
     @server.requests[0].respond(500, { "Content-Type": "application/json" }, '')
-    expect(@view.showErrorMessageLinkSocialAccount).to.be.calledOnce
+    expect(@view.showErrorMessageApi).to.be.calledOnce
 
 
   it "Should be called error when the api of facebook response success", ->

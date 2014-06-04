@@ -23,22 +23,33 @@ module.exports = class CartView extends View
   render: ->
     super
     cartLeftPanel = @$el.find('#wbi-cart-left-panel').get(0)
-    @subview 'cart-items', new CartItemsView container: cartLeftPanel, model: @model
+    cartItemsView = new CartItemsView container: cartLeftPanel, model: @model
+    @subview 'cart-items', cartItemsView
     cartRightPanel = @$el.find('#wbi-cart-right-panel').get(0)
-    @subview 'cart-totals', new CartTotalsView container: cartRightPanel, model: @model
-    @subview 'cart-bits', new CartBitsView container: cartRightPanel, model: @model
-    @subview 'cart-payment-methods', new CartPaymentMethodsView container: cartRightPanel, model: @model
+    rightPanelOptions = container: cartRightPanel, model: @model
+    @subview 'cart-totals', new CartTotalsView rightPanelOptions
+    @subview 'cart-bits', new CartBitsView rightPanelOptions
+    cartPaymentMethodsView = new CartPaymentMethodsView rightPanelOptions
+    @subview 'cart-payment-methods', cartPaymentMethodsView
 
   attach: ->
     super
-    @$('#wbi-cart-info').dropMainMenu()
+    @$('#wbi-cart-info').dropMainMenu(beforeOpen: $.proxy(@shouldOpenCart, @))
 
-  onCartChanged: (cartData)->
-    @model.setData(cartData)
+  onCartChanged: (cartData) ->
+    @updateCartModel(cartData)
+    @openCart()
+
+  updateCartModel: (data) ->
+    @model.setData(data)
     @render()
 
+  openCart: ->
+    if @$('#wbi-cart-drop').is(':hidden')
+      @$('#wbi-cart-info').trigger('click')
+
   successFetch: (data)->
-    @onCartChanged data
+    @updateCartModel data
     mediator.data.set 'bits-to-cart', @model.get 'bitsTotal'
     @publishEvent 'change-bits-data'
 
@@ -54,10 +65,12 @@ module.exports = class CartView extends View
     else
       @model.fetch(success: $.proxy(@successFetch, @))
 
-  successTransferVirtualCart: (data)->
+  successTransferVirtualCart: (data) ->
     utils.saveVirtualCartInStorage()
     @successFetch(data)
     if(mediator.data.get 'virtual-checkout')
       @publishEvent 'checkout-requested'
     mediator.data.set 'virtual-checkout', no
 
+  shouldOpenCart: ->
+    not @model.isCartEmpty()

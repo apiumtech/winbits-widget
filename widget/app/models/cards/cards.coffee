@@ -53,5 +53,7 @@ module.exports = class Cards extends Model
   deleteCard: (cardId) ->
     cardId = cardId.toString() if cardId
     cards = @get('cards')
-    newCards = _.filter(cards, (card) -> card.cardInfo.subscriptionId isnt cardId)
+    newCards = _.filter(cards, (card) ->
+      card.cardInfo.subscriptionId isnt cardId
+    )
     @set('cards', newCards)

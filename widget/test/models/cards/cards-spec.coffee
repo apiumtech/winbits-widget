@@ -18,14 +18,17 @@ describe 'CardsSpec', ->
     utils.getCurrentVerticalId.restore()
 
   beforeEach ->
-    @model = new Cards
     @xhr = sinon.useFakeXMLHttpRequest()
     requests = @requests = []
     @xhr.onCreate = (xhr) -> requests.push(xhr)
+    @model = new Cards
+    sinon.stub(utils, 'showApiError')
 
   afterEach ->
+    @model.fetch.restore?()
     @model.dispose()
     @xhr.restore()
+    utils.showApiError.restore()
     utils.ajaxRequest.restore?()
 
   it 'should has correct default config', ->
@@ -75,7 +78,6 @@ describe 'CardsSpec', ->
 
   it 'should show api error if request to delete card fails', ->
     sinon.stub(utils, 'ajaxRequest').returns(TestUtils.promises.rejected)
-    sinon.stub(utils, 'showApiError')
 
     @model.requestDeleteCard('666', {})
     expect(utils.showApiError).to.has.been.calledOnce

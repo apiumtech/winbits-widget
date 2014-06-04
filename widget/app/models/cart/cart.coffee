@@ -9,7 +9,13 @@ env = Winbits.env
 module.exports = class Cart extends Model
   url: cartUtils.getCartResourceUrl
   needsAuth: yes
-  accessors: ['cartTotal', 'cartPercentageSaved', 'cartSaving', 'itemsFullTotal', 'sliderTotal']
+  accessors: [
+    'cartTotal'
+    'cartPercentageSaved'
+    'cartSaving'
+    'itemsFullTotal'
+    'sliderTotal'
+  ]
   defaults:
     itemsTotal: 0,
     bitsTotal: 0,
@@ -20,7 +26,8 @@ module.exports = class Cart extends Model
     super
 
   sync: (method, model, options = {}) ->
-    options.headers = 'Wb-VCart': utils.getVirtualCart() if not utils.isLoggedIn()
+    options.headers =
+      'Wb-VCart': utils.getVirtualCart() if not utils.isLoggedIn()
     super(method, model, options)
 
   cartTotal: ->
@@ -41,7 +48,9 @@ module.exports = class Cart extends Model
   cartPercentageSaved: ->
     cartTotal = @cartTotal()
     itemsTotal = @get('itemsTotal')
-    if itemsTotal then Math.ceil((1 - (cartTotal / itemsTotal)).toFixed(2) * 100 ) else 0
+    if itemsTotal
+      Math.ceil((1 - (cartTotal / itemsTotal)).toFixed(2) * 100 )
+    else 0
 
   cartSaving: ->
     # TODO: Implementar algoritmo corecto cuando se defina
@@ -58,8 +67,8 @@ module.exports = class Cart extends Model
         "WB-Api-Token": utils.getApiToken()
 
     utils.ajaxRequest(
-        cartUtils.getCartResourceUrl(itemId),
-        $.extend(defaults, options)
+      cartUtils.getCartResourceUrl(itemId),
+      $.extend(defaults, options)
     )
 
   updateCartBits:(formData, options) ->
@@ -71,8 +80,8 @@ module.exports = class Cart extends Model
         "WB-Api-Token": utils.getApiToken()
 
     utils.ajaxRequest(
-        utils.getResourceURL("orders/update-cart-bits.json"),
-        $.extend(defaults, options)
+      utils.getResourceURL("orders/update-cart-bits.json"),
+      $.extend(defaults, options)
     )
 
   transferVirtualCart:(formData, options) ->
@@ -84,8 +93,8 @@ module.exports = class Cart extends Model
         "WB-Api-Token": utils.getApiToken()
 
     utils.ajaxRequest(
-        utils.getResourceURL("orders/assign-virtual-cart.json"),
-        $.extend(defaults, options)
+      utils.getResourceURL("orders/assign-virtual-cart.json"),
+      $.extend(defaults, options)
     )
 
   requestCheckout: (options)->
@@ -109,6 +118,9 @@ module.exports = class Cart extends Model
     itemsCount = @get('itemsCount')
     itemsCount? and itemsCount > 0
 
+  isCartEmpty: ->
+    not @hasCartItems()
+
   requestCheckoutSucceeds: (data) ->
     # id = data.response.id
     # checkoutURL = env.get('checkout-url')
@@ -117,20 +129,29 @@ module.exports = class Cart extends Model
     @postToCheckoutApp(data.response)
 
   postToCheckoutApp: (order) ->
-    $chkForm = $('<form id="chk-form" method="POST" style="display:none"></form>')
     checkoutURL = env.get('checkout-url')
     $chkForm.attr('action', "#{checkoutURL}/checkout.php")
-    $chkForm.append $('<input type="hidden" name="token"/>').val(utils.getApiToken())
-    $chkForm.append $('<input type="hidden" name="order_id"/>').val(order.id)
+    formAttrs =
+      id: 'chk-form'
+      method: 'POST'
+      style: 'display:none'
+      action: "#{checkoutURL}/checkout.php"
+    $chkForm = $('<form></form>', formAttrs)
+    $('<input type="hidden" name="token"/>').val(utils.getApiToken())
+      .appendTo($chkForm)
+    $('<input type="hidden" name="order_id"/>').val(order.id)
+      .appendTo($chkForm)
     bitsBalance = parseInt($('#wbi-my-bits').text() or '0')
-    $chkForm.append $('<input type="hidden" name="bits_balance"/>').val(bitsBalance)
+    $('<input type="hidden" name="bits_balance"/>').val(bitsBalance)
+      .appendTo($chkForm)
     currentVertical = env.get('current-vertical')
-    $chkForm.append $('<input type="hidden" name="vertical_id"/>').val(currentVertical.id)
-    $chkForm.append $('<input type="hidden" name="vertical_url"/>').val(currentVertical.baseUrl)
-    $chkForm.append $('<input type="hidden" name="timestamp"/>').val(new Date().getTime())
-
-    $chkForm.appendTo(document.body)
-    $chkForm.submit()
+    $('<input type="hidden" name="vertical_id"/>').val(currentVertical.id)
+      .appendTo($chkForm)
+    $('<input type="hidden" name="vertical_url"/>').val(currentVertical.baseUrl)
+      .appendTo($chkForm)
+    $('<input type="hidden" name="timestamp"/>').val(new Date().getTime())
+      .appendTo($chkForm)
+    $chkForm.appendTo(document.body).submit()
 
   requestCheckoutFails: (xhr) ->
     data = JSON.parse(xhr.responseText)
