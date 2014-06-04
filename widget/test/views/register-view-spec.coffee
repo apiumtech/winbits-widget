@@ -9,6 +9,7 @@ password = "1234567"
 describe 'RegisterViewSpec', ->
 
   REGISTER_ERROR_RESPONSE_AFER001 = '{"meta":{"status":400,"message":"La cuenta de correo que intentas introducir ya existe","code":"AFER001"},"response":{}}'
+  REGISTER_ERROR_RESPONSE_AFER026 = '{"meta":{"status":400,"message":"An unexpected API error ocurred","code":"AFER026"},"response":{"resendConfirmUrl":"/users/resend/emmanuel.maldonado@clickonero.com.mx"}}'
   REGISTER_URL = utils.getResourceURL 'users/register.json'
 
   before ->
@@ -69,6 +70,13 @@ describe 'RegisterViewSpec', ->
     sinon.stub(@view, 'showMessageErrorModal')
     @view.$('#wbi-register-button').click()
     @server.requests[0].respond(400, {"Content-Type":"aplication/json"},REGISTER_ERROR_RESPONSE_AFER001)
+    expect( @view.doRegisterError).to.have.been.callOnce
+    expect( @view.showMessageErrorModal).to.have.been.callOnce
+
+  it 'should call showMessageErrorModal when the server respond with error with User not confirmed', ->
+    sinon.stub(@view, 'showMessageErrorModal')
+    @view.$('#wbi-register-button').click()
+    @server.requests[0].respond(400, {"Content-Type":"aplication/json"},REGISTER_ERROR_RESPONSE_AFER026)
     expect( @view.doRegisterError).to.have.been.callOnce
     expect( @view.showMessageErrorModal).to.have.been.callOnce
 
