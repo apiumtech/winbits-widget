@@ -49,5 +49,4 @@ specs = [
 ]
 
 for spec in specs
-  console.log ['Executing Spec -> ', spec]
   require spec

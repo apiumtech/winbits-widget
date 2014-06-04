@@ -18,6 +18,8 @@ describe 'NewCardViewSpec', ->
     @model = new Card
     @view = new NewCardView model: @model
     sinon.stub(@model, 'requestSaveNewCard').returns(TestUtils.promises.idle)
+    sinon.stub(utils, 'showAjaxLoading')
+    sinon.stub(utils, 'showMessageModal')
 
   afterEach ->
     @view.dispose()
@@ -26,8 +28,8 @@ describe 'NewCardViewSpec', ->
     $.fn.customSelect.restore?()
     $.fn.customCheckbox.restore?()
     $.fn.slideUp.restore?()
-    utils.showAjaxLoading.restore?()
-    utils.showMessageModal.restore?()
+    utils.showAjaxLoading.restore()
+    utils.showMessageModal.restore()
     utils.hideAjaxLoading.restore?()
     utils.getCreditCardType.restore?()
     @view.fixCardNumberMaxLengthByCardType.restore?()
@@ -46,7 +48,6 @@ describe 'NewCardViewSpec', ->
     expect(@model.requestSaveNewCard).to.not.has.been.called
 
   it 'should not show loading indicator if data invalid', ->
-    sinon.stub(utils, 'showAjaxLoading')
     @view.$('.wbc-save-card-btn').click()
 
     expect(utils.showAjaxLoading).to.not.has.been.called
@@ -60,7 +61,6 @@ describe 'NewCardViewSpec', ->
         .and.to.be.calledOnce
 
   it 'should show loading indicator if data is valid', ->
-    sinon.stub(utils, 'showAjaxLoading')
     cardData = loadValidData.call(@)
 
     @view.$('.wbc-save-card-btn').click()
@@ -76,7 +76,6 @@ describe 'NewCardViewSpec', ->
     expect(stub).to.has.been.calledOnce
 
   it 'should show message to inform card was saved if card saving succeds', ->
-    sinon.stub(utils, 'showMessageModal')
     @model.requestSaveNewCard.returns(new $.Deferred().resolveWith(@view).promise())
     cardData = loadValidData.call(@)
 

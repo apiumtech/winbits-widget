@@ -19,6 +19,7 @@ describe 'EditCardViewSpec', ->
     @view = new EditCardView model: @model
     sinon.stub(@model, 'requestUpdateCard').returns(TestUtils.promises.idle)
     sinon.stub(utils, 'showAjaxLoading')
+    sinon.stub(utils, 'showMessageModal')
 
   afterEach ->
     @view.dispose()
@@ -27,8 +28,8 @@ describe 'EditCardViewSpec', ->
     $.fn.customSelect.restore?()
     $.fn.customCheckbox.restore?()
     $.fn.slideUp.restore?()
-    utils.showAjaxLoading.restore?()
-    utils.showMessageModal.restore?()
+    utils.showAjaxLoading.restore()
+    utils.showMessageModal.restore()
     utils.hideAjaxLoading.restore?()
     utils.getCreditCardType.restore?()
     @view.fixCardNumberMaxLengthByCardType.restore?()
@@ -137,7 +138,6 @@ describe 'EditCardViewSpec', ->
     expect(stub).to.has.been.calledOnce
 
   it 'should show message to inform card was update if card update succeds', ->
-    sinon.stub(utils, 'showMessageModal')
     @model.requestUpdateCard.returns(new $.Deferred().resolveWith(@view).promise())
     editCardData.call(@)
 
@@ -199,4 +199,3 @@ describe 'EditCardViewSpec', ->
         phoneNumber: "5553259000"
         cardPrincipal: "true"
     $.extend(updateData, editData)
-
