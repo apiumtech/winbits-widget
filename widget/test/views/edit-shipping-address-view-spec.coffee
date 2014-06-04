@@ -28,7 +28,6 @@ describe 'EditShippingAddressViewSpec', ->
     @model.dispose()
 
   it 'edit shipping addreses view should be rendered with arguments', ->
-    expect(@view.$('#wbi-edit-shipping-thanks-div')).to.exist
     expect(@view.$('#wbi-edit-shipping-address-submit-btn')).to.exist
     expect(@view.$('#wbi-edit-shipping-address-cancel')).to.exist
     expect(@view.$('#wbi-edit-shipping-address-error')).to.exist

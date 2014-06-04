@@ -1,9 +1,9 @@
 'use strict'
-YourBitsHistoryView = require 'views/your-bits-history/your-bits-history-view'
-YourBitsHistory = require 'models/your-bits/your-bits'
+YourBitsHistoryView = require 'views/bits-history/bits-history-view'
+YourBitsHistory = require 'models/bits-history/bits-history'
 utils = require 'lib/utils'
 
-describe 'YourBitsHistoryViewSpec', ->
+describe 'BitsHistoryViewSpec', ->
 
   YOUR_BITS_URL = utils.getResourceURL("users/bits/transactions.json?max=20")
   YOUR_BITS_RESPONSE = '{"meta":{"status":200,"totalTransactions":5},"response":{"transactions":[{"amount":-300,"balance":200,"concept":"pago 2","dateCreated":"2014-05-16T13:39:06-05:00"},{"amount":-100,"balance":500,"concept":"pago 1","dateCreated":"2014-05-16T13:38:47-05:00"},{"amount":200,"balance":600,"concept":"test","expirationDate":{"class":"wslite.json.JSONObject$Null"},"dateCreated":"2014-05-16T13:37:35-05:00","activationDate":"2014-05-16T13:37:35-05:00"},{"amount":200,"balance":400,"concept":"test","expirationDate":{"class":"wslite.json.JSONObject$Null"},"dateCreated":"2014-05-16T13:37:28-05:00","activationDate":"2014-05-16T13:37:28-05:00"},{"amount":100,"balance":200,"concept":"Registro Completo","expirationDate":"2014-05-24T00:00:00-05:00","dateCreated":"2014-05-14T17:36:50-05:00","activationDate":"2014-05-14T00:00:00-05:00"}],"balance":200}}'
@@ -38,6 +38,5 @@ describe 'YourBitsHistoryViewSpec', ->
     request.respond(200, { "Content-Type": "application/json" }, YOUR_BITS_RESPONSE)
     @view.render()
     expect(@model.attributes.transactions).not.equal(undefined)
-    expect(@view.$('.accordeonSelectDiv')).to.exist
     expect(@view.$('.dataTable')).to.exist
     expect(@view.$('.addInfo span')).to.not.exist

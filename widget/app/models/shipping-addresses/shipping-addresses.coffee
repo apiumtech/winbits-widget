@@ -11,6 +11,7 @@ module.exports = class ShippingAddresses extends Model
 
   initialize: ()->
     super
+    @subscribeEvent 'addresses-changed', -> @fetch()
 
   parse: (data) ->
     addresses: data.response

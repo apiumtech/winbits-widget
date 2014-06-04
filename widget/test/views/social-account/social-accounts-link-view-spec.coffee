@@ -122,7 +122,6 @@ describe 'SocialAccountsLinkViewSpec', ->
 
   it "Should be set in model Facebook unlink success", ->
     @model.set 'Facebook', yes
-    console.log [@server.requests]
     sinon.stub @model, 'set'
     @view.doRequestDeleteSocialAccount('Facebook')
     @server.requests[0].respond(200, { "Content-Type": "application/json" }, SUCCESS_DELETE_SOCIAL_ACCOUNT)
@@ -130,7 +129,6 @@ describe 'SocialAccountsLinkViewSpec', ->
 
   it "Should be set in model Twitter unlink success", ->
     @model.set 'Twitter', yes
-    console.log [@server.requests]
     sinon.stub @model, 'set'
     @view.doRequestDeleteSocialAccount('Twitter')
     @server.requests[0].respond(200, { "Content-Type": "application/json" }, SUCCESS_DELETE_SOCIAL_ACCOUNT)
@@ -138,7 +136,6 @@ describe 'SocialAccountsLinkViewSpec', ->
 
   it "Should be set in model Facebook unlink fail", ->
     @model.set 'Facebook', yes
-    console.log [@server.requests]
     sinon.stub @model, 'set'
     sinon.stub utils, 'showError'
     @view.doRequestDeleteSocialAccount('Facebook')
@@ -148,7 +145,6 @@ describe 'SocialAccountsLinkViewSpec', ->
 
   it "Should be set in model Twitter unlink fail", ->
     @model.set 'Twitter', yes
-    console.log [@server.requests]
     sinon.stub @model, 'set'
     sinon.stub utils, 'showError'
     @view.doRequestDeleteSocialAccount('Twitter')

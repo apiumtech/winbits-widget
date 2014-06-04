@@ -101,12 +101,13 @@ module.exports = class EditShippingAddressView extends View
     $form =  @$el.find("#wbi-edit-shipping-address-form")
     @$('.errorDiv').css('display':'none')
     if($form.valid())
-      @$('#wbi-edit-shipping-thanks-div').show()
+      utils.showAjaxLoading()
       @checkZipCodeInfo()
       data = utils.serializeForm $form
       @model.requestSaveEditShippingAddress(itemId,data, context: @)
       .done(@successSaveEditShippingAddress)
       .fail(@errorSaveEditShippingAddress)
+      .always(@completeSaveEditShippingAddress)
 
   checkZipCodeInfo: ->
     zipCodeInfo =@$('select#wbi-shipping-address-zip-code-info').wblocationselect('value')
@@ -114,12 +115,20 @@ module.exports = class EditShippingAddressView extends View
       @$('[name="location"]').val zipCodeInfo.locationName
 
 
+  completeSaveEditShippingAddress: ->
+    utils.hideAjaxLoading()
+
+
   successSaveEditShippingAddress:()->
-    @$('#wbi-edit-shipping-address-process').hide()
-    @$('#wbi-edit-shipping-address-done').show()
+    @publishEvent 'addresses-changed'
+    options =
+      context: @
+      icon: 'iconFont-ok'
+      onClosed: @$('#wbi-edit-shipping-address-cancel').click()
+    utils.showMessageModal('La Dirección de envio ha sido actualizada correctamente.', options)
+
 
   errorSaveEditShippingAddress:(xhr, textStatus)->
-    @$('#wbi-edit-shipping-thanks-div').hide()
     error = utils.safeParse(xhr.responseText)
     message = if error then error.meta.message else textStatus
     @$('.errorDiv p').text(message).parent().css('display':'block')

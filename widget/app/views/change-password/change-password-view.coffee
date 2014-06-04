@@ -39,10 +39,13 @@ module.exports = class ChangePasswordView extends MyProfileView
     data = utils.serializeProfileForm $form
     if($form.valid())
       submitButton = @$(e.currentTarget).prop('disabled', yes)
+      utils.showAjaxLoading()
       @model.requestChangePassword(data, context: @)
       .done(@doChangePasswordSuccess)
       .fail(@doChangePasswordError)
-      .always(-> @doChangePasswordAlways(submitButton))
+      .always(->
+               @doChangePasswordAlways(submitButton)
+               utils.hideAjaxLoading())
 
   doChangePasswordAlways: (submitButton)->
     submitButton.prop('disabled', no)

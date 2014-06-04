@@ -2,7 +2,6 @@
 
 View = require 'views/base/view'
 utils = require 'lib/utils'
-loginUtils = require 'lib/login-utils'
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 env = Winbits.env
@@ -71,14 +70,16 @@ module.exports = class PersonalDataView extends View
     data = utils.serializeProfileForm $form
     if($form.valid())
       submitButton = @$(e.currentTarget).prop('disabled', yes)
+      utils.showAjaxLoading()
       @model.requestUpdateProfile(data, context: @)
       .done(@doUpdateProfileSuccess)
       .fail(@doUpdateProfileError)
-      .always -> submitButton.prop('disabled', no)
+      .always ->
+             utils.hideAjaxLoading()
+             submitButton.prop('disabled', no)
 
   doUpdateProfileSuccess: (data) ->
     utils.updateProfile(data)
-
 
   doUpdateProfileError: (xhr, textStatus)->
     error = utils.safeParse(xhr.responseText)
