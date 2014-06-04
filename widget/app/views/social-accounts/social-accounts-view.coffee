@@ -24,14 +24,13 @@ module.exports = class SocialMediaView extends View
   doLinkFacebook: (e)->
     e.preventDefault()
     utils.showAjaxLoading()
-    @popup =  window.open("", "facebook", "menubar=0,width=1,height=1")
+    @popup =  window.open("", "facebook", "menubar=0,resizable=0,width=980,height=500")
     @model.requestConnectionLink('facebook', context: @)
       .done(@successConnectFacebookLink)
-      .fail(@showErrorMessageLinkSocialAccount)
+      .fail(@showErrorMessageApi)
 
   successConnectFacebookLink: (data)->
     @popup.window?.location.href = data.response.socialUrl
-    @popup.resizeTo?(950, 500)
     @popup.focus()
     timer = setInterval($.proxy(->
       @facebookLinkedInterval(@popup, timer)
@@ -52,9 +51,11 @@ module.exports = class SocialMediaView extends View
       @showErrorMessageLinkSocialAccount()
     utils.hideAjaxLoading()
 
+  showErrorMessageApi: ->
+    @popup.window.close()
+    @showErrorMessageLinkSocialAccount()
 
   showErrorMessageLinkSocialAccount: ->
-    @popup.window.close()
     utils.hideAjaxLoading()
     message = 'Para poder ligar tu cuenta de Facebook o Twitter debes terminar el proceso y aceptar todos los privilegios solicitados.'
     options = value:'Aceptar', title: 'Error al ligar red social', icon : 'iconFont-close'
@@ -67,14 +68,13 @@ module.exports = class SocialMediaView extends View
   doLinkTwitter:  (e)->
     e.preventDefault()
     utils.showAjaxLoading()
-    @popup =  window.open("", "twitter", "menubar=0,width=1,height=1")
+    @popup =  window.open("", "twitter", "menubar=0,resizable=0,width=980,height=500")
     @model.requestConnectionLink('twitter', context: @)
     .done(@successConnectTwitterLink)
     .fail(@showErrorMessageLinkSocialAccount)
 
   successConnectTwitterLink: (data)->
     @popup.window?.location.href = data.response.socialUrl
-    @popup.resizeTo?(1000, 500)
     @popup.focus()
     timer = setInterval($.proxy(->
       @twitterLinkedInterval(@popup, timer)
