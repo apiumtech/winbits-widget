@@ -1,6 +1,6 @@
 LoggedInController = require 'controllers/logged-in-controller'
-YourBitsView = require 'views/your-bits-history/your-bits-history-view'
-YourBitsModel = require 'models/your-bits/your-bits'
+BitsHistoryView = require 'views/bits-history/bits-history-view'
+BitsHistory = require 'models/bits-history/bits-history'
 utils = require 'lib/utils'
 
 module.exports = class YourBitsController extends LoggedInController
@@ -10,5 +10,5 @@ module.exports = class YourBitsController extends LoggedInController
 
   index: ->
     console.log 'yourBits#index'
-    @model = new YourBitsModel
-    @view = new YourBitsView  model: @model
+    @model = new BitsHistory
+    @view = new BitsHistoryView  model: @model
