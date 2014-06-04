@@ -94,7 +94,9 @@ module.exports = class ModalRegisterView extends View
       value: 'Aceptar'
       title: 'Correo Enviado'
       icon: "iconFont-email2"
-      acceptAction: utils.redirectToNotLoggedInHome
+      acceptAction: ->
+                     utils.redirectTo(controller:'home', action:'index')
+                     $.fancybox.close()
     utils.showMessageModal(message, options)
 
   errorWhenIsAFER001: (defaults) ->
