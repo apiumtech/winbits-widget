@@ -13,8 +13,11 @@ describe 'SkuProfileUtilsSpec', ->
 
   before ->
     sinon.stub(utils, 'isLoggedIn').returns(no)
+    sinon.stub(utils, 'getApiToken').returns(undefined)
+
 
   after ->
+    utils.getApiToken.restore()
     utils.isLoggedIn.restore()
 
   beforeEach ->
@@ -33,8 +36,10 @@ describe 'SkuProfileUtilsSpec', ->
   afterEach ->
     @xhr.restore()
     utils.ajaxRequest.restore()
+    skuProfileUtils.skuProfileSuccessRequest.restore?()
+    skuProfileUtils.skuProfileErrorRequest.restore?()
 
-  it 'should request to get skus profile info', ->
+  it 'should request to get skus profile info when not logged user', ->
     promise = skuProfileUtils.getSkuProfilesInfo({ ids: [1, 2, 3, 4]})
     expect(promise).to.be.promise
 
@@ -45,7 +50,40 @@ describe 'SkuProfileUtilsSpec', ->
     expect(request.requestHeaders).to.has.property('Content-Type', 'application/json;charset=utf-8')
     expect(request.requestBody).to.be.equal('{"ids":"1,2,3,4"}')
 
-  it 'should request to get sku profile info', ->
+  it 'should request to get sku profile info when not logged user', ->
+    promise = skuProfileUtils.getSkuProfileInfo({ id: 1})
+    expect(promise).to.be.promise
+    request = @requests[0]
+    expect(request.url).to.be.equal(SKU_PROFILE_URL)
+    expect(request.method).to.be.equal('POST')
+    expect(request.async).to.be.true
+    expect(request.requestHeaders).to.has.property('Content-Type', 'application/json;charset=utf-8')
+
+  it 'should request get sku profile info response success when not logged user', ->
+    sinon.stub skuProfileUtils, 'skuProfileSuccessRequest'
+    skuProfileUtils.getSkuProfileInfo({id:1})
+    respondSuccess.call(@, SKU_PROFILE_SUCCESS_RESPONSE)
+    expect(skuProfileUtils.skuProfileSuccessRequest).to.have.been.calledOnce
+
+  it 'should request get skus profile info response success when not logged user', ->
+    sinon.stub skuProfileUtils, 'skuProfileSuccessRequest'
+    skuProfileUtils.getSkuProfilesInfo({ids:[1,2,3,4]})
+    respondSuccess.call(@, SKU_PROFILES_SUCCESS_RESPONSE)
+    expect(skuProfileUtils.skuProfileSuccessRequest).to.have.been.calledOnce
+
+  it 'should request to get skus profile info when logged user', ->
+    setLoginContext()
+    promise = skuProfileUtils.getSkuProfilesInfo({ ids: [1, 2, 3, 4]})
+    expect(promise).to.be.promise
+    request = @requests[0]
+    expect(request.url).to.be.equal(SKU_PROFILES_URL)
+    expect(request.method).to.be.equal('POST')
+    expect(request.async).to.be.true
+    expect(request.requestHeaders).to.has.property('Content-Type', 'application/json;charset=utf-8')
+    expect(request.requestBody).to.be.equal('{"userId":19,"ids":"1,2,3,4"}')
+
+  it 'should request to get sku profile info when logged user', ->
+    setLoginContext()
     promise = skuProfileUtils.getSkuProfileInfo({ id: 1})
     expect(promise).to.be.promise
 
@@ -54,17 +92,21 @@ describe 'SkuProfileUtilsSpec', ->
     expect(request.method).to.be.equal('POST')
     expect(request.async).to.be.true
     expect(request.requestHeaders).to.has.property('Content-Type', 'application/json;charset=utf-8')
-#    expect(request.requestBody).to.be.equal('{"id":1}')
+    expect(request.requestBody).to.be.equal('{"userId":19}')
 
-  it 'should not request get sku profile info', ->
+  it 'should request get sku profile info response success when logged user', ->
+    setLoginContext()
+    sinon.stub skuProfileUtils, 'skuProfileSuccessRequest'
+    skuProfileUtils.getSkuProfileInfo({id:1})
+    respondSuccess.call(@, SKU_PROFILE_SUCCESS_RESPONSE)
+    expect(skuProfileUtils.skuProfileSuccessRequest).to.have.been.calledOnce
 
-    skuProfileUtils.getSkuProfileInfo()
-
-  it 'should not request get skus profile info'
-  it 'should request get sku profile info response success'
-  it 'should request get skus profile info response success'
-  it 'should request get sku profile info response error'
-  it 'should request get skus profile info response error'
+  it 'should request get skus profile info response success when logged user', ->
+    setLoginContext()
+    sinon.stub skuProfileUtils, 'skuProfileSuccessRequest'
+    skuProfileUtils.getSkuProfilesInfo({ids:[1,2,3,4]})
+    respondSuccess.call(@, SKU_PROFILES_SUCCESS_RESPONSE)
+    expect(skuProfileUtils.skuProfileSuccessRequest).to.have.been.calledOnce
 
   respondSuccess = (obj) ->
     request = @requests[0]

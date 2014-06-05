@@ -22,8 +22,8 @@ _(skuProfileUtils).extend
       options.headers = 'Wb-Api-Token': utils.getApiToken()
     data = if utils.isLoggedIn() then {userId: mediator.data.get('login-data').id} else {}
     utils.ajaxRequest(@getSkuProfileResourceUrl(options.id), @applyDefaultPostSkuProfile(data, options))
-    .done(@doneSkuProfileChangeEvent)
-    .fail(@failSkuProfileErrorMessage)
+    .done(@skuProfileSuccessRequest)
+    .fail(@skuProfileErrorRequest)
 
   getSkuProfilesInfo: (options) ->
     options = options or {}
@@ -34,17 +34,16 @@ _(skuProfileUtils).extend
     data = if utils.isLoggedIn() then {userId: mediator.data.get('login-data').id} else {}
     data.ids = options.ids.join()
     utils.ajaxRequest(@getSkuProfileResourceUrl(), @applyDefaultPostSkuProfile(data, options))
-    .done(@doneSkuProfileChangeEvent)
-    .fail(@failSkuProfileErrorMessage)
+    .done(@skuProfileSuccessRequest)
+    .fail(@skuProfileErrorRequest)
 
-  doneSkuProfileChangeEvent: ->
+  skuProfileSuccessRequest: ->
     console.log ["Carga de sku profile exitosa"]
 
-  failSkuProfileErrorMessage: (xhr, textStatus)->
+  skuProfileErrorRequest: (xhr, textStatus)->
     console.log ["Carga de sku profile fallida"]
 
   applyDefaultPostSkuProfile: (formData, options = {}) ->
-    console.log ['data', formData ]
     defaults =
       type: 'POST'
       data: JSON.stringify(formData)
