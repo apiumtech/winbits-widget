@@ -67,10 +67,22 @@ module.exports = class CartView extends View
 
   successTransferVirtualCart: (data) ->
     utils.saveVirtualCartInStorage()
+    if data.response.itemsCount is 0
+      @showModalNoItemsToTransfer()
+    else
+      if(mediator.data.get 'virtual-checkout')
+        @publishEvent 'checkout-requested'
+      mediator.data.set 'virtual-checkout', no
     @successFetch(data)
-    if(mediator.data.get 'virtual-checkout')
-      @publishEvent 'checkout-requested'
-    mediator.data.set 'virtual-checkout', no
+
+  showModalNoItemsToTransfer: ->
+    options =
+      title: 'Items agotados'
+      value: 'Regresar a la tienda'
+#      context: @
+      icon: 'iconFont-info'
+      onClosed: -> utils.redirectToLoggedInHome()
+    utils.showMessageModal('Los Items seleccionados se encuentran agotados. Te invitamos a no perderte de nuestras ofertas que tenemos publicadas para ti', options)
 
   shouldOpenCart: ->
     not @model.isCartEmpty()
