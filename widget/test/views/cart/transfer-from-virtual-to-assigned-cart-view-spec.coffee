@@ -76,7 +76,7 @@ describe 'TransferFromVirtualToAssignedCartViewSpec', ->
 
   it 'transfer virtual cart when have a success response but no one item to transfer', ->
     sinon.stub(utils, 'isLoggedIn').returns(yes)
-    sinon.stub(utils, 'getVirtualCart').returns('[{"2":1}]')
+    sinon.stub(utils, 'getVirtualCart').returns('[{}]')
     sinon.stub(@model, 'fetch').returns()
     sinon.stub(@view, 'showModalNoItemsToTransfer')
     @view.restoreCart()
