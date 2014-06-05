@@ -68,7 +68,6 @@ module.exports = class CartView extends View
   successTransferVirtualCart: (data) ->
     utils.saveVirtualCartInStorage()
     if data.response.itemsCount is 0
-      console.log ["NO ITEMS TO TRANSFER"]
       @showModalNoItemsToTransfer()
     else
       if(mediator.data.get 'virtual-checkout')
