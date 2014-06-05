@@ -65,7 +65,8 @@ module.exports = class ModalRegisterView extends View
 
     if code is 'AFER026'
       resendConfirmUrl = error.response.resendConfirmUrl
-      @confirmURL = encodeComponent = encodeURI(resendConfirmUrl.substring(resendConfirmUrl.indexOf('users')))
+      @confirmURL = resendConfirmUrl.substring(resendConfirmUrl.indexOf('users')).replace(/\+/g,"%252b")
+      console.log "Confirm url #{@confirmURL}"
       defaultOptionsMessage = @errorWhenIsAFER206 defaultOptionsMessage
 
     @showMessageErrorModal(defaultOptionsMessage)
@@ -85,10 +86,22 @@ module.exports = class ModalRegisterView extends View
   doRequestResendConfirmationMail: () ->
     @model.requestResendConfirmationMail(@confirmURL)
      .done(@doSuccessRequestResendConfirmationMail)
-     .fail(-> console.log ["ERROR SENDING MAIL"])
+     .fail(@doErrorRequestResendConfirmationMail)
+
+
+  doErrorRequestResendConfirmationMail: ->
+    message = 'Por el momento no se ha podido enviarte el correo de confirmación, por favor intentalo mas tarde'
+    options =
+      value: 'Aceptar'
+      title: 'Error al enviar el correo.'
+      icon: "iconFont-email"
+      acceptAction: ->
+        utils.redirectTo(controller:'home', action:'index')
+        $.fancybox.close()
+    utils.showMessageModal(message, options)
+
 
   doSuccessRequestResendConfirmationMail: ->
-#    $.fancybox.close()
     message = 'Un mensaje de confirmación ha sido enviado a tu cuenta de correo.'
     options =
       value: 'Aceptar'
