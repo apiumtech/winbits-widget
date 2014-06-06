@@ -37,7 +37,6 @@ module.exports = class Cart extends Model
   sliderTotal: ->
     @get('itemsTotal') + @get('shippingTotal')
 
-
   itemsFullTotal: ->
     priceTotal = 0
     cartDetails = @get('cartDetails')

@@ -31,7 +31,8 @@ module.exports = class CartBitsView extends View
 
     $winbitsSlider.on('slide', $.proxy((e, ui={}) ->
       slideValue = obj.data('max-selection')
-      if ui.value <= slideValue then slideValue = ui.value
+      if ui.value <= slideValue
+        slideValue = ui.value
       @model.set 'bitsTotal', slideValue
       percentageSaved = utils.formatPercentage(@model.cartPercentageSaved())
       @$('#wbi-cart-percentage-saved').text(percentageSaved)
@@ -76,12 +77,3 @@ module.exports = class CartBitsView extends View
 
   updateMaxSelection:()->
     @$('#wbi-cart-bits-slider').data('max-selection', mediator.data.get('login-data').bitsBalance)
-
-
-
-
-
-
-
-
-

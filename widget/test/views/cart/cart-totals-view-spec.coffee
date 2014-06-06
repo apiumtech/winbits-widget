@@ -37,12 +37,6 @@ describe 'CartTotalsViewSpec', ->
     @view.render()
     expect(@view.$('#wbi-cart-saving')).to.has.$text('$821')
 
-  it 'should render cart saving', ->
-    testUtils.setExampleCartDataInto(@model)
-
-    @view.render()
-    expect(@view.$('#wbi-cart-saving')).to.has.$text('$821')
-
   it 'should render cart total', ->
     testUtils.setExampleCartDataInto(@model)
 

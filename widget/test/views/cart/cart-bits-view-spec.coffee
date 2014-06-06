@@ -54,6 +54,13 @@ describe 'CartBitsViewSpec', ->
     expect(@view.$ '#wbi-cart-percentage-saved').to.existExact(1)
         .and.to.has.$text('43%')
 
+  it.skip 'should render cart percentage saved when bits slider slides', ->
+    testUtils.setExampleCartDataInto(@model)
+
+    @view.$('input#wbi-cart-bits-slider').trigger('slide')
+    expect(@view.$ '#wbi-cart-percentage-saved').to.existExact(1)
+        .and.to.has.$text('43%')
+
   it 'should render cart bits slider', ->
     @model.set(itemsTotal: 100, shippingTotal: 50, bitsTotal: 20)
 
