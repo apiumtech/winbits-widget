@@ -12,5 +12,4 @@ module.exports = class TransferCartErrorsController extends LoggedInController
 
   index: (params)->
     @model = new TransferCartErrors
-    console.log ['cart errors']
     @view = new TransferCartErrorsView model: @model

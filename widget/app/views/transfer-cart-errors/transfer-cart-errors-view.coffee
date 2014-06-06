@@ -20,6 +20,7 @@ module.exports = class LoginView extends View
   attach: ->
     super
     @showAsModal()
+    @$('.productTable.scrollPanel').scrollpane({ parent: '.dataTable'});
 #    @$('.contentModal').customCheckbox();
 #    @$('form#wbi-login-form').validate
 #      rules:
