@@ -68,8 +68,8 @@ describe 'CartSpec', ->
     expect(@model.accessors).to.contain('cartPercentageSaved')
     expect(cartPercentageSaved).to.be.equal(43)
 
-  it 'cartPercentageSaved should be zero if no itemsTotal is zero', ->
-    @model.set(itemsTotal: 0)
+  it 'cartPercentageSaved should be zero if no itemsFullTotal is zero', ->
+    @model.set(cartDetails: [])
 
     cartPercentageSaved = @model.cartPercentageSaved()
     expect(cartPercentageSaved).to.be.equal(0)

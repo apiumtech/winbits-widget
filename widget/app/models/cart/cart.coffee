@@ -48,7 +48,7 @@ module.exports = class Cart extends Model
   cartPercentageSaved: ->
     itemsTotal = @get('itemsTotal')
     itemsFullTotal = @itemsFullTotal()
-    if itemsTotal
+    if itemsFullTotal
       percentageSaved = ((1 - (itemsTotal / itemsFullTotal)) * 100).toFixed(2)
       Math.ceil(percentageSaved)
     else 0

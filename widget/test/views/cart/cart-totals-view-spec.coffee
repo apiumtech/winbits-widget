@@ -1,5 +1,8 @@
+'use strict'
+
 CartTotalsView = require 'views/cart/cart-totals-view'
 Cart = require 'models/cart/cart'
+testUtils = require 'test/lib/test-utils'
 $ = Winbits.$
 
 describe 'CartTotalsViewSpec', ->
@@ -29,25 +32,13 @@ describe 'CartTotalsViewSpec', ->
     expect(@view.$('#wbi-cart-total')).to.has.text(zeroPesos)
 
   it 'should render cart saving', ->
-    setDefaultModelData.call(@)
+    testUtils.setExampleCartDataInto(@model)
 
     @view.render()
     expect(@view.$('#wbi-cart-saving')).to.has.$text('$821')
 
   it 'should render cart total', ->
-    setDefaultModelData.call(@)
+    testUtils.setExampleCartDataInto(@model)
 
     @view.render()
     expect(@view.$('#wbi-cart-total')).to.has.$text('$1079')
-
-  setDefaultModelData = ->
-    @model.set(
-      itemsTotal: 1100
-      shippingTotal: 79
-      bitsTotal: 100
-      itemsCount: 2
-      cartDetails: [
-        { quantity: 1, skuProfile: fullPrice: 950 }
-        { quantity: 1, skuProfile: fullPrice: 950 }
-      ]
-    )
