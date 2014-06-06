@@ -30,10 +30,9 @@ module.exports = class CartItemsView extends View
     @model.requestToUpdateCart(data, itemId , @cartRequestOptions())
       .done(@doUpdateItemRequestSuccess)
       .fail(@doUpdateItemRequestError)
+      .always(@requestToUpdateCartCompletes)
 
   doUpdateItemRequestSuccess: (data) ->
-    console.log ["success delete cart"]
-    $.fancybox.close()
     if not utils.isLoggedIn()
       cartUtils.addToVirtualCartSuccess(data)
     else
@@ -42,6 +41,9 @@ module.exports = class CartItemsView extends View
   doUpdateItemRequestError: (xhr, textStatus)->
     @render()
     cartUtils.showCartErrorMessage(xhr, textStatus)
+
+  requestToUpdateCartCompletes: ->
+    utils.closeMessageModal()
 
   doDeleteItem: (e)->
     e.preventDefault()
@@ -52,12 +54,15 @@ module.exports = class CartItemsView extends View
     @model.requestToUpdateCart(null,$itemId,requestOptions)
       .done(@doUpdateItemRequestSuccess)
       .fail(@doDeleteItemRequestError)
+      .always(@requestToUpdateCartCompletes)
 
   cartRequestOptions: ->
     requestOptions = context:@
     isLoggedIn = utils.isLoggedIn()
     if not isLoggedIn
-      requestOptions.headers = {"Accept-Language": "es",'wb-vcart':utils.getVirtualCart()}
+      requestOptions.headers =
+        "Accept-Language": "es"
+        'wb-vcart':utils.getVirtualCart()
     requestOptions
 
   doCartDeleteLoading: ->

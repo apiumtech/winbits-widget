@@ -301,6 +301,7 @@ _(utils).extend
     options.title ?= 'Mensaje'
     options.icon ?="icontFont-question"
     options.acceptAction ?= @closeMessageModal
+    options.modal ?= no
     options.acceptAction = $.proxy(options.acceptAction, options.context)
     options.message = message
 #    onStart = $.proxy(options.onStart or $.noop, context)
@@ -309,10 +310,19 @@ _(utils).extend
 #    onCleanup = $.proxy(options.onCleanup or $.noop, context)
     onClosed = $.proxy(options.onClosed, options.context)
     content = ModalTemplates[modalSelector](options)
-    $.fancybox(content, padding: 10, onClosed: onClosed, onComplete: ->
-      $(".wbc-default-action", '#fancybox-content').click(options.acceptAction)
-      $(".wbc-cancel-action", '#fancybox-content').click(options.cancelAction) if $.isFunction(options.cancelAction)
-    )
+    fancyboxOptions =
+      padding: 10
+      modal: options.modal
+      transitionIn: options.transitionIn
+      transitionOut: options.transitionout
+      changeSpeed: options.changeSpeed
+      onClosed: onClosed
+      onComplete: ->
+        $fancybox = $('#fancybox-content')
+        $fancybox.find(".wbc-default-action").click(options.acceptAction)
+        if $.isFunction(options.cancelAction)
+          $fancybox.find(".wbc-cancel-action").click(options.cancelAction)
+    $.fancybox(content, fancyboxOptions)
 
 
   showConfirmationModal: (message, options = {}) ->
@@ -326,7 +336,12 @@ _(utils).extend
 
   showLoadingMessage: (message, options)->
     defaults = icon:'iconFont-clock2',title:message
-    options = $.extend(defaults, options)
+    fancyboxOptions =
+      modal: yes
+      transitionIn: 'none'
+      transitionOut: 'none'
+      changeSpeed: 150
+    options = $.extend(defaults, options, fancyboxOptions)
     divLoader = "<div class='wbc-loader'></div>"
     @showMessageModal(divLoader, options, '#wbi-message-modal')
 
@@ -415,8 +430,6 @@ _(utils).extend
 
   publishEvent: (event, data = {})->
     EventBroker.publishEvent event, data
-
-
 
 # Prevent creating new properties and stuff.
 Object.seal? utils
