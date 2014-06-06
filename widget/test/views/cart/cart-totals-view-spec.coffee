@@ -28,12 +28,26 @@ describe 'CartTotalsViewSpec', ->
     expect(@view.$('#wbi-cart-shipping-cost')).to.has.text(zeroPesos)
     expect(@view.$('#wbi-cart-total')).to.has.text(zeroPesos)
 
-  it.skip 'should render cart saving', ->
-    expect(no).to.be.ok
-
-  it 'should render cart total', ->
-    @model.set(itemsTotal: 100, shippingTotal: 50, bitsTotal: 20)
+  it 'should render cart saving', ->
+    setDefaultModelData.call(@)
 
     @view.render()
+    expect(@view.$('#wbi-cart-saving')).to.has.$text('$821')
 
-    expect(@view.$('#wbi-cart-total')).to.has.$text('$130')
+  it 'should render cart total', ->
+    setDefaultModelData.call(@)
+
+    @view.render()
+    expect(@view.$('#wbi-cart-total')).to.has.$text('$1079')
+
+  setDefaultModelData = ->
+    @model.set(
+      itemsTotal: 1100
+      shippingTotal: 79
+      bitsTotal: 100
+      itemsCount: 2
+      cartDetails: [
+        { quantity: 1, skuProfile: fullPrice: 950 }
+        { quantity: 1, skuProfile: fullPrice: 950 }
+      ]
+    )
