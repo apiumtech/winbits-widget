@@ -129,7 +129,6 @@ module.exports = class Cart extends Model
 
   postToCheckoutApp: (order) ->
     checkoutURL = env.get('checkout-url')
-    $chkForm.attr('action', "#{checkoutURL}/checkout.php")
     formAttrs =
       id: 'chk-form'
       method: 'POST'
