@@ -22,7 +22,15 @@ describe 'CartSpec', ->
     @xhr = sinon.useFakeXMLHttpRequest()
     requests = @requests = []
     @xhr.onCreate = (xhr) -> requests.push(xhr)
-    @model = new Cart itemsTotal: 100, shippingTotal: 50, bitsTotal: 20, itemsCount: 2
+    @model = new Cart
+      itemsTotal: 1100
+      shippingTotal: 79
+      bitsTotal: 100
+      itemsCount: 2
+      cartDetails: [
+        { quantity: 1, skuProfile: fullPrice: 950 }
+        { quantity: 1, skuProfile: fullPrice: 950 }
+      ]
     sinon.stub(@model, 'postToCheckoutApp')
 
   afterEach ->
@@ -48,19 +56,20 @@ describe 'CartSpec', ->
   it 'should has accessor for computed property cartTotal', ->
     cartTotal = @model.cartTotal()
     expect(@model.accessors).to.contain('cartTotal')
-    expect(cartTotal).to.be.equal(130)
+    expect(cartTotal).to.be.equal(1079)
 
-  it.skip 'should has accessor for computed property cartSaving', ->
+  it 'should has accessor for computed property cartSaving', ->
     cartSaving = @model.cartSaving()
     expect(@model.accessors).to.contain('cartSaving')
+    expect(cartSaving).to.be.equal(821)
 
-  it.skip 'should has accessor for computed property cartPercentageSaved', ->
+  it 'should has accessor for computed property cartPercentageSaved', ->
     cartPercentageSaved = @model.cartPercentageSaved()
     expect(@model.accessors).to.contain('cartPercentageSaved')
-    expect(cartPercentageSaved).to.be.equal(70)
+    expect(cartPercentageSaved).to.be.equal(43)
 
-  it 'cartPercentageSaved should be zero if no itemsTotal is zero', ->
-    @model.set(itemsTotal: 0)
+  it 'cartPercentageSaved should be zero if no itemsFullTotal is zero', ->
+    @model.set(cartDetails: [])
 
     cartPercentageSaved = @model.cartPercentageSaved()
     expect(cartPercentageSaved).to.be.equal(0)
@@ -71,11 +80,12 @@ describe 'CartSpec', ->
     )
 
     result = @model.requestCheckout()
-    expect(utils.ajaxRequest).to.has.been.calledWithMatch(/\/orders\/checkout\.json$/)
-        .and.to.has.been.calledOnce
+    expect(utils.ajaxRequest)
+      .to.has.been.calledWithMatch(/\/orders\/checkout\.json$/)
+      .and.to.has.been.calledOnce
     ajaxOptions = utils.ajaxRequest.firstCall.args[1]
     expect(ajaxOptions).to.be.an('object')
-        .and.to.has.property('type', 'POST')
+      .and.to.has.property('type', 'POST')
     expect(ajaxOptions).to.has.property('context', @model)
     expect(ajaxOptions).to.has.property('headers').eql('Wb-Api-Token': 'XXX')
     expect(ajaxOptions).to.has.property('data', '{"verticalId":1}')
@@ -84,10 +94,12 @@ describe 'CartSpec', ->
   it.skip 'should redirect to checkout url if request succeeds', ->
     @model.requestCheckout()
     request = @requests[0]
-    request.respond(200, 'Content-Type': 'application/json', '{"meta":{},"response":{"id":1}}')
+    request.respond(200, 'Content-Type': 'application/json',
+      '{"meta":{},"response":{"id":1}}')
 
-    expect(window.location.assign).to.has.been.calledWithMatch(/https:\/\/checkout\w+\.winbits\.com\?orderId=1/)
-        .and.to.has.been.calledOnce
+    urlRegExp = /https:\/\/checkout\w+\.winbits\.com\?orderId=1/
+    expect(window.location.assign).to.has.been.calledWithMatch(urlRegExp)
+      .and.to.has.been.calledOnce
 
   it 'should show message if trying to checkout empty cart', ->
     @model.set(itemsCount: 0)
@@ -102,7 +114,8 @@ describe 'CartSpec', ->
 
     @model.requestCheckout()
     request = @requests[0]
-    request.respond(400, {}, '{"meta":{"status":400,"message":"Error en checkout!"},"response":{}}')
+    request.respond(400, {},
+      '{"meta":{"status":400,"message":"Error en checkout!"},"response":{}}')
 
     expect(utils.showMessageModal).to.has.been.calledWith('Error en checkout!')
         .and.to.has.been.calledOnce

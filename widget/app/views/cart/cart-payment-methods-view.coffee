@@ -12,7 +12,8 @@ module.exports = class CartPaymentMethodsView extends View
 
   initialize: ->
     super
-    @delegate 'click', '#wbi-cart-checkout-btn', -> @checkout.apply(@, arguments)
+    @delegate 'click', '#wbi-cart-checkout-btn', ->
+      @checkout.apply(@, arguments)
     @subscribeEvent 'checkout-requested', -> @checkout.apply(@, arguments)
 
   attach: ->
@@ -25,4 +26,3 @@ module.exports = class CartPaymentMethodsView extends View
     else
       mediator.data.set 'virtual-checkout', yes
       utils.redirectTo controller:'login', action:'index'
-

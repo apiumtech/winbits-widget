@@ -1,6 +1,8 @@
 'use strict'
+
 CartBitsView = require 'views/cart/cart-bits-view'
 Cart = require 'models/cart/cart'
+testUtils = require 'test/lib/test-utils'
 $ = Winbits.$
 _ = Winbits._
 mediator = Winbits.Chaplin.mediator
@@ -45,13 +47,12 @@ describe 'CartBitsViewSpec', ->
     expect(@view.$ '#wbi-cart-cashback').to.existExact(1)
         .and.to.has.$text('100')
 
-  it.skip 'should render cart percentage saved', ->
-    @model.set(itemsTotal: 100, shippingTotal: 250, bitsTotal: 20)
+  it 'should render cart percentage saved', ->
+    testUtils.setExampleCartDataInto(@model)
 
     @view.render()
-
     expect(@view.$ '#wbi-cart-percentage-saved').to.existExact(1)
-        .and.to.has.$text('70%')
+        .and.to.has.$text('43%')
 
   it 'should render cart bits slider', ->
     @model.set(itemsTotal: 100, shippingTotal: 50, bitsTotal: 20)
@@ -70,7 +71,8 @@ describe 'CartBitsViewSpec', ->
 
     expect(customSliderStub).to.has.been.calledOnce
     bitsSlider = @view.$('input#wbi-cart-bits-slider').get(0)
-    expect(customSliderStub.firstCall.returnValue.get(0)).to.be.equal(bitsSlider)
+    expect(customSliderStub.firstCall.returnValue.get(0))
+      .to.be.equal(bitsSlider)
 
   it "should work slide event in bits's bar ", ->
     sinon.stub @model, 'set'
@@ -114,5 +116,3 @@ describe 'CartBitsViewSpec', ->
     @clock.tick(133100000)
     expect(errorStub).to.be.calledOnce
     expect(successStub).to.not.be.calledOnce
-
-

@@ -54,7 +54,7 @@ _(cartUtils).extend
     error = utils.safeParse(xhr.responseText)
     messageText = "Error actualizando el registro #{textStatus}"
     message = if error then error.meta.message else messageText
-    options = icon:'iconFont-candado', value: "Cerrar", title:'Error'
+    options = icon:'iconFont-info', value: "Aceptar", title:'Error'
     utils.showMessageModal(message, options)
 
   doCartLoading: ->

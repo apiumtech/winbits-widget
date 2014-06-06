@@ -1,4 +1,5 @@
 'use strict'
+
 require = Winbits.require
 Model = require 'models/base/model'
 utils = require 'lib/utils'
@@ -39,22 +40,21 @@ module.exports = class Cart extends Model
 
   itemsFullTotal: ->
     priceTotal = 0
-    if(@get('cartDetails'))
-      priceTotal = (detail.quantity * detail.skuProfile.fullPrice) for detail in @get('cartDetails')
+    cartDetails = @get('cartDetails')
+    if cartDetails
+      priceTotal += (d.quantity * d.skuProfile.fullPrice) for d in cartDetails
     priceTotal
 
-
-
   cartPercentageSaved: ->
-    cartTotal = @cartTotal()
     itemsTotal = @get('itemsTotal')
-    if itemsTotal
-      Math.ceil((1 - (cartTotal / itemsTotal)).toFixed(2) * 100 )
+    itemsFullTotal = @itemsFullTotal()
+    if itemsFullTotal
+      percentageSaved = ((1 - (itemsTotal / itemsFullTotal)) * 100).toFixed(2)
+      Math.ceil(percentageSaved)
     else 0
 
   cartSaving: ->
-    # TODO: Implementar algoritmo corecto cuando se defina
-    @get 'bitsTotal'
+    @itemsFullTotal() - @cartTotal()
 
   requestToUpdateCart:(formData,itemId, options) ->
     defaults =

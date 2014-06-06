@@ -39,8 +39,20 @@ _(testUtils).extend
   rejectedPromiseWith: (context, data) ->
     new $.Deferred().rejectWith(context, data).promise()
 
-  idlePromise: () ->
+  idlePromise: ->
     new $.Deferred().promise()
+
+  setExampleCartDataInto: (model) ->
+    model.set(
+      itemsTotal: 1100
+      shippingTotal: 79
+      bitsTotal: 100
+      itemsCount: 2
+      cartDetails: [
+        { quantity: 1, skuProfile: fullPrice: 950 }
+        { quantity: 1, skuProfile: fullPrice: 950 }
+      ]
+    )
 
  # Prevent creating new properties and stuff.
 Object.seal? testUtils
