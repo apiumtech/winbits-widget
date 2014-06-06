@@ -18,8 +18,6 @@ _(skuProfileUtils).extend
     options = options or {}
     if not options.id
       throw "Argument 'id' is required!"
-    if utils.isLoggedIn()
-      options.headers = 'Wb-Api-Token': utils.getApiToken()
     data = if utils.isLoggedIn() then {userId: mediator.data.get('login-data').id} else {}
     utils.ajaxRequest(@getSkuProfileResourceUrl(options.id), @applyDefaultPostSkuProfile(data, options))
     .done(@skuProfileSuccessRequest)
@@ -29,10 +27,8 @@ _(skuProfileUtils).extend
     options = options or {}
     if not options.ids
       throw "Argument 'ids' is required!"
-    if utils.isLoggedIn()
-      options.headers = 'Wb-Api-Token': utils.getApiToken()
     data = if utils.isLoggedIn() then {userId: mediator.data.get('login-data').id} else {}
-    data.ids = options.ids.join()
+    data.ids = options.ids.join(',')
     utils.ajaxRequest(@getSkuProfileResourceUrl(), @applyDefaultPostSkuProfile(data, options))
     .done(@skuProfileSuccessRequest)
     .fail(@skuProfileErrorRequest)
@@ -45,8 +41,9 @@ _(skuProfileUtils).extend
 
   applyDefaultPostSkuProfile: (formData, options = {}) ->
     defaults =
-      type: 'POST'
-      data: JSON.stringify(formData)
+      dataType: "json"
+      type: 'GET'
+      data: formData
     requestOptions = $.extend({}, defaults, options)
     requestOptions.headers = $.extend({}, defaults.headers, options.headers)
     requestOptions

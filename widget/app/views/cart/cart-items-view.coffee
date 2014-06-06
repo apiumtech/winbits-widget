@@ -32,6 +32,7 @@ module.exports = class CartItemsView extends View
       .fail(@doUpdateItemRequestError)
 
   doUpdateItemRequestSuccess: (data) ->
+    console.log ["success delete cart"]
     $.fancybox.close()
     if not utils.isLoggedIn()
       cartUtils.addToVirtualCartSuccess(data)

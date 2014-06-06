@@ -7,7 +7,9 @@ mediator = Winbits.Chaplin.mediator
 describe 'SkuProfileUtilsSpec', ->
 
   SKU_PROFILE_URL = utils.getResourceURL('catalog/sku-profiles/1/info.json')
-  SKU_PROFILES_URL = utils.getResourceURL('catalog/sku-profiles-info.json')
+  SKU_PROFILE_LOGGED_URL = utils.getResourceURL('catalog/sku-profiles/1/info.json?userId=19')
+  SKU_PROFILES_URL = utils.getResourceURL('catalog/sku-profiles-info.json?ids=1%2C2%2C3%2C4')
+  SKU_PROFILES_LOGGED_URL = utils.getResourceURL('catalog/sku-profiles-info.json?userId=19&ids=1%2C2%2C3%2C4')
   SKU_PROFILE_SUCCESS_RESPONSE = '{"meta":{"status":200},"response":{"id":14502,"status":{"id":1,"description":null,"name":"ACTIVE"},"quantityOnHand":1,"quantityReserved":1,"stock":0,"isInWishList":false}}'
   SKU_PROFILES_SUCCESS_RESPONSE = '{"meta":{"status":200},"response":[{"id":1,"status":{"id":1,"description":null,"name":"ACTIVE"},"quantityOnHand":-1,"quantityReserved":7,"stock":6,"isInWishList":false},{"id":2,"status":{"id":1,"description":null,"name":"ACTIVE"},"quantityOnHand":-1,"quantityReserved":3,"stock":0,"isInWishList":false},{"id":3,"status":{"id":1,"description":null,"name":"ACTIVE"},"quantityOnHand":-1,"quantityReserved":0,"stock":0,"isInWishList":false},{"id":4,"status":{"id":1,"description":null,"name":"ACTIVE"},"quantityOnHand":70,"quantityReserved":12,"stock":58,"isInWishList":false}]}'
 
@@ -45,19 +47,18 @@ describe 'SkuProfileUtilsSpec', ->
 
     request = @requests[0]
     expect(request.url).to.be.equal(SKU_PROFILES_URL)
-    expect(request.method).to.be.equal('POST')
+    expect(request.method).to.be.equal('GET')
     expect(request.async).to.be.true
-    expect(request.requestHeaders).to.has.property('Content-Type', 'application/json;charset=utf-8')
-    expect(request.requestBody).to.be.equal('{"ids":"1,2,3,4"}')
+    expect(request.requestHeaders).to.has.property('Content-Type')
 
   it 'should request to get sku profile info when not logged user', ->
     promise = skuProfileUtils.getSkuProfileInfo({ id: 1})
     expect(promise).to.be.promise
     request = @requests[0]
     expect(request.url).to.be.equal(SKU_PROFILE_URL)
-    expect(request.method).to.be.equal('POST')
+    expect(request.method).to.be.equal('GET')
     expect(request.async).to.be.true
-    expect(request.requestHeaders).to.has.property('Content-Type', 'application/json;charset=utf-8')
+    expect(request.requestHeaders).to.has.property('Content-Type')
 
   it 'should request get sku profile info response success when not logged user', ->
     sinon.stub skuProfileUtils, 'skuProfileSuccessRequest'
@@ -76,11 +77,10 @@ describe 'SkuProfileUtilsSpec', ->
     promise = skuProfileUtils.getSkuProfilesInfo({ ids: [1, 2, 3, 4]})
     expect(promise).to.be.promise
     request = @requests[0]
-    expect(request.url).to.be.equal(SKU_PROFILES_URL)
-    expect(request.method).to.be.equal('POST')
+    expect(request.url).to.be.equal(SKU_PROFILES_LOGGED_URL)
+    expect(request.method).to.be.equal('GET')
     expect(request.async).to.be.true
-    expect(request.requestHeaders).to.has.property('Content-Type', 'application/json;charset=utf-8')
-    expect(request.requestBody).to.be.equal('{"userId":19,"ids":"1,2,3,4"}')
+    expect(request.requestHeaders).to.has.property('Content-Type')
 
   it 'should request to get sku profile info when logged user', ->
     setLoginContext()
@@ -88,11 +88,10 @@ describe 'SkuProfileUtilsSpec', ->
     expect(promise).to.be.promise
 
     request = @requests[0]
-    expect(request.url).to.be.equal(SKU_PROFILE_URL)
-    expect(request.method).to.be.equal('POST')
+    expect(request.url).to.be.equal(SKU_PROFILE_LOGGED_URL)
+    expect(request.method).to.be.equal('GET')
     expect(request.async).to.be.true
-    expect(request.requestHeaders).to.has.property('Content-Type', 'application/json;charset=utf-8')
-    expect(request.requestBody).to.be.equal('{"userId":19}')
+    expect(request.requestHeaders).to.has.property('Content-Type')
 
   it 'should request get sku profile info response success when logged user', ->
     setLoginContext()
