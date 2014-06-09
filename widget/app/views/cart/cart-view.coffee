@@ -7,6 +7,7 @@ CartPaymentMethodsView = require 'views/cart/cart-payment-methods-view'
 Cart = require 'models/cart/cart'
 utils = require 'lib/utils'
 $ = Winbits.$
+_ = Winbits._
 mediator = Winbits.Chaplin.mediator
 
 module.exports = class CartView extends View
@@ -70,10 +71,20 @@ module.exports = class CartView extends View
     if data.response.itemsCount is 0
       @showModalNoItemsToTransfer()
     else
-      if(mediator.data.get 'virtual-checkout')
-        @publishEvent 'checkout-requested'
-      mediator.data.set 'virtual-checkout', no
+      if(@validateTransferErrors(data.response))
+        if(mediator.data.get 'virtual-checkout')
+          @publishEvent 'checkout-requested'
+      else
+        utils.redirectTo(controller:'transfer-cart-errors', action:'index', params:data.response)
+    mediator.data.set 'virtual-checkout', no
     @successFetch(data)
+
+  validateTransferErrors: (response)->
+    console.log[response]
+    warnings = response.cartDetails.map (cartDetail) -> cartDetail.warnings
+    warnings = _.flatten(warnings)
+    isValid =  if (response.failedCartDetails or !$.isEmptyObject(warnings) ) then no else yes
+    isValid
 
   showModalNoItemsToTransfer: ->
     options =
