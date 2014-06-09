@@ -35,7 +35,7 @@
                 {{#each cartDetails}}
                   {{#with skuProfile}}
                     <tr>
-                      <td class="preCheckout-delete"><a title="Eliminar" class="iconFont-close" data-id="{{id}}" ></a>
+                      <td class="preCheckout-delete"><a id="wbi-delete-cart-item" title="Eliminar" class="iconFont-close" data-id="{{id}}" ></a>
                       </td>
                       <td>
                         <div class="preCheckout-product"><img src="{{item.thumbnail}}" alt="{{item.name}}" class="preCheckout-img">
@@ -81,7 +81,7 @@
           </div>
         </div>
       </div>
-      <div class="preCheckout-submit">{{!--<a href="#" class="btn">Vaciar carrito</a>--}}<a href="#" class="btn btnCart">Continuar</a></div>
+      <div class="preCheckout-submit">{{!--<a href="#" class="btn">Vaciar carrito</a>--}}<a id="wbi-continue-transfer-btn" class="btn btnCart">Continuar</a></div>
     </div>
   </div>
 </form>

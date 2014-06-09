@@ -70,13 +70,14 @@ module.exports = class CartView extends View
     utils.saveVirtualCartInStorage()
     if data.response.itemsCount is 0
       @showModalNoItemsToTransfer()
+      mediator.data.set 'virtual-checkout', no
     else
       if(@validateTransferErrors(data.response))
         if(mediator.data.get 'virtual-checkout')
           @publishEvent 'checkout-requested'
+          mediator.data.set 'virtual-checkout', no
       else
         utils.redirectTo(controller:'transfer-cart-errors', action:'index', params:data.response)
-    mediator.data.set 'virtual-checkout', no
     @successFetch(data)
 
   validateTransferErrors: (response)->

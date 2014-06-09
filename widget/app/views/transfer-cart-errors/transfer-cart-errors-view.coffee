@@ -14,7 +14,7 @@ module.exports = class LoginView extends View
 
   initialize: ->
     super
-    console.log ['model', @model]
+    @delegate 'click', '#wbi-continue-transfer-btn', @doCloseModal
 
   attach: ->
     super
@@ -23,3 +23,11 @@ module.exports = class LoginView extends View
 
   showAsModal: ->
     $('<a>').wbfancybox(href: '#' + @id, onClosed: (-> utils.redirectTo(controller: 'home', action: 'index', params: 'xxxxxx')), height:550).click()
+
+  doCloseModal: (e)->
+    e.preventDefault()
+    if (mediator.data.get 'virtual-checkout')
+      @publishEvent 'checkout-requested'
+    else
+      utils.closeMessageModal()
+    mediator.data.set('virtual-checkout', no)
