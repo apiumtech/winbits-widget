@@ -34,16 +34,20 @@ describe 'CartUtilsSpec', ->
 
   beforeEach ->
     localStorage.removeItem('wb-vcart')
+    @xhr = sinon.useFakeXMLHttpRequest()
+    @requests = []
+    @xhr.onCreate = $.proxy(((xhr) -> @requests.push(xhr)), @)
     sinon.spy(utils, 'ajaxRequest')
     sinon.stub(utils, 'saveVirtualCart')
     sinon.stub(utils, 'showMessageModal')
 
   afterEach ->
+    @xhr.restore()
     utils.ajaxRequest.restore()
     utils.showMessageModal.restore()
     utils.saveVirtualCart.restore?()
 
-  it 'should request to add items to virtual cart', sinon.test ->
+  it 'should request to add items to virtual cart', ->
     promise = cartUtils.addToVirtualCart([{ id: 1, quantity: 2 }, { id: 2, quantity: 3 }])
     expect(promise).to.be.promise
 
@@ -55,7 +59,7 @@ describe 'CartUtilsSpec', ->
     expect(request.requestHeaders).to.has.property('Content-Type', 'application/json;charset=utf-8')
     expect(request.requestBody).to.be.equal('{"cartItems":[{"skuProfileId":1,"quantity":2},{"skuProfileId":2,"quantity":3}]}')
 
-  it 'should save virtual cart when items successfully added', sinon.test ->
+  it 'should save virtual cart when items successfully added', ->
     cartUtils.addToVirtualCart([id: 1, quantity: 2])
 
     respondSuccess.call(@)
@@ -63,7 +67,7 @@ describe 'CartUtilsSpec', ->
     expect(utils.saveVirtualCart).to.have.been.calledWith(JSON.parse(ADD_TO_CART_SUCCESS_RESPONSE).response)
         .and.to.be.calledOnce
 
-  it 'should trigger "cart-changed" event when items successfully added to virtual cart', sinon.test ->
+  it 'should trigger "cart-changed" event when items successfully added to virtual cart', ->
     stub = sinon.stub()
     EventBroker.subscribeEvent('cart-changed', stub)
 
@@ -76,7 +80,7 @@ describe 'CartUtilsSpec', ->
 
     EventBroker.unsubscribeEvent('cart-changed', stub)
 
-  it 'should request to add items to user cart', sinon.test ->
+  it 'should request to add items to user cart', ->
     setLoginContext()
     promise = cartUtils.addToUserCart([{ id: 1, quantity: 2 }, { id: 2, quantity: 3 }])
     expect(promise).to.be.promise
@@ -89,7 +93,7 @@ describe 'CartUtilsSpec', ->
     expect(request.requestHeaders).to.has.property('Content-Type', 'application/json;charset=utf-8')
     expect(request.requestBody).to.be.equal('{"cartItems":[{"skuProfileId":1,"quantity":2},{"skuProfileId":2,"quantity":3}]}')
 
-  it 'should trigger "cart-changed" event when items successfully added to cart', sinon.test ->
+  it 'should trigger "cart-changed" event when items successfully added to cart', ->
     setLoginContext()
     stub = sinon.stub()
     EventBroker.subscribeEvent('cart-changed', stub)
@@ -104,7 +108,7 @@ describe 'CartUtilsSpec', ->
     EventBroker.unsubscribeEvent('cart-changed', stub)
 
   _.each addToCartErrors, (title, code) ->
-    it "should show error message if add to virtual cart fails: #{code}", sinon.test ->
+    it "should show error message if add to virtual cart fails: #{code}", ->
       cartUtils.addToVirtualCart({ id: 1, quantity: 2 })
       expectedOptions =
         icon: 'iconFont-info'
@@ -115,7 +119,7 @@ describe 'CartUtilsSpec', ->
         .to.has.been.calledWithMatch(sinon.match.any, expectedOptions)
 
   _.each addToCartErrors, (title, code) ->
-    it "should show error message if add to user cart fails: #{code}", sinon.test ->
+    it "should show error message if add to user cart fails: #{code}", ->
       setLoginContext()
       cartUtils.addToUserCart({ id: 1, quantity: 2 })
       expectedOptions =
