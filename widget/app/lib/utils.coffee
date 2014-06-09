@@ -172,7 +172,7 @@ _(utils).extend
     result = "unknown"
 
     if cardNumber and cardNumber.length > 14
-      Winbits = window.Winbits or {};
+      Winbits = window.Winbits or {}
       Winbits.visaRegExp = Winbits.visaRegExp or /^4[0-9]{12}(?:[0-9]{3})?$/
       Winbits.masterCardRegExp = Winbits.masterCardRegExp or /^5[1-5][0-9]{14}$/
       Winbits.amexRegExp = Winbits.amexRegExp or /^3[47][0-9]{13}$/

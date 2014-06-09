@@ -1,7 +1,10 @@
+'use strict'
+
 # Cart-specific utilities
 # ------------------------------
 
 utils = require 'lib/utils'
+i18n = require 'i18n/messages'
 EventBroker = Chaplin.EventBroker
 $ = Winbits.$
 env = Winbits.env
@@ -51,10 +54,12 @@ _(cartUtils).extend
     bits: cartItem.bits
 
   showCartErrorMessage: (xhr, textStatus)->
-    error = utils.safeParse(xhr.responseText)
-    messageText = "Error actualizando el registro #{textStatus}"
-    message = if error then error.meta.message else messageText
-    options = icon:'iconFont-info', value: "Aceptar", title:'Error'
+    error = xhr.errorJSON or utils.safeParse(xhr.responseText)
+    message = "Error actualizando el registro #{textStatus}"
+    message = error.meta.message if error
+    options =
+      icon:'iconFont-info'
+      title: i18n.get(error.meta.code).title or 'Error'
     utils.showMessageModal(message, options)
 
   doCartLoading: ->
