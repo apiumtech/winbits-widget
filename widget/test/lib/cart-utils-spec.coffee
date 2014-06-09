@@ -2,6 +2,7 @@ cartUtils = require 'lib/cart-utils'
 utils = require 'lib/utils'
 EventBroker = Chaplin.EventBroker
 $ = Winbits.$
+match = sinon.match
 
 describe 'CartUtilsSpec', ->
 
@@ -12,6 +13,7 @@ describe 'CartUtilsSpec', ->
   before ->
     sinon.stub(utils, 'getApiToken').returns(undefined)
     sinon.stub(utils, 'isLoggedIn').returns(no)
+    sinon.stub(utils, 'showMessageModal')
 
   after ->
     utils.getApiToken.restore()
@@ -86,12 +88,24 @@ describe 'CartUtilsSpec', ->
 
     EventBroker.unsubscribeEvent('cart-changed', stub)
 
-  it 'should show message if adding an invalid item to cart'
+  _.each ['ORDE001', 'ORDE002', 'ORDE003'], (code) ->
+    it "should show message if adding an invalid item to virtual cart: #{code}", ->
+      title = 'No se encuentra el producto'
+      cartUtils.addToUserCart({ id: 1, quantity: 2 })
 
+      respondError.call(@, 'ORDE001')
+      expect(utils.showMessageModal)
+        .to.has.been.calledWithMatch(match.any, match.hasOwn('title', title))
 
   respondSuccess = () ->
     request = @requests[0]
-    request.respond(200, { "Content-Type": "application/json" }, ADD_TO_CART_SUCCESS_RESPONSE)
+    request.respond(200, { 'Content-Type': 'application/json' },
+      ADD_TO_CART_SUCCESS_RESPONSE)
+
+  respondError = (code) ->
+    request = @requests[0]
+    request.respond(400, { 'Content-Type': 'application/json' },
+      '{"meta":{"code":"' + code +'"},"response":{}}')
 
   setLoginContext = () ->
     utils.getApiToken.returns('XXX')
