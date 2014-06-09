@@ -5,16 +5,16 @@ $ = Winbits.$
 
 module.exports = class TransferCartErrors extends Model
 
-  initialize: ->
+  initialize: (response)->
     super
+    @parse(response)
 
-  requestLogin:(formData, options) ->
-    defaults =
-      type: "POST"
-      contentType: "application/json"
-      dataType: "json"
-      data: JSON.stringify(formData)
-      headers:
-        "Accept-Language": "es"
-    utils.ajaxRequest(env.get('api-url') + "/users/login.json",
-                      $.extend(defaults, options))
+  parse:(response) ->
+
+    cartDetails = []
+    cartDetails.push( cartDetail) for cartDetail in response.cartDetails when not $.isEmptyObject(cartDetail.warnings)
+    if (cartDetails)
+      @set 'cartDetails', cartDetails
+
+    if (response.failedCartDetails)
+      @set 'failedCartDetails', response.failedCartDetails
