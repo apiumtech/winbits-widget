@@ -4,6 +4,19 @@ cartUtils = require 'lib/cart-utils'
 utils = require 'lib/utils'
 EventBroker = Chaplin.EventBroker
 $ = Winbits.$
+addToCartErrors =
+  ORDE001: 'No se encuentra el producto'
+  ORDE002: 'No se encuentra el producto'
+  ORDE003: 'No se encuentra el producto'
+  ORDE004: 'Producto agotado'
+  ORDE005: 'Producto excedido'
+  ORDE006: 'Máximo de compra'
+  ORDE007: 'Mínimo de compra'
+  ORDE009: 'Máximo por sitio'
+  ORDE010: 'Máximo por cliente'
+  ORDE011: 'Máximo de compra'
+  ORDE037: 'Producto agotado'
+  ORDE038: 'Producto excedido'
 
 describe 'CartUtilsSpec', ->
 
@@ -90,21 +103,20 @@ describe 'CartUtilsSpec', ->
 
     EventBroker.unsubscribeEvent('cart-changed', stub)
 
-  _.each
-    ORDE001: 'No se encuentra el producto'
-    ORDE002: 'No se encuentra el producto'
-    ORDE003: 'No se encuentra el producto'
-    ORDE004: 'Producto agotado'
-    ORDE005: 'Producto excedido'
-    ORDE006: 'Máximo de compra'
-    ORDE007: 'Mínimo de compra'
-    ORDE009: 'Máximo por sitio'
-    ORDE010: 'Máximo por cliente'
-    ORDE011: 'Máximo de compra'
-    ORDE037: 'Producto agotado'
-    ORDE038: 'Producto excedido'
-  , (title, code) ->
+  _.each addToCartErrors, (title, code) ->
     it "should show error message if add to virtual cart fails: #{code}", sinon.test ->
+      cartUtils.addToVirtualCart({ id: 1, quantity: 2 })
+      expectedOptions =
+        icon: 'iconFont-info'
+        title: title
+
+      respondError.call(@, code)
+      expect(utils.showMessageModal)
+        .to.has.been.calledWithMatch(sinon.match.any, expectedOptions)
+
+  _.each addToCartErrors, (title, code) ->
+    it "should show error message if add to user cart fails: #{code}", sinon.test ->
+      setLoginContext()
       cartUtils.addToUserCart({ id: 1, quantity: 2 })
       expectedOptions =
         icon: 'iconFont-info'
