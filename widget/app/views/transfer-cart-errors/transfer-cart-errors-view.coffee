@@ -14,22 +14,12 @@ module.exports = class LoginView extends View
 
   initialize: ->
     super
-#    @delegate 'click', '#wbi-login-in-btn', @doLogin
-#    @delegate 'click', '#wbi-login-facebook-link', @doFacebookLogin
+    console.log ['model', @model]
 
   attach: ->
     super
     @showAsModal()
     @$('.productTable.scrollPanel').scrollpane({ parent: '.dataTable'});
-#    @$('.contentModal').customCheckbox();
-#    @$('form#wbi-login-form').validate
-#      rules:
-#        email:
-#          required: true
-#          email: true
-#        password:
-#          required: true
-#          minlength: 6
-#
+
   showAsModal: ->
     $('<a>').wbfancybox(href: '#' + @id, onClosed: (-> utils.redirectTo(controller: 'home', action: 'index', params: 'xxxxxx')), height:550).click()

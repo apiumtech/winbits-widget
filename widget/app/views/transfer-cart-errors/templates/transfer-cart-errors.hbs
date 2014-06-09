@@ -31,88 +31,57 @@
           <div class="productTable-content">
             <table>
               <tbody>
-              <tr>
-                <td class="preCheckout-delete"><a title="Eliminar" href="#" class="iconFont-close"></a>
-                </td>
-                <td>
-                  <div class="preCheckout-product"><img src="winbitsInclude/images/assets/jeans-tiny.jpg" alt="Denim looq Leggings" class="preCheckout-img">
-                    <p class="preCheckout-item">Denim looq Leggings</p>
-                    <p class="preCheckout-carac">Talla: 32</p>
-                    <p class="preCheckout-carac">Color: Negro</p><span title="My Looq" class="iconVertical-t vertical2"></span>
-                  </div>
-                </td>
-                <td class="preCheckout-c2">2</td>
-                <td class="preCheckout-c3">1</td>
-              </tr>
-              <tr>
-                <td class="preCheckout-delete"><a title="Eliminar" href="#" class="iconFont-close"></a>
-                </td>
-                <td>
-                  <div class="preCheckout-product"><img src="winbitsInclude/images/assets/jeans-tiny.jpg" alt="Denim looq Leggings" class="preCheckout-img">
-                    <p class="preCheckout-item">Denim looq Leggings</p>
-                    <p class="preCheckout-carac">Talla: 32</p>
-                    <p class="preCheckout-carac">Color: Negro</p><span title="My Looq" class="iconVertical-t vertical2"></span>
-                  </div>
-                </td>
-                <td class="preCheckout-c2">3</td>
-                <td class="preCheckout-c3">2</td>
-              </tr>
-              <tr>
-                <td class="preCheckout-delete">
-                </td>
-                <td>
-                  <div class="preCheckout-product"><img src="winbitsInclude/images/assets/jeans-tiny.jpg" alt="Denim looq Leggings" class="preCheckout-img">
-                    <p class="preCheckout-item">Denim looq Leggings</p>
-                    <p class="preCheckout-carac">Talla: 32</p>
-                    <p class="preCheckout-carac">Color: Negro</p><span title="My Looq" class="iconVertical-t vertical2"></span>
-                  </div>
-                </td>
-                <td colspan="2" class="preCheckout-c4">Producto no disponible</td>
-              </tr>
-              <tr>
-                <td class="preCheckout-delete">
-                </td>
-                <td>
-                  <div class="preCheckout-product"><img src="winbitsInclude/images/assets/jeans-tiny.jpg" alt="Denim looq Leggings" class="preCheckout-img">
-                    <p class="preCheckout-item">Denim looq Leggings</p>
-                    <p class="preCheckout-carac">Talla: 32</p>
-                    <p class="preCheckout-carac">Color: Negro</p><span title="My Looq" class="iconVertical-t vertical2"></span>
-                  </div>
-                </td>
-                <td colspan="2" class="preCheckout-c4"> <a href="#" class="btn btnCart">Agregar a Lista de Espera</a></td>
-              </tr>
-              <tr>
-                <td class="preCheckout-delete">
-                </td>
-                <td>
-                  <div class="preCheckout-product"><img src="winbitsInclude/images/assets/jeans-tiny.jpg" alt="Denim looq Leggings" class="preCheckout-img">
-                    <p class="preCheckout-item">Denim looq Leggings</p>
-                    <p class="preCheckout-carac">Talla: 32</p>
-                    <p class="preCheckout-carac">Color: Negro</p><span title="My Looq" class="iconVertical-t vertical2"></span>
-                  </div>
-                </td>
-                <td class="preCheckout-c2">6</td>
-                <td class="preCheckout-c3">5</td>
-              </tr>
-              <tr>
-                <td class="preCheckout-delete">
-                </td>
-                <td>
-                  <div class="preCheckout-product"><img src="winbitsInclude/images/assets/jeans-tiny.jpg" alt="Denim looq Leggings" class="preCheckout-img">
-                    <p class="preCheckout-item">Denim looq Leggings</p>
-                    <p class="preCheckout-carac">Talla: 32</p>
-                    <p class="preCheckout-carac">Color: Negro</p><span title="My Looq" class="iconVertical-t vertical2"></span>
-                  </div>
-                </td>
-                <td class="preCheckout-c2">7</td>
-                <td class="preCheckout-c3">6</td>
-              </tr>
+              {{#if cartDetails}}
+                {{#each cartDetails}}
+                  {{#with skuProfile}}
+                    <tr>
+                      <td class="preCheckout-delete"><a title="Eliminar" class="iconFont-close" data-id="{{id}}" ></a>
+                      </td>
+                      <td>
+                        <div class="preCheckout-product"><img src="{{item.thumbnail}}" alt="{{item.name}}" class="preCheckout-img">
+                          <p class="preCheckout-item">{{item.name}}</p>
+                          <p class="preCheckout-carac">{{mainAttribute.name}}: {{mainAttribute.label}}</p>
+                          {{#each attributes}}
+                            <p class="preCheckout-carac">{{name}}: {{label}}</p>
+
+                          {{/each}}
+                          <span title="{{vertical.name}}" class="iconVertical-t vertical{{vertical.id}}"></span>
+                        </div>
+                      </td>
+                  {{/with}}
+                    <td class="preCheckout-c2">{{warnings.0.quantityRequired}}</td>
+                    <td class="preCheckout-c3">{{quantity}}</td>
+                  </tr>
+                {{/each}}
+              {{/if}}
+              {{#if failedCartDetails}}
+                {{#each failedCartDetails}}
+                  {{#with skuProfile}}
+                    <tr>
+                      <td class="preCheckout-delete">
+                      </td>
+                      <td>
+                        <div class="preCheckout-product"><img src="{{item.thumbnail}}" alt="{{item.name}}" class="preCheckout-img">
+                          <p class="preCheckout-item">{{item.name}}</p>
+                          <p class="preCheckout-carac">{{mainAttribute.name}}: {{mainAttribute.label}}</p>
+                          {{#each attributes}}
+                            <p class="preCheckout-carac">{{name}}: {{label}}</p>
+                          {{/each}}
+                          <span title="{{vertical.name}}" class="iconVertical-t vertical{{vertical.id}}"></span>
+                        </div>
+                      </td>
+                  {{/with}}
+                    <td colspan="2" class="preCheckout-c4">Producto no disponible</td>
+                    {{!--<td colspan="2" class="preCheckout-c4"> <a href="#" class="btn btnCart">Agregar a Lista de Espera</a></td>--}}
+                  </tr>
+                {{/each}}
+              {{/if}}
               </tbody>
             </table>
           </div>
         </div>
       </div>
-      <div class="preCheckout-submit"><a href="#" class="btn">Vaciar carrito</a><a href="#" class="btn btnCart">Continuar</a></div>
+      <div class="preCheckout-submit">{{!--<a href="#" class="btn">Vaciar carrito</a>--}}<a href="#" class="btn btnCart">Continuar</a></div>
     </div>
   </div>
 </form>

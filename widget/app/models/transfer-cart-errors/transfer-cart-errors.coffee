@@ -7,14 +7,13 @@ module.exports = class TransferCartErrors extends Model
 
   initialize: (response)->
     super
-    @parse(response)
+    if (response)
+      @parse(response)
 
   parse:(response) ->
-
     cartDetails = []
     cartDetails.push( cartDetail) for cartDetail in response.cartDetails when not $.isEmptyObject(cartDetail.warnings)
     if (cartDetails)
       @set 'cartDetails', cartDetails
-
     if (response.failedCartDetails)
       @set 'failedCartDetails', response.failedCartDetails
