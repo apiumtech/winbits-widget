@@ -1,8 +1,9 @@
+'use strict'
+
 cartUtils = require 'lib/cart-utils'
 utils = require 'lib/utils'
 EventBroker = Chaplin.EventBroker
 $ = Winbits.$
-match = sinon.match
 
 describe 'CartUtilsSpec', ->
 
@@ -13,7 +14,6 @@ describe 'CartUtilsSpec', ->
   before ->
     sinon.stub(utils, 'getApiToken').returns(undefined)
     sinon.stub(utils, 'isLoggedIn').returns(no)
-    sinon.stub(utils, 'showMessageModal')
 
   after ->
     utils.getApiToken.restore()
@@ -23,9 +23,11 @@ describe 'CartUtilsSpec', ->
     localStorage.removeItem('wb-vcart')
     sinon.spy(utils, 'ajaxRequest')
     sinon.stub(utils, 'saveVirtualCart')
+    sinon.stub(utils, 'showMessageModal')
 
   afterEach ->
     utils.ajaxRequest.restore()
+    utils.showMessageModal.restore()
     utils.saveVirtualCart.restore?()
 
   it 'should request to add items to virtual cart', sinon.test ->
@@ -88,16 +90,31 @@ describe 'CartUtilsSpec', ->
 
     EventBroker.unsubscribeEvent('cart-changed', stub)
 
-  _.each ['ORDE001', 'ORDE002', 'ORDE003'], (code) ->
-    it "should show message if adding an invalid item to virtual cart: #{code}", ->
-      title = 'No se encuentra el producto'
+  _.each
+    ORDE001: 'No se encuentra el producto'
+    ORDE002: 'No se encuentra el producto'
+    ORDE003: 'No se encuentra el producto'
+    ORDE004: 'Producto agotado'
+    ORDE005: 'Producto excedido'
+    ORDE006: 'Máximo de compra'
+    ORDE007: 'Mínimo de compra'
+    ORDE009: 'Máximo por sitio'
+    ORDE010: 'Máximo por cliente'
+    ORDE011: 'Máximo de compra'
+    ORDE037: 'Producto agotado'
+    ORDE038: 'Producto excedido'
+  , (title, code) ->
+    it "should show error message if add to virtual cart fails: #{code}", sinon.test ->
       cartUtils.addToUserCart({ id: 1, quantity: 2 })
+      expectedOptions =
+        icon: 'iconFont-info'
+        title: title
 
-      respondError.call(@, 'ORDE001')
+      respondError.call(@, code)
       expect(utils.showMessageModal)
-        .to.has.been.calledWithMatch(match.any, match.hasOwn('title', title))
+        .to.has.been.calledWithMatch(sinon.match.any, expectedOptions)
 
-  respondSuccess = () ->
+  respondSuccess = ->
     request = @requests[0]
     request.respond(200, { 'Content-Type': 'application/json' },
       ADD_TO_CART_SUCCESS_RESPONSE)
@@ -105,8 +122,8 @@ describe 'CartUtilsSpec', ->
   respondError = (code) ->
     request = @requests[0]
     request.respond(400, { 'Content-Type': 'application/json' },
-      '{"meta":{"code":"' + code +'"},"response":{}}')
+      '{"meta":{"code":"'.concat(code).concat('"},"response":{}}'))
 
-  setLoginContext = () ->
+  setLoginContext = ->
     utils.getApiToken.returns('XXX')
     utils.isLoggedIn.returns(yes)
