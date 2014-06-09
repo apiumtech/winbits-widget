@@ -5,6 +5,7 @@ TransferCartErrors = require 'models/transfer-cart-errors/transfer-cart-errors'
 utils = require 'lib/utils'
 cartUtils = require 'lib/cart-utils'
 _ = Winbits._
+$ = Winbits.$
 
 module.exports = class TransferCartErrorsController extends LoggedInController
 
@@ -12,6 +13,9 @@ module.exports = class TransferCartErrorsController extends LoggedInController
     super
 
   index: (params)->
-    @model = new TransferCartErrors
-    @model.initialize(params)
-    @view = new TransferCartErrorsView model: @model
+    unless($.isEmptyObject(params))
+      @model = new TransferCartErrors
+      @model.initialize(params)
+      @view = new TransferCartErrorsView model: @model
+    else
+      utils.redirectToLoggedInHome()
