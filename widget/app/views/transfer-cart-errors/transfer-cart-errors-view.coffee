@@ -52,11 +52,12 @@ module.exports = class LoginView extends View
     e.preventDefault()
     @$('#wbi-layer-confirm').addClass('loader-hide')
     @$('#wbi-layer-load').removeClass('loader-hide')
-    $cartDetails = @model.get 'cartDetails'
-    cartDetails =[]
-    $itemId = @$('#wbi-id-to-delete').val()
-    cartDetails.push(cartDetail) for cartDetail in $cartDetails when cartDetail.skuProfile.id is not $itemId
-#    @render(@$('div.dataTable'))
-    @model.set 'cartDetails', cartDetails
-    @$("#item-id-#{$itemId}").remove()
-#    cartUtils.deleteToCart(id).done(@)
+    @itemId = @$('#wbi-id-to-delete').val()
+    cartUtils.deleteCartItem(@itemId, context : @).done(@deleteSuccess)
+
+  deleteSuccess:(data) ->
+    if ($.isEmptyObject(data.response.cartDetails) and mediator.data.get('virtual-checkout'))
+      mediator.data.set('virtual-checkout', no)
+    @$("#item-id-#{@itemId}").remove()
+    @$('#wbi-layer-load').addClass('loader-hide')
+    @$('#wbi-layer-div').addClass('loader-hide')
