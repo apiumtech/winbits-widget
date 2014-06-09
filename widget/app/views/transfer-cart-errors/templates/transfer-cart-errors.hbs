@@ -1,17 +1,18 @@
 <form id="bodyModal" accept-charset="utf-8" action="#" method="post">
   <div class="mainModal completaRegistro">
     <div class="contentModal preCheckout">
-      <div class="loaderDiv loader-hide">
-        <div class="loader-div">
+      <div class="loaderDiv loader-hide" id="wbi-layer-div">
+        <div class="loader-div loader-hide" id="wbi-layer-load">
           <div class="loader"></div>
           <div class="loader-txtLarge">Eliminando producto,<br>espere un momento por favor...</div>
         </div>
-        <div class="confirmationContent loader-hide">
-          <div class="confirmation-icon"><span class="iconFont-close"></span></div>
+        <div class="confirmationContent loader-hide" id="wbi-layer-confirm">
+          <div class="confirmation-icon"><span class="iconFont-cart"></span></div>
           <div class="confirmation-content">
             <p>¿Esta seguro que desea eliminar el producto?</p>
-            <div class="confirmation-submit"><a href="#" class="btn bnt-cancel">Cancelar</a>
-              <input type="submit" value="Aceptar" class="btn btnCart">
+            <input type="hidden" id="wbi-id-to-delete">
+            <div class="confirmation-submit"><a class="btn btn-cancel" id="wbi-cancel-delete-btn">Cancelar</a>
+              <input type="button" value="Aceptar" class="btn btnCart" id="wbi-confirm-delete-btn">
             </div>
           </div>
         </div>
@@ -34,8 +35,8 @@
               {{#if cartDetails}}
                 {{#each cartDetails}}
                   {{#with skuProfile}}
-                    <tr>
-                      <td class="preCheckout-delete"><a id="wbi-delete-cart-item" title="Eliminar" class="iconFont-close" data-id="{{id}}" ></a>
+                    <tr id="item-id-{{id}}">
+                      <td class="preCheckout-delete"><a title="Eliminar" class="iconFont-close wbc-delete-cart-item-btn" data-id="{{id}}" ></a>
                       </td>
                       <td>
                         <div class="preCheckout-product"><img src="{{item.thumbnail}}" alt="{{item.name}}" class="preCheckout-img">
