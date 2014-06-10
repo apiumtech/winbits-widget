@@ -13,7 +13,7 @@ describe 'CartBitsViewSpec', ->
     @loginData =
       id: 19
       apiToken: '6ue7zrBfNkxgNTvT4ReGpuh55yjNLRl6qEHiXMFyXFx6M3ymV21EaARwilDZK0zM'
-      bitsBalance: 0
+      bitsBalance: 100
     mediator.data.set 'login-data', @loginData
     @clock = sinon.useFakeTimers()
     @model = new Cart itemsTotal: 60
@@ -54,12 +54,14 @@ describe 'CartBitsViewSpec', ->
     expect(@view.$ '#wbi-cart-percentage-saved').to.existExact(1)
         .and.to.has.$text('43%')
 
-  it.skip 'should render cart percentage saved when bits slider slides', ->
+  it 'should render cart percentage saved when bits slider slides', ->
     testUtils.setExampleCartDataInto(@model)
 
-    @view.$('input#wbi-cart-bits-slider').trigger('slide')
+    @view.render()
+    $slider = @view.$('input#wbi-cart-bits-slider').parent()
+    $slider.slider('value', 50).trigger('slide', value: 50)
     expect(@view.$ '#wbi-cart-percentage-saved').to.existExact(1)
-        .and.to.has.$text('43%')
+        .and.to.has.$text('40%')
 
   it 'should render cart bits slider', ->
     @model.set(itemsTotal: 100, shippingTotal: 50, bitsTotal: 20)

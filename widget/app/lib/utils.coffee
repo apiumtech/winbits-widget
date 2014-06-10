@@ -1,3 +1,5 @@
+'use strict'
+
 # Application-specific utilities
 # ------------------------------
 ModalTemplates =
