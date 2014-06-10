@@ -17,6 +17,5 @@ module.exports = class TransferCartErrorsController extends LoggedInController
     unless($.isEmptyObject(params))
       @model = new TransferCartErrors params
       @view = new TransferCartErrorsView model: @model
-      console.log ['model', @model]
     else
       utils.redirectToLoggedInHome()
