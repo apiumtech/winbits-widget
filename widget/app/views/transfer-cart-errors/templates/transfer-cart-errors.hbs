@@ -50,7 +50,7 @@
                         </div>
                       </td>
                   {{/with}}
-                    <td class="preCheckout-c2">{{warnings.0.quantityRequired}}</td>
+                    <td class="preCheckout-c2">{{#if warnings}}{{warnings.0.quantityRequired}}{{else}}{{quantity}}{{/if}}</td>
                     <td class="preCheckout-c3">{{quantity}}</td>
                   </tr>
                 {{/each}}
