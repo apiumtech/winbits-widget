@@ -50,7 +50,19 @@ describe 'TransferCartErrorsViewSpec', ->
     @view.$('#item-id-1').find('.wbc-delete-cart-item-btn').click()
     @view.$('#wbi-confirm-delete-btn').click()
 
-    expect(deleteSuccess).to.be.called
+    expect(deleteSuccess).to.be.calledOnce
+
+  it 'Should do delete request in confirm layer and click in cancel', ->
+    sinon.stub(cartUtils, 'deleteCartItem').returns TestUtils.promises.resolved
+    deleteSuccess = sinon.stub @view, 'deleteSuccess'
+
+    @view.$('#item-id-1').find('.wbc-delete-cart-item-btn').click()
+    @view.$('#wbi-cancel-delete-btn').click()
+
+    expect(deleteSuccess).to.be.not.called
+    expect(@view.$('#wbi-layer-div')).to.has.class('loader-hide')
+    expect(@view.$('#wbi-layer-confirm')).to.has.class('loader-hide')
+    expect(@view.$('#wbi-layer-load')).to.has.class('loader-hide')
 
   it 'Should call do delete request in confirm layer and response error', ->
 
@@ -62,4 +74,4 @@ describe 'TransferCartErrorsViewSpec', ->
     @view.$('#wbi-confirm-delete-btn').click()
 
     expect(deleteSuccess).to.not.be.called
-    expect(deleteError).to.be.called
+    expect(deleteError).to.be.calledOnce
