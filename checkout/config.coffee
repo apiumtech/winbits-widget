@@ -16,7 +16,8 @@ exports.config =
           'vendor/scripts/console-polyfill.js',
           'vendor/scripts/jquery-ui-1.10.3.custom.js',
           'vendor/scripts/lodash-1.2.0.js',
-          'vendor/scripts/backbone-1.0.0.js'
+          'vendor/scripts/backbone-1.0.0.js',
+          'vendor/scripts/jquery.browser.js'
         ]
         after: [
           'test/vendor/scripts/test-helper.js'
