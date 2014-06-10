@@ -4,6 +4,7 @@ TransferCartErrorView = require 'views/transfer-cart-errors/transfer-cart-errors
 TransferCartError = require 'models/transfer-cart-errors/transfer-cart-errors'
 cartUtils = require 'lib/cart-utils'
 utils = require 'lib/utils'
+mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 _ = Winbits._
 
@@ -21,6 +22,7 @@ describe 'TransferCartErrorsViewSpec', ->
     @view.deleteSuccess.restore?()
     cartUtils.deleteCartItem.restore?()
     utils.showMessageModal.restore?()
+    utils.closeMessageModal.restore?()
     @view.showAsModal.restore?()
     @view.dispose()
     @model.dispose()
@@ -52,7 +54,7 @@ describe 'TransferCartErrorsViewSpec', ->
 
     expect(deleteSuccess).to.be.calledOnce
 
-  it 'Should do delete request in confirm layer and click in cancel', ->
+  it 'Should dont delete request in confirm layer and click in cancel', ->
     sinon.stub(cartUtils, 'deleteCartItem').returns TestUtils.promises.resolved
     deleteSuccess = sinon.stub @view, 'deleteSuccess'
 
@@ -75,3 +77,18 @@ describe 'TransferCartErrorsViewSpec', ->
 
     expect(deleteSuccess).to.not.be.called
     expect(deleteError).to.be.calledOnce
+
+  it 'Click in continue button', ->
+    redirectTo = sinon.stub utils, 'closeMessageModal'
+    @view.$('#wbi-continue-transfer-btn').click()
+    expect(redirectTo).to.be.calledOnce
+
+
+  it 'Click in continue button and go to checkout', ->
+    redirectTo = sinon.stub utils, 'closeMessageModal'
+    publishEvent = sinon.stub @view, 'publishEvent'
+    mediator.data.set 'virtual-checkout', yes
+    @view.$('#wbi-continue-transfer-btn').click()
+
+    expect(redirectTo).to.not.be.called
+    expect(publishEvent).to.be.calledOnce
