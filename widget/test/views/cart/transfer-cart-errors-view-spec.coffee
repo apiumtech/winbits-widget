@@ -21,6 +21,7 @@ describe 'TransferCartErrorsViewSpec', ->
   afterEach ->
     @view.deleteSuccess.restore?()
     cartUtils.deleteCartItem.restore?()
+    cartUtils.showCartErrorMessage.restore?()
     utils.showMessageModal.restore?()
     utils.closeMessageModal.restore?()
     utils.redirectTo.restore?()

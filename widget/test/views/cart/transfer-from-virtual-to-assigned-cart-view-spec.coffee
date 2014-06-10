@@ -24,6 +24,7 @@ describe 'TransferFromVirtualToAssignedCartViewSpec', ->
     @server.restore()
     utils.getApiToken.restore()
     utils.isLoggedIn.restore?()
+    utils.showMessageModal.restore?()
     utils.getVirtualCart.restore?()
     utils.saveVirtualCartInStorage.restore?()
     utils.redirectTo.restore?()
