@@ -1,7 +1,22 @@
+'use strict'
+
 cartUtils = require 'lib/cart-utils'
 utils = require 'lib/utils'
 EventBroker = Chaplin.EventBroker
 $ = Winbits.$
+addToCartErrors =
+  ORDE001: 'No se encuentra el producto'
+  ORDE002: 'No se encuentra el producto'
+  ORDE003: 'No se encuentra el producto'
+  ORDE004: 'Producto agotado'
+  ORDE005: 'Producto excedido'
+  ORDE006: 'Máximo de compra'
+  ORDE007: 'Mínimo de compra'
+  ORDE009: 'Máximo por sitio'
+  ORDE010: 'Máximo por cliente'
+  ORDE011: 'Máximo de compra'
+  ORDE037: 'Producto agotado'
+  ORDE038: 'Producto excedido'
 
 describe 'CartUtilsSpec', ->
 
@@ -20,14 +35,16 @@ describe 'CartUtilsSpec', ->
   beforeEach ->
     localStorage.removeItem('wb-vcart')
     @xhr = sinon.useFakeXMLHttpRequest()
-    requests = @requests = []
-    @xhr.onCreate = (xhr) -> requests.push(xhr)
+    @requests = []
+    @xhr.onCreate = $.proxy(((xhr) -> @requests.push(xhr)), @)
     sinon.spy(utils, 'ajaxRequest')
     sinon.stub(utils, 'saveVirtualCart')
+    sinon.stub(utils, 'showMessageModal')
 
   afterEach ->
     @xhr.restore()
     utils.ajaxRequest.restore()
+    utils.showMessageModal.restore()
     utils.saveVirtualCart.restore?()
 
   it 'should request to add items to virtual cart', ->
@@ -90,10 +107,39 @@ describe 'CartUtilsSpec', ->
 
     EventBroker.unsubscribeEvent('cart-changed', stub)
 
-  respondSuccess = () ->
-    request = @requests[0]
-    request.respond(200, { "Content-Type": "application/json" }, ADD_TO_CART_SUCCESS_RESPONSE)
+  _.each addToCartErrors, (title, code) ->
+    it "should show error message if add to virtual cart fails: #{code}", ->
+      cartUtils.addToVirtualCart({ id: 1, quantity: 2 })
+      expectedOptions =
+        icon: 'iconFont-info'
+        title: title
 
-  setLoginContext = () ->
+      respondError.call(@, code)
+      expect(utils.showMessageModal)
+        .to.has.been.calledWithMatch(sinon.match.any, expectedOptions)
+
+  _.each addToCartErrors, (title, code) ->
+    it "should show error message if add to user cart fails: #{code}", ->
+      setLoginContext()
+      cartUtils.addToUserCart({ id: 1, quantity: 2 })
+      expectedOptions =
+        icon: 'iconFont-info'
+        title: title
+
+      respondError.call(@, code)
+      expect(utils.showMessageModal)
+        .to.has.been.calledWithMatch(sinon.match.any, expectedOptions)
+
+  respondSuccess = ->
+    request = @requests[0]
+    request.respond(200, { 'Content-Type': 'application/json' },
+      ADD_TO_CART_SUCCESS_RESPONSE)
+
+  respondError = (code) ->
+    request = @requests[0]
+    request.respond(400, { 'Content-Type': 'application/json' },
+      '{"meta":{"code":"'.concat(code).concat('"},"response":{}}'))
+
+  setLoginContext = ->
     utils.getApiToken.returns('XXX')
     utils.isLoggedIn.returns(yes)
