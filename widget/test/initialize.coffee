@@ -31,6 +31,7 @@ specs = [
   './models/cart-spec'
   './views/cart/virtual-cart-view-spec'
   './views/cart/transfer-from-virtual-to-assigned-cart-view-spec'
+  './views/cart/transfer-cart-errors-view-spec'
   './lib/cart-utils-spec'
   './winbits-spec'
   './lib/utils-spec'

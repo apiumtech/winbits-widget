@@ -50,6 +50,17 @@ label.error {
   color: #aaa !important;
 }
 
+.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs #wbi-mailing-form .mailingOverlay {
+  background: #ffffff;
+  height: 100%;
+  margin: 0 0 0 200px;
+  position: absolute;
+  top: 0;
+  width: 650px;
+  opacity: 0.8;
+  filter: alpha(opacity=80);
+}
+
 /* .placeholder { color: #aaa; height: 100% !important; }
 ::-webkit-input-placeholder { color: #aaa; }
 input:-moz-placeholder, textarea:-moz-placeholder { color: #aaa; } */
