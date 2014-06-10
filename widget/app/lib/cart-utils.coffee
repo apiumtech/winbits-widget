@@ -83,6 +83,25 @@ _(cartUtils).extend
     requestOptions.headers = $.extend({}, defaults.headers, options.headers)
     requestOptions
 
+  deleteCartItem: (cartItemId, options = {}) ->
+    options = @applyDeleteCartItemRequestDefaults(options)
+    utils.ajaxRequest(@getCartResourceUrl(cartItemId), options)
+    .done(@publishCartChangedEvent)
+    .fail(@showCartErrorMessage)
+
+  applyDeleteCartItemRequestDefaults: (options = {}) ->
+    defaults =
+      type: 'DELETE'
+      dataType: 'json'
+      context: @
+      headers:
+        'Wb-Api-Token': utils.getApiToken()
+
+    requestOptions = $.extend({}, defaults, options)
+    requestOptions.headers = $.extend({}, defaults.headers, options.headers)
+    requestOptions
+
+
 # Prevent creating new properties and stuff.
 Object.seal? cartUtils
 
