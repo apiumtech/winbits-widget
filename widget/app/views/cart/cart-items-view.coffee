@@ -1,4 +1,5 @@
 'use strict'
+
 View = require 'views/base/view'
 $ = Winbits.$
 utils = require 'lib/utils'

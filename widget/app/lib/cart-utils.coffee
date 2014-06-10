@@ -55,12 +55,15 @@ _(cartUtils).extend
 
   showCartErrorMessage: (xhr, textStatus)->
     error = xhr.errorJSON or utils.safeParse(xhr.responseText)
-    message = "Error actualizando el registro #{textStatus}"
-    message = error.meta.message if error?.meta?.message
-    options =
-      icon:'iconFont-info'
-      title: i18n.get(error.meta.code).title or 'Error'
-    utils.showMessageModal(message, options)
+    errorMessage = i18n.get(error.meta.code)
+    if errorMessage
+      message = "Error actualizando el registro #{textStatus}"
+      message = error.meta.message if error?.meta?.message
+      options =
+        icon:'iconFont-info'
+        title: i18n.get(error.meta.code).title or 'Error'
+      utils.showMessageModal(message, options)
+    else utils.showApiError.call(utils, arguments)
 
   doCartLoading: ->
     message = "Actualizando carrito ..."
