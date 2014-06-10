@@ -2,6 +2,7 @@
 
 TransferCartErrorView = require 'views/transfer-cart-errors/transfer-cart-errors-view'
 TransferCartError = require 'models/transfer-cart-errors/transfer-cart-errors'
+cartUtils = require 'lib/cart-utils'
 utils = require 'lib/utils'
 $ = Winbits.$
 _ = Winbits._
@@ -17,6 +18,9 @@ describe 'TransferCartErrorsViewSpec', ->
     @view.attach()
 
   afterEach ->
+    @view.deleteSuccess.restore?()
+    cartUtils.deleteCartItem.restore?()
+    utils.showMessageModal.restore?()
     @view.showAsModal.restore?()
     @view.dispose()
     @model.dispose()
@@ -33,11 +37,29 @@ describe 'TransferCartErrorsViewSpec', ->
     expect(@view.$('td.preCheckout-c4')).to.not.exist
 
   it 'Should to render confirm to delete item', ->
-    sinon.stub(@view, 'doDeleteItem')
-    console.log [@view.$('#item-id-1')]
     @view.$('#item-id-1').find('.wbc-delete-cart-item-btn').click()
 
     expect(@view.$('#wbi-layer-div')).to.has.not.class('loader-hide')
     expect(@view.$('#wbi-layer-confirm')).to.has.not.class('loader-hide')
     expect(@view.$('#wbi-layer-load')).to.has.class('loader-hide')
 
+  it 'Should do delete request in confirm layer and response success', ->
+    sinon.stub(cartUtils, 'deleteCartItem').returns TestUtils.promises.resolved
+    deleteSuccess = sinon.stub @view, 'deleteSuccess'
+
+    @view.$('#item-id-1').find('.wbc-delete-cart-item-btn').click()
+    @view.$('#wbi-confirm-delete-btn').click()
+
+    expect(deleteSuccess).to.be.called
+
+  it 'Should call do delete request in confirm layer and response error', ->
+
+    sinon.stub(utils, 'ajaxRequest').returns TestUtils.promises.rejected
+    deleteError = sinon.stub cartUtils, 'showCartErrorMessage'
+    deleteSuccess = sinon.stub @view, 'deleteSuccess'
+
+    @view.$('#item-id-1').find('.wbc-delete-cart-item-btn').click()
+    @view.$('#wbi-confirm-delete-btn').click()
+
+    expect(deleteSuccess).to.not.be.called
+    expect(deleteError).to.be.called

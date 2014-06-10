@@ -61,3 +61,4 @@ module.exports = class LoginView extends View
     @$("#item-id-#{@itemId}").remove()
     @$('#wbi-layer-load').addClass('loader-hide')
     @$('#wbi-layer-div').addClass('loader-hide')
+
