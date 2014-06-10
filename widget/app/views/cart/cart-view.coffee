@@ -67,6 +67,7 @@ module.exports = class CartView extends View
       @model.fetch(success: $.proxy(@successFetch, @))
 
   successTransferVirtualCart: (data) ->
+    @successFetch(data)
     utils.saveVirtualCartInStorage()
     if data.response.itemsCount is 0
       @showModalNoItemsToTransfer()
@@ -78,7 +79,7 @@ module.exports = class CartView extends View
           mediator.data.set 'virtual-checkout', no
       else
         utils.redirectTo(controller:'transfer-cart-errors', action:'index', params:data.response)
-    @successFetch(data)
+
 
   validateTransferErrors: (response)->
     console.log[response]
