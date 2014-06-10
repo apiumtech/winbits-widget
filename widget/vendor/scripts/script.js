@@ -776,7 +776,7 @@ jQuery.fn.mailingMenuCheckboxs = function(options){
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //      PLACEHOLDER: Simulación de placeholder para IE8 -
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
+/*
 jQuery.fn.placeholder = function(options){
   var defaults = $.extend({
         wrapper: 'placeholder-div',
@@ -811,7 +811,7 @@ jQuery.fn.placeholder = function(options){
       attachEvents(this);
     }
   });
-};
+};*/
 
 /* **********************************************
  Begin requiredField.js

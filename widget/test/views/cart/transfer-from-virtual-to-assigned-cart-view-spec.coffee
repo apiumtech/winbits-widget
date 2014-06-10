@@ -26,6 +26,7 @@ describe 'TransferFromVirtualToAssignedCartViewSpec', ->
     utils.isLoggedIn.restore?()
     utils.getVirtualCart.restore?()
     utils.saveVirtualCartInStorage.restore?()
+    utils.redirectTo.restore?()
     @model.fetch.restore?()
     @model.transferVirtualCart.restore?()
     @view.dispose()

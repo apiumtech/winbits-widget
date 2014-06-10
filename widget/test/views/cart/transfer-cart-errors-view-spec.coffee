@@ -23,6 +23,8 @@ describe 'TransferCartErrorsViewSpec', ->
     cartUtils.deleteCartItem.restore?()
     utils.showMessageModal.restore?()
     utils.closeMessageModal.restore?()
+    utils.redirectTo.restore?()
+    utils.ajaxRequest.restore?()
     @view.showAsModal.restore?()
     @view.dispose()
     @model.dispose()
