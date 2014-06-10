@@ -5,6 +5,8 @@
 # Date: 25/03/14
 #
 (->
+  $.fn.placeholder = $.fn.placeholderEnhanced
+
   $.fn.wbfancybox = (options) ->
     defaults =
       padding: 0

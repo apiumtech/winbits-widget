@@ -10,6 +10,7 @@ module.exports = class ChangePasswordView extends MyProfileView
   container: '#wb-profile'
   id : 'wbi-change-password'
   template: require './templates/change-password'
+  placeholders: no
 
   initialize: ->
     super
@@ -19,7 +20,8 @@ module.exports = class ChangePasswordView extends MyProfileView
   attach: ->
     super
     @$el.prop 'class', 'column miCuenta-password'
-    @$('.requiredField').requiredField()
+    @$('.requiredField[name]').requiredField()
+    @applyPlaceholders()
     @$('#wbi-change-password-form').validate
       errorElement: 'span',
       rules:
