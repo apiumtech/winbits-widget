@@ -54,7 +54,7 @@ module.exports = class AddressManagerView extends View
       @model.requestDeleteShippingAddress(itemId, context:@)
         .done(@doSuccessDeleteShippingAddress)
         .fail(@doErrorDeleteShippingAddress)
-        .complete(@doCompleteDeleteShippingAddress)
+        .always(@doCompleteDeleteShippingAddress)
 
   doErrorDeleteShippingAddress:(xhr, textStatus) ->
     headers:{ 'Accept-Language': 'es', 'WB-Api-Token': Winbits.env.get('api-url')}
