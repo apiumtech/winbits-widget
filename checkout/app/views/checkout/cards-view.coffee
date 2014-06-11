@@ -160,7 +160,6 @@ module.exports = class CardsView extends View
     newCardData.cardPrincipal = newCardData.hasOwnProperty('cardPrincipal')
     $submitTriggers = $form.find('.wb-submit-trigger')
     if $form.valid()
-      console.log 'valid new card form'
       $submitTriggers.prop('disabled', true)
       util.showAjaxIndicator()
       that = @
@@ -207,6 +206,7 @@ module.exports = class CardsView extends View
         $form.valid()
       success: (data) ->
         console.log ["Update card success!", data]
+        that.showCardsList()
         that.publishEvent 'showCardsManager'
       error: (xhr) ->
         util.showAjaxError(xhr.responseText)

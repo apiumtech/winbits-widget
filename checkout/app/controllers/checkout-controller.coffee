@@ -55,7 +55,6 @@ module.exports = class CheckoutController extends ChaplinController
     cybersourceSupported = @isPaymentMethodSupported @order_data.paymentMethods, 'cybersource.token'
 #    if amexSupported or cybersourceSupported
     @cards = new Cards
-
     @payments.set methods:@order_data.paymentMethods
 
     # @orderDetailView.render()
