@@ -5,6 +5,7 @@ Model = require 'models/base/model'
 utils = require 'lib/utils'
 cartUtils = require 'lib/cart-utils'
 $ = Winbits.$
+_ = Winbits._
 env = Winbits.env
 
 module.exports = class Cart extends Model
@@ -125,7 +126,10 @@ module.exports = class Cart extends Model
     # checkoutURL = env.get('checkout-url')
     # redirectURL = "#{checkoutURL}?orderId=#{id}"
     # window.location.assign(redirectURL)
-    @postToCheckoutApp(data.response)
+    if(@validateTransferErrors(data.response))
+      @postToCheckoutApp(data.response)
+    else
+      utils.redirectTo controller:'pre-checkout', action:'index', params: data.response
 
   postToCheckoutApp: (order) ->
     checkoutURL = env.get('checkout-url')
@@ -154,3 +158,11 @@ module.exports = class Cart extends Model
   requestCheckoutFails: (xhr) ->
     data = JSON.parse(xhr.responseText)
     utils.showMessageModal(data.meta.message)
+
+
+  validateTransferErrors: (response)->
+    console.log[response]
+    warnings = _.map(response.cartDetails, (cartDetail) -> cartDetail.warnings)
+    warnings = _.flatten(warnings)
+    isValid =  if (response.failedCartDetails or !$.isEmptyObject(warnings) ) then no else yes
+    isValid

@@ -74,7 +74,7 @@ module.exports = class CartView extends View
       @showModalNoItemsToTransfer()
       mediator.data.set 'virtual-checkout', no
     else
-      if(@validateTransferErrors(data.response))
+      if(@model.validateTransferErrors(data.response))
         if(mediator.data.get 'virtual-checkout')
           @publishEvent 'checkout-requested'
           mediator.data.set 'virtual-checkout', no
@@ -82,12 +82,7 @@ module.exports = class CartView extends View
         utils.redirectTo(controller:'transfer-cart-errors', action:'index', params:data.response)
 
 
-  validateTransferErrors: (response)->
-    console.log[response]
-    warnings = _.map(response.cartDetails, (cartDetail) -> cartDetail.warnings)
-    warnings = _.flatten(warnings)
-    isValid =  if (response.failedCartDetails or !$.isEmptyObject(warnings) ) then no else yes
-    isValid
+
 
   showModalNoItemsToTransfer: ->
     options =
