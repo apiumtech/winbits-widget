@@ -44,5 +44,4 @@ module.exports = class MyAccountView extends View
 
   swapTabs: (e) ->
     $link = $(e.currentTarget)
-    console.log ['Swapping tabs', $link.attr('href')]
     window.location.hash = $link.attr('href')
