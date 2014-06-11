@@ -10,6 +10,7 @@ module.exports = class ChangePasswordView extends MyProfileView
   container: '#wb-profile'
   id : 'wbi-change-password'
   template: require './templates/change-password'
+  placeholders: no
 
   initialize: ->
     super
@@ -20,6 +21,7 @@ module.exports = class ChangePasswordView extends MyProfileView
     super
     @$el.prop 'class', 'column miCuenta-password'
     @$('.requiredField[name]').requiredField()
+    @applyPlaceholders()
     @$('#wbi-change-password-form').validate
       errorElement: 'span',
       rules:
@@ -43,15 +45,11 @@ module.exports = class ChangePasswordView extends MyProfileView
       @model.requestChangePassword(data, context: @)
       .done(@doChangePasswordSuccess)
       .fail(@doChangePasswordError)
-      .always(->
-               @doChangePasswordAlways(submitButton)
-               utils.hideAjaxLoading())
+      .always( -> @doChangePasswordAlways(submitButton) )
 
   doChangePasswordAlways: (submitButton)->
+    utils.hideAjaxLoading()
     submitButton.prop('disabled', no)
-    @doResetPasswordView()
-
-
 
   doChangePasswordSuccess: (data) ->
     message = "Tu password fue actualizado correctamente."
@@ -59,9 +57,8 @@ module.exports = class ChangePasswordView extends MyProfileView
       value: "Continuar"
       title:'Cambio de password exitoso'
       icon:'iconFont-ok'
-      onClosed: -> utils.redirectTo controller:'my-account', action:'index'
     utils.showMessageModal(message, options)
-
+    @doResetPasswordView()
 
   doChangePasswordError: (xhr, textStatus)->
     error = utils.safeParse(xhr.responseText)
@@ -71,8 +68,7 @@ module.exports = class ChangePasswordView extends MyProfileView
       value: "Cerrar"
       title:'Error'
       icon: 'iconFont-no'
-      onClosed: -> utils.redirectTo controller:'my-account', action:'index'
     utils.showMessageModal(message, options)
 
   doResetPasswordView: ->
-    @$el.find('input[type=password]').val(null)
+    @render()

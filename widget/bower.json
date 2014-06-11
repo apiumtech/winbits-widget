@@ -9,7 +9,7 @@
     "jquery.browser": "~0.0.6",
     "jquery.jscrollpane": "~2.0.14",
     "jquery-mousewheel": "~3.1.9",
-    "jquery-placeholder": "~2.0.8",
+    "placeholder-enhanced": "*",
     "jquery-textchange": "~0.2.2",
     "jquery-validation": "~1.12.0",
     "json2": "*",
@@ -42,6 +42,9 @@
     },
     "yepnope":{
       "main":"yepnope.js"
+    },
+    "placeholder-enhanced":{
+      "main":["js/jquery.placeholder-enhanced.js","css/placeholder-enhanced.css"]
     }
   },
   "resolutions": {

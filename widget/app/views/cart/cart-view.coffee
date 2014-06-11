@@ -84,7 +84,7 @@ module.exports = class CartView extends View
 
   validateTransferErrors: (response)->
     console.log[response]
-    warnings = response.cartDetails.map (cartDetail) -> cartDetail.warnings
+    warnings = _.map(response.cartDetails, (cartDetail) -> cartDetail.warnings)
     warnings = _.flatten(warnings)
     isValid =  if (response.failedCartDetails or !$.isEmptyObject(warnings) ) then no else yes
     isValid
