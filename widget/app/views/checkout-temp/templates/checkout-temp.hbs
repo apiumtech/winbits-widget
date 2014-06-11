@@ -1,44 +1,36 @@
-<div class="wrapper historical">
-  <div>
-    <h2>Historial de Compras</h2>
-    <div class="accordeonContent">
-{{#unless orders}}
-      <div class="addInfo"><span class="iconFont-close"> No tienes compras.</span></div>
-{{else}}
-      <div class="accordeonSelectDiv">
-        <select class="select" data-clase="selectRegister">
-          <option>Estatus</option>
-          <option>Item 1</option>
-          <option>Item 2</option>
-          <option>Item 3</option>
-          <option>Item 4</option>
-        </select>
-        <select class="select" data-clase="selectRegister">
-          <option>Ordenar por...</option>
-          <option>Item 1</option>
-          <option>Item 2</option>
-          <option>Item 3</option>
-          <option>Item 4</option>
-        </select>
-      </div>
-      <div class="dataTable">
-        <div class="dataTable-header">
-          <span class="dataTable-desc">DESCRIPCIÓN</span>
-          <span class="dataTable-photo">FOTO</span>
-          <span class="dataTable-prod">DESCRIPCIÓN DEL PRODUCTO</span>
-          <span class="dataTable-cant">CANT.</span>
-          <span class="dataTable-status">ESTATUS</span>
-          <span class="dataTable-num"># DE RASTREO</span>
-          <span class="dataTable-site">SITIO</span>
-        </div>
-        <div id="wbi-shipping-order-history-table-div">
-
-        </div>
-        <div class="dataTable-pager" id="wbi-shipping-order-history-paginator">
-        </div>
-      </div>
-{{/unless}}
+<div class="wrapper titleTable">
+  <div class="dataTable">
+    <table>
+      <thead>
+      <tr>
+        <th class="column1">Foto</th>
+        <th class="column2">Descripción de Producto</th>
+        <th class="column3">Comprado en</th>
+        <th class="column4">Precio</th>
+        <th class="columnCant">Cantidad solicitada</th>
+        <th class="columnCant">Disponible para entregar</th>
+        <th class="column6">Subtotal</th>
+      </tr>
+      </thead>
+    </table>
+  </div>
+</div>
+<div class="resumeCheckoutTable">
+  <div class="wrapper">
+    <div class="dataTable" id="wbi-checkout-temp-table-div">
     </div>
   </div>
-  <input id="wbi-shipping-order-history-btn-back" type="submit" value="Back to site" class="btn btnBackToSite">
+</div>
+<div class="wrapper">
+  <div class="totalCheckOutTemp"><span class="totalCheckOutTemp-leyend">Recuerda que puede usar tus winbits como dinero en compras. Solo mueve la moneda para aumentar la cantidad de bits que utilizas.</span>
+    <div class="totalCheckOutTemp-total">
+      <div class="totalCheckOutTemp-timer"><span class="timeCheckout"><em class="iconFont-clock2"></em>29:30</span></div>
+      <div class="totalCheckOutTemp-subTotal"><span>SUBTOTAL</span><span>$<em class="slideInput-price">3000</em></span><span>ENVIO</span><span>$<em class="slideInput-shipping">30</em></span><span>GANA</span><span><em class="iconBit bit10px"><em class="iconBG"></em><em class="iconFont-bit"></em></em> 300</span></div>
+      <div class="totalCheckOutTemp-subTotal"><span>BITS UTILIZADOS</span><span><em class="iconBit bit10px"><em class="iconBG"></em><em class="iconFont-bit"></em></em> 300</span><span class="legendCarrito">Usa tus bits como dinero en esta compra <a href="#">learn more</a></span></div>
+      <div class="totalCheckOutTemp-totalTotal"><span class="checkoutTitle">TOTAL</span><span class="checkoutDetail">$<span class="slideInput-totalPrice">3000</span><span class="note">Ahorro de $<span class="slideInput-save">1200</span></span></span></div>
+      <div class="totalCheckOutTemp-checkout"><a href="#" class="linkBack"><span class="iconFont-arrowLeft"></span>Regresar</a>
+        <input type="submit" value="CHECK OUT" class="btn">
+      </div>
+    </div>
+  </div>
 </div>

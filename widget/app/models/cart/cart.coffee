@@ -129,7 +129,7 @@ module.exports = class Cart extends Model
     if(@validateTransferErrors(data.response))
       @postToCheckoutApp(data.response)
     else
-      utils.redirectTo controller:'pre-checkout', action:'index', params: data.response
+      utils.redirectTo controller:'checkout-temp', action:'index', params: data.response
 
   postToCheckoutApp: (order) ->
     checkoutURL = env.get('checkout-url')
