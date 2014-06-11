@@ -168,6 +168,10 @@ module.exports = class PaymentView extends View
 
   linkBack: (e) ->
     e.preventDefault()
+    @$el.find("#wbi-credit-card-payment-form").validate().resetForm()
+    @$el.find("#wbi-credit-card-payment-form-msi").validate().resetForm()
+    @$el.find("#wbi-amex-card-payment-form").validate().resetForm()
+    @$el.find("#method-amex_msi form").validate().resetForm()
     @$(".checkoutPaymentCreditcard").show()
     @$(".method-payment").hide()
     @$('#method-bits').hide()
