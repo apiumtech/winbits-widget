@@ -9,7 +9,7 @@ env = Winbits.env
 
 module.exports = class BitsHistoryView extends View
   container: env.get('vertical-container')
-  className: 'widgetWinbitsMain'
+  className: 'widgetWinbitsMain wbc-vertical-content'
   template: require './templates/bits-history'
   params:
     max: 20
