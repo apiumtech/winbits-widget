@@ -20,6 +20,7 @@ module.exports = class CartView extends View
   initialize: ->
     super
     @subscribeEvent 'cart-changed', -> @onCartChanged.apply(@, arguments)
+    @subscribeEvent 'checkout-completed', @onCheckoutCompleted
     @restoreCart()
 
   render: ->
@@ -46,8 +47,17 @@ module.exports = class CartView extends View
     @model.setData(data)
     @render()
 
+  onCheckoutCompleted: ->
+    @model.clear()
+    @model.set itemsCount:0, {silent:yes}
+    @render()
+
   openCart: ->
     if @$('#wbi-cart-drop').is(':hidden')
+      @$('#wbi-cart-info').trigger('click')
+
+  closeCart: ->
+    if @$('#wbi-cart-drop').is(':visible')
       @$('#wbi-cart-info').trigger('click')
 
   successFetch: (data)->

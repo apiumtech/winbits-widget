@@ -127,6 +127,7 @@ module.exports = class Cart extends Model
     # checkoutURL = env.get('checkout-url')
     # redirectURL = "#{checkoutURL}?orderId=#{id}"
     # window.location.assign(redirectURL)
+    @publishEvent 'checkout-completed'
     if(@validateTransferErrors(data.response))
       @postToCheckoutApp(data.response)
     else
