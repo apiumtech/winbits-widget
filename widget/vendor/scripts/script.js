@@ -433,7 +433,7 @@ jQuery.fn.customSelect = function(options){
 			initSlider(obj);
 		},
 		asignaValues = function(obj){
-			if($(obj).data('moveprice')){
+			/*if($(obj).data('moveprice')){
 				priceItem = $('.'+$(obj).data('priceitem'));
 				price = parseInt($(obj).data('price'), 10);
 				priceItem.text(price);
@@ -455,7 +455,7 @@ jQuery.fn.customSelect = function(options){
 			}
 			if($(obj).data('save')){
 				$('.'+$(obj).data('saveitem')).text($(obj).data('save'));
-			}
+			}*/
 		},
 		initSlider = function(obj){
 			$(obj).parent().parent().find('.'+defaults.holder).slider({

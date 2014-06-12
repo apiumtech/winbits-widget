@@ -1,10 +1,10 @@
 'use strict'
 
 View = require 'views/base/view'
-CheckoutTempSubview = require 'views/checkout-temp/checkout-temp-table-subview'
 utils = require 'lib/utils'
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
+_ = Winbits._
 env = Winbits.env
 
 module.exports = class CheckoutTempView extends View
@@ -15,17 +15,19 @@ module.exports = class CheckoutTempView extends View
 
   initialize:()->
     super
+    @delegate 'click', '#wbi-return-site-btn', @backToVertical
+    @delegate 'click', '#wbi-post-checkout-btn', @doToCheckout
     $('main .wrapper').hide()
 
   attach: ->
     super
 
-
-  backToVertical:()->
+  backToVertical: ->
     $('main .wrapper').show()
     utils.redirectToLoggedInHome()
 
-  render: ()->
-    super
-    @subview 'checkout-temp-table', new CheckoutTempSubview model:@model
+  doToCheckout: ->
+    order = _.clone @model.attributes
+    @model.postToCheckoutApp(order)
+
 
