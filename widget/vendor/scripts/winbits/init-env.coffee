@@ -8,7 +8,7 @@
   widgetContainerKey = 'widget-container'
   Winbits.env[widgetContainerKey] = $winbitsScript.data(widgetContainerKey) or 'header'
   verticalContainerKey = 'vertical-container'
-  Winbits.env[verticalContainerKey] = $winbitsScript.data(verticalContainerKey) or 'main .wrapper'
+  Winbits.env[verticalContainerKey] = $winbitsScript.data(verticalContainerKey) or 'main'
   footerContainerKey = 'footer-container'
   Winbits.env[footerContainerKey] = $winbitsScript.data(footerContainerKey) or 'footer'
   Winbits.env['optimized'] = $winbitsScript.data('optimized') is 'yes'

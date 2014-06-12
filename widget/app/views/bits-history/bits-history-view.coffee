@@ -8,7 +8,7 @@ $ = Winbits.$
 env = Winbits.env
 
 module.exports = class BitsHistoryView extends View
-  container: 'main'
+  container: env.get('vertical-container')
   className: 'widgetWinbitsMain'
   template: require './templates/bits-history'
   params:
@@ -19,7 +19,7 @@ module.exports = class BitsHistoryView extends View
     @model.fetch data: @params, context: @, success: @render
     @delegate 'click', '#wbi-your-bits-history-btn-back', @backToVertical
     $('#wbi-my-account-div').slideUp()
-    utils.replaceVerticalContainer('.widgetWinbitsMain')
+    utils.replaceVerticalContent('.widgetWinbitsMain')
     @subscribeEvent 'bits-history-params-changed', @paramsChanged
 
   attach: ->
@@ -39,7 +39,7 @@ module.exports = class BitsHistoryView extends View
     @model.fetch {data:@params}
 
   backToVertical:()->
-    utils.restoreVerticalContainer('.widgetWinbitsMain')
+    utils.restoreVerticalContent('.widgetWinbitsMain')
     utils.redirectToLoggedInHome()
 
   render: ()->

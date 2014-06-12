@@ -28,15 +28,16 @@ _(utils).extend
   redirectToNotLoggedInHome: ->
     @redirectTo 'not-logged-in#index'
 
-  replaceVerticalContainer:(container = {})->
+  replaceVerticalContent:(container = {})->
+    $container = $(container)
     verticalContainer = env.get('vertical-container')
-    $(verticalContainer).hide()
-    $(container).show()
+    $(verticalContainer).children().not($container).hide()
+    $container.show()
 
-  restoreVerticalContainer:(container = {})->
-    verticalContainer = env.get('vertical-container')
-    $(container).hide()
-    $(verticalContainer).show()
+  restoreVerticalContent:()->
+    $verticalContainer = $(env.get('vertical-container'))
+    $verticalContainer.children('.wbc-vertical-content').hide()
+    $verticalContainer.children().not('.wbc-vertical-content').show()
 
   getUrlParams : ->
     vars = []
