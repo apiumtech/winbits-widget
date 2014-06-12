@@ -434,27 +434,11 @@ jQuery.fn.customSelect = function(options){
 		},
 		asignaValues = function(obj){
 			if($(obj).data('moveprice')){
-				priceItem = $('.'+$(obj).data('priceitem'));
-				price = parseInt($(obj).data('price'), 10);
-				priceItem.text(price);
 				if($(obj).data('max') > price) {
 					datamax = price;
 				} else {
 					datamax = $(obj).data('max');
 				}
-			}
-			if($(obj).data('realprice')){
-				realpriceItem = $('.'+$(obj).data('realpriceitem'));
-				realprice = parseInt($(obj).data('realprice'),10);
-				realpriceItem.text(realprice);
-			}
-			if($(obj).data('percent') && $(obj).data('realprice')){
-				percentItem = $('.'+$(obj).data('percent'));
-				percent = 100 - parseInt((100 * price) / realprice, 10);
-				percentItem.text(percent);
-			}
-			if($(obj).data('save')){
-				$('.'+$(obj).data('saveitem')).text($(obj).data('save'));
 			}
 		},
 		initSlider = function(obj){

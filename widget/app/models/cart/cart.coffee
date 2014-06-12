@@ -37,7 +37,6 @@ module.exports = class Cart extends Model
     @sliderTotal() - @get('bitsTotal')
 
   sliderTotal: ->
-    console.log ['error', @get('itemsTotal') + @get('shippingTotal')]
     @get('itemsTotal') + @get('shippingTotal')
 
   itemsFullTotal: ->
