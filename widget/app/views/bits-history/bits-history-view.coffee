@@ -19,8 +19,7 @@ module.exports = class BitsHistoryView extends View
     @model.fetch data: @params, context: @, success: @render
     @delegate 'click', '#wbi-your-bits-history-btn-back', @backToVertical
     $('#wbi-my-account-div').slideUp()
-    $('main .wrapper').hide()
-    $('main .widgetWinbitsMain').show()
+    utils.replaceVerticalContainer('.widgetWinbitsMain')
     @subscribeEvent 'bits-history-params-changed', @paramsChanged
 
   attach: ->
@@ -40,7 +39,7 @@ module.exports = class BitsHistoryView extends View
     @model.fetch {data:@params}
 
   backToVertical:()->
-    $('main .wrapper').show()
+    utils.restoreVerticalContainer('.widgetWinbitsMain')
     utils.redirectToLoggedInHome()
 
   render: ()->
