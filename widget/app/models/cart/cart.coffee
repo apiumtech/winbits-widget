@@ -6,6 +6,7 @@ utils = require 'lib/utils'
 cartUtils = require 'lib/cart-utils'
 $ = Winbits.$
 _ = Winbits._
+mediator = Winbits.Chaplin.mediator
 env = Winbits.env
 
 module.exports = class Cart extends Model
@@ -130,6 +131,7 @@ module.exports = class Cart extends Model
       @postToCheckoutApp(data.response)
     else
       utils.closeMessageModal()
+      mediator.data.set('checkout-timestamp', _.now())
       utils.redirectTo controller:'checkout-temp', action:'index', params: data.response
 
   postToCheckoutApp: (order) ->
@@ -152,7 +154,8 @@ module.exports = class Cart extends Model
       .appendTo($chkForm)
     $('<input type="hidden" name="vertical_url"/>').val(currentVertical.baseUrl)
       .appendTo($chkForm)
-    $('<input type="hidden" name="timestamp"/>').val(new Date().getTime())
+    timestamp = mediator.data.get('checkout-timestamp') or _.now()
+    $('<input type="hidden" name="timestamp"/>').val(timestamp)
       .appendTo($chkForm)
     $chkForm.appendTo(document.body).submit()
 

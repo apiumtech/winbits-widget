@@ -21,6 +21,57 @@ module.exports = class CheckoutTempView extends View
 
   attach: ->
     super
+    @startCounter()
+
+  startCounter: ->
+    $timer = @$('#wb-checkout-timer')
+    nowTime = _.now()
+    timeUp = nowTime - (mediator.data.get('checkout-timestamp') or nowTime)
+    expireTime = 30 * 60 * 1000
+    if (timeUp <= expireTime)
+      timeLeft = expireTime - timeUp
+      minutesLeft = Math.floor(timeLeft / 1000 / 60)
+      minutesLeftMillis = minutesLeft * 1000 * 60
+      secondsLeft = Math.floor((timeLeft - minutesLeftMillis) / 1000)
+      $timer.data('minutes', minutesLeft)
+      $timer.data('seconds', secondsLeft)
+
+      $interval = setInterval () ->
+        that.updateCheckoutTimer($timer, $interval)
+      , 1000
+      @.timerInterval = $interval
+    else
+      util.showAjaxIndicator("La orden ha expirado")
+      @intervalStop
+      setTimeout () ->
+        window.location.href = Winbits.checkoutConfig.verticalUrl
+      , 4000
+
+    updateCheckoutTimer: ($timer, $interval) ->
+      minutes = $timer.data('minutes')
+      minutes = if minutes? then minutes else 30
+      seconds = $timer.data('seconds') || 0
+      seconds = seconds - 1
+
+      if minutes is 0 and seconds < 0
+        console.log('expire order')
+        Winbits.$('#wbi-expire-modal').modal('show')
+        @intervalStop
+      else
+
+        if seconds < 0
+          seconds = 59
+          minutes = minutes - 1
+        $timer.data('minutes', minutes)
+        $timer.data('seconds', seconds)
+        $timer.text @formatTime(minutes) + ':' + @formatTime(seconds)
+
+  formatTime: (time) ->
+    ('0' + time).slice(-2)
+
+  intervalStop: ()->
+    console.log 'Inteval Timer Stop !'
+    clearInterval(@.timerInterval)
 
   backToVertical: ->
     $('main .wrapper').show()
