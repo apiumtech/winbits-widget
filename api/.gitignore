@@ -1,2 +1,3 @@
 /vendor/scripts/init.coffee
 /public
+/.tmp
