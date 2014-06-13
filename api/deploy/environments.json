@@ -1,0 +1,45 @@
+{
+  "version": "0.0.1",
+  "environments": [
+    {
+      "name": "dev",
+      "desc": "dev environment",
+      "config": {
+        "facebookAppId": "486640894740634",
+        "debug": true
+      }
+    },
+    {
+      "name": "ci",
+      "desc": "ci environment",
+      "config": {
+        "facebookAppId": "486640894740634",
+        "debug": true
+      }
+    },
+    {
+      "name": "qa",
+      "desc": "qa environment",
+      "config": {
+        "facebookAppId": "494663817271863",
+        "debug": true
+      }
+    },
+    {
+      "name": "staging",
+      "desc": "staging environment",
+      "config": {
+        "facebookAppId": "1407560009467593",
+        "debug": false
+      }
+    },
+    {
+      "name": "prod",
+      "desc": "production environment",
+      "config": {
+        "facebookAppId": "468430606512928",
+        "debug": false
+      }
+    }
+  ]
+}

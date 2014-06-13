@@ -1,0 +1,15 @@
+{
+  "name": "example-app",
+  "version": "0.1.0",
+  "main": "public/javascripts/app.js",
+  "dependencies": {
+    "console-polyfill": "~0.1.0",
+    "jquery": "~1.11.1",
+    "json2": "*"
+  },
+  "overrides": {
+    "json2": {
+      "main": "json2.js"
+    }
+  }
+}

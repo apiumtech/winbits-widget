@@ -19,4 +19,13 @@
       env[name]=value
       return
   )(Winbits.env)
+
+  Winbits.log = console.log
+
+  console.log = ->
+    if Winbits.debug
+      args = arguments
+      args = (arg for arg in args)
+      args = if args.length > 0 then args.join() else args[0]
+      Winbits.log(args)
 )()

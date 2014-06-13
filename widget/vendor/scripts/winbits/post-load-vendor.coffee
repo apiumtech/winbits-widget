@@ -139,6 +139,7 @@
     console.log ['WIDGET TOTAL LOAD TIME (ms)', widgetLoadTime]
     Winbits.trigger 'initialized'
   .fail ->
+    console.log = Winbits.log
     window.Winbits = undefined
     alert('Unable to load Winbits Widget!')
 
