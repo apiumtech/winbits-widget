@@ -12,6 +12,7 @@ utils = Winbits.Chaplin.utils.beget Chaplin.utils
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 _ = Winbits._
+env = Winbits.env
 EventBroker = Winbits.Chaplin.EventBroker
 env = Winbits.env
 rpc = env.get('rpc')
@@ -26,6 +27,17 @@ _(utils).extend
 
   redirectToNotLoggedInHome: ->
     @redirectTo 'not-logged-in#index'
+
+  replaceVerticalContent:(container = {})->
+    $container = $(container)
+    verticalContainer = env.get('vertical-container')
+    $(verticalContainer).children().not($container).hide()
+    $container.show()
+
+  restoreVerticalContent:()->
+    $verticalContainer = $(env.get('vertical-container'))
+    $verticalContainer.children('.wbc-vertical-content').hide()
+    $verticalContainer.children().not('.wbc-vertical-content').show()
 
   getUrlParams : ->
     vars = []

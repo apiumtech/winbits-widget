@@ -8,8 +8,8 @@ $ = Winbits.$
 env = Winbits.env
 
 module.exports = class ShippingOrderHistoryView extends View
-  container: 'main'
-  className: 'widgetWinbitsMain'
+  container: env.get('vertical-container')
+  className: 'widgetWinbitsMain wbc-vertical-content'
   template: require './templates/shipping-order-history'
   params:
     max:10
@@ -20,7 +20,7 @@ module.exports = class ShippingOrderHistoryView extends View
     @model.fetch data:@params, success: $.proxy(@render, @)
     @delegate 'click', '#wbi-shipping-order-history-btn-back', @backToVertical
     $('#wbi-my-account-div').slideUp()
-    $('main .wrapper').hide()
+    utils.replaceVerticalContent('.widgetWinbitsMain')
     @subscribeEvent 'shipping-order-history-params-changed', @paramsChanged
 
   attach: ->
@@ -41,7 +41,7 @@ module.exports = class ShippingOrderHistoryView extends View
 
 
   backToVertical:()->
-    $('main .wrapper').show()
+    utils.restoreVerticalContent('.widgetWinbitsMain')
     utils.redirectToLoggedInHome()
 
   render: ()->

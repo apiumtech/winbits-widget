@@ -33,6 +33,7 @@ module.exports = class LoginView extends View
     $('<a>').wbfancybox(href: '#' + @id, onClosed: -> utils.redirectTo controller: 'home', action: 'index').click()
 
   doLogin:(e) ->
+    e.preventDefault()
     @$('.errorDiv').css('display':'none')
     $form = $(e.currentTarget).closest('form')
     if utils.validateForm($form)
