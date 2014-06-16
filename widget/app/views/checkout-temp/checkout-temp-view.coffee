@@ -25,7 +25,7 @@ module.exports = class CheckoutTempView extends View
 
   startCounter: ->
     $timer = @$('#wb-checkout-timer')
-    nowTime = new Date().getTime()
+    nowTime =_.now() #new Date().getTime()
     unless (mediator.data.get('checkout-timestamp') )
       mediator.data.set('checkout-timestamp', nowTime)
     timeUp = nowTime - (mediator.data.get 'checkout-timestamp')
