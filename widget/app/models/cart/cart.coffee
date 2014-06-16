@@ -5,6 +5,8 @@ Model = require 'models/base/model'
 utils = require 'lib/utils'
 cartUtils = require 'lib/cart-utils'
 $ = Winbits.$
+_ = Winbits._
+mediator = Winbits.Chaplin.mediator
 env = Winbits.env
 
 module.exports = class Cart extends Model
@@ -125,7 +127,13 @@ module.exports = class Cart extends Model
     # checkoutURL = env.get('checkout-url')
     # redirectURL = "#{checkoutURL}?orderId=#{id}"
     # window.location.assign(redirectURL)
-    @postToCheckoutApp(data.response)
+    @publishEvent 'checkout-completed'
+    if(@validateTransferErrors(data.response))
+      @postToCheckoutApp(data.response)
+    else
+      utils.closeMessageModal()
+      mediator.data.set('checkout-timestamp', new Date().getTime())
+      utils.redirectTo controller:'checkout-temp', action:'index', params: data.response
 
   postToCheckoutApp: (order) ->
     checkoutURL = env.get('checkout-url')
@@ -147,10 +155,19 @@ module.exports = class Cart extends Model
       .appendTo($chkForm)
     $('<input type="hidden" name="vertical_url"/>').val(currentVertical.baseUrl)
       .appendTo($chkForm)
-    $('<input type="hidden" name="timestamp"/>').val(new Date().getTime())
+    timestamp = mediator.data.get('checkout-timestamp') or new Date().getTime()
+    $('<input type="hidden" name="timestamp"/>').val(timestamp)
       .appendTo($chkForm)
     $chkForm.appendTo(document.body).submit()
 
   requestCheckoutFails: (xhr) ->
     data = JSON.parse(xhr.responseText)
     utils.showMessageModal(data.meta.message)
+
+
+  validateTransferErrors: (response)->
+    console.log[response]
+    warnings = _.map(response.cartDetails, (cartDetail) -> cartDetail.warnings)
+    warnings = _.flatten(warnings)
+    isValid =  if (response.failedCartDetails or !$.isEmptyObject(warnings) ) then no else yes
+    isValid
