@@ -34,8 +34,8 @@ module.exports = class ModalRegisterView extends View
     $('<a>').wbfancybox(href: '#wbi-register-modal', onClosed: -> utils.redirectTo controller: 'home', action: 'index').click()
 
   register: (e)->
-    @$('.errorDiv').css('display':'none')
     e.preventDefault()
+    @$('.errorDiv').css('display':'none')
     $form =  @$("#wbi-register-form")
     formData = verticalId: env.get('current-vertical-id')
     formData = utils.serializeForm($form, formData)
