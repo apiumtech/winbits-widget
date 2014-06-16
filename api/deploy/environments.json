@@ -6,7 +6,7 @@
       "desc": "dev environment",
       "config": {
         "facebookAppId": "486640894740634",
-        "debug": true
+        "debug": "yes"
       }
     },
     {
@@ -14,7 +14,7 @@
       "desc": "ci environment",
       "config": {
         "facebookAppId": "486640894740634",
-        "debug": true
+        "debug": "yes"
       }
     },
     {
@@ -22,7 +22,7 @@
       "desc": "qa environment",
       "config": {
         "facebookAppId": "494663817271863",
-        "debug": true
+        "debug": "yes"
       }
     },
     {
@@ -30,7 +30,7 @@
       "desc": "staging environment",
       "config": {
         "facebookAppId": "1407560009467593",
-        "debug": false
+        "debug": "no"
       }
     },
     {
@@ -38,7 +38,7 @@
       "desc": "production environment",
       "config": {
         "facebookAppId": "468430606512928",
-        "debug": false
+        "debug": "no"
       }
     }
   ]
