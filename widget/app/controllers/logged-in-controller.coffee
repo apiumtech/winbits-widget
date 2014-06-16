@@ -32,7 +32,7 @@ module.exports = class LoggedInController extends Controller
   # You may also persist models etc.
   beforeAction: ->
     super
-    $('main .wrapper').show()
+    utils. restoreVerticalContent()
     loginData = mediator.data.get 'login-data'
     if loginData
       @reuse 'logged-in', LoggedInView
