@@ -28,6 +28,9 @@
         "lodash": "*"
       }
     },
+    "lodash": {
+      "main": "dist/lodash.underscore.js"
+    },
     "json2":{
       "main":"json2.js"
     },

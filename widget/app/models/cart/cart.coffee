@@ -132,7 +132,7 @@ module.exports = class Cart extends Model
       @postToCheckoutApp(data.response)
     else
       utils.closeMessageModal()
-      mediator.data.set('checkout-timestamp', _.now())
+      mediator.data.set('checkout-timestamp', new Date().getTime())
       utils.redirectTo controller:'checkout-temp', action:'index', params: data.response
 
   postToCheckoutApp: (order) ->
@@ -155,7 +155,7 @@ module.exports = class Cart extends Model
       .appendTo($chkForm)
     $('<input type="hidden" name="vertical_url"/>').val(currentVertical.baseUrl)
       .appendTo($chkForm)
-    timestamp = mediator.data.get('checkout-timestamp') or _.now()
+    timestamp = mediator.data.get('checkout-timestamp') or new Date().getTime()
     $('<input type="hidden" name="timestamp"/>').val(timestamp)
       .appendTo($chkForm)
     $chkForm.appendTo(document.body).submit()
