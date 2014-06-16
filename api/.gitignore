@@ -1,0 +1,4 @@
+/vendor/scripts/init.coffee
+/public
+/.tmp
+/vendor/scripts/xtra

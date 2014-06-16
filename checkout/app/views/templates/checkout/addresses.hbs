@@ -1,0 +1,28 @@
+<div class="shippingAddresses chk-step" id="wbi-shipping-addresses-view">
+  <ul>
+      {{#each addresses}}
+      <li class="shippingItem wb-shipping-address {{#if main}}shippingSelected{{/if}}" id="shippingItem-{{id}}">
+      <div class="shippingMenu" data-id={{id}}>
+          <a href="#" class="wbc-edit-shipping-link" id="editAddress-{{id}}">edit</a>
+          <span class="icon closeButton wbc-delete-shipping-link" id="deleteAddress-{{id}}">cerrar</span>
+        </div>
+        <h3>DIRECCIÓN {{index}}</h3>
+        <address>
+          <span>{{getContactName}},</span>
+          <span>{{street}} {{externalNumber}}, {{getLocation}},</span>
+          <span>{{county}}, {{getZipCode}}</span>
+        </address>
+        <span class="note send direccionSend">Tu paquete será enviado a esta dirección</span>
+        <input type="radio" name="winbitsShippingRadio" class="shippingRadio" id="winbitsShippingRadio1">
+      </li>
+      {{/each}}
+    <li class="shippingAdd">
+      <h3>AGREGAR DIRECCIÓN +</h3>
+      <span id="aNewAddress">Da click para agregar</span>
+    </li>
+  </ul>
+  <div id="wbi-add-shipping-address-error" class="errorDiv" style="display: none"><p></p></div>
+  <input type="button"  id="btnContinuar" class="btn btnCheckout" value="Continuar">
+</div>
+<div id="wbi-shipping-new-address-container" class="shippingNewAddress"></div>
+<div id="wbi-edit-shipping-address-container" class="shippingNewAddress"></div>

@@ -1,0 +1,61 @@
+    <div class="widgetWinbitsHeader">
+      <div class="knowmoreFolder">
+        <div class="wrapper">
+          <div class="knowMoreMax">
+            <span class="icon winbits22px">Logo Winbits</span>
+            <div class="knowMoreMax-item">
+              <div class="knowMoreMax-icons">
+                {{#eachActiveVertical}}
+                  <a href="{{baseUrl}}" class="iconVertical-w vertical{{id}}" title="{{name}}"></a>
+                {{/eachActiveVertical}}
+              </div>
+              <h2>VARIOS SITIOS</h2>
+              <p>Nos hemos asociado con sitios especializados para ofrecerte los mejores productos a las mejores precios. </p>
+            </div>
+            <div class="knowMoreMax-item">
+              <div class="knowMoreMax-icons">
+                <span class="iconFont-cart"></span>
+              </div>
+              <h2>UNA SOLA CUENTA</h2>
+              <p>Para hacertelo todavía más fácil puedes utilizar tu cuenta winbits y sumar productos a un mismo carrito sin importar en que sitio estes.</p>
+            </div>
+            <div class="knowMoreMax-item">
+              <div class="knowMoreMax-icons">
+                <div class="iconBit bit45px">
+                  <span class="iconBG"></span>
+                  <span class="iconFont-bit"></span>
+                </div>
+                <span class="iconFont-equalMoney"></span>
+              </div>
+              <h2>EN TODOS GANAS WINBITS</h2>
+              <p>En todos ganas winbits que puedes usar como dinero en efectivo.</p>
+            </div>
+            <div class="knowMoreMax-buttons">
+              <a href="#"><span class="iconFont-video"></span>VE NUESTRO VIDEO</a>
+              <a href="#wb-register">REGISTRATE AHORA<span class="iconFont-candado"></span></a>
+            </div>
+            <span class="iconFont-upbanner openClose" data-showdiv=".knowMoreMin" data-hidediv=".knowMoreMax"></span>
+          </div>
+          <div class="knowMoreMin">
+            <p>Compra en nuestro sitio y gana! <a href="#">Conoce mas.</a>
+              <span class="iconFont-downbanner openClose" data-showdiv=".knowMoreMax" data-hidediv=".knowMoreMin"></span>
+            <div class="language">
+              <span><a href="#" class="icon winbits19px">Logo Winbits</a></span>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="mainHeader">
+            <div class="wrapper" id="wbi-header-wrapper">
+                <nav>
+                    <ul>
+                      {{#each activeVerticals}}
+                      <li><a href="{{baseUrl}}" class="iconVertical-n vertical{{id}} {{#compare id ../currentVerticalId}}current{{/compare}} wbc-vertical" title="{{name}}"></a></li>
+                      {{/each}}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div id="wbi-winbits-modals" class="wbc-hide">
+    </div>

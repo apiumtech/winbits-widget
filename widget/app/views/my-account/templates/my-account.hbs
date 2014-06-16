@@ -1,0 +1,38 @@
+<span class="icon triangle"></span>
+<div class="wrapper">
+  <div class="miCuenta-tabs">
+    <ul class="miCuenta-linktabs">
+      <li class="tabSelected"><a href="#wb-profile" id="wbi-my-profile-link">MI PERFIL</a></li>
+      <li><a href="#wb-shipping-addresses" id="wbi-shipping-addresses-link">DIRECCIÓN DE ENVIO</a></li>
+      <li><a href="#wb-credit-cards" id="wbi-credit-cards-link">TARJETAS DE CRÉDITO</a></li>
+      <li><a href="#wb-mailing" id="wbi-mailing-link">MAILING</a></li>
+      <li><a href="#wb-favorites" id="wbi-favorites-link">FAVORITOS</a></li>
+      <!--<li><a href="#wb-waiting-list" id="wbi-waiting-list-link">LISTA DE ESPERA</a></li>-->
+      <li><a href="#wb-account-history" id="wbi-account-history-link">HISTORIAL DE TU CUENTA</a></li>
+    </ul>
+    <div class="miCuenta-logout">
+      <input id="wbi-my-account-logout-btn" type="button" value="Log Out" class="btn">
+    </div>
+    <div class="wbc-my-account-container">
+        <div id="wb-profile" class="miCuenta-tab"></div>
+        <div id="wb-shipping-addresses" class="miCuenta-tab"></div>
+        <div id="wb-credit-cards" class="miCuenta-tab"></div>
+        <div id="wb-mailing" class="miCuenta-tab"></div>
+        <div id="wb-favorites" class="miCuenta-tab"></div>
+        <div id="wb-waiting-list" class="miCuenta-tab"></div>
+        <div id="wb-account-history" class="miCuenta-tab"></div>
+    </div>
+    <div class="miCuenta-close" id="wbi-my-account-close">
+      <p>Cerrar ventana<span class="icon closeButton"></span></p>
+    </div>
+  </div>
+
+  <div id="wbi-ajax-loading-layer" class="miCuenta-overlay overlay-hide">
+    <div class="overlay-container">
+      <div class="overlay-content">
+        <p class="wbc-loading-message">Procesando información</p>
+        <div class="loader"></div>
+      </div>
+    </div>
+  </div>
+</div>

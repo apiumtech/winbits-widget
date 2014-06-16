@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <noscript>
+      <meta http-equiv="Refresh" content="0;URL="include/disabledJavaScript.html">
+  </noscript> -->
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/vnd.microsoft.icon">
+  <link rel="icon" href="images/favicon.ico" type="image/vnd.microsoft.icon">
+
+  <link rel="author" href="humans.txt">
+  <title>Looq</title>
+  <script type="text/javascript" src="{{baseUrl}}/winbits.js" data-optimized="yes"></script>
+  <script type="text/javascript">
+  Winbits.on('initialized', function() {
+    console.log('WINBITS WIDGET INITIALIZED');
+    Winbits.$(function() {
+      Winbits.$('#wbt-add-to-cart').click(function() {
+        var $container = Winbits.$(this).parent();
+        var id = $container.find('#wbt-id').val();
+        id = Winbits.$.isNumeric(id) ? parseInt(id) : 1;
+        var quantity = $container.find('#wbt-quantity').val();
+        quantity = Winbits.$.isNumeric(quantity) ? parseInt(quantity) : 2;
+        var data = { id: id, quantity: quantity };
+        console.log(['Calling addToCart with -> ', data])
+        Winbits.addToCart(data);
+      });
+    });
+  });
+  </script>
+</head>
+<body>
+<header></header>
+<main>
+  <div class="wrapper">
+    <div style="text-align:center;">
+      <label for="wbt-id">ID (1):</label>
+      <input id="wbt-id" name="id" type="text" value="1">
+      <label for="wbt-quantity">Cantidad (2):</label>
+      <input id="wbt-quantity" name="quantity" type="text" value="2">
+      <button id="wbt-add-to-cart">Agregar a Carrito</button>
+    </div>
+    <img src="images/looq_home_980.jpg" alt="">
+  </div>
+</main>
+<footer></footer>
+</body>
+</html>

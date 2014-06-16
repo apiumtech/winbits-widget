@@ -1,0 +1,159 @@
+<!doctype html>
+
+<html xmlns:fb="http://ogp.me/ns/fb#">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=980" />
+  <title>Winbits</title>
+  <!--[if lte IE 9]>
+  <script src="js/console-polyfill-0.1.1.js"></script>
+  <![endif]-->
+  {{#if remoteDebug}}
+  <script src="js/easyXDM.debug-2.4.19.3.js"></script>
+  {{else}}
+  <script src="js/easyXDM-2.4.19.3.js"></script>
+  {{/if}}
+  <script src="js/json2.js"></script>
+  <script src="js/jquery.js"></script>
+
+  <script type="text/javascript">
+    (function(){
+      var Winbits = { apiTokenKey: '_wb_api_token', cartTokenKey: '_wb_cart_token' };
+
+      Winbits.storeKey = function (key, value) {
+        return localStorage[key] = value;
+      };
+
+      Winbits.retrieveKey = function (key) {
+        return localStorage[key];
+      };
+
+      Winbits.deleteKey = function (key) {
+        return localStorage.removeItem(key);
+      };
+
+      var rpc = new easyXDM.Rpc({}, {
+        local: {
+          request: function(url, options, success, error){
+            if (options && options.context) {
+              console.log('In RPC mode is not secure to use callbackas with context!');
+              delete options.context;
+            }
+            var config = { type: 'GET' };
+            $.extend(config, options);
+            console.log('Ajax Request -> ' + url);
+            $.ajax(url, config).done(function(data, textStatus, jqXHR) {
+              if ($.isFunction(success)) {
+                var response = {
+                  data: arguments[0],
+                  textStatus: arguments[1],
+                  jqXHR: arguments[2]
+                };
+                success(response);
+              }
+            }).fail(function() {
+              if ($.isFunction(error)) {
+                var response = {
+                  jqXHR: arguments[0],
+                  textStatus: arguments[1],
+                  errorThrown: arguments[2]
+                };
+                error(response);
+              }
+            });
+          },
+          getTokens: function() {
+            var tokens = {};
+            var apiToken = Winbits.retrieveKey(Winbits.apiTokenKey);
+            if (apiToken) {
+              tokens.apiToken = apiToken;
+            }
+            var vcartToken = Winbits.retrieveKey(Winbits.cartTokenKey);
+            if (!vcartToken) {
+              vcartToken = '[]';
+            }
+            Winbits.storeKey(Winbits.cartTokenKey, vcartToken);
+            tokens.vcartToken = vcartToken;
+            console.log(['W: The tokens >>>', tokens]);
+
+           return tokens;
+
+          },
+          saveApiToken: function(apiToken) {
+            console.log(['API Token from vertical', apiToken]);
+            Winbits.storeKey(Winbits.apiTokenKey, apiToken);
+          },
+          deleteApiToken: function() {
+            Winbits.deleteKey(Winbits.apiTokenKey);
+          },
+          storeVirtualCart: function(vCart) {
+            Winbits.storeKey(Winbits.cartTokenKey, vCart);
+          },
+          logout: function(facebookLogout) {
+            console.log('Winbits: Logging out...');
+            Winbits.deleteKey(Winbits.apiTokenKey);
+            Winbits.storeKey(Winbits.cartTokenKey, '[]');
+            console.log('Wee do not log out facebook anymore!');
+          },
+          facebookStatus: function(success) {
+            console.log('About to call FB.getLoginStatus.');
+            FB.getLoginStatus(function(response) {
+             console.log(['FB.getLoginStatus', response]);
+             success(response);
+            }, true);
+          },
+          facebookMe: function(success) {
+            console.log('Winbits: Requesting me profile...');
+            FB.api('/me', function(response){
+              console.log(['Facebook me response', response]);
+              success(response);
+            });
+          },
+          saveUtms: function(utmParams, successFn) {
+            console.log(["UTMS provider", utmParams])
+            Winbits.storeKey('_wb_utm_params', JSON.stringify(utmParams))
+          },
+          getUtms: function(successFn, errorFn) {
+            console.log(["get UTMS"])
+            return {
+                'utm_params': Winbits.retrieveKey('_wb_utm_params')
+            };
+          }
+        },
+        remote: {
+          request:{},
+          getTokens:{},
+          saveApiToken:{},
+          storeVirtualCart:{},
+          logout:{},
+          facebookStatus:{} ,
+          facebookMe:{},
+          saveUtms: {},
+          getUtms: {}
+        }
+      });
+    })();
+  </script>
+</head>
+<body>
+  <div id="fb-root"></div>
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '{{facebookClientId}}',
+        status     : false,
+        logging    : false
+      });
+    };
+
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "//connect.facebook.net/es_LA/all.js";
+       fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));
+  </script>
+</body>
+</html>

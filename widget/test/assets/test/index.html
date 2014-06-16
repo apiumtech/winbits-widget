@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mocha Tests</title>
+  <link rel="stylesheet" href="stylesheets/test.css" />
+  <script type="text/javascript">
+  window.wbSkipRPC = true;
+  window.wbTestEnv = true;
+  </script>
+  <script type="text/javascript" src="../winbits.js" data-vertical="1"></script>
+  <script type="text/javascript">
+  (function() {
+    'use strict';
+
+    Winbits.on('initialized', function() {
+      console.log('Widget Initialized');
+      window.jQuery = window.$ = Winbits.$;
+      window._ = Winbits._;
+      window.Backbone = Winbits.Backbone;
+
+      var loadSpecs = function() {
+        console.log('Loading specs...');
+        yepnope.injectJs('javascripts/test.js', function() {
+          require('test/initialize');
+          console.log('Running mocha');
+          (window.mochaPhantomJS || mocha).run();
+        });
+      };
+
+      var loadSpecsForIE = function() {
+        console.log('Loading sinon-ie prior to specs...');
+        yepnope.injectJs('js/sinon-ie-1.10.2.js', function() {
+          loadSpecs();
+        });
+      };
+
+      yepnope.injectJs('javascripts/test-vendor.js', function() {
+        if (Winbits.$.browser.msie) {
+          loadSpecsForIE();
+        } else {
+          loadSpecs();
+        }
+      });
+    });
+  })();
+  </script>
+</head>
+<body>
+  <div id="mocha"></div>
+</body>
+</html>
