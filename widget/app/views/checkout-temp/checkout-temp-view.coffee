@@ -8,8 +8,8 @@ _ = Winbits._
 env = Winbits.env
 
 module.exports = class CheckoutTempView extends View
-  container: 'main'
-  className: 'widgetWinbitsMain'
+  container: env.get 'vertical-container'
+  className: 'widgetWinbitsMain wbc-vertical-content'
   template: require './templates/checkout-temp'
 
 
@@ -76,6 +76,7 @@ module.exports = class CheckoutTempView extends View
     clearInterval(@.timerInterval)
 
   backToVertical: ->
+    utils.restoreVerticalContent('.widgetWinbitsMain')
     $('main .wrapper').show()
     utils.redirectToLoggedInHome()
 
