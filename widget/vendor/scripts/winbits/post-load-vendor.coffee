@@ -117,6 +117,8 @@
     links: {}
   moment().tz("America/Mexico_City").format()
 
+  _.now = _.now or Date.now or () -> new Date().getTime()
+
   $.wblocationselect.ajax = Winbits.ajaxRequest
   Winbits.$ = $.noConflict(yes)
   Winbits._ = _.noConflict()
