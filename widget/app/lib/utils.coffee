@@ -369,6 +369,8 @@ _(utils).extend
   saveLoginData: Winbits.saveLoginData
 
   formatCurrency: (value) ->
+    if value
+      value = value.toString().replace('.00', '')
     "$#{value}"
 
   formatPercentage: (value) ->
