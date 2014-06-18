@@ -87,7 +87,10 @@ _(cartUtils).extend
     options = @applyDeleteCartItemRequestDefaults(options)
     utils.ajaxRequest(@getCartResourceUrl(cartItemId), options)
     .done(@publishCartChangedEvent)
-    .fail(@showCartErrorMessage)
+    .fail(@deleteCartItemFail)
+
+  deleteCartItemFail: ->
+    console.log ['error en la api']
 
   applyDeleteCartItemRequestDefaults: (options = {}) ->
     defaults =
