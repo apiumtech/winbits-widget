@@ -1,0 +1,109 @@
+<div class="wrapper titleTable">
+  <div class="dataTable">
+    <table>
+      <thead>
+      <tr>
+        <th class="column1">Foto</th>
+        <th class="column2">Descripción de Producto</th>
+        <th class="column3">Comprado en</th>
+        <th class="column4">Precio</th>
+        <th class="columnCant">Cantidad solicitada</th>
+        <th class="columnCant">Disponible para entregar</th>
+        <th class="column6">Subtotal</th>
+      </tr>
+      </thead>
+    </table>
+  </div>
+</div>
+<div class="resumeCheckoutTable">
+  <div class="wrapper">
+    <div class="dataTable" id="wbi-checkout-temp-table-div">
+      <table>
+        <tbody>
+        {{#if orderDetails}}
+          {{#each orderDetails}}
+            {{#with sku}}
+              <tr>
+                <td class="column1 imgProductTD"><img src="{{thumbnail}}" width="61" height="78" alt="{{name}}"></td>
+                <td class="column2">{{name}}
+                  <br>{{brand.name}}
+                  <span>{{mainAttribute.name}}: {{mainAttribute.label}}</span>
+                  {{#each attributes}}
+                    <span>{{name}}: {{label}}</span>
+                  {{/each}}
+                </td>
+                <td class="column3"><span title="{{vertical.name}}" class="iconVertical-t vertical{{vertical.id}}"></span></td>
+                <td class="column4">{{formatCurrency price}}</td>
+            {{/with}}
+              <td class="columnCant">{{#if warnings}}{{warnings.0.quantityRequired}}{{else}}{{quantity}}{{/if}}</td>
+              <td class="columnCant">{{quantity}}</td>
+              <td class="column6">{{formatCurrency amount}}</td>
+            </tr>
+          {{/each}}
+        {{/if}}
+        {{#if failedCartDetails}}
+          {{#each failedCartDetails}}
+              <tr>
+                <td class="column1 imgProductTD"><img src="{{thumbnail}}" width="61" height="78" alt="{{name}}"></td>
+                <td class="column2">{{name}}
+                  <br>{{brand.name}}
+                  <span>{{mainAttribute.name}}: {{mainAttribute.label}}</span>
+                  {{#each attributes}}
+                    <span>{{name}}: {{label}}</span>
+                  {{/each}}
+                </td>
+                <td class="column3"><span title="{{vertical.name}}" class="iconVertical-t vertical{{vertical.id}}"></span></td>
+                <td colspan="4" class="columnUnavailable">
+                  <div>
+                    <p>Lo sentimos</p>
+                    <p>Este producto ya no esta disponible</p>
+                  </div>
+                </td>
+              </tr>
+          {{/each}}
+        {{/if}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="wrapper">
+  <div class="totalCheckOutTemp"><span class="totalCheckOutTemp-leyend">Recuerda que puede usar tus winbits como dinero en compras. Solo mueve la moneda para aumentar la cantidad de bits que utilizas.</span>
+    <div class="totalCheckOutTemp-total">
+      <div class="totalCheckOutTemp-timer"><span class="timeCheckout"><em class="iconFont-clock2"></em><span id="wb-checkout-timer"></span></span></div>
+      <div class="totalCheckOutTemp-subTotal">
+        <span>SUBTOTAL</span><span><em >{{formatCurrency total}}</em></span>
+        <span>ENVIO</span><span><em class="slideInput-shipping">{{formatCurrency shippingTotal}}</em></span>
+        <span>GANA</span>
+        <span>
+          <em class="iconBit bit10px">
+            <em class="iconBG"></em>
+            <em class="iconFont-bit"></em>
+          </em> {{cashback}}</span>
+      </div>
+      <div class="totalCheckOutTemp-subTotal">
+        <span>BITS UTILIZADOS</span>
+        <span>
+          <em class="iconBit bit10px">
+            <em class="iconBG"></em>
+            <em class="iconFont-bit"></em>
+          </em> {{bitsTotal}}
+        </span><span class="legendCarrito">Usa tus bits como dinero en esta compra <a href="#">learn more</a></span></div>
+      <div class="totalCheckOutTemp-totalTotal">
+        <span class="checkoutTitle">TOTAL</span>
+        <span class="checkoutDetail">
+          <span class="slideInput-totalPrice">{{formatCurrency orderTotal}}</span>
+          {{#compare orderSaving '0' operator = '>'}}
+            <span class="note">Ahorro de <span class="slideInput-save">{{formatCurrency orderSaving}}</span></span>
+          {{/compare}}
+        </span>
+      </div>
+      <div class="totalCheckOutTemp-checkout">
+        <a class="linkBack" id="wbi-return-site-btn" ><span class="iconFont-arrowLeft"></span>Regresar</a>
+        {{#if orderDetails}}
+          <input type="button" value="CHECK OUT" class="btn" id="wbi-post-checkout-btn">
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>

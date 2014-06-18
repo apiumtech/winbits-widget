@@ -8,6 +8,7 @@ CartPaymentMethodsView = require 'views/cart/cart-payment-methods-view'
 Cart = require 'models/cart/cart'
 utils = require 'lib/utils'
 $ = Winbits.$
+_ = Winbits._
 mediator = Winbits.Chaplin.mediator
 
 module.exports = class CartView extends View
@@ -19,6 +20,7 @@ module.exports = class CartView extends View
   initialize: ->
     super
     @subscribeEvent 'cart-changed', -> @onCartChanged.apply(@, arguments)
+    @subscribeEvent 'checkout-completed', @onCheckoutCompleted
     @restoreCart()
 
   render: ->
@@ -45,8 +47,17 @@ module.exports = class CartView extends View
     @model.setData(data)
     @render()
 
+  onCheckoutCompleted: ->
+    @model.clear()
+    @model.set itemsCount:0, {silent:yes}
+    @render()
+
   openCart: ->
     if @$('#wbi-cart-drop').is(':hidden')
+      @$('#wbi-cart-info').trigger('click')
+
+  closeCart: ->
+    if @$('#wbi-cart-drop').is(':visible')
       @$('#wbi-cart-info').trigger('click')
 
   successFetch: (data)->
@@ -67,14 +78,21 @@ module.exports = class CartView extends View
       @model.fetch(success: $.proxy(@successFetch, @))
 
   successTransferVirtualCart: (data) ->
+    @successFetch(data)
     utils.saveVirtualCartInStorage()
     if data.response.itemsCount is 0
       @showModalNoItemsToTransfer()
-    else
-      if(mediator.data.get 'virtual-checkout')
-        @publishEvent 'checkout-requested'
       mediator.data.set 'virtual-checkout', no
-    @successFetch(data)
+    else
+      if(@model.validateTransferErrors(data.response))
+        if(mediator.data.get 'virtual-checkout')
+          @publishEvent 'checkout-requested'
+          mediator.data.set 'virtual-checkout', no
+      else
+        utils.redirectTo(controller:'transfer-cart-errors', action:'index', params:data.response)
+
+
+
 
   showModalNoItemsToTransfer: ->
     options =

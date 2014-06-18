@@ -30,18 +30,60 @@ module.exports = class CompleteRegisterView extends View
         birthDate: ' wbi-birthdate-day wbi-birthdate-month wbi-birthdate-year'
       rules:
         name:
+          required: $.proxy(()->
+            require = no
+            if (@model.get 'name')
+              require = yes
+            require
+          , @)
           minlength:2
         lastName:
+          required: $.proxy(()->
+            require = no
+            if (@model.get 'lastName')
+              require = yes
+            require
+          , @)
           minlength: 2
         'wbi-birthdate-day':
+          required: $.proxy(()->
+            require = no
+            if (@model.get 'birthdate')
+              require = yes
+            require
+          , @)
           validateDate: yes
         'wbi-birthdate-month':
+          required: $.proxy(()->
+            require = no
+            if (@model.get 'birthdate')
+              require = yes
+            require
+          , @)
           validateDate: yes
         'wbi-birthdate-year':
+          required: $.proxy(()->
+            require = no
+            if (@model.get 'birthdate')
+              require = yes
+            require
+          , @)
           validateDate: yes
         phone:
+          required: $.proxy(()->
+            require = no
+            if (@model.get 'phone')
+              require = yes
+            require
+          , @)
           wbiPhone: yes
         zipcode:
+          required: $.proxy(()->
+            require = no
+            if (@model.get 'zipCode')
+              require = yes
+            require
+          , @)
           minlength: 5
           digits:yes
           zipCodeDoesNotExist:yes
@@ -55,6 +97,7 @@ module.exports = class CompleteRegisterView extends View
       $('<a>').wbfancybox(href: '#wbi-complete-register-modal', onClosed: -> utils.redirectTo controller:'home', action:'index').click()
 
   completeRegister: (e)->
+    e.preventDefault()
     $form = @$('#wbi-complete-register-form')
     data = utils.serializeProfileForm $form
     if($form.valid())

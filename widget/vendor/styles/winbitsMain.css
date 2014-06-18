@@ -1486,6 +1486,10 @@ input[type="submit"].btn.btn-mini {
 .miCuenta-tabs .dataTable table a:hover {
   color: #363636;
 }
+.widgetWinbitsMain .dataTable table tr:nth-child(odd) td,
+.miCuenta-tabs .dataTable table tr:nth-child(odd) td {
+  background: #fcfcfc;
+}
 .widgetWinbitsMain .dataTable table td,
 .miCuenta-tabs .dataTable table td,
 .widgetWinbitsMain .dataTable table th,
@@ -1811,7 +1815,25 @@ input[type="submit"].btn.btn-mini {
 }
 .widgetWinbitsMain .dataTable .column7,
 .miCuenta-tabs .dataTable .column7 {
+  vertical-align: middle;
   width: 50px;
+}
+.widgetWinbitsMain .dataTable .columnCant,
+.miCuenta-tabs .dataTable .columnCant {
+  width: 100px;
+}
+.widgetWinbitsMain .dataTable .columnUnavailable,
+.miCuenta-tabs .dataTable .columnUnavailable {
+  text-align: center;
+  vertical-align: middle;
+}
+.widgetWinbitsMain .dataTable .columnUnavailable div,
+.miCuenta-tabs .dataTable .columnUnavailable div {
+  background: #fc1717;
+  color: #ffffff;
+  text-align: left;
+  padding: 5px 20px;
+  width: 90%;
 }
 .widgetWinbitsMain .resumeCheckoutTable {
   background: #f7f7f7;
@@ -1848,6 +1870,9 @@ input[type="submit"].btn.btn-mini {
 }
 .widgetWinbitsMain .resumeCheckoutTable .column5 .stepper .minus {
   background-position: -60px -140px;
+}
+.widgetWinbitsMain .resumeCheckoutTable .columnCant {
+  text-align: center;
 }
 .widgetWinbitsMain .resumeCheckoutTable .column7 {
   text-align: center;
@@ -2685,9 +2710,9 @@ input[type="submit"].btn.btn-mini {
   height: 34px;
   width: 34px;
 }
-/*.bit12px, .shopCarMin, .changePasword, .creditCard,
+/*.bit12px, .shopCarMin, .changePasword, .creditCard, 
 .facebookCircle, .twitterCircle, .changeAdress {
-  .size(20px, 20px);
+	.size(20px, 20px);
 }*/
 .select-trigger,
 .trigger,
@@ -2865,8 +2890,26 @@ input[type="submit"].btn.btn-mini {
   background-position: -30px -140px;
 }
 /*. {
-  background-position: -px -px;
+	background-position: -px -px;
 }*/
+.placeholder-div {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  width: auto;
+  *display: inline;
+  /* IE7 inline-block hack */
+  zoom: 1;
+}
+.placeholder-div .placeholder-span {
+  color: #b3b3b3;
+  left: 6px;
+  position: absolute;
+  top: 10px;
+  font-family: 'OmnesRegular', Arial;
+  font-style: normal;
+  font-weight: normal;
+}
 .errorDiv {
   margin: 5px;
 }
@@ -3217,6 +3260,10 @@ span.errorInputOK {
 .select-div.selectQuantity .iconFont-downmenu {
   right: 3px;
 }
+.select-div.selectQuantity .placeholder-span {
+  left: 9px;
+  top: 3px;
+}
 .select-div.selectQuantity .select-ul {
   width: 25px !important;
 }
@@ -3291,7 +3338,7 @@ span.errorInputOK {
 .select-div .select-input {
   background: #ffffff;
   border: 1px solid #e6e6e6;
-  color: #cccccc;
+  color: #a6a6a6;
   padding: 3px 32px 3px 5px;
   font-family: 'HelveticaNeueRoman', Arial;
   font-style: normal;
@@ -3637,21 +3684,6 @@ span.errorInputOK {
   display: table-cell;
   vertical-align: middle;
 }
-.miCuenta-overlay .loader,
-.checkout-overlay .loader,
-.video-overlay .loader {
-  background: #000000 url("../../images/misc/fancybox_loading.gif");
-  border: 10px solid #000000;
-  margin: 10px auto;
-  -webkit-border-radius: 10px;
-  -khtml-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
-  border-radius: 10px;
-  height: 24px;
-  width: 24px;
-}
 .miCuenta-overlay .btn,
 .checkout-overlay .btn,
 .video-overlay .btn {
@@ -3692,6 +3724,60 @@ span.errorInputOK {
 .video-overlay .btn:hover {
   background: #ffffff !important;
   color: #000000 !important;
+}
+.loaderDiv {
+  background: url("../../images/misc/fancybox_overlay.png");
+  background: rgba(0, 0, 0, 0.8);
+  height: 100%;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+  -webkit-transition: 0.3s;
+  -khtml-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -ms-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+}
+.loaderDiv.loader-hide,
+.loaderDiv .loader-hide {
+  display: none;
+}
+.loaderDiv .loader-txtLarge {
+  margin: 10px -50px;
+}
+.loaderDiv .loader-div {
+  color: #ffffff;
+  text-align: center;
+  height: 100px;
+  left: 50%;
+  margin: -50px 0 0 -50px;
+  position: absolute;
+  top: 50%;
+  width: 100px;
+}
+.loaderDiv .confirmationContent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -70px 0 0 -220px;
+}
+.loaderDiv .confirmationContent .iconFont-close {
+  font-size: 50px !important;
+}
+.loader {
+  background: #000000 url("../../images/misc/fancybox_loading.gif");
+  border: 10px solid #000000;
+  margin: 10px auto;
+  -webkit-border-radius: 10px;
+  -khtml-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+  height: 24px;
+  width: 24px;
 }
 .video-overlay {
   visibility: hidden;
@@ -4016,11 +4102,11 @@ main {
   background: #f7f7f7;
   position: relative;
   /*.language {
-      margin: 5px 0 10px 0;
-      .selectContainer {
-        margin: 10px 0 0 10px;
-      }
-    }*/
+			margin: 5px 0 10px 0;
+			.selectContainer {
+				margin: 10px 0 0 10px;
+			}
+		}*/
 }
 .widgetWinbitsHeader .mainHeader .wrapper {
   padding-top: 10px;
@@ -4220,9 +4306,9 @@ main {
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs {
   position: relative;
   /*#wb-micuenta-profile, #wb-micuenta-address, #wb-micuenta-creditcard,
-        #wb-micuenta-mailing, #wb-micuenta-favorites, #wb-micuenta-wishlist {
-          display: none;
-        }*/
+				#wb-micuenta-mailing, #wb-micuenta-favorites, #wb-micuenta-wishlist {
+					display: none;
+				}*/
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .tabSelected a {
   text-decoration: underline !important;
@@ -4367,6 +4453,9 @@ main {
   font-size: 11px;
   margin: 2px 0;
   width: 160px;
+}
+.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .placeholder-span {
+  font-size: 11px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column a {
   color: #b3b3b3;
@@ -4521,7 +4610,7 @@ main {
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs #wb-micuenta-mailing .editBtn {
   left: 0;
 }
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs #wbi-mailing-form .mailingOverlay {
+.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs #wb-micuenta-mailing .mailingOverlay {
   background: #ffffff;
   height: 100%;
   margin: 0 0 0 200px;
@@ -4653,6 +4742,10 @@ main {
   width: 660px;
   overflow: inherit;
 }
+.widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .loaderDiv {
+  position: absolute;
+  width: 660px;
+}
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carContenido {
   background: #ffffff;
   -webkit-box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
@@ -4721,7 +4814,6 @@ main {
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivLeft .carritoContent .iconFont-downmenu {
   right: 2px;
-  top: 8px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivLeft .carritoContent .select-ul {
   position: fixed;
@@ -4963,7 +5055,7 @@ main {
   color: #000000;
   font-size: 21px;
 }
-.widgetWinbitsHeader .mainHeader .miCuenta .bits .bit16px {
+.widgetWinbitsHeader .mainHeader .miCuenta .bits .bit18px {
   margin: -4px 0 0 4px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .btnTopNav {
@@ -5473,6 +5565,12 @@ main {
 }
 .preCheckout {
   padding: 20px !important;
+  position: relative;
+}
+.preCheckout .loaderDiv {
+  left: 0;
+  position: absolute;
+  top: 0;
 }
 .preCheckout h2 {
   font-size: 14px;
@@ -5495,14 +5593,28 @@ main {
 .preCheckout .dataTable th {
   font-size: 11px;
 }
+.preCheckout .dataTable .preCheckout-c1 {
+  width: 220px;
+}
+.preCheckout .dataTable .preCheckout-c2 {
+  width: 105px;
+}
+.preCheckout .dataTable .preCheckout-c3 {
+  width: 105px;
+}
+.preCheckout .dataTable .productTable {
+  height: 225px;
+}
 .preCheckout .dataTable td.preCheckout-c2,
-.preCheckout .dataTable td.preCheckout-c3 {
+.preCheckout .dataTable td.preCheckout-c3,
+.preCheckout .dataTable td.preCheckout-c4 {
   text-align: center;
   font-family: 'OmnesMedium', Arial;
   font-style: normal;
   font-weight: normal;
 }
-.preCheckout .dataTable td.preCheckout-c2 {
+.preCheckout .dataTable td.preCheckout-c2,
+.preCheckout .dataTable td.preCheckout-c4 {
   border-left: 1px solid #e6e6e6;
 }
 .preCheckout .dataTable td.preCheckout-c2 {
@@ -5516,6 +5628,9 @@ main {
 .preCheckout .dataTable td.preCheckout-c3.preCheckout-NA {
   color: #dd092c;
 }
+.preCheckout .dataTable .preCheckout-delete {
+  position: relative;
+}
 .preCheckout .dataTable .preCheckout-product {
   min-height: 45px;
   height: 50px;
@@ -5528,7 +5643,8 @@ main {
   display: block;
   margin: 0;
 }
-.preCheckout .dataTable .preCheckout-product .miniSite {
+.preCheckout .dataTable .preCheckout-product .miniSite,
+.preCheckout .dataTable .preCheckout-product .iconVertical-t {
   position: absolute;
   bottom: 0;
   right: 10px;
@@ -5548,6 +5664,9 @@ main {
 .preCheckout .preCheckout-submit {
   padding-top: 20px;
   text-align: center;
+}
+.preCheckout .preCheckout-submit a {
+  margin: 0 5px;
 }
 .confirmationContent {
   background: #f7f7f7;
@@ -5652,7 +5771,7 @@ main {
   width: 100px;
 }
 /*main {
-  margin: 130px auto 0 auto;
+	margin: 130px auto 0 auto;
 }*/
 .winbitsLogoDiv {
   overflow: hidden;
@@ -6112,6 +6231,10 @@ main {
   padding: 5px 10px;
   width: 150px;
 }
+.widgetWinbitsMain .checkoutWinbits .checkoutMain .column .placeholder-span {
+  font-size: 11px;
+  left: 10px;
+}
 .widgetWinbitsMain .checkoutWinbits .checkoutMain .column .divFechaExpiracion label,
 .widgetWinbitsMain .checkoutWinbits .checkoutMain .column .divNumSecurity label {
   font-size: 11px;
@@ -6414,6 +6537,11 @@ main {
 .widgetWinbitsMain .totalCheckOutTemp .totalCheckOutTemp-total .totalCheckOutTemp-timer .icon {
   margin: -4px 3px 0 0;
 }
+.widgetWinbitsMain .totalCheckOutTemp .totalCheckOutTemp-total .totalCheckOutTemp-timer .iconFont-clock2 {
+  color: #000000;
+  font-size: 18px;
+  margin: -2px 3px 0 0;
+}
 .widgetWinbitsMain .totalCheckOutTemp .totalCheckOutTemp-total .totalCheckOutTemp-subTotal {
   background: #f7f7f7;
   padding: 10px;
@@ -6434,6 +6562,32 @@ main {
 .widgetWinbitsMain .totalCheckOutTemp .totalCheckOutTemp-total .totalCheckOutTemp-subTotal span .icon {
   margin: -2px 4px 0 0;
 }
+.widgetWinbitsMain .totalCheckOutTemp .totalCheckOutTemp-total .totalCheckOutTemp-subTotal em {
+  font-family: 'OmnesMedium', Arial;
+  font-style: normal;
+  font-weight: normal;
+}
+.widgetWinbitsMain .totalCheckOutTemp .totalCheckOutTemp-total .totalCheckOutTemp-subTotal .legendCarrito {
+  width: auto;
+}
+.widgetWinbitsMain .totalCheckOutTemp .totalCheckOutTemp-total .legendCarrito {
+  clear: both;
+  display: block !important;
+  font-size: 11px;
+  padding: 5px 10px 0 0;
+  text-align: right;
+  font-family: 'OmnesLight', Arial !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+}
+.widgetWinbitsMain .totalCheckOutTemp .totalCheckOutTemp-total .legendCarrito a {
+  color: black;
+  display: block;
+  text-decoration: underline;
+}
+.widgetWinbitsMain .totalCheckOutTemp .totalCheckOutTemp-total .legendCarrito a:hover {
+  color: #074ae7;
+}
 .widgetWinbitsMain .totalCheckOutTemp .totalCheckOutTemp-total .totalCheckOutTemp-slider {
   background: #f7f7f7;
   overflow: hidden;
@@ -6449,24 +6603,6 @@ main {
 }
 .widgetWinbitsMain .totalCheckOutTemp .totalCheckOutTemp-total .totalCheckOutTemp-slider .slider-wrapper .amount {
   margin-top: -13px;
-}
-.widgetWinbitsMain .totalCheckOutTemp .totalCheckOutTemp-total .totalCheckOutTemp-slider .legendCarrito {
-  clear: both;
-  display: block;
-  font-size: 11px;
-  margin-right: 7px;
-  text-align: right;
-  font-family: 'OmnesLight', Arial;
-  font-style: normal;
-  font-weight: normal;
-}
-.widgetWinbitsMain .totalCheckOutTemp .totalCheckOutTemp-total .totalCheckOutTemp-slider .legendCarrito a {
-  color: black;
-  display: block;
-  text-decoration: underline;
-}
-.widgetWinbitsMain .totalCheckOutTemp .totalCheckOutTemp-total .totalCheckOutTemp-slider .legendCarrito a:hover {
-  color: #074ae7;
 }
 .widgetWinbitsMain .totalCheckOutTemp .totalCheckOutTemp-total .totalCheckOutTemp-totalTotal {
   background: #f7f7f7;
@@ -6831,10 +6967,10 @@ main {
   padding: 5px 20px;
   position: relative;
   /*.shippingCarrusel-slide, .creditcardCarrousel-slide {
-    padding: 5px 20px;
-    margin: 3px;
-    .inline-block(170px, top);
-  }*/
+		padding: 5px 20px;
+		margin: 3px;
+		.inline-block(170px, top);
+	}*/
 }
 .carruselSCC-div a,
 .carruselSCC-div .shippingAdd span,

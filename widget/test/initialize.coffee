@@ -20,6 +20,7 @@ specs = [
   './views/edit-shipping-address-view-spec'
   './views/complete-register-view-spec'
   './other/jquery-wblocationselect-spec'
+  './views/cart/checkout-temp-view-spec'
   './views/cart/cart-view-spec'
   './views/cart/cart-items-view-spec'
   './views/cart/cart-totals-view-spec'
@@ -31,6 +32,7 @@ specs = [
   './models/cart-spec'
   './views/cart/virtual-cart-view-spec'
   './views/cart/transfer-from-virtual-to-assigned-cart-view-spec'
+  './views/cart/transfer-cart-errors-view-spec'
   './lib/cart-utils-spec'
   './winbits-spec'
   './lib/utils-spec'
@@ -47,6 +49,7 @@ specs = [
   './other/jquery-wbpaginator-spec'
   './views/shipping-order-history-view-spec'
   './views/bits-history-view-spec'
+  './views/video-modal-view-spec'
 ]
 
 for spec in specs
