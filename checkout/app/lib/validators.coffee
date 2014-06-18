@@ -51,20 +51,17 @@ module.exports =
       creditcard: true
 
   wbiAmexCardPaymentMsi:
-        numberOfPayments:
-          required: true
-          digits: true
-          range: [1, 12]
-        cardNumber:
-          required: true
-          creditcard: true
-          minlength: 2
-          remote: 
-            url: "#{config.apiUrl}/orders/cards/support-installment"
-            complete: (data) -> 
-                successSupportInstallment data, "amex", "numberOfPayments"
-
-
+    numberOfPayments:
+      required: true
+      digits: true
+      range: [1, 12]
+    cardNumber:
+      required: true
+      creditcard: true
+      minlength: 2
+      wbiSupportInstallments:
+        paymentMethod: 'amex'
+        selector: 'numberOfPayments'
 
   wbiCreditCardPayment :
     firstName:

@@ -343,7 +343,6 @@ supportMsi = (supportInstallments, methods, msi) ->
 
 Handlebars.registerHelper "howManyInstallmentLoans", (supportInstallments, methods, cardType) ->
   msi = installmentLoans methods, cardType
-  console.log 'jou meni', cardType, msi
   if (supportMsi supportInstallments, methods, msi)
       option = ("<option value=#{num}>#{num}</option>" for num in msi)
       return new Handlebars.SafeString(option);
