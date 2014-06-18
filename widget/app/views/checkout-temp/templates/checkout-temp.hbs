@@ -93,9 +93,16 @@
         <span class="checkoutTitle">TOTAL</span>
         <span class="checkoutDetail">
           <span class="slideInput-totalPrice">{{formatCurrency orderTotal}}</span>
-          <span class="note">Ahorro de <span class="slideInput-save">{{formatCurrency orderSaving}}</span></span></span></div>
-      <div class="totalCheckOutTemp-checkout"><a class="linkBack" id="wbi-return-site-btn" ><span class="iconFont-arrowLeft"></span>Regresar</a>
-        <input type="button" value="CHECK OUT" class="btn" id="wbi-post-checkout-btn">
+          {{#compare orderSaving '0' operator = '>'}}
+            <span class="note">Ahorro de <span class="slideInput-save">{{formatCurrency orderSaving}}</span></span>
+          {{/compare}}
+        </span>
+      </div>
+      <div class="totalCheckOutTemp-checkout">
+        <a class="linkBack" id="wbi-return-site-btn" ><span class="iconFont-arrowLeft"></span>Regresar</a>
+        {{#if orderDetails}}
+          <input type="button" value="CHECK OUT" class="btn" id="wbi-post-checkout-btn">
+        {{/if}}
       </div>
     </div>
   </div>

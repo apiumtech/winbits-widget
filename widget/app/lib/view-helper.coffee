@@ -34,6 +34,8 @@ Handlebars.registerHelper 'url', (routeName, params..., options) ->
   Chaplin.helpers.reverse routeName, params
 
 Handlebars.registerHelper "compare", (lvalue, rvalue, options) ->
+  lvalue = lvalue() if $.isFunction(lvalue)
+  rvalue = rvalue() if $.isFunction(rvalue)
   throw new Error("Handlerbars Helper 'compare' needs 2 parameters")  if arguments.length < 3
   #    asString = options.hash.asString or true
   asString = options.hash.asString != "false"
