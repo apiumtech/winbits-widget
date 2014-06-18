@@ -49,6 +49,7 @@ specs = [
   './other/jquery-wbpaginator-spec'
   './views/shipping-order-history-view-spec'
   './views/bits-history-view-spec'
+  './views/video-modal-view-spec'
 ]
 
 for spec in specs
