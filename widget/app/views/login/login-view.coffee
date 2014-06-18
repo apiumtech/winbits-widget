@@ -54,7 +54,7 @@ module.exports = class LoginView extends View
 
   doCheckShowRemainder:(data)->
     if data.response.showRemainder is yes
-      message = "Recuerda que puedes ganar <strong>$#{data.response.cashbackForComplete}</strong> en bits al completar tu registro"
+      message = "Recuerda que puedes ganar $#{data.response.cashbackForComplete} en bits al completar tu registro"
       options =
         value: "Completa registro"
         title:'¡Completa tu registro!'
