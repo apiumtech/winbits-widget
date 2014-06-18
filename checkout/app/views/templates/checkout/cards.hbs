@@ -28,3 +28,90 @@
     </li>
   </ul>
 </div>
+
+<div class="newCreditCard creditcardNew wb-cards-subview">
+    <form id="wbi-new-card-form" accept-charset="utf-8" action="#" method="post" class="wb-card-form">
+        <fieldset>
+            <div class="column">
+                <h3>NOMBRE</h3>
+                <input type="text" class="required" placeholder="Nombre" maxlength="30" name="firstName">
+                <input type="text" class="required" placeholder="Apellido(s)" maxlength="50" name="lastName">
+                <div class="wb-card-number-panel">
+                    <input type="text" class="required wb-card-number-input" placeholder="Número de Tarjeta" maxlength="16" name="accountNumber">
+                    <span class="wb-card-logo icon"></span>
+                </div>
+                <div class="divFechaExpiracion wb-expiration-date-div">
+                    <label>Fecha de vencimiento</label>
+                    <input type="text" class="required digits" placeholder="mm" maxlength="2" name="expirationMonth">
+                    <input type="text" class="required digits" placeholder="aa" maxlength="2" name="expirationYear">
+                </div>
+                <div class="divNumSecurity">
+                    <label for="winbitsPaymentNewCardSecurity"># de Seguridad</label>
+                    <input type="text" class="required digits" placeholder="###" maxlength="4" name="cvNumber" id="winbitsPaymentNewCardSecurity">
+                </div>
+            </div>
+            <div class="column">
+                <h3>DIRECCIÓN</h3>
+                <input type="text" placeholder="Calle" class="required" name="street1">
+                <input type="text" placeholder="Número" class="inputMedium required" maxlength="10" name="number" style="display:block;">
+                <input type="text" placeholder="Teléfono" name="phoneNumber" maxlength="10">
+                <input type="text" placeholder="Codigo Postal" name="postalCode" maxlength="5">
+                <input type="text" placeholder="Ciudad" name="city" maxlength="40">
+                <input type="text" placeholder="Estado" name="state" maxlength="40">
+                <input type="hidden" class="required" name="country" value="MX">
+            </div>
+            <div class="column columnLarge">
+                <h3>OPCIONES</h3>
+                <input type="checkbox" class="checkbox" name="cardPrincipal" id="cardPrincipalNew">
+                <label for="cardPrincipalNew" class="checkboxLabel">Hacer esta mi tarjeta principal</label>
+                <p class="note">Winbits puede guardar tus tarjetas de credito por ti, para que tu proxima compra sea mucho más rápida.</p>
+                <!--<div class="errorDiv"><p></p></div>-->
+                <div class="submitButton">
+                    <span class="btn btnCancel btnPaymentCancel wb-cancel-card-form-btn">Cancelar</span>
+                    <input type="submit" value="Guardar" class="btn submitCheckoutPaymentNewCard wb-submit-trigger" id="wbi-save-card-form-btn">
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<div class="newCreditCard creditcardNew wb-cards-subview">
+    <form id="wbi-edit-card-form" accept-charset="utf-8" action="#" method="post" class="wb-card-form">
+        <fieldset>
+            <div class="column">
+                <h3>NOMBRE</h3>
+                <input type="text" class="required" placeholder="Nombre" maxlength="30" name="firstName" disabled="disabled">
+                <input type="text" class="required" placeholder="Apellido(s)" maxlength="50" name="lastName" disabled="disabled">
+                <div class="wb-card-number-panel">
+                    <input type="text" class="required wb-card-number-input" placeholder="Número de Tarjeta" maxlength="16" name="accountNumber" disabled="disabled">
+                    <span class="wb-card-logo icon"></span>
+                </div>
+                <div class="divFechaExpiracion wb-expiration-date-div">
+                    <label>Fecha de vencimiento</label>
+                    <input type="text" class="required digits" placeholder="mm" maxlength="2" name="expirationMonth" disabled="disabled">
+                    <input type="text" class="required digits" placeholder="aa" maxlength="2" name="expirationYear" disabled="disabled">
+                </div>
+            </div>
+            <div class="column">
+                <h3>DIRECCIÓN</h3>
+                <input type="text" placeholder="Calle" class="required" name="street1">
+                <input type="text" placeholder="Número" class="inputMedium required" maxlength="10" name="number" style="display:block;">
+                <input type="text" placeholder="Teléfono" name="phoneNumber" maxlength="10">
+                <input type="text" placeholder="Codigo Postal" name="postalCode" maxlength="5">
+                <input type="text" placeholder="Ciudad" name="city" maxlength="40">
+                <input type="text" placeholder="Estado" name="state" maxlength="40">
+                <input type="hidden" class="required" name="country" value="MX">
+            </div>
+            <div class="column columnLarge">
+                <h3>OPCIONES</h3>
+                <input type="checkbox" class="checkbox" name="cardPrincipal" id="cardPrincipalUpdate">
+                <label for="cardPrincipalUpdate" class="checkboxLabel">Hacer esta mi tarjeta principal</label>
+                <p class="note">Winbits puede guardar tus tarjetas de credito por ti, para que tu proxima compra sea mucho más rápida.</p>
+                <!--<div class="errorDiv"><p></p></div>-->
+                <div class="submitButton">
+                    <span class="btn btnCancel btnPaymentCancel wb-cancel-card-form-btn">Cancelar</span>
+                    <input type="submit" value="Guardar" class="btn submitCheckoutPaymentNewCard wb-submit-trigger">
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>

@@ -231,10 +231,10 @@ Handlebars.registerHelper "select", (value, options) ->
 
 Handlebars.registerHelper "getContactName", () ->
   nameAndLastName = getNameAndLastName this
-  if this.lastName2? then ((nameAndLastName + ' ' + this.lastName2).trim()) else nameAndLastName  
+  if this.lastName2? then (nameAndLastName + ' ' + this.lastName2) else nameAndLastName  
 
 getNameAndLastName = (shippingAddress) ->
-  (shippingAddress.firstName + ' ' + shippingAddress.lastName).trim()
+  (shippingAddress.firstName + ' ' + shippingAddress.lastName)
 
 Handlebars.registerHelper "getLocation", () ->
   this.location
@@ -343,7 +343,6 @@ supportMsi = (supportInstallments, methods, msi) ->
 
 Handlebars.registerHelper "howManyInstallmentLoans", (supportInstallments, methods, cardType) ->
   msi = installmentLoans methods, cardType
-  console.log 'jou meni', cardType, msi
   if (supportMsi supportInstallments, methods, msi)
       option = ("<option value=#{num}>#{num}</option>" for num in msi)
       return new Handlebars.SafeString(option);
