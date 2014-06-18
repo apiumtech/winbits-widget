@@ -23,8 +23,9 @@ module.exports = class CartItemsView extends View
     @$('.wbc-item-quantity').customSelect()
       .on("change", $.proxy(@doUpdateItem, @))
 
-  doUpdateItem:() ->
-    quantity = @$('.wbc-item-quantity')
+  doUpdateItem:(e) ->
+    e.preventDefault()
+    quantity = @$(e.currentTarget)
     itemId = quantity.closest("li").data("id")
     data = "quantity": quantity.val(), bits : 0
     cartUtils.doCartLoading()
