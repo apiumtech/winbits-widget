@@ -21,8 +21,7 @@ packages:
 	$(bower) install;
 
 test:
-	@echo "No tests for API..."
+	@echo "No tests for CHECKOUT..."
 
 clean:
 	rm -fr build components template.js
-
