@@ -72,7 +72,7 @@ describe 'TransferCartErrorsViewSpec', ->
   it 'Should call do delete request in confirm layer and response error', ->
 
     sinon.stub(utils, 'ajaxRequest').returns TestUtils.promises.rejected
-    deleteError = sinon.stub cartUtils, 'showCartErrorMessage'
+    deleteError = sinon.stub cartUtils, 'deleteCartItemFail'
     deleteSuccess = sinon.stub @view, 'deleteSuccess'
 
     @view.$('#item-id-1').find('.wbc-delete-cart-item-btn').click()
