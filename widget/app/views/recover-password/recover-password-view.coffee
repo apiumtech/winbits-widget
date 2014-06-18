@@ -10,12 +10,12 @@ module.exports = class ModalRecoverPasswordView extends View
 
   initialize: ->
     super
-    @delegate 'click', '#wbi-recover-password-btn', @doSendMailRecoverPassword
+    @delegate 'submit', '#wbi-recover-password-form', @doSendMailRecoverPassword
 
   attach: ->
     super
     @showAsModal()
-    @$('.wbc-recover-password-form').validate
+    @$('#wbi-recover-password-form').validate
       rules:
         email:
           required: true
@@ -24,14 +24,15 @@ module.exports = class ModalRecoverPasswordView extends View
   showAsModal: ->
     $('<a>').wbfancybox(href: '#wbi-recover-password-modal', onClosed: -> utils.redirectTo controller: 'home', action: 'index').click()
 
-  doSendMailRecoverPassword: (e)->
+  doSendMailRecoverPassword: (e) ->
     e.preventDefault()
+
     @$('.errorDiv').css('display':'none')
-    $form =  @$el.find(".wbc-recover-password-form")
+    $form =  $(e.currentTarget)
     if utils.validateForm($form)
       formData = verticalId: env.get 'current-vertical-id'
       formData = utils.serializeForm($form, formData)
-      $submitButton = @$('#wbi-recover-password-btn').prop('disabled', yes)
+      $submitButton = $form.find('#wbi-recover-password-btn').prop('disabled', yes)
 
       @model.requestRecoverPassword(formData, context: @)
         .done(@doRecoverPasswordSuccess)
@@ -40,9 +41,8 @@ module.exports = class ModalRecoverPasswordView extends View
 
   doRecoverPasswordSuccess :->
     message = "Te hemos mandado un mensaje a tu cuenta de correo con las instrucciones para recuperar tu contraseña."
-    options = value: "Aceptar", title:'Correo enviado', onClosed: utils.redirectTo(controller: 'home', action: 'index'), icon: 'iconFont-email2', acceptAction:() ->$.fancybox.close()
+    options = value: "Aceptar", title:'Correo enviado', onClosed: utils.redirectTo(controller: 'home', action: 'index'), icon: 'iconFont-email2', acceptAction:() -> $.fancybox.close()
     utils.showMessageModal(message, options)
-    console.log 'evento publicado'
 
   doRecoverPasswordError: (xhr, textStatus)->
     error = utils.safeParse(xhr.responseText)

@@ -20,6 +20,7 @@ specs = [
   './views/edit-shipping-address-view-spec'
   './views/complete-register-view-spec'
   './other/jquery-wblocationselect-spec'
+  './views/cart/checkout-temp-view-spec'
   './views/cart/cart-view-spec'
   './views/cart/cart-items-view-spec'
   './views/cart/cart-totals-view-spec'
@@ -48,6 +49,7 @@ specs = [
   './other/jquery-wbpaginator-spec'
   './views/shipping-order-history-view-spec'
   './views/bits-history-view-spec'
+  './views/video-modal-view-spec'
 ]
 
 for spec in specs

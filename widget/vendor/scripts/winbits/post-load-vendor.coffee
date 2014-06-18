@@ -117,6 +117,8 @@
     links: {}
   moment().tz("America/Mexico_City").format()
 
+  _.now = _.now or Date.now or () -> new Date().getTime()
+
   $.wblocationselect.ajax = Winbits.ajaxRequest
   Winbits.$ = $.noConflict(yes)
   Winbits._ = _.noConflict()
@@ -139,6 +141,7 @@
     console.log ['WIDGET TOTAL LOAD TIME (ms)', widgetLoadTime]
     Winbits.trigger 'initialized'
   .fail ->
+    console.log = Winbits.log
     window.Winbits = undefined
     alert('Unable to load Winbits Widget!')
 
