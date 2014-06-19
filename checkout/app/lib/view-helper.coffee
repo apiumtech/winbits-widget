@@ -363,7 +363,10 @@ Handlebars.registerHelper "isMSIPayment", (payment, options) ->
   if payment.identifier.lastIndexOf('msi') isnt -1
     lastDotIndex = payment.identifier.lastIndexOf('.')
     numberOfPayments = parseInt(payment.identifier.substr(lastDotIndex + 1))
-    monthlyPayment = payment.amount / numberOfPayments
+    #monthlyPayment = payment.amount / numberOfPayments
+    paymentDividend = Math.round (payment.amount / numberOfPayments * 100) 
+    monthlyPayment = paymentDividend / 100
+    console.log 'monthly payment', monthlyPayment
     options.fn ( numberOfPayments: numberOfPayments, monthlyPayment: monthlyPayment )
   else
     options.inverse this
