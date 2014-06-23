@@ -25,13 +25,16 @@ describe 'SocialAccountsLinkViewSpec', ->
     @windowsOpenStub = sinon.stub(window, 'open').returns(focus: $.noop, closed:yes)
     @clock = sinon.useFakeTimers()
     sinon.stub(utils, 'showAjaxLoading')
+    sinon.stub(utils, 'showMessageModal')
     @model = new SocialAccounts @loginData
     @view = new SocialAccountsView model: @model
+
 
   afterEach ->
     rpc.facebookStatus.restore?()
     @clock.restore()
     utils.showAjaxLoading.restore()
+    utils.showMessageModal.restore()
     window.open.restore()
     @server.restore()
     @view.dispose()
