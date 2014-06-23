@@ -19,6 +19,7 @@ module.exports = class EditCardView extends CardView
       utils.showAjaxLoading()
       @model.requestUpdateCard(cardData, @)
           .done(@requestUpdateCardSucceds)
+          .fail(@requestUpdateCardError)
           .always(@requestUpdateCardCompletes)
 
   requestUpdateCardSucceds: ->
@@ -28,6 +29,12 @@ module.exports = class EditCardView extends CardView
       icon: 'iconFont-ok'
       onClosed: @hideCardView
     utils.showMessageModal('Tus datos se han guardado correctamente.', options)
+
+  requestUpdateCardError:(xhr, textStatus)->
+    error = utils.safeParse(xhr.responseText)
+    message = if error then error.meta.message else textStatus
+    utils.showError(message)
+
 
   requestUpdateCardCompletes: ->
     utils.hideAjaxLoading()
