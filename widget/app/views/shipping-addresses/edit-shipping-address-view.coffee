@@ -131,4 +131,5 @@ module.exports = class EditShippingAddressView extends View
   errorSaveEditShippingAddress:(xhr, textStatus)->
     error = utils.safeParse(xhr.responseText)
     message = if error then error.meta.message else textStatus
-    @$('.errorDiv p').text(message).parent().css('display':'block')
+#    @$('.errorDiv p').text(message).parent().css('display':'block')
+    utils.showError(message)
