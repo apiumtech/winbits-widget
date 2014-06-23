@@ -15,7 +15,7 @@ module.exports = class MailingView extends View
     super
     @listenTo @model,  'change', -> @render()
     @delegate 'click', '#wbi-mailing-btn', @doRequestSuscriptionsUpdate
-    @delegate 'click', '#wbi-mailing-thanks-btn-close', @doCloseThanksDiv
+#    @delegate 'click', '#wbi-mailing-thanks-btn-close', @doCloseThanksDiv
 
   attach: ->
     super
@@ -68,6 +68,3 @@ module.exports = class MailingView extends View
     message = "Hubo un error al intentar actualizar las subscripciones, intentalo mas tarde"
     options = value: "Continuar", title:'Error al actualizar', icon:'iconFont-close', onClosed: utils.redirectTo controller: 'home', action: 'index'
     utils.showMessageModal(message, options)
-
-  doCloseThanksDiv: ->
-    @$('#wbi-mailing-thanks-div').slideUp()
