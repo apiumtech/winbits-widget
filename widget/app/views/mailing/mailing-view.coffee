@@ -36,29 +36,28 @@ module.exports = class MailingView extends View
   doRequestSuscriptionsUpdate: ->
     $form =@$('#wbi-mailing-form')
     if $form.valid()
-        subscriptions = _.map( @$('.wbc-subscription-check'),
-                           (check)->
-                               $chk =  $(check)
-                               return {id: $chk.val(), active: $chk.prop('checked')}
-                          )
-        $form =  @$("#wbi-mailing-form")
-        data = utils.serializeForm($form,subscriptions: subscriptions)
-        utils.showAjaxLoading()
-        @model.requestUpdateSubscriptions(data, context: @)
-          .done(@successSubscriptionsUpdate)
-          .fail(@errorSubscriptionsUpdate)
-          .always(@hideAjaxLoading)
+      message = "Tus cambios han sido guardados exitosamente"
     else
-      @notValidateSubscriptions()
+      message = "Tus cambios han sido guardados exitosamente. Te invitamos a no perderte de nuestras ofertas con nuestro newsletter."
 
-  notValidateSubscriptions: ->
-    message = "Se debe de seleccionar almenos un sitio"
-    options = value: "Continuar", title:'Error Subscripciones', icon:'iconFont-info', onClosed: utils.redirectTo controller: 'home', action: 'index'
-    utils.showMessageModal(message, options)
+    @doSaveSubscriptionsSelected($form, message)
+
+  doSaveSubscriptionsSelected:($form, message)->
+    subscriptions = _.map( @$('.wbc-subscription-check'),
+    (check)->
+      $chk =  $(check)
+      return {id: $chk.val(), active: $chk.prop('checked')}
+    )
+    $form =  @$("#wbi-mailing-form")
+    data = utils.serializeForm($form,subscriptions: subscriptions)
+    utils.showAjaxLoading()
+    @model.requestUpdateSubscriptions(data, context: @)
+    .done(-> @successSubscriptionsUpdate(message))
+    .fail(@errorSubscriptionsUpdate)
+    .always(@hideAjaxLoading)
 
 
-  successSubscriptionsUpdate:() ->
-    message = "Tus cambios han sido guardados exitosamente"
+  successSubscriptionsUpdate:(message) ->
     options = value: "Aceptar", title:'Cambios Guardados', icon:'iconFont-candado', onClosed: utils.redirectTo controller: 'home', action: 'index'
     utils.showMessageModal(message, options)
 
