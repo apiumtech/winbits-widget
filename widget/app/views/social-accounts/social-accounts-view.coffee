@@ -124,10 +124,16 @@ module.exports = class SocialMediaView extends View
   doRequestDeleteSocialAccount: (socialAccount)->
     @model.requestDeleteSocialAccount(socialAccount.toLowerCase(), context:@)
     .done(->
+      @doShowMessageSuccess()
       @model.set socialAccount, no
-      utils.closeMessageModal())
+      )
     .fail(@doFailDeleteSocialAccount)
     .always(@doAlwaysDeleteSocialAccount)
+
+  doShowMessageSuccess: ->
+    message = 'Tus datos se han guardado correctamente.'
+    options = value: "Cerrar", title: "Datos guardados",  icon: 'iconFont-ok'
+    utils.showMessageModal(message, options)
 
   doFailDeleteSocialAccount: ->
     message = 'El servidor no está disponible, por favor inténtalo más tarde.'
@@ -136,7 +142,6 @@ module.exports = class SocialMediaView extends View
 
   doAlwaysDeleteSocialAccount: ->
     utils.hideAjaxLoading()
-
 
   doCancelDeleteSocialAccount: ->
     utils.hideAjaxLoading()
