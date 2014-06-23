@@ -410,7 +410,8 @@ msiPaymentsFunction = (allMsiPayments) ->
 
   $.each allMsiPayments, (index, msiPayment) ->
     identifier = msiPayment.identifier.substring 0, msiPayment.identifier.indexOf('.')
-    if msiIdentifiers.indexOf(identifier) is -1
+    x = (i for i in msiIdentifiers when i is identifier)
+    if x.length is 0
       msiIdentifiers.push identifier
       msiPayments.push msiPayment
   msiPayments
