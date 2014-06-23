@@ -15,7 +15,6 @@ module.exports = class MailingView extends View
     super
     @listenTo @model,  'change', -> @render()
     @delegate 'click', '#wbi-mailing-btn', @doRequestSuscriptionsUpdate
-#    @delegate 'click', '#wbi-mailing-thanks-btn-close', @doCloseThanksDiv
 
   attach: ->
     super
@@ -38,7 +37,7 @@ module.exports = class MailingView extends View
     if $form.valid()
       message = "Tus cambios han sido guardados exitosamente"
     else
-      message = "Tus cambios han sido guardados exitosamente. Te invitamos a no perderte de nuestras ofertas con nuestro newsletter."
+      message = "Tus cambios han sido guardados exitosamente.Te invitamos a no perderte de nuestras ofertas con nuestro newsletter."
 
     @doSaveSubscriptionsSelected(message)
 
