@@ -30,12 +30,7 @@ module.exports = class CompleteRegisterView extends View
         birthDate: ' wbi-birthdate-day wbi-birthdate-month wbi-birthdate-year'
       rules:
         name:
-          required: $.proxy(()->
-            require = no
-            if (@model.get 'name')
-              require = yes
-            require
-          , @)
+          required: @model.fieldIsRequired('name')
           minlength:2
         lastName:
           required: $.proxy(()->
