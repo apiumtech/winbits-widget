@@ -39,15 +39,14 @@ module.exports = class MailingView extends View
     else
       message = "Tus cambios han sido guardados exitosamente.Te invitamos a no perderte de nuestras ofertas con nuestro newsletter."
 
-    @doSaveSubscriptionsSelected(message)
+    @doSaveSubscriptionsSelected($form, message)
 
-  doSaveSubscriptionsSelected:(message)->
+  doSaveSubscriptionsSelected:($form, message)->
     subscriptions = _.map( @$('.wbc-subscription-check'),
     (check)->
       $chk =  $(check)
       return {id: $chk.val(), active: $chk.prop('checked')}
      )
-    $form =  @$("#wbi-mailing-form")
     data = utils.serializeForm($form,subscriptions: subscriptions)
     utils.showAjaxLoading()
     @model.requestUpdateSubscriptions(data, context: @)
