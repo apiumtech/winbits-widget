@@ -34,14 +34,12 @@ describe 'MailingViewSpec', ->
     expect(@view.$('#wbi-mailing-btn')).to.exist
 
   it 'should call request success update subscriptions', ->
-    sinon.stub(@view, 'doRequestSuscriptionsUpdate')
-    sinon.stub(@model, 'requestUpdateSubscriptions').returns TestUtils.promises.resolved
-    successStub = sinon.stub(@view, 'successSubscriptionsUpdate')
-    errorStub = sinon.stub(@view, 'errorSubscriptionsUpdate')
+    sinon.stub(@view, 'doSaveSubscriptionsSelected')
+
     @view.$('#wbi-mailing-btn').click()
 
-    expect(successStub).to.be.calledOnce
-    expect(errorStub).to.not.be.calledOnce
+    expect(@view.doSaveSubscriptionsSelected).to.be.calledOnce
+
 
   it 'should call request error update subscriptions', ->
     sinon.stub(@view, 'doRequestSuscriptionsUpdate')

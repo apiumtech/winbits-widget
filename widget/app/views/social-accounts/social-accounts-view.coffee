@@ -2,8 +2,6 @@
 View = require 'views/base/view'
 utils = require 'lib/utils'
 $ = Winbits.$
-_ = Winbits._
-mediator = Winbits.Chaplin.mediator
 env = Winbits.env
 
 module.exports = class SocialMediaView extends View
@@ -49,7 +47,6 @@ module.exports = class SocialMediaView extends View
   facebookStatusSuccess: (response)->
     if response.status is "connected"
       @model.set 'Facebook', yes
-      @doChangeLoginSocialAccounts()
     else
       @showErrorMessageLinkSocialAccount()
     utils.hideAjaxLoading()
@@ -103,11 +100,9 @@ module.exports = class SocialMediaView extends View
       if socialAccount.name == name
         if socialAccount.available == available
           @model.set name, available
-          mediator.data.get('login-data').socialAccounts = socialAccounts
         else
           @showErrorMessageLinkSocialAccount()
     utils.hideAjaxLoading()
-    @doChangeLoginSocialAccounts()
 
   doUnlinkTwitter: (e)->
     e.preventDefault()
