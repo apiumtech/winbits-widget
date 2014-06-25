@@ -112,6 +112,7 @@ module.exports = class Cart extends Model
         .done(@requestCheckoutSucceeds)
         .fail(@requestCheckoutFails)
     else
+      utils.hideLoaderToCheckout()
       utils.showMessageModal('Para comprar, debe agregar artículos al carrito.')
       return
 
