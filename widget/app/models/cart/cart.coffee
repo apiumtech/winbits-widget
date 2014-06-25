@@ -28,13 +28,21 @@ module.exports = class Cart extends Model
   initialize: () ->
     super
 
+  parse: ()->
+    data = super
+    @set 'bitsTotal', utils.getBitsToVirtualCart() if not utils.isLoggedIn()
+    data
+
   sync: (method, model, options = {}) ->
     options.headers =
-      'Wb-VCart': utils.getVirtualCart() if not utils.isLoggedIn()
+      'Wb-VCart': utils.getCartItemsToVirtualCart() if not utils.isLoggedIn()
     super(method, model, options)
 
   cartTotal: ->
-    @sliderTotal() - @get('bitsTotal')
+    cartTotal = @sliderTotal()
+    if utils.isLoggedIn()
+     cartTotal =- @get('bitsTotal')
+    cartTotal
 
   sliderTotal: ->
     @get('itemsTotal') + @get('shippingTotal')

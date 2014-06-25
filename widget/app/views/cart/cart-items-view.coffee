@@ -64,7 +64,7 @@ module.exports = class CartItemsView extends View
     if not isLoggedIn
       requestOptions.headers =
         "Accept-Language": "es"
-        'wb-vcart':utils.getVirtualCart()
+        'wb-vcart':utils.getCartItemsToVirtualCart()
     requestOptions
 
   doCartDeleteLoading: ->

@@ -71,7 +71,7 @@
             }
             var vcartToken = Winbits.retrieveKey(Winbits.cartTokenKey);
             if (!vcartToken) {
-              vcartToken = '[]';
+              vcartToken = '{"cartItems":[], "bits":0}';
             }
             Winbits.storeKey(Winbits.cartTokenKey, vcartToken);
             tokens.vcartToken = vcartToken;

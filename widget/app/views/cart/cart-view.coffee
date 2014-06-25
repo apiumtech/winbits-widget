@@ -66,10 +66,10 @@ module.exports = class CartView extends View
     @publishEvent 'change-bits-data'
 
   restoreCart: ->
-    virtualCart = utils.getVirtualCart()
+    virtualCart = JSON.parse(utils.getVirtualCart())
     if(utils.isLoggedIn())
-      unless virtualCart is "[]"
-        formData = virtualCartData : JSON.parse(virtualCart)
+      unless $.isEmptyObject virtualCart.cartItems
+        formData = virtualCart
         @model.transferVirtualCart(formData, context:@)
         .done(@successTransferVirtualCart)
       else

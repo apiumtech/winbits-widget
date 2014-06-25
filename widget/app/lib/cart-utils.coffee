@@ -35,7 +35,7 @@ _(cartUtils).extend
     cartItems = @transformCartItems(cartItems)
     options =
       headers:
-        'Wb-VCart': utils.getVirtualCart()
+        'Wb-VCart': utils.getCartItemsToVirtualCart()
     options = @applyAddToCartRequestDefaults(cartItems, options)
     utils.ajaxRequest(@getCartResourceUrl(), options)
     .done(@addToVirtualCartSuccess)
