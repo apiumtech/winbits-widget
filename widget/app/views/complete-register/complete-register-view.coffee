@@ -30,65 +30,32 @@ module.exports = class CompleteRegisterView extends View
         birthDate: ' wbi-birthdate-day wbi-birthdate-month wbi-birthdate-year'
       rules:
         name:
-          required: $.proxy(()->
-            require = no
-            if (@model.get 'name')
-              require = yes
-            require
-          , @)
+          required: @model.fieldIsRequired('name')
           minlength:2
         lastName:
-          required: $.proxy(()->
-            require = no
-            if (@model.get 'lastName')
-              require = yes
-            require
-          , @)
+          required: @model.fieldIsRequired('lastName')
           minlength: 2
         'wbi-birthdate-day':
-          required: $.proxy(()->
-            require = no
-            if (@model.get 'birthdate')
-              require = yes
-            require
-          , @)
+          required: @model.fieldIsRequired('birthdate')
           validateDate: yes
         'wbi-birthdate-month':
-          required: $.proxy(()->
-            require = no
-            if (@model.get 'birthdate')
-              require = yes
-            require
-          , @)
+          required: @model.fieldIsRequired('birthdate')
           validateDate: yes
         'wbi-birthdate-year':
-          required: $.proxy(()->
-            require = no
-            if (@model.get 'birthdate')
-              require = yes
-            require
-          , @)
+          required: @model.fieldIsRequired('birthdate')
           validateDate: yes
         phone:
-          required: $.proxy(()->
-            require = no
-            if (@model.get 'phone')
-              require = yes
-            require
-          , @)
+          required: @model.fieldIsRequired('phone')
           wbiPhone: yes
         zipcode:
-          required: $.proxy(()->
-            require = no
-            if (@model.get 'zipCode')
-              require = yes
-            require
-          , @)
+          required: @model.fieldIsRequired('zipCode')
           minlength: 5
           digits:yes
           zipCodeDoesNotExist:yes
         location:
           wbiLocation: yes
+        gender:
+          required: @model.fieldIsRequired('gender')
         zipCodeInfo:
           wbiSelectInfo: yes
 

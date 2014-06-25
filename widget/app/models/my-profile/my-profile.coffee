@@ -37,3 +37,10 @@ module.exports = class MyProfile extends Model
         utils.getResourceURL("users/profile.json"),
         $.extend(defaults, options)
     )
+
+  fieldIsRequired: (fieldName)->
+    isRequired = no
+    if mediator.data.get('login-data').profile.completeRegister
+      if @get fieldName
+        isRequired = yes
+    isRequired
