@@ -438,7 +438,7 @@ _(utils).extend
       @publishEvent 'cashback-bits-won', data.response.cashback
     else
       message = "Tus datos se han guardado correctamente"
-      options = icon: 'iconFont-ok', title:'Perfil actualizado', value:'Aceptar'
+      options = icon: 'iconFont-ok', title:'Perfil actualizado', value:'Aceptar', onClosed:@redirectTo(controller:'home', action:'index')
       @showMessageModal(message, options)
     if data.response.bitsBalance != $loginDataActual.bitsBalance
       @publishEvent 'bits-updated'
