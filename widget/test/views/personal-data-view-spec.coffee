@@ -30,9 +30,11 @@ describe 'PersonalDataViewSpec', ->
     @model = new MyProfile @loginData
     @view = new PersonalDataView model: @model
     @view.attach()
+    sinon.stub utils, 'redirectTo'
 
   afterEach ->
     @server.restore()
+    utils.redirectTo.restore()
     utils.ajaxRequest.restore?()
     utils.updateProfile.restore?()
     utils.publishEvent.restore?()
