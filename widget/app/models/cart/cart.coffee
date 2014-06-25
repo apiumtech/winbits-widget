@@ -157,6 +157,7 @@ module.exports = class Cart extends Model
     $chkForm.appendTo(document.body).submit()
 
   requestCheckoutFails: (xhr) ->
+    utils.hideLoaderToCheckout()
     data = JSON.parse(xhr.responseText)
     utils.showMessageModal(data.meta.message)
 
