@@ -19,7 +19,7 @@
 
   <script type="text/javascript">
     (function(){
-      var Winbits = { apiTokenKey: '_wb_api_token', cartTokenKey: '_wb_cart_token' };
+      var Winbits = { apiTokenKey: '_wb_api_token', cartTokenKey: '_wb_cart_token', DEFAULT_VIRTUAL_CART: '{"cartItems":[], "bits":0}' };
 
       Winbits.storeKey = function (key, value) {
         return localStorage[key] = value;
@@ -71,7 +71,7 @@
             }
             var vcartToken = Winbits.retrieveKey(Winbits.cartTokenKey);
             if (!vcartToken) {
-              vcartToken = '{"cartItems":[], "bits":0}';
+              vcartToken = Winbits.DEFAULT_VIRTUAL_CART;
             }
             Winbits.storeKey(Winbits.cartTokenKey, vcartToken);
             tokens.vcartToken = vcartToken;
@@ -93,7 +93,7 @@
           logout: function(facebookLogout) {
             console.log('Winbits: Logging out...');
             Winbits.deleteKey(Winbits.apiTokenKey);
-            Winbits.storeKey(Winbits.cartTokenKey, '[]');
+            Winbits.storeKey(Winbits.cartTokenKey, Winbits.DEFAULT_VIRTUAL_CART);
             console.log('Wee do not log out facebook anymore!');
           },
           facebookStatus: function(success) {
