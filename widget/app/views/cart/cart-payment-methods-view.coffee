@@ -22,7 +22,7 @@ module.exports = class CartPaymentMethodsView extends View
 
   checkout: ->
     if utils.isLoggedIn()
-      utils.showLoadingMessage('Generando orden...')
+      utils.showLoaderToCheckout()
       @model.requestCheckout()
     else
       mediator.data.set 'virtual-checkout', yes

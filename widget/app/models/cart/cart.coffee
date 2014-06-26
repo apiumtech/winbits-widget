@@ -120,6 +120,7 @@ module.exports = class Cart extends Model
         .done(@requestCheckoutSucceeds)
         .fail(@requestCheckoutFails)
     else
+      utils.hideLoaderToCheckout()
       utils.showMessageModal('Para comprar, debe agregar artículos al carrito.')
       return
 
@@ -165,6 +166,7 @@ module.exports = class Cart extends Model
     $chkForm.appendTo(document.body).submit()
 
   requestCheckoutFails: (xhr) ->
+    utils.hideLoaderToCheckout()
     data = JSON.parse(xhr.responseText)
     utils.showMessageModal(data.meta.message)
 

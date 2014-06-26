@@ -450,6 +450,12 @@ _(utils).extend
 
   closeMessageModal: $.fancybox.close
 
+  showLoaderToCheckout: ->
+    $('#wbi-loader-to-checkout').show().removeClass('loader-hide')
+
+  hideLoaderToCheckout: ->
+    $('#wbi-loader-to-checkout').hide().addClass('loader-hide')
+
   updateProfile: (data)->
     $loginDataActual = _.clone mediator.data.get 'login-data'
     mediator.data.set 'login-data', data.response
