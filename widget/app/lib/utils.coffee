@@ -402,14 +402,14 @@ _(utils).extend
 
   getCartItemsToVirtualCart: () ->
     cartItems = "[]"
-    vcart = mediator.data.get('virtual-cart')
+    vcart = mediator.data.get('virtual-cart') or DEFAULT_VIRTUAL_CART
     vcart = JSON.parse(vcart)
     if not $.isEmptyObject vcart.cartItems
       cartItems = JSON.stringify vcart.cartItems
     cartItems
 
   getBitsToVirtualCart: () ->
-    JSON.parse(mediator.data.get('virtual-cart')).bits
+    JSON.parse(mediator.data.get('virtual-cart') or DEFAULT_VIRTUAL_CART).bits
 
 
   saveVirtualCart: (cartData) ->

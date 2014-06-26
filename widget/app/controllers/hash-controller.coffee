@@ -1,5 +1,5 @@
 'use strict'
-Controller = require 'controllers/not-logged-in-controller'
+Controller = require 'controllers/base/controller'
 $ = Winbits.$
 utils = require 'lib/utils'
 promises = []
@@ -22,23 +22,27 @@ module.exports = class HashController extends Controller
     utils.ajaxRequest Winbits.env.get('api-url') + '/users/express-login.json',
       type: 'POST',
       dataType: "json"
+      context: @
       data: JSON.stringify(apiToken: apiToken)
 
   completeRegisterSuccess: (data) ->
     if $.isEmptyObject data.response
       @expressLoginError()
     else
-      utils.saveLoginData data.response
-      mediator.data.set 'login-data', data.response
+      @saveLoginData data.response
       utils.redirectTo controller:'complete-register', action:'index'
 
   switchUserSuccess: (data) ->
     if $.isEmptyObject data.response
       utils.redirectTo controller: 'home', action: 'index'
     else
-      utils.saveLoginData data.response
-      mediator.data.set 'login-data', data.response
+      @saveLoginData data.response
       utils.redirectToLoggedInHome()
+
+  saveLoginData: (loginData)->
+    utils.deleteApiToken()
+    utils.saveLoginData loginData
+    mediator.data.set 'login-data', loginData
 
   expressLoginError: () ->
     utils.redirectTo controller: 'home', action: 'index'
