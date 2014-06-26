@@ -56,6 +56,8 @@ module.exports = class CartBitsView extends View
       @model.updateCartBits(data, context:@)
       .done(@updateCartBitsSuccess)
       .fail(@updateCartBitsError)
+    else
+      utils.saveBitsInVirtualCart bits
 
   updateCartBitsSuccess: (data) ->
     bitsTotal= data.response.bitsTotal

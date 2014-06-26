@@ -28,9 +28,14 @@ module.exports = class Cart extends Model
   initialize: () ->
     super
 
+  parse: ()->
+    data = super
+    data.bitsTotal = utils.getBitsToVirtualCart() if not utils.isLoggedIn() and data?
+    data
+
   sync: (method, model, options = {}) ->
     options.headers =
-      'Wb-VCart': utils.getVirtualCart() if not utils.isLoggedIn()
+      'Wb-VCart': utils.getCartItemsToVirtualCart() if not utils.isLoggedIn()
     super(method, model, options)
 
   cartTotal: ->
@@ -112,6 +117,7 @@ module.exports = class Cart extends Model
         .done(@requestCheckoutSucceeds)
         .fail(@requestCheckoutFails)
     else
+      utils.hideLoaderToCheckout()
       utils.showMessageModal('Para comprar, debe agregar artículos al carrito.')
       return
 
@@ -157,6 +163,7 @@ module.exports = class Cart extends Model
     $chkForm.appendTo(document.body).submit()
 
   requestCheckoutFails: (xhr) ->
+    utils.hideLoaderToCheckout()
     data = JSON.parse(xhr.responseText)
     utils.showMessageModal(data.meta.message)
 
