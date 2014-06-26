@@ -2,6 +2,7 @@
 
 API_TOKEN_KEY = "_wb_api_token"
 CART_TOKEN_KEY = "_wb_cart_token"
+DEFAULT_VIRTUAL_CART: '{"cartItems":[], "bits":0}'
 
 new easyXDM.Rpc({},
   local:
@@ -38,7 +39,7 @@ new easyXDM.Rpc({},
       apiToken = localStorage[API_TOKEN_KEY]
       tokens.apiToken = apiToken  if apiToken
       vcartToken = localStorage[CART_TOKEN_KEY]
-      vcartToken = "[]" unless vcartToken
+      vcartToken = DEFAULT_VIRTUAL_CART unless vcartToken
       localStorage[CART_TOKEN_KEY] = vcartToken
       tokens.vcartToken = vcartToken
       console.log [
@@ -66,7 +67,7 @@ new easyXDM.Rpc({},
     logout: (facebookLogout) ->
       console.log "Winbits: Logging out..."
       localStorage.removeItem API_TOKEN_KEY
-      localStorage[CART_TOKEN_KEY] = "[]"
+      localStorage[CART_TOKEN_KEY] = DEFAULT_VIRTUAL_CART
       console.log "Wee do not log out facebook anymore!"
       return
 
