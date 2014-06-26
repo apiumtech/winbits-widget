@@ -30,7 +30,7 @@ module.exports = class Cart extends Model
 
   parse: ()->
     data = super
-    @set 'bitsTotal', utils.getBitsToVirtualCart() if not utils.isLoggedIn()
+    data.bitsTotal = utils.getBitsToVirtualCart() if not utils.isLoggedIn() and data?
     data
 
   sync: (method, model, options = {}) ->
@@ -39,10 +39,7 @@ module.exports = class Cart extends Model
     super(method, model, options)
 
   cartTotal: ->
-    cartTotal = @sliderTotal()
-    if utils.isLoggedIn()
-     cartTotal =- @get('bitsTotal')
-    cartTotal
+    @sliderTotal() - @get('bitsTotal')
 
   sliderTotal: ->
     @get('itemsTotal') + @get('shippingTotal')
