@@ -2,7 +2,7 @@
 
 API_TOKEN_KEY = "_wb_api_token"
 CART_TOKEN_KEY = "_wb_cart_token"
-DEFAULT_VIRTUAL_CART: '{"cartItems":[], "bits":0}'
+DEFAULT_VIRTUAL_CART = '{"cartItems":[], "bits":0}'
 
 new easyXDM.Rpc({},
   local:
