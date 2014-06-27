@@ -63,6 +63,9 @@ Winbits.like= (options) ->
   fn = socialUtils.like
   fn.call(socialUtils, options)
 
+Winbits.execute= (cmd, params) ->
+  console.log ["params ---->",params, "cmd ----> #{cmd}"]
+
 appConfig =
   controllerSuffix: '-controller'
   pushState: no
