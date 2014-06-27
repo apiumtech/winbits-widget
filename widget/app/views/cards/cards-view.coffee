@@ -51,13 +51,16 @@ module.exports = class CardsView extends View
       @turnCardsClickEvent('off')
       @model.requestSetDefaultCard(id, @)
           .done(@setDefaultCardSucceds)
-          .always(->
-                  @turnCardsClickEvent('on')
-                  utils.hideAjaxLoading())
+          .always(@setDefaultCardCompletes)
 
   setDefaultCardSucceds: ->
     @getDefaultCard().removeClass(DEFAULT_CARD_CLASS)
     @cardCandidate.addClass(DEFAULT_CARD_CLASS)
+    @render()
+
+  setDefaultCardCompletes: ->
+    @turnCardsClickEvent('on')
+    utils.hideAjaxLoading()
 
   getDefaultCard: ->
     @$(".wbc-card.#{DEFAULT_CARD_CLASS}")

@@ -36,11 +36,12 @@ new easyXDM.Rpc({},
 
     getTokens: ->
       tokens = {}
-      apiToken = localStorage[API_TOKEN_KEY]
+      apiToken = localStorage.getItem API_TOKEN_KEY
       tokens.apiToken = apiToken  if apiToken
-      vcartToken = localStorage[CART_TOKEN_KEY]
+      vcartToken = localStorage.getItem CART_TOKEN_KEY
+      console.log ['THE VCART', vcartToken, window.location.href]
       vcartToken = DEFAULT_VIRTUAL_CART unless vcartToken
-      localStorage[CART_TOKEN_KEY] = vcartToken
+      localStorage.setItem CART_TOKEN_KEY, vcartToken
       tokens.vcartToken = vcartToken
       console.log [
         "W: The tokens >>>"
@@ -53,7 +54,7 @@ new easyXDM.Rpc({},
         "API Token from vertical"
         apiToken
       ]
-      localStorage[API_TOKEN_KEY] = apiToken
+      localStorage.setItem API_TOKEN_KEY, apiToken
       return
 
     deleteApiToken: ->
@@ -61,13 +62,13 @@ new easyXDM.Rpc({},
       return
 
     storeVirtualCart: (vCart) ->
-      localStorage[CART_TOKEN_KEY] = vCart
+      localStorage.setItem CART_TOKEN_KEY, vCart
       return
 
     logout: (facebookLogout) ->
       console.log "Winbits: Logging out..."
       localStorage.removeItem API_TOKEN_KEY
-      localStorage[CART_TOKEN_KEY] = DEFAULT_VIRTUAL_CART
+      localStorage.setItem CART_TOKEN_KEY, DEFAULT_VIRTUAL_CART
       console.log "Wee do not log out facebook anymore!"
       return
 
@@ -100,12 +101,12 @@ new easyXDM.Rpc({},
         "UTMS provider"
         utmParams
       ]
-      localStorage['_wb_utm_params'] = JSON.stringify(utmParams)
+      localStorage.setItem '_wb_utm_params', JSON.stringify(utmParams)
       return
 
     getUtms: (successFn, errorFn) ->
       console.log ["get UTMS"]
-      utm_params: localStorage['_wb_utm_params']
+      utm_params: localStorage.getItem '_wb_utm_params'
 
   remote:
     request: {}
