@@ -38,7 +38,8 @@ module.exports = class CardsView extends View
           arrowLeft: '.iconFont-left',
           arrowRight: '.iconFont-right',
           slidesNum: 4,
-          slideCSS: '.block-slide'
+          slideCSS: '.block-slide',
+          initialSlide: '.carruselSCC-selected'
     })
 
   onCardClick: (e) ->
