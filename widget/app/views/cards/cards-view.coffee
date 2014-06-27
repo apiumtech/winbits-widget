@@ -56,7 +56,6 @@ module.exports = class CardsView extends View
   setDefaultCardSucceds: ->
     @getDefaultCard().removeClass(DEFAULT_CARD_CLASS)
     @cardCandidate.addClass(DEFAULT_CARD_CLASS)
-    @render()
 
   setDefaultCardCompletes: ->
     @turnCardsClickEvent('on')
