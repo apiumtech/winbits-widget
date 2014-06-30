@@ -6,11 +6,13 @@ NotLoggedIn = require 'models/not-logged-in/not-logged-in'
 $ = Winbits.$
 mediator = Winbits.Chaplin.mediator
 
-
 module.exports = class NotLoggedInPageView extends View
   container: '#wbi-header-wrapper'
   className: 'miCuenta login'
   template: require './templates/not-logged-in'
+
+  DEFAULT_ERROR_MESSAGE =
+    DAFR : 'No se concretó el proceso para ligar tu cuenta de Facebook. ¿Deseas salir del proceso?'
 
   initialize: ->
     super
@@ -18,6 +20,7 @@ module.exports = class NotLoggedInPageView extends View
     @delegate 'click', '#wbi-login-btn', @onLoginButtonClick
     @delegate 'click', '#wbi-register-link', @onRegisterLinkClick
     @subscribeEvent 'facebook-button-event', @doFacebookLogin
+    @subscribeEvent 'denied-authentication-fb-register', -> @doFacebookLoginErrors.apply(@, arguments)
 
   attach: ->
     super
@@ -32,11 +35,8 @@ module.exports = class NotLoggedInPageView extends View
 
   doFacebookLogin : (e)->
     e?.preventDefault()
-    fbButton = @$(e?.currentTarget).prop('disabled', true)
+    @$(e?.currentTarget).prop('disabled', true)
     popup = @popupFacebookLogin()
-    timer = setInterval($.proxy(->
-      @facebookLoginInterval(fbButton, popup, timer)
-    , @), 100)
 
   facebookLoginInterval: (fbButton, popup, timer)->
     if popup.closed
@@ -92,3 +92,19 @@ module.exports = class NotLoggedInPageView extends View
 
   doFacebookLoginError: (xhr, textStatus, errorThrown) ->
     console.log "express-facebook-login.json Error!"
+
+  doFacebookLoginErrors: (data)->
+    @$('#wbi-login-facebook-link').prop('disabled', no)
+    message = DEFAULT_ERROR_MESSAGE[data.errorCode]
+    options =
+      value : 'Aceptar'
+      title : 'Cuenta no ligada'
+      icon  : 'iconFont-facebookCircle2'
+      context: @
+      cancelAction: () -> @doFacebookLogin()
+      acceptAction: () ->
+        utils.redirectTo action: 'index', controller:'home'
+        utils.closeMessageModal()
+    utils.showConfirmationModal(message, options)
+
+

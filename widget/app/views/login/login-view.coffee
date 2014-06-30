@@ -14,7 +14,7 @@ module.exports = class LoginView extends View
   initialize: ->
     super
     @delegate 'click', '#wbi-login-in-btn', @doLogin
-    @delegate 'click', '#wbi-login-facebook-link', @doFacebookLogin
+    @delegate 'click', '#wbi-facebook-link', @doFacebookLogin
 
   attach: ->
     super
