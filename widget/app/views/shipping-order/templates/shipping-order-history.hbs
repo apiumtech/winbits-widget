@@ -5,40 +5,40 @@
 {{#unless orders}}
       <div class="addInfo"><span class="iconFont-close"> No tienes compras.</span></div>
 {{else}}
-      <div class="accordeonSelectDiv">
-        <select class="select" data-clase="selectRegister">
-          <option>Estatus</option>
-          <option>Item 1</option>
-          <option>Item 2</option>
-          <option>Item 3</option>
-          <option>Item 4</option>
-        </select>
-        <select class="select" data-clase="selectRegister">
-          <option>Ordenar por...</option>
-          <option>Item 1</option>
-          <option>Item 2</option>
-          <option>Item 3</option>
-          <option>Item 4</option>
-        </select>
-      </div>
-      <div class="dataTable">
-        <div class="dataTable-header">
-          <span class="dataTable-desc">DESCRIPCIÓN</span>
-          <span class="dataTable-photo">FOTO</span>
-          <span class="dataTable-prod">DESCRIPCIÓN DEL PRODUCTO</span>
-          <span class="dataTable-cant">CANT.</span>
-          <span class="dataTable-status">ESTATUS</span>
-          <span class="dataTable-num"># DE RASTREO</span>
-          <span class="dataTable-site">SITIO</span>
-        </div>
-        <div id="wbi-shipping-order-history-table-div">
+    {{!<div class="accordeonSelectDiv">
+     <select class="select" data-clase="selectRegister">
+       <option>Estatus</option>
+       <option>Item 1</option>
+       <option>Item 2</option>
+       <option>Item 3</option>
+       <option>Item 4</option>
+     </select>
+     <select class="select" data-clase="selectRegister">
+       <option>Ordenar por...</option>
+       <option>Item 1</option>
+       <option>Item 2</option>
+       <option>Item 3</option>
+       <option>Item 4</option>
+     </select>
+    </div>}}
+    <div class="dataTable">
+     <div class="dataTable-header">
+       <span class="dataTable-desc">DESCRIPCIÓN</span>
+       <span class="dataTable-photo">FOTO</span>
+       <span class="dataTable-prod">DESCRIPCIÓN DEL PRODUCTO</span>
+       <span class="dataTable-cant">CANT.</span>
+       <span class="dataTable-status">ESTATUS</span>
+       <span class="dataTable-num"># DE RASTREO</span>
+       <span class="dataTable-site">SITIO</span>
+     </div>
+     <div id="wbi-shipping-order-history-table-div">
 
-        </div>
-        <div class="dataTable-pager" id="wbi-shipping-order-history-paginator">
+     </div>
+     <div class="dataTable-pager" id="wbi-shipping-order-history-paginator">
+     </div>
+    </div>
+    {{/unless}}
         </div>
       </div>
-{{/unless}}
-    </div>
-  </div>
-  <input id="wbi-shipping-order-history-btn-back" type="submit" value="Back to site" class="btn btnBackToSite">
+      <input id="wbi-shipping-order-history-btn-back" type="submit" value="Back to site" class="btn btnBackToSite">
 </div>
