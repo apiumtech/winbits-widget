@@ -125,12 +125,21 @@ module.exports = class SocialMediaView extends View
       acceptAction: () -> @doRequestDeleteSocialAccount(socialAccount)
     utils.showConfirmationModal(message, options)
 
+
   doRequestDeleteSocialAccount: (socialAccount)->
-    @socialAccount = socialAccount
     @model.requestDeleteSocialAccount(socialAccount.toLowerCase(), context:@)
-    .done(@deleteSocialAccountSuccess)
+    .done(->
+        @doShowMessageSuccess()
+        @model.set socialAccount, no
+      )
     .fail(@doFailDeleteSocialAccount)
     .always(@doAlwaysDeleteSocialAccount)
+
+  doShowMessageSuccess: ->
+    message = 'Tus datos se han guardado correctamente.'
+    options = value: "Cerrar", title: "Datos guardados",  icon: 'iconFont-ok'
+    utils.showMessageModal(message, options)
+
 
   deleteSocialAccountSuccess: ->
     @socialAccount
