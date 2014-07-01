@@ -3726,58 +3726,58 @@ span.errorInputOK {
   color: #000000 !important;
 }
 .loaderDiv {
-    background: url("../../images/misc/fancybox_overlay.png");
-    background: rgba(0, 0, 0, 0.8);
-    height: 100%;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 9999;
-    -webkit-transition: 0.3s;
-    -khtml-transition: 0.3s;
-    -moz-transition: 0.3s;
-    -ms-transition: 0.3s;
-    -o-transition: 0.3s;
-    transition: 0.3s;
+  background: url("../../images/misc/fancybox_overlay.png");
+  background: rgba(0, 0, 0, 0.8);
+  height: 100%;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+  -webkit-transition: 0.3s;
+  -khtml-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -ms-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
 }
 .loaderDiv.loader-hide,
 .loaderDiv .loader-hide {
-    display: none;
+  display: none;
 }
 .loaderDiv .loader-txtLarge {
-    margin: 10px -50px;
+  margin: 10px -50px;
 }
 .loaderDiv .loader-div {
-    color: #ffffff;
-    text-align: center;
-    height: 100px;
-    left: 50%;
-    margin: -50px 0 0 -50px;
-    position: absolute;
-    top: 50%;
-    width: 100px;
+  color: #ffffff;
+  text-align: center;
+  height: 100px;
+  left: 50%;
+  margin: -50px 0 0 -50px;
+  position: absolute;
+  top: 50%;
+  width: 100px;
 }
 .loaderDiv .confirmationContent {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin: -70px 0 0 -220px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -70px 0 0 -220px;
 }
 .loaderDiv .confirmationContent .iconFont-close {
-    font-size: 50px !important;
+  font-size: 50px !important;
 }
 .loader {
-    background: #000000 url("../../images/misc/fancybox_loading.gif");
-    border: 10px solid #000000;
-    margin: 10px auto;
-    -webkit-border-radius: 10px;
-    -khtml-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    -o-border-radius: 10px;
-    border-radius: 10px;
-    height: 24px;
-    width: 24px;
+  background: #000000 url("../../images/misc/fancybox_loading.gif");
+  border: 10px solid #000000;
+  margin: 10px auto;
+  -webkit-border-radius: 10px;
+  -khtml-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+  height: 24px;
+  width: 24px;
 }
 .video-overlay {
   visibility: hidden;
@@ -3927,6 +3927,66 @@ main {
 .widgetWinbitsHeader .knowmoreFolder .iconFont-downbanner:hover {
   opacity: 0.5;
   filter: alpha(opacity=50);
+}
+.widgetWinbitsHeader .knowmoreFolder .knowmore-banner {
+  margin-bottom: 20px;
+}
+.widgetWinbitsHeader .knowmoreFolder .knowmore-banner a:hover {
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+.widgetWinbitsHeader .knowmoreFolder .superOffer {
+  background: #eff717;
+  color: #000000;
+  font-size: 15px;
+  left: -350px;
+  padding: 3px 20px 10px 20px;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  width: 700px;
+  font-family: 'OmnesMedium', Arial;
+  font-style: normal;
+  font-weight: normal;
+}
+.widgetWinbitsHeader .knowmoreFolder .superOffer a {
+  color: #000000;
+}
+.widgetWinbitsHeader .knowmoreFolder .superOffer a:hover {
+  color: #6e99fc;
+}
+.widgetWinbitsHeader .knowmoreFolder .superOffer a span {
+  margin-right: 30px;
+  display: inline-block;
+  vertical-align: middle;
+  width: auto;
+  *display: inline;
+  /* IE7 inline-block hack */
+  zoom: 1;
+}
+.widgetWinbitsHeader .knowmoreFolder .superOffer .arrowOffer {
+  top: -5px;
+  position: absolute;
+  display: inline-block;
+  vertical-align: middle;
+  width: auto;
+  *display: inline;
+  /* IE7 inline-block hack */
+  zoom: 1;
+  border-bottom: 35px solid transparent;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 0 solid transparent;
+  height: 0;
+  width: 0;
+  border-bottom-color: #eff717;
+}
+.widgetWinbitsHeader .knowmoreFolder .superOffer .arrowOffer.leftOffer {
+  left: -15px;
+}
+.widgetWinbitsHeader .knowmoreFolder .superOffer .arrowOffer.rightOffer {
+  border-bottom-color: #363636;
+  right: -15px;
 }
 .widgetWinbitsHeader .knowmoreFolder .knowMoreMax {
   display: none;
