@@ -3726,58 +3726,58 @@ span.errorInputOK {
   color: #000000 !important;
 }
 .loaderDiv {
-  background: url("../../images/misc/fancybox_overlay.png");
-  background: rgba(0, 0, 0, 0.8);
-  height: 100%;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 9999;
-  -webkit-transition: 0.3s;
-  -khtml-transition: 0.3s;
-  -moz-transition: 0.3s;
-  -ms-transition: 0.3s;
-  -o-transition: 0.3s;
-  transition: 0.3s;
+    background: url("../../images/misc/fancybox_overlay.png");
+    background: rgba(0, 0, 0, 0.8);
+    height: 100%;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+    -webkit-transition: 0.3s;
+    -khtml-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -ms-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
 }
 .loaderDiv.loader-hide,
 .loaderDiv .loader-hide {
-  display: none;
+    display: none;
 }
 .loaderDiv .loader-txtLarge {
-  margin: 10px -50px;
+    margin: 10px -50px;
 }
 .loaderDiv .loader-div {
-  color: #ffffff;
-  text-align: center;
-  height: 100px;
-  left: 50%;
-  margin: -50px 0 0 -50px;
-  position: absolute;
-  top: 50%;
-  width: 100px;
+    color: #ffffff;
+    text-align: center;
+    height: 100px;
+    left: 50%;
+    margin: -50px 0 0 -50px;
+    position: absolute;
+    top: 50%;
+    width: 100px;
 }
 .loaderDiv .confirmationContent {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin: -70px 0 0 -220px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -70px 0 0 -220px;
 }
 .loaderDiv .confirmationContent .iconFont-close {
-  font-size: 50px !important;
+    font-size: 50px !important;
 }
 .loader {
-  background: #000000 url("../../images/misc/fancybox_loading.gif");
-  border: 10px solid #000000;
-  margin: 10px auto;
-  -webkit-border-radius: 10px;
-  -khtml-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
-  border-radius: 10px;
-  height: 24px;
-  width: 24px;
+    background: #000000 url("../../images/misc/fancybox_loading.gif");
+    border: 10px solid #000000;
+    margin: 10px auto;
+    -webkit-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    border-radius: 10px;
+    height: 24px;
+    width: 24px;
 }
 .video-overlay {
   visibility: hidden;
