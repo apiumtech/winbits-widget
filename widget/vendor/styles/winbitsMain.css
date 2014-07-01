@@ -3618,7 +3618,7 @@ span.errorInputOK {
 .miCuenta-overlay,
 .checkout-overlay,
 .video-overlay {
-  background: #000000;
+  background: url("../../images/misc/fancybox_overlay.png");
   background: rgba(0, 0, 0, 0.8);
   color: #ffffff;
   bottom: -20px;
