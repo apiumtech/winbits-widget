@@ -27,11 +27,13 @@ module.exports = class SocialMediaView extends View
     e.preventDefault()
     utils.showAjaxLoading()
     @popup =  window.open("", "facebook", "menubar=0,resizable=0,width=980,height=500")
-    @model.requestConnectionLink('facebook', context: @)
+    options = {context: @, data: JSON.stringify({verticalId:env.get('current-vertical-id')})}
+    @model.requestConnectionLink('facebook', options)
       .done(@successConnectFacebookLink)
       .fail(@showErrorMessageApi)
 
   successConnectFacebookLink: (data)->
+    console.log ['url', data.response.socialUrl]
     @popup.window?.location.href = data.response.socialUrl
     @popup.focus()
     timer = setInterval($.proxy(->

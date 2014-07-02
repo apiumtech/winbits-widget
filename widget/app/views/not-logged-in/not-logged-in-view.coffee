@@ -21,6 +21,7 @@ module.exports = class NotLoggedInPageView extends View
     @delegate 'click', '#wbi-register-link', @onRegisterLinkClick
     @subscribeEvent 'facebook-button-event', @doFacebookLogin
     @subscribeEvent 'denied-authentication-fb-register', -> @doFacebookLoginErrors.apply(@, arguments)
+    @subscribeEvent 'success-authentication-fb-register', -> @facebookSuccess.apply(@, arguments)
 
   attach: ->
     super
@@ -36,31 +37,17 @@ module.exports = class NotLoggedInPageView extends View
   doFacebookLogin : (e)->
     e?.preventDefault()
     @$(e?.currentTarget).prop('disabled', true)
-    popup = @popupFacebookLogin()
-
-  facebookLoginInterval: (fbButton, popup, timer)->
-    if popup.closed
-      fbButton.prop('disabled', false)
-      clearInterval timer
-      $.fancybox.close()
-      @expressFacebookLogin()
+    @popupFacebookLogin()
 
   popupFacebookLogin: ->
     popup = window.open( env.get('api-url') + "/users/facebook-login/connect?verticalId=" + env.get('current-vertical-id'),
         "facebook", "menubar=0,resizable=0,width=980,height=500")
     popup.focus()
-    popup
 
-  expressFacebookLogin: ->
-    env.get('rpc').facebookStatus $.proxy(@facebookStatusSuccess, @)
-
-  facebookStatusSuccess: (response)->
-    if response.status is "connected"
-      data = facebookId: response.authResponse.userID
+  facebookSuccess: (response)->
+      data = facebookId: response.facebookId
       promise = @model.requestExpressFacebookLogin(data, context:@)
       promise.done(@doFacebookLoginSuccess).fail(@doFacebookLoginError)
-    else
-      console.log "not conected to facebook "
 
 
   doFacebookLoginSuccess: (data) ->
@@ -102,6 +89,9 @@ module.exports = class NotLoggedInPageView extends View
       icon  : 'iconFont-facebookCircle2'
       context: @
       cancelAction: () -> @doFacebookLogin()
+      onClosed: () ->
+        utils.redirectTo action: 'index', controller:'home'
+        utils.closeMessageModal()
       acceptAction: () ->
         utils.redirectTo action: 'index', controller:'home'
         utils.closeMessageModal()
