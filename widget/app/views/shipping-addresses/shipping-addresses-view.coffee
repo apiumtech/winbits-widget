@@ -127,6 +127,7 @@ module.exports = class ShippingAddressesView extends View
     utils.showConfirmationModal(message, options)
 
   doRequestDeleteShippingAddress:($itemId) ->
+    utils.closeMessageModal()
     utils.showAjaxLoading()
     @model.requestDeleteShippingAddress($itemId, context:@)
       .done(@doSuccessDeleteShippingAddress)
