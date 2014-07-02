@@ -18,6 +18,7 @@ module.exports = class LoggedInView extends View
     super
     @listenTo @model, 'change', @render
     @subscribeEvent 'change-bits-data', @changeBitsValue
+    @subscribeEvent 'cart-changed', @changeBitsValue
     @subscribeEvent 'cashback-bits-won', @cashBackBitsChange
     @delegate 'click', '#wbi-checkout-btn', @triggerCheckout
 
@@ -33,6 +34,7 @@ module.exports = class LoggedInView extends View
   changeBitsValue: ->
     bitsTotal = mediator.data.get('bits-to-cart')
     $bitsBalance = mediator.data.get('login-data').bitsBalance - bitsTotal
+    console.log ["Bits Total", bitsTotal, "BitsBalance", mediator.data.get('login-data').bitsBalance]
     @$('#wbi-my-bits').text $bitsBalance
 
   cashBackBitsChange:(cashback) ->
