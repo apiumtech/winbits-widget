@@ -28,19 +28,21 @@ module.exports = class CartItemsView extends View
     quantity = @$(e.currentTarget)
     itemId = quantity.closest("li").data("id")
     data = "quantity": quantity.val(), bits : 0
-    cartUtils.doCartLoading()
+    cartUtils.showCartLoading()
     @model.requestToUpdateCart(data, itemId , @cartRequestOptions())
       .done(@doUpdateItemRequestSuccess)
       .fail(@doUpdateItemRequestError)
       .always(@requestToUpdateCartCompletes)
 
   doUpdateItemRequestSuccess: (data) ->
+    cartUtils.hideCartLoading()
     if not utils.isLoggedIn()
       cartUtils.addToVirtualCartSuccess(data)
     else
       cartUtils.publishCartChangedEvent(data)
 
   doUpdateItemRequestError: (xhr, textStatus)->
+    cartUtils.hideCartLoading()
     @render()
     cartUtils.showCartErrorMessage(xhr, textStatus)
 
@@ -52,7 +54,7 @@ module.exports = class CartItemsView extends View
     $itemId = $(e.currentTarget).closest('li').data("id")
     requestOptions = @cartRequestOptions()
     requestOptions.type = 'DELETE'
-    @doCartDeleteLoading()
+    cartUtils.showCartLoading()
     @model.requestToUpdateCart(null,$itemId,requestOptions)
       .done(@doUpdateItemRequestSuccess)
       .fail(@doDeleteItemRequestError)
@@ -66,10 +68,6 @@ module.exports = class CartItemsView extends View
         "Accept-Language": "es"
         'wb-vcart':utils.getCartItemsToVirtualCart()
     requestOptions
-
-  doCartDeleteLoading: ->
-    message = 'Eliminando artículo...'
-    utils.showLoadingMessage(message)
 
   doDeleteItemRequestError: (xhr, textStatus)->
     cartUtils.showCartErrorMessage(xhr, textStatus)
