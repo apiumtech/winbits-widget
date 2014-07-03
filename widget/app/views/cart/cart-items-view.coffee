@@ -29,7 +29,6 @@ module.exports = class CartItemsView extends View
     itemId = quantity.closest("li").data("id")
     data = "quantity": quantity.val(), bits : 0
     cartUtils.showCartLoading()
-#    cartUtils.doCartLoading()
     @model.requestToUpdateCart(data, itemId , @cartRequestOptions())
       .done(@doUpdateItemRequestSuccess)
       .fail(@doUpdateItemRequestError)
@@ -56,7 +55,6 @@ module.exports = class CartItemsView extends View
     requestOptions = @cartRequestOptions()
     requestOptions.type = 'DELETE'
     cartUtils.showCartLoading()
-#    @doCartDeleteLoading()
     @model.requestToUpdateCart(null,$itemId,requestOptions)
       .done(@doUpdateItemRequestSuccess)
       .fail(@doDeleteItemRequestError)
@@ -70,10 +68,6 @@ module.exports = class CartItemsView extends View
         "Accept-Language": "es"
         'wb-vcart':utils.getCartItemsToVirtualCart()
     requestOptions
-
-  doCartDeleteLoading: ->
-    message = 'Eliminando artículo...'
-    utils.showLoadingMessage(message)
 
   doDeleteItemRequestError: (xhr, textStatus)->
     cartUtils.showCartErrorMessage(xhr, textStatus)
