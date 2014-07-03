@@ -89,12 +89,12 @@ module.exports = class NotLoggedInPageView extends View
       icon  : 'iconFont-facebookCircle2'
       context: @
       cancelAction: () -> @doFacebookLogin()
-      onClosed: () ->
-        utils.redirectTo action: 'index', controller:'home'
-        utils.closeMessageModal()
-      acceptAction: () ->
-        utils.redirectTo action: 'index', controller:'home'
-        utils.closeMessageModal()
+      onClosed: () -> @doCloseConfirmModal()
+      acceptAction: () -> @doCloseConfirmModal()
     utils.showConfirmationModal(message, options)
+
+  doCloseConfirmModal: ->
+    utils.redirectTo action: 'index', controller:'home'
+    utils.closeMessageModal()
 
 
