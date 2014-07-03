@@ -60,6 +60,7 @@ module.exports = class CartBitsView extends View
       .fail(@updateCartBitsError)
     else
       utils.saveBitsInVirtualCart bits
+      _.delay(cartUtils.hideCartLoading,300)
 
   updateCartBitsSuccess: (data) ->
     cartUtils.hideCartLoading()
