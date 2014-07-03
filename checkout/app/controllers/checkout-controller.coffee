@@ -57,6 +57,13 @@ module.exports = class CheckoutController extends ChaplinController
     @cards = new Cards
     @payments.set methods:@order_data.paymentMethods
 
+    cybersourceInfo =
+      orgId: Winbits.checkoutConfig.orgIdCybersource
+      merchantId: Winbits.checkoutConfig.merchantId
+      merchantIdInst: Winbits.checkoutConfig.merchantIdInstallments
+
+    @payments.set cybersourceInfo: cybersourceInfo
+
     # @orderDetailView.render()
     @paymentView.render()
 
