@@ -37,12 +37,12 @@ jQuery.fn.carouselSwiper = function(options){
           swiper.params.onSlideChangeStart = function(swiper){calculateHeight(obj, swiper);};
         }
 
-//        if(defaults.onClickSlide){
-//          $(obj).find(defaults.slideCSS).on('click', function(e){
-//            e.stopPropagation();
-//            defaults.onClickSlide(swiper);
-//          });
-//        }
+        if(defaults.onClickSlide){
+          $(obj).find(defaults.slideCSS).on('click', function(e){
+            e.stopPropagation();
+            defaults.onClickSlide(swiper);
+          });
+        }
         swiper.params.queueStartCallbacks = true;
         swiper.params.queueEndCallbacks = true;
       },
