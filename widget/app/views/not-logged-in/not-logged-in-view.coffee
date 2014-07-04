@@ -12,7 +12,14 @@ module.exports = class NotLoggedInPageView extends View
   template: require './templates/not-logged-in'
 
   DEFAULT_ERROR_MESSAGE =
-    DAFR : 'No se concretó el proceso para ligar tu cuenta de Facebook. ¿Deseas salir del proceso?'
+    DAFR : 'No se concretó el proceso para ligar tu cuenta de Facebook.'
+    DPFR : 'No se concretó el proceso para ligar tu cuenta de Facebook.'
+    EIFR : 'Necesitas tener un e-mail principal en tu cuenta de Facebook para acceder a winbits.'
+
+  DEFAULT_ERROR_TITLE =
+    DAFR : 'Permisos incompletos.'
+    DPFR : 'Permisos incompletos.'
+    EIFR : 'Email invalido.'
 
   initialize: ->
     super
@@ -21,6 +28,8 @@ module.exports = class NotLoggedInPageView extends View
     @delegate 'click', '#wbi-register-link', @onRegisterLinkClick
     @subscribeEvent 'facebook-button-event', @doFacebookLogin
     @subscribeEvent 'denied-authentication-fb-register', -> @doFacebookLoginErrors.apply(@, arguments)
+    @subscribeEvent 'denied-permissions-fb-register', -> @doFacebookLoginErrors.apply(@, arguments)
+    @subscribeEvent 'email-inactive-fb-register', -> @doFacebookLoginErrors.apply(@, arguments)
     @subscribeEvent 'success-authentication-fb-register', -> @facebookSuccess.apply(@, arguments)
 
   attach: ->
@@ -85,13 +94,12 @@ module.exports = class NotLoggedInPageView extends View
     message = DEFAULT_ERROR_MESSAGE[data.errorCode]
     options =
       value : 'Aceptar'
-      title : 'Cuenta no ligada'
+      title : DEFAULT_ERROR_TITLE[data.errorCode]
       icon  : 'iconFont-facebookCircle2'
       context: @
-      cancelAction: () -> @doFacebookLogin()
       onClosed: () -> @doCloseConfirmModal()
       acceptAction: () -> @doCloseConfirmModal()
-    utils.showConfirmationModal(message, options)
+    utils.showMessageModal(message, options)
 
   doCloseConfirmModal: ->
     utils.redirectTo action: 'index', controller:'home'
