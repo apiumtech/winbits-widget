@@ -137,7 +137,6 @@ Handlebars.registerHelper "generateTicketPaymentDownloadUrl", (paymentCapture) -
 isPaymentSupported = (methods, identifier, options) ->
   supported = no
   for paymentMethod in  methods
-    console.log ["Payment", paymentMethod.identifier]
     if paymentMethod.identifier.indexOf(identifier) is 0
      supported = yes
      break
@@ -146,7 +145,6 @@ isPaymentSupported = (methods, identifier, options) ->
 Handlebars.registerHelper "paymentMethodSupported", (identifier, options) ->
   supported = isPaymentSupported(@paymentMethods, identifier, options)
   if supported then options.fn this else options.inverse this
-
 
 Handlebars.registerHelper "toDefaultDateFormat", (dateString) ->
   if dateString

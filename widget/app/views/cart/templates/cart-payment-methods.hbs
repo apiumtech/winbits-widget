@@ -20,16 +20,15 @@
           <span title="Paga con Winbits" class="iconFont-billete tip"></span>
         {{/paymentMethodSupported}}
 
-        <!--<span class="paymentLOP">-->
-            <!--<span title="VISA" class="iconFont-visa"></span>-->
-            <!--<span title="Master Card" class="iconFont-mastercard"></span>-->
-            <!--<span title="American Express" class="iconFont-amex"></span>-->
-        <!--</span>-->
-
-        <!--<span class="paymentLOP">-->
-            <!--<span title="VISA" class="iconFont-visa"></span>-->
-            <!--<span title="Master Card" class="iconFont-mastercard"></span>-->
-        <!--</span>-->
+        {{#paymentMethodSupported 'cybersource.'}}
+        <span class="paymentLOP">
+            <span title="VISA" class="iconFont-visa"></span>
+            <span title="Master Card" class="iconFont-mastercard"></span>
+            {{#paymentMethodSupported 'amex.'}}
+            <span title="American Express" class="iconFont-amex"></span>
+            {{/paymentMethodSupported}}
+        </span>
+        {{/paymentMethodSupported}}
     </p>
 
     <p>Meses sin intereses con:</p>
