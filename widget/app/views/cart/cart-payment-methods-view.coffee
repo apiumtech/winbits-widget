@@ -4,6 +4,7 @@ View = require 'views/base/view'
 utils = require 'lib/utils'
 $ = Winbits.$
 mediator = Winbits.Chaplin.mediator
+_ = Winbits._
 
 module.exports = class CartPaymentMethodsView extends View
   container: '#wbi-cart-right-panel'
@@ -19,6 +20,14 @@ module.exports = class CartPaymentMethodsView extends View
 
   attach: ->
     super
+    paymentMethods = @model.get('paymentMethods')
+    if paymentMethods
+      @setIndentifiers paymentMethods
+
+  setIndentifiers: (paymentsMethods)->
+    identifiers = _.map paymentsMethods, (paymentMethod)-> paymentMethod.identifier
+    console.log ["Identifiers from model", identifiers]
+
 
   checkout: ->
     if utils.isLoggedIn()

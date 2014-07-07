@@ -20,6 +20,7 @@ module.exports = class CartView extends View
   initialize: ->
     super
     @subscribeEvent 'cart-changed', -> @onCartChanged.apply(@, arguments)
+    @subscribeEvent 'change-bits-data',@onCartChanged
     @subscribeEvent 'checkout-completed', @onCheckoutCompleted
     @restoreCart()
 

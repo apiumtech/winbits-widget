@@ -67,7 +67,7 @@ module.exports = class CartBitsView extends View
     bitsTotal= data.response.bitsTotal
     @model.set 'bitsTotal', bitsTotal
     mediator.data.set 'bits-to-cart', bitsTotal
-    @publishEvent 'change-bits-data'
+    @publishEvent 'change-bits-data', data
 
   updateCartBitsError: (xhr, textStatus) ->
     cartUtils.hideCartLoading()
