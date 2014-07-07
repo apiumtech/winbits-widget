@@ -1,2 +1,31 @@
 <input id="wbi-cart-checkout-btn" type="submit" class="btn" value="Checkout">
-<a id="wbi-continue-shopping-link" href="#wb-logged-in" class="continueShoping">CONTINE SHOPPING</a>
+<a id="wbi-continue-shopping-link" href="#wb-logged-in" class="continueShoping">CONTINUE SHOPPING</a>
+<div class="condicionesCompra">
+    <p>Aplica para esta compra</p>
+    <p>
+        <span title="Pay Pal" class="iconFont-paypal"></span>
+        <span title="OXXO" class="iconFont-oxxo"></span>
+        <span title="Depósito Bancario" class="iconFont-efectivo tip"></span>
+        <span title="Paga con Winbits" class="iconFont-billete tip"></span>
+
+        <span class="paymentLOP">
+            <span title="VISA" class="iconFont-visa"></span>
+            <span title="Master Card" class="iconFont-mastercard"></span>
+            <span title="American Express" class="iconFont-amex"></span>
+        </span>
+
+        <span class="paymentLOP">
+            <span title="VISA" class="iconFont-visa"></span>
+            <span title="Master Card" class="iconFont-mastercard"></span>
+        </span>
+    </p>
+    {{#if msi}}
+    <p>Meses sin intereses con:</p>
+    <p>
+        <span title="Master Card" class="iconFont-mastercard"></span>
+        <span title="VISA" class="iconFont-visa"></span>
+        <span title="American Express" class="iconFont-amex"></span>
+        <span title="Pay Pal" class="iconFont-paypal"></span>
+    </p>
+    {{/if}}
+</div>
