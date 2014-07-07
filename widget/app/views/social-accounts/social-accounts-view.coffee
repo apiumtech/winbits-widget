@@ -11,6 +11,20 @@ module.exports = class SocialMediaView extends View
   id : 'wbi-social-accounts-panel'
   template: require './templates/social-accounts'
 
+  DEFAULT_ERROR_MESSAGE =
+    DAFL : 'No se concretó el proceso para ligar tu cuenta de Facebook.'
+    DPFL : 'No se concretó el proceso para ligar tu cuenta de Facebook.'
+    DATL : 'No se concretó el proceso para ligar tu cuenta de Twitter.'
+    FHLA : 'La cuenta de Facebook que desea ligar ya se encuentra asociada a otro usuario.'
+    THLA : 'La cuenta de Twitter que desea ligar ya se encuentra asociada a otro usuario.'
+
+  DEFAULT_ERROR_TITLE =
+    DAFL : 'Permisos incompletos.'
+    DPFL : 'Permisos incompletos.'
+    DATL : 'Permisos incompletos.'
+    FHLA : 'Usuario facebook ligado.'
+    THLA : 'Usuario twitter ligado.'
+
   initialize: ->
     super
     @listenTo @model,  'change', -> @render()
@@ -18,8 +32,13 @@ module.exports = class SocialMediaView extends View
     @delegate 'click', '.wbc-facebook-unlink', @doUnlinkFacebook
     @delegate 'click', '.wbc-twitter-link', @doLinkTwitter
     @delegate 'click', '.wbc-twitter-unlink', @doUnlinkTwitter
-    @subscribeEvent 'success-authentication-fb-link', -> @facebookStatusSuccess.apply(@, arguments)
-
+    @subscribeEvent 'success-authentication-fb-link', -> @LinkStatusSuccess.apply(@, arguments)
+    @subscribeEvent 'success-authentication-tw-link', -> @LinkStatusSuccess.apply(@, arguments)
+    @subscribeEvent 'denied-authentication-fb-link', -> @doSocialLinkError.apply(@, arguments)
+    @subscribeEvent 'denied-authentication-tw-link', -> @doSocialLinkError.apply(@, arguments)
+    @subscribeEvent 'fb-has-link-account', -> @doSocialLinkError.apply(@, arguments)
+    @subscribeEvent 'tw-has-link-account', -> @doSocialLinkError.apply(@, arguments)
+    @subscribeEvent 'denied-permissions-fb-link', -> @doSocialLinkError.apply(@, arguments)
 
   attach: ->
     super
@@ -31,38 +50,24 @@ module.exports = class SocialMediaView extends View
     @popup =  window.open("", "facebook", "menubar=0,resizable=0,width=980,height=500")
     options = {context: @, data: JSON.stringify({verticalId:env.get('current-vertical-id')})}
     @model.requestConnectionLink('facebook', options)
-      .done(@successConnectFacebookLink)
-      .fail(@showErrorMessageApi)
+      .done(@successConnectLink)
+      .fail(@doFailDeleteSocialAccount)
 
-  successConnectFacebookLink: (data)->
+  successConnectLink: (data)->
     @popup.window?.location.href = data.response.socialUrl
     @popup.focus()
+    timer = setInterval($.proxy(->
+      @socialLinkedInterval(@popup, timer)
+    , @), 100)
 
-  facebookLinkedInterval: (popup, timer)->
+  socialLinkedInterval: (popup, timer)->
     if popup.closed
       clearInterval timer
-      @facebookStatusRpc()
+      utils.hideAjaxLoading()
 
-  facebookStatusRpc:->
-    env.get('rpc').facebookStatus $.proxy(@facebookStatusSuccess, @)
-
-  facebookStatusSuccess: (response)->
-    if response.status is "connected"
-      @model.set 'Facebook', yes
-      @doChangeLoginSocialAccounts()
-    else
-      @showErrorMessageLinkSocialAccount()
-    utils.hideAjaxLoading()
-
-  showErrorMessageApi: ->
-    @popup.window.close()
-    @showErrorMessageLinkSocialAccount()
-
-  showErrorMessageLinkSocialAccount: ->
-    utils.hideAjaxLoading()
-    message = 'Para poder ligar tu cuenta de Facebook o Twitter debes terminar el proceso y aceptar todos los privilegios solicitados.'
-    options = value:'Aceptar', title: 'Error al ligar red social', icon : 'iconFont-close'
-    utils.showMessageModal(message, options)
+  LinkStatusSuccess: (data)->
+    @model.set data.successCode, yes
+    @doChangeLoginSocialAccounts()
 
   doUnlinkFacebook: (e)->
     e.preventDefault()
@@ -74,40 +79,8 @@ module.exports = class SocialMediaView extends View
     @popup =  window.open("", "twitter", "menubar=0,resizable=0,width=980,height=500")
     options = {context: @, data: JSON.stringify({verticalId:env.get('current-vertical-id')})}
     @model.requestConnectionLink('twitter', options)
-    .done(@successConnectTwitterLink)
-    .fail(@showErrorMessageLinkSocialAccount)
-
-  successConnectTwitterLink: (data)->
-    @popup.window?.location.href = data.response.socialUrl
-    @popup.focus()
-    timer = setInterval($.proxy(->
-      @twitterLinkedInterval(@popup, timer)
-    , @), 100)
-
-  twitterLinkedInterval: (popup, timer)->
-    if popup.closed
-      clearInterval timer
-      @validTwitterAccount()
-
-  validTwitterAccount:->
-    @model.requestGetSocialAccounts(context:@)
-      .done(@doValidateTwitterAccount)
-      .fail(@showErrorMessageLinkSocialAccount)
-
-  doValidateTwitterAccount: (data)->
-    @validateChangeAccount(data.response.socialAccounts, 'Twitter')
-
-
-  validateChangeAccount:(socialAccounts, name)->
-    available = !@model.get name
-    for socialAccount in socialAccounts
-      if socialAccount.name == name
-        if socialAccount.available == available
-          @model.set name, available
-        else
-          @showErrorMessageLinkSocialAccount()
-    utils.hideAjaxLoading()
-    @doChangeLoginSocialAccounts()
+    .done(@successConnectLink)
+    .fail(@doFailDeleteSocialAccount)
 
   doUnlinkTwitter: (e)->
     e.preventDefault()
@@ -128,24 +101,17 @@ module.exports = class SocialMediaView extends View
 
 
   doRequestDeleteSocialAccount: (socialAccount)->
+    @socialAccount = socialAccount
     @model.requestDeleteSocialAccount(socialAccount.toLowerCase(), context:@)
-    .done(->
-        @doShowMessageSuccess()
-        @model.set socialAccount, no
-      )
+    .done(@doShowMessageSuccess)
     .fail(@doFailDeleteSocialAccount)
     .always(@doAlwaysDeleteSocialAccount)
 
   doShowMessageSuccess: ->
+    @model.set @socialAccount, no
     message = 'Tus datos se han guardado correctamente.'
     options = value: "Cerrar", title: "Datos guardados",  icon: 'iconFont-ok'
     utils.showMessageModal(message, options)
-
-
-  deleteSocialAccountSuccess: ->
-    @socialAccount
-    @model.set @socialAccount, no
-    utils.closeMessageModal()
 
   doFailDeleteSocialAccount: ->
     message = 'El servidor no está disponible, por favor inténtalo más tarde.'
@@ -159,6 +125,15 @@ module.exports = class SocialMediaView extends View
   doCancelDeleteSocialAccount: ->
     utils.hideAjaxLoading()
     utils.closeMessageModal()
+
+  doSocialLinkError: (data)->
+    message = DEFAULT_ERROR_MESSAGE[data.errorCode]
+    options =
+      value : 'Aceptar'
+      title : DEFAULT_ERROR_TITLE[data.errorCode]
+      icon  : "iconFont-#{data.accountId}Circle"
+      context: @
+    utils.showMessageModal(message, options)
 
   doChangeLoginSocialAccounts: ->
     $loginData = _.clone mediator.data.get('login-data')

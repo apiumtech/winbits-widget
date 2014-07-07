@@ -65,7 +65,6 @@ Winbits.like= (options) ->
   fn.call(socialUtils, options)
 
 Winbits.execute= (params) ->
-  console.log ["params ---->",params]
   EventBroker.publishEvent params.code, params
 
 appConfig =
