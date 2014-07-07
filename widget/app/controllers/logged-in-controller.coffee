@@ -5,7 +5,7 @@ utils = require 'lib/utils'
 MyProfile = require 'models/my-profile/my-profile'
 MyProfileView = require 'views/my-profile/my-profile-view'
 MyAccountView = require 'views/my-account/my-account-view'
-LoaderToCheckout = require 'views/loader-to-checkout/loader-to-checkout-view'
+LoaderToCheckoutView = require 'views/loader-to-checkout/loader-to-checkout-view'
 ShippingAddressesView = require 'views/shipping-addresses/shipping-addresses-view'
 ShippingAddressesModel = require 'models/shipping-addresses/shipping-addresses'
 MailingModel = require 'models/mailing/mailing'
@@ -50,7 +50,7 @@ module.exports = class LoggedInController extends Controller
       @reuse 'loader-to-checkout-view',
         compose: ->
           mediator.data.set 'loader-to-checkout-composed', yes
-          @model = new LoaderToCheckout
+          @view = new LoaderToCheckoutView
 
         check: -> mediator.data.get 'loader-to-checkout-composed'
 

@@ -106,6 +106,7 @@ module.exports = class CardsView extends View
     utils.showConfirmationModal('¿Estás seguro de que deseas eliminar esta tarjeta?', options)
 
   cardDeletionConfirmed: ->
+    utils.closeMessageModal()
     utils.showAjaxLoading()
     @model.requestDeleteCard(@cardIdToDelete, @)
         .done(@requestDeleteCardSucceds)

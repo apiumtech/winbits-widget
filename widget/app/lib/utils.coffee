@@ -336,8 +336,13 @@ _(utils).extend
         $fancybox.find(".wbc-default-action").click(options.acceptAction)
         if $.isFunction(options.cancelAction)
           $fancybox.find(".wbc-cancel-action").click(options.cancelAction)
-    $.fancybox(content, fancyboxOptions)
-
+    $fancyboxOverlay = $('#fancybox-overlay')
+    attempts = 0
+    interval = setInterval(->
+      if ++attempts is 20 or $fancyboxOverlay.is(':hidden')
+        clearInterval(interval)
+        $.fancybox(content, fancyboxOptions)
+    , 50)
 
   showConfirmationModal: (message, options = {}) ->
     $modal = $('#wbi-confirmation-modal')
