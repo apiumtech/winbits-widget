@@ -30,13 +30,22 @@
         </span>
         {{/paymentMethodSupported}}
     </p>
-
-    <p>Meses sin intereses con:</p>
-    <p>
-        <!--<span title="Master Card" class="iconFont-mastercard"></span>-->
-        <!--<span title="VISA" class="iconFont-visa"></span>-->
-        <!--<span title="American Express" class="iconFont-amex"></span>-->
-        <!--<span title="Pay Pal" class="iconFont-paypal"></span>-->
-    </p>
+      {{#withMsiPayments}}
+        <p>Meses sin intereses con:</p>
+        <p>
+          {{#each msiPayments}}
+            {{#compare identifier 'cybersource.+' operator='matches'}}
+                <span title="Master Card" class="iconFont-mastercard"></span>
+                <span title="VISA" class="iconFont-visa"></span>
+            {{/compare}}
+            {{#compare identifier 'amex.+' operator='matches'}}
+                <span title="American Express" class="iconFont-amex"></span>
+            {{/compare}}
+            {{#compare identifier 'paypal.+' operator='matches'}}
+                <span title="Pay Pal" class="iconFont-paypal"></span>
+            {{/compare}}
+          {{/each}}
+        </p>
+        {{/withMsiPayments}}
     {{/if}}
 </div>

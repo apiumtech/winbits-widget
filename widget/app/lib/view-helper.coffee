@@ -146,6 +146,28 @@ Handlebars.registerHelper "paymentMethodSupported", (identifier, options) ->
   supported = isPaymentSupported(@paymentMethods, identifier, options)
   if supported then options.fn this else options.inverse this
 
+allMsiPaymentsFunction = (methods) ->
+  $.grep methods, (paymentMethod)->
+   if paymentMethod.identifier.indexOf('.msi') isnt -1
+     return paymentMethod.identifier
+
+msiPaymentsFunction = (allMsiPayments) ->
+  msiIdentifiers = []
+  msiPayments = []
+  $.each allMsiPayments, (index, msiPayment) ->
+    identifier = msiPayment.identifier.substring 0, msiPayment.identifier.indexOf('.')
+    if msiIdentifiers.indexOf(identifier) is -1
+      msiIdentifiers.push identifier
+      msiPayments.push msiPayment
+  msiPayments
+
+Handlebars.registerHelper "withMsiPayments", (options) ->
+  allMsiPayments = allMsiPaymentsFunction @paymentMethods
+  console.log ["All MSI PAYMENTS", allMsiPayments]
+  msiPayments = msiPaymentsFunction allMsiPayments
+  console.log ["MSIPAYMENTS INITIALIZE", msiPayments]
+  if msiPayments.length > 0 then options.fn(msiPayments: msiPayments) else options.inverse this
+
 Handlebars.registerHelper "toDefaultDateFormat", (dateString) ->
   if dateString
     moment(new Date(dateString)).format('DD/MM/YYYY');

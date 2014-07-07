@@ -20,7 +20,7 @@ module.exports = class CartPaymentMethodsView extends View
 
   attach: ->
     super
-    console.log ["Model paymentsMethods", @model.get 'paymentMethods']
+    console.log ["Model paymentsMethods", @model]
 
   checkout: ->
     if utils.isLoggedIn()
