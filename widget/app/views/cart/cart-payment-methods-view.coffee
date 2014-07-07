@@ -20,14 +20,7 @@ module.exports = class CartPaymentMethodsView extends View
 
   attach: ->
     super
-    paymentMethods = @model.get('paymentMethods')
-    if paymentMethods
-      @setIndentifiers paymentMethods
-
-  setIndentifiers: (paymentsMethods)->
-    identifiers = _.map paymentsMethods, (paymentMethod)-> paymentMethod.identifier
-    console.log ["Identifiers from model", identifiers]
-
+    console.log ["Model paymentsMethods", @model.get 'paymentMethods']
 
   checkout: ->
     if utils.isLoggedIn()
