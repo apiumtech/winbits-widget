@@ -43,7 +43,7 @@ module.exports = class CartView extends View
   onCartChanged: (cartData) ->
     if cartData
       @updateCartModel(cartData)
-      @openCart()
+    @openCart()
 
   updateCartModel: (data) ->
     @model.setData(data)
