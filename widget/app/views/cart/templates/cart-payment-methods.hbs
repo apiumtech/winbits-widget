@@ -3,7 +3,7 @@
 <div class="condicionesCompra">
     <p>Aplica para esta compra</p>
     {{#if paymentMethods}}
-    <p>
+      <p>
         {{#paymentMethodSupported  'paypal.latam'}}
           <span title="Pay Pal" class="iconFont-paypal"></span>
         {{/paymentMethodSupported}}
@@ -17,7 +17,7 @@
         {{/paymentMethodSupported}}
 
         {{#paymentMethodSupported 'user.bits'}}
-          <span title="Paga con Winbits" class="iconFont-billete tip"></span>
+          <span style="font-size: 40px" title="Paga con Winbits" class="iconFont-billete tip"></span>
         {{/paymentMethodSupported}}
 
         {{#paymentMethodSupported 'cybersource.'}}
@@ -29,7 +29,7 @@
             {{/paymentMethodSupported}}
         </span>
         {{/paymentMethodSupported}}
-    </p>
+      </p>
       {{#withMsiPayments}}
         <p>Meses sin intereses con:</p>
         <p>
@@ -46,6 +46,6 @@
             {{/compare}}
           {{/each}}
         </p>
-        {{/withMsiPayments}}
+      {{/withMsiPayments}}
     {{/if}}
 </div>

@@ -138,8 +138,8 @@ isPaymentSupported = (methods, identifier, options) ->
   supported = no
   for paymentMethod in  methods
     if paymentMethod.identifier.indexOf(identifier) is 0
-     supported = yes
-     break
+      supported = yes
+      break
   supported
 
 Handlebars.registerHelper "paymentMethodSupported", (identifier, options) ->
@@ -163,9 +163,7 @@ msiPaymentsFunction = (allMsiPayments) ->
 
 Handlebars.registerHelper "withMsiPayments", (options) ->
   allMsiPayments = allMsiPaymentsFunction @paymentMethods
-  console.log ["All MSI PAYMENTS", allMsiPayments]
   msiPayments = msiPaymentsFunction allMsiPayments
-  console.log ["MSIPAYMENTS INITIALIZE", msiPayments]
   if msiPayments.length > 0 then options.fn(msiPayments: msiPayments) else options.inverse this
 
 Handlebars.registerHelper "toDefaultDateFormat", (dateString) ->
