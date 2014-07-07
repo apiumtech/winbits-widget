@@ -43,6 +43,7 @@ module.exports = class PaymentView extends View
 
   payWithCard: (e) ->
     e.preventDefault()
+    console.log 'entra'
     that = @
     $currentTarget = @$(e.currentTarget)
     $form = $currentTarget.closest('form.wb-card-form')
@@ -68,7 +69,7 @@ module.exports = class PaymentView extends View
         paymentMethod = "cybersource.msi." + formData.totalMsi
         paymentMethod = method.id for method in @model.attributes.methods when method.identifier is paymentMethod
         
-      if !new RegExp("amex\..+").test(identifier)
+      if not new RegExp("amex\..+").test(identifier)
         formData.deviceFingerPrint = Winbits.checkoutConfig.orderId
 
       postData = paymentInfo : formData

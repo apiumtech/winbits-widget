@@ -127,11 +127,6 @@
   <input type="submit" class="btn btnCheckout" value="Continuar" id="wbi-card-token-payment-continue-btn">
 </div>
 
-{{#with cybersourceInfo}}
-  <script src="https://h.online-metrix.net/fp/check.js?org_id={{orgId}}&amp;session_id={{merchantId}}{{orderId}}" type="text/javascript"></script>
-  <script src="https://h.online-metrix.net/fp/check.js?org_id={{orgId}}&amp;session_id={{merchantIdInst}}{{orderId}}" type="text/javascript"></script>
-{{/with}}
-
 {{#methods}}
   {{#compare identifier "reference.hsbc"}}
       <div class="checkoutPaymentCash method-payment" id="method-{{replace identifier searchValue='.' replaceValue='_'}}">
