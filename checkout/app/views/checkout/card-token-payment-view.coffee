@@ -48,6 +48,10 @@ module.exports = class CardTokenPaymentView extends View
       paymentData = mediator.post_checkout
       paymentData.vertical = Winbits.checkoutConfig.verticalId
       formData = util.serializeForm($form)
+      
+      if new RegExp("cybersource\..+").test(paymentData.paymentMethod)
+        formData.deviceFingerPrint = Winbits.checkoutConfig.orderId
+
       if formData.totalMsi
         paymentData.paymentMethod = 'cybersource.token.msi.' + formData.totalMsi
         formData.totalMsi = parseInt formData.totalMsi, 10
