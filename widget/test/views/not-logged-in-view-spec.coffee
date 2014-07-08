@@ -31,7 +31,6 @@ describe 'NotLoggedInViewSpec', ->
     @model.requestExpressFacebookLogin.restore?()
     utils.showMessageModal.restore?()
     $.fancybox.close.restore?()
-
     @model.dispose()
     @view.dispose()
 

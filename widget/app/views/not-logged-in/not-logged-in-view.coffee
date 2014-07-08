@@ -83,7 +83,6 @@ module.exports = class NotLoggedInPageView extends View
       utils.showConfirmationModal(message, options)
     else
       $.fancybox.close()
-
     utils.redirectToLoggedInHome()
 
   doFacebookLoginError: (xhr, textStatus, errorThrown) ->

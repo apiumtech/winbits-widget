@@ -9,8 +9,6 @@ describe 'SocialAccountsLinkViewSpec', ->
 
   TWITTER_RESPONSE = '{"meta":{"status":200},"response":{"socialUrl":"https://api.twitter.com/oauth/authorize?oauth_token=12jWNYjnjY8TAQpQTA7tOOYvFHdv27JHBUBEsjXGtA"}}'
   FACEBOOK_RESPONSE = '{"meta":{"status":200},"response":{"socialUrl":"https://graph.facebook.com/oauth/authorize?client_id=486640894740634&response_type=code&redirect_uri=https%3A%2F%2Fapidev.winbits.com%2Fv1%2Fusers%2Fconnect%2Ffacebook%3Fuser%3Dyou_fhater%2540hotmail.com&scope=publish_actions,publish_stream,share_item"}}'
-  SOCIAL_ACCOUNTS_WITH_LINK_RESPONSE = '{"meta":{"status":200},"response":{"socialAccounts":[{"name":"Facebook","providerId":"facebook","logo":"facebook.png","available":true},{"name":"Twitter","providerId":"twitter","logo":"twitter.png","available":true}]}}'
-  SOCIAL_ACCOUNTS_WITHOUT_LINK_RESPONSE = '{"meta":{"status":200},"response":{"socialAccounts":[{"name":"Facebook","providerId":"facebook","logo":"facebook.png","available":false},{"name":"Twitter","providerId":"twitter","logo":"twitter.png","available":false}]}}'
   SUCCESS_DELETE_SOCIAL_ACCOUNT = '{"meta":{"status":200},"response":{}}'
 
   beforeEach ->
@@ -31,19 +29,19 @@ describe 'SocialAccountsLinkViewSpec', ->
   afterEach ->
     utils.showAjaxLoading.restore()
     utils.showMessageModal.restore()
+    utils.showConfirmationModal.restore?()
+    utils.showError.restore?()
+    utils.ajaxRequest.restore?()
     window.open.restore()
     @server.restore()
     @view.dispose()
     @model.dispose()
-    utils.showConfirmationModal.restore?()
-    utils.showError.restore?()
-    utils.ajaxRequest.restore?()
 
 
   it "Should be called success when the api response with facebook", ->
     sinon.stub(@view, 'successConnectLink')
     @view.$('.wbc-facebook-link').click()
-    @server.requests[0].respond(200, { "Content-Type": "application/json" }, TWITTER_RESPONSE)
+    @server.requests[0].respond(200, { "Content-Type": "application/json" }, FACEBOOK_RESPONSE)
     expect(@view.successConnectLink).to.be.calledOnce
 
   it "Should be called error when the api response with facebook", ->
