@@ -51,13 +51,15 @@ module.exports = class CardsView extends View
       @turnCardsClickEvent('off')
       @model.requestSetDefaultCard(id, @)
           .done(@setDefaultCardSucceds)
-          .always(->
-                  @turnCardsClickEvent('on')
-                  utils.hideAjaxLoading())
+          .always(@setDefaultCardCompletes)
 
   setDefaultCardSucceds: ->
     @getDefaultCard().removeClass(DEFAULT_CARD_CLASS)
     @cardCandidate.addClass(DEFAULT_CARD_CLASS)
+
+  setDefaultCardCompletes: ->
+    @turnCardsClickEvent('on')
+    utils.hideAjaxLoading()
 
   getDefaultCard: ->
     @$(".wbc-card.#{DEFAULT_CARD_CLASS}")
@@ -104,6 +106,7 @@ module.exports = class CardsView extends View
     utils.showConfirmationModal('¿Estás seguro de que deseas eliminar esta tarjeta?', options)
 
   cardDeletionConfirmed: ->
+    utils.closeMessageModal()
     utils.showAjaxLoading()
     @model.requestDeleteCard(@cardIdToDelete, @)
         .done(@requestDeleteCardSucceds)

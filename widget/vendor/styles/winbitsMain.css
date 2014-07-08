@@ -3618,7 +3618,7 @@ span.errorInputOK {
 .miCuenta-overlay,
 .checkout-overlay,
 .video-overlay {
-  background: #000000;
+  background: url("../../images/misc/fancybox_overlay.png");
   background: rgba(0, 0, 0, 0.8);
   color: #ffffff;
   bottom: -20px;
@@ -3927,6 +3927,66 @@ main {
 .widgetWinbitsHeader .knowmoreFolder .iconFont-downbanner:hover {
   opacity: 0.5;
   filter: alpha(opacity=50);
+}
+.widgetWinbitsHeader .knowmoreFolder .knowmore-banner {
+  margin-bottom: 20px;
+}
+.widgetWinbitsHeader .knowmoreFolder .knowmore-banner a:hover {
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+.widgetWinbitsHeader .knowmoreFolder .superOffer {
+  background: #eff717;
+  color: #000000;
+  font-size: 15px;
+  left: -350px;
+  padding: 3px 20px 10px 20px;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  width: 700px;
+  font-family: 'OmnesMedium', Arial;
+  font-style: normal;
+  font-weight: normal;
+}
+.widgetWinbitsHeader .knowmoreFolder .superOffer a {
+  color: #000000;
+}
+.widgetWinbitsHeader .knowmoreFolder .superOffer a:hover {
+  color: #6e99fc;
+}
+.widgetWinbitsHeader .knowmoreFolder .superOffer a span {
+  margin-right: 30px;
+  display: inline-block;
+  vertical-align: middle;
+  width: auto;
+  *display: inline;
+  /* IE7 inline-block hack */
+  zoom: 1;
+}
+.widgetWinbitsHeader .knowmoreFolder .superOffer .arrowOffer {
+  top: -5px;
+  position: absolute;
+  display: inline-block;
+  vertical-align: middle;
+  width: auto;
+  *display: inline;
+  /* IE7 inline-block hack */
+  zoom: 1;
+  border-bottom: 35px solid transparent;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 0 solid transparent;
+  height: 0;
+  width: 0;
+  border-bottom-color: #eff717;
+}
+.widgetWinbitsHeader .knowmoreFolder .superOffer .arrowOffer.leftOffer {
+  left: -15px;
+}
+.widgetWinbitsHeader .knowmoreFolder .superOffer .arrowOffer.rightOffer {
+  border-bottom-color: #363636;
+  right: -15px;
 }
 .widgetWinbitsHeader .knowmoreFolder .knowMoreMax {
   display: none;

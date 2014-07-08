@@ -3,6 +3,7 @@ $ = Winbits.$
 _ = Winbits._
 mediator = Winbits.Chaplin.mediator
 utils = require 'lib/utils'
+cartUtils = require 'lib/cart-utils'
 
 module.exports = class CartBitsView extends View
   container: '#wbi-cart-right-panel'
@@ -51,19 +52,25 @@ module.exports = class CartBitsView extends View
 
 
   updateCartBits: (bits) ->
+    cartUtils.showCartLoading()
     if utils.isLoggedIn()
       data = [bitsTotal : bits]
       @model.updateCartBits(data, context:@)
       .done(@updateCartBitsSuccess)
       .fail(@updateCartBitsError)
+    else
+      utils.saveBitsInVirtualCart bits
+      _.delay(cartUtils.hideCartLoading,300)
 
   updateCartBitsSuccess: (data) ->
+    cartUtils.hideCartLoading()
     bitsTotal= data.response.bitsTotal
     @model.set 'bitsTotal', bitsTotal
     mediator.data.set 'bits-to-cart', bitsTotal
     @publishEvent 'change-bits-data'
 
   updateCartBitsError: (xhr, textStatus) ->
+    cartUtils.hideCartLoading()
     $maxSelection = @$('#wbi-cart-bits-slider').data('max-selection')
     $bitsTotal =$maxSelection - parseInt( $('#wbi-my-bits').text())
     @model.set 'bitsTotal', $bitsTotal

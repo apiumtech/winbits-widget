@@ -37,7 +37,11 @@ module.exports = class ShippingAddressesView extends View
   attach: ->
     super
     #script to implement carrusel
-    @$('.block-carrusel').carouselSwiper({
+
+    @$('.block-carrusel').changeBox({
+      activo: '',
+      items: '.carruselSCC-div'
+       }).carouselSwiper({
           optionsSwiper:{
             slideClass: 'block-slide',
             wrapperClass: 'block-wrapper',
@@ -127,15 +131,18 @@ module.exports = class ShippingAddressesView extends View
     utils.showConfirmationModal(message, options)
 
   doRequestDeleteShippingAddress:($itemId) ->
+    utils.closeMessageModal()
+    utils.showAjaxLoading()
     @model.requestDeleteShippingAddress($itemId, context:@)
       .done(@doSuccessDeleteShippingAddress)
       .fail(@doErrorDeleteShippingAddress)
 
   doSuccessDeleteShippingAddress: ->
+    utils.hideAjaxLoading()
+    @model.fetch()
     message = "La dirección se ha eliminado correctamente"
     options = value: "Continuar", title:'Direccion de envío eliminada', icon:'iconFont-ok', onClosed: utils.redirectTo controller: 'home', action: 'index'
     utils.showMessageModal(message, options)
-    @model.fetch()
 
   doErrorDeleteShippingAddress: () ->
     message = "Hubo un error al intentar eliminar la direccion, intentalo mas tarde"

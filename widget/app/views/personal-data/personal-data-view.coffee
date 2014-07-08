@@ -51,20 +51,10 @@ module.exports = class PersonalDataView extends View
           required: yes
           validateDate: yes
         phone:
-          required: $.proxy(()->
-            require = no
-            if (@model.get 'phone')
-              require = yes
-            require
-          , @)
+          required: @model.fieldIsRequired('phone')
           wbiPhone: yes
         zipcode:
-          required: $.proxy(()->
-            require = no
-            if (@model.get 'zipCode')
-              require = yes
-            require
-          , @)
+          required: @model.fieldIsRequired('zipCode')
           minlength: 5
           digits:yes
           zipCodeDoesNotExist:yes

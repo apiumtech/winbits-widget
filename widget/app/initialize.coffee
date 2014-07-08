@@ -3,6 +3,7 @@ routes = require './routes'
 cartUtils = require 'lib/cart-utils'
 wishListUtils = require 'lib/favorite-utils'
 skuProfileUtils = require 'lib/sku-profile-utils'
+socialUtils = require 'lib/social-utils'
 utils = require 'lib/utils'
 mediator = Winbits.Chaplin.mediator
 
@@ -49,6 +50,18 @@ Winbits.getSkuProfileInfo= (options) ->
 Winbits.getSkuProfilesInfo= (options) ->
   fn = skuProfileUtils.getSkuProfilesInfo
   fn.call(skuProfileUtils, options)
+
+Winbits.share= (options) ->
+  fn = socialUtils.share
+  fn.call(socialUtils, options)
+
+Winbits.tweet= (options) ->
+  fn = socialUtils.tweet
+  fn.call(socialUtils, options)
+
+Winbits.like= (options) ->
+  fn = socialUtils.like
+  fn.call(socialUtils, options)
 
 appConfig =
   controllerSuffix: '-controller'

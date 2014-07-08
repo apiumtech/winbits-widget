@@ -2,6 +2,8 @@
 View = require 'views/base/view'
 utils = require 'lib/utils'
 $ = Winbits.$
+_ = Winbits._
+mediator = Winbits.Chaplin.mediator
 env = Winbits.env
 
 module.exports = class SocialMediaView extends View
@@ -47,6 +49,7 @@ module.exports = class SocialMediaView extends View
   facebookStatusSuccess: (response)->
     if response.status is "connected"
       @model.set 'Facebook', yes
+      @doChangeLoginSocialAccounts()
     else
       @showErrorMessageLinkSocialAccount()
     utils.hideAjaxLoading()
@@ -103,6 +106,7 @@ module.exports = class SocialMediaView extends View
         else
           @showErrorMessageLinkSocialAccount()
     utils.hideAjaxLoading()
+    @doChangeLoginSocialAccounts()
 
   doUnlinkTwitter: (e)->
     e.preventDefault()
@@ -121,13 +125,26 @@ module.exports = class SocialMediaView extends View
       acceptAction: () -> @doRequestDeleteSocialAccount(socialAccount)
     utils.showConfirmationModal(message, options)
 
+
   doRequestDeleteSocialAccount: (socialAccount)->
     @model.requestDeleteSocialAccount(socialAccount.toLowerCase(), context:@)
     .done(->
-      @model.set socialAccount, no
-      utils.closeMessageModal())
+        @doShowMessageSuccess()
+        @model.set socialAccount, no
+      )
     .fail(@doFailDeleteSocialAccount)
     .always(@doAlwaysDeleteSocialAccount)
+
+  doShowMessageSuccess: ->
+    message = 'Tus datos se han guardado correctamente.'
+    options = value: "Cerrar", title: "Datos guardados",  icon: 'iconFont-ok'
+    utils.showMessageModal(message, options)
+
+
+  deleteSocialAccountSuccess: ->
+    @socialAccount
+    @model.set @socialAccount, no
+    utils.closeMessageModal()
 
   doFailDeleteSocialAccount: ->
     message = 'El servidor no está disponible, por favor inténtalo más tarde.'
@@ -136,9 +153,18 @@ module.exports = class SocialMediaView extends View
 
   doAlwaysDeleteSocialAccount: ->
     utils.hideAjaxLoading()
-
+    @doChangeLoginSocialAccounts()
 
   doCancelDeleteSocialAccount: ->
     utils.hideAjaxLoading()
     utils.closeMessageModal()
 
+  doChangeLoginSocialAccounts: ->
+    $loginData = _.clone mediator.data.get('login-data')
+    $accountStatus = @model.attributes;
+    for socialAccount in $loginData.socialAccounts
+      if socialAccount.name is 'Facebook'
+        socialAccount.available = $accountStatus.Facebook
+      else
+        socialAccount.available = $accountStatus.Twitter
+    mediator.data.set 'login-data', $loginData

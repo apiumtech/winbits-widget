@@ -18,6 +18,7 @@ module.exports = class LoggedInView extends View
     super
     @listenTo @model, 'change', @render
     @subscribeEvent 'change-bits-data', @changeBitsValue
+    @subscribeEvent 'cart-changed', @changeBitsValue
     @subscribeEvent 'cashback-bits-won', @cashBackBitsChange
     @delegate 'click', '#wbi-checkout-btn', @triggerCheckout
 
@@ -41,4 +42,3 @@ module.exports = class LoggedInView extends View
       options = value : "Aceptar", title:"¡Registro completo!", onClosed:utils.redirectToLoggedInHome
       utils.showMessageModal(message, options)
       @changeBitsValue()
-#      $('#wbi-account-bits-total').text(data.response.bitsBalance)

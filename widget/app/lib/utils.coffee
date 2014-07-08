@@ -18,7 +18,7 @@ env = Winbits.env
 rpc = env.get('rpc')
 
 DEFAULT_API_ERROR_MESSAGE = 'El servidor no está disponible, por favor inténtalo más tarde.'
-
+DEFAULT_VIRTUAL_CART = '{"cartItems":[], "bits":0}'
 # _(utils).extend
 #  someMethod: ->
 _(utils).extend
@@ -336,8 +336,13 @@ _(utils).extend
         $fancybox.find(".wbc-default-action").click(options.acceptAction)
         if $.isFunction(options.cancelAction)
           $fancybox.find(".wbc-cancel-action").click(options.cancelAction)
-    $.fancybox(content, fancyboxOptions)
-
+    $fancyboxOverlay = $('#fancybox-overlay')
+    attempts = 0
+    interval = setInterval(->
+      if ++attempts is 20 or $fancyboxOverlay.is(':hidden')
+        clearInterval(interval)
+        $.fancybox(content, fancyboxOptions)
+    , 50)
 
   showConfirmationModal: (message, options = {}) ->
     $modal = $('#wbi-confirmation-modal')
@@ -398,16 +403,36 @@ _(utils).extend
       no
 
   getVirtualCart: () ->
-    mediator.data.get('virtual-cart') or '[]'
+    mediator.data.get('virtual-cart') or DEFAULT_VIRTUAL_CART
+
+  getCartItemsToVirtualCart: () ->
+    cartItems = "[]"
+    vcart = mediator.data.get('virtual-cart') or DEFAULT_VIRTUAL_CART
+    vcart = JSON.parse(vcart)
+    if not $.isEmptyObject vcart.cartItems
+      cartItems = JSON.stringify vcart.cartItems
+    cartItems
+
+  getBitsToVirtualCart: () ->
+    JSON.parse(mediator.data.get('virtual-cart') or DEFAULT_VIRTUAL_CART).bits
+
 
   saveVirtualCart: (cartData) ->
-    vcart = "[]"
+    vcart = DEFAULT_VIRTUAL_CART
     if(cartData.itemsCount > 0)
       cartItems = (@toCartItem(x) for x in cartData.cartDetails)
-      vcart = JSON.stringify(cartItems)
+      vcart = JSON.stringify(cartItems : cartItems, bits:@getBitsToVirtualCart())
     @saveVirtualCartInStorage(vcart)
 
-  saveVirtualCartInStorage: (vcart = "[]")->
+  saveBitsInVirtualCart: (bits=0)->
+    cartItems = JSON.parse @getCartItemsToVirtualCart()
+    vcart = {cartItems:cartItems, bits:bits}
+    vcart = JSON.stringify vcart
+    @saveVirtualCartInStorage(vcart)
+
+
+
+  saveVirtualCartInStorage: (vcart = DEFAULT_VIRTUAL_CART)->
     mediator.data.set('virtual-cart', vcart)
     rpc.storeVirtualCart(vcart)
 
@@ -430,6 +455,12 @@ _(utils).extend
 
   closeMessageModal: $.fancybox.close
 
+  showLoaderToCheckout: ->
+    $('#wbi-loader-to-checkout').show().removeClass('loader-hide')
+
+  hideLoaderToCheckout: ->
+    $('#wbi-loader-to-checkout').hide().addClass('loader-hide')
+
   updateProfile: (data)->
     $loginDataActual = _.clone mediator.data.get 'login-data'
     mediator.data.set 'login-data', data.response
@@ -438,7 +469,7 @@ _(utils).extend
       @publishEvent 'cashback-bits-won', data.response.cashback
     else
       message = "Tus datos se han guardado correctamente"
-      options = icon: 'iconFont-ok', title:'Perfil actualizado', value:'Aceptar'
+      options = icon: 'iconFont-ok', title:'Perfil actualizado', value:'Aceptar', onClosed:@redirectTo(controller:'home', action:'index')
       @showMessageModal(message, options)
     if data.response.bitsBalance != $loginDataActual.bitsBalance
       @publishEvent 'bits-updated'
