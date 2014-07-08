@@ -8,8 +8,10 @@ $ = Winbits.$
 
 describe 'CartPaymentMethodsViewSpec', ->
 
+  RESPONSE_CART_ITEMS = {"paymentMethods":[{"id":2,"identifier":"cybersource.cc","maxAmount":100000,"minAmount":0.01,"displayOrder":1,"offline":false,"logo":null},{"id":3,"identifier":"cybersource.token","maxAmount":100000,"minAmount":0.01,"displayOrder":1,"offline":false,"logo":null},{"id":12,"identifier":"amex.cc","maxAmount":100000,"minAmount":200,"displayOrder":1,"offline":false,"logo":null},{"id":17,"identifier":"paypal.latam","maxAmount":40000,"minAmount":15,"displayOrder":3,"offline":false,"logo":null},{"id":18,"identifier":"paypal.msi","maxAmount":40000,"minAmount":15,"displayOrder":3,"offline":false,"logo":null}],"cashback":0}
+
   beforeEach ->
-    @model = new Cart
+    @model = new Cart(RESPONSE_CART_ITEMS)
     @view = new CartPaymentMethodsView model: @model
 
   afterEach ->
@@ -67,4 +69,13 @@ describe 'CartPaymentMethodsViewSpec', ->
     @view.checkout()
     expect(@model.requestCheckout).to.not.has.been.called
     expect(utils.redirectTo).to.has.been.calledOnce
+
+
+  it 'Render payment methods ', ->
+    expect(@view.$('.iconFont-paypal')).to.exist
+    expect(@view.$('.iconFont-amex')).to.exist
+    expect(@view.$('.iconFont-visa')).to.exist
+    expect(@view.$('.iconFont-mastercard')).to.exist
+    expect(@view.$('.iconFont-billete')).to.not.exist
+
 
