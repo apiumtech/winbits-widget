@@ -20,6 +20,8 @@ module.exports = class CartPaymentMethodsView extends View
 
   attach: ->
     super
+    @$('.tip').toolTip()
+
 
   checkout: ->
     if utils.isLoggedIn()
