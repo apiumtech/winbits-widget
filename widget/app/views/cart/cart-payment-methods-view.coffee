@@ -13,6 +13,7 @@ module.exports = class CartPaymentMethodsView extends View
 
   initialize: ->
     super
+    @listenTo @model, 'change:paymentMethods', @render
     @delegate 'click', '#wbi-continue-shopping-link', @closeCartView
     @delegate 'click', '#wbi-cart-checkout-btn', ->
       @checkout.apply(@, arguments)
