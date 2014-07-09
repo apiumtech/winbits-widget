@@ -52,8 +52,6 @@ module.exports = class PaymentView extends View
       identifier = 'amex.msi'
     else
       identifier = method.identifier for method in @model.attributes.methods when method.id is  parseInt(paymentMethod, 10)
-    console.log 'identifier', identifier
-    console.log 'paymentMethod', paymentMethod
 
     if $form.valid()
       formData = util.serializeForm($form)
@@ -127,7 +125,6 @@ module.exports = class PaymentView extends View
 
   submitOrder: (e)->
     e.preventDefault()
-    console.log "submit order"
     @publishEvent 'StopIntervalTimer'
     that = @
     $currentTarget = @$(e.currentTarget)
@@ -274,12 +271,14 @@ module.exports = class PaymentView extends View
     mediator.post_checkout.paymentMethod = 'cybersource.token'
     mediator.post_checkout.paymentInfo = subscriptionId: cardInfo.subscriptionId
 
-    if cardInfo.cardData.cardType is "American Express"
+    if cardInfo.cardData.cardType is "American Express"  
+      mediator.post_checkout.paymentMethod = 'amex.cc'
       cardInfo.maxSecurityNumber = 4
       cardInfo.securityNumberPlaceholder = "\#\#\#\#"
     else
       cardInfo.maxSecurityNumber = 3
       cardInfo.securityNumberPlaceholder = "\#\#\#"
+   
 
     @cardTokenPaymentView.model.set cardInfo: cardInfo
     @cardTokenPaymentView.model.set methods: @cardsView.model.attributes.methods
