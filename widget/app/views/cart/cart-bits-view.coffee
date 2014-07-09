@@ -60,7 +60,16 @@ module.exports = class CartBitsView extends View
       .fail(@updateCartBitsError)
     else
       utils.saveBitsInVirtualCart bits
-      _.delay(cartUtils.hideCartLoading,300)
+      @checkPaymentMethods()
+
+  checkPaymentMethods: ->
+    @model.requestPaymentMethods(@)
+     .done(@setPaymentMethods)
+     .fail((xhr)->console.log ["xhr", xhr.responseText])
+     .always(cartUtils.hideCartLoading)
+
+  setPaymentMethods:(data) ->
+    @model.set('paymentMethods', data.response.paymentMethods)
 
   updateCartBitsSuccess: (data) ->
     cartUtils.hideCartLoading()
