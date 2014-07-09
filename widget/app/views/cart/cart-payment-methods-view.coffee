@@ -4,6 +4,7 @@ View = require 'views/base/view'
 utils = require 'lib/utils'
 $ = Winbits.$
 mediator = Winbits.Chaplin.mediator
+_ = Winbits._
 
 module.exports = class CartPaymentMethodsView extends View
   container: '#wbi-cart-right-panel'
