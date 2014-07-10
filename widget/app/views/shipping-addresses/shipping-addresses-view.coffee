@@ -69,10 +69,10 @@ module.exports = class ShippingAddressesView extends View
       @model.requestSetDefaultShipping(id,dataChange, @)
       .done(@setDefaultShippingSucceds)
       .fail(@setDefaultShippingError)
-      .always(@closeLoadingAndCalculateArrows)
+      .always(@closeLoadingAndTurnOnClickEvent)
     @calculateArrows()
 
-  closeLoadingAndCalculateArrows: ->
+  closeLoadingAndTurnOnClickEvent: ->
     @turnShippingClickEvent('on')
     utils.hideAjaxLoading()
 
