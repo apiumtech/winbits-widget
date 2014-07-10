@@ -53,7 +53,7 @@ module.exports = class CardsView extends View
           .done(@setDefaultCardSucceds)
           .fail(@setDefaultCardError)
           .always(@setDefaultCardCompletes)
-      @calculateArrows()
+    @calculateArrows()
 
   setDefaultCardSucceds: ->
     @getDefaultCard().removeClass(DEFAULT_CARD_CLASS)
@@ -69,6 +69,7 @@ module.exports = class CardsView extends View
     utils.hideAjaxLoading()
 
   calculateArrows:->
+    console.log ["CALCULATE ARROWS"]
     @$('.block-carrusel').removeArrows({
       arrowLeft: '.iconFont-left',
       arrowRight: '.iconFont-right',
