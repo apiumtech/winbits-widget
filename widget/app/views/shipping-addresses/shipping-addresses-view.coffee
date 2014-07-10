@@ -70,7 +70,16 @@ module.exports = class ShippingAddressesView extends View
       .done(@setDefaultShippingSucceds)
       .fail(@setDefaultShippingError)
       .always(-> @turnShippingClickEvent('on'))
-      .always(-> utils.hideAjaxLoading())
+      .always(@closeLoadingAndCalculateArrows)
+
+  closeLoadingAndCalculateArrows: ->
+    utils.hideAjaxLoading()
+    @$('.block-carrusel').removeArrows({
+             arrowLeft: '.iconFont-left',
+             arrowRight: '.iconFont-right',
+             slidesNum: 4,
+             slideCSS: '.block-slide'
+         });
 
   checkZipCodeInfoAndChange: (data)->
     dataChange={}
