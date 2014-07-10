@@ -69,17 +69,20 @@ module.exports = class ShippingAddressesView extends View
       @model.requestSetDefaultShipping(id,dataChange, @)
       .done(@setDefaultShippingSucceds)
       .fail(@setDefaultShippingError)
-      .always(-> @turnShippingClickEvent('on'))
       .always(@closeLoadingAndCalculateArrows)
+    @calculateArrows()
 
   closeLoadingAndCalculateArrows: ->
+    @turnShippingClickEvent('on')
     utils.hideAjaxLoading()
+
+  calculateArrows:->
     @$('.block-carrusel').removeArrows({
-             arrowLeft: '.iconFont-left',
-             arrowRight: '.iconFont-right',
-             slidesNum: 4,
-             slideCSS: '.block-slide'
-         });
+      arrowLeft: '.iconFont-left',
+      arrowRight: '.iconFont-right',
+      slidesNum: 4,
+      slideCSS: '.block-slide'
+    });
 
   checkZipCodeInfoAndChange: (data)->
     dataChange={}
