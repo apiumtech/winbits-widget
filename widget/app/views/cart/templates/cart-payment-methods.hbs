@@ -5,11 +5,11 @@
     {{#if paymentMethods}}
       <p>
         {{#paymentMethodSupported  'paypal.latam'}}
-          <span title="PayPal" class="iconFont-paypal"></span>
+          <span title="PayPal" class="iconFont-paypal tip"></span>
         {{/paymentMethodSupported}}
 
         {{#paymentMethodSupported  'oxxo.'}}
-          <span title="OXXO" class="iconFont-oxxo"></span>
+          <span title="OXXO" class="iconFont-oxxo tip"></span>
         {{/paymentMethodSupported}}
 
         {{#paymentMethodSupported 'reference.hsbc'}}
@@ -22,10 +22,10 @@
 
         {{#paymentMethodSupported 'cybersource.'}}
         <span class="paymentLOP">
-            <span title="VISA" class="iconFont-visa"></span>
-            <span title="Master Card" class="iconFont-mastercard"></span>
+            <span title="VISA" class="iconFont-visa tip"></span>
+            <span title="Master Card" class="iconFont-mastercard tip"></span>
             {{#paymentMethodSupported 'amex.'}}
-            <span title="American Express" class="iconFont-amex"></span>
+            <span title="American Express" class="iconFont-amex tip"></span>
             {{/paymentMethodSupported}}
         </span>
         {{/paymentMethodSupported}}
@@ -35,14 +35,14 @@
         <p>
           {{#each msiPayments}}
             {{#compare identifier 'cybersource.+' operator='matches'}}
-                <span title="Master Card" class="iconFont-mastercard"></span>
-                <span title="VISA" class="iconFont-visa"></span>
+                <span title="Master Card" class="iconFont-mastercard tip"></span>
+                <span title="VISA" class="iconFont-visa tip"></span>
             {{/compare}}
             {{#compare identifier 'amex.+' operator='matches'}}
-                <span title="American Express" class="iconFont-amex"></span>
+                <span title="American Express" class="iconFont-amex tip"></span>
             {{/compare}}
             {{#compare identifier 'paypal.+' operator='matches'}}
-                <span title="Pay Pal" class="iconFont-paypal"></span>
+                <span title="Pay Pal" class="iconFont-paypal tip"></span>
             {{/compare}}
           {{/each}}
         </p>

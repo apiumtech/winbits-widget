@@ -121,6 +121,17 @@ module.exports = class Cart extends Model
       utils.showMessageModal('Para comprar, debe agregar artículos al carrito.')
       return
 
+  requestPaymentMethods:(context)->
+    cartItems = utils.getCartItemsToVirtualCart()
+    utils.ajaxRequest env.get('api-url') + "/orders/virtual-cart-items/paymentMethods.json",
+      type: "POST"
+      contentType: "application/json"
+      dataType: "json"
+      context: context
+      data: JSON.stringify(cartItems: JSON.parse(cartItems), amount: @cartTotal())
+      headers:
+        "Accept-Language": "es"
+
   hasCartItems: ->
     itemsCount = @get('itemsCount')
     itemsCount? and itemsCount > 0
