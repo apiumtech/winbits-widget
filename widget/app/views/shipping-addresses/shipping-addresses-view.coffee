@@ -58,6 +58,7 @@ module.exports = class ShippingAddressesView extends View
     })
 
   onShippingClick: (e) ->
+    e.stopPropagation()
     $shipping = $(e.currentTarget)
     if not $shipping.children(".#{DEFAULT_SHIPPING_CLASS}").length > 0
       utils.showAjaxLoading()
@@ -69,8 +70,20 @@ module.exports = class ShippingAddressesView extends View
       @model.requestSetDefaultShipping(id,dataChange, @)
       .done(@setDefaultShippingSucceds)
       .fail(@setDefaultShippingError)
-      .always(-> @turnShippingClickEvent('on'))
-      .always(-> utils.hideAjaxLoading())
+      .always(@closeLoadingAndTurnOnClickEvent)
+    @calculateArrows()
+
+  closeLoadingAndTurnOnClickEvent: ->
+    @turnShippingClickEvent('on')
+    utils.hideAjaxLoading()
+
+  calculateArrows:->
+    @$('.block-carrusel').removeArrows({
+      arrowLeft: '.iconFont-left',
+      arrowRight: '.iconFont-right',
+      slidesNum: 4,
+      slideCSS: '.block-slide'
+    });
 
   checkZipCodeInfoAndChange: (data)->
     dataChange={}
