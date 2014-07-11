@@ -59,9 +59,9 @@ module.exports = class CardTokenPaymentView extends View
       if paymentData.paymentMethod is 'amex.cc'
        cardData = @model.get("cardInfo").cardData
        cardAddress = @model.get("cardInfo").cardAddress
-       formData.cardNumber = cardData.accountNumber 
+       formData.cardNumber = cardData.unmasked
        formData.city = cardAddress.city
-       formData.county = cardAddress.city
+       formData.county = ''
        formData.firstName = cardData.firstName
        formData.lastName = cardData.lastName
        formData.number = cardAddress.number
@@ -70,7 +70,7 @@ module.exports = class CardTokenPaymentView extends View
        formData.street = cardAddress.street1
        formData.zipCode = cardAddress.postalCode
        formData.cvv2Number = formData.cvNumber
-       formData.location = cardAddress.city
+       formData.location = ''
        formData.expirationYear = cardData.expirationYear
        formData.expirationMonth = cardData.expirationMonth
 
