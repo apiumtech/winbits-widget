@@ -43,6 +43,7 @@ module.exports = class CardsView extends View
     })
 
   onCardClick: (e) ->
+    e.stopPropagation()
     $card = $(e.currentTarget)
     if not $card.is(".#{DEFAULT_CARD_CLASS}")
       utils.showAjaxLoading()
@@ -69,7 +70,6 @@ module.exports = class CardsView extends View
     utils.hideAjaxLoading()
 
   calculateArrows:->
-    console.log ["CALCULATE ARROWS"]
     @$('.block-carrusel').removeArrows({
       arrowLeft: '.iconFont-left',
       arrowRight: '.iconFont-right',
