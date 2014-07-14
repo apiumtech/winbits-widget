@@ -77,6 +77,7 @@ module.exports = class CartBitsView extends View
     @model.set 'bitsTotal', bitsTotal
     mediator.data.set 'bits-to-cart', bitsTotal
     @model.set 'paymentMethods',data.response.paymentMethods
+    @publishEvent 'change-bits-data'
 
   updateCartBitsError: (xhr, textStatus) ->
     cartUtils.hideCartLoading()
