@@ -12,18 +12,11 @@ module.exports = class SocialMediaView extends View
   template: require './templates/social-accounts'
 
   DEFAULT_ERROR_MESSAGE =
-    DAFL : 'No se concretó el proceso para ligar tu cuenta de Facebook.'
-    DPFL : 'No se concretó el proceso para ligar tu cuenta de Facebook.'
+    DAFL : 'Para poder ligar tu cuenta de facebook debes terminar el proceso y aceptar todos los privilegios solicitados.'
+    DPFL : 'Para poder ligar tu cuenta de facebook debes terminar el proceso y aceptar todos los privilegios solicitados.'
     DATL : 'No se concretó el proceso para ligar tu cuenta de Twitter.'
-    FHLA : 'La cuenta de Facebook que desea ligar ya se encuentra asociada a otro usuario.'
-    THLA : 'La cuenta de Twitter que desea ligar ya se encuentra asociada a otro usuario.'
-
-  DEFAULT_ERROR_TITLE =
-    DAFL : 'Permisos incompletos.'
-    DPFL : 'Permisos incompletos.'
-    DATL : 'Permisos incompletos.'
-    FHLA : 'Usuario facebook ligado.'
-    THLA : 'Usuario twitter ligado.'
+    FHLA : 'Esta cuenta ya se encuentra ligada a otro usuario.'
+    THLA : 'Esta cuenta ya se encuentra ligada a otro usuario.'
 
   initialize: ->
     super
@@ -87,7 +80,6 @@ module.exports = class SocialMediaView extends View
     @doShowConfirmSocialAccountDelete('Twitter')
 
   doShowConfirmSocialAccountDelete:(socialAccount)->
-    utils.showAjaxLoading()
     message = "¿Estás seguro que deseas desligar tu cuenta de #{socialAccount.toLowerCase()}?"
     options =
       value: 'Aceptar'
@@ -101,6 +93,7 @@ module.exports = class SocialMediaView extends View
 
 
   doRequestDeleteSocialAccount: (socialAccount)->
+    utils.showAjaxLoading()
     @socialAccount = socialAccount
     @model.requestDeleteSocialAccount(socialAccount.toLowerCase(), context:@)
     .done(@doShowMessageSuccess)
@@ -130,7 +123,7 @@ module.exports = class SocialMediaView extends View
     message = DEFAULT_ERROR_MESSAGE[data.errorCode]
     options =
       value : 'Aceptar'
-      title : DEFAULT_ERROR_TITLE[data.errorCode]
+      title : 'Cuenta no ligada.'
       icon  : "iconFont-#{data.accountId}Circle"
       context: @
     utils.showMessageModal(message, options)

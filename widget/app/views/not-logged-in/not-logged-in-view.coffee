@@ -12,14 +12,14 @@ module.exports = class NotLoggedInPageView extends View
   template: require './templates/not-logged-in'
 
   DEFAULT_ERROR_MESSAGE =
-    DAFR : 'No se concretó el proceso para ligar tu cuenta de Facebook.'
-    DPFR : 'No se concretó el proceso para ligar tu cuenta de Facebook.'
-    EIFR : 'Necesitas tener un e-mail principal en tu cuenta de Facebook para acceder a winbits.'
+    DAFR : 'Para poder realizar el inicio de sesión mediante Facebook, es necesario aceptar los permisos.'
+    DPFR : 'Para poder realizar el inicio de sesión mediante Facebook, es necesario aceptar los permisos.'
+    EIFR : 'Necesitamos un correo electrónico para iniciar sesión. Por favor, ingresa a la sección de Ajustes en tu cuenta de Facebook para cambiar la configuración.'
 
   DEFAULT_ERROR_TITLE =
-    DAFR : 'Permisos incompletos.'
-    DPFR : 'Permisos incompletos.'
-    EIFR : 'Email invalido.'
+    DAFR : 'Inicio de sesión incompleto.'
+    DPFR : 'Inicio de sesión incompleto.'
+    EIFR : 'E-mail necesario para inicio de sesión winbits.'
 
   initialize: ->
     super
@@ -94,7 +94,7 @@ module.exports = class NotLoggedInPageView extends View
     options =
       value : 'Aceptar'
       title : DEFAULT_ERROR_TITLE[data.errorCode]
-      icon  : 'iconFont-facebookCircle2'
+      icon  : 'iconFont-facebookCircle'
       context: @
       onClosed: () -> @doCloseConfirmModal()
       acceptAction: () -> @doCloseConfirmModal()
