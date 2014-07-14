@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<body>
+<script type="text/javascript">
+  (function(){
+    'use strict';
+
+    var parameters = {},
+        queryString = location.search.substring(1),
+        params = queryString.split('&'), param, attribute, name, value;
+    for (var i=0; i<params.length; i++) {
+      param = params[i];
+      if (param) {
+        attribute = params[i].split('=');
+        name = attribute[0];
+        value = attribute[1];
+        parameters[name] = value;
+      }
+    }
+    window.opener.Winbits.execute(parameters);
+    window.close();
+  })();
+</script>
+</body>
+</html>

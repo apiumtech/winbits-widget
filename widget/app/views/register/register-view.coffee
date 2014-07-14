@@ -12,7 +12,7 @@ module.exports = class ModalRegisterView extends View
   initialize: ->
     super
     @delegate 'click', '#wbi-register-button', @register
-    @delegate 'click', '#wbi-register-facebook-link', @doFacebookRegister
+    @delegate 'click', '#wbi-facebook-link', @doFacebookRegister
 
   attach: ->
     super
