@@ -9,6 +9,7 @@ Payments = require "models/checkout/payments"
 Confirm = require "models/checkout/confirm"
 ConfirmView = require "views/checkout/confirm-view"
 Cards = require "models/checkout/cards"
+DeviceFingerPrint = require "models/checkout/deviceFingerPrint"
 CardsView = require "views/checkout/cards-view"
 mediator = require 'chaplin/mediator'
 config = require 'config'
@@ -18,7 +19,15 @@ module.exports = class CheckoutController extends ChaplinController
 
   initialize: ->
     super
-    @checkoutSiteView = new CheckoutSiteView()
+    cybersourceInfo =
+      orgId: Winbits.checkoutConfig.orgIdCybersource
+      merchantId: Winbits.checkoutConfig.merchantId
+      merchantIdInst: Winbits.checkoutConfig.merchantIdInstallments
+      orderId: Winbits.checkoutConfig.orderId
+
+    @deviceFingerPrint = new DeviceFingerPrint(cybersourceInfo)
+    @checkoutSiteView = new CheckoutSiteView(model: @deviceFingerPrint)
+
   index: ->
     orderId = Winbits.checkoutConfig.orderId
     @order_id = orderId

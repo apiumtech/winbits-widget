@@ -58,11 +58,10 @@ module.exports = class ShippingAddressesView extends View
     })
 
   onShippingClick: (e) ->
+    e.stopPropagation()
     $shipping = $(e.currentTarget)
-    console.log ["SHIPPING CLICK OUT IF", $shipping.children(".#{DEFAULT_SHIPPING_CLASS}").length]
     if not $shipping.children(".#{DEFAULT_SHIPPING_CLASS}").length > 0
       utils.showAjaxLoading()
-      console.log ["SHIPPING CLICK"]
       id = $shipping.closest('.block-slide').data('id')
       data = @model.getShippingAddress(id)
       dataChange = @checkZipCodeInfoAndChange(data)
@@ -71,8 +70,20 @@ module.exports = class ShippingAddressesView extends View
       @model.requestSetDefaultShipping(id,dataChange, @)
       .done(@setDefaultShippingSucceds)
       .fail(@setDefaultShippingError)
-      .always(-> @turnShippingClickEvent('on'))
-      .always(-> utils.hideAjaxLoading())
+      .always(@closeLoadingAndTurnOnClickEvent)
+    @calculateArrows()
+
+  closeLoadingAndTurnOnClickEvent: ->
+    @turnShippingClickEvent('on')
+    utils.hideAjaxLoading()
+
+  calculateArrows:->
+    @$('.block-carrusel').removeArrows({
+      arrowLeft: '.iconFont-left',
+      arrowRight: '.iconFont-right',
+      slidesNum: 4,
+      slideCSS: '.block-slide'
+    });
 
   checkZipCodeInfoAndChange: (data)->
     dataChange={}

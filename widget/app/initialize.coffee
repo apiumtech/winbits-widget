@@ -6,6 +6,7 @@ skuProfileUtils = require 'lib/sku-profile-utils'
 socialUtils = require 'lib/social-utils'
 utils = require 'lib/utils'
 mediator = Winbits.Chaplin.mediator
+EventBroker = Winbits.Chaplin.EventBroker
 
 mediator.data = (->
   # Add additional application-specific properties and methods
@@ -62,6 +63,9 @@ Winbits.tweet= (options) ->
 Winbits.like= (options) ->
   fn = socialUtils.like
   fn.call(socialUtils, options)
+
+Winbits.execute= (params) ->
+  EventBroker.publishEvent params.code, params
 
 appConfig =
   controllerSuffix: '-controller'

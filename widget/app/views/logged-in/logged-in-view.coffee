@@ -34,7 +34,6 @@ module.exports = class LoggedInView extends View
   changeBitsValue: ->
     bitsTotal = mediator.data.get('bits-to-cart')
     $bitsBalance = mediator.data.get('login-data').bitsBalance - bitsTotal
-    console.log ["Bits Total", bitsTotal, "BitsBalance", mediator.data.get('login-data').bitsBalance]
     @$('#wbi-my-bits').text $bitsBalance
 
   cashBackBitsChange:(cashback) ->
@@ -43,4 +42,3 @@ module.exports = class LoggedInView extends View
       options = value : "Aceptar", title:"¡Registro completo!", onClosed:utils.redirectToLoggedInHome
       utils.showMessageModal(message, options)
       @changeBitsValue()
-#      $('#wbi-account-bits-total').text(data.response.bitsBalance)

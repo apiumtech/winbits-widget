@@ -4,6 +4,7 @@ View = require 'views/base/view'
 utils = require 'lib/utils'
 $ = Winbits.$
 mediator = Winbits.Chaplin.mediator
+_ = Winbits._
 
 module.exports = class CartPaymentMethodsView extends View
   container: '#wbi-cart-right-panel'
@@ -12,6 +13,7 @@ module.exports = class CartPaymentMethodsView extends View
 
   initialize: ->
     super
+    @listenTo @model, 'change:paymentMethods', @render
     @delegate 'click', '#wbi-continue-shopping-link', @closeCartView
     @delegate 'click', '#wbi-cart-checkout-btn', ->
       @checkout.apply(@, arguments)
@@ -19,6 +21,8 @@ module.exports = class CartPaymentMethodsView extends View
 
   attach: ->
     super
+    @$('.tip').toolTip()
+
 
   checkout: ->
     if utils.isLoggedIn()

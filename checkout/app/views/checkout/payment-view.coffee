@@ -43,10 +43,15 @@ module.exports = class PaymentView extends View
 
   payWithCard: (e) ->
     e.preventDefault()
+    console.log 'entra'
     that = @
     $currentTarget = @$(e.currentTarget)
     $form = $currentTarget.closest('form.wb-card-form')
     paymentMethod =  $currentTarget.attr("id").split("-")[1]
+    if paymentMethod is 'amex_msi'
+      identifier = 'amex.msi'
+    else
+      identifier = method.identifier for method in @model.attributes.methods when method.id is  parseInt(paymentMethod, 10)
 
     if $form.valid()
       formData = util.serializeForm($form)
@@ -61,6 +66,9 @@ module.exports = class PaymentView extends View
         formData.totalMsi = parseInt formData.totalMsi, 10
         paymentMethod = "cybersource.msi." + formData.totalMsi
         paymentMethod = method.id for method in @model.attributes.methods when method.identifier is paymentMethod
+        
+      if not new RegExp("amex\..+").test(identifier)
+        formData.deviceFingerPrint = Winbits.checkoutConfig.orderId
 
       postData = paymentInfo : formData
       postData.paymentMethod = paymentMethod
@@ -117,7 +125,6 @@ module.exports = class PaymentView extends View
 
   submitOrder: (e)->
     e.preventDefault()
-    console.log "submit order"
     @publishEvent 'StopIntervalTimer'
     that = @
     $currentTarget = @$(e.currentTarget)
@@ -264,12 +271,14 @@ module.exports = class PaymentView extends View
     mediator.post_checkout.paymentMethod = 'cybersource.token'
     mediator.post_checkout.paymentInfo = subscriptionId: cardInfo.subscriptionId
 
-    if cardInfo.cardData.cardType is "American Express"
+    if cardInfo.cardData.cardType is "American Express"  
+      mediator.post_checkout.paymentMethod = 'amex.cc'
       cardInfo.maxSecurityNumber = 4
       cardInfo.securityNumberPlaceholder = "\#\#\#\#"
     else
       cardInfo.maxSecurityNumber = 3
       cardInfo.securityNumberPlaceholder = "\#\#\#"
+   
 
     @cardTokenPaymentView.model.set cardInfo: cardInfo
     @cardTokenPaymentView.model.set methods: @cardsView.model.attributes.methods

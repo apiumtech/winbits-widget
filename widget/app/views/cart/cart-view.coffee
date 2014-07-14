@@ -40,7 +40,8 @@ module.exports = class CartView extends View
     @$('#wbi-cart-info').dropMainMenu(beforeOpen: $.proxy(@shouldOpenCart, @))
 
   onCartChanged: (cartData) ->
-    @updateCartModel(cartData)
+    if cartData
+      @updateCartModel(cartData)
     @openCart()
 
   updateCartModel: (data) ->

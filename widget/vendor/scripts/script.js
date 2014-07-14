@@ -125,8 +125,51 @@ jQuery.fn.carouselSwiper = function(options){
 };
 
 /* **********************************************
- Begin customCheckbox.js
- ********************************************** */
+ Remove arrows
+ ************************************************/
+    jQuery.fn.removeArrows = function(options){
+        var defaults = $.extend({
+            slideCSS: '.carrusel-slide',
+            slidesNum: 0,
+            arrowLeft: '.arrowLeft',
+            arrowRight: '.arrowRight',
+            slideActive: 'swiper-slide-active',
+            addCallback: 0
+        }, options);
+        return this.each(function(){
+            var active = 0,
+                size = $(this).find(defaults.slideCSS).size(),
+                pointOfNoReturn = size - (defaults.slidesNum - 1),
+                left = $(this).siblings(defaults.arrowLeft),
+                right = $(this).siblings(defaults.arrowRight);
+            if(size > defaults.slidesNum){
+                active =+ defaults.addCallback;
+                $(this).find(defaults.slideCSS).each(function(i){
+                    if($(this).hasClass(defaults.slideActive)){
+                        active = i+1;
+                    }
+                });
+                if(active <= 1){
+                    left.slideUp();
+                    right.slideDown();
+                } else if(active >= pointOfNoReturn){
+                    left.slideDown();
+                    right.slideUp();
+                } else {
+                    left.slideDown();
+                    right.slideDown();
+                }
+            } else {
+                left.hide();
+                right.hide();
+            }
+        });
+    };
+
+
+    /* ***********************************************
+    Begin customCheckbox.js
+    ********************************************** */
 
 // +++++++++++++++++++++++++++++++++++++++++
 //      CUSTOMCHECKBOX: Cambiar checkbox

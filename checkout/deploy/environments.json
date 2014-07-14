@@ -8,7 +8,10 @@
         "apiUrl": "https://apidev.winbits.com/v1",
         "baseUrl": "https://checkoutdev.winbits.com",
         "providerUrl": "https://apidev.winbits.com/provider/",
-        "remoteDebug": true
+        "remoteDebug": true,
+        "orgIdCybersource": "1snn5n9w",
+        "merchantId": "clickonero",
+        "merchantIdInstallments": "clickonero_installments"
       }
     },
     {
@@ -18,7 +21,10 @@
         "apiUrl": "https://apici.winbits.com/v1",
         "baseUrl": "https://checkoutci.winbits.com",
         "providerUrl": "https://apici.winbits.com/provider/",
-        "remoteDebug": true
+        "remoteDebug": true,
+        "orgIdCybersource": "1snn5n9w",
+        "merchantId": "clickonero",
+        "merchantIdInstallments": "clickonero_installments"
       }
     },
     {
@@ -28,7 +34,10 @@
         "apiUrl": "https://apiqa.winbits.com/v1",
         "baseUrl": "https://checkoutqa.winbits.com",
         "providerUrl": "https://apiqa.winbits.com/provider/",
-        "remoteDebug": true
+        "remoteDebug": true,
+        "orgIdCybersource": "1snn5n9w",
+        "merchantId": "clickonero",
+        "merchantIdInstallments": "clickonero_installments"
       }
     },
     {
@@ -38,7 +47,10 @@
         "apiUrl": "https://apistaging.winbits.com/v1",
         "baseUrl": "https://checkoutstaging.winbits.com",
         "providerUrl": "https://apistaging.winbits.com/provider/",
-        "remoteDebug": false
+        "remoteDebug": false,
+        "orgIdCybersource": "1snn5n9w",
+        "merchantId": "clickonero",
+        "merchantIdInstallments": "clickonero_installments"
       }
     },
     {
@@ -48,7 +60,10 @@
         "apiUrl": "https://api.winbits.com/v1",
         "baseUrl": "https://checkout.winbits.com",
         "providerUrl": "https://api.winbits.com/provider/",
-        "remoteDebug": false
+        "remoteDebug": false,
+        "orgIdCybersource":  "k8vif92e",
+        "merchantId": "clickonero_winbits",
+        "merchantIdInstallments": "clickonero_winbits_inst"
       }
     }
   ]

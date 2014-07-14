@@ -43,6 +43,7 @@ module.exports = class CardsView extends View
     })
 
   onCardClick: (e) ->
+    e.stopPropagation()
     $card = $(e.currentTarget)
     if not $card.is(".#{DEFAULT_CARD_CLASS}")
       utils.showAjaxLoading()
@@ -51,15 +52,30 @@ module.exports = class CardsView extends View
       @turnCardsClickEvent('off')
       @model.requestSetDefaultCard(id, @)
           .done(@setDefaultCardSucceds)
+          .fail(@setDefaultCardError)
           .always(@setDefaultCardCompletes)
+    @calculateArrows()
 
   setDefaultCardSucceds: ->
     @getDefaultCard().removeClass(DEFAULT_CARD_CLASS)
     @cardCandidate.addClass(DEFAULT_CARD_CLASS)
 
+  setDefaultCardError: ->
+    message = "Por el momento no es posible marcar como tarjeta principal, inténtalo más tarde"
+    options = value: "Continuar", title:'Error', icon:'iconFont-info', onClosed: utils.redirectTo controller: 'home', action: 'index'
+    utils.showMessageModal(message, options)
+
   setDefaultCardCompletes: ->
     @turnCardsClickEvent('on')
     utils.hideAjaxLoading()
+
+  calculateArrows:->
+    @$('.block-carrusel').removeArrows({
+      arrowLeft: '.iconFont-left',
+      arrowRight: '.iconFont-right',
+      slidesNum: 4,
+      slideCSS: '.block-slide'
+    });
 
   getDefaultCard: ->
     @$(".wbc-card.#{DEFAULT_CARD_CLASS}")

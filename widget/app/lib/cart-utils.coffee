@@ -67,6 +67,12 @@ _(cartUtils).extend
       utils.showMessageModal(message, options)
     else utils.showApiError.call(utils, arguments)
 
+  showCartLoading: ->
+    $('#wbi-loading-cart').removeClass('loader-hide')
+
+  hideCartLoading: ->
+    $('#wbi-loading-cart').addClass('loader-hide')
+
   doCartLoading: ->
     message = "Actualizando carrito ..."
     utils.showLoadingMessage(message)
