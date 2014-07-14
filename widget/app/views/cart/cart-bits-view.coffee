@@ -48,7 +48,9 @@ module.exports = class CartBitsView extends View
   updateBalanceValues: ($slider, bits) ->
     $maxBits = $slider.slider('option', 'max')
     if $maxBits > 0
-      @updateCartBits bits
+      if @bits isnt bits
+        @bits = bits
+        @updateCartBits bits
 
 
   updateCartBits: (bits) ->
