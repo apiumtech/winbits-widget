@@ -122,6 +122,9 @@ module.exports = class CardsView extends View
 
   cancelSaveUpdateCard: (e) ->
     e.preventDefault()
+    
+    util.renderSliderOnPayment(100, true)
+    @publishEvent 'paymentFlowCancelled'
     @showCardsList()
 
   showCardsList: () ->
