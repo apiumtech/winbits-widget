@@ -285,7 +285,7 @@ module.exports =
       append = $subTotal.append(copy)
       append.find("a").on "click": (e) ->
         Winbits.$(Winbits.$.find('#wbi-cancel-card-token-payment-btn')).click()
-        appendCopy.remove() 
+        appendCopy.remove()
 
   isCrapBrowser: ->
     Winbits.$.browser.msie and Winbits.$.browser.versionNumber < 10
