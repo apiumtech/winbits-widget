@@ -284,7 +284,7 @@ module.exports =
       copy = "<div name='wbi-copy-payment' id='wbi-copy-payment' >Estás usando #{amount.html()} para esta orden. Si deseas agregar o quitar bits, <a href='#' >haz click aquí.</a></div>"  
       append = $subTotal.append(copy)
       append.find("a").on "click": (e) ->
-        Winbits.$(Winbits.$.find('#wbi-cancel-card-token-payment-btn')).click()
+        Winbits.$(Winbits.$.find('#wbi-cancel-payment-btn')).click()
         appendCopy.remove()
 
   isCrapBrowser: ->

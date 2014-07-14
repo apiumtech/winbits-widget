@@ -34,15 +34,9 @@ module.exports = class CardTokenPaymentView extends View
   onCancelCardTokenPaymentBtnClick: (e) ->
     e.preventDefault()
     
-    #@$el.children().hide()
-    
     Winbits.$(".chk-step > div:visible div:visible.wbiPaymentMethod").hide()
     Winbits.$("#wbi-cards-list-holder").show()
     Winbits.$("#wbi-main-payment-view").show()
-
-
-    util.renderSliderOnPayment(100, true)
-    @publishEvent 'paymentFlowCancelled'
 
   onCardTokenPaymentFormSubmitted: (e) ->
     e.preventDefault()

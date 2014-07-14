@@ -118,6 +118,7 @@ module.exports = class PaymentView extends View
     e.preventDefault()
     $currentTarget = @$(e.currentTarget)
     console.log ('Selected method ' + $currentTarget.attr("id").split("-")[1])
+    util.renderSliderOnPayment(100, false)
     methodName =  $currentTarget.attr("id").split("-")[1]
     selector = "#method-" + methodName
     @$(selector).show()
@@ -182,6 +183,16 @@ module.exports = class PaymentView extends View
     @$(".checkoutPaymentCreditcard").show()
     @$(".method-payment").hide()
     @$('#method-bits').hide()
+    util.renderSliderOnPayment(100, true)
+
+    Winbits.$(".chk-step > div:visible div:visible.wbiPaymentMethod").hide()
+    Winbits.$("#wbi-cards-list-holder").show()
+    Winbits.$("#wbi-main-payment-view").show()
+
+
+    util.renderSliderOnPayment(100, true)
+    @publishEvent 'paymentFlowCancelled'
+
 
 
   attach: ->
