@@ -46,6 +46,7 @@ module.exports = class CardsView extends View
       that.selectCard(e)
 
     @$el.find(".wb-edit-card-link").on "click", (e) ->
+      util.renderSliderOnPayment(100, false)
       that.showEditCardForm(e)
 
     @$el.find( "#wbi-edit-card-form").on "submit", (e) ->

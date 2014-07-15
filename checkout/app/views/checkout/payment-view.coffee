@@ -189,11 +189,7 @@ module.exports = class PaymentView extends View
     Winbits.$("#wbi-cards-list-holder").show()
     Winbits.$("#wbi-main-payment-view").show()
 
-
-    util.renderSliderOnPayment(100, true)
     @publishEvent 'paymentFlowCancelled'
-
-
 
   attach: ->
     super
