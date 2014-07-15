@@ -29,6 +29,7 @@ module.exports = class MyAccountView extends View
     @$('.wbc-tab-link').click(@swapTabs)
 
   doLogout: ->
+    @$('#wbi-my-account-close').prop('disabled', yes)
     @model.requestLogout()
      .done(@doLogoutSuccess)
      .fail(@doLogoutError)
