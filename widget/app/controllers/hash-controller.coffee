@@ -8,22 +8,21 @@ mediator = Winbits.Chaplin.mediator
 module.exports = class HashController extends Controller
 
   completeRegister: (obj)->
-    @expressLogin(obj.apiToken)
+    @expressLogin(obj.apiToken, yes)
       .done @completeRegisterSuccess
       .fail @expressLoginError
 
   switchUser: (obj)->
-      @expressLogin(obj.apiToken)
-        .done @switchUserSuccess
-        .fail @expressLoginError
+    @expressLogin(obj.apiToken)
+      .done @switchUserSuccess
+      .fail @expressLoginError
 
-
-  expressLogin : (apiToken) ->
+  expressLogin : (apiToken, updateLastLogin = no) ->
     utils.ajaxRequest Winbits.env.get('api-url') + '/users/express-login.json',
       type: 'POST',
       dataType: "json"
       context: @
-      data: JSON.stringify(apiToken: apiToken)
+      data: JSON.stringify(apiToken: apiToken, updateLastLogin: updateLastLogin)
 
   completeRegisterSuccess: (data) ->
     if $.isEmptyObject data.response
@@ -48,5 +47,4 @@ module.exports = class HashController extends Controller
     utils.redirectTo controller: 'home', action: 'index'
 
   resetPassword:(params) ->
-    utils.redirectTo controller:'reset-password' ,action: 'index', params: params
-
+    utils.redirectTo controller:'reset-password', action: 'index', params: params

@@ -4,7 +4,6 @@ NotLoggedIn =  require 'models/not-logged-in/not-logged-in'
 utils = require 'lib/utils'
 loginUtils = require 'lib/login-utils'
 $ = Winbits.$
-rpc = Winbits.env.get('rpc')
 
 describe 'RememberCompleteRegisterInFacebookLoginSpec', ->
 
@@ -13,64 +12,39 @@ describe 'RememberCompleteRegisterInFacebookLoginSpec', ->
 
   beforeEach ->
     @server = sinon.fakeServer.create()
-    @clock = sinon.useFakeTimers()
-
     currentVertical = id: 1, baseUrl: 'http://www.test-winbits.com', name: 'Winbits Test'
     sinon.stub($.fancybox, "close")
     sinon.stub(loginUtils, "applyLogin")
     sinon.stub(utils, "redirectToLoggedInHome")
-
+    sinon.stub(utils,'showConfirmationModal')
     @envStub = sinon.stub(Winbits.env, 'get')
     .withArgs('current-vertical-id').returns(currentVertical.id)
     .withArgs('api-url').returns('https://apidev.winbits.com/v1')
     .withArgs('current-vertical').returns(currentVertical)
-    .withArgs('rpc').returns(rpc)
     .withArgs('verticals-data').returns([
       currentVertical
     { id: 2, baseUrl: 'http://dev.mylooq.com', name: 'My LOOQ' }
     ])
-
-    @windowsOpenStub = sinon.stub(window, 'open').returns(focus: $.noop, closed:yes)
     @view = new NotLoggedInView
     @model = @view.model
 
   afterEach ->
     @server.restore()
-    @clock.restore()
-    loginUtils.applyLogin.restore?()
-    utils.redirectToLoggedInHome.restore?()
+    loginUtils.applyLogin.restore()
+    utils.redirectToLoggedInHome.restore()
     Winbits.env.get.restore()
-    window.open.restore()
-
-    rpc.facebookStatus.restore?()
-    utils.redirectTo.restore?()
-    @view.facebookLoginInterval.restore?()
-    @view.doFacebookLoginSuccess.restore?()
-    @view.doFacebookLoginError.restore?()
-    @model.requestExpressFacebookLogin.restore?()
-    $.fancybox.close.restore?()
+    $.fancybox.close.restore()
     utils.showConfirmationModal.restore()
-
     @model.dispose()
     @view.dispose()
 
   it 'should view remember complete register in success authentication facebook', ->
-    utilsShowConfirmationCompleteRegister = sinon.stub(utils,'showConfirmationModal')
-    sinon.stub(rpc, 'facebookStatus', (callback)->
-      callback (status:'connected', authResponse:{userID:'100002184900102'})
-    )
-    @view.publishEvent 'facebook-button-event'
-    @clock.tick(150)
+    @view.publishEvent 'success-authentication-fb-register', {code: "success-authentication-fb-register",facebookId: "12549831832183",verticalId: "2"}
     @server.requests[0].respond(200, { "Content-Type": "application/json" }, LOGIN_FACEBOOK_RESPONSE)
-    expect(utilsShowConfirmationCompleteRegister).to.be.called
+    expect(utils.showConfirmationModal).to.be.calledOnce
 
 
   it 'should NOT view remember complete register in success authentication facebook', ->
-    utilsShowConfirmationCompleteRegister = sinon.stub(utils,'showConfirmationModal')
-    sinon.stub(rpc, 'facebookStatus', (callback)->
-      callback (status:'connected', authResponse:{userID:'100002184900102'})
-    )
-    @view.publishEvent 'facebook-button-event'
-    @clock.tick(150)
+    @view.publishEvent 'success-authentication-fb-register', {code: "success-authentication-fb-register",facebookId: "12549831832183",verticalId: "2"}
     @server.requests[0].respond(200, { "Content-Type": "application/json" }, LOGIN_FACEBOOK_RESPONSE_FALSE)
-    expect(utilsShowConfirmationCompleteRegister).to.not.be.called
+    expect(utils.showConfirmationModal).to.not.be.called

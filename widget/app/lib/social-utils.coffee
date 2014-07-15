@@ -75,7 +75,6 @@ _(socialUtils).extend
     requestOptions.headers = $.extend({}, defaults.headers, options.headers)
     requestOptions
 
-
 #Prevent creating new properties and stuff
 Object.seal? socialUtils
 module.exports = socialUtils

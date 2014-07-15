@@ -48,7 +48,9 @@ module.exports = class CartBitsView extends View
   updateBalanceValues: ($slider, bits) ->
     $maxBits = $slider.slider('option', 'max')
     if $maxBits > 0
-      @updateCartBits bits
+      if @bits isnt bits
+        @bits = bits
+        @updateCartBits bits
 
 
   updateCartBits: (bits) ->
@@ -77,6 +79,7 @@ module.exports = class CartBitsView extends View
     @model.set 'bitsTotal', bitsTotal
     mediator.data.set 'bits-to-cart', bitsTotal
     @model.set 'paymentMethods',data.response.paymentMethods
+    @publishEvent 'change-bits-data'
 
   updateCartBitsError: (xhr, textStatus) ->
     cartUtils.hideCartLoading()
