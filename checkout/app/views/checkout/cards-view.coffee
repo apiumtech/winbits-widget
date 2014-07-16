@@ -39,12 +39,14 @@ module.exports = class CardsView extends View
       that.submitNewCardForm(e)
 
     @$el.find("#wbi-add-new-card-link").on "click",  (e)->
+      util.renderSliderOnPayment(100, false)
       that.showNewCardForm(e)
 
     @$el.find(".wb-card-list-item").on "click",  (e)->
       that.selectCard(e)
 
     @$el.find(".wb-edit-card-link").on "click", (e) ->
+      util.renderSliderOnPayment(100, false)
       that.showEditCardForm(e)
 
     @$el.find( "#wbi-edit-card-form").on "submit", (e) ->
@@ -121,6 +123,9 @@ module.exports = class CardsView extends View
 
   cancelSaveUpdateCard: (e) ->
     e.preventDefault()
+    
+    util.renderSliderOnPayment(100, true)
+    @publishEvent 'paymentFlowCancelled'
     @showCardsList()
 
   showCardsList: () ->

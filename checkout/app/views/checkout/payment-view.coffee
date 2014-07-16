@@ -118,6 +118,7 @@ module.exports = class PaymentView extends View
     e.preventDefault()
     $currentTarget = @$(e.currentTarget)
     console.log ('Selected method ' + $currentTarget.attr("id").split("-")[1])
+    util.renderSliderOnPayment(100, false)
     methodName =  $currentTarget.attr("id").split("-")[1]
     selector = "#method-" + methodName
     @$(selector).show()
@@ -175,14 +176,20 @@ module.exports = class PaymentView extends View
 
   linkBack: (e) ->
     e.preventDefault()
-    @$el.find("#wbi-credit-card-payment-form").validate().resetForm()
-    @$el.find("#wbi-credit-card-payment-form-msi").validate().resetForm()
-    @$el.find("#wbi-amex-card-payment-form").validate().resetForm()
-    @$el.find("#method-amex_msi form").validate().resetForm()
+    @$el.find("#wbi-credit-card-payment-form").validate()?.resetForm()
+    @$el.find("#wbi-credit-card-payment-form-msi").validate()?.resetForm()
+    @$el.find("#wbi-amex-card-payment-form").validate()?.resetForm()
+    @$el.find("#method-amex_msi form").validate()?.resetForm()
     @$(".checkoutPaymentCreditcard").show()
     @$(".method-payment").hide()
     @$('#method-bits').hide()
+    util.renderSliderOnPayment(100, true)
 
+    Winbits.$(".chk-step > div:visible div:visible.wbiPaymentMethod").hide()
+    Winbits.$("#wbi-cards-list-holder").show()
+    Winbits.$("#wbi-main-payment-view").show()
+
+    @publishEvent 'paymentFlowCancelled'
 
   attach: ->
     super
