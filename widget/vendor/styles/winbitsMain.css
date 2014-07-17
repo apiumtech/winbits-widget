@@ -77,6 +77,45 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+.iconFont-doc:before {
+    content: "\e67c";
+}
+.iconFont-right3:before {
+    content: "\e67a";
+}
+.iconFont-left3:before {
+    content: "\e67b";
+}
+.iconFont-c-bags:before {
+    content: "\e673";
+}
+.iconFont-c-calzado:before {
+    content: "\e674";
+}
+.iconFont-c-underwear:before {
+    content: "\e675";
+}
+.iconFont-c-vestidos:before {
+    content: "\e676";
+}
+.iconFont-c-outerwere:before {
+    content: "\e677";
+}
+.iconFont-c-bottoms:before {
+    content: "\e678";
+}
+.iconFont-c-tops:before {
+    content: "\e679";
+}
+.iconFont-slideBG:before {
+    content: "\e672";
+}
+.iconFont-clicknero:before {
+    content: "\e670";
+}
+.iconFont-o:before {
+    content: "\e671";
+}
 .iconFont-clickOnero2:before {
     content: "\e600";
 }
@@ -467,6 +506,7 @@
     left: 1px;
 }
 .iconBit.bit13px {
+    font-size: 13px;
     height: 13px;
     width: 13px;
 }
@@ -499,6 +539,23 @@
     border-radius: 13px;
     height: 13px !important;
     width: 13px !important;
+    top: 1px;
+    left: 1px;
+}
+.iconBit.bit16px {
+    font-size: 16px;
+    height: 16px;
+    width: 16px;
+}
+.iconBit.bit16px .iconBG {
+    -webkit-border-radius: 14px;
+    -khtml-border-radius: 14px;
+    -moz-border-radius: 14px;
+    -ms-border-radius: 14px;
+    -o-border-radius: 14px;
+    border-radius: 14px;
+    height: 14px !important;
+    width: 14px !important;
     top: 1px;
     left: 1px;
 }
@@ -1672,11 +1729,51 @@ input[type="submit"].btn.btn-mini {
     /* IE7 inline-block hack */
     zoom: 1;
 }
+.widgetWinbitsMain .dataTable .dataTable-desc .table-desc,
+.miCuenta-tabs .dataTable .dataTable-desc .table-desc {
+    border-top: 1px solid #e6e6e6;
+    margin: 0 20px 0 -20px;
+    padding: 5px 20px;
+    position: relative;
+}
+.widgetWinbitsMain .dataTable .dataTable-desc .table-desc:first-child,
+.miCuenta-tabs .dataTable .dataTable-desc .table-desc:first-child {
+    border: none;
+}
+.widgetWinbitsMain .dataTable .dataTable-desc .table-desc .status1,
+.miCuenta-tabs .dataTable .dataTable-desc .table-desc .status1 {
+    color: #3d9b35;
+    font-size: 15px;
+    font-family: 'OmnesMedium', Arial;
+    font-style: normal;
+    font-weight: normal;
+}
+.widgetWinbitsMain .dataTable .dataTable-desc .table-desc .status2,
+.miCuenta-tabs .dataTable .dataTable-desc .table-desc .status2 {
+    color: #feed00;
+    font-size: 15px;
+    font-family: 'OmnesMedium', Arial;
+    font-style: normal;
+    font-weight: normal;
+}
+.widgetWinbitsMain .dataTable .dataTable-desc .table-desc .iconFont-doc,
+.miCuenta-tabs .dataTable .dataTable-desc .table-desc .iconFont-doc {
+    bottom: 0;
+    color: #000000;
+    font-size: 35px;
+    position: absolute;
+    right: 0;
+}
+.widgetWinbitsMain .dataTable .dataTable-desc .table-desc .iconFont-doc:hover,
+.miCuenta-tabs .dataTable .dataTable-desc .table-desc .iconFont-doc:hover {
+    color: #6e99fc;
+    text-decoration: none;
+}
 .widgetWinbitsMain .dataTable .dataTable-photo,
 .miCuenta-tabs .dataTable .dataTable-photo {
     display: inline-block;
     vertical-align: top;
-    width: 100px;
+    width: 80px;
     *display: inline;
     /* IE7 inline-block hack */
     zoom: 1;
@@ -1721,19 +1818,28 @@ input[type="submit"].btn.btn-mini {
 .miCuenta-tabs .dataTable .dataTable-status {
     display: inline-block;
     vertical-align: top;
-    width: 90px;
+    width: 100px;
     *display: inline;
     /* IE7 inline-block hack */
     zoom: 1;
+}
+.widgetWinbitsMain .dataTable .dataTable-status span,
+.miCuenta-tabs .dataTable .dataTable-status span {
+    display: block;
 }
 .widgetWinbitsMain .dataTable .dataTable-num,
 .miCuenta-tabs .dataTable .dataTable-num {
     display: inline-block;
     vertical-align: top;
-    width: 100px;
+    width: 110px;
     *display: inline;
     /* IE7 inline-block hack */
     zoom: 1;
+}
+.widgetWinbitsMain .dataTable .dataTable-num a,
+.miCuenta-tabs .dataTable .dataTable-num a {
+    display: block;
+    text-decoration: underline;
 }
 .widgetWinbitsMain .dataTable .dataTable-site,
 .miCuenta-tabs .dataTable .dataTable-site {
@@ -3276,6 +3382,11 @@ span.errorInputOK {
 }
 .select-div input.select-input {
     color: #1f1f1f;
+}
+.select-div .select-disabled {
+    cursor: default;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
 }
 .select-div .select-trigger {
     -webkit-user-select: none;
@@ -7580,11 +7691,19 @@ main {
 }
 .msie1 .widgetWinbitsMain,
 .msie10 .widgetWinbitsMain,
-.msie11 .widgetWinbitsMain {
+.msie11 .widgetWinbitsMain,
+.msie1 main,
+.msie10 main,
+.msie11 main {
     display: block;
 }
 .msie1 .switchUser .iconFont-close,
 .msie10 .switchUser .iconFont-close,
 .msie11 .switchUser .iconFont-close {
     margin-top: -2px;
+}
+.msie1 .carritoDivRight,
+.msie10 .carritoDivRight,
+.msie11 .carritoDivRight {
+    width: 199px;
 }
