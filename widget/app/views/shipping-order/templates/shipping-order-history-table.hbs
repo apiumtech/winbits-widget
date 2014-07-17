@@ -38,11 +38,17 @@
 
           <div class="dataTable-cant">{{quantity}}</div>
           <div class="dataTable-status">
-            <span>{{status.0.status}}</span>
+          {{#compare quantity '1'}}
+              <span>{{status.0.status}}</span>
+          {{else}}
+            {{#each status}}
+              <span>({{quantity}}){{status}}</span>
+            {{/each}}
+          {{/compare}}
           </div>
           <div class="dataTable-num">
             {{#each tracingNumbers}}
-               ({{quantity}}) {{trackingGuide}}
+               ({{quantity}}){{trackingGuide}}
             {{/each}}
           </div>
           <div class="dataTable-site">

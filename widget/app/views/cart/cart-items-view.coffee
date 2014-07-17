@@ -35,18 +35,19 @@ module.exports = class CartItemsView extends View
       .always(@requestToUpdateCartCompletes)
 
   doUpdateItemRequestSuccess: (data) ->
-    cartUtils.hideCartLoading()
+    #cartUtils.hideCartLoading()
     if not utils.isLoggedIn()
       cartUtils.addToVirtualCartSuccess(data)
     else
       cartUtils.publishCartChangedEvent(data)
 
   doUpdateItemRequestError: (xhr, textStatus)->
-    cartUtils.hideCartLoading()
+    #cartUtils.hideCartLoading()
     @render()
     cartUtils.showCartErrorMessage(xhr, textStatus)
 
   requestToUpdateCartCompletes: ->
+    cartUtils.hideCartLoading()
     utils.closeMessageModal()
 
   doDeleteItem: (e)->
