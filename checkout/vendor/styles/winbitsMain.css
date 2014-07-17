@@ -116,6 +116,45 @@
 .iconFont-o:before {
     content: "\e671";
 }
+.iconFont-doc:before {
+  content: "\e67c";
+}
+.iconFont-right3:before {
+  content: "\e67a";
+}
+.iconFont-left3:before {
+  content: "\e67b";
+}
+.iconFont-c-bags:before {
+  content: "\e673";
+}
+.iconFont-c-calzado:before {
+  content: "\e674";
+}
+.iconFont-c-underwear:before {
+  content: "\e675";
+}
+.iconFont-c-vestidos:before {
+  content: "\e676";
+}
+.iconFont-c-outerwere:before {
+  content: "\e677";
+}
+.iconFont-c-bottoms:before {
+  content: "\e678";
+}
+.iconFont-c-tops:before {
+  content: "\e679";
+}
+.iconFont-slideBG:before {
+  content: "\e672";
+}
+.iconFont-clicknero:before {
+  content: "\e670";
+}
+.iconFont-o:before {
+  content: "\e671";
+}
 .iconFont-clickOnero2:before {
     content: "\e600";
 }
@@ -506,9 +545,15 @@
     left: 1px;
 }
 .iconBit.bit13px {
+<<<<<<< HEAD
+  font-size: 13px;
+  height: 13px;
+  width: 13px;
+=======
     font-size: 13px;
     height: 13px;
     width: 13px;
+>>>>>>> 32afe8797d1ae66cae80d31e5824cd12d14d34d9
 }
 .iconBit.bit13px .iconBG {
     -webkit-border-radius: 11px;
@@ -558,6 +603,23 @@
     width: 14px !important;
     top: 1px;
     left: 1px;
+}
+.iconBit.bit16px {
+  font-size: 16px;
+  height: 16px;
+  width: 16px;
+}
+.iconBit.bit16px .iconBG {
+  -webkit-border-radius: 14px;
+  -khtml-border-radius: 14px;
+  -moz-border-radius: 14px;
+  -ms-border-radius: 14px;
+  -o-border-radius: 14px;
+  border-radius: 14px;
+  height: 14px !important;
+  width: 14px !important;
+  top: 1px;
+  left: 1px;
 }
 .iconBit.bit18px {
     font-size: 18px;
@@ -609,7 +671,11 @@
     color: #3d9b35;
 }
 .icon-yellow {
+<<<<<<< HEAD
+  color: #ffda27;
+=======
     color: #ffda27;
+>>>>>>> 32afe8797d1ae66cae80d31e5824cd12d14d34d9
 }
 .iconFont-left,
 .iconFont-right {
@@ -1547,6 +1613,10 @@ input[type="submit"].btn.btn-mini {
 .miCuenta-tabs .dataTable table tr:nth-child(odd) td {
     background: #fcfcfc;
 }
+.widgetWinbitsMain .dataTable table tr:nth-child(odd) td,
+.miCuenta-tabs .dataTable table tr:nth-child(odd) td {
+  background: #fcfcfc;
+}
 .widgetWinbitsMain .dataTable table td,
 .miCuenta-tabs .dataTable table td,
 .widgetWinbitsMain .dataTable table th,
@@ -1771,14 +1841,65 @@ input[type="submit"].btn.btn-mini {
     color: #6e99fc;
     text-decoration: none;
 }
+.widgetWinbitsMain .dataTable .dataTable-desc .table-desc,
+.miCuenta-tabs .dataTable .dataTable-desc .table-desc {
+  border-top: 1px solid #e6e6e6;
+  margin: 0 20px 0 -20px;
+  padding: 5px 20px;
+  position: relative;
+}
+.widgetWinbitsMain .dataTable .dataTable-desc .table-desc:first-child,
+.miCuenta-tabs .dataTable .dataTable-desc .table-desc:first-child {
+  border: none;
+}
+.widgetWinbitsMain .dataTable .dataTable-desc .table-desc .status1,
+.miCuenta-tabs .dataTable .dataTable-desc .table-desc .status1 {
+  color: #3d9b35;
+  font-size: 15px;
+  font-family: 'OmnesMedium', Arial;
+  font-style: normal;
+  font-weight: normal;
+  letter-spacing: 1px;
+}
+.widgetWinbitsMain .dataTable .dataTable-desc .table-desc .status2,
+.miCuenta-tabs .dataTable .dataTable-desc .table-desc .status2 {
+  color: #ffda27;
+  font-size: 15px;
+  font-family: 'OmnesMedium', Arial;
+  font-style: normal;
+  font-weight: normal;
+  letter-spacing: 1px;
+}
+.widgetWinbitsMain .dataTable .dataTable-desc .table-desc .iconFont-doc,
+.miCuenta-tabs .dataTable .dataTable-desc .table-desc .iconFont-doc {
+  bottom: 0;
+  color: #000000;
+  font-size: 35px;
+  position: absolute;
+  right: 0;
+}
+.widgetWinbitsMain .dataTable .dataTable-desc .table-desc .iconFont-doc:hover,
+.miCuenta-tabs .dataTable .dataTable-desc .table-desc .iconFont-doc:hover {
+  color: #6e99fc;
+  text-decoration: none;
+}
 .widgetWinbitsMain .dataTable .dataTable-photo,
 .miCuenta-tabs .dataTable .dataTable-photo {
+<<<<<<< HEAD
+  display: inline-block;
+  vertical-align: top;
+  width: 80px;
+  *display: inline;
+  /* IE7 inline-block hack */
+  zoom: 1;
+=======
     display: inline-block;
     vertical-align: top;
     width: 80px;
     *display: inline;
     /* IE7 inline-block hack */
     zoom: 1;
+>>>>>>> 32afe8797d1ae66cae80d31e5824cd12d14d34d9
 }
 .widgetWinbitsMain .dataTable .dataTable-prod,
 .miCuenta-tabs .dataTable .dataTable-prod {
@@ -1818,6 +1939,14 @@ input[type="submit"].btn.btn-mini {
 }
 .widgetWinbitsMain .dataTable .dataTable-status,
 .miCuenta-tabs .dataTable .dataTable-status {
+<<<<<<< HEAD
+  display: inline-block;
+  vertical-align: top;
+  width: 100px;
+  *display: inline;
+  /* IE7 inline-block hack */
+  zoom: 1;
+=======
     display: inline-block;
     vertical-align: top;
     width: 100px;
@@ -1828,9 +1957,22 @@ input[type="submit"].btn.btn-mini {
 .widgetWinbitsMain .dataTable .dataTable-status span,
 .miCuenta-tabs .dataTable .dataTable-status span {
     display: block;
+>>>>>>> 32afe8797d1ae66cae80d31e5824cd12d14d34d9
+}
+.widgetWinbitsMain .dataTable .dataTable-status span,
+.miCuenta-tabs .dataTable .dataTable-status span {
+  display: block;
 }
 .widgetWinbitsMain .dataTable .dataTable-num,
 .miCuenta-tabs .dataTable .dataTable-num {
+<<<<<<< HEAD
+  display: inline-block;
+  vertical-align: top;
+  width: 110px;
+  *display: inline;
+  /* IE7 inline-block hack */
+  zoom: 1;
+=======
     display: inline-block;
     vertical-align: top;
     width: 110px;
@@ -1842,6 +1984,12 @@ input[type="submit"].btn.btn-mini {
 .miCuenta-tabs .dataTable .dataTable-num a {
     display: block;
     text-decoration: underline;
+>>>>>>> 32afe8797d1ae66cae80d31e5824cd12d14d34d9
+}
+.widgetWinbitsMain .dataTable .dataTable-num a,
+.miCuenta-tabs .dataTable .dataTable-num a {
+  display: block;
+  text-decoration: underline;
 }
 .widgetWinbitsMain .dataTable .dataTable-site,
 .miCuenta-tabs .dataTable .dataTable-site {
@@ -1923,6 +2071,10 @@ input[type="submit"].btn.btn-mini {
 }
 .widgetWinbitsMain .dataTable .column7,
 .miCuenta-tabs .dataTable .column7 {
+<<<<<<< HEAD
+  vertical-align: middle;
+  width: 50px;
+=======
     vertical-align: middle;
     width: 50px;
 }
@@ -1942,6 +2094,24 @@ input[type="submit"].btn.btn-mini {
     text-align: left;
     padding: 5px 20px;
     width: 90%;
+>>>>>>> 32afe8797d1ae66cae80d31e5824cd12d14d34d9
+}
+.widgetWinbitsMain .dataTable .columnCant,
+.miCuenta-tabs .dataTable .columnCant {
+  width: 100px;
+}
+.widgetWinbitsMain .dataTable .columnUnavailable,
+.miCuenta-tabs .dataTable .columnUnavailable {
+  text-align: center;
+  vertical-align: middle;
+}
+.widgetWinbitsMain .dataTable .columnUnavailable div,
+.miCuenta-tabs .dataTable .columnUnavailable div {
+  background: #fc1717;
+  color: #ffffff;
+  text-align: left;
+  padding: 5px 20px;
+  width: 90%;
 }
 .widgetWinbitsMain .resumeCheckoutTable {
     background: #f7f7f7;
@@ -1981,6 +2151,9 @@ input[type="submit"].btn.btn-mini {
 }
 .widgetWinbitsMain .resumeCheckoutTable .columnCant {
     text-align: center;
+}
+.widgetWinbitsMain .resumeCheckoutTable .columnCant {
+  text-align: center;
 }
 .widgetWinbitsMain .resumeCheckoutTable .column7 {
     text-align: center;
@@ -2811,12 +2984,21 @@ input[type="submit"].btn.btn-mini {
     width: 34px;
 }
 .amexCC {
+<<<<<<< HEAD
+  background-position: -438px -258px;
+  line-height: 102px;
+  overflow: hidden;
+  text-indent: 102px;
+  height: 34px;
+  width: 34px;
+=======
     background-position: -438px -258px;
     line-height: 102px;
     overflow: hidden;
     text-indent: 102px;
     height: 34px;
     width: 34px;
+>>>>>>> 32afe8797d1ae66cae80d31e5824cd12d14d34d9
 }
 /*.bit12px, .shopCarMin, .changePasword, .creditCard, 
 .facebookCircle, .twitterCircle, .changeAdress {
@@ -3001,6 +3183,24 @@ input[type="submit"].btn.btn-mini {
 	background-position: -px -px;
 }*/
 .placeholder-div {
+<<<<<<< HEAD
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  width: auto;
+  *display: inline;
+  /* IE7 inline-block hack */
+  zoom: 1;
+}
+.placeholder-div .placeholder-span {
+  color: #b3b3b3;
+  left: 6px;
+  position: absolute;
+  top: 10px;
+  font-family: 'OmnesRegular', Arial;
+  font-style: normal;
+  font-weight: normal;
+=======
     position: relative;
     display: inline-block;
     vertical-align: middle;
@@ -3017,6 +3217,7 @@ input[type="submit"].btn.btn-mini {
     font-family: 'OmnesRegular', Arial;
     font-style: normal;
     font-weight: normal;
+>>>>>>> 32afe8797d1ae66cae80d31e5824cd12d14d34d9
 }
 .errorDiv {
     margin: 5px;
@@ -3372,6 +3573,10 @@ span.errorInputOK {
     left: 9px;
     top: 3px;
 }
+.select-div.selectQuantity .placeholder-span {
+  left: 9px;
+  top: 3px;
+}
 .select-div.selectQuantity .select-ul {
     width: 25px !important;
 }
@@ -3389,6 +3594,11 @@ span.errorInputOK {
     cursor: default;
     opacity: 0.5;
     filter: alpha(opacity=50);
+}
+.select-div .select-disabled {
+  cursor: default;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
 }
 .select-div .select-trigger {
     -webkit-user-select: none;
@@ -3449,6 +3659,33 @@ span.errorInputOK {
     visibility: hidden;
 }
 .select-div .select-input {
+<<<<<<< HEAD
+  background: #ffffff;
+  border: 1px solid #e6e6e6;
+  color: #a6a6a6;
+  padding: 3px 32px 3px 5px;
+  font-family: 'HelveticaNeueRoman', Arial;
+  font-style: normal;
+  font-weight: normal;
+  -webkit-border-radius: 2px;
+  -khtml-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-box-shadow: none;
+  -khtml-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  -o-box-shadow: none;
+  box-shadow: none;
+  display: inline-block !important;
+  vertical-align: middle !important;
+  width: 132px !important;
+  *display: inline !important;
+  /* IE7 inline-block hack */
+  zoom: 1 !important;
+=======
     background: #ffffff;
     border: 1px solid #e6e6e6;
     color: #a6a6a6;
@@ -3474,6 +3711,7 @@ span.errorInputOK {
     *display: inline !important;
     /* IE7 inline-block hack */
     zoom: 1 !important;
+>>>>>>> 32afe8797d1ae66cae80d31e5824cd12d14d34d9
 }
 .select-div .select-input:hover {
     border-color: #363636;
@@ -3731,6 +3969,20 @@ span.errorInputOK {
 .miCuenta-overlay,
 .checkout-overlay,
 .video-overlay {
+<<<<<<< HEAD
+  background: url("../../images/misc/fancybox_overlay.png");
+  background: rgba(0, 0, 0, 0.8);
+  color: #ffffff;
+  bottom: -20px;
+  font-size: 20px;
+  height: 100%;
+  left: -50%;
+  position: absolute;
+  padding: 10px 50%;
+  text-align: center;
+  width: 100%;
+  z-index: 3;
+=======
     background: url("../../images/misc/fancybox_overlay.png");
     background: rgba(0, 0, 0, 0.8);
     color: #ffffff;
@@ -3743,6 +3995,7 @@ span.errorInputOK {
     text-align: center;
     width: 100%;
     z-index: 3;
+>>>>>>> 32afe8797d1ae66cae80d31e5824cd12d14d34d9
 }
 .miCuenta-overlay.overlay-hide,
 .checkout-overlay.overlay-hide,
@@ -3794,8 +4047,13 @@ span.errorInputOK {
 .miCuenta-overlay .overlay-content,
 .checkout-overlay .overlay-content,
 .video-overlay .overlay-content {
+<<<<<<< HEAD
+  display: table-cell;
+  vertical-align: middle;
+=======
     display: table-cell;
     vertical-align: middle;
+>>>>>>> 32afe8797d1ae66cae80d31e5824cd12d14d34d9
 }
 .miCuenta-overlay .btn,
 .checkout-overlay .btn,
@@ -3891,6 +4149,60 @@ span.errorInputOK {
     border-radius: 10px;
     height: 24px;
     width: 24px;
+}
+.loaderDiv {
+  background: url("../../images/misc/fancybox_overlay.png");
+  background: rgba(0, 0, 0, 0.8);
+  height: 100%;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+  -webkit-transition: 0.3s;
+  -khtml-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -ms-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+}
+.loaderDiv.loader-hide,
+.loaderDiv .loader-hide {
+  display: none;
+}
+.loaderDiv .loader-txtLarge {
+  margin: 10px -50px;
+}
+.loaderDiv .loader-div {
+  color: #ffffff;
+  text-align: center;
+  height: 100px;
+  left: 50%;
+  margin: -50px 0 0 -50px;
+  position: absolute;
+  top: 50%;
+  width: 100px;
+}
+.loaderDiv .confirmationContent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -70px 0 0 -220px;
+}
+.loaderDiv .confirmationContent .iconFont-close {
+  font-size: 50px !important;
+}
+.loader {
+  background: #000000 url("../../images/misc/fancybox_loading.gif");
+  border: 10px solid #000000;
+  margin: 10px auto;
+  -webkit-border-radius: 10px;
+  -khtml-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+  height: 24px;
+  width: 24px;
 }
 .video-overlay {
     visibility: hidden;
@@ -4101,6 +4413,66 @@ main {
     border-bottom-color: #363636;
     right: -15px;
 }
+.widgetWinbitsHeader .knowmoreFolder .knowmore-banner {
+  margin-bottom: 20px;
+}
+.widgetWinbitsHeader .knowmoreFolder .knowmore-banner a:hover {
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+.widgetWinbitsHeader .knowmoreFolder .superOffer {
+  background: #eff717;
+  color: #000000;
+  font-size: 15px;
+  left: -350px;
+  padding: 3px 20px 10px 20px;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  width: 700px;
+  font-family: 'OmnesMedium', Arial;
+  font-style: normal;
+  font-weight: normal;
+}
+.widgetWinbitsHeader .knowmoreFolder .superOffer a {
+  color: #000000;
+}
+.widgetWinbitsHeader .knowmoreFolder .superOffer a:hover {
+  color: #6e99fc;
+}
+.widgetWinbitsHeader .knowmoreFolder .superOffer a span {
+  margin-right: 30px;
+  display: inline-block;
+  vertical-align: middle;
+  width: auto;
+  *display: inline;
+  /* IE7 inline-block hack */
+  zoom: 1;
+}
+.widgetWinbitsHeader .knowmoreFolder .superOffer .arrowOffer {
+  top: -5px;
+  position: absolute;
+  display: inline-block;
+  vertical-align: middle;
+  width: auto;
+  *display: inline;
+  /* IE7 inline-block hack */
+  zoom: 1;
+  border-bottom: 35px solid transparent;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 0 solid transparent;
+  height: 0;
+  width: 0;
+  border-bottom-color: #eff717;
+}
+.widgetWinbitsHeader .knowmoreFolder .superOffer .arrowOffer.leftOffer {
+  left: -15px;
+}
+.widgetWinbitsHeader .knowmoreFolder .superOffer .arrowOffer.rightOffer {
+  border-bottom-color: #363636;
+  right: -15px;
+}
 .widgetWinbitsHeader .knowmoreFolder .knowMoreMax {
     display: none;
     text-align: center;
@@ -4272,9 +4644,15 @@ main {
     filter: alpha(opacity=50);
 }
 .widgetWinbitsHeader .mainHeader {
+<<<<<<< HEAD
+  background: #f7f7f7;
+  position: relative;
+  /*.language {
+=======
     background: #f7f7f7;
     position: relative;
     /*.language {
+>>>>>>> 32afe8797d1ae66cae80d31e5824cd12d14d34d9
 			margin: 5px 0 10px 0;
 			.selectContainer {
 				margin: 10px 0 0 10px;
@@ -4477,8 +4855,13 @@ main {
     position: relative;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs {
+<<<<<<< HEAD
+  position: relative;
+  /*#wb-micuenta-profile, #wb-micuenta-address, #wb-micuenta-creditcard,
+=======
     position: relative;
     /*#wb-micuenta-profile, #wb-micuenta-address, #wb-micuenta-creditcard,
+>>>>>>> 32afe8797d1ae66cae80d31e5824cd12d14d34d9
 				#wb-micuenta-mailing, #wb-micuenta-favorites, #wb-micuenta-wishlist {
 					display: none;
 				}*/
@@ -4629,6 +5012,9 @@ main {
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .placeholder-span {
     font-size: 11px;
+}
+.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .placeholder-span {
+  font-size: 11px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column a {
     color: #b3b3b3;
@@ -4919,6 +5305,10 @@ main {
     position: absolute;
     width: 660px;
 }
+.widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .loaderDiv {
+  position: absolute;
+  width: 660px;
+}
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carContenido {
     background: #ffffff;
     -webkit-box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
@@ -4986,7 +5376,11 @@ main {
     top: 5px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivLeft .carritoContent .iconFont-downmenu {
+<<<<<<< HEAD
+  right: 2px;
+=======
     right: 2px;
+>>>>>>> 32afe8797d1ae66cae80d31e5824cd12d14d34d9
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivLeft .carritoContent .select-ul {
     position: fixed;
@@ -5065,6 +5459,21 @@ main {
     right: 0;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivRight {
+<<<<<<< HEAD
+  background: #e2dfd3;
+  min-height: 370px;
+  height: 370px;
+  height: auto !important;
+  margin-left: -1px;
+  padding: 20px 30px;
+  text-align: center;
+  display: inline-block;
+  vertical-align: top;
+  width: 200px;
+  *display: inline;
+  /* IE7 inline-block hack */
+  zoom: 1;
+=======
     background: #e2dfd3;
     min-height: 370px;
     height: 370px;
@@ -5078,6 +5487,7 @@ main {
     *display: inline;
     /* IE7 inline-block hack */
     zoom: 1;
+>>>>>>> 32afe8797d1ae66cae80d31e5824cd12d14d34d9
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivRight h3 {
     font-size: 14px;
@@ -5127,6 +5537,12 @@ main {
     margin: -20px -30px;
     padding: 20px 30px;
 }
+.widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivRight .carritoDivRight-price,
+.widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivRight .carritoDivRight-checkout {
+  background: #ebe7dc;
+  margin: -20px -30px;
+  padding: 20px 30px;
+}
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivRight .winSave {
     background: #e6e1d0;
     font-size: 11px;
@@ -5152,9 +5568,15 @@ main {
     width: 140px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivRight .condicionesCompra {
+<<<<<<< HEAD
+  margin: 20px -30px -20px -30px;
+  padding: 15px 30px;
+  text-align: left;
+=======
     margin: 20px -30px -20px -30px;
     padding: 15px 30px;
     text-align: left;
+>>>>>>> 32afe8797d1ae66cae80d31e5824cd12d14d34d9
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivRight .condicionesCompra p {
     padding: 0;
@@ -5234,7 +5656,11 @@ main {
     font-size: 21px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .bits .bit18px {
+<<<<<<< HEAD
+  margin: -4px 0 0 4px;
+=======
     margin: -4px 0 0 4px;
+>>>>>>> 32afe8797d1ae66cae80d31e5824cd12d14d34d9
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .btnTopNav {
     margin-left: 10px;
@@ -5742,6 +6168,15 @@ main {
     filter: alpha(opacity=50);
 }
 .preCheckout {
+<<<<<<< HEAD
+  padding: 20px !important;
+  position: relative;
+}
+.preCheckout .loaderDiv {
+  left: 0;
+  position: absolute;
+  top: 0;
+=======
     padding: 20px !important;
     position: relative;
 }
@@ -5749,6 +6184,7 @@ main {
     left: 0;
     position: absolute;
     top: 0;
+>>>>>>> 32afe8797d1ae66cae80d31e5824cd12d14d34d9
 }
 .preCheckout h2 {
     font-size: 14px;
@@ -5783,9 +6219,31 @@ main {
 .preCheckout .dataTable .productTable {
     height: 225px;
 }
+.preCheckout .dataTable .preCheckout-c1 {
+  width: 220px;
+}
+.preCheckout .dataTable .preCheckout-c2 {
+  width: 105px;
+}
+.preCheckout .dataTable .preCheckout-c3 {
+  width: 105px;
+}
+.preCheckout .dataTable .productTable {
+  height: 225px;
+}
 .preCheckout .dataTable td.preCheckout-c2,
 .preCheckout .dataTable td.preCheckout-c3,
 .preCheckout .dataTable td.preCheckout-c4 {
+<<<<<<< HEAD
+  text-align: center;
+  font-family: 'OmnesMedium', Arial;
+  font-style: normal;
+  font-weight: normal;
+}
+.preCheckout .dataTable td.preCheckout-c2,
+.preCheckout .dataTable td.preCheckout-c4 {
+  border-left: 1px solid #e6e6e6;
+=======
     text-align: center;
     font-family: 'OmnesMedium', Arial;
     font-style: normal;
@@ -5794,6 +6252,7 @@ main {
 .preCheckout .dataTable td.preCheckout-c2,
 .preCheckout .dataTable td.preCheckout-c4 {
     border-left: 1px solid #e6e6e6;
+>>>>>>> 32afe8797d1ae66cae80d31e5824cd12d14d34d9
 }
 .preCheckout .dataTable td.preCheckout-c2 {
     width: 25%;
@@ -5809,6 +6268,9 @@ main {
 .preCheckout .dataTable .preCheckout-delete {
     position: relative;
 }
+.preCheckout .dataTable .preCheckout-delete {
+  position: relative;
+}
 .preCheckout .dataTable .preCheckout-product {
     min-height: 45px;
     height: 50px;
@@ -5823,9 +6285,15 @@ main {
 }
 .preCheckout .dataTable .preCheckout-product .miniSite,
 .preCheckout .dataTable .preCheckout-product .iconVertical-t {
+<<<<<<< HEAD
+  position: absolute;
+  bottom: 0;
+  right: 10px;
+=======
     position: absolute;
     bottom: 0;
     right: 10px;
+>>>>>>> 32afe8797d1ae66cae80d31e5824cd12d14d34d9
 }
 .preCheckout .dataTable .preCheckout-img {
     position: absolute;
@@ -5845,6 +6313,9 @@ main {
 }
 .preCheckout .preCheckout-submit a {
     margin: 0 5px;
+}
+.preCheckout .preCheckout-submit a {
+  margin: 0 5px;
 }
 .confirmationContent {
     background: #f7f7f7;
@@ -6413,6 +6884,10 @@ main {
     font-size: 11px;
     left: 10px;
 }
+.widgetWinbitsMain .checkoutWinbits .checkoutMain .column .placeholder-span {
+  font-size: 11px;
+  left: 10px;
+}
 .widgetWinbitsMain .checkoutWinbits .checkoutMain .column .divFechaExpiracion label,
 .widgetWinbitsMain .checkoutWinbits .checkoutMain .column .divNumSecurity label {
     font-size: 11px;
@@ -6720,6 +7195,11 @@ main {
     font-size: 18px;
     margin: -2px 3px 0 0;
 }
+.widgetWinbitsMain .totalCheckOutTemp .totalCheckOutTemp-total .totalCheckOutTemp-timer .iconFont-clock2 {
+  color: #000000;
+  font-size: 18px;
+  margin: -2px 3px 0 0;
+}
 .widgetWinbitsMain .totalCheckOutTemp .totalCheckOutTemp-total .totalCheckOutTemp-subTotal {
     background: #f7f7f7;
     padding: 10px;
@@ -6766,6 +7246,32 @@ main {
 .widgetWinbitsMain .totalCheckOutTemp .totalCheckOutTemp-total .legendCarrito a:hover {
     color: #074ae7;
 }
+.widgetWinbitsMain .totalCheckOutTemp .totalCheckOutTemp-total .totalCheckOutTemp-subTotal em {
+  font-family: 'OmnesMedium', Arial;
+  font-style: normal;
+  font-weight: normal;
+}
+.widgetWinbitsMain .totalCheckOutTemp .totalCheckOutTemp-total .totalCheckOutTemp-subTotal .legendCarrito {
+  width: auto;
+}
+.widgetWinbitsMain .totalCheckOutTemp .totalCheckOutTemp-total .legendCarrito {
+  clear: both;
+  display: block !important;
+  font-size: 11px;
+  padding: 5px 10px 0 0;
+  text-align: right;
+  font-family: 'OmnesLight', Arial !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+}
+.widgetWinbitsMain .totalCheckOutTemp .totalCheckOutTemp-total .legendCarrito a {
+  color: black;
+  display: block;
+  text-decoration: underline;
+}
+.widgetWinbitsMain .totalCheckOutTemp .totalCheckOutTemp-total .legendCarrito a:hover {
+  color: #074ae7;
+}
 .widgetWinbitsMain .totalCheckOutTemp .totalCheckOutTemp-total .totalCheckOutTemp-slider {
     background: #f7f7f7;
     overflow: hidden;
@@ -6780,7 +7286,11 @@ main {
     right: -10px;
 }
 .widgetWinbitsMain .totalCheckOutTemp .totalCheckOutTemp-total .totalCheckOutTemp-slider .slider-wrapper .amount {
+<<<<<<< HEAD
+  margin-top: -13px;
+=======
     margin-top: -13px;
+>>>>>>> 32afe8797d1ae66cae80d31e5824cd12d14d34d9
 }
 .widgetWinbitsMain .totalCheckOutTemp .totalCheckOutTemp-total .totalCheckOutTemp-totalTotal {
     background: #f7f7f7;
@@ -7137,6 +7647,16 @@ main {
     bottom: 7px;
 }
 .carruselSCC-div {
+<<<<<<< HEAD
+  background: #f7f7f7;
+  color: #454545;
+  cursor: pointer;
+  height: 116px;
+  margin: 3px;
+  padding: 5px 20px;
+  position: relative;
+  /*.shippingCarrusel-slide, .creditcardCarrousel-slide {
+=======
     background: #f7f7f7;
     color: #454545;
     cursor: pointer;
@@ -7145,6 +7665,7 @@ main {
     padding: 5px 20px;
     position: relative;
     /*.shippingCarrusel-slide, .creditcardCarrousel-slide {
+>>>>>>> 32afe8797d1ae66cae80d31e5824cd12d14d34d9
 		padding: 5px 20px;
 		margin: 3px;
 		.inline-block(170px, top);
@@ -7684,9 +8205,17 @@ main {
 .mac.safari .carritoDivRight {
     margin-right: -2px;
 }
+.mac.safari .carritoDivRight {
+  margin-right: -2px;
+}
 .msie1 .carritoDivRight {
+<<<<<<< HEAD
+  margin-right: -2px;
+  width: 189px !important;
+=======
     margin-right: -2px;
     width: 189px !important;
+>>>>>>> 32afe8797d1ae66cae80d31e5824cd12d14d34d9
 }
 .msie1 .checkoutWinbits {
     margin-top: 140px;
@@ -7697,7 +8226,11 @@ main {
 .msie1 main,
 .msie10 main,
 .msie11 main {
+<<<<<<< HEAD
+  display: block;
+=======
     display: block;
+>>>>>>> 32afe8797d1ae66cae80d31e5824cd12d14d34d9
 }
 .msie1 .switchUser .iconFont-close,
 .msie10 .switchUser .iconFont-close,
@@ -7708,4 +8241,9 @@ main {
 .msie10 .carritoDivRight,
 .msie11 .carritoDivRight {
     width: 199px !important;
+}
+.msie1 .carritoDivRight,
+.msie10 .carritoDivRight,
+.msie11 .carritoDivRight {
+  width: 199px !important;
 }
