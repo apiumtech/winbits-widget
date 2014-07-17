@@ -19,6 +19,7 @@ module.exports = class ShippingOrderHistoryView extends View
     super
     @model.fetch data:@params, success: $.proxy(@render, @)
     @delegate 'click', '#wbi-shipping-order-history-btn-back', @backToVertical
+    @delegate 'click', '.wbc-icon-coupon', @requestCouponService
     $('#wbi-my-account-div').slideUp()
     utils.replaceVerticalContent('.widgetWinbitsMain')
     @subscribeEvent 'shipping-order-history-params-changed', @paramsChanged
@@ -39,6 +40,10 @@ module.exports = class ShippingOrderHistoryView extends View
   updateHistory: ->
     @model.fetch {data:@params}
 
+  requestCouponService:(e)->
+    dataOrderNumber = @$(e.currentTarget).closest('.wbc-order').data('id')
+    console.log ["REQUEST COUPON SERVICE", dataOrderNumber]
+    @model.requestCouponsService()
 
   backToVertical:()->
     utils.restoreVerticalContent('.widgetWinbitsMain')

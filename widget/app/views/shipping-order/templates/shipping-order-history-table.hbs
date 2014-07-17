@@ -1,6 +1,6 @@
  {{#if orders}}
   {{#each orders}}
-    <div class="dataTable-fila">
+    <div class="dataTable-fila wbc-order" data-id={{orderNumber}}>
         <div class="dataTable-desc">
             <div class="table-desc">
                 <p>Orden: {{orderNumber}}</p>
@@ -35,7 +35,7 @@
               {{/each}}
               {{#compare ../status 'PAID'}}
                 {{#if withCoupon}}
-                   <span title="Cupones" class="iconFont-coupons icon-green"></span>
+                   <span title="Cupones" class="iconFont-coupons icon-green wbc-icon-coupon"></span>
                 {{/if}}
               {{/compare}}
           </div>

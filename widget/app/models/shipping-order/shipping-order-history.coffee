@@ -16,3 +16,6 @@ module.exports = class ShippingOrderHistory extends Model
       @meta.totalCount
     else
       0
+
+  requestCouponsService:()->
+    console.log ["REQUEST COUPONS SERVICE IN MODEL"]
