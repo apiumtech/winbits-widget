@@ -21,31 +21,29 @@
         </div>
       <div class="dataTable-bodyItems">
       {{#each details}}
-        <div class="dataTable-item">
-          <div class="dataTable-photo">
-            <img src="{{thumbnail.url}}" width="62" height="79"
-                 alt="{{name}}"/>
-          </div>
+          <div class="dataTable-item">
+              <div class="dataTable-photo">
+                  <img src="{{thumbnail.url}}" width="62" height="79"
+                       alt="{{name}}">
+              </div>
           <div class="dataTable-prod">
-            <strong>{{name}}</strong>
-            <strong>{{brand}}</strong>
-
-            <p>{{attributeLabel}}: {{attributeName}}</p>
-
-            {{#each attributes}}
-              <p>{{name}}: {{label}} </p>
-            {{/each}}
-
-            <span class="iconFont-coupons icon-green" title="Cupones Listos"></span>
+              <strong>{{name}}</strong>
+              <strong>{{brand}}</strong>
+              <strong>{{attributeLabel}}: {{attributeName}}</strong>
+              {{#each attributes}}
+                  <strong>{{name}}:{{label}}</strong>
+              {{/each}}
+              <span title="Cupones Listos" class="iconFont-coupons icon-green"></span>
           </div>
-          <div class="dataTable-cant">
-            {{quantity}}
-          </div>
+
+          <div class="dataTable-cant">{{quantity}}</div>
           <div class="dataTable-status">
-            {{status.0.status}}
+            <span>{{status.0.status}}</span>
           </div>
           <div class="dataTable-num">
-            <a href="#">{{tracingNumber}}</a>
+            {{#each tracingNumbers}}
+               ({{quantity}}) {{trackingGuide}}
+            {{/each}}
           </div>
           <div class="dataTable-site">
             <span class="iconVertical-t vertical{{vertical.id}}" title="{{vertical.name}}"></span>
