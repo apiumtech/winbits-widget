@@ -55,8 +55,6 @@ module.exports = class NotLoggedInPageView extends View
     popup.focus()
 
   facebookSuccess: (response)->
-      console.log ['context', @]
-      console.log ['model', @model]
       data = facebookId: response.facebookId
       promise = @model.requestExpressFacebookLogin(data, context:@)
       promise.done(@doFacebookLoginSuccess).fail(@doFacebookLoginError)
