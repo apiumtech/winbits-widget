@@ -33,7 +33,11 @@
               {{#each attributes}}
                   <strong>{{name}}:{{label}}</strong>
               {{/each}}
-              <span title="Cupones Listos" class="iconFont-coupons icon-green"></span>
+              {{#compare ../status 'PAID'}}
+                {{#if withCoupon}}
+                   <span title="Cupones" class="iconFont-coupons icon-green"></span>
+                {{/if}}
+              {{/compare}}
           </div>
 
           <div class="dataTable-cant">{{quantity}}</div>
