@@ -1,4 +1,5 @@
 'use strict'
+
 Controller = require 'controllers/base/controller'
 $ = Winbits.$
 utils = require 'lib/utils'

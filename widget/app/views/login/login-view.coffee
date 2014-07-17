@@ -1,3 +1,5 @@
+'use strict'
+
 View = require 'views/base/view'
 utils = require 'lib/utils'
 loginUtil = require 'lib/login-utils'
@@ -19,7 +21,7 @@ module.exports = class LoginView extends View
   attach: ->
     super
     @showAsModal()
-    @$('.contentModal').customCheckbox();
+    @$('.contentModal').customCheckbox()
     @$('form#wbi-login-form').validate
       rules:
         email:
@@ -30,7 +32,8 @@ module.exports = class LoginView extends View
           minlength: 6
 
   showAsModal: ->
-    $('<a>').wbfancybox(href: '#' + @id, onClosed: -> utils.redirectTo controller: 'home', action: 'index').click()
+    options = onClosed: -> utils.redirectTo controller: 'home', action: 'index'
+    $('<a>').wbfancybox(href: '#' + @id, options).click()
 
   doLogin:(e) ->
     e.preventDefault()
@@ -78,4 +81,3 @@ module.exports = class LoginView extends View
   doFacebookLogin: (e) ->
     e.preventDefault()
     @publishEvent 'facebook-button-event', e
-
