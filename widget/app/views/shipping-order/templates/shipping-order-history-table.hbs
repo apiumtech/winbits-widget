@@ -1,40 +1,49 @@
  {{#if orders}}
   {{#each orders}}
     <div class="dataTable-fila">
-      <div class="dataTable-desc">
-        <p>Orden: {{orderNumber}}</p>
+        <div class="dataTable-desc">
+            <div class="table-desc">
+                <p>Orden: {{orderNumber}}</p>
+                <p>Fecha de compra: {{toDefaultDateFormat dateOfPurchase}}</p>
+                <p>Total: ${{total}} </p>
+            </div>
 
-        <p>Fecha de compra: {{toDefaultDateFormat dateOfPurchase}}</p>
-
-        <p>Total: ${{total}} </p>
-      </div>
+            <div class="table-desc">
+                <p>Status de la Orden:</p>
+                <p class="status{{#compare status 'PAID'}}1{{else}}2{{/compare}}">{{#compare status 'PAID'}}PAGADA{{else}}PENDIENTE{{/compare}}</p>
+            </div>
+          {{#each ticketPayments}}
+              <div class="table-desc">
+                  <p>Descarga ficha de pago ({{#compare identifier 'oxxo.bc'}}OXXO{{else}}HSBC{{/compare}})</p>
+                  <a href="{{generateTicketPaymentDownloadUrl paymentCapture}}" title="Ficha {{#compare identifier 'oxxo.bc'}}OXXO{{else}}HSBC{{/compare}}" class="iconFont-doc wbc-icon-download"></a>
+              </div>
+          {{/each}}
+        </div>
       <div class="dataTable-bodyItems">
       {{#each details}}
-        <div class="dataTable-item">
-          <div class="dataTable-photo">
-            <img src="{{thumbnail.url}}" width="62" height="79"
-                 alt="{{name}}"/>
-          </div>
+          <div class="dataTable-item">
+              <div class="dataTable-photo">
+                  <img src="{{thumbnail.url}}" width="62" height="79"
+                       alt="{{name}}">
+              </div>
           <div class="dataTable-prod">
-            <strong>{{name}}</strong>
-            <strong>{{brand}}</strong>
-
-            <p>{{attributeLabel}}: {{attributeName}}</p>
-
-            {{#each attributes}}
-              <p>{{name}}: {{label}} </p>
-            {{/each}}
-
-            <span class="iconFont-coupons icon-green" title="Cupones Listos"></span>
+              <strong>{{name}}</strong>
+              <strong>{{brand}}</strong>
+              <strong>{{attributeLabel}}: {{attributeName}}</strong>
+              {{#each attributes}}
+                  <strong>{{name}}:{{label}}</strong>
+              {{/each}}
+              <span title="Cupones Listos" class="iconFont-coupons icon-green"></span>
           </div>
-          <div class="dataTable-cant">
-            {{quantity}}
-          </div>
+
+          <div class="dataTable-cant">{{quantity}}</div>
           <div class="dataTable-status">
-            {{status.0.status}}
+            <span>{{status.0.status}}</span>
           </div>
           <div class="dataTable-num">
-            <a href="#">{{tracingNumber}}</a>
+            {{#each tracingNumbers}}
+               ({{quantity}}) {{trackingGuide}}
+            {{/each}}
           </div>
           <div class="dataTable-site">
             <span class="iconVertical-t vertical{{vertical.id}}" title="{{vertical.name}}"></span>
@@ -42,12 +51,6 @@
         </div>
       {{/each}}
     </div>
-      {{#each ticketPayments}}
-        <div class="download-ficha">
-          <a href="{{generateTicketPaymentDownloadUrl paymentCapture}}" target="_blank">Descarga ficha {{#compare identifier 'oxxo.bc'}}OXXO{{else}}HSBC{{/compare}}</a>
-        </div>
-      {{/each}}
-
     </div>
 
   {{/each}}
