@@ -1,9 +1,10 @@
-var cpTemplates, dataBindig, fs, handlebars, sys, _;
+var cpTemplates, dataBindig, fs, handlebars, sys, _, uglify;
 
 sys = require("sys");
 fs = require("fs");
 handlebars = require("handlebars");
 _ = require("underscore");
+uglify = require("uglify-js");
 
 desc("This is the default task and doesn't do nada.");
 task("default", function() {
@@ -11,30 +12,31 @@ task("default", function() {
 });
 
 
-
 desc("task to build just must change environment before build");
 task("build", function() {
   var cmds;
   cmds = [
-  "rm -rf public",
-  "./node_modules/brunch/bin/brunch build --production"
+    "rm -rf public",
+    "./node_modules/brunch/bin/brunch build --production"
   ];
   console.log("going to execute this");
   console.log(cmds);
   return jake.exec(cmds, (function() {
     console.log("app ready");
+    releaseScripts();
     return complete();
   }), {
     stdout: true
   });
 });
 
+
 desc("task to build widget for qa environment");
 task("buildqa", function() {
   var cmds;
   cmds = [
-  "rm -rf public",
-  "./node_modules/brunch/bin/brunch build"
+    "rm -rf public",
+    "./node_modules/brunch/bin/brunch build"
   ];
   console.log("going to execute this");
   console.log(cmds);
@@ -74,7 +76,7 @@ task("switch-config", function() {
   });
 });
 
-dataBindig = function(tmplFile, json) {
+var dataBindig = function(tmplFile, json) {
   var dir, encoding, fileTest, newDir, newName, tmpl;
   fileTest = fs.readFileSync(tmplFile, "utf8");
   tmpl = handlebars.compile(fileTest);
@@ -94,7 +96,7 @@ dataBindig = function(tmplFile, json) {
   });
 };
 
-cpTemplates = function() {
+var cpTemplates = function() {
   var cmds;
   cmds = ["cp -rf .tmp/deploy/resources/app/* app/"];
   return jake.exec(cmds, (function() {
@@ -105,7 +107,7 @@ cpTemplates = function() {
   });
 };
 
-copyXtraLibs = function(env, execFile){
+var copyXtraLibs = function(env, execFile){
   console.log('Copying Xtra Libs...')
   var isDebug = env !== 'staging' && env !== 'production';
   var xtraLibsDir = 'vendor/scripts/xtra'
@@ -125,5 +127,21 @@ copyXtraLibs = function(env, execFile){
         }
       }
     });
+  });
+};
+
+var releaseScripts = function() {
+  var uglified = uglify.minify([
+    './public/winbits.js'/*,
+    './public/javascripts/vendor.js',
+    './public/javascripts/app.js'*/
+  ]);
+
+  fs.writeFile('./public/winbits.js', uglified.code, function (err) {
+    if(err) {
+      console.log(err);
+    } else {
+      console.log("App released:", './public/winbits.js');
+    }
   });
 };
