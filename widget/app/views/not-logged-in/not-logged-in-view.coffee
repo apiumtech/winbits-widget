@@ -12,8 +12,8 @@ module.exports = class NotLoggedInPageView extends View
   template: require './templates/not-logged-in'
 
   DEFAULT_ERROR_MESSAGE =
-    DAFR : 'Para poder realizar el inicio de sesión mediante Facebook, es necesario aceptar los permisos.'
-    DPFR : 'Para poder realizar el inicio de sesión mediante Facebook, es necesario aceptar los permisos.'
+    DAFR : 'Para iniciar sesión/registrarse en winbits, es necesario aceptar todos los permisos.'
+    DPFR : 'Para iniciar sesión/registrarse en winbits, es necesario aceptar todos los permisos.'
     EIFR : 'Necesitamos un correo electrónico para iniciar sesión. Por favor, ingresa a la sección de Ajustes en tu cuenta de Facebook para cambiar la configuración.'
 
   DEFAULT_ERROR_TITLE =
@@ -31,6 +31,7 @@ module.exports = class NotLoggedInPageView extends View
     @subscribeEvent 'denied-permissions-fb-register', -> @doFacebookLoginErrors.apply(@, arguments)
     @subscribeEvent 'email-inactive-fb-register', -> @doFacebookLoginErrors.apply(@, arguments)
     @subscribeEvent 'success-authentication-fb-register', -> @facebookSuccess.apply(@, arguments)
+    @subscribeEvent 'success-authentication-change-fb-link', -> @doFacebookLoginChangeFacebookLink.apply(@, arguments)
 
   attach: ->
     super
@@ -54,6 +55,8 @@ module.exports = class NotLoggedInPageView extends View
     popup.focus()
 
   facebookSuccess: (response)->
+      console.log ['context', @]
+      console.log ['model', @model]
       data = facebookId: response.facebookId
       promise = @model.requestExpressFacebookLogin(data, context:@)
       promise.done(@doFacebookLoginSuccess).fail(@doFacebookLoginError)
@@ -98,6 +101,17 @@ module.exports = class NotLoggedInPageView extends View
       context: @
       onClosed: () -> @doCloseConfirmModal()
       acceptAction: () -> @doCloseConfirmModal()
+    utils.showMessageModal(message, options)
+
+  doFacebookLoginChangeFacebookLink: (data)->
+    @$('#wbi-login-facebook-link').prop('disabled', no)
+    message = "La cuenta de facebook que tenia ligada se cambio"
+    options =
+      value : 'Aceptar'
+      title : 'Cambio la cuenta ligada.'
+      icon  : 'iconFont-facebookCircle'
+      context: @
+      onClosed: () => @facebookSuccess(data)
     utils.showMessageModal(message, options)
 
   doCloseConfirmModal: ->

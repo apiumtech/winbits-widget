@@ -328,7 +328,7 @@ _(utils).extend
       padding: 10
       modal: options.modal
       transitionIn: options.transitionIn
-      transitionOut: options.transitionout
+      transitionOut: options.transitionOut
       changeSpeed: options.changeSpeed
       onClosed: onClosed
       onComplete: ->
