@@ -9,7 +9,7 @@
   promises = []
 
   # Utilities functions
-  timeoutDeferred = (deferred, timeout = 5000) ->
+  timeoutDeferred = (deferred, timeout = 60000) ->
     setTimeout ->
       deferred.reject() if deferred.state() isnt 'resolved'
     ,timeout
