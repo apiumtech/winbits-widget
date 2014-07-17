@@ -5,6 +5,7 @@ wishListUtils = require 'lib/favorite-utils'
 skuProfileUtils = require 'lib/sku-profile-utils'
 socialUtils = require 'lib/social-utils'
 utils = require 'lib/utils'
+trackingUtils = require 'lib/tracking-utils'
 mediator = Winbits.Chaplin.mediator
 EventBroker = Winbits.Chaplin.EventBroker
 
@@ -64,8 +65,12 @@ Winbits.like= (options) ->
   fn = socialUtils.like
   fn.call(socialUtils, options)
 
-Winbits.execute= (params) ->
+Winbits.execute= (queryString) ->
+  params = utils.parseQueryString(queryString)
   EventBroker.publishEvent params.code, params
+
+# Look for UTMs and save it in each page hit
+trackingUtils.saveUtmsIfAvailable()
 
 appConfig =
   controllerSuffix: '-controller'

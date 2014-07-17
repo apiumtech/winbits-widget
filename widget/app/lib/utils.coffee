@@ -39,19 +39,23 @@ _(utils).extend
     $verticalContainer.children('.wbc-vertical-content').hide()
     $verticalContainer.children().not('.wbc-vertical-content').show()
 
-  getUrlParams : ->
-    vars = []
-    hash = undefined
-    indexOfQuestionMark = window.location.href.indexOf("?")
-    hashes = window.location.href.slice(indexOfQuestionMark + 1).split("&")
+  getUrlParams: () ->
+    @parseQueryString(window.location.search.substring(1))
+
+  parseQueryString: (queryString) ->
+    parameters = {}
+    params = queryString.split('&')
     i = 0
 
-    while i < hashes.length
-      hash = hashes[i].split("=")
-      vars.push hash[0]
-      vars[hash[0]] = hash[1]
+    while i < params.length
+      param = params[i]
+      if param
+        attribute = params[i].split('=')
+        name = attribute[0]
+        value = attribute[1]
+        parameters[name] = value
       i++
-    vars
+    parameters
 
   redirectToVertical : (url)->
     window.location.href = url
