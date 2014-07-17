@@ -609,7 +609,7 @@
     color: #3d9b35;
 }
 .icon-yellow {
-    color: #fff609;
+    color: #ffda27;
 }
 .iconFont-left,
 .iconFont-right {
@@ -1747,14 +1747,16 @@ input[type="submit"].btn.btn-mini {
     font-family: 'OmnesMedium', Arial;
     font-style: normal;
     font-weight: normal;
+    letter-spacing: 1px;
 }
 .widgetWinbitsMain .dataTable .dataTable-desc .table-desc .status2,
 .miCuenta-tabs .dataTable .dataTable-desc .table-desc .status2 {
-    color: #feed00;
+    color: #ffda27;
     font-size: 15px;
     font-family: 'OmnesMedium', Arial;
     font-style: normal;
     font-weight: normal;
+    letter-spacing: 1px;
 }
 .widgetWinbitsMain .dataTable .dataTable-desc .table-desc .iconFont-doc,
 .miCuenta-tabs .dataTable .dataTable-desc .table-desc .iconFont-doc {
@@ -7705,5 +7707,5 @@ main {
 .msie1 .carritoDivRight,
 .msie10 .carritoDivRight,
 .msie11 .carritoDivRight {
-    width: 199px;
+    width: 199px !important;
 }
