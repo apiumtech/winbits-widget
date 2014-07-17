@@ -14,7 +14,7 @@ module.exports = class SocialMediaView extends View
   DEFAULT_ERROR_MESSAGE =
     DAFL : 'Para poder ligar tu cuenta de facebook debes terminar el proceso y aceptar todos los privilegios solicitados.'
     DPFL : 'Para poder ligar tu cuenta de facebook debes terminar el proceso y aceptar todos los privilegios solicitados.'
-    DATL : 'No se concretó el proceso para ligar tu cuenta de Twitter.'
+    DATL : 'Para poder ligar tu cuenta de twitter debes terminar el proceso y aceptar todos los privilegios solicitados.'
     FHLA : 'Esta cuenta ya se encuentra ligada a otro usuario.'
     THLA : 'Esta cuenta ya se encuentra ligada a otro usuario.'
 

@@ -43,7 +43,6 @@ module.exports = class PaymentView extends View
 
   payWithCard: (e) ->
     e.preventDefault()
-    console.log 'entra'
     that = @
     $currentTarget = @$(e.currentTarget)
     $form = $currentTarget.closest('form.wb-card-form')
@@ -218,7 +217,7 @@ module.exports = class PaymentView extends View
       groups:
         cardExpiration: 'expirationMonth expirationYear'
       errorPlacement: ($error, $element) ->
-        if $element.attr("name") in ["expirationMonth", "expirationYear", 'accountNumber']
+        if $element.attr("name") in ["expirationMonth", "expirationYear", 'accountNumber','totalMsi']
           $error.appendTo $element.parent()
         else
           $error.insertAfter $element
@@ -245,7 +244,7 @@ module.exports = class PaymentView extends View
       groups:
         cardExpiration: 'expirationMonth expirationYear'
       errorPlacement: ($error, $element) ->
-        if $element.attr("name") in ["expirationMonth", "expirationYear", 'accountNumber']
+        if $element.attr("name") in ["expirationMonth", "expirationYear", 'accountNumber','numberOfPayments']
           $error.appendTo $element.parent()
         else
           $error.insertAfter $element
