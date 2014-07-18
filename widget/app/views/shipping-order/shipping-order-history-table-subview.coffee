@@ -17,3 +17,4 @@ module.exports = class ShippingOrderHistoryTableSubView extends View
 
   attach: ->
     super
+    @$('.wbc-icon-download').toolTip()
