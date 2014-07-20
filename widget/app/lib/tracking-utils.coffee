@@ -12,17 +12,18 @@ _(trackingUtils).extend
 
   saveUtmsIfAvailable: ->
     utms = @getUtmParams()
-    rpc.saveUtms(utms) if @validateUtmParams(utms)
+    if @validateUtmParams(utms)
+      rpc.saveUtms(utms)
 
   getUtmParams: ->
     params = utils.getUrlParams()
-    _.pick(params, ->
-      key = arguments[1]
-      key.indexOf('utm_') is 0
-    )
+    utms = {}
+    for own key, value of params when key.indexOf('utm_') is 0
+      utms[key] = value
+    utms
 
   validateUtmParams: (utms) ->
-    utms?
+    utms? and utms.utm_campaign? and utms.utm_medium?
 
   getUtms: (callback, context = @) ->
     rpc.getUtms _.bind(callback, context)
