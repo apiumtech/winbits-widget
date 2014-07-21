@@ -1,0 +1,28 @@
+<form id="bodyModal wbi-coupon-modal-view" accept-charset="utf-8" >
+    <div class="confirmationContent couponsModal">
+        <h2>{{title}}</h2>
+        <div class="confirmation-icon"><span class="iconFont-ticket"></span></div>
+        <div class="confirmation-content">
+            <h3>{{description}}</h3>
+            <table class="confirmationTable">
+                <tr>
+                    <th># cupón</th>
+                    <th>Fecha expiración</th>
+                    <th>Estatus</th>
+                    <th class="table-download">Descarga</th>
+                </tr>
+                {{#each coupons}}
+                <tr class="wbc-coupon-data" data-id="{{id}}">
+                    <td>{{code}}</td>
+                    <td>{{availableCouponDate}}</td>
+                    <td>{{status}}</td>
+                    <td class="table-download">
+                        <a href="{{url}}?format=pdf" class="iconFont-docPDF" title="PDF"></a> {{! IMPLEMENTAR GET URL CON ID DEL CUPON VIEW HELPER}}
+                        <a href="{{url}}?format=html" class="iconFont-docWEB" title="Web"></a>
+                    </td>
+                </tr>
+                {{/each}}
+            </table>
+        </div>
+    </div>
+</form>

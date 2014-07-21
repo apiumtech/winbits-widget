@@ -19,7 +19,7 @@ module.exports = class ShippingOrderHistoryView extends View
     super
     @model.fetch data:@params, success: $.proxy(@render, @)
     @delegate 'click', '#wbi-shipping-order-history-btn-back', @backToVertical
-    @delegate 'click', '.wbc-icon-coupon', @requestCouponService
+    @delegate 'click', '.wbc-icon-coupon', @requestCouponsService
     $('#wbi-my-account-div').slideUp()
     utils.replaceVerticalContent('.widgetWinbitsMain')
     @subscribeEvent 'shipping-order-history-params-changed', @paramsChanged
@@ -40,13 +40,25 @@ module.exports = class ShippingOrderHistoryView extends View
   updateHistory: ->
     @model.fetch {data:@params}
 
-  requestCouponService:(e)->
-    dataOrderDetailNumber = @$(e.currentTarget).closest('.wbc-order-detail').data('id')
+  requestCouponsService:(e)->
+    currentTarget = @$(e.currentTarget)
+    dataOrderDetailNumber = currentTarget.closest('.wbc-order-detail').data('id')
+    dataOrderDetailName = currentTarget.closest('.wbc-order-detail').data('name')
     utils.showLoaderToCheckout()
-    @model.requestCouponsService(dataOrderDetailNumber, @)
-      .done((data)-> console.log ["data success", data])
-      .fail( (xhr) -> console.log ["error data", xhr.responseText])
+    @model.requestCouponsService(dataOrderDetailNumber, context:@)
+      .done( (data) -> @doRecuestCouponsServiceSuccess(data,dataOrderDetailName))
+      .fail( @doRecuestCouponsServiceError)
       .always(-> utils.hideLoaderToCheckout())
+
+  doRecuestCouponsServiceSuccess:(data,dataOrderDetailName) ->
+    toModelCoupon =
+      coupons: data.response
+      title: dataOrderDetailName
+    console.log ["toModelCoupon", toModelCoupon]
+
+  doRecuestCouponsServiceError: ->
+    console.log ["ERROR"]
+
 
   backToVertical:()->
     utils.restoreVerticalContent('.widgetWinbitsMain')
