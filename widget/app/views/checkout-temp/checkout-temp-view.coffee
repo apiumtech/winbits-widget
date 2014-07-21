@@ -2,6 +2,7 @@
 
 View = require 'views/base/view'
 utils = require 'lib/utils'
+CheckoutTempTotalSubview = require 'views/checkout-temp/checkout-temp-total-sub-view'
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 _ = Winbits._
@@ -22,6 +23,11 @@ module.exports = class CheckoutTempView extends View
   attach: ->
     super
     @startCounter()
+
+  render: ->
+    super
+    subviewContainer = @$el.find('#wbi-checkout-temp-total-div').get(0)
+    @subview 'checkout-temp-total', new CheckoutTempTotalSubview model:@model, container: subviewContainer
 
   startCounter: ->
     $timer = @$('#wb-checkout-timer')
