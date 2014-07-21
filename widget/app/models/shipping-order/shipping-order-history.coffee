@@ -17,5 +17,15 @@ module.exports = class ShippingOrderHistory extends Model
     else
       0
 
-  requestCouponsService:()->
-    console.log ["REQUEST COUPONS SERVICE IN MODEL"]
+  requestCouponsService:(orderDetailId, options)->
+    defaults =
+      contentType: "application/json"
+      dataType: "json"
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token": utils.getApiToken()
+    utils.ajaxRequest(
+      env.get('api-url') + "/users/coupons/#{orderDetailId}.json",
+      $.extend(defaults, options)
+    )
+

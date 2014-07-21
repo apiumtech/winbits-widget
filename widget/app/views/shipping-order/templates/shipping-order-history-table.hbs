@@ -1,6 +1,6 @@
  {{#if orders}}
   {{#each orders}}
-    <div class="dataTable-fila wbc-order" data-id={{orderNumber}}>
+    <div class="dataTable-fila wbc-order">
         <div class="dataTable-desc">
             <div class="table-desc">
                 <p>Orden: {{orderNumber}}</p>
@@ -21,7 +21,7 @@
         </div>
       <div class="dataTable-bodyItems">
       {{#each details}}
-          <div class="dataTable-item">
+          <div class="dataTable-item wbc-order-detail" data-id={{orderDetailId}}>
               <div class="dataTable-photo">
                   <img src="{{thumbnail.url}}" width="62" height="79"
                        alt="{{name}}">

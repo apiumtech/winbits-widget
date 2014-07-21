@@ -41,9 +41,12 @@ module.exports = class ShippingOrderHistoryView extends View
     @model.fetch {data:@params}
 
   requestCouponService:(e)->
-    dataOrderNumber = @$(e.currentTarget).closest('.wbc-order').data('id')
-    console.log ["REQUEST COUPON SERVICE", dataOrderNumber]
-    @model.requestCouponsService()
+    dataOrderDetailNumber = @$(e.currentTarget).closest('.wbc-order-detail').data('id')
+    utils.showLoaderToCheckout()
+    @model.requestCouponsService(dataOrderDetailNumber, @)
+      .done((data)-> console.log ["data success", data])
+      .fail( (xhr) -> console.log ["error data", xhr.responseText])
+      .always(-> utils.hideLoaderToCheckout())
 
   backToVertical:()->
     utils.restoreVerticalContent('.widgetWinbitsMain')
