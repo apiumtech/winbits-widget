@@ -47,6 +47,10 @@ module.exports = class PaymentView extends View
     $currentTarget = @$(e.currentTarget)
     $form = $currentTarget.closest('form.wb-card-form')
     paymentMethod =  $currentTarget.attr("id").split("-")[1]
+    if paymentMethod is 'amex_msi'
+      identifier = 'amex.msi'
+    else
+      identifier = method.identifier for method in @model.attributes.methods when method.id is  parseInt(paymentMethod, 10)
 
     if $form.valid()
       formData = util.serializeForm($form)
@@ -61,6 +65,9 @@ module.exports = class PaymentView extends View
         formData.totalMsi = parseInt formData.totalMsi, 10
         paymentMethod = "cybersource.msi." + formData.totalMsi
         paymentMethod = method.id for method in @model.attributes.methods when method.identifier is paymentMethod
+        
+      if not new RegExp("amex\..+").test(identifier)
+        formData.deviceFingerPrint = Winbits.checkoutConfig.orderId
 
       postData = paymentInfo : formData
       postData.paymentMethod = paymentMethod
@@ -110,6 +117,7 @@ module.exports = class PaymentView extends View
     e.preventDefault()
     $currentTarget = @$(e.currentTarget)
     console.log ('Selected method ' + $currentTarget.attr("id").split("-")[1])
+    util.renderSliderOnPayment(100, false)
     methodName =  $currentTarget.attr("id").split("-")[1]
     selector = "#method-" + methodName
     @$(selector).show()
@@ -117,7 +125,6 @@ module.exports = class PaymentView extends View
 
   submitOrder: (e)->
     e.preventDefault()
-    console.log "submit order"
     @publishEvent 'StopIntervalTimer'
     that = @
     $currentTarget = @$(e.currentTarget)
@@ -168,10 +175,20 @@ module.exports = class PaymentView extends View
 
   linkBack: (e) ->
     e.preventDefault()
+    @$el.find("#wbi-credit-card-payment-form").validate()?.resetForm()
+    @$el.find("#wbi-credit-card-payment-form-msi").validate()?.resetForm()
+    @$el.find("#wbi-amex-card-payment-form").validate()?.resetForm()
+    @$el.find("#method-amex_msi form").validate()?.resetForm()
     @$(".checkoutPaymentCreditcard").show()
     @$(".method-payment").hide()
     @$('#method-bits').hide()
+    util.renderSliderOnPayment(100, true)
 
+    Winbits.$(".chk-step > div:visible div:visible.wbiPaymentMethod").hide()
+    Winbits.$("#wbi-cards-list-holder").show()
+    Winbits.$("#wbi-main-payment-view").show()
+
+    @publishEvent 'paymentFlowCancelled'
 
   attach: ->
     super
@@ -200,7 +217,7 @@ module.exports = class PaymentView extends View
       groups:
         cardExpiration: 'expirationMonth expirationYear'
       errorPlacement: ($error, $element) ->
-        if $element.attr("name") in ["expirationMonth", "expirationYear", 'accountNumber']
+        if $element.attr("name") in ["expirationMonth", "expirationYear", 'accountNumber','totalMsi']
           $error.appendTo $element.parent()
         else
           $error.insertAfter $element
@@ -227,7 +244,7 @@ module.exports = class PaymentView extends View
       groups:
         cardExpiration: 'expirationMonth expirationYear'
       errorPlacement: ($error, $element) ->
-        if $element.attr("name") in ["expirationMonth", "expirationYear", 'accountNumber']
+        if $element.attr("name") in ["expirationMonth", "expirationYear", 'accountNumber','numberOfPayments']
           $error.appendTo $element.parent()
         else
           $error.insertAfter $element
@@ -260,12 +277,14 @@ module.exports = class PaymentView extends View
     mediator.post_checkout.paymentMethod = 'cybersource.token'
     mediator.post_checkout.paymentInfo = subscriptionId: cardInfo.subscriptionId
 
-    if cardInfo.cardData.cardType is "American Express"
+    if cardInfo.cardData.cardType is "American Express"  
+      mediator.post_checkout.paymentMethod = 'amex.cc'
       cardInfo.maxSecurityNumber = 4
       cardInfo.securityNumberPlaceholder = "\#\#\#\#"
     else
       cardInfo.maxSecurityNumber = 3
       cardInfo.securityNumberPlaceholder = "\#\#\#"
+   
 
     @cardTokenPaymentView.model.set cardInfo: cardInfo
     @cardTokenPaymentView.model.set methods: @cardsView.model.attributes.methods

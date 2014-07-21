@@ -30,23 +30,32 @@ module.exports = class CompleteRegisterView extends View
         birthDate: ' wbi-birthdate-day wbi-birthdate-month wbi-birthdate-year'
       rules:
         name:
+          required: @model.fieldIsRequired('name')
           minlength:2
         lastName:
+          required: @model.fieldIsRequired('lastName')
           minlength: 2
         'wbi-birthdate-day':
+          required: @model.fieldIsRequired('birthdate')
           validateDate: yes
         'wbi-birthdate-month':
+          required: @model.fieldIsRequired('birthdate')
           validateDate: yes
         'wbi-birthdate-year':
+          required: @model.fieldIsRequired('birthdate')
           validateDate: yes
         phone:
+          required: @model.fieldIsRequired('phone')
           wbiPhone: yes
         zipcode:
+          required: @model.fieldIsRequired('zipCode')
           minlength: 5
           digits:yes
           zipCodeDoesNotExist:yes
         location:
           wbiLocation: yes
+        gender:
+          required: @model.fieldIsRequired('gender')
         zipCodeInfo:
           wbiSelectInfo: yes
 
@@ -55,6 +64,7 @@ module.exports = class CompleteRegisterView extends View
       $('<a>').wbfancybox(href: '#wbi-complete-register-modal', onClosed: -> utils.redirectTo controller:'home', action:'index').click()
 
   completeRegister: (e)->
+    e.preventDefault()
     $form = @$('#wbi-complete-register-form')
     data = utils.serializeProfileForm $form
     if($form.valid())

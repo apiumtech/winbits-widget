@@ -24,7 +24,6 @@ module.exports = class CheckoutSiteView extends View
     @delegate 'click', '.expire-close-modal', @closeExpireOrderModal
     @delegate 'click', '#expire-close-login', @closeExpireOrderModal
 
-
 #    Winbits.$.validator.addMethod "cyberSourceCard", (value, element) ->
 #      @optional(element) or util.getCreditCardType(value) in ['visa', 'mastercard']
 #    , "Introduce una tarjeta VISA ó MasterCard"

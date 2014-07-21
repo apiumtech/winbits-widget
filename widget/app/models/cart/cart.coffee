@@ -5,6 +5,8 @@ Model = require 'models/base/model'
 utils = require 'lib/utils'
 cartUtils = require 'lib/cart-utils'
 $ = Winbits.$
+_ = Winbits._
+mediator = Winbits.Chaplin.mediator
 env = Winbits.env
 
 module.exports = class Cart extends Model
@@ -26,9 +28,14 @@ module.exports = class Cart extends Model
   initialize: () ->
     super
 
+  parse: ()->
+    data = super
+    data.bitsTotal = utils.getBitsToVirtualCart() if not utils.isLoggedIn() and data?
+    data
+
   sync: (method, model, options = {}) ->
     options.headers =
-      'Wb-VCart': utils.getVirtualCart() if not utils.isLoggedIn()
+      'Wb-VCart': utils.getCartItemsToVirtualCart() if not utils.isLoggedIn()
     super(method, model, options)
 
   cartTotal: ->
@@ -110,8 +117,20 @@ module.exports = class Cart extends Model
         .done(@requestCheckoutSucceeds)
         .fail(@requestCheckoutFails)
     else
+      utils.hideLoaderToCheckout()
       utils.showMessageModal('Para comprar, debe agregar artículos al carrito.')
       return
+
+  requestPaymentMethods:(context)->
+    cartItems = utils.getCartItemsToVirtualCart()
+    utils.ajaxRequest env.get('api-url') + "/orders/virtual-cart-items/paymentMethods.json",
+      type: "POST"
+      contentType: "application/json"
+      dataType: "json"
+      context: context
+      data: JSON.stringify(cartItems: JSON.parse(cartItems), amount: @cartTotal())
+      headers:
+        "Accept-Language": "es"
 
   hasCartItems: ->
     itemsCount = @get('itemsCount')
@@ -121,11 +140,13 @@ module.exports = class Cart extends Model
     not @hasCartItems()
 
   requestCheckoutSucceeds: (data) ->
-    # id = data.response.id
-    # checkoutURL = env.get('checkout-url')
-    # redirectURL = "#{checkoutURL}?orderId=#{id}"
-    # window.location.assign(redirectURL)
-    @postToCheckoutApp(data.response)
+    @publishEvent 'checkout-completed'
+    if(@validateTransferErrors(data.response))
+      @postToCheckoutApp(data.response)
+    else
+      utils.closeMessageModal()
+      mediator.data.set('checkout-timestamp', _.now())
+      utils.redirectTo controller:'checkout-temp', action:'index', params: data.response
 
   postToCheckoutApp: (order) ->
     checkoutURL = env.get('checkout-url')
@@ -147,10 +168,20 @@ module.exports = class Cart extends Model
       .appendTo($chkForm)
     $('<input type="hidden" name="vertical_url"/>').val(currentVertical.baseUrl)
       .appendTo($chkForm)
-    $('<input type="hidden" name="timestamp"/>').val(new Date().getTime())
+    timestamp = mediator.data.get('checkout-timestamp') or _.now()
+    $('<input type="hidden" name="timestamp"/>').val(timestamp)
       .appendTo($chkForm)
     $chkForm.appendTo(document.body).submit()
 
   requestCheckoutFails: (xhr) ->
+    utils.hideLoaderToCheckout()
     data = JSON.parse(xhr.responseText)
     utils.showMessageModal(data.meta.message)
+
+
+  validateTransferErrors: (response)->
+    console.log[response]
+    warnings = _.map(response.cartDetails, (cartDetail) -> cartDetail.warnings)
+    warnings = _.flatten(warnings)
+    isValid =  if (response.failedCartDetails or !$.isEmptyObject(warnings) ) then no else yes
+    isValid

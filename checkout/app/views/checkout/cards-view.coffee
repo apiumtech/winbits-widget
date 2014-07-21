@@ -39,12 +39,14 @@ module.exports = class CardsView extends View
       that.submitNewCardForm(e)
 
     @$el.find("#wbi-add-new-card-link").on "click",  (e)->
+      util.renderSliderOnPayment(100, false)
       that.showNewCardForm(e)
 
     @$el.find(".wb-card-list-item").on "click",  (e)->
       that.selectCard(e)
 
     @$el.find(".wb-edit-card-link").on "click", (e) ->
+      util.renderSliderOnPayment(100, false)
       that.showEditCardForm(e)
 
     @$el.find( "#wbi-edit-card-form").on "submit", (e) ->
@@ -121,6 +123,9 @@ module.exports = class CardsView extends View
 
   cancelSaveUpdateCard: (e) ->
     e.preventDefault()
+    
+    util.renderSliderOnPayment(100, true)
+    @publishEvent 'paymentFlowCancelled'
     @showCardsList()
 
   showCardsList: () ->
@@ -160,7 +165,6 @@ module.exports = class CardsView extends View
     newCardData.cardPrincipal = newCardData.hasOwnProperty('cardPrincipal')
     $submitTriggers = $form.find('.wb-submit-trigger')
     if $form.valid()
-      console.log 'valid new card form'
       $submitTriggers.prop('disabled', true)
       util.showAjaxIndicator()
       that = @
@@ -207,6 +211,7 @@ module.exports = class CardsView extends View
         $form.valid()
       success: (data) ->
         console.log ["Update card success!", data]
+        that.showCardsList()
         that.publishEvent 'showCardsManager'
       error: (xhr) ->
         util.showAjaxError(xhr.responseText)

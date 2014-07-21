@@ -5,6 +5,7 @@ utils = require 'lib/utils'
 MyProfile = require 'models/my-profile/my-profile'
 MyProfileView = require 'views/my-profile/my-profile-view'
 MyAccountView = require 'views/my-account/my-account-view'
+LoaderToCheckoutView = require 'views/loader-to-checkout/loader-to-checkout-view'
 ShippingAddressesView = require 'views/shipping-addresses/shipping-addresses-view'
 ShippingAddressesModel = require 'models/shipping-addresses/shipping-addresses'
 MailingModel = require 'models/mailing/mailing'
@@ -32,7 +33,7 @@ module.exports = class LoggedInController extends Controller
   # You may also persist models etc.
   beforeAction: ->
     super
-    $('main .wrapper').show()
+    utils. restoreVerticalContent()
     loginData = mediator.data.get 'login-data'
     if loginData
       @reuse 'logged-in', LoggedInView
@@ -45,6 +46,14 @@ module.exports = class LoggedInController extends Controller
           @view = new PersonalDataView model: @model
 
         check: -> mediator.data.get 'profile-composed'
+
+      @reuse 'loader-to-checkout-view',
+        compose: ->
+          mediator.data.set 'loader-to-checkout-composed', yes
+          @view = new LoaderToCheckoutView
+
+        check: -> mediator.data.get 'loader-to-checkout-composed'
+
       @reuse 'change-password-view',
         compose: ->
           mediator.data.set 'change-password-composed', yes

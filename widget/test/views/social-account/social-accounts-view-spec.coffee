@@ -60,14 +60,14 @@ describe 'SocialAccountsViewSpec', ->
     expect(@view.$('.wbc-facebook-unlink')).to.exist
 
   it 'should success social account url facebook', ->
-    sinon.stub(@view, 'successConnectFacebookLink')
+    sinon.stub(@view, 'successConnectLink')
     sinon.stub(@model, 'requestConnectionLink').returns TestUtils.promises.resolved
     @view.$('.wbc-facebook-link').click()
     expect(@model.requestConnectionLink).to.have.been.calledOnce
 
 
   it 'should success social account url twitter', ->
-    sinon.stub(@view, 'successConnectTwitterLink')
+    sinon.stub(@view, 'successConnectLink')
     sinon.stub(@model, 'requestConnectionLink').returns TestUtils.promises.resolved
     @view.$('.wbc-twitter-link').click()
     expect(@model.requestConnectionLink).to.have.been.calledOnce

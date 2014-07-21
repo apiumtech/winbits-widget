@@ -45,7 +45,7 @@ describe 'RecoverPasswordViewSpec', ->
   it 'send mail with correct email', ->
     sinon.stub(@model, 'requestRecoverPassword').returns TestUtils.promises.resolved
     successStub = sinon.stub(@recoverPasswordView, 'doRecoverPasswordSuccess')
-    @recoverPasswordView.$('input#wbi-recover-password-btn').click()
+    @recoverPasswordView.$('input#wbi-recover-password-btn').submit()
 
     expect(successStub).to.be.calledOnce
     expect(@recoverPasswordView.$('#wbi-recover-password-btn')).to.has.prop 'disabled', no
@@ -54,7 +54,7 @@ describe 'RecoverPasswordViewSpec', ->
     @recoverPasswordView.$('[name=email]').val('')
     successStub = sinon.stub(@recoverPasswordView, 'doRecoverPasswordSuccess')
     errorStub = sinon.stub(@recoverPasswordView, 'doRecoverPasswordError')
-    @recoverPasswordView.$('input#wbi-recover-password-btn').click()
+    @recoverPasswordView.$('input#wbi-recover-password-btn').submit()
 
     expect(successStub).to.not.be.called
     expect(errorStub).to.not.be.called
@@ -62,7 +62,7 @@ describe 'RecoverPasswordViewSpec', ->
   it 'does not sent mail with error in api', ->
     sinon.stub(@model, 'requestRecoverPassword').returns TestUtils.promises.rejected
     errorStub = sinon.stub(@recoverPasswordView, 'doRecoverPasswordError')
-    @recoverPasswordView.$('input#wbi-recover-password-btn').click()
+    @recoverPasswordView.$('input#wbi-recover-password-btn').submit()
 
     expect(errorStub).to.be.calledOnce
     expect(@recoverPasswordView.$('#wbi-recover-password-btn')).to.has.prop 'disabled', no

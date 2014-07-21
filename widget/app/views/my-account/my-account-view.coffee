@@ -19,14 +19,17 @@ module.exports = class MyAccountView extends View
   initialize: ->
     super
     @delegate 'click', '#wbi-my-account-close', @clickClose
+#    @delegate 'click', '.wbc-tab-link', @swapTabs
 
   attach: ->
     super
     @$el.prev().dropMainMenu()
     @$('.miCuenta-linktabs').tabs({ tabClass: '.miCuenta-tab'});
     @$('#wbi-my-account-logout-btn').click $.proxy @doLogout, @
+    @$('.wbc-tab-link').click(@swapTabs)
 
   doLogout: ->
+    @$('#wbi-my-account-close').prop('disabled', yes)
     @model.requestLogout()
      .done(@doLogoutSuccess)
      .fail(@doLogoutError)
@@ -39,3 +42,7 @@ module.exports = class MyAccountView extends View
 
   clickClose: ->
     @$el.prev().slideUp()
+
+  swapTabs: (e) ->
+    $link = $(e.currentTarget)
+    window.location.hash = $link.attr('href')

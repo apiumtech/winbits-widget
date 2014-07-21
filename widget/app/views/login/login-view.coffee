@@ -14,7 +14,7 @@ module.exports = class LoginView extends View
   initialize: ->
     super
     @delegate 'click', '#wbi-login-in-btn', @doLogin
-    @delegate 'click', '#wbi-login-facebook-link', @doFacebookLogin
+    @delegate 'click', '#wbi-facebook-link', @doFacebookLogin
 
   attach: ->
     super
@@ -33,6 +33,7 @@ module.exports = class LoginView extends View
     $('<a>').wbfancybox(href: '#' + @id, onClosed: -> utils.redirectTo controller: 'home', action: 'index').click()
 
   doLogin:(e) ->
+    e.preventDefault()
     @$('.errorDiv').css('display':'none')
     $form = $(e.currentTarget).closest('form')
     if utils.validateForm($form)
@@ -53,7 +54,7 @@ module.exports = class LoginView extends View
 
   doCheckShowRemainder:(data)->
     if data.response.showRemainder is yes
-      message = "Recuerda que puedes ganar <strong>$#{data.response.cashbackForComplete}</strong> en bits al completar tu registro"
+      message = "Recuerda que puedes ganar $#{data.response.cashbackForComplete} en bits al completar tu registro"
       options =
         value: "Completa registro"
         title:'¡Completa tu registro!'

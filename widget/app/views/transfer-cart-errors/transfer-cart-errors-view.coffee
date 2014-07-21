@@ -7,6 +7,7 @@ mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 _ = Winbits._
 env = Winbits.env
+CLASS_LOADER_HIDE = 'loader_hide'
 
 module.exports = class LoginView extends View
   container: '#wbi-winbits-modals'
@@ -56,8 +57,11 @@ module.exports = class LoginView extends View
     cartUtils.deleteCartItem(@itemId, context : @).done(@deleteSuccess)
 
   deleteSuccess:(data) ->
-    if ($.isEmptyObject(data.response.cartDetails) and mediator.data.get('virtual-checkout'))
-      mediator.data.set('virtual-checkout', no)
+    if ($.isEmptyObject(data.response.cartDetails) )
+      if ( mediator.data.get('virtual-checkout'))
+        mediator.data.set('virtual-checkout', no)
+      unless (@model.hasFailedCartDetails())
+        utils.closeMessageModal()
     @$("#item-id-#{@itemId}").remove()
     @$('#wbi-layer-load').addClass('loader-hide')
     @$('#wbi-layer-div').addClass('loader-hide')

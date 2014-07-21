@@ -20,6 +20,7 @@ module.exports = class CartView extends View
   initialize: ->
     super
     @subscribeEvent 'cart-changed', -> @onCartChanged.apply(@, arguments)
+    @subscribeEvent 'checkout-completed', @onCheckoutCompleted
     @restoreCart()
 
   render: ->
@@ -39,15 +40,25 @@ module.exports = class CartView extends View
     @$('#wbi-cart-info').dropMainMenu(beforeOpen: $.proxy(@shouldOpenCart, @))
 
   onCartChanged: (cartData) ->
-    @updateCartModel(cartData)
+    if cartData
+      @updateCartModel(cartData)
     @openCart()
 
   updateCartModel: (data) ->
     @model.setData(data)
     @render()
 
+  onCheckoutCompleted: ->
+    @model.clear()
+    @model.set itemsCount:0, {silent:yes}
+    @render()
+
   openCart: ->
     if @$('#wbi-cart-drop').is(':hidden')
+      @$('#wbi-cart-info').trigger('click')
+
+  closeCart: ->
+    if @$('#wbi-cart-drop').is(':visible')
       @$('#wbi-cart-info').trigger('click')
 
   successFetch: (data)->
@@ -56,10 +67,10 @@ module.exports = class CartView extends View
     @publishEvent 'change-bits-data'
 
   restoreCart: ->
-    virtualCart = utils.getVirtualCart()
+    virtualCart = JSON.parse(utils.getVirtualCart())
     if(utils.isLoggedIn())
-      unless virtualCart is "[]"
-        formData = virtualCartData : JSON.parse(virtualCart)
+      unless $.isEmptyObject virtualCart.cartItems
+        formData = virtualCart
         @model.transferVirtualCart(formData, context:@)
         .done(@successTransferVirtualCart)
       else
@@ -74,7 +85,7 @@ module.exports = class CartView extends View
       @showModalNoItemsToTransfer()
       mediator.data.set 'virtual-checkout', no
     else
-      if(@validateTransferErrors(data.response))
+      if(@model.validateTransferErrors(data.response))
         if(mediator.data.get 'virtual-checkout')
           @publishEvent 'checkout-requested'
           mediator.data.set 'virtual-checkout', no
@@ -82,12 +93,7 @@ module.exports = class CartView extends View
         utils.redirectTo(controller:'transfer-cart-errors', action:'index', params:data.response)
 
 
-  validateTransferErrors: (response)->
-    console.log[response]
-    warnings = _.map(response.cartDetails, (cartDetail) -> cartDetail.warnings)
-    warnings = _.flatten(warnings)
-    isValid =  if (response.failedCartDetails or !$.isEmptyObject(warnings) ) then no else yes
-    isValid
+
 
   showModalNoItemsToTransfer: ->
     options =

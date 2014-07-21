@@ -18,6 +18,8 @@ describe 'CompleteRegisterViewSpec', ->
       id: 19
       apiToken: '6ue7zrBfNkxgNTvT4ReGpuh55yjNLRl6qEHiXMFyXFx6M3ymV21EaARwilDZK0zM'
       bitsBalance: 0
+      profile:
+        completeRegister:0
     mediator.data.set 'login-data', @loginData
     @model = new CompleteRegisterModel name:'name', lastName:'lastName',profile: {}
     @view = new CompleteRegisterView model:@model, autoAttach: no

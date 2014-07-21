@@ -10,6 +10,8 @@ module.exports = (match) ->
   match 'wb-bits-history', 'bits-history#index'
   match 'wb-shipping-order-history', 'shipping-order-history#index'
   match 'wb-transfer-cart-error', 'transfer-cart-errors#index'
+  match 'wb-checkout-temp', 'checkout-temp#index'
+  match 'wb-video', 'video#index'
 
   #Hash controller
   match 'wb-complete-register-:apiToken', 'hash#completeRegister'

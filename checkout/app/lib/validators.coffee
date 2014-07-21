@@ -1,19 +1,5 @@
 config = require 'config'
 
-successSupportInstallment = (data, method, select) -> 
-  console.log ["data", data.responseJSON, "#method-#{method}_msi .selectContent", "#wbi-#{method}-card-payment-form label[for=#{select}]"]
-  if not data.responseJSON
-    Winbits.$("#method-#{method}_msi .selectContent").hide()
-    Winbits.$("#method-#{method}_msi .selectTrigger").hide()
-    Winbits.$("#method-#{method}_msi .selectPreMessage").show()
-    false
-  else
-    Winbits.$("#method-#{method}_msi .selectContent").show()
-    Winbits.$("#method-#{method}_msi .selectTrigger").show()
-    Winbits.$("#method-#{method}_msi .selectPreMessage").hide()
-    Winbits.$("#wbi-#{method}-card-payment-form label[for=#{select}]").hide()
-    true
-
 module.exports =
   wbiAmexCardPayment:
     firstName:
@@ -65,20 +51,17 @@ module.exports =
       creditcard: true
 
   wbiAmexCardPaymentMsi:
-        numberOfPayments:
-          required: true
-          digits: true
-          range: [1, 12]
-        cardNumber:
-          required: true
-          creditcard: true
-          minlength: 2
-          remote: 
-            url: "#{config.apiUrl}/orders/cards/support-installment"
-            complete: (data) -> 
-                successSupportInstallment data, "amex", "numberOfPayments"
-
-
+    numberOfPayments:
+      required: true
+      digits: true
+      range: [1, 12]
+    cardNumber:
+      required: true
+      creditcard: true
+      minlength: 2
+      wbiSupportInstallments:
+        paymentMethod: 'amex'
+        selector: 'numberOfPayments'
 
   wbiCreditCardPayment :
     firstName:
@@ -139,8 +122,19 @@ module.exports =
           required: true
           creditcard: true
           minlength: 16
-          remote: 
-            url: "#{config.apiUrl}/orders/cards/support-installment"
-            complete: (data) -> 
-                successSupportInstallment data, "cybersource", "totalMsi"
-
+          wbiSupportInstallments:
+            paymentMethod: 'cybersource'
+            selector: 'totalMsi'
+  
+  successSupportInstallment: (data, method, select) -> 
+    if not data.responseJSON
+      Winbits.$("#method-#{method}_msi .selectContent").hide()
+      Winbits.$("#method-#{method}_msi .selectTrigger").hide()
+      Winbits.$("#method-#{method}_msi .selectPreMessage").show()
+      false
+    else
+      Winbits.$("#method-#{method}_msi .selectContent").show()
+      Winbits.$("#method-#{method}_msi .selectTrigger").show()
+      Winbits.$("#method-#{method}_msi .selectPreMessage").hide()
+      Winbits.$("#wbi-#{method}-card-payment-form label[for=#{select}]").hide()
+      true

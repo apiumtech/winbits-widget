@@ -125,8 +125,51 @@ jQuery.fn.carouselSwiper = function(options){
 };
 
 /* **********************************************
- Begin customCheckbox.js
- ********************************************** */
+ Remove arrows
+ ************************************************/
+    jQuery.fn.removeArrows = function(options){
+        var defaults = $.extend({
+            slideCSS: '.carrusel-slide',
+            slidesNum: 0,
+            arrowLeft: '.arrowLeft',
+            arrowRight: '.arrowRight',
+            slideActive: 'swiper-slide-active',
+            addCallback: 0
+        }, options);
+        return this.each(function(){
+            var active = 0,
+                size = $(this).find(defaults.slideCSS).size(),
+                pointOfNoReturn = size - (defaults.slidesNum - 1),
+                left = $(this).siblings(defaults.arrowLeft),
+                right = $(this).siblings(defaults.arrowRight);
+            if(size > defaults.slidesNum){
+                active =+ defaults.addCallback;
+                $(this).find(defaults.slideCSS).each(function(i){
+                    if($(this).hasClass(defaults.slideActive)){
+                        active = i+1;
+                    }
+                });
+                if(active <= 1){
+                    left.slideUp();
+                    right.slideDown();
+                } else if(active >= pointOfNoReturn){
+                    left.slideDown();
+                    right.slideUp();
+                } else {
+                    left.slideDown();
+                    right.slideDown();
+                }
+            } else {
+                left.hide();
+                right.hide();
+            }
+        });
+    };
+
+
+    /* ***********************************************
+    Begin customCheckbox.js
+    ********************************************** */
 
 // +++++++++++++++++++++++++++++++++++++++++
 //      CUSTOMCHECKBOX: Cambiar checkbox
@@ -434,27 +477,11 @@ jQuery.fn.customSelect = function(options){
 		},
 		asignaValues = function(obj){
 			if($(obj).data('moveprice')){
-				priceItem = $('.'+$(obj).data('priceitem'));
-				price = parseInt($(obj).data('price'), 10);
-				priceItem.text(price);
 				if($(obj).data('max') > price) {
 					datamax = price;
 				} else {
 					datamax = $(obj).data('max');
 				}
-			}
-			if($(obj).data('realprice')){
-				realpriceItem = $('.'+$(obj).data('realpriceitem'));
-				realprice = parseInt($(obj).data('realprice'),10);
-				realpriceItem.text(realprice);
-			}
-			if($(obj).data('percent') && $(obj).data('realprice')){
-				percentItem = $('.'+$(obj).data('percent'));
-				percent = 100 - parseInt((100 * price) / realprice, 10);
-				percentItem.text(percent);
-			}
-			if($(obj).data('save')){
-				$('.'+$(obj).data('saveitem')).text($(obj).data('save'));
 			}
 		},
 		initSlider = function(obj){

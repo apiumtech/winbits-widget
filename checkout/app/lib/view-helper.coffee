@@ -231,10 +231,10 @@ Handlebars.registerHelper "select", (value, options) ->
 
 Handlebars.registerHelper "getContactName", () ->
   nameAndLastName = getNameAndLastName this
-  if this.lastName2? then ((nameAndLastName + ' ' + this.lastName2).trim()) else nameAndLastName  
+  if this.lastName2? then (nameAndLastName + ' ' + this.lastName2) else nameAndLastName  
 
 getNameAndLastName = (shippingAddress) ->
-  (shippingAddress.firstName + ' ' + shippingAddress.lastName).trim()
+  (shippingAddress.firstName + ' ' + shippingAddress.lastName)
 
 Handlebars.registerHelper "getLocation", () ->
   this.location
@@ -343,7 +343,6 @@ supportMsi = (supportInstallments, methods, msi) ->
 
 Handlebars.registerHelper "howManyInstallmentLoans", (supportInstallments, methods, cardType) ->
   msi = installmentLoans methods, cardType
-  console.log 'jou meni', cardType, msi
   if (supportMsi supportInstallments, methods, msi)
       option = ("<option value=#{num}>#{num}</option>" for num in msi)
       return new Handlebars.SafeString(option);
@@ -364,7 +363,10 @@ Handlebars.registerHelper "isMSIPayment", (payment, options) ->
   if payment.identifier.lastIndexOf('msi') isnt -1
     lastDotIndex = payment.identifier.lastIndexOf('.')
     numberOfPayments = parseInt(payment.identifier.substr(lastDotIndex + 1))
-    monthlyPayment = payment.amount / numberOfPayments
+    #monthlyPayment = payment.amount / numberOfPayments
+    paymentDividend = Math.round (payment.amount / numberOfPayments * 100) 
+    monthlyPayment = paymentDividend / 100
+    console.log 'monthly payment', monthlyPayment
     options.fn ( numberOfPayments: numberOfPayments, monthlyPayment: monthlyPayment )
   else
     options.inverse this
@@ -408,7 +410,8 @@ msiPaymentsFunction = (allMsiPayments) ->
 
   $.each allMsiPayments, (index, msiPayment) ->
     identifier = msiPayment.identifier.substring 0, msiPayment.identifier.indexOf('.')
-    if msiIdentifiers.indexOf(identifier) is -1
+    x = (i for i in msiIdentifiers when i is identifier)
+    if x.length is 0
       msiIdentifiers.push identifier
       msiPayments.push msiPayment
   msiPayments

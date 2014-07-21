@@ -33,7 +33,10 @@ module.exports = class CardTokenPaymentView extends View
 
   onCancelCardTokenPaymentBtnClick: (e) ->
     e.preventDefault()
-    @$el.children().hide()
+    
+    Winbits.$(".chk-step > div:visible div:visible.wbiPaymentMethod").hide()
+    Winbits.$("#wbi-cards-list-holder").show()
+    Winbits.$("#wbi-main-payment-view").show()
     util.renderSliderOnPayment(100, true)
     @publishEvent 'paymentFlowCancelled'
 
@@ -48,9 +51,39 @@ module.exports = class CardTokenPaymentView extends View
       paymentData = mediator.post_checkout
       paymentData.vertical = Winbits.checkoutConfig.verticalId
       formData = util.serializeForm($form)
-      if formData.totalMsi
+
+      if new RegExp("cybersource\..+").test(paymentData.paymentMethod)
+        formData.deviceFingerPrint = Winbits.checkoutConfig.orderId
+
+      if formData.totalMsi and paymentData.paymentMethod isnt 'amex.cc'
         paymentData.paymentMethod = 'cybersource.token.msi.' + formData.totalMsi
         formData.totalMsi = parseInt formData.totalMsi, 10
+      
+      if paymentData.paymentMethod is 'amex.cc'
+       cardData = @model.get("cardInfo").cardData
+       cardAddress = @model.get("cardInfo").cardAddress
+       formData.cardNumber = cardData.unmasked
+       formData.city = cardAddress.city
+       formData.county = ''
+       formData.firstName = cardData.firstName
+       formData.lastName = cardData.lastName
+       formData.number = cardAddress.number
+       formData.phone = cardData.phoneNumber
+       formData.state = cardAddress.state
+       formData.street = cardAddress.street1
+       formData.zipCode = cardAddress.postalCode
+       formData.cvv2Number = formData.cvNumber
+       formData.location = ''
+       formData.expirationYear = cardData.expirationYear
+       formData.expirationMonth = cardData.expirationMonth
+
+       delete formData['cvNumber']
+       delete paymentData.paymentInfo['subscriptionId']
+
+       if formData.totalMsi 
+         paymentData.paymentMethod = 'amex.msi.' + formData.totalMsi
+         formData.numberOfPayments = parseInt formData.totalMsi, 10
+         delete formData['totalMsi'] 
 
       $.extend paymentData.paymentInfo, formData
       util.showAjaxIndicator('Procesando tu pago...')
