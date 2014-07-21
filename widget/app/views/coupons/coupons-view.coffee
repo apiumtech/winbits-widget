@@ -9,7 +9,7 @@ module.exports = class LoginView extends View
 
   initialize: ->
     super
-    console.log ['Coupon model',@model]
+    @delegate 'click', '.wbc-download-pdf-link', @doRequestCouponLink
 
 
   attach: ->
@@ -17,4 +17,8 @@ module.exports = class LoginView extends View
     @showAsModal()
 
   showAsModal: ->
-    $('<a>').wbfancybox(href: '#' + @id, onClosed: -> utils.redirectTo controller: 'home', action: 'index').click()
+    $('<a>').wbfancybox(href: '#' + @id, onClosed: -> utils.redirectTo url: '/#wb-shipping-order-history').click()
+
+  doRequestCouponLink:(e)->
+    idCouponData = @$(e.currentTarget).closest('.wbc-coupon-data').data('id')
+    console.log ["Coupon Data", idCouponData]
