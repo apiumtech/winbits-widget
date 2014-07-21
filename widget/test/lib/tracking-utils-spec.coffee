@@ -15,22 +15,22 @@ describe 'TrackingUtilsSpec', ->
   afterEach ->
     utils.getUrlParams.restore()
 
-  it "getUtmParams filter out params which do not start with 'utm_'", ->
+  it "getUTMParams filter out params which do not start with 'utm_'", ->
     utils.getUrlParams.returns(
       utm_content: 'content'
       xxx: 'xxx'
       utm_source: 'source'
     )
 
-    expect(trackingUtils.getUtmParams()).to.be.deep.equal(
+    expect(trackingUtils.getUTMParams()).to.be.deep.equal(
       utm_content: 'content'
       utm_source: 'source'
     )
 
-  it "validateUtmParams check for valid utms", ->
-    utms = getValidUtmParams()
+  it "validateUTMParams check for valid utms", ->
+    utms = getValidUTMParams()
 
-    expect(trackingUtils.validateUtmParams(utms)).to.be.true
+    expect(trackingUtils.validateUTMParams(utms)).to.be.true
 
   _.each [
     null
@@ -40,30 +40,30 @@ describe 'TrackingUtilsSpec', ->
     { utm_medium: 'medium', other: 'x' }
   ], (utms) ->
     utmsDesc = if utms then JSON.stringify(utms) else utms
-    it "validateUtmParams check for invalid utms: #{utmsDesc}", ->
-      expect(trackingUtils.validateUtmParams(utms)).to.be.false
+    it "validateUTMParams check for invalid utms: #{utmsDesc}", ->
+      expect(trackingUtils.validateUTMParams(utms)).to.be.false
 
-  it "saveUtmsIfAvailable saves UTMs on rpc if valid", sinon.test ->
-    utms = getValidUtmParams()
+  it "saveUTMsIfAvailable saves UTMs on rpc if valid", sinon.test ->
+    utms = getValidUTMParams()
     utms.other = 'x'
     utils.getUrlParams.returns(utms)
-    @stub(rpc, 'saveUtms')
+    @stub(rpc, 'saveUTMs')
 
-    trackingUtils.saveUtmsIfAvailable()
+    trackingUtils.saveUTMsIfAvailable()
 
-    expect(rpc.saveUtms).to.has.been.calledWithMatch(
+    expect(rpc.saveUTMs).to.has.been.calledWithMatch(
       utm_campaign: 'campaign', utm_medium: 'medium'
     ).and.to.has.been.calledOnce
     expect()
 
-  it "saveUtmsIfAvailable does not save UTMs on rpc if invalid", sinon.test ->
+  it "saveUTMsIfAvailable does not save UTMs on rpc if invalid", sinon.test ->
     utils.getUrlParams.returns({})
-    @stub(rpc, 'saveUtms')
+    @stub(rpc, 'saveUTMs')
 
-    trackingUtils.saveUtmsIfAvailable()
+    trackingUtils.saveUTMsIfAvailable()
 
-    expect(rpc.saveUtms).to.has.not.been.called
+    expect(rpc.saveUTMs).to.has.not.been.called
 
-  getValidUtmParams = ->
+  getValidUTMParams = ->
     utm_campaign: 'campaign'
     utm_medium: 'medium'

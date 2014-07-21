@@ -98,7 +98,7 @@ new easyXDM.Rpc({},
 
       return
 
-    saveUtms: (utms, successFn) ->
+    saveUTMs: (utms, successFn) ->
       utms.expires = new Date().getTime() + MILLIS_90_MINUTES
       console.log [
         "Saving UTMS"
@@ -108,7 +108,7 @@ new easyXDM.Rpc({},
       successFn()
       return
 
-    getUtms: (successFn, errorFn) ->
+    getUTMs: (successFn, errorFn) ->
       console.log ["get UTMS"]
       utmsParams = localStorage.getItem UTM_PARAMS_KEY
       if utmsParams
@@ -130,6 +130,6 @@ new easyXDM.Rpc({},
     logout: {}
     facebookStatus: {}
     facebookMe: {}
-    saveUtms: {}
-    getUtms: {}
+    saveUTMs: {}
+    getUTMs: {}
 )

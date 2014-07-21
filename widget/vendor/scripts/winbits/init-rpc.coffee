@@ -79,8 +79,8 @@
     deleteApiToken: {}
     storeVirtualCart: {}
     logout: {}
-    saveUtms: {}
-    getUtms: {}
+    saveUTMs: {}
+    getUTMs: {}
     facebookStatus: {}
     facebookMe: {}
 

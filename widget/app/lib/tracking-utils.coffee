@@ -10,23 +10,26 @@ _ = Winbits._
 trackingUtils = {}
 _(trackingUtils).extend
 
-  saveUtmsIfAvailable: ->
-    utms = @getUtmParams()
-    if @validateUtmParams(utms)
-      rpc.saveUtms(utms)
+  saveUTMsIfAvailable: ->
+    utms = @getUTMParams()
+    if @validateUTMParams(utms)
+      @saveUTMs(utms)
 
-  getUtmParams: ->
+  getUTMParams: ->
     params = utils.getUrlParams()
     utms = {}
     for own key, value of params when key.indexOf('utm_') is 0
       utms[key] = value
     utms
 
-  validateUtmParams: (utms) ->
+  validateUTMParams: (utms) ->
     utms? and utms.utm_campaign? and utms.utm_medium?
 
-  getUtms: (callback, context = @) ->
-    rpc.getUtms _.bind(callback, context)
+  getUTMs: (callback, context = @) ->
+    rpc.getUTMs _.bind(callback, context)
+
+  saveUTMs: (utms) ->
+    rpc.saveUTMs(utms)
 
 # Prevent creating new properties and stuff.
 Object.seal? trackingUtils
