@@ -43,18 +43,21 @@ module.exports = class ShippingOrderHistoryView extends View
   requestCouponsService:(e)->
     currentTarget = @$(e.currentTarget)
     dataOrderDetailNumber = currentTarget.closest('.wbc-order-detail').data('id')
-    dataOrderDetailName = currentTarget.closest('.wbc-order-detail').data('name')
+    @dataOrderDetailName = currentTarget.closest('.wbc-order-detail').data('name')
     utils.showLoaderToCheckout()
     @model.requestCouponsService(dataOrderDetailNumber, context:@)
-      .done( (data) -> @doRecuestCouponsServiceSuccess(data,dataOrderDetailName))
+      .done(@doRecuestCouponsServiceSuccess)
       .fail( @doRecuestCouponsServiceError)
       .always(-> utils.hideLoaderToCheckout())
 
-  doRecuestCouponsServiceSuccess:(data,dataOrderDetailName) ->
+  doRecuestCouponsServiceSuccess:(data) ->
     toModelCoupon =
       coupons: data.response
-      title: dataOrderDetailName
+      title: @dataOrderDetailName
+      description: 'description'
     console.log ["toModelCoupon", toModelCoupon]
+    mediator.data.set('coupon-data', toModelCoupon)
+    utils.redirectTo controller:'coupon', action:'index'
 
   doRecuestCouponsServiceError: ->
     console.log ["ERROR"]

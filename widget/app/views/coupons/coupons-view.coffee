@@ -1,10 +1,6 @@
 View = require 'views/base/view'
 utils = require 'lib/utils'
-loginUtil = require 'lib/login-utils'
-mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
-_ = Winbits._
-env = Winbits.env
 
 module.exports = class LoginView extends View
   container: '#wbi-winbits-modals'
@@ -13,6 +9,7 @@ module.exports = class LoginView extends View
 
   initialize: ->
     super
+    console.log ['Coupon model',@model]
 
 
   attach: ->
