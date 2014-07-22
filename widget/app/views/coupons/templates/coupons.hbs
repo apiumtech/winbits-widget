@@ -4,6 +4,8 @@
         <div class="confirmation-icon"><span class="iconFont-ticket"></span></div>
         <div class="confirmation-content">
             <h3>{{description}}</h3>
+
+             {{#availableCoupon}}
               <table class="confirmationTable">
                   <tr>
                       <th># Cupón</th>
@@ -14,9 +16,9 @@
                   {{#each coupons}}
                   <tr class="wbc-coupon-data" data-id="{{id}}">
                       <td>{{code}}</td>
-                      <td>{{availableCouponDate}}</td>
+                      <td>Fecha expiración</td>
                       {{#compare status 'Available'}}
-                        <td>Disponible</td>
+                        <td>Oferta lograda, tu cupón ha sido enviado a tu email.</td>
                         <td class="table-download">
                            <a class="iconFont-docPDF wbc-download-pdf-link" title="PDF"></a>
                            <a class="iconFont-docWEB wbc-download-html-link" title="Web"></a>
@@ -25,6 +27,9 @@
                   </tr>
                   {{/each}}
               </table>
+            {{else}}
+               <p>CUPONES NO DISPONIBLES</p>
+            {{/availableCoupon}}
         </div>
     </div>
 </form>

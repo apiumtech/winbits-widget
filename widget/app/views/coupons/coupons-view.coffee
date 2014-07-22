@@ -12,7 +12,6 @@ module.exports = class LoginView extends View
     @delegate 'click', '.wbc-download-pdf-link', @doCouponPdfLink
     @delegate 'click', '.wbc-download-html-link', @doCouponHtmlLink
 
-
   attach: ->
     super
     @showAsModal()
@@ -22,17 +21,16 @@ module.exports = class LoginView extends View
 
   doCouponPdfLink:(e)->
     idCouponData = @$(e.currentTarget).closest('.wbc-coupon-data').data('id')
-    format = 'pdf'
-    console.log ["Coupon Data", idCouponData, format]
-    @doRequestCouponService(idCouponData,format)
+    @doRequestCouponService(idCouponData,'pdf')
 
   doCouponHtmlLink:(e)->
     idCouponData = @$(e.currentTarget).closest('.wbc-coupon-data').data('id')
-    format = 'html'
-    console.log ["Coupon Data", idCouponData, format]
-    @doRequestCouponService(idCouponData,format)
+    @doRequestCouponService(idCouponData,'html')
 
   doRequestCouponService: (idCouponData, format)->
     @model.doRequestCouponService(idCouponData,format)
-     .done((data)-> console.log ["Data coupon", data])
+     .done(@doRequestCouponServiceSuccess)
      .fail((xhr)-> console.log ["Data coupon error", xhr.responseText])
+
+  doRequestCouponServiceSuccess:(data)->
+    window.open(data.response.coupon.url)

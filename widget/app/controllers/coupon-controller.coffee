@@ -9,7 +9,7 @@ module.exports = class CouponController extends LoggedInController
   beforeAction: ->
     super
 
-  index: ()->
+  index:->
     console.log 'coupon#index'
     if mediator.data.get('coupon-data')
       @model = new Coupons(mediator.data.get('coupon-data'))

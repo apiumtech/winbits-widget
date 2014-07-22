@@ -172,3 +172,15 @@ Handlebars.registerHelper "toDefaultDateFormat", (dateString) ->
 
 Handlebars.registerHelper "abs", (number) ->
   Math.abs(number)
+
+checkAvailableCoupons = (coupons) ->
+  isAvailable = yes
+  _.find coupons, (coupon) ->
+    if coupon.status is 'Created'
+      isAvailable = no
+  return isAvailable
+
+Handlebars.registerHelper "availableCoupon", (options) ->
+  available = checkAvailableCoupons @coupons
+  console.log ["Available coupons?", available]
+  if available then options.fn this else options.inverse this
