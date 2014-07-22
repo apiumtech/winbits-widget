@@ -37,7 +37,7 @@
             {{/with}}
               <td class="column5">{{#if warnings}}{{warnings.0.quantityRequired}}{{else}}{{quantity}}{{/if}}</td>
               <td class="column6">{{formatCurrency amount}}</td>
-              <td class="column7"><a title="Quitar Item" class="iconFont-close" data-id="{{id}}"></a></td>
+              <td class="column7"><a title="Quitar Item" class="iconFont-close wbc-delete-item" data-id="{{sku.id}}"></a></td>
             </tr>
           {{/each}}
         {{/if}}

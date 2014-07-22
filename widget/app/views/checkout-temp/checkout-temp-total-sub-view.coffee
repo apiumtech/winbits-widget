@@ -12,7 +12,7 @@ module.exports = class CheckOutTempTotalSubView extends View
 
   initialize:()->
     super
-    @listenTo @model,  'change', -> @render()
+#    @listenTo @model,  'change:sliderTotal', -> @render()
 
 #  attach: ->
 #    super
