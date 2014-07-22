@@ -61,7 +61,6 @@ module.exports = class CheckoutTempView extends View
     seconds = $timer.data('seconds') || 0
     seconds = seconds - 1
     if minutes is 0 and seconds < 0
-      console.log('expire order')
       @expireOrderByTimeOut()
     else
       if seconds < 0
@@ -88,7 +87,6 @@ module.exports = class CheckoutTempView extends View
     utils.showMessageModal(message, options)
 
   intervalStop: ->
-    console.log 'Inteval Timer Stop !'
     clearInterval(@.timerInterval)
 
   backToVertical: ->
