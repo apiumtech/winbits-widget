@@ -6,7 +6,7 @@
  # Date: 25/03/14
  ##
 
-Winbits.$ = $
+$ = jQuery
 promises = []
 
 # Utilities functions
@@ -15,51 +15,6 @@ timeoutDeferred = (deferred, timeout = 60000) ->
     deferred.reject() if deferred.state() isnt 'resolved'
   ,timeout
   deferred
-
-Winbits.isCrapBrowser =
-  Winbits.$.browser.msie and Winbits.$.browser.versionNumber < 10
-
-# To make test pass on IE9
-if window.wbTestEnv and Winbits.isCrapBrowser
-  Winbits.isCrapBrowser = no
-  Winbits.env.set('api-url', '')
-
-Winbits.ajaxRequest = (url, options) ->
-  $ = Winbits.$
-  if $.isPlainObject(url)
-    options = url
-    url = options.url
-  defaultOptions =
-    dataType: 'json'
-    context: @
-  defaultHeaders =
-    'Accept-Language': 'es'
-    'Content-Type': 'application/json'
-  options = $.extend(defaultOptions, options)
-  options.headers = $.extend(defaultHeaders, options.headers)
-  if Winbits.isCrapBrowser
-    context = options.context
-    deferred = new $.Deferred()
-      .done(options.success)
-      .fail(options.error)
-      .always(options.complete)
-    unsupportedOptions = ['context', 'success', 'error', 'complete']
-    delete options[property] for property in unsupportedOptions
-    Winbits.env.get('rpc').request(url, options, (response) ->
-      args = [response.data, response.textStatus, response.jqXHR]
-      deferred.resolveWith(context, args)
-    , (response) ->
-      message = response.message
-      args = [message.jqXHR, message.textStatus, message.errorThrown]
-      deferred.rejectWith(context, args)
-    )
-    deferred.promise()
-  else
-    $.ajax(url,options)
-
-Winbits.saveLoginData = (loginData) ->
-  localStorage.setItem Winbits.env.get('api-token-name'), loginData.apiToken
-  Winbits.env.get('rpc').saveApiToken loginData.apiToken
 
 # Winbits promises
 loadAppScript = () ->
@@ -87,7 +42,7 @@ rpcApi =
 
 if window.wbSkipRPC
   for own key of rpcApi
-    rpcApi[key] = Winbits.$.noop
+    rpcApi[key] = $.noop
   Winbits.env.set('rpc', rpcApi)
 else
   verifyingVerticalData = new $.Deferred().done (data) ->
@@ -105,7 +60,7 @@ else
   verifyVerticalData = ((deferred) ->
     ->
       apiUrl = Winbits.env.get('api-url')
-      Winbits.ajaxRequest "#{apiUrl}/users/verticals.json",
+      Winbits.utils.ajaxRequest "#{apiUrl}/users/verticals.json",
         data: hostname: location.hostname
       .done deferred.resolve
       .fail deferred.reject
@@ -113,12 +68,12 @@ else
 
   verifyingLoginData = new $.Deferred().done (data) ->
     console.log 'Login data verified :)'
-    if Winbits.$.isEmptyObject data.response
+    if $.isEmptyObject data.response
       localStorage.removeItem Winbits.env.get 'api-token-name'
       Winbits.env.get('rpc').deleteApiToken()
     else
       Winbits.env.set 'login-data', data.response
-      Winbits.saveLoginData data.response
+      Winbits.utils.saveLoginData data.response
       Winbits.trigger 'loggedin', [data.response]
   .fail -> console.log ['ERROR', 'Unable to verify login data :(']
   promises.push verifyingLoginData.promise()
@@ -127,7 +82,7 @@ else
     (apiToken) ->
       if apiToken
         apiUrl = Winbits.env.get('api-url')
-        Winbits.ajaxRequest  "#{apiUrl}/users/express-login.json",
+        Winbits.utils.ajaxRequest  "#{apiUrl}/users/express-login.json",
           type: 'POST',
           data: JSON.stringify(apiToken: apiToken)
         .done deferred.resolve

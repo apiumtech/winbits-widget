@@ -1,3 +1,5 @@
+'use strict'
+
 Application = require './application'
 routes = require './routes'
 cartUtils = require 'lib/cart-utils'
@@ -45,28 +47,28 @@ Winbits.deleteFromWishList = (options) ->
   fn = if utils.isLoggedIn() then wishListUtils.deleteFromWishList
   fn.call(wishListUtils,options)
 
-Winbits.getSkuProfileInfo= (options) ->
+Winbits.getSkuProfileInfo = (options) ->
   fn = skuProfileUtils.getSkuProfileInfo
   fn.call(skuProfileUtils, options)
 
-Winbits.getSkuProfilesInfo= (options) ->
+Winbits.getSkuProfilesInfo = (options) ->
   fn = skuProfileUtils.getSkuProfilesInfo
   fn.call(skuProfileUtils, options)
 
-Winbits.share= (options) ->
+Winbits.share = (options) ->
   fn = socialUtils.share
   fn.call(socialUtils, options)
 
-Winbits.tweet= (options) ->
+Winbits.tweet = (options) ->
   fn = socialUtils.tweet
   fn.call(socialUtils, options)
 
-Winbits.like= (options) ->
+Winbits.like = (options) ->
   fn = socialUtils.like
   fn.call(socialUtils, options)
 
-Winbits.execute= (queryString) ->
-  params = utils.parseQueryString(queryString)
+Winbits.execute = (queryString) ->
+  params = utils.getURLParams(queryString)
   EventBroker.publishEvent params.code, params
 
 # Look for UTMs and save it in each page hit

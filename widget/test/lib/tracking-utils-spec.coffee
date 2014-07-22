@@ -1,7 +1,6 @@
 'use strict'
 
 trackingUtils = require 'lib/tracking-utils'
-utils = require 'lib/utils'
 _ = Winbits._
 rpc = Winbits.env.get('rpc')
 mediator = Chaplin.mediator
@@ -9,14 +8,14 @@ mediator = Chaplin.mediator
 describe 'TrackingUtilsSpec', ->
 
   beforeEach ->
-    sinon.stub(utils, 'getUrlParams')
+    sinon.stub(trackingUtils, 'getURLParams')
     mediator.data.set('utms', undefined)
 
   afterEach ->
-    utils.getUrlParams.restore()
+    trackingUtils.getURLParams.restore()
 
   it "getUTMParams filter out params which do not start with 'utm_'", ->
-    utils.getUrlParams.returns(
+    trackingUtils.getURLParams.returns(
       utm_content: 'content'
       xxx: 'xxx'
       utm_source: 'source'
@@ -46,7 +45,7 @@ describe 'TrackingUtilsSpec', ->
   it "saveUTMsIfAvailable saves UTMs if valid", sinon.test ->
     utms = getValidUTMParams()
     utms.other = 'x'
-    utils.getUrlParams.returns(utms)
+    trackingUtils.getURLParams.returns(utms)
     @stub(rpc, 'saveUTMs')
 
     utms = trackingUtils.saveUTMsIfAvailable()
@@ -58,7 +57,7 @@ describe 'TrackingUtilsSpec', ->
     expect(mediator.data.get('utms')).to.be.equal(utms)
 
   it "saveUTMsIfAvailable does not save UTMs on rpc if invalid", sinon.test ->
-    utils.getUrlParams.returns({})
+    trackingUtils.getURLParams.returns({})
     @stub(rpc, 'saveUTMs')
 
     utms = trackingUtils.saveUTMsIfAvailable()

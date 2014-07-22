@@ -120,11 +120,11 @@ moment().tz("America/Mexico_City").format()
 
 _.now = _.now or Date.now or () -> new Date().getTime()
 
-$.wblocationselect.ajax = Winbits.ajaxRequest
+$.wblocationselect.ajax = Winbits.utils.ajaxRequest
 Winbits.$ = $.noConflict(yes)
 Winbits._ = _.noConflict()
 Backbone.$ = Winbits.$
-Backbone.ajax = Winbits.ajaxRequest
+Backbone.ajax = Winbits.utils.ajaxRequest
 Winbits.Backbone = Backbone.noConflict()
 Winbits.easyXDM = easyXDM.noConflict('Winbits')
 Winbits.moment = window.moment

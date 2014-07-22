@@ -3,7 +3,6 @@
 # Tracking-specific utilities
 # ------------------------------
 
-utils = require 'lib/utils'
 mediator = Chaplin.mediator
 rpc = Winbits.env.get('rpc')
 _ = Winbits._
@@ -11,7 +10,8 @@ _ = Winbits._
 UTMS_MEDIATOR_KEY = 'utms'
 
 trackingUtils = {}
-_(trackingUtils).extend
+# Some functions are defined inside init-tracking.coffee
+_(trackingUtils).extend Winbits.trackingUtils,
 
   saveUTMsIfAvailable: ->
     utms = @getUTMParams()
@@ -19,16 +19,6 @@ _(trackingUtils).extend
       @saveUTMs(utms)
     else
       null
-
-  getUTMParams: ->
-    params = utils.getUrlParams()
-    utms = {}
-    for own key, value of params when key.indexOf('utm_') is 0
-      utms[key] = value
-    utms
-
-  validateUTMParams: (utms) ->
-    utms? and utms.utm_campaign? and utms.utm_medium?
 
   getUTMs: (callback, context = @) ->
     mediator.data.get(UTMS_MEDIATOR_KEY)
@@ -41,7 +31,14 @@ _(trackingUtils).extend
   cacheUTMs: (utms) ->
     mediator.data.set(UTMS_MEDIATOR_KEY, utms)
 
+  # Following functions are defined inside init-tracking.coffee:
+  # getUTMParams
+  # validateUTMParams
+  # saveUTMParams
+
 # Prevent creating new properties and stuff.
 Object.seal? trackingUtils
+
+delete Winbits.trackingUtils
 
 module.exports = trackingUtils
