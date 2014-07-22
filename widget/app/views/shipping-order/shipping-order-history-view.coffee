@@ -55,7 +55,6 @@ module.exports = class ShippingOrderHistoryView extends View
       coupons: data.response
       title: @dataOrderDetailName
       description: 'description'
-    console.log ["toModelCoupon", toModelCoupon]
     mediator.data.set('coupon-data', toModelCoupon)
     utils.redirectTo controller:'coupon', action:'index'
 

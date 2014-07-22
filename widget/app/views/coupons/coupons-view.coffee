@@ -9,7 +9,8 @@ module.exports = class LoginView extends View
 
   initialize: ->
     super
-    @delegate 'click', '.wbc-download-pdf-link', @doRequestCouponLink
+    @delegate 'click', '.wbc-download-pdf-link', @doCouponPdfLink
+    @delegate 'click', '.wbc-download-html-link', @doCouponHtmlLink
 
 
   attach: ->
@@ -19,6 +20,19 @@ module.exports = class LoginView extends View
   showAsModal: ->
     $('<a>').wbfancybox(href: '#' + @id, onClosed: -> utils.redirectTo url: '/#wb-shipping-order-history').click()
 
-  doRequestCouponLink:(e)->
+  doCouponPdfLink:(e)->
     idCouponData = @$(e.currentTarget).closest('.wbc-coupon-data').data('id')
-    console.log ["Coupon Data", idCouponData]
+    format = 'pdf'
+    console.log ["Coupon Data", idCouponData, format]
+    @doRequestCouponService(idCouponData,format)
+
+  doCouponHtmlLink:(e)->
+    idCouponData = @$(e.currentTarget).closest('.wbc-coupon-data').data('id')
+    format = 'html'
+    console.log ["Coupon Data", idCouponData, format]
+    @doRequestCouponService(idCouponData,format)
+
+  doRequestCouponService: (idCouponData, format)->
+    @model.doRequestCouponService(idCouponData,format)
+     .done((data)-> console.log ["Data coupon", data])
+     .fail((xhr)-> console.log ["Data coupon error", xhr.responseText])

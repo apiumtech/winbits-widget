@@ -15,11 +15,13 @@
                   <tr class="wbc-coupon-data" data-id="{{id}}">
                       <td>{{code}}</td>
                       <td>{{availableCouponDate}}</td>
-                      <td>{{status}}</td>
-                      <td class="table-download">
-                          <a href="" class="iconFont-docPDF wbc-download-pdf-link" title="PDF"></a> {{! IMPLEMENTAR GET URL CON ID DEL CUPON VIEW HELPER}}
-                          <a href="" class="iconFont-docWEB wbc-download-html-link" title="Web"></a>
-                      </td>
+                      {{#compare status 'Available'}}
+                        <td>Disponible</td>
+                        <td class="table-download">
+                           <a class="iconFont-docPDF wbc-download-pdf-link" title="PDF"></a>
+                           <a class="iconFont-docWEB wbc-download-html-link" title="Web"></a>
+                        </td>
+                      {{/compare}}
                   </tr>
                   {{/each}}
               </table>
