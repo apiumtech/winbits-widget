@@ -17,13 +17,11 @@
                   <tr class="wbc-coupon-data" data-id="{{id}}">
                       <td>{{code}}</td>
                       <td>Fecha expiración</td>
-                      {{#compare status 'Available'}}
                         <td>Oferta lograda, tu cupón ha sido enviado a tu email.</td>
                         <td class="table-download">
                            <a class="iconFont-docPDF wbc-download-pdf-link" title="PDF"></a>
                            <a class="iconFont-docWEB wbc-download-html-link" title="Web"></a>
                         </td>
-                      {{/compare}}
                   </tr>
                   {{/each}}
               </table>
