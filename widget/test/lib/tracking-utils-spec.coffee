@@ -43,26 +43,28 @@ describe 'TrackingUtilsSpec', ->
     it "validateUTMParams check for invalid utms: #{utmsDesc}", ->
       expect(trackingUtils.validateUTMParams(utms)).to.be.false
 
-  it "saveUTMsIfAvailable saves UTMs on rpc if valid", sinon.test ->
+  it "saveUTMsIfAvailable saves UTMs if valid", sinon.test ->
     utms = getValidUTMParams()
     utms.other = 'x'
     utils.getUrlParams.returns(utms)
     @stub(rpc, 'saveUTMs')
 
-    trackingUtils.saveUTMsIfAvailable()
+    utms = trackingUtils.saveUTMsIfAvailable()
 
-    expect(rpc.saveUTMs).to.has.been.calledWithMatch(
-      utm_campaign: 'campaign', utm_medium: 'medium'
-    ).and.to.has.been.calledOnce
-    expect()
+    expectedUTMs = utm_campaign: 'campaign', utm_medium: 'medium'
+    expect(utms).to.be.deep.equal(expectedUTMs)
+    expect(rpc.saveUTMs).to.has.been.calledWith(utms)
+      .and.to.has.been.calledOnce
+    expect(mediator.data.get('utms')).to.be.equal(utms)
 
   it "saveUTMsIfAvailable does not save UTMs on rpc if invalid", sinon.test ->
     utils.getUrlParams.returns({})
     @stub(rpc, 'saveUTMs')
 
-    trackingUtils.saveUTMsIfAvailable()
-
+    utms = trackingUtils.saveUTMsIfAvailable()
+    expect(utms).to.not.be.ok
     expect(rpc.saveUTMs).to.has.not.been.called
+    expect(mediator.data.get('utms')).to.not.be.ok
 
   getValidUTMParams = ->
     utm_campaign: 'campaign'

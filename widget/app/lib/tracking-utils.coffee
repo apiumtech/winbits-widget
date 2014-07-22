@@ -4,8 +4,11 @@
 # ------------------------------
 
 utils = require 'lib/utils'
+mediator = Chaplin.mediator
 rpc = Winbits.env.get('rpc')
 _ = Winbits._
+
+UTMS_MEDIATOR_KEY = 'utms'
 
 trackingUtils = {}
 _(trackingUtils).extend
@@ -14,6 +17,8 @@ _(trackingUtils).extend
     utms = @getUTMParams()
     if @validateUTMParams(utms)
       @saveUTMs(utms)
+    else
+      null
 
   getUTMParams: ->
     params = utils.getUrlParams()
@@ -26,10 +31,15 @@ _(trackingUtils).extend
     utms? and utms.utm_campaign? and utms.utm_medium?
 
   getUTMs: (callback, context = @) ->
-    rpc.getUTMs _.bind(callback, context)
+    mediator.data.get(UTMS_MEDIATOR_KEY)
 
   saveUTMs: (utms) ->
+    @cacheUTMs(utms)
     rpc.saveUTMs(utms)
+    utms
+
+  cacheUTMs: (utms) ->
+    mediator.data.set(UTMS_MEDIATOR_KEY, utms)
 
 # Prevent creating new properties and stuff.
 Object.seal? trackingUtils
