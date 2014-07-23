@@ -44,6 +44,7 @@ module.exports = class ShippingOrderHistoryView extends View
     currentTarget = @$(e.currentTarget)
     dataOrderDetailNumber = currentTarget.closest('.wbc-order-detail').data('id')
     @dataOrderDetailName = currentTarget.closest('.wbc-order-detail').data('name')
+    @dataShortDescription = currentTarget.closest('.wbc-order-detail').data('description')
     @model.requestCouponsService(dataOrderDetailNumber, context:@)
       .done(@doRecuestCouponsServiceSuccess)
       .fail( @doRecuestCouponsServiceError)
@@ -52,13 +53,16 @@ module.exports = class ShippingOrderHistoryView extends View
     toModelCoupon =
       coupons: data.response
       title: @dataOrderDetailName
-      description: 'description ñadkljfñ asdkljf ñkjads fñakjsd ñkas dñfka ñsfkj ñaskdjf ñaskdf ñaskdjf ñakdjf ñaskdjf ñaisdfñqkk'
+      description: @dataShortDescription
     mediator.data.set('coupon-data', toModelCoupon)
     utils.redirectTo controller:'coupon', action:'index'
 
-  doRecuestCouponsServiceError: ->
-    console.log ["ERROR"]
-
+  doRecuestCouponsServiceError: (xhr, textStatus)->
+    error = utils.safeParse(xhr.responseText)
+    messageText = "Error al conseguir tus cupones,#{textStatus}"
+    message = if error then error.meta.message else messageText
+    options = value: "Cerrar", title:'Error', onClosed: utils.redirectToLoggedInHome()
+    utils.showMessageModal(message, options)
 
   backToVertical:()->
     utils.restoreVerticalContent('.widgetWinbitsMain')

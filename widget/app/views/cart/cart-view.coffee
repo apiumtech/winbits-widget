@@ -92,9 +92,6 @@ module.exports = class CartView extends View
       else
         utils.redirectTo(controller:'transfer-cart-errors', action:'index', params:data.response)
 
-
-
-
   showModalNoItemsToTransfer: ->
     options =
       title: 'Items agotados'
