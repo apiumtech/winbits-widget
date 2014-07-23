@@ -17,8 +17,7 @@ watch: public
 install: packages build
 
 packages:
-	npm install; \
-	$(bower) install;
+	npm install;
 
 test:
 	@echo "No tests for CHECKOUT..."
