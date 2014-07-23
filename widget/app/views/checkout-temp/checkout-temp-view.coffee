@@ -18,7 +18,7 @@ module.exports = class CheckoutTempView extends View
     @delegate 'click', '#wbi-return-site-btn', @backToVertical
     @delegate 'click', '#wbi-post-checkout-btn', @doToCheckout
     @delegate 'click', '.wbc-delete-item', @doDeleteConfirm
-    @listenTo @model,  'change', -> @render()
+    @listenTo @model,  'change:orderDetails', -> @render()
     $('main .wrapper').hide()
     $('div .mainHeader').hide()
 
@@ -81,7 +81,7 @@ module.exports = class CheckoutTempView extends View
     options =
       value: 'Aceptar'
       title: 'Orden expirada'
-      icon: 'iconFont-candado'
+      icon: 'iconFont-clock2'
       context: @
       onClosed: @backToVertical
     utils.showMessageModal(message, options)
@@ -114,6 +114,7 @@ module.exports = class CheckoutTempView extends View
     utils.showConfirmationModal(message, options)
 
   doRequestDeleteOrderDetail:(itemId)->
+    @itemId = itemId
     formData = {id: itemId}
     @model.deleteOrderDetail(formData, context:@)
     .done( @doSuccessRequestDeleteOrderDetail)
@@ -129,6 +130,14 @@ module.exports = class CheckoutTempView extends View
     @backToVertical()
 
   doSuccessRequestDeleteOrderDetail:(data)->
+    orderDetails = _.clone @model.attributes.orderDetails
+    orderDetailsCopy = []
+    for orderDetail in orderDetails
+      if orderDetail.sku.id is itemId
+        @$("tr #wbi-order-detail-id-#{orderDetail.id}").remove()
+      else
+        orderDetailsCopy.push(orderDetail)
+    data.response.orderDetails = orderDetailsCopy
     @model.setData data
     utils.closeMessageModal()
 
