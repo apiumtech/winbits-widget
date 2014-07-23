@@ -17,7 +17,7 @@ mediator.data = (->
   data =
     'login-data': Winbits.env.get 'login-data'
     'virtual-cart': Winbits.env.get('virtual-cart')
-  {
+
   get: (property)->
     data[property]
   set: (property, value)->
@@ -30,7 +30,6 @@ mediator.data = (->
   clear: ->
     data = {}
     return
-  }
 )()
 # mediator.data.set('virtual-cart', Winbits.env.get('virtual-cart'))
 

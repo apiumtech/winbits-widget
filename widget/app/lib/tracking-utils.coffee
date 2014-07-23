@@ -4,7 +4,8 @@
 # ------------------------------
 
 mediator = Chaplin.mediator
-rpc = Winbits.env.get('rpc')
+env = Winbits.env
+rpc = env.get('rpc')
 _ = Winbits._
 
 UTMS_MEDIATOR_KEY = 'utms'
@@ -30,6 +31,9 @@ _(trackingUtils).extend Winbits.trackingUtils,
 
   cacheUTMs: (utms) ->
     mediator.data.set(UTMS_MEDIATOR_KEY, utms)
+
+  getUTMParams: ->
+    env.get(@UTM_PARAMS_KEY)
 
   # Following functions are defined inside init-tracking.coffee:
   # getUTMParams

@@ -14,7 +14,7 @@ describe 'TrackingUtilsSpec', ->
   afterEach ->
     trackingUtils.getURLParams.restore()
 
-  it "getUTMParams filter out params which do not start with 'utm_'", ->
+  it.skip "getUTMParams filter out params which do not start with 'utm_'", ->
     trackingUtils.getURLParams.returns(
       utm_content: 'content'
       xxx: 'xxx'
@@ -42,7 +42,7 @@ describe 'TrackingUtilsSpec', ->
     it "validateUTMParams check for invalid utms: #{utmsDesc}", ->
       expect(trackingUtils.validateUTMParams(utms)).to.be.false
 
-  it "saveUTMsIfAvailable saves UTMs if valid", sinon.test ->
+  it.skip "saveUTMsIfAvailable saves UTMs if not logged", sinon.test ->
     utms = getValidUTMParams()
     utms.other = 'x'
     trackingUtils.getURLParams.returns(utms)
@@ -56,7 +56,7 @@ describe 'TrackingUtilsSpec', ->
       .and.to.has.been.calledOnce
     expect(mediator.data.get('utms')).to.be.equal(utms)
 
-  it "saveUTMsIfAvailable does not save UTMs on rpc if invalid", sinon.test ->
+  it.skip "saveUTMsIfAvailable does not save UTMs on rpc if invalid", sinon.test ->
     trackingUtils.getURLParams.returns({})
     @stub(rpc, 'saveUTMs')
 

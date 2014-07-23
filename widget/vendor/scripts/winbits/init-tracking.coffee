@@ -1,9 +1,11 @@
 'use strict'
 
 Winbits.trackingUtils =
+  UTM_PARAMS_KEY: 'utm-params'
+
   getURLParams: Winbits.utils.getURLParams
 
-  getUTMParams: ->
+  parseUTMParams: ->
     params = @getURLParams()
     utms = {}
     for own key, value of params when key.indexOf('utm_') is 0
@@ -14,7 +16,7 @@ Winbits.trackingUtils =
     utms? and utms.utm_campaign? and utms.utm_medium?
 
   saveUTMParams: () ->
-    utmParams = @getUTMParams()
-    Winbits.env.set('utm-params', utmParams) if @validateUTMParams(utmParams)
+    utmParams = @parseUTMParams()
+    Winbits.env.set(@UTM_PARAMS_KEY, utmParams) if @validateUTMParams(utmParams)
 
 Winbits.trackingUtils.saveUTMParams()
