@@ -7,13 +7,11 @@ describe 'CouponModalViewSpec', ->
 
   COUPON_SERVICE_RESPONSE =
     [{"orderDetailId":18,"id":3,"couponType":"NOT_AVAILABLE_WHILE_RUNNING","status":"Available","filename":"champs1","code":"coupon_code","availableCouponDate":"08/07/2014","expireCouponDate":"66/66/6666"},
-     {"orderDetailId":18,"id":4,"couponType":"Custom","status":"Available","filename":"champs2","code":"coupon_code","availableCouponDate":null,"expireCouponDate":"66/66/6666"},
-     {"orderDetailId":18,"id":5,"couponType":"AVAILABLE_WHILE_RUNNING","status":"Available","filename":"champs3","code":"coupon_code","availableCouponDate":"17/07/2014","expireCouponDate":"66/66/6666"}]
+     {"orderDetailId":18,"id":4,"couponType":"Custom","status":"Available","filename":"champs2","code":"coupon_code","availableCouponDate":null,"expireCouponDate":"66/66/6666"}]
 
   COUPON_SERVICE_RESPONSE_WITH_CREATE_STATUS =
     [{"orderDetailId":18,"id":3,"couponType":"NOT_AVAILABLE_WHILE_RUNNING","status":"Available","filename":"champs1","code":"coupon_code","availableCouponDate":"08/07/2014","expireCouponDate":"66/66/6666"},
-    {"orderDetailId":18,"id":4,"couponType":"Custom","status":"Created","filename":"champs2","code":"coupon_code","availableCouponDate":null,"expireCouponDate":"66/66/6666"},
-    {"orderDetailId":18,"id":5,"couponType":"AVAILABLE_WHILE_RUNNING","status":"Available","filename":"champs3","code":"coupon_code","availableCouponDate":"17/07/2014","expireCouponDate":"66/66/6666"}]
+    {"orderDetailId":18,"id":4,"couponType":"Custom","status":"Created","filename":"champs2","code":"coupon_code","availableCouponDate":null,"expireCouponDate":"66/66/6666"}]
 
 
   beforeEach ->
