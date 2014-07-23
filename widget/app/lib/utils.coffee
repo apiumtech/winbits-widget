@@ -38,6 +38,7 @@ _(utils).extend
     $verticalContainer = $(env.get('vertical-container'))
     $verticalContainer.children('.wbc-vertical-content').hide()
     $verticalContainer.children().not('.wbc-vertical-content').show()
+    $('div .mainHeader').show()
 
   getUrlParams : ->
     vars = []
