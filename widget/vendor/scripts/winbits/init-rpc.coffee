@@ -30,7 +30,7 @@ promises.push loadingAppScript
 
 rpcApi =
   request: {}
-  getTokens: {}
+  getData: {}
   saveApiToken: {}
   deleteApiToken: {}
   storeVirtualCart: {}
@@ -82,9 +82,10 @@ else
     (apiToken) ->
       if apiToken
         apiUrl = Winbits.env.get('api-url')
+        utmParams = Winbits.env.get('utm-params')
         Winbits.utils.ajaxRequest  "#{apiUrl}/users/express-login.json",
           type: 'POST',
-          data: JSON.stringify(apiToken: apiToken)
+          data: JSON.stringify(apiToken: apiToken, utms: utmParams)
         .done deferred.resolve
         .fail deferred.reject
       else
@@ -102,27 +103,30 @@ else
 
     timeoutDeferred(deferred).promise()
 
-  getTokens = (->
+  getData = (->
     deferred = new $.Deferred()
     promise: deferred.promise()
     fn: ->
-      Winbits.env.get('rpc').getTokens deferred.resolve, deferred.reject
+      Winbits.env.get('rpc').getData deferred.resolve, deferred.reject
   )()
 
   loadRpc().done ->
     console.log 'RPC loaded :)'
     verifyVerticalData()
-    getTokens.fn()
+    getData.fn()
   .fail ->
     console.log ['ERROR', 'Unable to load RPC engine :(']
     # This really need to happen!
     verifyingVerticalData.reject()
     verifyingLoginData.reject()
 
-  getTokens.promise.done (tokens) ->
+  getData.promise.done (data) ->
     console.log 'Tokens got :)'
-    Winbits.env.set('virtual-cart', tokens.vcartToken)
-    verifyLoginData(tokens.apiToken)
+    env = Winbits.env
+    env.set('virtual-cart', data.vcartToken)
+    utms = env.get('utm-params') ? data.utms
+    env.set('utms', utms)
+    verifyLoginData(data.apiToken)
   .fail ->
     console.log ['ERROR', 'Unable to get tokens :(']
     verifyingLoginData.reject() # This really need to happen!

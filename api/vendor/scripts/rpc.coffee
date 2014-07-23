@@ -36,20 +36,21 @@ new easyXDM.Rpc({},
 
       return
 
-    getTokens: ->
-      tokens = {}
+    getData: ->
+      data = {}
       apiToken = localStorage.getItem API_TOKEN_KEY
-      tokens.apiToken = apiToken  if apiToken
+      data.apiToken = apiToken  if apiToken
       vcartToken = localStorage.getItem CART_TOKEN_KEY
       console.log ['THE VCART', vcartToken, window.location.href]
       vcartToken = DEFAULT_VIRTUAL_CART unless vcartToken
       localStorage.setItem CART_TOKEN_KEY, vcartToken
-      tokens.vcartToken = vcartToken
+      data.vcartToken = vcartToken
+      data.utms = @getUTMs()
       console.log [
         "W: The tokens >>>"
-        tokens
+        data
       ]
-      tokens
+      data
 
     saveApiToken: (apiToken) ->
       console.log [
@@ -119,12 +120,11 @@ new easyXDM.Rpc({},
         if expires < now
           localStorage.removeItem UTM_PARAMS_KEY
           utms = undefined
-      successFn(utms)
-      return
+      utms
 
   remote:
     request: {}
-    getTokens: {}
+    getData: {}
     saveApiToken: {}
     storeVirtualCart: {}
     logout: {}
