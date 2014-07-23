@@ -37,7 +37,6 @@ describe 'ShippingOrderHistoryViewSpec', ->
     request = @requests[0]
     request.respond(200, { "Content-Type": "application/json" }, SHIPPING_ORDERS_HISTORY_RESPONSE)
     @view.render()
-    console.log ["MODEL SHIPPING", @model.attributes]
     expect(@view.$('.historical')).to.exist
     expect(@view.$('.historical .addInfo')).to.not.exist
     expect(@view.$('.dataTable')).to.exist

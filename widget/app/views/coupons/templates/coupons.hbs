@@ -1,4 +1,5 @@
 <form id="bodyModal wbi-coupon-modal-view" accept-charset="utf-8" >
+    <a id="wbi-xxx" href="#" target="_blank" style="display:none"></a>
     <div class="confirmationContent couponsModal">
         <h2 id="wbi-coupon-title">{{title}}</h2>
         <div class="confirmation-icon"><span class="iconFont-ticket"></span></div>
@@ -26,7 +27,7 @@
                   {{/each}}
               </table>
             {{else}}
-               <p>CUPONES NO DISPONIBLES</p>
+               <p>Cupón(es) valido(s) hasta el {{getAvailableCouponsDate coupons}}</p>
             {{/availableCoupon}}
         </div>
     </div>

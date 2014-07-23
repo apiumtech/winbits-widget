@@ -179,3 +179,7 @@ checkAvailableCoupons = (coupons) ->
 Handlebars.registerHelper "availableCoupon", (options) ->
   available = checkAvailableCoupons @coupons
   if available then options.fn this else options.inverse this
+
+Handlebars.registerHelper "getAvailableCouponsDate",(coupons) ->
+  createdCoupon =_.find coupons, (coupon) -> coupon.status is 'Created'
+  createdCoupon.availableCouponDate

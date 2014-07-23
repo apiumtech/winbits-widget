@@ -28,9 +28,10 @@ module.exports = class LoginView extends View
     @doRequestCouponService(idCouponData,'html')
 
   doRequestCouponService: (idCouponData, format)->
-    @model.doRequestCouponService(idCouponData,format)
+    @popUp = window.open()
+    @model.doRequestCouponService(idCouponData,format, context:@)
      .done(@doRequestCouponServiceSuccess)
      .fail((xhr)-> console.log ["Data coupon error", xhr.responseText])
 
   doRequestCouponServiceSuccess:(data)->
-    window.open(data.response.coupon.url)
+    @popUp.window?.location.href =(data.response.coupon.url)
