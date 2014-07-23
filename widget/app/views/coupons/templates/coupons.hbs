@@ -1,9 +1,9 @@
 <form id="bodyModal wbi-coupon-modal-view" accept-charset="utf-8" >
     <div class="confirmationContent couponsModal">
-        <h2>{{title}}</h2>
+        <h2 id="wbi-coupon-title">{{title}}</h2>
         <div class="confirmation-icon"><span class="iconFont-ticket"></span></div>
         <div class="confirmation-content">
-            <h3>{{description}}</h3>
+            <h3 id="wbi-coupon-description">{{description}}</h3>
 
              {{#availableCoupon}}
               <table class="confirmationTable">
@@ -16,7 +16,7 @@
                   {{#each coupons}}
                   <tr class="wbc-coupon-data" data-id="{{id}}">
                       <td>{{code}}</td>
-                      <td>Fecha expiración</td>
+                      <td>{{expireCouponDate}}</td>
                         <td>Oferta lograda, tu cupón ha sido enviado a tu email.</td>
                         <td class="table-download">
                            <a class="iconFont-docPDF wbc-download-pdf-link" title="PDF"></a>

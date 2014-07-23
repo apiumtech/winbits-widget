@@ -1,6 +1,6 @@
 LoggedInController = require 'controllers/logged-in-controller'
 CouponsModalView = require 'views/coupons/coupons-view'
-Coupons = require 'models/coupon/coupon'
+Coupons = require 'models/coupons/coupons'
 utils = require 'lib/utils'
 mediator = Winbits.Chaplin.mediator
 
