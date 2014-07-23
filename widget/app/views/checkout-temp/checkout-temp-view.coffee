@@ -93,6 +93,7 @@ module.exports = class CheckoutTempView extends View
     utils.restoreVerticalContent('.widgetWinbitsMain')
     $('main .wrapper').show()
     $('div .mainHeader').show()
+    @intervalStop()
     utils.redirectToLoggedInHome()
 
   doToCheckout: ->
