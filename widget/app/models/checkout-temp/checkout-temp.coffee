@@ -28,3 +28,25 @@ module.exports = class CheckoutTemp extends Model
   orderSaving: ->
     @itemsFullTotal() - @orderTotal()
 
+  deleteOrderDetail:(formData, options) ->
+    defaults =
+      type: "DELETE"
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token": utils.getApiToken()
+    utils.ajaxRequest(
+        utils.getResourceURL("orders/order-items/#{formData.id}"),
+        $.extend(defaults, options)
+    )
+
+  cancelOrder:(options) ->
+      defaults =
+        type: "DELETE"
+        headers:
+          "Accept-Language": "es"
+          "WB-Api-Token": utils.getApiToken()
+      utils.ajaxRequest(
+          utils.getResourceURL("orders/orders/#{@get('id')}.json"),
+          $.extend(defaults, options)
+      )
+

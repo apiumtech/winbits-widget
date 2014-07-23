@@ -10,7 +10,7 @@
         "facebookClientId": "486640894740634",
         "baseUrl": "http://widgetdev.winbits.com",
         "providerUrl": "https://apidev.winbits.com/provider/",
-        "debug": true
+        "debug": "true"
       }
     },
     {
@@ -22,7 +22,7 @@
         "baseUrl": "http://widgetci.winbits.com",
         "facebookClientId": "486640894740634",
         "providerUrl": "https://apici.winbits.com/provider/",
-        "debug": true
+        "debug": "true"
       }
     },
     {
@@ -34,7 +34,7 @@
         "baseUrl": "http://widgetqa.winbits.com",
         "facebookClientId": "494663817271863",
         "providerUrl": "https://apiqa.winbits.com/provider/",
-        "debug": true
+        "debug": "true"
       }
     },
     {
@@ -46,7 +46,7 @@
         "baseUrl": "http://widgetstaging.winbits.com",
         "facebookClientId": "1407560009467593",
         "providerUrl": "https://apistaging.winbits.com/provider/",
-        "debug": false
+        "debug": "false"
       }
     },
     {
@@ -58,7 +58,7 @@
         "baseUrl": "http://widget.winbits.com",
         "facebookClientId": "468430606512928",
         "providerUrl": "https://api.winbits.com/provider/",
-        "debug": false
+        "debug": "false"
       }
     }
   ]
