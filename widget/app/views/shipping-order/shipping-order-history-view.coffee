@@ -27,7 +27,8 @@ module.exports = class ShippingOrderHistoryView extends View
   attach: ->
     super
     @$('.select').customSelect()
-    @$('#wbi-shipping-order-history-paginator').wbpaginator(total: @model.getTotal(), max: @params.max, change: $.proxy(@pageChanged, @))
+    @$('#wbi-shipping-order-history-paginator')
+     .wbpaginator(total: @model.getTotal(), max: @params.max, change: $.proxy(@pageChanged, @))
 
   paramsChanged: (params)->
     $.extend @params, params
@@ -60,8 +61,12 @@ module.exports = class ShippingOrderHistoryView extends View
   doRecuestCouponsServiceError: (xhr, textStatus)->
     error = utils.safeParse(xhr.responseText)
     messageText = "Error al conseguir tus cupones,#{textStatus}"
-    message = if error then error.meta.message else messageText
-    options = value: "Cerrar", title:'Error', onClosed: utils.redirectToLoggedInHome()
+    message = if error then error.meta.message + ', por favor intentalo mas tarde.' else messageText
+    options =
+      icon: 'iconFont-info'
+      value: "Cerrar"
+      title:'Lo sentimos!'
+      onClosed: utils.redirectTo url: '/#wb-shipping-order-history'
     utils.showMessageModal(message, options)
 
   backToVertical:()->

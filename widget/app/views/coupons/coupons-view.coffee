@@ -2,7 +2,7 @@ View = require 'views/base/view'
 utils = require 'lib/utils'
 $ = Winbits.$
 
-module.exports = class LoginView extends View
+module.exports = class CouponsView extends View
   container: '#wbi-winbits-modals'
   id: 'wbi-coupons-modal'
   template: require './templates/coupons'

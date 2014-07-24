@@ -11,7 +11,8 @@ module.exports = class CouponController extends LoggedInController
 
   index:->
     console.log 'coupon#index'
-    if mediator.data.get('coupon-data')
+    couponData = mediator.data.get('coupon-data')
+    if couponData
       @model = new Coupons(mediator.data.get('coupon-data'))
       @view = new CouponsModalView model: @model
     else
