@@ -10,12 +10,14 @@ Winbits.trackingUtils =
   parseUTMParams: ->
     params = @getURLParams()
     utms = {}
-    for own key, value of params when key.indexOf('utm_') is 0
-      utms[key] = value
+    suffix = 'utm_'
+    for own key, value of params when key.indexOf(suffix) is 0
+      newKey = key.substring(suffix.length)
+      utms[newKey] = value
     utms
 
   validateUTMParams: (utms) ->
-    utms? and utms.utm_campaign? and utms.utm_medium?
+    utms? and utms.campaign? and utms.medium?
 
   saveUTMParams: ->
     utmParams = @parseUTMParams()

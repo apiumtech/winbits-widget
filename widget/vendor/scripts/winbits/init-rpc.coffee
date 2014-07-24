@@ -47,13 +47,14 @@ if window.wbSkipRPC
 else
   verifyingVerticalData = new $.Deferred().done (data) ->
     console.log 'Vertical data verified :)'
+    env = Winbits.env
     currentVerticalId = data.meta.currentVerticalId
-    Winbits.env.set 'current-vertical-id', currentVerticalId
+    env.set 'current-vertical-id', currentVerticalId
     verticalsData = data.response
-    Winbits.env.set 'verticals-data', verticalsData
+    env.set 'verticals-data', verticalsData
     result = (v for v in verticalsData when v.id is currentVerticalId)
     currentVertical = result.pop()
-    Winbits.env.set 'current-vertical', currentVertical
+    env.set 'current-vertical', currentVertical
   .fail -> console.log ['ERROR', 'Unable to verify vertical data :(']
   promises.push verifyingVerticalData.promise()
 
@@ -82,10 +83,10 @@ else
     (apiToken) ->
       if apiToken
         apiUrl = Winbits.env.get('api-url')
-        utmParams = Winbits.env.get('utm-params')
+        utms = Winbits.env.get('utms')
         Winbits.utils.ajaxRequest  "#{apiUrl}/users/express-login.json",
           type: 'POST',
-          data: JSON.stringify(apiToken: apiToken, utms: utmParams)
+          data: JSON.stringify(apiToken: apiToken, utms: utms)
         .done deferred.resolve
         .fail deferred.reject
       else
@@ -121,12 +122,12 @@ else
     verifyingLoginData.reject()
 
   getData.promise.done (data) ->
-    console.log 'Tokens got :)'
+    console.log 'RPC data got :)'
     Winbits.env.set('virtual-cart', data.vcartToken)
     Winbits.trackingUtils.cacheUTMs(data.utms)
     verifyLoginData(data.apiToken)
   .fail ->
-    console.log ['ERROR', 'Unable to get tokens :(']
+    console.log ['ERROR', 'Unable to get RPC data :(']
     verifyingLoginData.reject() # This really need to happen!
 
 Winbits.promises = promises

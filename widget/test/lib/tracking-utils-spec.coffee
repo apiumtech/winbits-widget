@@ -27,27 +27,27 @@ describe 'TrackingUtilsSpec', ->
     )
 
     expect(trackingUtils.parseUTMParams()).to.be.deep.equal(
-      utm_content: 'content'
-      utm_source: 'source'
+      content: 'content'
+      source: 'source'
     )
 
   it "validateUTMParams check for valid utms", ->
-    utms = getValidUTMParams()
+    utms = getValidUTMs()
     expect(trackingUtils.validateUTMParams(utms)).to.be.true
 
   _.each [
     null
     undefined
     {}
-    { utm_campaign: 'campaign', other: 'x' }
-    { utm_medium: 'medium', other: 'x' }
+    { campaign: 'campaign', other: 'x' }
+    { medium: 'medium', other: 'x' }
   ], (utms) ->
     utmsDesc = if utms then JSON.stringify(utms) else utms
     it "validateUTMParams check for invalid utms: #{utmsDesc}", ->
       expect(trackingUtils.validateUTMParams(utms)).to.be.false
 
   it "saveUTMsIfNeeded saves UTMs", sinon.test ->
-    utms = getValidUTMParams()
+    utms = getValidUTMs()
     @stub(trackingUtils, 'getUTMs').returns(utms)
     @stub(trackingUtils, 'shouldSaveUTMs').returns(yes)
 
@@ -78,6 +78,6 @@ describe 'TrackingUtilsSpec', ->
       utils.isLoggedIn.returns(flags.loggedIn)
       expect(trackingUtils.shouldSaveUTMs()).to.be.false
 
-  getValidUTMParams = ->
-    utm_campaign: 'campaign'
-    utm_medium: 'medium'
+  getValidUTMs = ->
+    campaign: 'campaign'
+    medium: 'medium'
