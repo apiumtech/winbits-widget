@@ -1,5 +1,6 @@
 'use strict'
 
+utils = require 'lib/utils'
 trackingUtils = require 'lib/tracking-utils'
 _ = Winbits._
 rpc = Winbits.env.get('rpc')
@@ -9,26 +10,29 @@ describe 'TrackingUtilsSpec', ->
 
   beforeEach ->
     sinon.stub(trackingUtils, 'getURLParams')
-    mediator.data.set('utms', undefined)
+    sinon.stub(rpc, 'storeUTMs')
+    sinon.stub(utils, 'isLoggedIn')
 
   afterEach ->
+    rpc.storeUTMs.restore()
+    utils.isLoggedIn.restore()
     trackingUtils.getURLParams.restore()
+    trackingUtils.URL_CONTAINS_VALID_UTMS = no
 
-  it.skip "getUTMParams filter out params which do not start with 'utm_'", ->
+  it "parseUTMParams filter out params which do not start with 'utm_'", ->
     trackingUtils.getURLParams.returns(
       utm_content: 'content'
       xxx: 'xxx'
       utm_source: 'source'
     )
 
-    expect(trackingUtils.getUTMParams()).to.be.deep.equal(
+    expect(trackingUtils.parseUTMParams()).to.be.deep.equal(
       utm_content: 'content'
       utm_source: 'source'
     )
 
   it "validateUTMParams check for valid utms", ->
     utms = getValidUTMParams()
-
     expect(trackingUtils.validateUTMParams(utms)).to.be.true
 
   _.each [
@@ -42,28 +46,37 @@ describe 'TrackingUtilsSpec', ->
     it "validateUTMParams check for invalid utms: #{utmsDesc}", ->
       expect(trackingUtils.validateUTMParams(utms)).to.be.false
 
-  it.skip "saveUTMsIfAvailable saves UTMs if not logged", sinon.test ->
+  it "saveUTMsIfNeeded saves UTMs", sinon.test ->
     utms = getValidUTMParams()
-    utms.other = 'x'
-    trackingUtils.getURLParams.returns(utms)
-    @stub(rpc, 'saveUTMs')
+    @stub(trackingUtils, 'getUTMs').returns(utms)
+    @stub(trackingUtils, 'shouldSaveUTMs').returns(yes)
 
-    utms = trackingUtils.saveUTMsIfAvailable()
+    trackingUtils.saveUTMsIfNeeded()
 
-    expectedUTMs = utm_campaign: 'campaign', utm_medium: 'medium'
-    expect(utms).to.be.deep.equal(expectedUTMs)
-    expect(rpc.saveUTMs).to.has.been.calledWith(utms)
+    expect(rpc.storeUTMs).to.has.been.calledWith(utms)
       .and.to.has.been.calledOnce
-    expect(mediator.data.get('utms')).to.be.equal(utms)
 
-  it.skip "saveUTMsIfAvailable does not save UTMs on rpc if invalid", sinon.test ->
-    trackingUtils.getURLParams.returns({})
-    @stub(rpc, 'saveUTMs')
+  it "saveUTMsIfNeeded does not save UTMs", sinon.test ->
+    @stub(trackingUtils, 'getUTMs')
+    @stub(trackingUtils, 'shouldSaveUTMs').returns(no)
 
-    utms = trackingUtils.saveUTMsIfAvailable()
-    expect(utms).to.not.be.ok
-    expect(rpc.saveUTMs).to.has.not.been.called
-    expect(mediator.data.get('utms')).to.not.be.ok
+    trackingUtils.saveUTMsIfNeeded()
+    expect(rpc.storeUTMs).to.has.not.been.called
+
+  it "shouldSaveUTMs returns yes", ->
+    trackingUtils.URL_CONTAINS_VALID_UTMS = yes
+    utils.isLoggedIn.returns(no)
+    expect(trackingUtils.shouldSaveUTMs()).to.be.true
+
+  _.each [
+    {utmParams: no, loggedIn: no}
+    {utmParams: no, loggedIn: yes}
+    {utmParams: yes, loggedIn: yes}
+  ], (flags) ->
+    it "shouldSaveUTMs returns no when: #{flags}", ->
+      trackingUtils.URL_CONTAINS_VALID_UTMS = flags.utmParams
+      utils.isLoggedIn.returns(flags.loggedIn)
+      expect(trackingUtils.shouldSaveUTMs()).to.be.false
 
   getValidUTMParams = ->
     utm_campaign: 'campaign'

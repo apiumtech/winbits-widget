@@ -35,7 +35,7 @@ rpcApi =
   deleteApiToken: {}
   storeVirtualCart: {}
   logout: {}
-  saveUTMs: {}
+  storeUTMs: {}
   getUTMs: {}
   facebookStatus: {}
   facebookMe: {}
@@ -122,10 +122,8 @@ else
 
   getData.promise.done (data) ->
     console.log 'Tokens got :)'
-    env = Winbits.env
-    env.set('virtual-cart', data.vcartToken)
-    utms = env.get('utm-params') ? data.utms
-    env.set('utms', utms)
+    Winbits.env.set('virtual-cart', data.vcartToken)
+    Winbits.trackingUtils.cacheUTMs(data.utms)
     verifyLoginData(data.apiToken)
   .fail ->
     console.log ['ERROR', 'Unable to get tokens :(']

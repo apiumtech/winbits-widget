@@ -71,7 +71,7 @@ Winbits.execute = (queryString) ->
   EventBroker.publishEvent params.code, params
 
 # Look for UTMs and save it in each page hit
-trackingUtils.saveUTMsIfAvailable()
+trackingUtils.saveUTMsIfNeeded()
 
 appConfig =
   controllerSuffix: '-controller'

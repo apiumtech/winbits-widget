@@ -99,7 +99,7 @@ new easyXDM.Rpc({},
 
       return
 
-    saveUTMs: (utms, successFn) ->
+    storeUTMs: (utms, successFn) ->
       utms.expires = new Date().getTime() + MILLIS_90_MINUTES
       console.log [
         "Saving UTMS"
@@ -130,6 +130,6 @@ new easyXDM.Rpc({},
     logout: {}
     facebookStatus: {}
     facebookMe: {}
-    saveUTMs: {}
+    storeUTMs: {}
     getUTMs: {}
 )
