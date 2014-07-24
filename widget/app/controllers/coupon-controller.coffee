@@ -1,10 +1,11 @@
-LoggedInController = require 'controllers/logged-in-controller'
+'use strict'
+ShippingOrderController = require 'controllers/shipping-order-history-controller'
 CouponsModalView = require 'views/coupons/coupons-view'
 Coupons = require 'models/coupons/coupons'
 utils = require 'lib/utils'
 mediator = Winbits.Chaplin.mediator
 
-module.exports = class CouponController extends LoggedInController
+module.exports = class CouponController extends ShippingOrderController
 
   beforeAction: ->
     super

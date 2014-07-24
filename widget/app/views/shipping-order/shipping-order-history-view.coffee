@@ -14,7 +14,6 @@ module.exports = class ShippingOrderHistoryView extends View
   params:
     max:10
 
-
   initialize:()->
     super
     @model.fetch data:@params, success: $.proxy(@render, @)
@@ -42,10 +41,10 @@ module.exports = class ShippingOrderHistoryView extends View
     @model.fetch {data:@params}
 
   requestCouponsService:(e)->
-    currentTarget = @$(e.currentTarget)
-    dataOrderDetailNumber = currentTarget.closest('.wbc-order-detail').data('id')
-    @dataOrderDetailName = currentTarget.closest('.wbc-order-detail').data('name')
-    @dataShortDescription = currentTarget.closest('.wbc-order-detail').data('description')
+    currentTarget = @$(e.currentTarget).closest('.wbc-order-detail')
+    dataOrderDetailNumber = currentTarget.data('id')
+    @dataOrderDetailName = currentTarget.data('name')
+    @dataShortDescription = currentTarget.data('description')
     @model.requestCouponsService(dataOrderDetailNumber, context:@)
       .done(@doRecuestCouponsServiceSuccess)
       .fail( @doRecuestCouponsServiceError)
