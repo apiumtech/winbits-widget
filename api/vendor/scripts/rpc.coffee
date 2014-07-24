@@ -6,6 +6,18 @@ UTM_PARAMS_KEY = '_wb_utm_params'
 DEFAULT_VIRTUAL_CART = '{"cartItems":[], "bits":0}'
 MILLIS_90_MINUTES = 1000 * 60 * 1
 
+getUTMsExpirationAware = ->
+  utmsParams = localStorage.getItem UTM_PARAMS_KEY
+  if utmsParams
+    utms = JSON.parse(utmsParams)
+    expires = utms.expires ? 0
+    delete utms.expires
+    now = new Date().getTime()
+    if expires < now
+      localStorage.removeItem UTM_PARAMS_KEY
+      utms = undefined
+  utms
+
 new easyXDM.Rpc({},
   local:
     request: (url, options, success, error) ->
@@ -45,7 +57,7 @@ new easyXDM.Rpc({},
       vcartToken = DEFAULT_VIRTUAL_CART unless vcartToken
       localStorage.setItem CART_TOKEN_KEY, vcartToken
       data.vcartToken = vcartToken
-      data.utms = @getUTMs()
+      data.utms = getUTMsExpirationAware()
       console.log [
         "W: The tokens >>>"
         data
@@ -111,16 +123,7 @@ new easyXDM.Rpc({},
 
     getUTMs: (successFn, errorFn) ->
       console.log ["get UTMS"]
-      utmsParams = localStorage.getItem UTM_PARAMS_KEY
-      if utmsParams
-        utms = JSON.parse(utmsParams)
-        expires = utms.expires ? 0
-        delete utms.expires
-        now = new Date().getTime()
-        if expires < now
-          localStorage.removeItem UTM_PARAMS_KEY
-          utms = undefined
-      utms
+      getUTMsExpirationAware()
 
   remote:
     request: {}
