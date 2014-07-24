@@ -13,7 +13,7 @@ module.exports = class CouponController extends LoggedInController
     console.log 'coupon#index'
     couponData = mediator.data.get('coupon-data')
     if couponData
-      @model = new Coupons(mediator.data.get('coupon-data'))
+      @model = new Coupons(couponData)
       @view = new CouponsModalView model: @model
     else
       utils.redirectTo url: '/#wb-shipping-order-history'
