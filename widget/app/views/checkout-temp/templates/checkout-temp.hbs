@@ -23,7 +23,7 @@
         {{#if orderDetails}}
           {{#each orderDetails}}
             {{#with sku}}
-              <tr id="wbi-order-detail-id-{{../id}}">
+              <tr id="wbi-order-detail-id-{{../id}}" data-id="{{../id}}">
                 <td class="column1 imgProductTD"><img src="{{thumbnail}}" width="61" height="78" alt="{{name}}"></td>
                 <td class="column2">{{name}}
                   <br>{{brand.name}}
@@ -35,7 +35,13 @@
                 <td class="column3"><span title="{{vertical.name}}" class="iconVertical-t vertical{{vertical.id}}"></span></td>
                 <td class="column4">{{formatCurrency price}}</td>
             {{/with}}
-              <td class="column5">{{#if warnings}}{{warnings.0.quantityRequired}}{{else}}{{quantity}}{{/if}}</td>
+              <td class="column5">
+                <select class="select wbc-item-quantity" data-clase="selectQuantity">
+                  {{#eachOption min max}}
+                    <option value="{{value}}" {{#compare value ../quantity}}selected{{/compare}}>{{text}}</option>
+                  {{/eachOption}}
+                </select>
+              </td>
               <td class="column6">{{formatCurrency amount}}</td>
               <td class="column7"><a title="Quitar Item" class="iconFont-close wbc-delete-item" data-id="{{sku.id}}"></a></td>
             </tr>

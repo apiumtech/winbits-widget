@@ -18,13 +18,22 @@ module.exports = class CheckoutTempView extends View
     @delegate 'click', '#wbi-return-site-btn', @backToVertical
     @delegate 'click', '#wbi-post-checkout-btn', @doToCheckout
     @delegate 'click', '.wbc-delete-item', @doDeleteConfirm
-    @listenTo @model,  'change:orderDetails', -> @render()
-    $('main .wrapper').hide()
+    utils.replaceVerticalContent('.widgetWinbitsMain')
     $('div .mainHeader').hide()
 
   attach: ->
     super
     @startCounter()
+    @$('.wbc-item-quantity').customSelect()
+      .on("change", $.proxy(@doUpdateQuantity, @))
+
+  doUpdateQuantity: (e) ->
+    e.preventDefault()
+    quantity = @$(e.currentTarget)
+    itemId = quantity.closest('tr').data('id')
+    for orderDetail in @model.attributes.orderDetails
+      if orderDetail.id is itemId
+        orderDetail.quantity = parseInt quantity.find('option:selected').val()
 
   render: ->
     super
@@ -133,8 +142,8 @@ module.exports = class CheckoutTempView extends View
     orderDetails = _.clone @model.attributes.orderDetails
     orderDetailsCopy = []
     for orderDetail in orderDetails
-      if orderDetail.sku.id is itemId
-        @$("tr #wbi-order-detail-id-#{orderDetail.id}").remove()
+      if orderDetail.sku.id is @itemId
+        @$("tr#wbi-order-detail-id-#{orderDetail.id}").remove()
       else
         orderDetailsCopy.push(orderDetail)
     data.response.orderDetails = orderDetailsCopy
