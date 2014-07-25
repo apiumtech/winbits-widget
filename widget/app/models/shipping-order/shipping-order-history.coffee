@@ -16,3 +16,16 @@ module.exports = class ShippingOrderHistory extends Model
       @meta.totalCount
     else
       0
+
+  requestCouponsService:(orderDetailId, options)->
+    defaults =
+      contentType: "application/json"
+      dataType: "json"
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token": utils.getApiToken()
+    utils.ajaxRequest(
+      env.get('api-url') + "/users/coupons/#{orderDetailId}.json",
+      $.extend(defaults, options)
+    )
+

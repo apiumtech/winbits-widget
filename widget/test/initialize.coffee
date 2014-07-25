@@ -3,6 +3,7 @@
 specs = [
   './models/header-spec'
   './views/not-logged-in-view-spec'
+  './views/coupon-view-spec'
   './views/logged-in-view-spec'
   './views/header-view-spec'
   './views/register-view-spec'
