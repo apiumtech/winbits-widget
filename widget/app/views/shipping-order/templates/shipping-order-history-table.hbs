@@ -1,6 +1,6 @@
  {{#if orders}}
   {{#each orders}}
-    <div class="dataTable-fila">
+    <div class="dataTable-fila wbc-order">
         <div class="dataTable-desc">
             <div class="table-desc">
                 <p>Orden: {{orderNumber}}</p>
@@ -21,7 +21,7 @@
         </div>
       <div class="dataTable-bodyItems">
       {{#each details}}
-          <div class="dataTable-item">
+          <div class="dataTable-item wbc-order-detail" data-id="{{orderDetailId}}" data-name="{{name}}" data-description="{{shortDescription}}">
               <div class="dataTable-photo">
                   <img src="{{thumbnail.url}}" width="62" height="79"
                        alt="{{name}}">
@@ -35,7 +35,7 @@
               {{/each}}
               {{#compare ../status 'PAID'}}
                 {{#if withCoupon}}
-                   <span title="Cupones" class="iconFont-coupons icon-green"></span>
+                   <span title="Cupones" class="iconFont-coupons icon-green wbc-icon-coupon"></span>
                 {{/if}}
               {{/compare}}
           </div>
@@ -43,9 +43,9 @@
           <div class="dataTable-cant">{{quantity}}</div>
           <div class="dataTable-status">
           {{#compare quantity '1'}}
-              <span>{{status.0.status}}</span>
+              <span>{{deliveryStatus.0.status}}</span>
           {{else}}
-            {{#each status}}
+            {{#each deliveryStatus}}
               <span>({{quantity}}){{status}}</span>
             {{/each}}
           {{/compare}}
