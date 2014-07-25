@@ -41,6 +41,8 @@ module.exports = class ShippingOrderHistoryView extends View
     @model.fetch {data:@params}
 
   requestCouponsService:(e)->
+    utils.showLoaderToCheckout()
+    $('#wbi-loader-text').text('Procesando cupones')
     currentTarget = @$(e.currentTarget).closest('.wbc-order-detail')
     dataOrderDetailNumber = currentTarget.data('id')
     @dataOrderDetailName = currentTarget.data('name')
@@ -48,6 +50,11 @@ module.exports = class ShippingOrderHistoryView extends View
     @model.requestCouponsService(dataOrderDetailNumber, context:@)
       .done(@doRecuestCouponsServiceSuccess)
       .fail( @doRecuestCouponsServiceError)
+      .always(@doHideLoaderAndRevertText)
+
+  doHideLoaderAndRevertText: ->
+    $('#wbi-loader-text').text('Iniciando Checkout')
+    utils.hideLoaderToCheckout()
 
   doRecuestCouponsServiceSuccess:(data) ->
     toModelCoupon =
