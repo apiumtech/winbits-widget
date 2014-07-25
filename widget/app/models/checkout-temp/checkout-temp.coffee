@@ -39,6 +39,18 @@ module.exports = class CheckoutTemp extends Model
         $.extend(defaults, options)
     )
 
+  updateOrder:(formData, options) ->
+    defaults =
+      type: "PUT"
+      data: JSON.stringify(formData)
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token": utils.getApiToken()
+    utils.ajaxRequest(
+        utils.getResourceURL("orders/orders/#{formData.id}.json"),
+        $.extend(defaults, options)
+    )
+
   cancelOrder:(options) ->
       defaults =
         type: "DELETE"

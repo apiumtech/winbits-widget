@@ -109,16 +109,23 @@ module.exports = class CheckoutTempView extends View
     clearInterval(@.timerInterval)
 
   backToVertical: ->
+    @intervalStop()
     mediator.data.set('bits-to-cart', 0)
     utils.restoreVerticalContent('.widgetWinbitsMain')
     $('main .wrapper').show()
     $('div .mainHeader').show()
-    @intervalStop()
-    utils.redirectTo(action:'index', controller:'home')
+    @publishEvent 'cart-changed'
+    utils.redirectToLoggedInHome()
 
   doToCheckout: ->
     order = _.clone @model.attributes
-    @model.postToCheckoutApp(order)
+    @model.updateOrder(order, context:@)
+    .done(@doCheckout)
+    .fail(@doFailRequestDeleteOrderDetail)
+
+  doCheckout:(data)->
+    @model.postToCheckoutApp(data.response)
+
 
   doDeleteConfirm: (e)->
     e.preventDefault()
