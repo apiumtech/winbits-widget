@@ -22,6 +22,7 @@ describe 'CheckoutTempViewSpec', ->
     @server.restore()
     @model.postToCheckoutApp.restore?()
     utils.redirectToLoggedInHome.restore?()
+    utils.showMessageModal.restore?()
     @view.dispose()
 
   it 'checkout temp is rendered', ->
@@ -32,17 +33,28 @@ describe 'CheckoutTempViewSpec', ->
     expect(@view.$ '#wbi-return-site-btn').to.exist
     expect(@view.$ '#wbi-post-checkout-btn').to.exist
 
-  it 'should call to checkout app', ->
+  it 'should call to checkout app success', ->
     sinon.stub @model, 'postToCheckoutApp'
+    sinon.stub utils, 'showMessageModal'
     @view.$('#wbi-post-checkout-btn').click()
+    @server.requests[0].respond(200, { "Content-Type": "application/json" }, RESPONSE_SUCCESS_DELETE_ITEM)
     expect(@model.postToCheckoutApp).to.has.been.calledOnce
+    expect(utils.showMessageModal).to.has.not.been.called
+
+  it 'should call to checkout app fail', ->
+    sinon.stub @model, 'postToCheckoutApp'
+    sinon.stub utils, 'showMessageModal'
+    @view.$('#wbi-post-checkout-btn').click()
+    @server.requests[0].respond(500, { "Content-Type": "application/json" }, '')
+    expect(@model.postToCheckoutApp).to.has.not.been.called
+    expect(utils.showMessageModal).to.has.been.calledOnce
 
   it 'should call back to vertical', ->
     sinon.stub utils, 'redirectToLoggedInHome'
     @view.$('#wbi-return-site-btn').click()
     expect(utils.redirectToLoggedInHome).to.has.been.calledOnce
 
-  it 'should expire order when time out', ->
+  it.skip 'should expire order when time out', ->
     sinon.spy @view, 'expireOrderByTimeOut'
     sinon.stub utils, 'showMessageModal'
     @view.attach()
@@ -81,3 +93,5 @@ describe 'CheckoutTempViewSpec', ->
     @server.requests[0].respond(500, { "Content-Type": "application/json" }, '')
     expect( @view.doSuccessRequestCancelOrder).has.not.been.calledOnce
     expect( @view.doFailRequestDeleteOrderDetail).has.been.called
+
+  it 'update values', ->
