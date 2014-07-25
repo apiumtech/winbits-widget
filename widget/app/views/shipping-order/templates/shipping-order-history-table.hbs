@@ -43,9 +43,9 @@
           <div class="dataTable-cant">{{quantity}}</div>
           <div class="dataTable-status">
           {{#compare quantity '1'}}
-              <span>{{status.0.status}}</span>
+              <span>{{deliveryStatus.0.status}}</span>
           {{else}}
-            {{#each status}}
+            {{#each deliveryStatus}}
               <span>({{quantity}}){{status}}</span>
             {{/each}}
           {{/compare}}
