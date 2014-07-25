@@ -13,7 +13,7 @@ module.exports = class CheckoutTemp extends Model
     'itemsFullTotal'
   ]
   sliderTotal: ->
-    @get('itemsTotal') + @get('shippingTotal')
+    @get('total')
 
   orderTotal: ->
     @sliderTotal() - @get('bitsTotal')

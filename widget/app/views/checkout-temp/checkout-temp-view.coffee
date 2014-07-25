@@ -29,11 +29,21 @@ module.exports = class CheckoutTempView extends View
 
   doUpdateQuantity: (e) ->
     e.preventDefault()
+    $itemsTotal = 0
     quantity = @$(e.currentTarget)
     itemId = quantity.closest('tr').data('id')
+#    $tr = quantity.closest('tr')
     for orderDetail in @model.attributes.orderDetails
-      if orderDetail.id is itemId
+      if orderDetail.id is itemId and orderDetail.quantity
+        $itemsTotal = orderDetail.amount
         orderDetail.quantity = parseInt quantity.find('option:selected').val()
+        orderDetail.amount = orderDetail.sku.price * orderDetail.quantity
+        $itemsTotal -= orderDetail.amount
+    @model.attributes.itemsTotal -= $itemsTotal
+    @model.attributes.total -= $itemsTotal
+    @model.attributes.bitsTotal = if @model.attributes.total <= @model.attributes.bitsTotal then @model.attributes.total else @model.attributes.bitsTotal
+    @render()
+
 
   render: ->
     super
@@ -99,11 +109,12 @@ module.exports = class CheckoutTempView extends View
     clearInterval(@.timerInterval)
 
   backToVertical: ->
+    mediator.data.set('bits-to-cart', 0)
     utils.restoreVerticalContent('.widgetWinbitsMain')
     $('main .wrapper').show()
     $('div .mainHeader').show()
     @intervalStop()
-    utils.redirectToLoggedInHome()
+    utils.redirectTo(action:'index', controller:'home')
 
   doToCheckout: ->
     order = _.clone @model.attributes
