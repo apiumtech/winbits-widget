@@ -12,6 +12,7 @@ module.exports = class CouponsView extends View
     super
     @delegate 'click', '.wbc-download-pdf-link', @doCouponPdfLink
     @delegate 'click', '.wbc-download-html-link', @doCouponHtmlLink
+    @delegate 'click', '#wbi-coupon-modal-btn', @doCloseCouponModal
 
   attach: ->
     super
@@ -36,3 +37,6 @@ module.exports = class CouponsView extends View
 
   doRequestCouponServiceSuccess:(data)->
     @popUp.window?.location.href =(data.response.coupon.url)
+
+  doCloseCouponModal: ->
+    utils.closeMessageModal()
