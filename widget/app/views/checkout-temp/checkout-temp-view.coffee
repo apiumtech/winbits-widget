@@ -18,13 +18,31 @@ module.exports = class CheckoutTempView extends View
     @delegate 'click', '#wbi-return-site-btn', @backToVertical
     @delegate 'click', '#wbi-post-checkout-btn', @doToCheckout
     @delegate 'click', '.wbc-delete-item', @doDeleteConfirm
-    @listenTo @model,  'change', -> @render()
-    $('main .wrapper').hide()
+    utils.replaceVerticalContent('.widgetWinbitsMain')
     $('div .mainHeader').hide()
 
   attach: ->
     super
     @startCounter()
+    @$('.wbc-item-quantity').customSelect()
+      .on("change", $.proxy(@doUpdateQuantity, @))
+
+  doUpdateQuantity: (e) ->
+    e.preventDefault()
+    $itemsTotal = 0
+    quantity = @$(e.currentTarget)
+    itemId = quantity.closest('tr').data('id')
+    for orderDetail in @model.attributes.orderDetails
+      if orderDetail.id is itemId and orderDetail.quantity
+        $itemsTotal = orderDetail.amount
+        orderDetail.quantity = parseInt quantity.find('option:selected').val()
+        orderDetail.amount = orderDetail.sku.price * orderDetail.quantity
+        $itemsTotal -= orderDetail.amount
+    @model.attributes.itemsTotal -= $itemsTotal
+    @model.attributes.total -= $itemsTotal
+    @model.attributes.bitsTotal = if @model.attributes.total <= @model.attributes.bitsTotal then @model.attributes.total else @model.attributes.bitsTotal
+    @render()
+
 
   render: ->
     super
@@ -81,7 +99,7 @@ module.exports = class CheckoutTempView extends View
     options =
       value: 'Aceptar'
       title: 'Orden expirada'
-      icon: 'iconFont-candado'
+      icon: 'iconFont-clock2'
       context: @
       onClosed: @backToVertical
     utils.showMessageModal(message, options)
@@ -90,15 +108,23 @@ module.exports = class CheckoutTempView extends View
     clearInterval(@.timerInterval)
 
   backToVertical: ->
+    @intervalStop()
+    mediator.data.set('bits-to-cart', 0)
     utils.restoreVerticalContent('.widgetWinbitsMain')
     $('main .wrapper').show()
     $('div .mainHeader').show()
-    @intervalStop()
+    @publishEvent 'cart-changed'
     utils.redirectToLoggedInHome()
 
   doToCheckout: ->
     order = _.clone @model.attributes
-    @model.postToCheckoutApp(order)
+    @model.updateOrder(order, context:@)
+    .done(@doCheckout)
+    .fail(@doFailRequestDeleteOrderDetail)
+
+  doCheckout:(data)->
+    @model.postToCheckoutApp(data.response)
+
 
   doDeleteConfirm: (e)->
     e.preventDefault()
@@ -114,6 +140,7 @@ module.exports = class CheckoutTempView extends View
     utils.showConfirmationModal(message, options)
 
   doRequestDeleteOrderDetail:(itemId)->
+    @itemId = itemId
     formData = {id: itemId}
     @model.deleteOrderDetail(formData, context:@)
     .done( @doSuccessRequestDeleteOrderDetail)
@@ -129,6 +156,14 @@ module.exports = class CheckoutTempView extends View
     @backToVertical()
 
   doSuccessRequestDeleteOrderDetail:(data)->
+    orderDetails = _.clone @model.attributes.orderDetails
+    orderDetailsCopy = []
+    for orderDetail in orderDetails
+      if orderDetail.sku.id is @itemId
+        @$("tr#wbi-order-detail-id-#{orderDetail.id}").remove()
+      else
+        orderDetailsCopy.push(orderDetail)
+    data.response.orderDetails = orderDetailsCopy
     @model.setData data
     utils.closeMessageModal()
 

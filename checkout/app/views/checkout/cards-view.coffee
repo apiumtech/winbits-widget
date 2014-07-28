@@ -95,9 +95,9 @@ module.exports = class CardsView extends View
           required: true
           minlength: 5
           digits: true
-        phone:
+        phoneNumber:
           required: true
-          minlength: 7
+          minlength: 10
           digits: true
         state:
           required: true
@@ -195,31 +195,35 @@ module.exports = class CardsView extends View
     updatedCardData = util.serializeForm($form)
     updatedCardData.cardPrincipal = updatedCardData.hasOwnProperty('cardPrincipal')
     $submitTriggers = $form.find('.wb-submit-trigger').prop('disabled', true)
-    util.showAjaxIndicator()
-    that = @
+    if $form.valid()
+      $submitTriggers.prop('disabled', true)
+      util.showAjaxIndicator()
+      that = @
+  
+      util.ajaxRequest( config.apiUrl + "/orders/card-subscription/" + currentCardData.subscriptionId + ".json",
+        type: "PUT"
+        contentType: "application/json"
+        dataType: "json"
+        context: { that: @, $form: $form, $submitTriggers: $submitTriggers }
+        data: JSON.stringify(paymentInfo: updatedCardData)
+        headers:
+          "Accept-Language": "es",
+          "WB-Api-Token": util.retrieveKey(config.apiTokenName)
+        beforeSend: ->
+          $form.valid()
+        success: (data) ->
+          console.log ["Update card success!", data]
+          that.showCardsList()
+          that.publishEvent 'showCardsManager'
+        error: (xhr) ->
+          util.showAjaxError(xhr.responseText)
+        complete: ->
+          console.log "Request Completed!"
+          $submitTriggers.prop('disabled', false)
+          util.hideAjaxIndicator()
+      )
 
-    util.ajaxRequest( config.apiUrl + "/orders/card-subscription/" + currentCardData.subscriptionId + ".json",
-      type: "PUT"
-      contentType: "application/json"
-      dataType: "json"
-#      context: { that: @, $form: $form, $submitTriggers: $submitTriggers }
-      data: JSON.stringify(paymentInfo: updatedCardData)
-      headers:
-        "Accept-Language": "es",
-        "WB-Api-Token": util.retrieveKey(config.apiTokenName)
-      beforeSend: ->
-        $form.valid()
-      success: (data) ->
-        console.log ["Update card success!", data]
-        that.showCardsList()
-        that.publishEvent 'showCardsManager'
-      error: (xhr) ->
-        util.showAjaxError(xhr.responseText)
-      complete: ->
-        console.log "Request Completed!"
-        $submitTriggers.prop('disabled', false)
-        util.hideAjaxIndicator()
-    )
+    $submitTriggers.prop('disabled', false)
 
   confirmDeleteCard: (e) ->
     e.preventDefault()
