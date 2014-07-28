@@ -51,9 +51,13 @@
           {{/compare}}
           </div>
           <div class="dataTable-num">
+           {{#if tracingNumbers}}
             {{#each tracingNumbers}}
                ({{quantity}}){{trackingGuide}}
             {{/each}}
+           {{else}}
+             <h3>-</h3>
+           {{/if}}
           </div>
           <div class="dataTable-site">
             <span class="iconVertical-t vertical{{vertical.id}}" title="{{vertical.name}}"></span>
