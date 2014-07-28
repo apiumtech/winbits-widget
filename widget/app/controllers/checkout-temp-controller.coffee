@@ -9,6 +9,8 @@ module.exports = class CheckoutController extends LoggedInController
 
   index: (params)->
     unless($.isEmptyObject(params))
+      for orderDetail in params.orderDetails
+        orderDetail.max = orderDetail.quantity
       @model = new CheckoutTemp params
       @view = new CheckoutTempView  model: @model
     else
