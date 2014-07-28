@@ -178,10 +178,8 @@ module.exports = class Cart extends Model
     data = JSON.parse(xhr.responseText)
     utils.showMessageModal(data.meta.message)
 
-
   validateTransferErrors: (response)->
-    console.log[response]
-    warnings = _.map(response.cartDetails, (cartDetail) -> cartDetail.warnings)
+    warnings = _.map((response.cartDetails or response.orderDetails), (cartDetail) -> if cartDetail.warnings then cartDetail.warnings else [])
     warnings = _.flatten(warnings)
     isValid =  if (response.failedCartDetails or !$.isEmptyObject(warnings) ) then no else yes
     isValid

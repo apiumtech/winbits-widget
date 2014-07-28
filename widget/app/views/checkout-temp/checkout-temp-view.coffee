@@ -30,18 +30,22 @@ module.exports = class CheckoutTempView extends View
   doUpdateQuantity: (e) ->
     e.preventDefault()
     $itemsTotal = 0
+    itemChange = no
     quantity = @$(e.currentTarget)
+    $parseQuantity = parseInt quantity.find('option:selected').val()
     itemId = quantity.closest('tr').data('id')
     for orderDetail in @model.attributes.orderDetails
-      if orderDetail.id is itemId and orderDetail.quantity
+      if orderDetail.id is itemId and orderDetail.quantity != $parseQuantity
+        itemChange = yes
         $itemsTotal = orderDetail.amount
-        orderDetail.quantity = parseInt quantity.find('option:selected').val()
+        orderDetail.quantity = $parseQuantity
         orderDetail.amount = orderDetail.sku.price * orderDetail.quantity
         $itemsTotal -= orderDetail.amount
-    @model.attributes.itemsTotal -= $itemsTotal
-    @model.attributes.total -= $itemsTotal
-    @model.attributes.bitsTotal = if @model.attributes.total <= @model.attributes.bitsTotal then @model.attributes.total else @model.attributes.bitsTotal
-    @render()
+    if itemChange
+      @model.attributes.itemsTotal -= $itemsTotal
+      @model.attributes.total -= $itemsTotal
+      @model.attributes.bitsTotal = if @model.attributes.total <= @model.attributes.bitsTotal then @model.attributes.total else @model.attributes.bitsTotal
+      @render()
 
 
   render: ->
