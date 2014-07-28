@@ -41,6 +41,26 @@ describe 'CheckoutTempViewSpec', ->
     expect(@model.postToCheckoutApp).to.has.been.calledOnce
     expect(utils.showMessageModal).to.has.not.been.called
 
+  it 'should call to update order service success', ->
+    sinon.stub @model, 'postToCheckoutApp'
+    sinon.spy @model, 'updateOrder'
+    sinon.stub utils, 'showMessageModal'
+    @view.$('#wbi-post-checkout-btn').click()
+    @server.requests[0].respond(200, { "Content-Type": "application/json" }, RESPONSE_SUCCESS_DELETE_ITEM)
+    expect(@model.updateOrder).to.has.been.calledOnce
+    expect(@model.postToCheckoutApp).to.has.been.calledOnce
+    expect(utils.showMessageModal).to.has.not.been.called
+
+  it 'should call to update order service fail', ->
+    sinon.stub @model, 'postToCheckoutApp'
+    sinon.spy @model, 'updateOrder'
+    sinon.stub utils, 'showMessageModal'
+    @view.$('#wbi-post-checkout-btn').click()
+    @server.requests[0].respond(500, { "Content-Type": "application/json" }, '')
+    expect(@model.updateOrder).to.has.been.calledOnce
+    expect(@model.postToCheckoutApp).to.has.not.been.called
+    expect(utils.showMessageModal).to.has.been.calledOnce
+
   it 'should call to checkout app fail', ->
     sinon.stub @model, 'postToCheckoutApp'
     sinon.stub utils, 'showMessageModal'
