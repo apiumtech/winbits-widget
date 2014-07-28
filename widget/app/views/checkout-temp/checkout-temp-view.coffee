@@ -32,7 +32,6 @@ module.exports = class CheckoutTempView extends View
     $itemsTotal = 0
     quantity = @$(e.currentTarget)
     itemId = quantity.closest('tr').data('id')
-#    $tr = quantity.closest('tr')
     for orderDetail in @model.attributes.orderDetails
       if orderDetail.id is itemId and orderDetail.quantity
         $itemsTotal = orderDetail.amount

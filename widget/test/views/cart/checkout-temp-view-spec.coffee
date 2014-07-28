@@ -93,5 +93,3 @@ describe 'CheckoutTempViewSpec', ->
     @server.requests[0].respond(500, { "Content-Type": "application/json" }, '')
     expect( @view.doSuccessRequestCancelOrder).has.not.been.calledOnce
     expect( @view.doFailRequestDeleteOrderDetail).has.been.called
-
-  it 'update values', ->
