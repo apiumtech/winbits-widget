@@ -178,6 +178,7 @@ module.exports = class CardsView extends View
           "WB-Api-Token": util.retrieveKey(config.apiTokenName)
         success: (data) ->
           console.log ["Save new card success!", data]
+          util.renderSliderOnPayment(100, true)
           that.publishEvent 'showCardsManager'
         error: (xhr) ->
           util.showAjaxError(xhr.responseText)
@@ -214,6 +215,7 @@ module.exports = class CardsView extends View
         success: (data) ->
           console.log ["Update card success!", data]
           that.showCardsList()
+          util.renderSliderOnPayment(100, true)
           that.publishEvent 'showCardsManager'
         error: (xhr) ->
           util.showAjaxError(xhr.responseText)
