@@ -27,30 +27,6 @@ module.exports = class CheckoutTempView extends View
   attach: ->
     super
     @startCounter()
-    @$('.wbc-item-quantity').customSelect()
-      .on("change", $.proxy(@doUpdateQuantity, @))
-
-  doUpdateQuantity: (e) ->
-    e.preventDefault()
-    $itemsTotal = 0
-    itemChange = no
-    quantity = @$(e.currentTarget)
-    $parseQuantity = parseInt quantity.find('option:selected').val()
-    itemId = quantity.closest('tr').data('id')
-    for orderDetail in @model.attributes.orderDetails
-      if orderDetail.id is itemId and orderDetail.quantity != $parseQuantity
-        itemChange = yes
-        $itemsTotal = orderDetail.amount
-        orderDetail.quantity = $parseQuantity
-        orderDetail.amount = orderDetail.sku.price * orderDetail.quantity
-        $itemsTotal -= orderDetail.amount
-    if itemChange
-      @model.attributes.itemsTotal -= $itemsTotal
-      $total = @model.get('total') - $itemsTotal
-      @model.set 'total', $total
-      $bitsTotal = if @model.attributes.total <= @model.attributes.bitsTotal then @model.attributes.total else @model.attributes.bitsTotal
-      @model.set 'bitsTotal', $bitsTotal
-
 
   render: ->
     super
