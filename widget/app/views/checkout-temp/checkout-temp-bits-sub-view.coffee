@@ -12,8 +12,18 @@ module.exports = class CheckOutTempTotalSubView extends View
 
   initialize:()->
     super
-    @listenTo @model,  'change:bitsTotal', -> @render()
+    @listenTo @model,  'change:total', -> @render()
 
-#  attach: ->
-#    super
-#    @$('.wbc-icon-download').toolTip()
+  attach: ->
+    super
+    $winbitsSlider = @$('#wbi-order-bits-slider').customSlider()
+    @doChangeSliderBits($winbitsSlider)
+
+  doChangeSliderBits: (obj)->
+    $winbitsSlider = obj.closest('div .ui-slider')
+    $winbitsSlider.on('slide', $.proxy((e, ui={}) ->
+      slideValue = obj.data('max-selection')
+      if ui.value <= slideValue
+        slideValue = ui.value
+      @model.set 'bitsTotal', slideValue
+    ,@))

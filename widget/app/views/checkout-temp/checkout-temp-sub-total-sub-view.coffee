@@ -13,8 +13,4 @@ module.exports = class CheckOutTempSubTotalSubView extends View
   initialize:()->
     super
     @listenTo @model,  'change:total', -> @render()
-#    @listenTo @model,  'change:orderDetails', -> @render()
-
-#  attach: ->
-#    super
-#    @$('.wbc-icon-download').toolTip()
+    @listenTo @model,  'change:bitsTotal', -> @render()
