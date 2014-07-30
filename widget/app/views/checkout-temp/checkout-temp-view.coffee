@@ -3,6 +3,9 @@
 View = require 'views/base/view'
 utils = require 'lib/utils'
 CheckoutTempTotalSubview = require 'views/checkout-temp/checkout-temp-total-sub-view'
+CheckoutTempSubTotalSubview = require 'views/checkout-temp/checkout-temp-sub-total-sub-view'
+CheckoutTempBitsSubview = require 'views/checkout-temp/checkout-temp-bits-sub-view'
+CheckoutTempOrderDetailsSubview = require 'views/checkout-temp/checkout-temp-order-details-sub-view'
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 _ = Winbits._
@@ -43,15 +46,22 @@ module.exports = class CheckoutTempView extends View
         $itemsTotal -= orderDetail.amount
     if itemChange
       @model.attributes.itemsTotal -= $itemsTotal
-      @model.attributes.total -= $itemsTotal
-      @model.attributes.bitsTotal = if @model.attributes.total <= @model.attributes.bitsTotal then @model.attributes.total else @model.attributes.bitsTotal
-      @render()
+      $total = @model.get('total') - $itemsTotal
+      @model.set 'total', $total
+      $bitsTotal = if @model.attributes.total <= @model.attributes.bitsTotal then @model.attributes.total else @model.attributes.bitsTotal
+      @model.set 'bitsTotal', $bitsTotal
 
 
   render: ->
     super
-    subviewContainer = @$el.find('#wbi-checkout-temp-total-div').get(0)
-    @subview 'checkout-temp-total', new CheckoutTempTotalSubview model:@model, container: subviewContainer
+    subviewSubTotalContainer = @$el.find('#wbi-checkout-temp-sub-total-div').get(0)
+    @subview 'checkout-temp-sub-total', new CheckoutTempSubTotalSubview model:@model, container: subviewSubTotalContainer
+    subviewTotalContainer = @$el.find('#wbi-checkout-temp-total-div').get(0)
+    @subview 'checkout-temp-total', new CheckoutTempTotalSubview model:@model, container: subviewTotalContainer
+    subviewBitsContainer = @$el.find('#wbi-checkout-temp-bits-div').get(0)
+    @subview 'checkout-temp-bits', new CheckoutTempBitsSubview model:@model, container: subviewBitsContainer
+    subviewOrderDetailsContainer = @$el.find('#wbi-checkout-temp-table-div').get(0)
+    @subview 'checkout-temp-order-details', new CheckoutTempOrderDetailsSubview model:@model, container: subviewOrderDetailsContainer
 
   startCounter: ->
     $timer = @$('#wb-checkout-timer')
