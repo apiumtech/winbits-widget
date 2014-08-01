@@ -74,7 +74,7 @@ describe 'CheckoutTempViewSpec', ->
     @view.$('#wbi-return-site-btn').click()
     expect(utils.redirectToLoggedInHome).to.has.been.calledOnce
 
-  it.skip 'should expire order when time out', ->
+  it 'should expire order when time out', ->
     sinon.spy @view, 'expireOrderByTimeOut'
     sinon.stub utils, 'showMessageModal'
     @view.attach()
