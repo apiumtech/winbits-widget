@@ -15,14 +15,12 @@ describe 'CheckoutTempBitsViewSpec', ->
       apiToken: '6ue7zrBfNkxgNTvT4ReGpuh55yjNLRl6qEHiXMFyXFx6M3ymV21EaARwilDZK0zM'
       bitsBalance: 100
     mediator.data.set 'login-data', @loginData
-    @clock = sinon.useFakeTimers()
     @model = new Order itemsTotal: 60
     @view = new OrderTempBitsView model: @model
     @model = @view.model
     @view.render()
 
   afterEach ->
-    @clock.restore()
     @view.dispose()
     @model.set.restore?()
     @model.dispose()

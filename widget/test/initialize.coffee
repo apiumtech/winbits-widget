@@ -23,6 +23,7 @@ specs = [
   './other/jquery-wblocationselect-spec'
   './views/checkout-temp/checkout-temp-view-spec'
   './views/checkout-temp/checkout-temp-bits-view-spec'
+  './views/checkout-temp/checkout-temp-order-details-view-spec'
   './views/cart/cart-view-spec'
   './views/cart/cart-items-view-spec'
   './views/cart/cart-totals-view-spec'
