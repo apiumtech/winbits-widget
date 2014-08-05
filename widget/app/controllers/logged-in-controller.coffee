@@ -127,7 +127,7 @@ module.exports = class LoggedInController extends Controller
 
           check: -> mediator.data.get 'switch-user-composed'
     else
-      @redirectTo 'home#index'
+      utils.redirectTo 'home#index'
 
   index: ->
     console.log 'logged-in#index'

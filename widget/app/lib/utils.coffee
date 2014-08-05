@@ -382,6 +382,7 @@ _(utils).extend
     localStorage.removeItem(env.get('api-token-name'))
 
   redirectTo: ->
+    [].push.apply(arguments,[{},replace:yes])
     Winbits.Chaplin.utils.redirectTo.apply null, arguments
 
   saveLoginData: Winbits.saveLoginData

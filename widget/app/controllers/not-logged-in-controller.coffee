@@ -14,7 +14,7 @@ module.exports = class NotLoggedInController extends Controller
       @reuse 'not-logged-in', NotLoggedInView
       @reuse 'virtual-cart-view', CartView, { container: '#wbi-virtual-cart' }
     else
-      @redirectTo 'home#index'
+      utils.redirectTo 'home#index'
 
   index: ->
     console.log 'not-logged-in#index'
