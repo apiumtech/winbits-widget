@@ -19,7 +19,6 @@ module.exports = class MyAccountView extends View
   initialize: ->
     super
     @delegate 'click', '#wbi-my-account-close', @clickClose
-#    @delegate 'click', '.wbc-tab-link', @swapTabs
 
   attach: ->
     super
