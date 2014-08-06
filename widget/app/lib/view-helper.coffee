@@ -181,5 +181,5 @@ Handlebars.registerHelper "availableCoupon", (options) ->
   if available then options.fn this else options.inverse this
 
 Handlebars.registerHelper "getAvailableCouponsDate",(coupons) ->
-  createdCoupon =_.find coupons, (coupon) -> coupon.status is 'CREATED'
+  createdCoupon =_.find coupons, (coupon) -> coupon.status isnt 'AVAILABLE'
   createdCoupon.availableCouponDate
