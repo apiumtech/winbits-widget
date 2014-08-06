@@ -27,10 +27,10 @@
                   {{/each}}
               </table>
             {{else}}
-                 <div id ="wbi-no-availabe-coupons" class="confirmation-submit" style="text-align:left;">
-                     <h3 style="color:red;">Cupónes validos a partir del {{getAvailableCouponsDate coupons}}</h3>
-                     <input id="wbi-coupon-modal-btn" type="button" class="btn" value="Cerrar" style="margin-left: 0;">
+                 <div class="errorDiv">
+                     <h3>Cupónes validos a partir del {{getAvailableCouponsDate coupons}}</h3>
                  </div>
+                 <div id="wbi-coupon-modal-btn" class="center"><input type="submit" value="Aceptar" class="btn"></div>
             {{/availableCoupon}}
         </div>
     </div>
