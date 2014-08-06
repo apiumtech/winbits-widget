@@ -5859,6 +5859,12 @@ main {
 .confirmationContent.couponsModal {
     width: 600px;
 }
+.confirmationContent.couponsModal a {
+    cursor: pointer;
+}
+.confirmationContent.couponsModal .center {
+    text-align: center;
+}
 .confirmationContent.couponsModal .confirmation-content {
     width: 485px;
 }
