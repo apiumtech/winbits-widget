@@ -57,3 +57,13 @@ module.exports = class View extends Chaplin.View
       console.log "Value"
       console.log "===================="
       console.log optionalValue
+
+  initialize: ->
+    super
+    @delegate 'click', '.wb-hash-link', @redirectToHash
+
+  redirectToHash: (e)->
+    e.preventDefault()
+    $link = Winbits.$(e.currentTarget)
+    window.location.replace $link.attr('href')
+
