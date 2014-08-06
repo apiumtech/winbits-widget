@@ -44,5 +44,6 @@ module.exports = class MyAccountView extends View
     @$el.prev().slideUp()
 
   swapTabs: (e) ->
+    e.preventDefault()
     $link = $(e.currentTarget)
-    window.location.hash = $link.attr('href')
+    window.location.replace $link.attr('href')
