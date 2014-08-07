@@ -1,8 +1,9 @@
 View = require 'views/base/view'
 utils = require 'lib/utils'
 loginUtils = require 'lib/login-utils'
-env = Winbits.env
+trackingUtils = require 'lib/tracking-utils'
 NotLoggedIn = require 'models/not-logged-in/not-logged-in'
+env = Winbits.env
 $ = Winbits.$
 mediator = Winbits.Chaplin.mediator
 
@@ -55,7 +56,9 @@ module.exports = class NotLoggedInPageView extends View
     popup.focus()
 
   facebookSuccess: (response)->
-      data = facebookId: response.facebookId
+      data =
+        facebookId: response.facebookId
+        utms: trackingUtils.getUTMs()
       promise = @model.requestExpressFacebookLogin(data, context:@)
       promise.done(@doFacebookLoginSuccess).fail(@doFacebookLoginError)
 
@@ -115,5 +118,3 @@ module.exports = class NotLoggedInPageView extends View
   doCloseConfirmModal: ->
     utils.redirectTo action: 'index', controller:'home'
     utils.closeMessageModal()
-
-
