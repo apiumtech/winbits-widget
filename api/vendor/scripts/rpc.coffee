@@ -4,7 +4,7 @@ API_TOKEN_KEY = '_wb_api_token'
 CART_TOKEN_KEY = '_wb_cart_token'
 UTM_PARAMS_KEY = '_wb_utm_params'
 DEFAULT_VIRTUAL_CART = '{"cartItems":[], "bits":0}'
-MILLIS_90_MINUTES = 1000 * 60 * 1
+MILLIS_90_MINUTES = 1000 * 60 * 90
 
 getUTMsExpirationAware = ->
   utmsParams = localStorage.getItem UTM_PARAMS_KEY

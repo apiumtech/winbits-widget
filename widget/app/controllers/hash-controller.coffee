@@ -1,8 +1,9 @@
 'use strict'
 
 Controller = require 'controllers/base/controller'
-$ = Winbits.$
 utils = require 'lib/utils'
+trackingUtils = require 'lib/tracking-utils'
+$ = Winbits.$
 promises = []
 mediator = Winbits.Chaplin.mediator
 
@@ -18,12 +19,16 @@ module.exports = class HashController extends Controller
       .done @switchUserSuccess
       .fail @expressLoginError
 
-  expressLogin : (apiToken, updateLastLogin = no) ->
+  expressLogin : (apiToken, firstLogin = no) ->
+    requestData =
+      apiToken: apiToken
+      firstLogin: firstLogin
+      utms: trackingUtils.getUTMs()
     utils.ajaxRequest Winbits.env.get('api-url') + '/users/express-login.json',
       type: 'POST',
       dataType: "json"
       context: @
-      data: JSON.stringify(apiToken: apiToken, updateLastLogin: updateLastLogin)
+      data: JSON.stringify(requestData)
 
   completeRegisterSuccess: (data) ->
     if $.isEmptyObject data.response
