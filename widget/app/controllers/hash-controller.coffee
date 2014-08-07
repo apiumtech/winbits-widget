@@ -48,6 +48,7 @@ module.exports = class HashController extends Controller
     utils.deleteApiToken()
     utils.saveLoginData loginData
     mediator.data.set 'login-data', loginData
+    trackingUtils.deleteUTMs()
 
   expressLoginError: () ->
     utils.redirectTo controller: 'home', action: 'index'

@@ -114,7 +114,7 @@ new easyXDM.Rpc({},
     storeUTMs: (utms, successFn) ->
       utms.expires = new Date().getTime() + MILLIS_90_MINUTES
       console.log [
-        "Saving UTMS"
+        "Storing UTMS"
         utms
       ]
       localStorage.setItem UTM_PARAMS_KEY, JSON.stringify(utms)
@@ -122,8 +122,12 @@ new easyXDM.Rpc({},
       return
 
     getUTMs: (successFn, errorFn) ->
-      console.log ["get UTMS"]
+      console.log ["Getting UTMS"]
       getUTMsExpirationAware()
+
+    removeUTMs: (successFn, errorFn) ->
+      console.log ["Removing UTMS"]
+      localStorage.removeItem UTM_PARAMS_KEY
 
   remote:
     request: {}
@@ -135,4 +139,5 @@ new easyXDM.Rpc({},
     facebookMe: {}
     storeUTMs: {}
     getUTMs: {}
+    removeUTMs: {}
 )

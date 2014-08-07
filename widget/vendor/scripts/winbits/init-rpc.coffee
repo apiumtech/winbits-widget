@@ -35,10 +35,11 @@ rpcApi =
   deleteApiToken: {}
   storeVirtualCart: {}
   logout: {}
-  storeUTMs: {}
-  getUTMs: {}
   facebookStatus: {}
   facebookMe: {}
+  storeUTMs: {}
+  getUTMs: {}
+  removeUTMs: {}
 
 if window.wbSkipRPC
   for own key of rpcApi

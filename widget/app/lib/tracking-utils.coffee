@@ -28,6 +28,9 @@ _(trackingUtils).extend Winbits.trackingUtils,
   shouldSaveUTMs: ->
     @URL_CONTAINS_VALID_UTMS and not utils.isLoggedIn()
 
+  deleteUTMs: ->
+    rpc.removeUTMs()
+
   # Following functions are defined inside init-tracking.coffee:
   # getUTMParams
   # validateUTMParams

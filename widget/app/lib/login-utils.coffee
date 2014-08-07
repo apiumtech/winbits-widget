@@ -1,6 +1,7 @@
 'use strict'
 
 utils = require 'lib/utils'
+trackingUtils = require 'lib/tracking-utils'
 mediator = Chaplin.mediator
 $ = Winbits.$
 _ = Winbits._
@@ -11,6 +12,7 @@ _(loginUtils).extend
   applyLogin : (loginData) ->
     mediator.data.set 'login-data', loginData
     utils.saveApiToken loginData.apiToken
+    trackingUtils.deleteUTMs()
     Winbits.trigger 'loggedin', [_.clone loginData]
 
   applyLogout: (logoutData) ->
