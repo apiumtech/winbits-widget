@@ -135,11 +135,10 @@ Winbits.html5 = window.html5
 Winbits.require = window.require
 
 Winbits.$.when.apply(Winbits.$, Winbits.promises).done ->
-  delete Winbits.env.set
-
   Winbits.require 'initialize'
   widgetLoadTime = new Date().getTime() - Winbits.startTime
   console.log ['WIDGET TOTAL LOAD TIME (ms)', widgetLoadTime]
+  delete Winbits.env.set
   Winbits.trigger 'initialized'
 .fail ->
   console.log = Winbits.log

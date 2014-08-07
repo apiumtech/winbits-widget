@@ -84,7 +84,7 @@ else
     (apiToken) ->
       if apiToken
         apiUrl = Winbits.env.get('api-url')
-        utms = Winbits.env.get('utms')
+        utms = Winbits.trackingUtils.getUTMParams()
         Winbits.utils.ajaxRequest  "#{apiUrl}/users/express-login.json",
           type: 'POST',
           data: JSON.stringify(apiToken: apiToken, utms: utms)

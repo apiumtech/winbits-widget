@@ -10,13 +10,14 @@ utils = require 'lib/utils'
 trackingUtils = require 'lib/tracking-utils'
 mediator = Winbits.Chaplin.mediator
 EventBroker = Winbits.Chaplin.EventBroker
+env = Winbits.env
 
 mediator.data = (->
   # Add additional application-specific properties and methods
   # e.g. Chaplin.mediator.prop = null
   data =
-    'login-data': Winbits.env.get 'login-data'
-    'virtual-cart': Winbits.env.get('virtual-cart')
+    'login-data': env.get 'login-data'
+    'virtual-cart': env.get 'virtual-cart'
 
   get: (property)->
     data[property]
@@ -31,7 +32,6 @@ mediator.data = (->
     data = {}
     return
 )()
-# mediator.data.set('virtual-cart', Winbits.env.get('virtual-cart'))
 
 Winbits.addToCart = (cartItems) ->
   cartItems = if Winbits.$.isArray(cartItems) then cartItems else [cartItems]

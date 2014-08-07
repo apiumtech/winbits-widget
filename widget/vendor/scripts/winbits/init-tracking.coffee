@@ -28,4 +28,7 @@ Winbits.trackingUtils =
   cacheUTMs: (utms) ->
     Winbits.env.set(@UTMS_KEY, utms) unless @URL_CONTAINS_VALID_UTMS
 
+  getUTMParams: ->
+    Winbits.env.get(@UTMS_KEY)
+
 Winbits.trackingUtils.saveUTMParams()

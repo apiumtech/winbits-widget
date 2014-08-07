@@ -48,7 +48,7 @@ describe 'TrackingUtilsSpec', ->
 
   it "saveUTMsIfNeeded saves UTMs", sinon.test ->
     utms = getValidUTMs()
-    @stub(trackingUtils, 'getUTMs').returns(utms)
+    @stub(trackingUtils, 'getUTMParams').returns(utms)
     @stub(trackingUtils, 'shouldSaveUTMs').returns(yes)
 
     trackingUtils.saveUTMsIfNeeded()

@@ -8,22 +8,22 @@ env = Winbits.env
 rpc = env.get('rpc')
 _ = Winbits._
 
-UTMS_MEDIATOR_KEY = 'utms'
-
 trackingUtils = {}
 # Some functions are defined inside init-tracking.coffee
 _(trackingUtils).extend Winbits.trackingUtils,
 
   saveUTMsIfNeeded: ->
-    utms = @getUTMs()
+    utms = @getUTMParams()
     if @shouldSaveUTMs()
       @saveUTMs(utms)
+    env.set?(@UTMS_KEY, undefined)
 
   saveUTMs: (utms) ->
+    mediator.data.set(@UTMS_KEY, utms)
     rpc.storeUTMs(utms)
 
   getUTMs: ->
-    env.get(@UTMS_KEY)
+    mediator.data.get(@UTMS_KEY)
 
   shouldSaveUTMs: ->
     @URL_CONTAINS_VALID_UTMS and not utils.isLoggedIn()
