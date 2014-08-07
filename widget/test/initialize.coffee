@@ -3,6 +3,7 @@
 specs = [
   './models/header-spec'
   './views/not-logged-in-view-spec'
+  './views/coupon-view-spec'
   './views/logged-in-view-spec'
   './views/header-view-spec'
   './views/register-view-spec'
@@ -20,7 +21,9 @@ specs = [
   './views/edit-shipping-address-view-spec'
   './views/complete-register-view-spec'
   './other/jquery-wblocationselect-spec'
-  './views/cart/checkout-temp-view-spec'
+  './views/checkout-temp/checkout-temp-view-spec'
+  './views/checkout-temp/checkout-temp-bits-view-spec'
+  './views/checkout-temp/checkout-temp-order-details-view-spec'
   './views/cart/cart-view-spec'
   './views/cart/cart-items-view-spec'
   './views/cart/cart-totals-view-spec'

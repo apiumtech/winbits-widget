@@ -40,6 +40,7 @@ _(utils).extend Winbits.utils,
     $verticalContainer = $(env.get('vertical-container'))
     $verticalContainer.children('.wbc-vertical-content').hide()
     $verticalContainer.children().not('.wbc-vertical-content').show()
+    $('div .mainHeader').show()
 
   redirectToVertical : (url)->
     window.location.href = url
@@ -363,6 +364,7 @@ _(utils).extend Winbits.utils,
     localStorage.removeItem(env.get('api-token-name'))
 
   redirectTo: ->
+    [].push.apply(arguments,[{},replace:yes])
     Winbits.Chaplin.utils.redirectTo.apply null, arguments
 
   formatCurrency: (value) ->

@@ -13,7 +13,7 @@ module.exports = class CheckoutTemp extends Model
     'itemsFullTotal'
   ]
   sliderTotal: ->
-    @get('itemsTotal') + @get('shippingTotal')
+    @get('total')
 
   orderTotal: ->
     @sliderTotal() - @get('bitsTotal')
@@ -27,4 +27,38 @@ module.exports = class CheckoutTemp extends Model
 
   orderSaving: ->
     @itemsFullTotal() - @orderTotal()
+
+  deleteOrderDetail:(formData, options) ->
+    defaults =
+      type: "DELETE"
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token": utils.getApiToken()
+    utils.ajaxRequest(
+        utils.getResourceURL("orders/order-items/#{formData.id}"),
+        $.extend(defaults, options)
+    )
+
+  updateOrder:(formData, options) ->
+    defaults =
+      type: "PUT"
+      data: JSON.stringify(formData)
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token": utils.getApiToken()
+    utils.ajaxRequest(
+        utils.getResourceURL("orders/orders/#{formData.id}.json"),
+        $.extend(defaults, options)
+    )
+
+  cancelOrder:(options) ->
+      defaults =
+        type: "DELETE"
+        headers:
+          "Accept-Language": "es"
+          "WB-Api-Token": utils.getApiToken()
+      utils.ajaxRequest(
+          utils.getResourceURL("orders/orders/#{@get('id')}.json"),
+          $.extend(defaults, options)
+      )
 

@@ -2374,6 +2374,25 @@ input[type="submit"].btn.btn-mini {
   line-height: 60px;
   overflow: hidden;
   text-indent: 60px;
+  height: 10px;
+  width: 10px;
+}
+
+.icon-delete {
+  margin: 0;
+  display: inline-block;
+  vertical-align: middle;
+  width: auto;
+  *display: inline;
+  /* IE7 inline-block hack */
+  zoom: 1;
+  background-color: transparent;
+  background-image: url("../../images/misc/icons.png");
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  line-height: 60px;
+  overflow: hidden;
+  text-indent: 60px;
   height: 20px;
   width: 20px;
 }

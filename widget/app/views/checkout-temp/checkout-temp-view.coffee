@@ -2,6 +2,10 @@
 
 View = require 'views/base/view'
 utils = require 'lib/utils'
+CheckoutTempTotalSubview = require 'views/checkout-temp/checkout-temp-total-sub-view'
+CheckoutTempSubTotalSubview = require 'views/checkout-temp/checkout-temp-sub-total-sub-view'
+CheckoutTempBitsSubview = require 'views/checkout-temp/checkout-temp-bits-sub-view'
+CheckoutTempOrderDetailsSubview = require 'views/checkout-temp/checkout-temp-order-details-sub-view'
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 _ = Winbits._
@@ -12,20 +16,32 @@ module.exports = class CheckoutTempView extends View
   className: 'widgetWinbitsMain wbc-vertical-content'
   template: require './templates/checkout-temp'
 
-
   initialize:()->
     super
     @delegate 'click', '#wbi-return-site-btn', @backToVertical
     @delegate 'click', '#wbi-post-checkout-btn', @doToCheckout
-    $('main .wrapper').hide()
+    @delegate 'click', '.wbc-delete-item', @doDeleteConfirm
+    utils.replaceVerticalContent('.widgetWinbitsMain')
+    $('div .mainHeader').hide()
 
   attach: ->
     super
     @startCounter()
 
+  render: ->
+    super
+    subviewSubTotalContainer = @$el.find('#wbi-checkout-temp-sub-total-div').get(0)
+    @subview 'checkout-temp-sub-total', new CheckoutTempSubTotalSubview model:@model, container: subviewSubTotalContainer
+    subviewTotalContainer = @$el.find('#wbi-checkout-temp-total-div').get(0)
+    @subview 'checkout-temp-total', new CheckoutTempTotalSubview model:@model, container: subviewTotalContainer
+    subviewBitsContainer = @$el.find('#wbi-checkout-temp-bits-div').get(0)
+    @subview 'checkout-temp-bits', new CheckoutTempBitsSubview model:@model, container: subviewBitsContainer
+    subviewOrderDetailsContainer = @$el.find('#wbi-checkout-temp-table-div').get(0)
+    @subview 'checkout-temp-order-details', new CheckoutTempOrderDetailsSubview model:@model, container: subviewOrderDetailsContainer
+
   startCounter: ->
     $timer = @$('#wb-checkout-timer')
-    nowTime =_.now() #new Date().getTime()
+    nowTime =_.now()
     unless (mediator.data.get('checkout-timestamp') )
       mediator.data.set('checkout-timestamp', nowTime)
     timeUp = nowTime - (mediator.data.get 'checkout-timestamp')
@@ -37,30 +53,24 @@ module.exports = class CheckoutTempView extends View
       secondsLeft = Math.floor((timeLeft - minutesLeftMillis) / 1000)
       $timer.data('minutes', minutesLeft)
       $timer.data('seconds', secondsLeft)
-
       $interval = setInterval($.proxy(->
         @updateCheckoutTimer($timer, $interval)
       , @), 1000)
       @.timerInterval = $interval
     else
-#      util.showAjaxIndicator("La orden ha expirado")
-      @intervalStop
+      @intervalStop()
       setTimeout () ->
         utils.redirectToLoggedInHome()
       , 4000
 
-
-  updateCheckoutTimer: ($timer, $interval) ->
+  updateCheckoutTimer: ($timer) ->
     minutes = $timer.data('minutes')
     minutes = if minutes? then minutes else 30
     seconds = $timer.data('seconds') || 0
     seconds = seconds - 1
-
     if minutes is 0 and seconds < 0
-      console.log('expire order')
-      @intervalStop
+      @expireOrderByTimeOut()
     else
-
       if seconds < 0
         seconds = 59
         minutes = minutes - 1
@@ -71,17 +81,83 @@ module.exports = class CheckoutTempView extends View
   formatTime: (time) ->
     ('0' + time).slice(-2)
 
-  intervalStop: ()->
-    console.log 'Inteval Timer Stop !'
+  expireOrderByTimeOut: ->
+    @intervalStop()
+    @model.cancelOrder()
+    .done( ()-> console.log ['order has expired!'])
+    message = 'La orden ha expirado'
+    options =
+      value: 'Aceptar'
+      title: 'Orden expirada'
+      icon: 'iconFont-clock2'
+      context: @
+      onClosed: @backToVertical
+    utils.showMessageModal(message, options)
+
+  intervalStop: ->
     clearInterval(@.timerInterval)
 
   backToVertical: ->
+    @intervalStop()
+    mediator.data.set('bits-to-cart', 0)
     utils.restoreVerticalContent('.widgetWinbitsMain')
     $('main .wrapper').show()
+    $('div .mainHeader').show()
+    @publishEvent 'cart-changed'
     utils.redirectToLoggedInHome()
 
   doToCheckout: ->
     order = _.clone @model.attributes
-    @model.postToCheckoutApp(order)
+    @model.updateOrder(order, context:@)
+    .done(@doCheckout)
+    .fail(@doFailRequestDeleteOrderDetail)
+
+  doCheckout:(data)->
+    @model.postToCheckoutApp(data.response)
 
 
+  doDeleteConfirm: (e)->
+    e.preventDefault()
+    $skuId = $(e.currentTarget).data('id')
+    items = @model.attributes.orderDetails.filter (it) -> it.sku.id isnt $skuId
+    message = '¿Estás seguro que deseas eliminar esta elemento de tu orden?'
+    options =
+      value: 'Aceptar'
+      title: 'Eliminar elemento'
+      icon: 'iconFont-question'
+      context: @
+      acceptAction: () => if items.length > 0 then @doRequestDeleteOrderDetail($skuId) else @doRequestCancelOrder()
+    utils.showConfirmationModal(message, options)
+
+  doRequestDeleteOrderDetail:(itemId)->
+    @itemId = itemId
+    formData = {id: itemId}
+    @model.deleteOrderDetail(formData, context:@)
+    .done( @doSuccessRequestDeleteOrderDetail)
+    .fail( @doFailRequestDeleteOrderDetail)
+
+  doRequestCancelOrder:()->
+    @model.cancelOrder(context:@)
+    .done( @doSuccessRequestCancelOrder)
+    .fail( @doFailRequestDeleteOrderDetail)
+
+  doSuccessRequestCancelOrder: ()->
+    utils.closeMessageModal()
+    @backToVertical()
+
+  doSuccessRequestDeleteOrderDetail:(data)->
+    orderDetails = _.clone @model.attributes.orderDetails
+    orderDetailsCopy = []
+    for orderDetail in orderDetails
+      if orderDetail.sku.id is @itemId
+        @$("tr#wbi-order-detail-id-#{orderDetail.id}").remove()
+      else
+        orderDetailsCopy.push(orderDetail)
+    data.response.orderDetails = orderDetailsCopy
+    @model.setData data
+    utils.closeMessageModal()
+
+  doFailRequestDeleteOrderDetail:()->
+    message = 'El servidor no está disponible, por favor inténtalo más tarde.'
+    options = value: "Cerrar"
+    utils.showError(message, options)

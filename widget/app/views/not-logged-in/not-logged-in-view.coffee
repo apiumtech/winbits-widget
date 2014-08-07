@@ -103,7 +103,7 @@ module.exports = class NotLoggedInPageView extends View
 
   doFacebookLoginChangeFacebookLink: (data)->
     @$('#wbi-login-facebook-link').prop('disabled', no)
-    message = "La cuenta de facebook que tenia ligada se cambio"
+    message = "La cuenta de facebook que tenías ligada ha sido cambiada."
     options =
       value : 'Aceptar'
       title : 'Cambio la cuenta ligada.'

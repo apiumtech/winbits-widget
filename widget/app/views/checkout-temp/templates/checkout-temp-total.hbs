@@ -1,0 +1,7 @@
+  <span class="checkoutTitle">TOTAL</span>
+        <span class="checkoutDetail">
+          <span class="slideInput-totalPrice">{{formatCurrency orderTotal}}</span>
+          {{#compare orderSaving '0' operator = '>'}}
+            <span class="note">Ahorro de <span class="slideInput-save">{{formatCurrency orderSaving}}</span></span>
+          {{/compare}}
+        </span>

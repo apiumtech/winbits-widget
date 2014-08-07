@@ -5,7 +5,7 @@
       {{paymentMethodSupportedDiv ../methods cardInfo.cardData.cardType}}
       <div class="creditcardMenu">
         <a class="wb-edit-card-link" href="#">edit</a>
-        <span class="icon closeButton wb-delete-card-link">cerrar</span>
+        <span class="icon-delete closeButton wb-delete-card-link">cerrar</span>
       </div>
       <h3>Tarjeta {{getIndex @index}}</h3>
       <address>
@@ -45,19 +45,15 @@
                     <input type="text" class="required digits" placeholder="mm" maxlength="2" name="expirationMonth">
                     <input type="text" class="required digits" placeholder="aa" maxlength="2" name="expirationYear">
                 </div>
-                <div class="divNumSecurity">
-                    <label for="winbitsPaymentNewCardSecurity"># de Seguridad</label>
-                    <input type="text" class="required digits" placeholder="###" maxlength="4" name="cvNumber" id="winbitsPaymentNewCardSecurity">
-                </div>
             </div>
             <div class="column">
                 <h3>DIRECCIÓN</h3>
                 <input type="text" placeholder="Calle" class="required" name="street1">
                 <input type="text" placeholder="Número" class="inputMedium required" maxlength="10" name="number" style="display:block;">
-                <input type="text" placeholder="Teléfono" name="phoneNumber" maxlength="10">
-                <input type="text" placeholder="Codigo Postal" name="postalCode" maxlength="5">
-                <input type="text" placeholder="Ciudad" name="city" maxlength="40">
-                <input type="text" placeholder="Estado" name="state" maxlength="40">
+                <input type="text" placeholder="Teléfono" class="required" name="phoneNumber" maxlength="15">
+                <input type="text" placeholder="Codigo Postal" class="required" name="postalCode" maxlength="5">
+                <input type="text" placeholder="Ciudad" class="required" name="city" maxlength="40">
+                <input type="text" placeholder="Estado" class="required" name="state" maxlength="40">
                 <input type="hidden" class="required" name="country" value="MX">
             </div>
             <div class="column columnLarge">
@@ -95,10 +91,10 @@
                 <h3>DIRECCIÓN</h3>
                 <input type="text" placeholder="Calle" class="required" name="street1">
                 <input type="text" placeholder="Número" class="inputMedium required" maxlength="10" name="number" style="display:block;">
-                <input type="text" placeholder="Teléfono" name="phoneNumber" maxlength="10">
-                <input type="text" placeholder="Codigo Postal" name="postalCode" maxlength="5">
-                <input type="text" placeholder="Ciudad" name="city" maxlength="40">
-                <input type="text" placeholder="Estado" name="state" maxlength="40">
+                <input type="text" placeholder="Teléfono" class="required digits" name="phoneNumber" minlength="10" maxlength="15">
+                <input type="text" placeholder="Codigo Postal" class="required" name="postalCode" maxlength="5">
+                <input type="text" placeholder="Ciudad" class="required" name="city" maxlength="40">
+                <input type="text" placeholder="Estado" class="required" name="state" maxlength="40">
                 <input type="hidden" class="required" name="country" value="MX">
             </div>
             <div class="column columnLarge">
