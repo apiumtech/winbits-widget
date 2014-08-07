@@ -1,5 +1,3 @@
-'use strict'
-
 View = require 'views/base/view'
 utils = require 'lib/utils'
 $ = Winbits.$
@@ -32,5 +30,6 @@ module.exports = class CartPaymentMethodsView extends View
       mediator.data.set 'virtual-checkout', yes
       utils.redirectTo controller:'login', action:'index'
 
-  closeCartView: ->
+  closeCartView: (e)->
+    e.preventDefault()
     $('#wbi-cart-drop').slideUp()

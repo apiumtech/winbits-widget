@@ -19,7 +19,6 @@ module.exports = class MyAccountView extends View
   initialize: ->
     super
     @delegate 'click', '#wbi-my-account-close', @clickClose
-#    @delegate 'click', '.wbc-tab-link', @swapTabs
 
   attach: ->
     super
@@ -44,5 +43,6 @@ module.exports = class MyAccountView extends View
     @$el.prev().slideUp()
 
   swapTabs: (e) ->
+    e.preventDefault()
     $link = $(e.currentTarget)
-    window.location.hash = $link.attr('href')
+    window.location.replace $link.attr('href')

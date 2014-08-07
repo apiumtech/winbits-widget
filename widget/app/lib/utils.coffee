@@ -2,13 +2,9 @@
 
 # Application-specific utilities
 # ------------------------------
-ModalTemplates =
-  '#wbi-alert-modal': require 'templates/alert-modal'
-  '#wbi-message-modal': require 'templates/message-modal'
-  '#wbi-confirmation-modal': require 'templates/confirmation-modal'
+DEFAULT_API_ERROR_MESSAGE = 'El servidor no está disponible, por favor inténtalo más tarde.'
+DEFAULT_VIRTUAL_CART = '{"cartItems":[], "bits":0}'
 
-# Delegate to Chaplin’s utils module.
-utils = Winbits.Chaplin.utils.beget Chaplin.utils
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 _ = Winbits._
@@ -16,12 +12,18 @@ env = Winbits.env
 EventBroker = Winbits.Chaplin.EventBroker
 env = Winbits.env
 rpc = env.get('rpc')
+ModalTemplates =
+  '#wbi-alert-modal': require 'templates/alert-modal'
+  '#wbi-message-modal': require 'templates/message-modal'
+  '#wbi-confirmation-modal': require 'templates/confirmation-modal'
 
-DEFAULT_API_ERROR_MESSAGE = 'El servidor no está disponible, por favor inténtalo más tarde.'
-DEFAULT_VIRTUAL_CART = '{"cartItems":[], "bits":0}'
+# Delegate to Chaplin’s utils module.
+utils = Winbits.Chaplin.utils.beget Chaplin.utils
+
 # _(utils).extend
 #  someMethod: ->
-_(utils).extend
+# Some functions are defined inside init-utils.coffee
+_(utils).extend Winbits.utils,
   redirectToLoggedInHome: ->
     @redirectTo controller: 'logged-in', action: 'index'
 
@@ -39,20 +41,6 @@ _(utils).extend
     $verticalContainer.children('.wbc-vertical-content').hide()
     $verticalContainer.children().not('.wbc-vertical-content').show()
     $('div .mainHeader').show()
-
-  getUrlParams : ->
-    vars = []
-    hash = undefined
-    indexOfQuestionMark = window.location.href.indexOf("?")
-    hashes = window.location.href.slice(indexOfQuestionMark + 1).split("&")
-    i = 0
-
-    while i < hashes.length
-      hash = hashes[i].split("=")
-      vars.push hash[0]
-      vars[hash[0]] = hash[1]
-      i++
-    vars
 
   redirectToVertical : (url)->
     window.location.href = url
@@ -79,7 +67,7 @@ _(utils).extend
       $form.find('input:visible:not([disabled]), textarea:visible:not([disabled])').first().focus()
 
   alertErrors : ($) ->
-    params = util.getUrlParams()
+    params = @getURLParams()
     alert params._wb_error  if params._wb_error
 
   serializeForm : ($form, context) ->
@@ -87,7 +75,6 @@ _(utils).extend
     $.each $form.serializeArray(), (i, f) ->
       formData[f.name] = f.value
     formData
-
 
   serializeProfileForm: ($form) ->
     formData = {birthdate : @getBirthdate($form)}
@@ -210,8 +197,6 @@ _(utils).extend
     fillStr = new Array(length + 1).join(fillChar)
     (fillStr + str).slice(length * -1)
 
-
-
   getDateValue: ($form, selector) ->
     value = $form.find(selector).val()
     if value
@@ -290,7 +275,6 @@ _(utils).extend
       supported = method for method in methods when method.identifier.match ac
       if supported
         return new Handlebars.SafeString("")
-
     html
 
   toggleDropMenus:(e, dropMenuClass)->
@@ -365,8 +349,6 @@ _(utils).extend
     divLoader = "<div class='wbc-loader'></div>"
     @showMessageModal(divLoader, options, '#wbi-message-modal')
 
-  ajaxRequest: Winbits.ajaxRequest
-
   getApiToken: ->
     mediator.data.get('login-data')?.apiToken
 
@@ -382,9 +364,8 @@ _(utils).extend
     localStorage.removeItem(env.get('api-token-name'))
 
   redirectTo: ->
+    [].push.apply(arguments,[{},replace:yes])
     Winbits.Chaplin.utils.redirectTo.apply null, arguments
-
-  saveLoginData: Winbits.saveLoginData
 
   formatCurrency: (value) ->
     if value
@@ -417,7 +398,6 @@ _(utils).extend
   getBitsToVirtualCart: () ->
     JSON.parse(mediator.data.get('virtual-cart') or DEFAULT_VIRTUAL_CART).bits
 
-
   saveVirtualCart: (cartData) ->
     vcart = DEFAULT_VIRTUAL_CART
     if(cartData.itemsCount > 0)
@@ -430,8 +410,6 @@ _(utils).extend
     vcart = {cartItems:cartItems, bits:bits}
     vcart = JSON.stringify vcart
     @saveVirtualCartInStorage(vcart)
-
-
 
   saveVirtualCartInStorage: (vcart = DEFAULT_VIRTUAL_CART)->
     mediator.data.set('virtual-cart', vcart)
@@ -470,19 +448,26 @@ _(utils).extend
       @publishEvent 'cashback-bits-won', data.response.cashback
     else
       message = "Tus datos se han guardado correctamente"
-      options = icon: 'iconFont-ok', title:'Perfil actualizado', value:'Aceptar', onClosed:@redirectTo(controller:'home', action:'index')
+      options =
+        icon: 'iconFont-ok'
+        title:'Perfil actualizado'
+        value:'Aceptar'
+        onClosed: -> @redirectTo(controller:'home', action:'index')
       @showMessageModal(message, options)
     if data.response.bitsBalance != $loginDataActual.bitsBalance
       @publishEvent 'bits-updated'
 
-
   publishEvent: (event, data = {})->
     EventBroker.publishEvent event, data
+
+  # Following functions are defined inside init-utils.coffee:
+  # ajaxRequest
+  # saveLoginData
+  # getURLParams
 
 # Prevent creating new properties and stuff.
 Object.seal? utils
 
-delete Winbits.ajaxRequest
-delete Winbits.saveLoginData
+delete Winbits.utils
 
 module.exports = utils

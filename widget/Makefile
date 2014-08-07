@@ -22,7 +22,7 @@ packages:
 	$(bower) install;
 
 test:
-	$(mocha-phantomjs) -R spec http://dev.mylooq.com/test/
+	$(mocha-phantomjs) -R spec http://dev.mylooq.com/test/\?grep\=${grep}
 
 clean:
 	rm -fr build components template.js

@@ -15,7 +15,7 @@
           {{#each ticketPayments}}
               <div class="table-desc">
                   <p>Descarga ficha de pago ({{#compare identifier 'oxxo.bc'}}OXXO{{else}}HSBC{{/compare}})</p>
-                  <a href="{{generateTicketPaymentDownloadUrl paymentCapture}}" title="Ficha {{#compare identifier 'oxxo.bc'}}OXXO{{else}}HSBC{{/compare}}" class="iconFont-doc wbc-icon-download"></a>
+                  <a target="_blank" href="{{generateTicketPaymentDownloadUrl paymentCapture}}" title="Ficha {{#compare identifier 'oxxo.bc'}}OXXO{{else}}HSBC{{/compare}}" class="iconFont-doc wbc-icon-download"></a>
               </div>
           {{/each}}
         </div>

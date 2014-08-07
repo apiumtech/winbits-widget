@@ -1,3 +1,5 @@
+'use strict'
+
 utils = require 'lib/utils'
 $ = Winbits.$
 rpc = Winbits.env.get('rpc')
@@ -71,9 +73,6 @@ describe 'UtilsSpec', ->
   it "get bits from virtual cart", ->
     utils.saveBitsInVirtualCart(8)
     expect(utils.getBitsToVirtualCart()).to.be.equal 8
-
-
-
 
   saveCartData = ->
     cartData =

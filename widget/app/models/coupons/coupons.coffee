@@ -8,7 +8,7 @@ module.exports = class Coupon extends Model
   initialize: ->
     super
 
-  doRequestCouponService: (couponId,format, options)->
+  doRequestCouponService: (couponId,orderDetailId,format, options)->
     defaults =
       contentType: "application/json"
       dataType: "json"
@@ -16,6 +16,6 @@ module.exports = class Coupon extends Model
         "Accept-Language": "es"
         "WB-Api-Token": utils.getApiToken()
     utils.ajaxRequest(
-      env.get('api-url') + "/users/coupon/#{couponId}.json?format=#{format}",
+      env.get('api-url') + "/users/coupon/#{couponId}.json?format=#{format}&orderDetailId=#{orderDetailId}",
       $.extend(defaults, options)
     )

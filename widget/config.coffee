@@ -20,6 +20,8 @@ exports.config =
           'bower_components/json2/json2.js'
           'vendor/scripts/xtra/easyXDM-2.4.19.3.js'
           'bower_components/yepnope/yepnope.js'
+          'vendor/scripts/winbits/init-utils.coffee'
+          'vendor/scripts/winbits/init-tracking.coffee'
           'vendor/scripts/winbits/init-rpc.coffee'
           'vendor/scripts/jquery-ui-1.10.3.custom.js'
         ],

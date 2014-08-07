@@ -54,6 +54,7 @@ specs = [
   './views/shipping-order-history-view-spec'
   './views/bits-history-view-spec'
   './views/video-modal-view-spec'
+  './lib/tracking-utils-spec'
 ]
 
 for spec in specs
