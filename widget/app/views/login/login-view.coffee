@@ -2,7 +2,8 @@
 
 View = require 'views/base/view'
 utils = require 'lib/utils'
-loginUtil = require 'lib/login-utils'
+loginUtils = require 'lib/login-utils'
+trackingUtils = require 'lib/tracking-utils'
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 _ = Winbits._
@@ -42,6 +43,7 @@ module.exports = class LoginView extends View
     if utils.validateForm($form)
       formData = verticalId: env.get('current-vertical-id')
       formData = utils.serializeForm($form, formData)
+      $.extend(formData, utms: trackingUtils.getUTMs())
       $submitButton = @$('#wbi-login-in-btn').prop('disabled', yes)
 
       @model.requestLogin(formData, context: @)
@@ -52,15 +54,16 @@ module.exports = class LoginView extends View
   doLoginSuccess: (data) ->
     mediator.data.set 'profile-composed', no
     response = data.response
-    loginUtil.applyLogin(response)
+    loginUtils.applyLogin(response)
     @doCheckShowRemainder(data)
 
   doCheckShowRemainder:(data)->
     if data.response.showRemainder is yes
       message = "Recuerda que puedes ganar $#{data.response.cashbackForComplete} en bits al completar tu registro"
+      value = 'Completa registro'
       options =
-        value: "Completa registro"
-        title:'¡Completa tu registro!'
+        value: value
+        title:"¡#{value}!"
         cancelValue: 'Llénalo después'
         icon:'iconFont-computer'
         context: @
