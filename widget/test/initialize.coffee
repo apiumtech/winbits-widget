@@ -3,6 +3,7 @@
 specs = [
   './models/header-spec'
   './views/not-logged-in-view-spec'
+  './views/coupon-view-spec'
   './views/logged-in-view-spec'
   './views/header-view-spec'
   './views/register-view-spec'
@@ -20,6 +21,9 @@ specs = [
   './views/edit-shipping-address-view-spec'
   './views/complete-register-view-spec'
   './other/jquery-wblocationselect-spec'
+  './views/checkout-temp/checkout-temp-view-spec'
+  './views/checkout-temp/checkout-temp-bits-view-spec'
+  './views/checkout-temp/checkout-temp-order-details-view-spec'
   './views/cart/cart-view-spec'
   './views/cart/cart-items-view-spec'
   './views/cart/cart-totals-view-spec'
@@ -37,6 +41,7 @@ specs = [
   './lib/utils-spec'
   './lib/favorite-utils-spec'
   './lib/sku-profile-utils-spec'
+  './lib/social-utils-spec'
   './views/cards/cards-view-spec'
   './models/cards/cards-spec'
   './views/cards/new-card-view-spec'
@@ -48,6 +53,8 @@ specs = [
   './other/jquery-wbpaginator-spec'
   './views/shipping-order-history-view-spec'
   './views/bits-history-view-spec'
+  './views/video-modal-view-spec'
+  './lib/tracking-utils-spec'
 ]
 
 for spec in specs

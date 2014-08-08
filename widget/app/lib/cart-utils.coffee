@@ -9,6 +9,7 @@ EventBroker = Chaplin.EventBroker
 $ = Winbits.$
 env = Winbits.env
 _ = Winbits._
+mediator = Winbits.Chaplin.mediator
 
 cartUtils = {}
 _(cartUtils).extend
@@ -29,13 +30,14 @@ _(cartUtils).extend
     .fail(@showCartErrorMessage)
 
   publishCartChangedEvent: (data) ->
+    mediator.data.set( 'bits-to-cart',data.response.bitsTotal)
     EventBroker.publishEvent('cart-changed', data)
 
   addToVirtualCart: (cartItems = {}) ->
     cartItems = @transformCartItems(cartItems)
     options =
       headers:
-        'Wb-VCart': utils.getVirtualCart()
+        'Wb-VCart': utils.getCartItemsToVirtualCart()
     options = @applyAddToCartRequestDefaults(cartItems, options)
     utils.ajaxRequest(@getCartResourceUrl(), options)
     .done(@addToVirtualCartSuccess)
@@ -65,6 +67,12 @@ _(cartUtils).extend
       utils.showMessageModal(message, options)
     else utils.showApiError.call(utils, arguments)
 
+  showCartLoading: ->
+    $('#wbi-loading-cart').removeClass('loader-hide')
+
+  hideCartLoading: ->
+    $('#wbi-loading-cart').addClass('loader-hide')
+
   doCartLoading: ->
     message = "Actualizando carrito ..."
     utils.showLoadingMessage(message)
@@ -87,7 +95,10 @@ _(cartUtils).extend
     options = @applyDeleteCartItemRequestDefaults(options)
     utils.ajaxRequest(@getCartResourceUrl(cartItemId), options)
     .done(@publishCartChangedEvent)
-    .fail(@showCartErrorMessage)
+    .fail(@deleteCartItemFail)
+
+  deleteCartItemFail: ->
+    console.log ['error en la api']
 
   applyDeleteCartItemRequestDefaults: (options = {}) ->
     defaults =

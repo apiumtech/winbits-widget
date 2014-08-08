@@ -34,6 +34,8 @@ Handlebars.registerHelper 'url', (routeName, params..., options) ->
   Chaplin.helpers.reverse routeName, params
 
 Handlebars.registerHelper "compare", (lvalue, rvalue, options) ->
+  lvalue = lvalue() if $.isFunction(lvalue)
+  rvalue = rvalue() if $.isFunction(rvalue)
   throw new Error("Handlerbars Helper 'compare' needs 2 parameters")  if arguments.length < 3
   #    asString = options.hash.asString or true
   asString = options.hash.asString != "false"
@@ -132,9 +134,52 @@ Handlebars.registerHelper "generateTicketPaymentDownloadUrl", (paymentCapture) -
   capture = JSON.parse (paymentCapture)
   capture.downloadUrl
 
+isPaymentSupported = (methods, identifier, options) ->
+  supported = no
+  for paymentMethod in  methods
+    if paymentMethod.identifier.indexOf(identifier) is 0
+      supported = yes
+      break
+  supported
+
+Handlebars.registerHelper "paymentMethodSupported", (identifier, options) ->
+  supported = isPaymentSupported(@paymentMethods, identifier, options)
+  if supported then options.fn this else options.inverse this
+
+allMsiPaymentsFunction = (methods) ->
+  $.grep methods, (paymentMethod)->
+   if paymentMethod.identifier.indexOf('.msi') isnt -1
+     return paymentMethod.identifier
+
+msiPaymentsFunction = (allMsiPayments) ->
+  msiIdentifiers = []
+  msiPayments = []
+  $.each allMsiPayments, (index, msiPayment) ->
+    identifier = msiPayment.identifier.substring 0, msiPayment.identifier.indexOf('.')
+    if msiIdentifiers.indexOf(identifier) is -1
+      msiIdentifiers.push identifier
+      msiPayments.push msiPayment
+  msiPayments
+
+Handlebars.registerHelper "withMsiPayments", (options) ->
+  allMsiPayments = allMsiPaymentsFunction @paymentMethods
+  msiPayments = msiPaymentsFunction allMsiPayments
+  if msiPayments.length > 0 then options.fn(msiPayments: msiPayments) else options.inverse this
+
 Handlebars.registerHelper "toDefaultDateFormat", (dateString) ->
   if dateString
     moment(new Date(dateString)).format('DD/MM/YYYY');
 
 Handlebars.registerHelper "abs", (number) ->
   Math.abs(number)
+
+checkAvailableCoupons = (coupons) ->
+  _.every coupons, (coupon) -> coupon.status is 'AVAILABLE'
+
+Handlebars.registerHelper "availableCoupon", (options) ->
+  available = checkAvailableCoupons @coupons
+  if available then options.fn this else options.inverse this
+
+Handlebars.registerHelper "getAvailableCouponsDate",(coupons) ->
+  createdCoupon =_.find coupons, (coupon) -> coupon.status isnt 'AVAILABLE'
+  createdCoupon.availableCouponDate

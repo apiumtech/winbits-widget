@@ -2,6 +2,16 @@
 
 # Application-specific utilities
 # ------------------------------
+DEFAULT_API_ERROR_MESSAGE = 'El servidor no está disponible, por favor inténtalo más tarde.'
+DEFAULT_VIRTUAL_CART = '{"cartItems":[], "bits":0}'
+
+mediator = Winbits.Chaplin.mediator
+$ = Winbits.$
+_ = Winbits._
+env = Winbits.env
+EventBroker = Winbits.Chaplin.EventBroker
+env = Winbits.env
+rpc = env.get('rpc')
 ModalTemplates =
   '#wbi-alert-modal': require 'templates/alert-modal'
   '#wbi-message-modal': require 'templates/message-modal'
@@ -9,37 +19,28 @@ ModalTemplates =
 
 # Delegate to Chaplin’s utils module.
 utils = Winbits.Chaplin.utils.beget Chaplin.utils
-mediator = Winbits.Chaplin.mediator
-$ = Winbits.$
-_ = Winbits._
-EventBroker = Winbits.Chaplin.EventBroker
-env = Winbits.env
-rpc = env.get('rpc')
-
-DEFAULT_API_ERROR_MESSAGE = 'El servidor no está disponible, por favor inténtalo más tarde.'
 
 # _(utils).extend
 #  someMethod: ->
-_(utils).extend
+# Some functions are defined inside init-utils.coffee
+_(utils).extend Winbits.utils,
   redirectToLoggedInHome: ->
     @redirectTo controller: 'logged-in', action: 'index'
 
   redirectToNotLoggedInHome: ->
     @redirectTo 'not-logged-in#index'
 
-  getUrlParams : ->
-    vars = []
-    hash = undefined
-    indexOfQuestionMark = window.location.href.indexOf("?")
-    hashes = window.location.href.slice(indexOfQuestionMark + 1).split("&")
-    i = 0
+  replaceVerticalContent:(container = {})->
+    $container = $(container)
+    verticalContainer = env.get('vertical-container')
+    $(verticalContainer).children().not($container).hide()
+    $container.show()
 
-    while i < hashes.length
-      hash = hashes[i].split("=")
-      vars.push hash[0]
-      vars[hash[0]] = hash[1]
-      i++
-    vars
+  restoreVerticalContent:()->
+    $verticalContainer = $(env.get('vertical-container'))
+    $verticalContainer.children('.wbc-vertical-content').hide()
+    $verticalContainer.children().not('.wbc-vertical-content').show()
+    $('div .mainHeader').show()
 
   redirectToVertical : (url)->
     window.location.href = url
@@ -66,7 +67,7 @@ _(utils).extend
       $form.find('input:visible:not([disabled]), textarea:visible:not([disabled])').first().focus()
 
   alertErrors : ($) ->
-    params = util.getUrlParams()
+    params = @getURLParams()
     alert params._wb_error  if params._wb_error
 
   serializeForm : ($form, context) ->
@@ -74,7 +75,6 @@ _(utils).extend
     $.each $form.serializeArray(), (i, f) ->
       formData[f.name] = f.value
     formData
-
 
   serializeProfileForm: ($form) ->
     formData = {birthdate : @getBirthdate($form)}
@@ -197,8 +197,6 @@ _(utils).extend
     fillStr = new Array(length + 1).join(fillChar)
     (fillStr + str).slice(length * -1)
 
-
-
   getDateValue: ($form, selector) ->
     value = $form.find(selector).val()
     if value
@@ -277,7 +275,6 @@ _(utils).extend
       supported = method for method in methods when method.identifier.match ac
       if supported
         return new Handlebars.SafeString("")
-
     html
 
   toggleDropMenus:(e, dropMenuClass)->
@@ -316,7 +313,7 @@ _(utils).extend
       padding: 10
       modal: options.modal
       transitionIn: options.transitionIn
-      transitionOut: options.transitionout
+      transitionOut: options.transitionOut
       changeSpeed: options.changeSpeed
       onClosed: onClosed
       onComplete: ->
@@ -324,8 +321,13 @@ _(utils).extend
         $fancybox.find(".wbc-default-action").click(options.acceptAction)
         if $.isFunction(options.cancelAction)
           $fancybox.find(".wbc-cancel-action").click(options.cancelAction)
-    $.fancybox(content, fancyboxOptions)
-
+    $fancyboxOverlay = $('#fancybox-overlay')
+    attempts = 0
+    interval = setInterval(->
+      if ++attempts is 20 or $fancyboxOverlay.is(':hidden')
+        clearInterval(interval)
+        $.fancybox(content, fancyboxOptions)
+    , 50)
 
   showConfirmationModal: (message, options = {}) ->
     $modal = $('#wbi-confirmation-modal')
@@ -347,8 +349,6 @@ _(utils).extend
     divLoader = "<div class='wbc-loader'></div>"
     @showMessageModal(divLoader, options, '#wbi-message-modal')
 
-  ajaxRequest: Winbits.ajaxRequest
-
   getApiToken: ->
     mediator.data.get('login-data')?.apiToken
 
@@ -364,11 +364,12 @@ _(utils).extend
     localStorage.removeItem(env.get('api-token-name'))
 
   redirectTo: ->
+    [].push.apply(arguments,[{},replace:yes])
     Winbits.Chaplin.utils.redirectTo.apply null, arguments
 
-  saveLoginData: Winbits.saveLoginData
-
   formatCurrency: (value) ->
+    if value
+      value = value.toString().replace('.00', '')
     "$#{value}"
 
   formatPercentage: (value) ->
@@ -384,16 +385,33 @@ _(utils).extend
       no
 
   getVirtualCart: () ->
-    mediator.data.get('virtual-cart') or '[]'
+    mediator.data.get('virtual-cart') or DEFAULT_VIRTUAL_CART
+
+  getCartItemsToVirtualCart: () ->
+    cartItems = "[]"
+    vcart = mediator.data.get('virtual-cart') or DEFAULT_VIRTUAL_CART
+    vcart = JSON.parse(vcart)
+    if not $.isEmptyObject vcart.cartItems
+      cartItems = JSON.stringify vcart.cartItems
+    cartItems
+
+  getBitsToVirtualCart: () ->
+    JSON.parse(mediator.data.get('virtual-cart') or DEFAULT_VIRTUAL_CART).bits
 
   saveVirtualCart: (cartData) ->
-    vcart = "[]"
+    vcart = DEFAULT_VIRTUAL_CART
     if(cartData.itemsCount > 0)
       cartItems = (@toCartItem(x) for x in cartData.cartDetails)
-      vcart = JSON.stringify(cartItems)
+      vcart = JSON.stringify(cartItems : cartItems, bits:@getBitsToVirtualCart())
     @saveVirtualCartInStorage(vcart)
 
-  saveVirtualCartInStorage: (vcart = "[]")->
+  saveBitsInVirtualCart: (bits=0)->
+    cartItems = JSON.parse @getCartItemsToVirtualCart()
+    vcart = {cartItems:cartItems, bits:bits}
+    vcart = JSON.stringify vcart
+    @saveVirtualCartInStorage(vcart)
+
+  saveVirtualCartInStorage: (vcart = DEFAULT_VIRTUAL_CART)->
     mediator.data.set('virtual-cart', vcart)
     rpc.storeVirtualCart(vcart)
 
@@ -416,6 +434,12 @@ _(utils).extend
 
   closeMessageModal: $.fancybox.close
 
+  showLoaderToCheckout: ->
+    $('#wbi-loader-to-checkout').show().removeClass('loader-hide')
+
+  hideLoaderToCheckout: ->
+    $('#wbi-loader-to-checkout').hide().addClass('loader-hide')
+
   updateProfile: (data)->
     $loginDataActual = _.clone mediator.data.get 'login-data'
     mediator.data.set 'login-data', data.response
@@ -424,19 +448,26 @@ _(utils).extend
       @publishEvent 'cashback-bits-won', data.response.cashback
     else
       message = "Tus datos se han guardado correctamente"
-      options = icon: 'iconFont-ok', title:'Perfil actualizado', value:'Aceptar'
+      options =
+        icon: 'iconFont-ok'
+        title:'Perfil actualizado'
+        value:'Aceptar'
+        onClosed: -> @redirectTo(controller:'home', action:'index')
       @showMessageModal(message, options)
     if data.response.bitsBalance != $loginDataActual.bitsBalance
       @publishEvent 'bits-updated'
 
-
   publishEvent: (event, data = {})->
     EventBroker.publishEvent event, data
+
+  # Following functions are defined inside init-utils.coffee:
+  # ajaxRequest
+  # saveLoginData
+  # getURLParams
 
 # Prevent creating new properties and stuff.
 Object.seal? utils
 
-delete Winbits.ajaxRequest
-delete Winbits.saveLoginData
+delete Winbits.utils
 
 module.exports = utils

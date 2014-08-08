@@ -155,12 +155,12 @@ describe 'EditCardViewSpec', ->
     expect(utils.hideAjaxLoading).to.has.been.calledOnce
 
   it 'should hide ajax loading if card saving fails', ->
-    sinon.stub(utils, 'hideAjaxLoading')
+    sinon.stub(@view, 'requestUpdateCardError')
     @model.requestUpdateCard.returns(new $.Deferred().rejectWith(@view).promise())
     editCardData.call(@)
 
     @view.$('.wbc-save-card-btn').click()
-    expect(utils.hideAjaxLoading).to.has.been.calledOnce
+    expect(@view.requestUpdateCardError).to.has.been.calledOnce
 
   getCardModelAttributes = ->
     cardData:

@@ -3,6 +3,7 @@ $ = Winbits.$
 _ = Winbits._
 mediator = Winbits.Chaplin.mediator
 utils = require 'lib/utils'
+cartUtils = require 'lib/cart-utils'
 
 module.exports = class CartBitsView extends View
   container: '#wbi-cart-right-panel'
@@ -47,23 +48,41 @@ module.exports = class CartBitsView extends View
   updateBalanceValues: ($slider, bits) ->
     $maxBits = $slider.slider('option', 'max')
     if $maxBits > 0
-      @updateCartBits bits
+      if @bits isnt bits
+        @bits = bits
+        @updateCartBits bits
 
 
   updateCartBits: (bits) ->
+    cartUtils.showCartLoading()
     if utils.isLoggedIn()
       data = [bitsTotal : bits]
       @model.updateCartBits(data, context:@)
       .done(@updateCartBitsSuccess)
       .fail(@updateCartBitsError)
+    else
+      utils.saveBitsInVirtualCart bits
+      @checkPaymentMethods()
+
+  checkPaymentMethods: ->
+    @model.requestPaymentMethods(@)
+     .done(@setPaymentMethods)
+     .fail((xhr)->console.log ["xhr", xhr.responseText])
+     .always(cartUtils.hideCartLoading)
+
+  setPaymentMethods:(data) ->
+    @model.set('paymentMethods', data.response.paymentMethods)
 
   updateCartBitsSuccess: (data) ->
+    cartUtils.hideCartLoading()
     bitsTotal= data.response.bitsTotal
     @model.set 'bitsTotal', bitsTotal
     mediator.data.set 'bits-to-cart', bitsTotal
+    @model.set 'paymentMethods',data.response.paymentMethods
     @publishEvent 'change-bits-data'
 
   updateCartBitsError: (xhr, textStatus) ->
+    cartUtils.hideCartLoading()
     $maxSelection = @$('#wbi-cart-bits-slider').data('max-selection')
     $bitsTotal =$maxSelection - parseInt( $('#wbi-my-bits').text())
     @model.set 'bitsTotal', $bitsTotal

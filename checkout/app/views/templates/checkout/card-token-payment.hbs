@@ -1,4 +1,4 @@
-<div class="checkoutPaymentCreditValidate" id="wbi-card-token-payment-view">
+<div class="checkoutPaymentCreditValidate wbiPaymentMethod" id="wbi-card-token-payment-view">
   <form id="wbi-card-token-payment-form" accept-charset="utf-8" action="#" method="post">
     <fieldset>
       <div class="column">
@@ -14,7 +14,6 @@
          {{howManyInstallmentLoans cardInfo.supportInstallments ../methods cardInfo.cardData.cardType}}
         </select>
         {{/if}}
-        <div class="errorDiv"><p></p></div>
       </div>
       <div class="column columExtralarge">
         <div class="submitButton">

@@ -3,6 +3,7 @@ ChaplinMediator = require 'chaplin/mediator'
 config = require 'config'
 util = require 'lib/util'
 EventBroker = require 'chaplin/lib/event_broker'
+validators = require 'lib/validators'
 
 #routes = require 'routes'
 #_ = require 'underscore'
@@ -140,3 +141,25 @@ module.exports = class Application
       else
         yes
     ,"Ingresa un número telefónico válido.")
+
+    Winbits.$.validator.addMethod("wbiSupportInstallments", (value, element, params) ->
+      url = "#{config.apiUrl}/orders/cards/support-installment?accountNumber=#{value}"
+      validMsiCard = yes  
+      defaults =
+        type: "GET"
+        contentType: "application/json"
+        dataType: "json"
+        headers:
+          "Accept-Language": "es"
+
+      util.ajaxRequest(
+        url:url 
+        options: defaults,
+        success: (data) ->
+          respuesta=
+            responseJSON: data
+          validators.successSupportInstallment respuesta, params.paymentMethod, params.selector
+      )
+
+      validMsiCard  
+    ,"La tarjeta no soporta meses sin intereses.")

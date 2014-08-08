@@ -1,6 +1,7 @@
 'use strict'
 View = require 'views/base/view'
 utils = require 'lib/utils'
+trackingUtils = require 'lib/tracking-utils'
 $ = Winbits.$
 env = Winbits.env
 
@@ -12,7 +13,7 @@ module.exports = class ModalRegisterView extends View
   initialize: ->
     super
     @delegate 'click', '#wbi-register-button', @register
-    @delegate 'click', '#wbi-register-facebook-link', @doFacebookRegister
+    @delegate 'click', '#wbi-facebook-link', @doFacebookRegister
 
   attach: ->
     super
@@ -34,11 +35,12 @@ module.exports = class ModalRegisterView extends View
     $('<a>').wbfancybox(href: '#wbi-register-modal', onClosed: -> utils.redirectTo controller: 'home', action: 'index').click()
 
   register: (e)->
-    @$('.errorDiv').css('display':'none')
     e.preventDefault()
+    @$('.errorDiv').css('display':'none')
     $form =  @$("#wbi-register-form")
     formData = verticalId: env.get('current-vertical-id')
     formData = utils.serializeForm($form, formData)
+    $.extend(formData, utms: trackingUtils.getUTMs())
     if utils.validateForm($form)
       submitButton = @$(e.currentTarget).prop('disabled', true)
       @model.requestRegisterUser(formData, context:@)
@@ -49,7 +51,7 @@ module.exports = class ModalRegisterView extends View
 
   doRegisterSuccess: (data) ->
     console.log "Request Success!"
-    message = "Gracias por registrarte con nosotros. <br> Un mensaje de confirmación ha sido enviado a tu <br> cuenta de correo."
+    message = "Gracias por registrarte con nosotros. Un mensaje de confirmación ha sido enviado a tu cuenta de correo."
     options = value: "Continuar", title:'Registro Exitoso', icon:'iconFont-ok', onClosed: utils.redirectTo controller: 'home', action: 'index'
     utils.showMessageModal(message, options)
 

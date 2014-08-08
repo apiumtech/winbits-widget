@@ -5,3 +5,5 @@ $ = Winbits.$
 
 module.exports = class TransferCartErrors extends Model
 
+    hasFailedCartDetails: ->
+      @get('failedCartDetails')?

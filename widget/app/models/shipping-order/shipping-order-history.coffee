@@ -4,12 +4,9 @@ Model = require "models/base/model"
 env = Winbits.env
 $ = Winbits.$
 
-module.exports = class Mailing extends Model
+module.exports = class ShippingOrderHistory extends Model
   url: env.get('api-url') + "/users/orders.json"
   needsAuth: true
-
-  initialize: ->
-    super
 
   parse: (data) ->
     orders: super
@@ -19,3 +16,16 @@ module.exports = class Mailing extends Model
       @meta.totalCount
     else
       0
+
+  requestCouponsService:(orderDetailId, options)->
+    defaults =
+      contentType: "application/json"
+      dataType: "json"
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token": utils.getApiToken()
+    utils.ajaxRequest(
+      env.get('api-url') + "/users/coupons/#{orderDetailId}.json",
+      $.extend(defaults, options)
+    )
+

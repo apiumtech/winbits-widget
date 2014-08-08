@@ -1,14 +1,29 @@
+.PHONY: build watch public install packages test clean
 
-build: components index.js brunch-with-chaplin.css template.js
-	@component build --dev
+bower=./node_modules/.bin/bower
+jake=./node_modules/.bin/jake
+brunch=./node_modules/.bin/brunch
+mocha-phantomjs=./node_modules/.bin/mocha-phantomjs
 
-template.js: template.html
-	@component convert $<
+build: public
+	$(brunch) build;
 
-components: component.json
-	@component install --dev
+public:
+	$(jake) "switch-config[dev]"; \
+	rm -rf public;
+
+watch: public
+	$(brunch) watch;
+
+install: packages build
+
+packages:
+	npm install; \
+	$(bower) install;
+
+test:
+	$(mocha-phantomjs) -R spec http://dev.mylooq.com/test/\?grep\=${grep}
 
 clean:
 	rm -fr build components template.js
 
-.PHONY: clean

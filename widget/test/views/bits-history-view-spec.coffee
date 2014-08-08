@@ -38,5 +38,4 @@ describe 'BitsHistoryViewSpec', ->
     request.respond(200, { "Content-Type": "application/json" }, YOUR_BITS_RESPONSE)
     @view.render()
     expect(@model.attributes.transactions).not.equal(undefined)
-    expect(@view.$('.dataTable')).to.exist
     expect(@view.$('.addInfo span')).to.not.exist

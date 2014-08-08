@@ -1,48 +1,57 @@
 'use strict'
-Controller = require 'controllers/not-logged-in-controller'
-$ = Winbits.$
+
+Controller = require 'controllers/base/controller'
 utils = require 'lib/utils'
+trackingUtils = require 'lib/tracking-utils'
+$ = Winbits.$
 promises = []
 mediator = Winbits.Chaplin.mediator
 
 module.exports = class HashController extends Controller
 
   completeRegister: (obj)->
-    @expressLogin(obj.apiToken)
+    @expressLogin(obj.apiToken, yes)
       .done @completeRegisterSuccess
       .fail @expressLoginError
 
   switchUser: (obj)->
-      @expressLogin(obj.apiToken)
-        .done @switchUserSuccess
-        .fail @expressLoginError
+    @expressLogin(obj.apiToken)
+      .done @switchUserSuccess
+      .fail @expressLoginError
 
-
-  expressLogin : (apiToken) ->
+  expressLogin : (apiToken, firstLogin = no) ->
+    requestData =
+      apiToken: apiToken
+      firstLogin: firstLogin
+      utms: trackingUtils.getUTMs()
     utils.ajaxRequest Winbits.env.get('api-url') + '/users/express-login.json',
       type: 'POST',
       dataType: "json"
-      data: JSON.stringify(apiToken: apiToken)
+      context: @
+      data: JSON.stringify(requestData)
 
   completeRegisterSuccess: (data) ->
     if $.isEmptyObject data.response
       @expressLoginError()
     else
-      utils.saveLoginData data.response
-      mediator.data.set 'login-data', data.response
+      @saveLoginData data.response
       utils.redirectTo controller:'complete-register', action:'index'
 
   switchUserSuccess: (data) ->
     if $.isEmptyObject data.response
       utils.redirectTo controller: 'home', action: 'index'
     else
-      utils.saveLoginData data.response
-      mediator.data.set 'login-data', data.response
+      @saveLoginData data.response
       utils.redirectToLoggedInHome()
+
+  saveLoginData: (loginData)->
+    utils.deleteApiToken()
+    utils.saveLoginData loginData
+    mediator.data.set 'login-data', loginData
+    trackingUtils.deleteUTMs()
 
   expressLoginError: () ->
     utils.redirectTo controller: 'home', action: 'index'
 
   resetPassword:(params) ->
-    utils.redirectTo controller:'reset-password' ,action: 'index', params: params
-
+    utils.redirectTo controller:'reset-password', action: 'index', params: params
