@@ -33,8 +33,7 @@ module.exports = class LoginView extends View
           minlength: 6
 
   showAsModal: ->
-    options = onClosed: -> utils.redirectTo controller: 'home', action: 'index'
-    $('<a>').wbfancybox(href: '#' + @id, options).click()
+    $('<a>').wbfancybox(href: '#' + @id, onClosed: -> utils.redirectTo controller: 'home', action: 'index').click()
 
   doLogin:(e) ->
     e.preventDefault()
