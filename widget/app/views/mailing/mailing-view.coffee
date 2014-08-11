@@ -56,7 +56,6 @@ module.exports = class MailingView extends View
 
 
   successSubscriptionsUpdate:(message) ->
-    console.log ["OPEN MODAL"]
     options = value: "Aceptar", title:'Cambios Guardados', icon:'iconFont-candado', onClosed: utils.redirectTo url: '/#wb-mailing'
     utils.showMessageModal(message, options)
 
@@ -65,5 +64,5 @@ module.exports = class MailingView extends View
 
   errorSubscriptionsUpdate: () ->
     message = "Hubo un error al intentar actualizar las subscripciones, intentalo mas tarde"
-    options = value: "Continuar", title:'Error al actualizar', icon:'iconFont-close', onClosed: utils.redirectTo url: '/#wb-mailing'
+    options = value: "Aceptar", title:'Error al actualizar', icon:'iconFont-close', onClosed: utils.redirectTo url: '/#wb-mailing'
     utils.showMessageModal(message, options)
