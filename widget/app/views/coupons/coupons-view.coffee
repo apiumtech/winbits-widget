@@ -19,7 +19,7 @@ module.exports = class CouponsView extends View
     @showAsModal()
 
   showAsModal: ->
-    $('<a>').wbfancybox(href: '#' + @id, onClosed: -> utils.redirectTo url: '/#wb-shipping-order-history').click()
+    $('<a>').wbfancybox(href: '#' + @id, onClosed: -> utils.redirectTo controller:'shipping-order-history',action:'index').click()
 
   doCouponPdfLink:(e)->
     currentTarget = @$(e.currentTarget).closest('.wbc-coupon-data')
