@@ -54,4 +54,5 @@ module.exports = class HashController extends Controller
     utils.redirectTo controller: 'home', action: 'index'
 
   resetPassword:(params) ->
-    utils.redirectTo controller:'reset-password', action: 'index', params: params
+    mediator.data.set('salt', params)
+    utils.redirectTo controller:'reset-password', action: 'index'
