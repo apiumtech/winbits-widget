@@ -22,7 +22,8 @@ module.exports = class CheckoutTempView extends View
     @delegate 'click', '#wbi-post-checkout-btn', @doToCheckout
     @delegate 'click', '.wbc-delete-item', @doDeleteConfirm
     utils.replaceVerticalContent('.widgetWinbitsMain')
-    $('div .mainHeader').hide()
+    $('div#wbi-header-wrapper').hide()
+    $('div#wbi-header-wrapper-without-widget').show()
 
   attach: ->
     super
@@ -101,8 +102,6 @@ module.exports = class CheckoutTempView extends View
     @intervalStop()
     mediator.data.set('bits-to-cart', 0)
     utils.restoreVerticalContent('.widgetWinbitsMain')
-    $('main .wrapper').show()
-    $('div .mainHeader').show()
     @publishEvent 'cart-changed'
     utils.redirectToLoggedInHome()
 

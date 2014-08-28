@@ -40,7 +40,8 @@ _(utils).extend Winbits.utils,
     $verticalContainer = $(env.get('vertical-container'))
     $verticalContainer.children('.wbc-vertical-content').hide()
     $verticalContainer.children().not('.wbc-vertical-content').show()
-    $('div .mainHeader').show()
+    $('div#wbi-header-wrapper').show()
+    $('div#wbi-header-wrapper-without-widget').hide()
 
   redirectToVertical : (url)->
     window.location.href = url

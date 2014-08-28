@@ -15,12 +15,14 @@
           <td class="column3"><span title="{{vertical.name}}" class="iconVertical-t vertical{{vertical.id}}"></span></td>
           <td class="column4">{{formatCurrency price}}</td>
       {{/with}}
-        <td class="column5">
+        <td class="column8">{{#if warnings}}{{warnings.0.quantityRequired}}{{else}}{{quantity}}{{/if}}</td>
+        <td class="column9">
           <select class="select wbc-item-quantity" data-clase="selectQuantity">
             {{#eachOption min max}}
               <option value="{{value}}" {{#compare value ../quantity}}selected{{/compare}}>{{text}}</option>
             {{/eachOption}}
           </select>
+          {{#if warnings}}<div class="productOut"><span class="iconFont-clock2"> </span>Los productos en existencia no son suficientes para surtir tu pedido</div>{{/if}}
         </td>
         <td class="column6">{{formatCurrency amount}}</td>
         <td class="column7"><a title="Quitar Item" class="iconFont-close wbc-delete-item" data-id="{{sku.id}}"></a></td>
@@ -39,11 +41,10 @@
           {{/each}}
         </td>
         <td class="column3"><span title="{{vertical.name}}" class="iconVertical-t vertical{{vertical.id}}"></span></td>
-        <td colspan="4" class="columnUnavailable">
-          <div>
-            <p>Lo sentimos</p>
-            <p>Este producto ya no esta disponible</p>
-          </div>
+        <td></td>
+        <td></td>
+        <td colspan="2" class="column9">
+          <div class="productUnavailable"> <span class="iconFont-close"></span>Lo sentimos, este producto ya no esta disponible</div>
         </td>
       </tr>
     {{/each}}
