@@ -1,0 +1,71 @@
+ {{#if orders}}
+  {{#each orders}}
+    <div class="dataTable-fila wbc-order">
+        <div class="dataTable-desc">
+            <div class="table-desc">
+                <p>Orden: {{orderNumber}}</p>
+                <p>Fecha de compra: {{toDefaultDateFormat dateOfPurchase}}</p>
+                <p>Total: ${{total}} </p>
+            </div>
+
+            <div class="table-desc">
+                <p>Status de la Orden:</p>
+                <p class="status{{#compare status 'PAID'}}1{{else}}2{{/compare}}">{{#compare status 'PAID'}}PAGADA{{else}}PENDIENTE{{/compare}}</p>
+            </div>
+          {{#each ticketPayments}}
+              <div class="table-desc">
+                  <p>Descarga ficha de pago ({{#compare identifier 'oxxo.bc'}}OXXO{{else}}HSBC{{/compare}})</p>
+                  <a target="_blank" href="{{generateTicketPaymentDownloadUrl paymentCapture}}" title="Ficha {{#compare identifier 'oxxo.bc'}}OXXO{{else}}HSBC{{/compare}}" class="iconFont-doc wbc-icon-download"></a>
+              </div>
+          {{/each}}
+        </div>
+      <div class="dataTable-bodyItems">
+      {{#each details}}
+          <div class="dataTable-item wbc-order-detail" data-id="{{orderDetailId}}" data-name="{{name}}" data-description="{{shortDescription}}">
+              <div class="dataTable-photo">
+                  <img src="{{thumbnail.url}}" width="62" height="79"
+                       alt="{{name}}">
+              </div>
+              <div class="dataTable-prod">
+              <strong>{{name}}</strong>
+              <strong>{{brand}}</strong>
+              <strong>{{attributeLabel}}: {{attributeName}}</strong>
+              {{#each attributes}}
+                  <strong>{{name}}:{{label}}</strong>
+              {{/each}}
+              {{#compare ../status 'PAID'}}
+                {{#if withCoupon}}
+                   <span title="Cupones" class="iconFont-coupons icon-green wbc-icon-coupon"></span>
+                {{/if}}
+              {{/compare}}
+          </div>
+
+          <div class="dataTable-cant">{{quantity}}</div>
+          <div class="dataTable-status">
+          {{#compare quantity '1'}}
+              <span>{{deliveryStatus.0.status}}</span>
+          {{else}}
+            {{#each deliveryStatus}}
+              <span>({{quantity}}){{status}}</span>
+            {{/each}}
+          {{/compare}}
+          </div>
+          <div class="dataTable-num">
+           {{#if tracingNumbers}}
+            {{#each tracingNumbers}}
+               ({{quantity}}){{trackingGuide}}
+            {{/each}}
+           {{else}}
+             <h3>-</h3>
+           {{/if}}
+          </div>
+          <div class="dataTable-site">
+            <span class="iconVertical-t vertical{{vertical.id}}" title="{{vertical.name}}"></span>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+    </div>
+
+  {{/each}}
+{{/if}}

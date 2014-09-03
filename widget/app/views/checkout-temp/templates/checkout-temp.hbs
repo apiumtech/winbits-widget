@@ -1,0 +1,47 @@
+<div class="wrapper titleTable">
+  <div class="title-title">
+    <h2>Revisa tu pedido </h2>
+    <p>Algunos de los artículos que solicitaste nos es imposible de enviarte, ya sea porque no tenemos en existencia la cantidad que nos pediste, porque ya no tenemos en existencia ese artículo o porque excede el número máximo de productos por cliente. </p>
+    <p>Te pedimos que revises tu pedido y hagas los ajustes necesarios para que podamos procesar tu pedido. </p>
+  </div>
+  <div class="dataTable">
+    <table>
+      <thead>
+      <tr>
+        <th class="column1">Foto</th>
+        <th class="column2">Descripción de Producto</th>
+        <th class="column3">Comprado en</th>
+        <th class="column4">Precio</th>
+        <th class="column8">Cantidad Solicitada</th>
+        <th class="column9">Cantidad Disponible</th>
+        <th class="column6">Subtotal</th>
+        <th class="column7">Quitar</th>
+      </tr>
+      </thead>
+    </table>
+  </div>
+</div>
+<div class="resumeCheckoutTable">
+  <div class="wrapper">
+    <div class="dataTable" id="wbi-checkout-temp-table-div">
+
+    </div>
+  </div>
+</div>
+<div class="wrapper">
+  <div class="totalCheckOutTemp"><span class="totalCheckOutTemp-leyend">Recuerda que puede usar tus winbits como dinero en compras. Solo mueve la moneda para aumentar la cantidad de bits que utilizas.</span>
+    <div class="totalCheckOutTemp-total">
+      <div class="totalCheckOutTemp-timer"><span class="timeCheckout"><em class="iconFont-clock2"></em><span id="wb-checkout-timer"></span></span></div>
+      <div class="totalCheckOutTemp-subTotal" id="wbi-checkout-temp-sub-total-div"></div>
+      <div class="totalCheckOutTemp-slider" id="wbi-checkout-temp-bits-div"></div>
+      <div class="totalCheckOutTemp-totalTotal" id="wbi-checkout-temp-total-div"></div>
+
+    <div class="totalCheckOutTemp-checkout">
+      <a class="linkBack" id="wbi-return-site-btn" ><span class="iconFont-arrowLeft"></span>Regresar</a>
+      {{#if orderDetails}}
+        <input type="button" value="CHECK OUT" class="btn" id="wbi-post-checkout-btn">
+      {{/if}}
+    </div>
+  </div>
+  </div>
+</div>

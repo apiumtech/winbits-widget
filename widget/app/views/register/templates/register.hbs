@@ -1,0 +1,27 @@
+<form id="wbi-register-form" accept-charset="utf-8" method="post">
+  <div class="mainModal registro01">
+    <div class="contentModal">
+      <fieldset class="leftModal">
+        <span class="icon winbits23px">winbits</span>
+        <a href="#" class="loginFacebook" id="wbi-facebook-link"><span class="icon facebookWhite"></span>Únete a Winbits vía Facebook</a>
+        <span class="login-or">ó</span>
+        <input type="text" placeholder="Email" name="email">
+        <input type="password" placeholder="Password" name="password">
+        <input type="password" placeholder="Comprobar Password" name="passwordConfirm">
+        <div class="errorDiv" style="display:none;"><p></p></div>
+        <p>¿Ya tienes una cuenta? <a href="#wb-login" class="wb-hash-link">haz click aquí</a></p>
+        <p class="terminosCondiciones">Al hacer click en "Registrate" aceptas nuestros <a href="#">Términos y Condiciones</a> y nuestro <a href="#">Aviso de Privacidad.</a></p>
+        <input type="submit" id="wbi-register-button" class="btn btnCart" value="Registrate">
+      </fieldset>
+      <aside class="asideModal">
+        <p>USA TU CUENTA WINBITS <br>EN TODOS ESTOS SITIOS:</p>
+        <ul>
+          {{#eachActiveVertical}}
+          <li><a href="{{baseUrl}}" class="iconVertical-r vertical{{id}}" title="{{name}}"></a></li>
+          {{/eachActiveVertical}}
+        </ul>
+        <span>UNA MISMA CUENTA, UN SÓLO LOGIN<br>Y EN TODOS GANAS WINBITS</span>
+      </aside>
+    </div>
+  </div>
+</form>

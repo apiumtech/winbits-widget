@@ -1,0 +1,51 @@
+<input id="wbi-cart-checkout-btn" type="submit" class="btn" value="Checkout">
+<a id="wbi-continue-shopping-link" href="#wb-logged-in" class="continueShoping">CONTINUE SHOPPING</a>
+<div class="condicionesCompra">
+    <p>Aplica para esta compra</p>
+    {{#if paymentMethods}}
+      <p>
+        {{#paymentMethodSupported  'paypal.latam'}}
+          <span title="PayPal" class="iconFont-paypal tip"></span>
+        {{/paymentMethodSupported}}
+
+        {{#paymentMethodSupported  'oxxo.'}}
+          <span title="OXXO" class="iconFont-oxxo tip"></span>
+        {{/paymentMethodSupported}}
+
+        {{#paymentMethodSupported 'reference.hsbc'}}
+          <span title="Depósito Bancario" class="iconFont-efectivo tip"></span>
+        {{/paymentMethodSupported}}
+
+        {{#paymentMethodSupported 'user.bits'}}
+          <span style="font-size: 40px" title="Paga con Winbits" class="iconFont-billete tip"></span>
+        {{/paymentMethodSupported}}
+
+        {{#paymentMethodSupported 'cybersource.'}}
+        <span class="paymentLOP">
+            <span title="VISA" class="iconFont-visa tip"></span>
+            <span title="Master Card" class="iconFont-mastercard tip"></span>
+            {{#paymentMethodSupported 'amex.'}}
+            <span title="American Express" class="iconFont-amex tip"></span>
+            {{/paymentMethodSupported}}
+        </span>
+        {{/paymentMethodSupported}}
+      </p>
+      {{#withMsiPayments}}
+        <p>Meses sin intereses con:</p>
+        <p>
+          {{#each msiPayments}}
+            {{#compare identifier 'cybersource.+' operator='matches'}}
+                <span title="Master Card" class="iconFont-mastercard tip"></span>
+                <span title="VISA" class="iconFont-visa tip"></span>
+            {{/compare}}
+            {{#compare identifier 'amex.+' operator='matches'}}
+                <span title="American Express" class="iconFont-amex tip"></span>
+            {{/compare}}
+            {{#compare identifier 'paypal.+' operator='matches'}}
+                <span title="Pay Pal" class="iconFont-paypal tip"></span>
+            {{/compare}}
+          {{/each}}
+        </p>
+      {{/withMsiPayments}}
+    {{/if}}
+</div>

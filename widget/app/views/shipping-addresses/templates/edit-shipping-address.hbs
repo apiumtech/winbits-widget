@@ -1,0 +1,35 @@
+<form id="wbi-edit-shipping-address-form" data-id={{id}}>
+        <div class="column">
+            <h3>NOMBRE</h3>
+            <input type="text" placeholder="Nombre" name="firstName" class="requiredField" data-requiredfield="Nombre Requerido" value={{firstName}}>
+            <input type="text" placeholder="Apellido Paterno" name="lastName" class="requiredField" data-requiredfield="Apellido Paterno Requerido" value={{lastName}}>
+            <input type="text" placeholder="Apellido Materno" name="lastName2" value={{lastName2}}>
+        </div>
+        <div class="column">
+            <h3>DIRECCIÓN</h3>
+            <textarea placeholder="Calle" name="street" class="requiredField" data-requiredfield="Requerido">{{street}}</textarea>
+            <div class="inputNumber">
+                <input name="externalNumber" maxlength="5" type="text" placeholder="# ext" class="requiredField" data-requiredfield="Numero Externo Requerido" value={{externalNumber}}>
+                <input name="internalNumber" maxlength="5" type="text" placeholder="# int" value={{internalNumber}}>
+            </div>
+            <textarea name="indications" maxlength="35" placeholder="¿Entre qué calles?/Referencias para llegar" class="requiredField" data-requiredfield="Requerido">{{indications}}</textarea>
+        </div>
+        <div class="column noH3">
+            <input type="text"  placeholder="Codigo Postal" name="zipCode" class="requiredField" data-requiredfield="Codigo Postal Requerido" maxlength="5" value={{zipCode}}>
+            <input type="text" placeholder="Estado" name="state" class="requiredField" data-requiredfield="Requerido" disabled="disabled" readonly="readonly" value={{state}}>
+            <input type="text" placeholder="Delegación o Municipio" name="city" class="requiredField" data-requiredfield="Requerido" disabled="disabled" readonly="readonly" value={{city}}>
+            <select id="wbi-shipping-address-zip-code-info" name="zipCodeInfo" class="select requiredField" data-requiredfield="Requerido" data-clase="selectRegister" value="{{#if zipCodeInfo}}{{zipCodeInfo.id}}{{/if}}"  {{#if location}}data-location="{{location}}"{{/if}}></select>
+        <input type="text" placeholder="Teléfono con lada" name="phone" class="requiredField" data-requiredfield="Telefono con LADA Requerido" maxlength="15" value="{{phone}}">
+    </div>
+        <div class="column columnLarge">
+            <h3>OPCIONES</h3>
+            <input name="main" {{#if main}}checked="checked"{{/if}} type="checkbox" class="checkbox" value="true">
+            <label class="checkboxLabel">Hacer esta mi dirección principal</label>
+            <p class="note">Winbits guarda tu dirección para que puedas utilizarlas siempre que las necesites y tus compras sean mucho más fáciles. </p>
+            <div id="wbi-edit-shipping-address-error" class="errorDiv" style="display: none"><p></p></div>
+            <div class="submitButton">
+                <span id="wbi-edit-shipping-address-cancel" class="btn btnCancel">Cancelar</span>
+                <input id="wbi-edit-shipping-address-submit-btn" type="button" value="Guardar" class="btn">
+            </div>
+        </div>
+</form>

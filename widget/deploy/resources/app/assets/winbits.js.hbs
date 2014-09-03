@@ -1,0 +1,60 @@
+(function(){
+  window.Winbits = {
+    env: {
+      'api-url': "{{apiUrl}}",
+      'checkout-url': "{{checkoutUrl}}",
+      'base-url': "{{baseUrl}}",
+      'provider-url': "{{providerUrl}}",
+      'currency': "MXN",
+      'api-token-name': '_wb_api_token'
+    },
+    debug: {{debug}},
+    startTime: new Date().getTime()
+  };
+
+  // Winbits event engine
+  (function() {
+    var eventCallbacks = {};
+    var eventsTriggered = {};
+
+    Winbits.on = function(event, callback, context) {
+      if (typeof callback === 'function') {
+        var eventData = eventsTriggered[event];
+        if (eventData) {
+          callback.apply(context || {}, eventData || []);
+        } else {
+          var callbacks = eventCallbacks[event] || [];
+          callback._ctx = context;
+          callbacks.push(callback);
+          eventCallbacks[event] = callbacks;
+        }
+      }
+    };
+
+    Winbits.trigger = function(event, args) {
+      var callback, callbacks = eventCallbacks[event], i, len;
+      if (callbacks) {
+        for (i = 0, len = callbacks.length; i < len; i++) {
+          callback = callbacks[i];
+          callback.apply(callback._ctx || {}, args || []);
+        }
+      }
+      eventsTriggered[event] = args;
+    };
+  })();
+
+  var head = document.getElementsByTagName('head')[0];
+  var appendTagTo = function(parentTag, tagName, attrs) {
+    var tag= document.createElement(tagName), attr;
+    for(attr in attrs) {
+      if (attrs.hasOwnProperty(attr)) {
+        tag.setAttribute(attr, attrs[attr]);
+      }
+    }
+    parentTag.appendChild(tag);
+  };
+
+  var baseUrl = Winbits.env['base-url'];
+  appendTagTo(head, 'link', { rel: 'stylesheet', type: 'text/css', href: baseUrl + "/stylesheets/winbits/app.css" });
+  appendTagTo(head, 'script', { type: 'text/javascript', src: baseUrl + "/javascripts/vendor.js" });
+})();

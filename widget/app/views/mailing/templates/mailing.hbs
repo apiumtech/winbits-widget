@@ -1,0 +1,38 @@
+<form id="wbi-mailing-form" accept-charset="utf-8">
+    <div id="wbi-subscription-verticals" class="column">
+        <h3>¿De cuál de nuestros sitios te gustaría recibir información?</h3>
+
+        {{#each subscriptions}}
+        <input {{#if active}}checked="checked"{{/if}} type="checkbox" name="verticals" value="{{id}}" class="wbc-subscription-check">
+        <label class="checkboxLabel">{{name}}</label>
+        {{/each}}
+
+        <input id="wbi-checkbox-all" type="checkbox" value="All/None" class="checkall">
+        <label class="checkboxLabel">Todos / Ninguno</label>
+    </div>
+    <div id="wbi-how-to-received" class="column">
+        <h3>¿Cómo te gustaría recibir la información?</h3>
+        <input type="radio" value="unified" name="newsletterFormat" {{#compare newsletterFormat 'unified'}}checked="checked"{{/compare}}>
+        <label class="checkboxLabel">Todo en un correo</label>
+        <input type="radio" value="separated" name="newsletterFormat" {{#compare newsletterFormat 'separated'}}checked="checked"{{/compare}}>
+        <label class="checkboxLabel">Correos individuales</label>
+    </div>
+    <div id="wbi-how-often-to-received" class="column">
+        <h3>¿Con qué frecuencia te gustaría recibir nuestros correos?</h3>
+        <input type="radio" value="daily" name="newsletterPeriodicity" {{#compare newsletterPeriodicity 'daily'}}checked="checked"{{/compare}}>
+        <label class="checkboxLabel">Todos los días</label>
+        <input type="radio" value="weekly" name="newsletterPeriodicity" {{#compare newsletterPeriodicity 'weekly'}}checked="checked"{{/compare}}>
+        <label class="checkboxLabel">Un correo por semana</label>
+    </div>
+    <input id="wbi-mailing-btn" type="button" class="btn editBtn" value="Guardar">
+</form>
+<div id="wbi-mailing-thanks-div" class="thanks-div">
+    <div id="wbi-mailing-thanks-process" class="data" style="display: block">
+        <p>Procesando información</p>
+        <div class="loader"></div>
+    </div>
+    <div id="wbi-mailing-thanks-success" class="data" style="display: none">
+        <p>Tus datos quedaron guardados</p>
+        <a id="wbi-mailing-thanks-btn-close"class="btn">Cerrar</a>
+    </div>
+</div>

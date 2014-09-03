@@ -1,0 +1,66 @@
+/**
+ * Estilos agregados por el equipo de desarrollo.
+ */
+#fancybox-content form {
+  margin: 0;
+}
+
+.wbc-hide {
+  display: none;
+}
+
+.wbc-show {
+  display: block;
+}
+
+.error {
+  color: #dd092c !important;
+}
+
+input.error{
+  border: 1px solid #dd092c !important;
+}
+
+label.error {
+  border: 0 !important;
+  color: #dd092c;
+  display: block;
+}
+
+.wbc-loader {
+  background: #000000 url("../../images/misc/fancybox_loading.gif");
+  border: 10px solid #000000;
+  margin: 10px auto;
+  -webkit-border-radius: 10px;
+  -khtml-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+  height: 24px;
+  width: 24px;
+}
+
+.wbc-current-page {
+  font-weight: bold;
+  background-color: lightgray;
+}
+
+.placeholder, .placeholder.error {
+  color: #aaa !important;
+}
+
+.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs #wbi-mailing-form .mailingOverlay {
+  background: #ffffff;
+  height: 100%;
+  margin: 0 0 0 200px;
+  position: absolute;
+  top: 0;
+  width: 650px;
+  opacity: 0.8;
+  filter: alpha(opacity=80);
+}
+
+/* .placeholder { color: #aaa; height: 100% !important; }
+::-webkit-input-placeholder { color: #aaa; }
+input:-moz-placeholder, textarea:-moz-placeholder { color: #aaa; } */

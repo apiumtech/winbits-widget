@@ -1,0 +1,87 @@
+<form id="bodyModal" accept-charset="utf-8" action="#" method="post">
+  <div class="mainModal completaRegistro">
+    <div class="contentModal preCheckout">
+      <div class="loaderDiv loader-hide" id="wbi-layer-div">
+        <div class="loader-div loader-hide" id="wbi-layer-load">
+          <div class="loader"></div>
+          <div class="loader-txtLarge">Eliminando producto,<br>espere un momento por favor...</div>
+        </div>
+        <div class="confirmationContent loader-hide" id="wbi-layer-confirm">
+          <div class="confirmation-icon"><span class="iconFont-cart"></span></div>
+          <div class="confirmation-content">
+            <p>¿Esta seguro que desea eliminar el producto?</p>
+            <input type="hidden" id="wbi-id-to-delete">
+            <div class="confirmation-submit"><a class="btn btn-cancel" id="wbi-cancel-delete-btn">Cancelar</a>
+              <input type="button" value="Aceptar" class="btn btnCart" id="wbi-confirm-delete-btn">
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2>Los items que se muestran a continuación no podrán surtise completamente. Te invitamos a no perderte de nuestras ofertas publicadas para ti.</h2>
+      <div class="dataTable">
+        <table>
+          <thead>
+          <tr>
+            <th colspan="2" class="preCheckout-c1">Producto</th>
+            <th class="preCheckout-c2">Cantidad solicitada</th>
+            <th class="preCheckout-c3">Disponible para entregar</th>
+          </tr>
+          </thead>
+        </table>
+        <div data-content="productTable-content" class="productTable scrollPanel">
+          <div class="productTable-content">
+            <table>
+              <tbody>
+              {{#if cartDetails}}
+                {{#each cartDetails}}
+                  {{#with skuProfile}}
+                    <tr id="item-id-{{id}}">
+                      <td class="preCheckout-delete"><a title="Eliminar" class="iconFont-close wbc-delete-cart-item-btn" data-id="{{id}}" ></a>
+                      </td>
+                      <td>
+                        <div class="preCheckout-product"><img src="{{item.thumbnail}}" alt="{{item.name}}" class="preCheckout-img">
+                          <p class="preCheckout-item">{{item.name}}</p>
+                          <p class="preCheckout-carac">{{mainAttribute.name}}: {{mainAttribute.label}}</p>
+                          {{#each attributes}}
+                            <p class="preCheckout-carac">{{name}}: {{label}}</p>
+                          {{/each}}
+                          <span title="{{vertical.name}}" class="iconVertical-t vertical{{vertical.id}}"></span>
+                        </div>
+                      </td>
+                  {{/with}}
+                    <td class="preCheckout-c2">{{#if warnings}}{{warnings.0.quantityRequired}}{{else}}{{quantity}}{{/if}}</td>
+                    <td class="preCheckout-c3">{{quantity}}</td>
+                  </tr>
+                {{/each}}
+              {{/if}}
+              {{#if failedCartDetails}}
+                {{#each failedCartDetails}}
+                  {{#with skuProfile}}
+                    <tr>
+                      <td class="preCheckout-delete">
+                      </td>
+                      <td>
+                        <div class="preCheckout-product"><img src="{{item.thumbnail}}" alt="{{item.name}}" class="preCheckout-img">
+                          <p class="preCheckout-item">{{item.name}}</p>
+                          <p class="preCheckout-carac">{{mainAttribute.name}}: {{mainAttribute.label}}</p>
+                          {{#each attributes}}
+                            <p class="preCheckout-carac">{{name}}: {{label}}</p>
+                          {{/each}}
+                          <span title="{{vertical.name}}" class="iconVertical-t vertical{{vertical.id}}"></span>
+                        </div>
+                      </td>
+                  {{/with}}
+                    <td colspan="2" class="preCheckout-c4">Producto no disponible</td>
+                    {{!--<td colspan="2" class="preCheckout-c4"> <a href="#" class="btn btnCart">Agregar a Lista de Espera</a></td>--}}
+                  </tr>
+                {{/each}}
+              {{/if}}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="preCheckout-submit"><a id="wbi-continue-transfer-btn" class="btn btnCart">Continuar</a></div>
+    </div>
+  </div>
+</form>

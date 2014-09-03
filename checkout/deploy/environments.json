@@ -1,0 +1,71 @@
+{
+  "version": "0.0.1",
+  "environments": [
+    {
+      "name": "dev",
+      "desc": "dev environment",
+      "config": {
+        "apiUrl": "https://apidev.winbits.com/v1",
+        "baseUrl": "https://checkoutdev.winbits.com",
+        "providerUrl": "https://apidev.winbits.com/provider/",
+        "remoteDebug": true,
+        "orgIdCybersource": "1snn5n9w",
+        "merchantId": "clickonero",
+        "merchantIdInstallments": "clickonero_installments"
+      }
+    },
+    {
+      "name": "ci",
+      "desc": "ci environment",
+      "config": {
+        "apiUrl": "https://apici.winbits.com/v1",
+        "baseUrl": "https://checkoutci.winbits.com",
+        "providerUrl": "https://apici.winbits.com/provider/",
+        "remoteDebug": true,
+        "orgIdCybersource": "1snn5n9w",
+        "merchantId": "clickonero",
+        "merchantIdInstallments": "clickonero_installments"
+      }
+    },
+    {
+      "name": "qa",
+      "desc": "qa environment",
+      "config": {
+        "apiUrl": "https://apiqa.winbits.com/v1",
+        "baseUrl": "https://checkoutqa.winbits.com",
+        "providerUrl": "https://apiqa.winbits.com/provider/",
+        "remoteDebug": true,
+        "orgIdCybersource": "1snn5n9w",
+        "merchantId": "clickonero",
+        "merchantIdInstallments": "clickonero_installments"
+      }
+    },
+    {
+      "name": "staging",
+      "desc": "staging environment",
+      "config": {
+        "apiUrl": "https://apistaging.winbits.com/v1",
+        "baseUrl": "https://checkoutstaging.winbits.com",
+        "providerUrl": "https://apistaging.winbits.com/provider/",
+        "remoteDebug": false,
+        "orgIdCybersource": "1snn5n9w",
+        "merchantId": "clickonero",
+        "merchantIdInstallments": "clickonero_installments"
+      }
+    },
+    {
+      "name": "prod",
+      "desc": "production environment",
+      "config": {
+        "apiUrl": "https://api.winbits.com/v1",
+        "baseUrl": "https://checkout.winbits.com",
+        "providerUrl": "https://api.winbits.com/provider/",
+        "remoteDebug": false,
+        "orgIdCybersource":  "k8vif92e",
+        "merchantId": "clickonero_winbits",
+        "merchantIdInstallments": "clickonero_winbits_inst"
+      }
+    }
+  ]
+}
+
