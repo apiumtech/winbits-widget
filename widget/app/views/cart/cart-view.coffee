@@ -68,6 +68,11 @@ module.exports = class CartView extends View
 
   restoreCart: ->
     virtualCart = JSON.parse(utils.getVirtualCart())
+    virtualCart.cartItems.forEach((restoreCart)->
+              delete restoreCart['campaign']
+            )
+    console.log ["RESTORE CART  TO RESTORE --->", virtualCart]
+
     if(utils.isLoggedIn())
       unless $.isEmptyObject virtualCart.cartItems
         formData = virtualCart
@@ -76,7 +81,7 @@ module.exports = class CartView extends View
       else
         @model.fetch(success: $.proxy(@successFetch, @))
     else
-      @model.fetch(success: $.proxy(@successFetch, @))
+      @model.toRestoreVirtualCart(virtualCart.cartItems,success: $.proxy(@successFetch, @))
 
   successTransferVirtualCart: (data) ->
     @successFetch(data)

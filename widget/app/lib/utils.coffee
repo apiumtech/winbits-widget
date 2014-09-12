@@ -399,10 +399,10 @@ _(utils).extend Winbits.utils,
   getBitsToVirtualCart: () ->
     JSON.parse(mediator.data.get('virtual-cart') or DEFAULT_VIRTUAL_CART).bits
 
-  saveVirtualCart: (cartData) ->
+  saveVirtualCart: (cartData, cartItemsCampaign) ->
     vcart = DEFAULT_VIRTUAL_CART
     if(cartData.itemsCount > 0)
-      cartItems = (@toCartItem(x) for x in cartData.cartDetails)
+      cartItems = (@toCartItem(x,cartItemsCampaign) for x in cartData.cartDetails)
       vcart = JSON.stringify(cartItems : cartItems, bits:@getBitsToVirtualCart())
     @saveVirtualCartInStorage(vcart)
 
@@ -416,10 +416,24 @@ _(utils).extend Winbits.utils,
     mediator.data.set('virtual-cart', vcart)
     rpc.storeVirtualCart(vcart)
 
-  toCartItem: (cartDetail) ->
+  toCartItem: (cartDetail,cartItemsCampaign) ->
     cartItem = {}
     cartItem[cartDetail.skuProfile.id] = cartDetail.quantity
+
+    findCampaign = _.find(cartItemsCampaign, (campaign)->
+                            cartDetail.skuProfile.id == campaign.skuProfileId
+                        )
+    cartItem.campaign = @setCampaign(findCampaign)
+
     cartItem
+
+  setCampaign: (findCampaign) ->
+    campaign = {}
+    if findCampaign
+      campaign.id = findCampaign.campaign ? undefined
+      campaign.type = findCampaign.type ? undefined
+    campaign
+
 
   getResourceURL: (path) ->
     apiURL = env.get('api-url')

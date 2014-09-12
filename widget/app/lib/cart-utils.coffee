@@ -40,11 +40,11 @@ _(cartUtils).extend
         'Wb-VCart': utils.getCartItemsToVirtualCart()
     options = @applyAddToCartRequestDefaults(cartItems, options)
     utils.ajaxRequest(@getCartResourceUrl(), options)
-    .done(@addToVirtualCartSuccess)
+    .done((data)-> @addToVirtualCartSuccess(data, cartItems))
     .fail(@showCartErrorMessage)
 
-  addToVirtualCartSuccess: (data) ->
-    utils.saveVirtualCart(data.response)
+  addToVirtualCartSuccess: (data, cartItems) ->
+    utils.saveVirtualCart(data.response, cartItems)
     @publishCartChangedEvent(data)
 
   transformCartItems: (cartItems) ->
@@ -54,6 +54,10 @@ _(cartUtils).extend
     skuProfileId: cartItem.id
     quantity: cartItem.quantity
     bits: cartItem.bits
+    #Todo check if need campaing's type
+    campaign : cartItem.campaign
+    type: cartItem.type
+
 
   showCartErrorMessage: (xhr, textStatus)->
     error = xhr.errorJSON or utils.safeParse(xhr.responseText)

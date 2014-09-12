@@ -90,6 +90,16 @@ module.exports = class Cart extends Model
       $.extend(defaults, options)
     )
 
+  toRestoreVirtualCart:(formData,options)->
+    defaults =
+      headers:
+        "Wb-VCart": JSON.stringify(formData)
+    utils.ajaxRequest(
+      utils.getResourceURL("orders/virtual-cart-items.json"),
+      $.extend(defaults, options)
+    )
+
+
   transferVirtualCart:(formData, options) ->
     defaults =
       type: "POST"
@@ -99,7 +109,7 @@ module.exports = class Cart extends Model
         "WB-Api-Token": utils.getApiToken()
 
     utils.ajaxRequest(
-      utils.getResourceURL("orders/assign-virtual-cart.json"),
+      utils.getResourceURL("orders/virtual-cart-items.json"),
       $.extend(defaults, options)
     )
 
