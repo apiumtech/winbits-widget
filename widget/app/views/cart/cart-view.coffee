@@ -68,11 +68,7 @@ module.exports = class CartView extends View
 
   restoreCart: ->
     virtualCart = JSON.parse(utils.getVirtualCart())
-    virtualCart.cartItems.forEach((restoreCart)->
-              delete restoreCart['campaign']
-            )
-    console.log ["RESTORE CART  TO RESTORE --->", virtualCart]
-
+    virtualCart.cartItems.forEach((restoreCart)->delete restoreCart['campaign'])
     if(utils.isLoggedIn())
       unless $.isEmptyObject virtualCart.cartItems
         formData = virtualCart
