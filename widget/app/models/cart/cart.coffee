@@ -144,7 +144,6 @@ module.exports = class Cart extends Model
     if(@validateTransferErrors(data.response))
       @postToCheckoutApp(data.response)
     else
-      utils.closeMessageModal()
       mediator.data.set('checkout-timestamp', _.now())
       mediator.data.set 'checkout-temp-error', data.response
       utils.redirectTo controller:'checkout-temp', action:'index'
