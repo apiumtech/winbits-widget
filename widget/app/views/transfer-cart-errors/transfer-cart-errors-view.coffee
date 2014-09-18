@@ -31,10 +31,9 @@ module.exports = class LoginView extends View
 
   doCloseModal: (e)->
     e.preventDefault()
+    utils.closeMessageModal()
     if (mediator.data.get 'virtual-checkout')
       @publishEvent 'checkout-requested'
-    else
-      utils.closeMessageModal()
     mediator.data.set('virtual-checkout', no)
 
   doDeleteItem: (e)->
