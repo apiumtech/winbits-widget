@@ -90,7 +90,8 @@ module.exports = class CartView extends View
           @publishEvent 'checkout-requested'
           mediator.data.set 'virtual-checkout', no
       else
-        utils.redirectTo(controller:'transfer-cart-errors', action:'index', params:data.response)
+        mediator.data.set 'transfer-error', data.response
+        utils.redirectTo(controller:'transfer-cart-errors', action:'index')
 
   showModalNoItemsToTransfer: ->
     options =
