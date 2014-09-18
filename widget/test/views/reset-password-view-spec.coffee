@@ -4,6 +4,7 @@ utils =  require 'lib/utils'
 $ = Winbits.$
 password = '123456'
 passwordConfirm = '123456'
+mediator = Winbits.Chaplin.mediator
 
 describe 'ResetPasswordViewSpec', ->
   'use strict'
@@ -47,12 +48,13 @@ describe 'ResetPasswordViewSpec', ->
     expect(@resetPasswordView.$('.errorDiv')).to.exist.and.is.hide
 
   it 'change password correctly', ->
+    mediator.data.set('salt',{salt: 'f9q8d256_1asd6r87ewr54f+qew7r982asdf5749q'})
     sinon.stub(@model, 'requestResetPassword').returns TestUtils.promises.resolved
     successStub = sinon.stub(@resetPasswordView, 'doResetPasswordSuccess')
     @resetPasswordView.$('input#wbi-reset-password-btn').click()
-
     expect(successStub).to.be.calledOnce
     expect(@resetPasswordView.$('#wbi-reset-password-btn')).to.has.prop 'disabled', no
+    mediator.data.set('salt',{})
 
   it 'does not change password for validate', ->
     @resetPasswordView.$('[name=passwordConfirm]').val '654321'

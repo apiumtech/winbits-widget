@@ -9,12 +9,6 @@ env = Winbits.env
 module.exports = class CheckOutTempTotalSubView extends View
   template: require './templates/checkout-temp-total'
 
-
   initialize:()->
     super
     @listenTo @model,  'change:total', -> @render()
-#    @listenTo @model,  'change:orderDetails', -> @render()
-
-#  attach: ->
-#    super
-#    @$('.wbc-icon-download').toolTip()

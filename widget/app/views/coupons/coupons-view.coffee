@@ -19,19 +19,23 @@ module.exports = class CouponsView extends View
     @showAsModal()
 
   showAsModal: ->
-    $('<a>').wbfancybox(href: '#' + @id, onClosed: -> utils.redirectTo url: '/#wb-shipping-order-history').click()
+    $('<a>').wbfancybox(href: '#' + @id, onClosed: -> utils.redirectTo controller:'shipping-order-history',action:'index').click()
 
   doCouponPdfLink:(e)->
-    idCouponData = @$(e.currentTarget).closest('.wbc-coupon-data').data('id')
-    @doRequestCouponService(idCouponData,'pdf')
+    currentTarget = @$(e.currentTarget).closest('.wbc-coupon-data')
+    idCouponData = currentTarget.data('id')
+    orderDetailId = currentTarget.data('order')
+    @doRequestCouponService(idCouponData,orderDetailId,'pdf')
 
   doCouponHtmlLink:(e)->
-    idCouponData = @$(e.currentTarget).closest('.wbc-coupon-data').data('id')
-    @doRequestCouponService(idCouponData,'html')
+    currentTarget = @$(e.currentTarget).closest('.wbc-coupon-data')
+    idCouponData = currentTarget.data('id')
+    orderDetailId = currentTarget.data('order')
+    @doRequestCouponService(idCouponData,orderDetailId,'html')
 
-  doRequestCouponService: (idCouponData, format)->
+  doRequestCouponService: (idCouponData, orderDetailId,format)->
     @popUp = window.open()
-    @model.doRequestCouponService(idCouponData,format, context:@)
+    @model.doRequestCouponService(idCouponData,orderDetailId,format, context:@)
      .done(@doRequestCouponServiceSuccess)
      .fail(-> @popUp.close())
 

@@ -2,6 +2,7 @@ View = require 'views/base/view'
 utils = require 'lib/utils'
 $ = Winbits.$
 env = Winbits.env
+mediator = Winbits.Chaplin.mediator
 
 module.exports = class ModalResetPasswordView extends View
   container: '#wbi-winbits-modals'
@@ -36,7 +37,7 @@ module.exports = class ModalResetPasswordView extends View
 
     if utils.validateForm($form)
       formData = utils.serializeForm($form)
-      formData.hash =  @model.attributes.salt
+      formData.hash =  mediator.data.get('salt').salt
       $submitButton = @$(e.currentTarget).prop('disabled', yes)
 
       @model.requestResetPassword(formData, context:@)

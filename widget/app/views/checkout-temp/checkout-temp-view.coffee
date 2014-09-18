@@ -3,6 +3,9 @@
 View = require 'views/base/view'
 utils = require 'lib/utils'
 CheckoutTempTotalSubview = require 'views/checkout-temp/checkout-temp-total-sub-view'
+CheckoutTempSubTotalSubview = require 'views/checkout-temp/checkout-temp-sub-total-sub-view'
+CheckoutTempBitsSubview = require 'views/checkout-temp/checkout-temp-bits-sub-view'
+CheckoutTempOrderDetailsSubview = require 'views/checkout-temp/checkout-temp-order-details-sub-view'
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 _ = Winbits._
@@ -19,39 +22,23 @@ module.exports = class CheckoutTempView extends View
     @delegate 'click', '#wbi-post-checkout-btn', @doToCheckout
     @delegate 'click', '.wbc-delete-item', @doDeleteConfirm
     utils.replaceVerticalContent('.widgetWinbitsMain')
-    $('div .mainHeader').hide()
+    $('div#wbi-header-wrapper').hide()
+    $('div#wbi-header-wrapper-without-widget').show()
 
   attach: ->
     super
     @startCounter()
-    @$('.wbc-item-quantity').customSelect()
-      .on("change", $.proxy(@doUpdateQuantity, @))
-
-  doUpdateQuantity: (e) ->
-    e.preventDefault()
-    $itemsTotal = 0
-    itemChange = no
-    quantity = @$(e.currentTarget)
-    $parseQuantity = parseInt quantity.find('option:selected').val()
-    itemId = quantity.closest('tr').data('id')
-    for orderDetail in @model.attributes.orderDetails
-      if orderDetail.id is itemId and orderDetail.quantity != $parseQuantity
-        itemChange = yes
-        $itemsTotal = orderDetail.amount
-        orderDetail.quantity = $parseQuantity
-        orderDetail.amount = orderDetail.sku.price * orderDetail.quantity
-        $itemsTotal -= orderDetail.amount
-    if itemChange
-      @model.attributes.itemsTotal -= $itemsTotal
-      @model.attributes.total -= $itemsTotal
-      @model.attributes.bitsTotal = if @model.attributes.total <= @model.attributes.bitsTotal then @model.attributes.total else @model.attributes.bitsTotal
-      @render()
-
 
   render: ->
     super
-    subviewContainer = @$el.find('#wbi-checkout-temp-total-div').get(0)
-    @subview 'checkout-temp-total', new CheckoutTempTotalSubview model:@model, container: subviewContainer
+    subviewSubTotalContainer = @$el.find('#wbi-checkout-temp-sub-total-div').get(0)
+    @subview 'checkout-temp-sub-total', new CheckoutTempSubTotalSubview model:@model, container: subviewSubTotalContainer
+    subviewTotalContainer = @$el.find('#wbi-checkout-temp-total-div').get(0)
+    @subview 'checkout-temp-total', new CheckoutTempTotalSubview model:@model, container: subviewTotalContainer
+    subviewBitsContainer = @$el.find('#wbi-checkout-temp-bits-div').get(0)
+    @subview 'checkout-temp-bits', new CheckoutTempBitsSubview model:@model, container: subviewBitsContainer
+    subviewOrderDetailsContainer = @$el.find('#wbi-checkout-temp-table-div').get(0)
+    @subview 'checkout-temp-order-details', new CheckoutTempOrderDetailsSubview model:@model, container: subviewOrderDetailsContainer
 
   startCounter: ->
     $timer = @$('#wb-checkout-timer')
@@ -115,8 +102,6 @@ module.exports = class CheckoutTempView extends View
     @intervalStop()
     mediator.data.set('bits-to-cart', 0)
     utils.restoreVerticalContent('.widgetWinbitsMain')
-    $('main .wrapper').show()
-    $('div .mainHeader').show()
     @publishEvent 'cart-changed'
     utils.redirectToLoggedInHome()
 

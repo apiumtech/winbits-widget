@@ -1,6 +1,7 @@
 'use strict'
 View = require 'views/base/view'
 utils = require 'lib/utils'
+trackingUtils = require 'lib/tracking-utils'
 $ = Winbits.$
 env = Winbits.env
 
@@ -39,6 +40,7 @@ module.exports = class ModalRegisterView extends View
     $form =  @$("#wbi-register-form")
     formData = verticalId: env.get('current-vertical-id')
     formData = utils.serializeForm($form, formData)
+    $.extend(formData, utms: trackingUtils.getUTMs())
     if utils.validateForm($form)
       submitButton = @$(e.currentTarget).prop('disabled', true)
       @model.requestRegisterUser(formData, context:@)

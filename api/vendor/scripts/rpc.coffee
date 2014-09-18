@@ -1,8 +1,22 @@
 'use strict'
 
-API_TOKEN_KEY = "_wb_api_token"
-CART_TOKEN_KEY = "_wb_cart_token"
+API_TOKEN_KEY = '_wb_api_token'
+CART_TOKEN_KEY = '_wb_cart_token'
+UTM_PARAMS_KEY = '_wb_utm_params'
 DEFAULT_VIRTUAL_CART = '{"cartItems":[], "bits":0}'
+MILLIS_90_MINUTES = 1000 * 60 * 90
+
+getUTMsExpirationAware = ->
+  utmsParams = localStorage.getItem UTM_PARAMS_KEY
+  if utmsParams
+    utms = JSON.parse(utmsParams)
+    expires = utms.expires ? 0
+    delete utms.expires
+    now = new Date().getTime()
+    if expires < now
+      localStorage.removeItem UTM_PARAMS_KEY
+      utms = undefined
+  utms
 
 new easyXDM.Rpc({},
   local:
@@ -34,20 +48,21 @@ new easyXDM.Rpc({},
 
       return
 
-    getTokens: ->
-      tokens = {}
+    getData: ->
+      data = {}
       apiToken = localStorage.getItem API_TOKEN_KEY
-      tokens.apiToken = apiToken  if apiToken
+      data.apiToken = apiToken  if apiToken
       vcartToken = localStorage.getItem CART_TOKEN_KEY
       console.log ['THE VCART', vcartToken, window.location.href]
       vcartToken = DEFAULT_VIRTUAL_CART unless vcartToken
       localStorage.setItem CART_TOKEN_KEY, vcartToken
-      tokens.vcartToken = vcartToken
+      data.vcartToken = vcartToken
+      data.utms = getUTMsExpirationAware()
       console.log [
         "W: The tokens >>>"
-        tokens
+        data
       ]
-      tokens
+      data
 
     saveApiToken: (apiToken) ->
       console.log [
@@ -96,26 +111,33 @@ new easyXDM.Rpc({},
 
       return
 
-    saveUtms: (utmParams, successFn) ->
+    storeUTMs: (utms, successFn) ->
+      utms.expires = new Date().getTime() + MILLIS_90_MINUTES
       console.log [
-        "UTMS provider"
-        utmParams
+        "Storing UTMS"
+        utms
       ]
-      localStorage.setItem '_wb_utm_params', JSON.stringify(utmParams)
+      localStorage.setItem UTM_PARAMS_KEY, JSON.stringify(utms)
+      successFn()
       return
 
-    getUtms: (successFn, errorFn) ->
-      console.log ["get UTMS"]
-      utm_params: localStorage.getItem '_wb_utm_params'
+    getUTMs: (successFn, errorFn) ->
+      console.log ["Getting UTMS"]
+      getUTMsExpirationAware()
+
+    removeUTMs: (successFn, errorFn) ->
+      console.log ["Removing UTMS"]
+      localStorage.removeItem UTM_PARAMS_KEY
 
   remote:
     request: {}
-    getTokens: {}
+    getData: {}
     saveApiToken: {}
     storeVirtualCart: {}
     logout: {}
     facebookStatus: {}
     facebookMe: {}
-    saveUtms: {}
-    getUtms: {}
+    storeUTMs: {}
+    getUTMs: {}
+    removeUTMs: {}
 )

@@ -15,7 +15,7 @@
                       <th class="table-download">Descarga</th>
                   </tr>
                   {{#each coupons}}
-                  <tr class="wbc-coupon-data" data-id="{{id}}">
+                  <tr class="wbc-coupon-data" data-id="{{id}}" data-order="{{orderDetailId}}">
                       <td>{{code}}</td>
                       <td>{{expireCouponDate}}</td>
                         <td>Oferta lograda, tu cupón ha sido enviado a tu email.</td>
@@ -27,10 +27,10 @@
                   {{/each}}
               </table>
             {{else}}
-                 <div id ="wbi-no-availabe-coupons" class="confirmation-submit" style="text-align:left;">
-                     <h3 style="color:red;">Cupónes validos a partir del {{getAvailableCouponsDate coupons}}</h3>
-                     <input id="wbi-coupon-modal-btn" type="button" class="btn" value="Cerrar" style="margin-left: 0;">
+                 <div id ="wbi-no-availabe-coupons" class="errorDiv">
+                     <p>Cupónes validos a partir del {{getAvailableCouponsDate coupons}}</p>
                  </div>
+                 <div class="center"><input type="submit" id="wbi-coupon-modal-btn" value="Aceptar" class="btn"></div>
             {{/availableCoupon}}
         </div>
     </div>
