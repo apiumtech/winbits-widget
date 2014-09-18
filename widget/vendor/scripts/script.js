@@ -272,25 +272,25 @@ jQuery.fn.customCheckbox = function(options){
         selectClass: 'checkbox-checked',
         unSelectClass: 'checkbox-unchecked',
         wrapper: 'checkbox-wrapper',
-        spanIcon: 'checkbox-span'
+        spanIcon: 'checkbox-span',
+        onClickCall: false
       }, options), clase,
       wrappingInput = function(obj){
         $(obj).find(defaults.checkbox).each(function(){
-          checkingChecked(this);
-          if($(this).next().is('label')){
-            $(this).next().andSelf().wrapAll('<div class="'+ defaults.wrapper +'"/>');
-          } else {
-            $(this).wrap('<div class="'+ defaults.wrapper +'"/>');
-          }
-          $(this).parent().prepend('<span class="'+ defaults.spanIcon +' '+ clase +'"/>');
-          $(this).appendTo($(this).next());
           var $this = this;
-          $(this).parent().parent().find('.'+ defaults.spanIcon).click(function(){
-            clickingCheckbox($this, this);
-          });
-          $(this).parent().click(function(e){
-            e.preventDefault();
-            $(this).parent().find('.'+ defaults.spanIcon).trigger('click');
+          checkingChecked($this);
+          if($($this).next().is('label')){
+            $($this).next().andSelf().wrapAll('<div class="'+ defaults.wrapper +'"/>');
+            $($this).next().click(function(e){
+              e.preventDefault();
+            });
+            $($this).appendTo($(this).next());
+          } else {
+            $($this).wrap('<div class="' + defaults.wrapper + '"/>');
+          }
+          $($this).parents('.'+defaults.wrapper).prepend('<span class="'+ defaults.spanIcon +' '+ clase +'"/>');
+          $($this).parents('.'+defaults.wrapper).click(function(){
+            clickingCheckbox($this, $($this).parents('.'+defaults.wrapper).children('.' + defaults.spanIcon));
           });
         });
       },
@@ -303,14 +303,18 @@ jQuery.fn.customCheckbox = function(options){
       },
       clickingCheckbox = function(obj, trigger){
         if($(obj).prop('checked')){
-          $(trigger).removeClass(defaults.selectClass);
-          $(trigger).addClass(defaults.unSelectClass);
+          $(trigger).removeClass(defaults.selectClass).addClass(defaults.unSelectClass);
           $(obj).prop('checked', false);
         } else {
-          $(trigger).removeClass(defaults.unSelectClass);
-          $(trigger).addClass(defaults.selectClass);
+          $(trigger).removeClass(defaults.unSelectClass).addClass(defaults.selectClass);
           $(obj).prop('checked', true);
         }
+        if(defaults.onClickCall){
+          onClickCallback(obj, $(obj).parents('.'+defaults.wrapper));
+        }
+      },
+      onClickCallback = function(obj, parent){
+        defaults.onClickCall(obj, parent);
       };
   return this.each(function(){
     wrappingInput(this);
@@ -557,7 +561,7 @@ jQuery.fn.customSelect = function(options){
 };
 
 /* **********************************************
- Begin customSlider2.js
+ Begin customSlider3.js
  ********************************************** */
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
