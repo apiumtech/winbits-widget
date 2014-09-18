@@ -21,9 +21,10 @@ module.exports = class CheckOutTempTotalSubView extends View
 
   doChangeSliderBits: (obj)->
     $winbitsSlider = obj.closest('div .ui-slider')
-    $winbitsSlider.on('slide', $.proxy((e, ui={}) ->
+    $winbitsSlider.on('slide', (e, ui={}) =>
       slideValue = obj.data('max-selection')
       if ui.value <= slideValue
         slideValue = ui.value
       @model.set 'bitsTotal', slideValue
-    ,@))
+#      console.log [@model._listenId]
+    )
