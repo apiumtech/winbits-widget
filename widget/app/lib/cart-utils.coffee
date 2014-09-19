@@ -38,29 +38,44 @@ _(cartUtils).extend
   doSaveCampaigns:(cartItems)->
     if cartItems.length < 2
       @doSendCartItem(cartItems[0])
+    else
+      @doSendCartItems(cartItems)
 
   doSendCartItem:(cartItem)->
     item = @transformCartItemsToSend(cartItem)
-    if(item.campaignId isnt undefined and item.campaignType isnt undefined)
-      options =
-        type: 'PUT'
-        context: @
-        headers:
-          'Wb-Api-Token': utils.getApiToken()
-        data: JSON.stringify(item)
-      utils.ajaxRequest(env.get('api-url')+'/orders/save-single-campaign.json',options)
+    if(@validateCampaign(item))
+      @doRequestSaveCartItemsWithCampaigns(item,'/orders/save-single-campaign.json')
 
+  doSendCartItems:(cartItem)->
+    item = (@transformCartItemsToSend(x) for x in cartItem)
+    if(_.every(@validateCampaign(x) for x in item))
+      @doRequestSaveCartItemsWithCampaigns(skuProfiles:item,'/orders/save-multi-campaign.json')
+
+  doRequestSaveCartItemsWithCampaigns:(item,url ) ->
+    options =
+      type: 'PUT'
+      context: @
+      headers:
+        'Accept-Language': 'es'
+        'Content-Type': 'application/json;charset=utf-8'
+        'Wb-Api-Token': utils.getApiToken()
+      data: JSON.stringify(item)
+    utils.ajaxRequest(env.get('api-url')+url,options)
+
+  validateCampaign:(item)->
+    item.campaignId isnt undefined and item.campaignType isnt undefined
 
   transformCartItemsToSend:(cartItem)->
     skuProfileId: cartItem.skuProfileId
     campaignId: cartItem.campaign
     campaignType: cartItem.type
 
-
   addToVirtualCart: (cartItems = {}) ->
     cartItems = @transformCartItems(cartItems)
     options =
       headers:
+        'Accept-Language': 'es'
+        'Content-Type': 'application/json;charset=utf-8'
         'Wb-VCart': utils.getCartItemsToVirtualCart()
     options = @applyAddToCartRequestDefaults(cartItems, options)
     utils.ajaxRequest(@getCartResourceUrl(), options)
