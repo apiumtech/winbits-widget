@@ -26,12 +26,36 @@ _(cartUtils).extend
         'Wb-Api-Token': utils.getApiToken()
     options = @applyAddToCartRequestDefaults(cartItems, options)
     utils.ajaxRequest(@getCartResourceUrl(), options)
-    .done(@publishCartChangedEvent)
+    .done((data)->@publishCartChangedEvent(data,cartItems))
     .fail(@showCartErrorMessage)
 
-  publishCartChangedEvent: (data) ->
+  publishCartChangedEvent: (data, cartItems)->
     mediator.data.set( 'bits-to-cart',data.response.bitsTotal)
     EventBroker.publishEvent('cart-changed', data)
+    if cartItems
+      @doSaveCampaigns(cartItems)
+
+  doSaveCampaigns:(cartItems)->
+    if cartItems.length < 2
+      @doSendCartItem(cartItems[0])
+
+  doSendCartItem:(cartItem)->
+    item = @transformCartItemsToSend(cartItem)
+    if(item.campaignId isnt undefined and item.campaignType isnt undefined)
+      options =
+        type: 'PUT'
+        context: @
+        headers:
+          'Wb-Api-Token': utils.getApiToken()
+        data: JSON.stringify(item)
+      utils.ajaxRequest(env.get('api-url')+'/orders/save-single-campaign.json',options)
+
+
+  transformCartItemsToSend:(cartItem)->
+    skuProfileId: cartItem.skuProfileId
+    campaignId: cartItem.campaign
+    campaignType: cartItem.type
+
 
   addToVirtualCart: (cartItems = {}) ->
     cartItems = @transformCartItems(cartItems)
@@ -54,7 +78,6 @@ _(cartUtils).extend
     skuProfileId: cartItem.id
     quantity: cartItem.quantity
     bits: cartItem.bits
-    #Todo check if need campaing's type
     campaign : cartItem.campaign
     type: cartItem.type
 

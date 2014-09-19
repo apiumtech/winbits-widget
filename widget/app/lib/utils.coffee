@@ -420,12 +420,14 @@ _(utils).extend Winbits.utils,
     cartItem = {}
     cartItem[cartDetail.skuProfile.id] = cartDetail.quantity
 
-    findCampaign = _.find(cartItemsCampaign, (campaign)->
-                            cartDetail.skuProfile.id == campaign.skuProfileId
-                        )
+    findCampaign = @findCampaign(cartItemsCampaign, cartDetail)
     cartItem.campaign = @setCampaign(findCampaign)
 
     cartItem
+
+  findCampaign:(cartItemsCampaign, cartDetail)->
+    _.find cartItemsCampaign, (campaign)->
+      cartDetail.skuProfile.id == campaign.skuProfileId
 
   setCampaign: (findCampaign) ->
     campaign = {}
