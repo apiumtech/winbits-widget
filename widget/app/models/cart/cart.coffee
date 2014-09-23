@@ -91,6 +91,7 @@ module.exports = class Cart extends Model
     )
 
   toRestoreVirtualCart:(formData,options)->
+    console.log ["TO RESTORE VIRTUAL CART ITEMS", formData]
     defaults =
       headers:
         "Wb-VCart": JSON.stringify(formData)
@@ -109,7 +110,7 @@ module.exports = class Cart extends Model
         "WB-Api-Token": utils.getApiToken()
 
     utils.ajaxRequest(
-      utils.getResourceURL("orders/virtual-cart-items.json"),
+      utils.getResourceURL("orders/assign-virtual-cart.json"),
       $.extend(defaults, options)
     )
 

@@ -421,7 +421,8 @@ _(utils).extend Winbits.utils,
     cartItem[cartDetail.skuProfile.id] = cartDetail.quantity
 
     findCampaign = @findCampaign(cartItemsCampaign, cartDetail)
-    cartItem.campaign = @setCampaign(findCampaign)
+    if(findCampaign?.campaign)
+      cartItem.campaign = @setCampaign(findCampaign)
 
     cartItem
 

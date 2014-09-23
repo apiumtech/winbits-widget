@@ -75,8 +75,10 @@ module.exports = class CartView extends View
         @model.transferVirtualCart(formData, context:@)
         .done(@successTransferVirtualCart)
       else
+        console.log ["DO FETCH IN CART"]
         @model.fetch(success: $.proxy(@successFetch, @))
     else
+      console.log ["DO TORESTORE IN CART"]
       @model.toRestoreVirtualCart(virtualCart.cartItems,success: $.proxy(@successFetch, @))
 
   successTransferVirtualCart: (data) ->

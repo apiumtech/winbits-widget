@@ -48,7 +48,8 @@ _(cartUtils).extend
 
   doSendCartItems:(cartItem)->
     item = (@transformCartItemsToSend(x) for x in cartItem)
-    if(_.every(@validateCampaign(x) for x in item))
+    validItems = _.map(@validateCampaign(x) for x in item)
+    if(validItems)
       @doRequestSaveCartItemsWithCampaigns(skuProfiles:item,'/orders/save-multi-campaign.json')
 
   doRequestSaveCartItemsWithCampaigns:(item,url ) ->
