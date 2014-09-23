@@ -390,11 +390,19 @@ _(utils).extend Winbits.utils,
 
   getCartItemsToVirtualCart: () ->
     cartItems = "[]"
-    vcart = mediator.data.get('virtual-cart') or DEFAULT_VIRTUAL_CART
-    vcart = JSON.parse(vcart)
+    vcart = @quitCampaignOfVirtualCartToSend()
     if not $.isEmptyObject vcart.cartItems
       cartItems = JSON.stringify vcart.cartItems
+
     cartItems
+
+  quitCampaignOfVirtualCartToSend:()->
+    vcart = mediator.data.get('virtual-cart') or DEFAULT_VIRTUAL_CART
+    vcart = JSON.parse(vcart)
+    console.log ["VCART ", vcart]
+    vcart
+
+
 
   getBitsToVirtualCart: () ->
     JSON.parse(mediator.data.get('virtual-cart') or DEFAULT_VIRTUAL_CART).bits
