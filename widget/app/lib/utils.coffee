@@ -402,8 +402,6 @@ _(utils).extend Winbits.utils,
     console.log ["VCART ", vcart]
     vcart
 
-
-
   getBitsToVirtualCart: () ->
     JSON.parse(mediator.data.get('virtual-cart') or DEFAULT_VIRTUAL_CART).bits
 
