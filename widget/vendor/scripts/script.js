@@ -943,28 +943,24 @@ jQuery.fn.requiredField = function (options) {
 
 jQuery.fn.scrollpane = function (options) {
   var defaults= $.extend({
-        parent: '.scrollpane',
-        horizontalDragMinWidth: 40,
-        horizontalDragMaxWidth: 40,
-        reinitialize: false,
-        delay: 500
-      }, options),
-      initializeScrollPane = function(obj){
-        $(obj).jScrollPane({
-          horizontalDragMinWidth: defaults.horizontalDragMinWidth,
-          horizontalDragMaxWidth: defaults.horizontalDragMaxWidth,
-          autoReinitialise: defaults.reinitialize,
-          autoReinitialiseDelay: defaults.delay
-        });
-      };
+    parent: '.scrollpane',
+    horizontalDragMinWidth: 40,
+    horizontalDragMaxWidth: 40
+  }, options);
   return this.each(function(){
     if(defaults.parent) {
       if($(defaults.parent).css('display') === 'none') {
         $(defaults.parent).css('display', 'block');
-        initializeScrollPane(this);
+        $(this).jScrollPane({
+          horizontalDragMinWidth: defaults.horizontalDragMinWidth,
+          horizontalDragMaxWidth: defaults.horizontalDragMaxWidth
+        });
         $(defaults.parent).css('display', 'none');
       } else {
-        initializeScrollPane(this);
+        $(this).jScrollPane({
+          horizontalDragMinWidth: defaults.horizontalDragMinWidth,
+          horizontalDragMaxWidth: defaults.horizontalDragMaxWidth
+        });
       }
     }
   });
