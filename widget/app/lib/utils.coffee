@@ -4,6 +4,7 @@
 # ------------------------------
 DEFAULT_API_ERROR_MESSAGE = 'El servidor no está disponible, por favor inténtalo más tarde.'
 DEFAULT_VIRTUAL_CART = '{"cartItems":[], "bits":0}'
+DEFAULT_VIRTUAL_CAMPAIGNS ='{"campaigns":[]}'
 
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
@@ -390,25 +391,19 @@ _(utils).extend Winbits.utils,
 
   getCartItemsToVirtualCart: () ->
     cartItems = "[]"
-    vcart = @quitCampaignOfVirtualCartToSend()
-    if not $.isEmptyObject vcart.cartItems
-      cartItems = JSON.stringify vcart.cartItems
-
-    cartItems
-
-  quitCampaignOfVirtualCartToSend:()->
     vcart = mediator.data.get('virtual-cart') or DEFAULT_VIRTUAL_CART
     vcart = JSON.parse(vcart)
-    console.log ["VCART ", vcart]
-    vcart
+    if not $.isEmptyObject vcart.cartItems
+      cartItems = JSON.stringify vcart.cartItems
+    cartItems
 
   getBitsToVirtualCart: () ->
     JSON.parse(mediator.data.get('virtual-cart') or DEFAULT_VIRTUAL_CART).bits
 
-  saveVirtualCart: (cartData, cartItemsCampaign) ->
+  saveVirtualCart: (cartData) ->
     vcart = DEFAULT_VIRTUAL_CART
     if(cartData.itemsCount > 0)
-      cartItems = (@toCartItem(x,cartItemsCampaign) for x in cartData.cartDetails)
+      cartItems = (@toCartItem(x) for x in cartData.cartDetails)
       vcart = JSON.stringify(cartItems : cartItems, bits:@getBitsToVirtualCart())
     @saveVirtualCartInStorage(vcart)
 
@@ -422,27 +417,49 @@ _(utils).extend Winbits.utils,
     mediator.data.set('virtual-cart', vcart)
     rpc.storeVirtualCart(vcart)
 
-  toCartItem: (cartDetail,cartItemsCampaign) ->
+  saveVirtualCampaignsInStorage: (cartItemsCampaign,reponseCartDetail)->
+    campaignItems = []
+    campaignsLocal = JSON.parse(mediator.data.get('virtual-campaigns') or DEFAULT_VIRTUAL_CAMPAIGNS)
+    if reponseCartDetail.cartDetails
+      campaignsFoundInResponse = @findCartItemsInResponse(cartItemsCampaign,reponseCartDetail.cartDetails)
+      campaignItems = @toCampaign(x) for x in campaignsFoundInResponse
+
+    console.log ["CAMPAIGNS LOCAL ", campaignsLocal, campaignsLocal.campaigns.length]
+    if(campaignsLocal.campaigns.length > 0)
+      console.log ["THERE ARE CAMPAIGNS IN LOCAL", campaignsLocal.campaigns]
+      console.log ["CAMPAIGNS TO ADD", campaignItems]
+      $.extend(campaignsLocal.campaigns,campaignItems)
+      console.log ["Extend campaign local", campaignsLocal]
+      @doSaveVirtualCampaign(campaignsLocal)
+    else
+      @doSaveVirtualCampaign(campaigns: campaignItems)
+    console.log ["VIRTUAL CAMPAIGNS",mediator.data.get('virtual-campaigns')]
+
+  doSaveVirtualCampaign:(campaigns)->
+    mediator.data.set('virtual-campaigns', JSON.stringify(campaigns))
+
+  toCampaign: (campaign) ->
+    if campaign
+      console.log ["CAMPAIGN TO CONVERT", campaign]
+      cam ={}
+      cam[campaign.skuProfileId]=
+        campaignId: campaign.campaign
+        campaignType:campaign.type
+      return cam
+
+  findCartItemsInResponse:(cartItemsCampaign, responseCartDetail)->
+   found=[]
+   responseCartDetail.forEach(
+     (cartDetail)->
+        _.find(cartItemsCampaign,
+          (cartItem)->
+            found.push(cartItem) if cartDetail.skuProfile.id == cartItem.skuProfileId))
+   found
+
+  toCartItem: (cartDetail) ->
     cartItem = {}
     cartItem[cartDetail.skuProfile.id] = cartDetail.quantity
-
-    findCampaign = @findCampaign(cartItemsCampaign, cartDetail)
-    if(findCampaign?.campaign)
-      cartItem.campaign = @setCampaign(findCampaign)
-
     cartItem
-
-  findCampaign:(cartItemsCampaign, cartDetail)->
-    _.find cartItemsCampaign, (campaign)->
-      cartDetail.skuProfile.id == campaign.skuProfileId
-
-  setCampaign: (findCampaign) ->
-    campaign = {}
-    if findCampaign
-      campaign.id = findCampaign.campaign ? undefined
-      campaign.type = findCampaign.type ? undefined
-    campaign
-
 
   getResourceURL: (path) ->
     apiURL = env.get('api-url')

@@ -84,7 +84,8 @@ _(cartUtils).extend
     .fail(@showCartErrorMessage)
 
   addToVirtualCartSuccess: (data, cartItems) ->
-    utils.saveVirtualCart(data.response, cartItems)
+    utils.saveVirtualCart(data.response)
+    utils.saveVirtualCampaignsInStorage(cartItems, data.response)
     @publishCartChangedEvent(data)
 
   transformCartItems: (cartItems) ->
