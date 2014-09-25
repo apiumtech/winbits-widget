@@ -4,7 +4,7 @@
 # ------------------------------
 DEFAULT_API_ERROR_MESSAGE = 'El servidor no está disponible, por favor inténtalo más tarde.'
 DEFAULT_VIRTUAL_CART = '{"cartItems":[], "bits":0}'
-DEFAULT_VIRTUAL_CAMPAIGNS ='{"campaigns":[]}'
+DEFAULT_VIRTUAL_CAMPAIGNS ='{"campaigns":{}}'
 
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
@@ -420,33 +420,39 @@ _(utils).extend Winbits.utils,
   saveVirtualCampaignsInStorage: (cartItemsCampaign,reponseCartDetail)->
     campaignItems = []
     campaignsLocal = JSON.parse(mediator.data.get('virtual-campaigns') or DEFAULT_VIRTUAL_CAMPAIGNS)
-    console.log ["CAMPAIGNS LOCAL ", campaignsLocal, campaignsLocal.campaigns.length]
-
     if reponseCartDetail.cartDetails
       campaignsFoundInResponse = @findCartItemsInResponse(cartItemsCampaign,reponseCartDetail.cartDetails)
       campaignItems = (@toCampaign(x) for x in campaignsFoundInResponse)
-      console.log ["CAMPAIGNS TO ADD", campaignItems, campaignItems.length]
 
-    if(campaignsLocal.campaigns.length > 0)
+    unless($.isEmptyObject campaignsLocal.campaigns)
       console.log ["EXIST VIRTUAL CAMPAIGNS", campaignsLocal.campaigns]
+
       for key in campaignItems
         itemKey = _.keys(key)[0]
-        if !campaignsLocal[itemKey]
-          console.log ["DOESNT EXIST CAMPAIGN IN LOCAL"]
+        console.log ["ITEM KEY", itemKey, campaignsLocal.campaigns[itemKey]]
+        if !campaignsLocal.campaigns[itemKey]
+          console.log ["KEY DOESNT EXIST"]
           campaignsLocal.campaigns.push key
-          console.log ["CAMPAIGNS LOCAL WITH NEW ITEM", campaignsLocal.campaigns]
+        else
+          console.log ["KEY ALREADY EXIST"]
+          console.log ["ORIGINAL", campaignsLocal.campaigns[itemKey], "TO ->", key]
+          $.extend campaignsLocal.campaigns, key
+          console.log ["MODIFICATED", campaignsLocal]
+
       @doSaveVirtualCampaign(campaignsLocal)
+
     else
-      console.log ["NO VIRTUAL CAMPAIGN"]
+      console.log ["HAS NOT VIRTUAL CAMPAIGN"]
       campaignItems.forEach (campaignItem)->
-        campaignsLocal.campaigns.push campaignItem
+        key =_.keys(campaignItem)[0]
+        campaignsLocal.campaigns[key]= campaignItem[key]
+
+
       @doSaveVirtualCampaign(campaignsLocal)
 
     console.log ["VIRTUAL CAMPAIGNS",mediator.data.get('virtual-campaigns')]
 
-
   doSaveVirtualCampaign:(campaigns)->
-    console.log ["DATA CAMPAIGN TO SAVE", campaigns]
     mediator.data.set('virtual-campaigns', JSON.stringify(campaigns))
 
   toCampaign: (campaign) ->
