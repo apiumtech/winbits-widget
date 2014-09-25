@@ -420,27 +420,37 @@ _(utils).extend Winbits.utils,
   saveVirtualCampaignsInStorage: (cartItemsCampaign,reponseCartDetail)->
     campaignItems = []
     campaignsLocal = JSON.parse(mediator.data.get('virtual-campaigns') or DEFAULT_VIRTUAL_CAMPAIGNS)
+    console.log ["CAMPAIGNS LOCAL ", campaignsLocal, campaignsLocal.campaigns.length]
+
     if reponseCartDetail.cartDetails
       campaignsFoundInResponse = @findCartItemsInResponse(cartItemsCampaign,reponseCartDetail.cartDetails)
-      campaignItems = @toCampaign(x) for x in campaignsFoundInResponse
+      campaignItems = (@toCampaign(x) for x in campaignsFoundInResponse)
+      console.log ["CAMPAIGNS TO ADD", campaignItems, campaignItems.length]
 
-    console.log ["CAMPAIGNS LOCAL ", campaignsLocal, campaignsLocal.campaigns.length]
     if(campaignsLocal.campaigns.length > 0)
-      console.log ["THERE ARE CAMPAIGNS IN LOCAL", campaignsLocal.campaigns]
-      console.log ["CAMPAIGNS TO ADD", campaignItems]
-      $.extend(campaignsLocal.campaigns,campaignItems)
-      console.log ["Extend campaign local", campaignsLocal]
+      console.log ["EXIST VIRTUAL CAMPAIGNS", campaignsLocal.campaigns]
+      for key in campaignItems
+        itemKey = _.keys(key)[0]
+        if !campaignsLocal[itemKey]
+          console.log ["DOESNT EXIST CAMPAIGN IN LOCAL"]
+          campaignsLocal.campaigns.push key
+          console.log ["CAMPAIGNS LOCAL WITH NEW ITEM", campaignsLocal.campaigns]
       @doSaveVirtualCampaign(campaignsLocal)
     else
-      @doSaveVirtualCampaign(campaigns: campaignItems)
+      console.log ["NO VIRTUAL CAMPAIGN"]
+      campaignItems.forEach (campaignItem)->
+        campaignsLocal.campaigns.push campaignItem
+      @doSaveVirtualCampaign(campaignsLocal)
+
     console.log ["VIRTUAL CAMPAIGNS",mediator.data.get('virtual-campaigns')]
 
+
   doSaveVirtualCampaign:(campaigns)->
+    console.log ["DATA CAMPAIGN TO SAVE", campaigns]
     mediator.data.set('virtual-campaigns', JSON.stringify(campaigns))
 
   toCampaign: (campaign) ->
     if campaign
-      console.log ["CAMPAIGN TO CONVERT", campaign]
       cam ={}
       cam[campaign.skuProfileId]=
         campaignId: campaign.campaign
