@@ -425,32 +425,18 @@ _(utils).extend Winbits.utils,
       campaignItems = (@toCampaign(x) for x in campaignsFoundInResponse)
 
     unless($.isEmptyObject campaignsLocal.campaigns)
-      console.log ["EXIST VIRTUAL CAMPAIGNS", campaignsLocal.campaigns]
-
       for key in campaignItems
         itemKey = _.keys(key)[0]
-        console.log ["ITEM KEY", itemKey, campaignsLocal.campaigns[itemKey]]
         if !campaignsLocal.campaigns[itemKey]
-          console.log ["KEY DOESNT EXIST"]
-          campaignsLocal.campaigns.push key
+          campaignsLocal.campaigns[itemKey]= key[itemKey]
         else
-          console.log ["KEY ALREADY EXIST"]
-          console.log ["ORIGINAL", campaignsLocal.campaigns[itemKey], "TO ->", key]
           $.extend campaignsLocal.campaigns, key
-          console.log ["MODIFICATED", campaignsLocal]
-
       @doSaveVirtualCampaign(campaignsLocal)
-
     else
-      console.log ["HAS NOT VIRTUAL CAMPAIGN"]
       campaignItems.forEach (campaignItem)->
         key =_.keys(campaignItem)[0]
         campaignsLocal.campaigns[key]= campaignItem[key]
-
-
-      @doSaveVirtualCampaign(campaignsLocal)
-
-    console.log ["VIRTUAL CAMPAIGNS",mediator.data.get('virtual-campaigns')]
+    @doSaveVirtualCampaign(campaignsLocal)
 
   doSaveVirtualCampaign:(campaigns)->
     mediator.data.set('virtual-campaigns', JSON.stringify(campaigns))
