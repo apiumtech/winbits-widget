@@ -91,7 +91,6 @@ module.exports = class Cart extends Model
     )
 
   toRestoreVirtualCart:(formData,options)->
-    console.log ["TO RESTORE VIRTUAL CART ITEMS", formData]
     defaults =
       headers:
         "Wb-VCart": JSON.stringify(formData)

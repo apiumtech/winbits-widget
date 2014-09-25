@@ -63,23 +63,21 @@ module.exports = class CartView extends View
 
   successFetch: (data)->
     @updateCartModel data
+
     mediator.data.set 'bits-to-cart', @model.get 'bitsTotal'
     @publishEvent 'change-bits-data'
 
   restoreCart: ->
     virtualCart = JSON.parse(utils.getVirtualCart())
-    virtualCart.cartItems.forEach((restoreCart)->delete restoreCart['campaign'])
     if(utils.isLoggedIn())
       unless $.isEmptyObject virtualCart.cartItems
         formData = virtualCart
         @model.transferVirtualCart(formData, context:@)
         .done(@successTransferVirtualCart)
       else
-        console.log ["DO FETCH IN CART"]
         @model.fetch(success: $.proxy(@successFetch, @))
     else
-      console.log ["DO TORESTORE IN CART"]
-      @model.toRestoreVirtualCart(virtualCart.cartItems,success: $.proxy(@successFetch, @))
+      @model.fetch(success: $.proxy(@successFetch, @))
 
   successTransferVirtualCart: (data) ->
     @successFetch(data)

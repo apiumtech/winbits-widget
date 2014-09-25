@@ -126,6 +126,7 @@ else
   getData.promise.done (data) ->
     console.log 'RPC data got :)'
     Winbits.env.set('virtual-cart', data.vcartToken)
+    Winbits.env.set('virtual-campaigns', data.vcampaignsToken)
     Winbits.trackingUtils.cacheUTMs(data.utms)
     verifyLoginData(data.apiToken)
   .fail ->
