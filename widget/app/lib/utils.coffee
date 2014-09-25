@@ -423,7 +423,7 @@ _(utils).extend Winbits.utils,
       campaignItems=(@toCampaign(x) for x in @findCartItemsInResponse(cartItemsCampaign,reponseCartDetail))
       campaignsLocal=@setCampaigns(JSON.parse(mediator.data.get('virtual-campaigns') or DEFAULT_VIRTUAL_CAMPAIGNS),
                                    campaignItems)
-      @doSaveVirtualCampaign(campaignsLocal)
+      @doSaveVirtualCampaign(JSON.stringify(campaignsLocal))
 
   setCampaigns:(campaignsLocal,campaignItems) ->
     for item in campaignItems
@@ -434,8 +434,9 @@ _(utils).extend Winbits.utils,
         $.extend campaignsLocal.campaigns, item
     campaignsLocal
 
-  doSaveVirtualCampaign:(campaigns)->
-    mediator.data.set('virtual-campaigns', JSON.stringify(campaigns))
+  doSaveVirtualCampaign:(campaigns = DEFAULT_VIRTUAL_CAMPAIGNS)->
+    mediator.data.set('virtual-campaigns', campaigns)
+    rpc.storeVirtualCampaigns(campaigns)
 
   toCampaign: (campaign) ->
     if campaign
