@@ -418,25 +418,21 @@ _(utils).extend Winbits.utils,
     rpc.storeVirtualCart(vcart)
 
   saveVirtualCampaignsInStorage: (cartItemsCampaign,reponseCartDetail)->
-    campaignItems = []
-    campaignsLocal = JSON.parse(mediator.data.get('virtual-campaigns') or DEFAULT_VIRTUAL_CAMPAIGNS)
     if reponseCartDetail.cartDetails
-      campaignsFoundInResponse = @findCartItemsInResponse(cartItemsCampaign,reponseCartDetail.cartDetails)
-      campaignItems = (@toCampaign(x) for x in campaignsFoundInResponse)
-
-    unless($.isEmptyObject campaignsLocal.campaigns)
-      for key in campaignItems
-        itemKey = _.keys(key)[0]
-        if !campaignsLocal.campaigns[itemKey]
-          campaignsLocal.campaigns[itemKey]= key[itemKey]
-        else
-          $.extend campaignsLocal.campaigns, key
+      campaignItems = []
+      campaignItems = (@toCampaign(x) for x in @findCartItemsInResponse(cartItemsCampaign,reponseCartDetail.cartDetails))
+      campaignsLocal = @setCampaigns(JSON.parse(mediator.data.get('virtual-campaigns') or DEFAULT_VIRTUAL_CAMPAIGNS),
+                                     campaignItems)
       @doSaveVirtualCampaign(campaignsLocal)
-    else
-      campaignItems.forEach (campaignItem)->
-        key =_.keys(campaignItem)[0]
-        campaignsLocal.campaigns[key]= campaignItem[key]
-    @doSaveVirtualCampaign(campaignsLocal)
+
+  setCampaigns:(campaignsLocal,campaignItems) ->
+    for item in campaignItems
+      itemKey = _.keys(item)[0]
+      if !campaignsLocal.campaigns[itemKey]
+        campaignsLocal.campaigns[itemKey]= item[itemKey]
+      else
+        $.extend campaignsLocal.campaigns, item
+    campaignsLocal
 
   doSaveVirtualCampaign:(campaigns)->
     mediator.data.set('virtual-campaigns', JSON.stringify(campaigns))
