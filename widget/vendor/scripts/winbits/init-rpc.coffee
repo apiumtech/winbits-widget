@@ -34,6 +34,7 @@ rpcApi =
   saveApiToken: {}
   deleteApiToken: {}
   storeVirtualCart: {}
+  storeVirtualCampaigns:{}
   logout: {}
   facebookStatus: {}
   facebookMe: {}

@@ -418,11 +418,11 @@ _(utils).extend Winbits.utils,
     rpc.storeVirtualCart(vcart)
 
   saveVirtualCampaignsInStorage: (cartItemsCampaign,reponseCartDetail)->
-    if reponseCartDetail.cartDetails
-      campaignItems = []
-      campaignItems = (@toCampaign(x) for x in @findCartItemsInResponse(cartItemsCampaign,reponseCartDetail.cartDetails))
-      campaignsLocal = @setCampaigns(JSON.parse(mediator.data.get('virtual-campaigns') or DEFAULT_VIRTUAL_CAMPAIGNS),
-                                     campaignItems)
+    if reponseCartDetail
+      campaignItems=[]
+      campaignItems=(@toCampaign(x) for x in @findCartItemsInResponse(cartItemsCampaign,reponseCartDetail))
+      campaignsLocal=@setCampaigns(JSON.parse(mediator.data.get('virtual-campaigns') or DEFAULT_VIRTUAL_CAMPAIGNS),
+                                   campaignItems)
       @doSaveVirtualCampaign(campaignsLocal)
 
   setCampaigns:(campaignsLocal,campaignItems) ->
