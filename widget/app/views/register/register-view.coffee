@@ -91,7 +91,6 @@ module.exports = class ModalRegisterView extends View
      .done(@doSuccessRequestResendConfirmationMail)
      .fail(@doErrorRequestResendConfirmationMail)
 
-
   doErrorRequestResendConfirmationMail: ->
     message = 'Por el momento no se ha podido enviarte el correo de confirmación, por favor intentalo mas tarde'
     options =
@@ -102,7 +101,6 @@ module.exports = class ModalRegisterView extends View
         utils.redirectTo(controller:'home', action:'index')
         $.fancybox.close()
     utils.showMessageModal(message, options)
-
 
   doSuccessRequestResendConfirmationMail: ->
     message = 'Un mensaje de confirmación ha sido enviado a tu cuenta de correo.'

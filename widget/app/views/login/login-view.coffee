@@ -107,7 +107,6 @@ module.exports = class LoginView extends View
       onClosed: utils.redirectToNotLoggedInHome()
     utils.showMessageModal(defaultOptionsMessage.message, options)
 
-
   errorWhenIsAFER004: (defaults) ->
     options =
       message :"Esta cuenta ya esta registrada,es necesario confirmar tu cuenta de correo. Si no encuentras nuestro mail de confirmación, revisa tu bandeja de SPAM"
@@ -124,7 +123,6 @@ module.exports = class LoginView extends View
     .done(@doSuccessRequestResendConfirmationMail)
     .fail(@doErrorRequestResendConfirmationMail)
 
-
   doErrorRequestResendConfirmationMail: ->
     message = 'Por el momento no se ha podido enviarte el correo de confirmación, por favor intentalo mas tarde'
     options =
@@ -135,7 +133,6 @@ module.exports = class LoginView extends View
         utils.redirectTo(controller:'home', action:'index')
         $.fancybox.close()
     utils.showMessageModal(message, options)
-
 
   doSuccessRequestResendConfirmationMail: ->
     message = 'Un mensaje de confirmación ha sido enviado a tu cuenta de correo.'
