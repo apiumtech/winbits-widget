@@ -48,7 +48,6 @@ module.exports = class LoginView extends View
       @model.requestLogin(formData, context: @)
         .done(@doLoginSuccess)
         .fail(@doLoginError)
-#        .always(-> $submitButton.prop('disabled', false))
 
   doLoginSuccess: (data) ->
     mediator.data.set 'profile-composed', no
