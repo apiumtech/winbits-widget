@@ -18,3 +18,11 @@ module.exports = class Login extends Model
         "Accept-Language": "es"
     utils.ajaxRequest(env.get('api-url') + "/users/login.json",
                       $.extend(defaults, options))
+
+  requestResendConfirmationMail:(confirmURL)->
+    defaults =
+      dataType: "json"
+      headers:
+        "Accept-Language": "es"
+    utils.ajaxRequest(
+      utils.getResourceURL(confirmURL),defaults)

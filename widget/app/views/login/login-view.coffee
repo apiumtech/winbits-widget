@@ -48,7 +48,7 @@ module.exports = class LoginView extends View
       @model.requestLogin(formData, context: @)
         .done(@doLoginSuccess)
         .fail(@doLoginError)
-        .always(-> $submitButton.prop('disabled', false))
+#        .always(-> $submitButton.prop('disabled', false))
 
   doLoginSuccess: (data) ->
     mediator.data.set 'profile-composed', no
@@ -78,8 +78,73 @@ module.exports = class LoginView extends View
   doLoginError: (xhr, textStatus) ->
     error = utils.safeParse(xhr.responseText)
     message = if error then error.meta.message else textStatus
-    @$('.errorDiv p').text(message).parent().css('display':'block')
+    defaultOptionsMessage=
+      message : "Error"
+      title : "Error"
+      icon : "ok"
+    code = error.code or error.meta.code
+    if code is 'AFER004'
+      resendConfirmUrl = error.response.resendConfirmUrl
+      @confirmURL = resendConfirmUrl.substring(resendConfirmUrl.indexOf('users')).replace(/\+/g,"%252b")
+      console.log "Confirm url #{@confirmURL}"
+      defaultOptionsMessage = @errorWhenIsAFER004 defaultOptionsMessage
+      @showMessageErrorModal(defaultOptionsMessage)
+    else
+      @$('.errorDiv p').text(message).parent().css('display':'block')
+      @$('#wbi-login-in-btn').prop('disabled', no)
 
   doFacebookLogin: (e) ->
     e.preventDefault()
     @publishEvent 'facebook-button-event', e
+
+  showMessageErrorModal: (defaultOptionsMessage)->
+    options =
+      value: defaultOptionsMessage.value
+      title: defaultOptionsMessage.title
+      icon:"iconFont-#{defaultOptionsMessage.icon}"
+      context: defaultOptionsMessage.context
+      acceptAction: defaultOptionsMessage.acceptAction
+      onClosed: utils.redirectToNotLoggedInHome()
+    utils.showMessageModal(defaultOptionsMessage.message, options)
+
+
+  errorWhenIsAFER004: (defaults) ->
+    options =
+      message :"Esta cuenta ya esta registrada,es necesario confirmar tu cuenta de correo. Si no encuentras nuestro mail de confirmación, revisa tu bandeja de SPAM"
+      value : "Reenviar correo de confirmación"
+      title : "Mail no confirmado"
+      icon : "computerDoc"
+      context: @
+      acceptAction : @doRequestResendConfirmationMail
+      onClosed: $.noop
+    $.extend(defaults, options)
+
+  doRequestResendConfirmationMail: () ->
+    @model.requestResendConfirmationMail(@confirmURL)
+    .done(@doSuccessRequestResendConfirmationMail)
+    .fail(@doErrorRequestResendConfirmationMail)
+
+
+  doErrorRequestResendConfirmationMail: ->
+    message = 'Por el momento no se ha podido enviarte el correo de confirmación, por favor intentalo mas tarde'
+    options =
+      value: 'Aceptar'
+      title: 'Error al enviar el correo.'
+      icon: "iconFont-email"
+      acceptAction: ->
+        utils.redirectTo(controller:'home', action:'index')
+        $.fancybox.close()
+    utils.showMessageModal(message, options)
+
+
+  doSuccessRequestResendConfirmationMail: ->
+    message = 'Un mensaje de confirmación ha sido enviado a tu cuenta de correo.'
+    options =
+      value: 'Aceptar'
+      title: 'Correo Enviado'
+      icon: "iconFont-email2"
+      acceptAction: ->
+        utils.redirectTo(controller:'home', action:'index')
+        $.fancybox.close()
+    utils.showMessageModal(message, options)
+
