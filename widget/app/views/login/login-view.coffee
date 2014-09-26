@@ -120,7 +120,7 @@ module.exports = class LoginView extends View
     $.extend(defaults, options)
 
   doRequestResendConfirmationMail: () ->
-    @model.requestResendConfirmationMail(@confirmURL)
+    loginUtils.requestResendConfirmationMail(@confirmURL)
     .done(@doSuccessRequestResendConfirmationMail)
     .fail(@doErrorRequestResendConfirmationMail)
 

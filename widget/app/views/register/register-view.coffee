@@ -2,6 +2,7 @@
 View = require 'views/base/view'
 utils = require 'lib/utils'
 trackingUtils = require 'lib/tracking-utils'
+loginUtils = require 'lib/login-utils'
 $ = Winbits.$
 env = Winbits.env
 
@@ -86,7 +87,7 @@ module.exports = class ModalRegisterView extends View
     $.extend(defaults, options)
 
   doRequestResendConfirmationMail: () ->
-    @model.requestResendConfirmationMail(@confirmURL)
+    loginUtils.requestResendConfirmationMail(@confirmURL)
      .done(@doSuccessRequestResendConfirmationMail)
      .fail(@doErrorRequestResendConfirmationMail)
 

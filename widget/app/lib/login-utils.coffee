@@ -31,6 +31,14 @@ _(loginUtils).extend
     # TODO checar flujo si falla logout
     @applyLogout()
 
+  requestResendConfirmationMail:(confirmURL)->
+    defaults =
+      dataType: "json"
+      headers:
+        "Accept-Language": "es"
+    utils.ajaxRequest(
+      utils.getResourceURL(confirmURL),defaults)
+
 # Prevent creating new properties and stuff.
 Object.seal? loginUtils
 
