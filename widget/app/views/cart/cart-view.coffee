@@ -7,7 +7,6 @@ CartBitsView = require 'views/cart/cart-bits-view'
 CartPaymentMethodsView = require 'views/cart/cart-payment-methods-view'
 Cart = require 'models/cart/cart'
 utils = require 'lib/utils'
-CartUtils = require 'lib/cart-utils'
 $ = Winbits.$
 _ = Winbits._
 mediator = Winbits.Chaplin.mediator
@@ -64,7 +63,6 @@ module.exports = class CartView extends View
 
   successFetch: (data)->
     @updateCartModel data
-
     mediator.data.set 'bits-to-cart', @model.get 'bitsTotal'
     @publishEvent 'change-bits-data'
 
@@ -92,8 +90,8 @@ module.exports = class CartView extends View
           @publishEvent 'checkout-requested'
           mediator.data.set 'virtual-checkout', no
       else
-        utils.redirectTo(controller:'transfer-cart-errors', action:'index', params:data.response)
-    CartUtils.transferVirtualCampaigns(data.response.cartDetails)
+        mediator.data.set 'transfer-error', data.response
+        utils.redirectTo(controller:'transfer-cart-errors', action:'index')
 
   showModalNoItemsToTransfer: ->
     options =

@@ -93,5 +93,5 @@ describe 'TransferCartErrorsViewSpec', ->
     mediator.data.set 'virtual-checkout', yes
     @view.$('#wbi-continue-transfer-btn').click()
 
-    expect(redirectTo).to.not.be.called
+    expect(redirectTo).to.be.calledOnce
     expect(publishEvent).to.be.calledOnce
