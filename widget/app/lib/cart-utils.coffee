@@ -144,6 +144,9 @@ _(cartUtils).extend
   deleteCartItemFail: ->
     console.log ['error en la api']
 
+  transferVirtualCampaigns: (cartDetails) ->
+    vCampaigns = JSON.parse mediator.data.get('virtual-campaigns')
+
   applyDeleteCartItemRequestDefaults: (options = {}) ->
     defaults =
       type: 'DELETE'
