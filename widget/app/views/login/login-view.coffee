@@ -83,8 +83,9 @@ module.exports = class LoginView extends View
       icon : "ok"
     code = error.code or error.meta.code
     if code is 'AFER004'
-      resendConfirmUrl = error.response.resendConfirmUrl
-      @confirmURL = resendConfirmUrl.substring(resendConfirmUrl.indexOf('users')).replace(/\+/g,"%252b")
+      resendConfirmUrl = decodeURIComponent error.response.resendConfirmUrl
+      console.log resendConfirmUrl
+      @confirmURL = resendConfirmUrl.substring(resendConfirmUrl.indexOf('users')).replace(/\+/g,'%252b')
       console.log "Confirm url #{@confirmURL}"
       defaultOptionsMessage = @errorWhenIsAFER004 defaultOptionsMessage
       @showMessageErrorModal(defaultOptionsMessage)
