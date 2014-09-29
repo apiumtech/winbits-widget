@@ -47,10 +47,10 @@ _(cartUtils).extend
       @doRequestSaveCartItemsWithCampaigns(item,'/orders/save-single-campaign.json')
 
   doSendCartItems:(cartItem)->
-    item = (@transformCartItemsToSend(x) for x in cartItem)
-    validItems = _.map(@validateCampaign(x) for x in item)
+    items = (@transformCartItemsToSend(x) for x in cartItem)
+    validItems = _.map(@validateCampaign(x) for x in items)
     if(validItems)
-      @doRequestSaveCartItemsWithCampaigns(skuProfiles:item,'/orders/save-multi-campaign.json')
+      @doRequestSaveCartItemsWithCampaigns(skuProfiles:items,'/orders/save-multi-campaign.json')
 
   doRequestSaveCartItemsWithCampaigns:(item,url ) ->
     options =

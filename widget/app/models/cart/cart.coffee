@@ -193,3 +193,20 @@ module.exports = class Cart extends Model
     warnings = _.flatten(warnings)
     isValid =  if (response.failedCartDetails or !$.isEmptyObject(warnings) ) then no else yes
     isValid
+
+  doTransferVirtualCampaigns:(cartItems)->
+    campaignsToTransfer = @getOfVirtualCampaignsToTransfer(cartItems)
+    cartUtils.doSendCartItems(campaignsToTransfer)
+    mediator.data.set('virtual-campaigns', no)
+    env.get('rpc').storeVirtualCampaigns(no)
+
+  getOfVirtualCampaignsToTransfer:(cartItems)->
+    campaignsToTransfer = []
+    vCampaigns = JSON.parse(mediator.data.get('virtual-campaigns')).campaigns
+    for item in cartItems
+      if vCampaigns[item.skuProfile.id].campaignId
+        campaignsToTransfer.push
+          skuProfileId: item.skuProfile.id
+          campaign: vCampaigns[item.skuProfile.id].campaignId
+          type: vCampaigns[item.skuProfile.id].campaignType
+    campaignsToTransfer

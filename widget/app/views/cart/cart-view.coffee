@@ -92,19 +92,7 @@ module.exports = class CartView extends View
       else
         mediator.data.set 'transfer-error', data.response
         utils.redirectTo(controller:'transfer-cart-errors', action:'index')
-    @doTransferVirtualCampaigns(data.response.cartDetails)
-
-  doTransferVirtualCampaigns:(cartItems)->
-    campaignsToTransfer = @getOfVirtualCampaignsToTransfer(cartItems)
-    console.log ["CAMPAIGS TO TRANFER", campaignsToTransfer]
-
-  getOfVirtualCampaignsToTransfer:(cartItems)->
-    campaignsToTransfer = {}
-    vCampaigns = JSON.parse(mediator.data.get('virtual-campaigns')).campaigns
-    for item in cartItems
-      if vCampaigns[item.skuProfile.id].campaignId
-        campaignsToTransfer[item.skuProfile.id] = vCampaigns[item.skuProfile.id]
-    campaignsToTransfer
+    @model.doTransferVirtualCampaigns(data.response.cartDetails)
 
   showModalNoItemsToTransfer: ->
     options =
