@@ -90,12 +90,21 @@ module.exports = class CartView extends View
           @publishEvent 'checkout-requested'
           mediator.data.set 'virtual-checkout', no
       else
-<<<<<<< Updated upstream
         mediator.data.set 'transfer-error', data.response
         utils.redirectTo(controller:'transfer-cart-errors', action:'index')
-=======
-        utils.redirectTo(controller:'transfer-cart-errors', action:'index', params:data.response)
->>>>>>> Stashed changes
+    @doTransferVirtualCampaigns(data.response.cartDetails)
+
+  doTransferVirtualCampaigns:(cartItems)->
+    campaignsToTransfer = @getOfVirtualCampaignsToTransfer(cartItems)
+    console.log ["CAMPAIGS TO TRANFER", campaignsToTransfer]
+
+  getOfVirtualCampaignsToTransfer:(cartItems)->
+    campaignsToTransfer = {}
+    vCampaigns = JSON.parse(mediator.data.get('virtual-campaigns')).campaigns
+    for item in cartItems
+      if vCampaigns[item.skuProfile.id].campaignId
+        campaignsToTransfer[item.skuProfile.id] = vCampaigns[item.skuProfile.id]
+    campaignsToTransfer
 
   showModalNoItemsToTransfer: ->
     options =
