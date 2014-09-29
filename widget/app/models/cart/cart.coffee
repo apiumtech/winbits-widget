@@ -196,9 +196,12 @@ module.exports = class Cart extends Model
 
   doTransferVirtualCampaigns:(cartItems)->
     campaignsToTransfer = @getOfVirtualCampaignsToTransfer(cartItems)
-    cartUtils.doSendCartItems(campaignsToTransfer)
-    mediator.data.set('virtual-campaigns', no)
-    env.get('rpc').storeVirtualCampaigns(no)
+    cartUtils.doSaveCampaigns(campaignsToTransfer)
+    @cleanVirtualCampaigns()
+
+  cleanVirtualCampaigns:->
+    mediator.data.set('virtual-campaigns', '{"campaigns":{}}')
+    env.get('rpc').storeVirtualCampaigns('{"campaigns":{}}')
 
   getOfVirtualCampaignsToTransfer:(cartItems)->
     campaignsToTransfer = []
