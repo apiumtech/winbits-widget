@@ -4,6 +4,7 @@
 # ------------------------------
 DEFAULT_API_ERROR_MESSAGE = 'El servidor no está disponible, por favor inténtalo más tarde.'
 DEFAULT_VIRTUAL_CART = '{"cartItems":[], "bits":0}'
+DEFAULT_VIRTUAL_CAMPAIGNS ='{"campaigns":{}}'
 
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
@@ -415,6 +416,44 @@ _(utils).extend Winbits.utils,
   saveVirtualCartInStorage: (vcart = DEFAULT_VIRTUAL_CART)->
     mediator.data.set('virtual-cart', vcart)
     rpc.storeVirtualCart(vcart)
+
+  saveVirtualCampaignsInStorage: (cartItemsCampaign,reponseCartDetail)->
+    if reponseCartDetail
+      campaignItems=[]
+      campaignItems=(@toCampaign(x) for x in @findCartItemsInResponse(cartItemsCampaign,reponseCartDetail))
+      campaignsLocal=@setCampaigns(JSON.parse(mediator.data.get('virtual-campaigns') or DEFAULT_VIRTUAL_CAMPAIGNS),
+                                   campaignItems)
+      @doSaveVirtualCampaign(JSON.stringify(campaignsLocal))
+
+  setCampaigns:(campaignsLocal,campaignItems) ->
+    for item in campaignItems
+      itemKey = _.keys(item)[0]
+      if !campaignsLocal.campaigns[itemKey]
+        campaignsLocal.campaigns[itemKey]= item[itemKey]
+      else
+        $.extend campaignsLocal.campaigns, item
+    campaignsLocal
+
+  doSaveVirtualCampaign:(campaigns = DEFAULT_VIRTUAL_CAMPAIGNS)->
+    mediator.data.set('virtual-campaigns', campaigns)
+    rpc.storeVirtualCampaigns(campaigns)
+
+  toCampaign: (campaign) ->
+    if campaign
+      cam ={}
+      cam[campaign.skuProfileId]=
+        campaignId: campaign.campaign
+        campaignType:campaign.type
+      return cam
+
+  findCartItemsInResponse:(cartItemsCampaign, responseCartDetail)->
+   found=[]
+   responseCartDetail.forEach(
+     (cartDetail)->
+        _.find(cartItemsCampaign,
+          (cartItem)->
+            found.push(cartItem) if cartDetail.skuProfile.id == cartItem.skuProfileId))
+   found
 
   toCartItem: (cartDetail) ->
     cartItem = {}

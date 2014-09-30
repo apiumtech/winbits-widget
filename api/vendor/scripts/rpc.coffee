@@ -2,6 +2,7 @@
 
 API_TOKEN_KEY = '_wb_api_token'
 CART_TOKEN_KEY = '_wb_cart_token'
+CAMPAIGN_TOKEN_KEY = '_wb_campaign_token'
 UTM_PARAMS_KEY = '_wb_utm_params'
 DEFAULT_VIRTUAL_CART = '{"cartItems":[], "bits":0}'
 MILLIS_90_MINUTES = 1000 * 60 * 90
@@ -53,10 +54,12 @@ new easyXDM.Rpc({},
       apiToken = localStorage.getItem API_TOKEN_KEY
       data.apiToken = apiToken  if apiToken
       vcartToken = localStorage.getItem CART_TOKEN_KEY
+      vcampaignsToken = localStorage.getItem CAMPAIGN_TOKEN_KEY
       console.log ['THE VCART', vcartToken, window.location.href]
       vcartToken = DEFAULT_VIRTUAL_CART unless vcartToken
       localStorage.setItem CART_TOKEN_KEY, vcartToken
       data.vcartToken = vcartToken
+      data.vcampaignsToken = vcampaignsToken
       data.utms = getUTMsExpirationAware()
       console.log [
         "W: The tokens >>>"
@@ -78,6 +81,10 @@ new easyXDM.Rpc({},
 
     storeVirtualCart: (vCart) ->
       localStorage.setItem CART_TOKEN_KEY, vCart
+      return
+
+    storeVirtualCampaigns: (vCampaigns)->
+      localStorage.setItem CAMPAIGN_TOKEN_KEY, vCampaigns
       return
 
     logout: (facebookLogout) ->

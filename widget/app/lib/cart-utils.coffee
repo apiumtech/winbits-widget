@@ -26,25 +26,66 @@ _(cartUtils).extend
         'Wb-Api-Token': utils.getApiToken()
     options = @applyAddToCartRequestDefaults(cartItems, options)
     utils.ajaxRequest(@getCartResourceUrl(), options)
-    .done(@publishCartChangedEvent)
+    .done((data)->@publishCartChangedEvent(data,cartItems))
     .fail(@showCartErrorMessage)
 
-  publishCartChangedEvent: (data) ->
+  publishCartChangedEvent: (data, cartItems)->
     mediator.data.set( 'bits-to-cart',data.response.bitsTotal)
     EventBroker.publishEvent('cart-changed', data)
+    if cartItems
+      @doSaveCampaigns(cartItems)
+
+  doSaveCampaigns:(cartItems)->
+    if cartItems.length < 2
+      @doSendCartItem(cartItems[0])
+    else
+      @doSendCartItems(cartItems)
+
+  doSendCartItem:(cartItem)->
+    item = @transformCartItemsToSend(cartItem)
+    if(@validateCampaign(item))
+      @doRequestSaveCartItemsWithCampaigns(item,'/orders/save-single-campaign.json')
+
+  doSendCartItems:(cartItem)->
+    items = (@transformCartItemsToSend(x) for x in cartItem)
+    validItems = _.map(@validateCampaign(x) for x in items)
+    if(validItems)
+      @doRequestSaveCartItemsWithCampaigns(skuProfiles:items,'/orders/save-multi-campaign.json')
+
+  doRequestSaveCartItemsWithCampaigns:(item,url ) ->
+    options =
+      type: 'PUT'
+      context: @
+      headers:
+        'Accept-Language': 'es'
+        'Content-Type': 'application/json;charset=utf-8'
+        'Wb-Api-Token': utils.getApiToken()
+      data: JSON.stringify(item)
+    utils.ajaxRequest(env.get('api-url')+url,options)
+
+  validateCampaign:(item)->
+    item.campaignId isnt undefined and item.campaignType isnt undefined
+
+  transformCartItemsToSend:(cartItem)->
+    skuProfileId: cartItem.skuProfileId
+    campaignId: cartItem.campaign
+    campaignType: cartItem.type
 
   addToVirtualCart: (cartItems = {}) ->
     cartItems = @transformCartItems(cartItems)
     options =
       headers:
+        'Accept-Language': 'es'
+        'Content-Type': 'application/json;charset=utf-8'
         'Wb-VCart': utils.getCartItemsToVirtualCart()
     options = @applyAddToCartRequestDefaults(cartItems, options)
     utils.ajaxRequest(@getCartResourceUrl(), options)
-    .done(@addToVirtualCartSuccess)
+    .done((data)-> @addToVirtualCartSuccess(data, cartItems))
     .fail(@showCartErrorMessage)
 
-  addToVirtualCartSuccess: (data) ->
+  addToVirtualCartSuccess: (data, cartItems) ->
     utils.saveVirtualCart(data.response)
+    utils.saveVirtualCampaignsInStorage(cartItems, data.response.cartDetails)
     @publishCartChangedEvent(data)
 
   transformCartItems: (cartItems) ->
@@ -54,6 +95,9 @@ _(cartUtils).extend
     skuProfileId: cartItem.id
     quantity: cartItem.quantity
     bits: cartItem.bits
+    campaign : cartItem.campaign
+    type: cartItem.type
+
 
   showCartErrorMessage: (xhr, textStatus)->
     error = xhr.errorJSON or utils.safeParse(xhr.responseText)
@@ -99,6 +143,9 @@ _(cartUtils).extend
 
   deleteCartItemFail: ->
     console.log ['error en la api']
+
+  transferVirtualCampaigns: (cartDetails) ->
+    vCampaigns = JSON.parse mediator.data.get('virtual-campaigns')
 
   applyDeleteCartItemRequestDefaults: (options = {}) ->
     defaults =
