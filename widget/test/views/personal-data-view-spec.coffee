@@ -47,7 +47,7 @@ describe 'PersonalDataViewSpec', ->
     expect(@view.$ '#wbi-personal-data-form').to.exist
 
   it 'should render profile form data with data', ->
-    personalData = name: 'Jorge', lastName:"Moreno", phone:'431256789'
+    personalData = name: 'Jorge', lastName:"Moreno"
     @view.model.set personalData
     _.each personalData, (value, key) ->
       expect(@view.$ "[name=#{key}]").to.has.value value
@@ -63,6 +63,7 @@ describe 'PersonalDataViewSpec', ->
     expect(@view.$ '[name=gender][value=H]').to.be.wbRadioUnchecked
 
   it 'do request should succed to update profile', ->
+    @view.$('[name=gender][value=M]').click()
     sinon.stub(@model, 'requestUpdateProfile').returns TestUtils.promises.resolved
     successStub = sinon.stub(@view, 'doUpdateProfileSuccess')
     @view.$('#wbi-update-profile-btn').click()
