@@ -10,8 +10,6 @@ registerBirthdayDay = "11"
 registerBirthdayMonth = "11"
 registerBirthdayYear = "11"
 registerZipCode = "12345"
-registerZipCodeInfo = "Colonia"
-registerLocation = "location"
 
 describe 'CompleteRegisterViewSpec', ->
   'use strict'
@@ -55,7 +53,6 @@ describe 'CompleteRegisterViewSpec', ->
     @view.$('.wbc-gender-male').prev().addClass('radio-selected')
     @view.render()
     sinon.stub(@model, 'requestUpdateProfile').returns TestUtils.promises.resolved
-    console.log ["Form", @view.$('#wbi-complete-register-form').valid()]
     successStub = sinon.stub(@view, 'doCompleteRegisterSuccess')
     @view.$('#wbi-complete-register-btn').click()
     expect(successStub).to.be.calledOnce
