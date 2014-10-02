@@ -70,14 +70,26 @@ describe 'CompleteRegisterViewSpec', ->
     @view.$('#wbi-complete-register-btn').click()
     expect(@view.$ '.error').to.exist
 
-  it.skip 'error is shown if api return error', ->
+  it 'error is shown if api return error', ->
+    @view.$('#wbi-birthdate-day').val registerBirthdayDay
+    @view.$('#wbi-birthdate-month').val registerBirthdayMonth
+    @view.$('#wbi-birthdate-year').val registerBirthdayYear
+    @view.$('#wbi-complete-register-zipCode').val registerZipCode
+    @view.$('.wbc-gender-male').prev().addClass('radio-selected')
+    @view.render()
     sinon.stub(@model, 'requestUpdateProfile').returns TestUtils.promises.rejected
     errorStub = sinon.stub(@view, 'doCompleteRegisterError')
     @view.$('#wbi-complete-register-btn').click()
     expect(errorStub).to.be.calledOnce
     expect(@view.$ '#wbi-complete-register-btn').to.has.prop 'disabled', no
 
-  it.skip 'error is shown if request fail', ->
+  it 'error is shown if request fail', ->
+    @view.$('#wbi-birthdate-day').val registerBirthdayDay
+    @view.$('#wbi-birthdate-month').val registerBirthdayMonth
+    @view.$('#wbi-birthdate-year').val registerBirthdayYear
+    @view.$('#wbi-complete-register-zipCode').val registerZipCode
+    @view.$('.wbc-gender-male').prev().addClass('radio-selected')
+    @view.render()
     xhr = responseText: 'Server error'
     sinon.stub(@model, 'requestUpdateProfile').returns TestUtils.promises.rejected
     errorStub = sinon.stub(@view, 'doCompleteRegisterError')
@@ -87,31 +99,34 @@ describe 'CompleteRegisterViewSpec', ->
     expect(@view.$ '#wbi-complete-register-btn').to.has.prop 'disabled', no
 
 
-  it.skip 'show validation errors if day is invalid', ->
+  it 'show validation errors if day is invalid', ->
     @view.$('#wbi-birthdate-day').val('99')
     @view.$('#wbi-birthdate-month').val('12')
     @view.$('#wbi-birthdate-year').val('99')
     @view.$('#wbi-complete-register-btn').click()
     expect(@view.$ '.error').to.exist
 
-  it.skip 'show validation errors if month is invalid', ->
+  it 'show validation errors if month is invalid', ->
     @view.$('#wbi-birthdate-day').val('12')
     @view.$('#wbi-birthdate-month').val('99')
     @view.$('#wbi-birthdate-year').val('02')
     @view.$('#wbi-complete-register-btn').click()
     expect(@view.$ '.error').to.exist
 
-  it.skip 'show validation errors if day and month is invalid', ->
+  it 'show validation errors if day and month is invalid', ->
     @view.$('#wbi-birthdate-day').val('99')
     @view.$('#wbi-birthdate-month').val('99')
     @view.$('#wbi-birthdate-year').val('02')
     @view.$('#wbi-complete-register-btn').click()
     expect(@view.$ '.error').to.exist
 
-  it.skip 'no show validation errors if date is valid', ->
-    @view.$('#wbi-birthdate-day').val('18')
-    @view.$('#wbi-birthdate-month').val('02')
-    @view.$('#wbi-birthdate-year').val('02')
+  it 'no show validation errors if date is valid', ->
+    @view.$('#wbi-birthdate-day').val registerBirthdayDay
+    @view.$('#wbi-birthdate-month').val registerBirthdayMonth
+    @view.$('#wbi-birthdate-year').val registerBirthdayYear
+    @view.$('#wbi-complete-register-zipCode').val registerZipCode
+    @view.$('.wbc-gender-male').prev().addClass('radio-selected')
+    @view.render()
     sinon.stub(@model, 'requestUpdateProfile').returns TestUtils.promises.resolved
     successStub = sinon.stub(@view, 'doCompleteRegisterSuccess')
     @view.$('#wbi-complete-register-btn').click()
