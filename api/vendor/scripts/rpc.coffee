@@ -19,6 +19,21 @@ getUTMsExpirationAware = ->
       utms = undefined
   utms
 
+getCookie = () ->
+  name = "local="
+  ca = document.cookie.split(";")
+  i = 0
+  while i < ca.length
+    c = ca[i]
+    c = c.substring(1)  while c.charAt(0) is " "
+    return c.substring(name.length, c.length)  unless c.indexOf(name) is -1
+    i++
+  ""
+
+isLocalStorageAvailable = () ->
+  Modernizr.localStorage
+
+
 new easyXDM.Rpc({},
   local:
     request: (url, options, success, error) ->
@@ -138,6 +153,7 @@ new easyXDM.Rpc({},
     getData: {}
     saveApiToken: {}
     storeVirtualCart: {}
+    storeVirtualCampaigns:{}
     logout: {}
     facebookStatus: {}
     facebookMe: {}
