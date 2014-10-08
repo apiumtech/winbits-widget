@@ -145,6 +145,6 @@ Winbits.$.when.apply(Winbits.$, Winbits.promises).done ->
   window.Winbits = undefined
   alert('Unable to load Winbits Widget!')
 
-if Winbits.promises.length < 3
+if Winbits.promises.length < 3 and not window.location.pathname.contains('test')
   alert "Para disfrutar de todas las funciones de winbits, te recomendamos actualizar tu navegador."
 delete Winbits.promises
