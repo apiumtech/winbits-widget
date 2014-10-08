@@ -101,7 +101,9 @@ Handlebars.registerHelper "getContactName", () ->
   $.trim(this.firstName + ' ' + this.lastName)
 
 Handlebars.registerHelper "joinAttributes", (mainAttribute, attributes) ->
-  attrs = [mainAttribute].concat(attributes)
+  console.log ["MAIN ATTRIBUTES", mainAttribute, "ATTRIBUTES", attributes]
+  attrs = attributes.concat(mainAttribute)
+  console.log ["ATTRS CONCAT", attrs]
   attrs = ("#{x.name}: #{x.label}" for x in attrs)
   attrs.join ', '
 
