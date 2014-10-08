@@ -27,7 +27,7 @@ module.exports = class ChangePasswordView extends MyProfileView
       rules:
         password:
           required: yes
-          minlength: 6
+          minlength: 2
         newPassword:
           required: yes
           minlength: 6

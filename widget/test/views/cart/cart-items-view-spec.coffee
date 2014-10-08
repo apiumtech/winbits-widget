@@ -71,7 +71,7 @@ describe 'CartItemsViewSpec', ->
 
     $itemImage = $cartItem.find('.wbc-item-attributes')
     expect($itemImage).to.existExact(1)
-    expect($itemImage.text()).to.be.equal('Color: Negro, Talla: M')
+    expect($itemImage.text()).to.be.equal('Talla: MColor: Negro')
 
   it  'should render item quantity', ->
     $cartItem = @view.$('#wbi-cart-items-list').children().eq(0)
