@@ -47,91 +47,93 @@ if window.wbSkipRPC
     rpcApi[key] = $.noop
   Winbits.env.set('rpc', rpcApi)
 else
-  verifyingVerticalData = new $.Deferred().done (data) ->
-    console.log 'Vertical data verified :)'
-    env = Winbits.env
-    currentVerticalId = data.meta.currentVerticalId
-    env.set 'current-vertical-id', currentVerticalId
-    verticalsData = data.response
-    env.set 'verticals-data', verticalsData
-    result = (v for v in verticalsData when v.id is currentVerticalId)
-    currentVertical = result.pop()
-    env.set 'current-vertical', currentVertical
-  .fail -> console.log ['ERROR', 'Unable to verify vertical data :(']
-  promises.push verifyingVerticalData.promise()
+  unless(Modernizr.localStorage)
+    verifyingVerticalData = new $.Deferred().done (data) ->
+      console.log 'Vertical data verified :)'
+      env = Winbits.env
+      currentVerticalId = data.meta.currentVerticalId
+      env.set 'current-vertical-id', currentVerticalId
+      verticalsData = data.response
+      env.set 'verticals-data', verticalsData
+      result = (v for v in verticalsData when v.id is currentVerticalId)
+      currentVertical = result.pop()
+      env.set 'current-vertical', currentVertical
+    .fail -> console.log ['ERROR', 'Unable to verify vertical data :(']
+    promises.push verifyingVerticalData.promise()
 
-  verifyVerticalData = ((deferred) ->
-    ->
-      apiUrl = Winbits.env.get('api-url')
-      Winbits.utils.ajaxRequest "#{apiUrl}/users/verticals.json",
-        data: hostname: location.hostname
-      .done deferred.resolve
-      .fail deferred.reject
-  )(verifyingVerticalData)
-
-  verifyingLoginData = new $.Deferred().done (data) ->
-    console.log 'Login data verified :)'
-    if $.isEmptyObject data.response
-      localStorage.removeItem Winbits.env.get 'api-token-name'
-      Winbits.env.get('rpc').deleteApiToken()
-    else
-      Winbits.env.set 'login-data', data.response
-      Winbits.utils.saveLoginData data.response
-      Winbits.trigger 'loggedin', [data.response]
-  .fail -> console.log ['ERROR', 'Unable to verify login data :(']
-  promises.push verifyingLoginData.promise()
-
-  verifyLoginData = ((deferred) ->
-    (apiToken) ->
-      if apiToken
+    verifyVerticalData = ((deferred) ->
+      ->
         apiUrl = Winbits.env.get('api-url')
-        utms = Winbits.trackingUtils.getUTMParams()
-        Winbits.utils.ajaxRequest  "#{apiUrl}/users/express-login.json",
-          type: 'POST',
-          data: JSON.stringify(apiToken: apiToken, utms: utms)
+        Winbits.utils.ajaxRequest "#{apiUrl}/users/verticals.json",
+          data: hostname: location.hostname
         .done deferred.resolve
         .fail deferred.reject
+    )(verifyingVerticalData)
+
+    verifyingLoginData = new $.Deferred().done (data) ->
+      console.log 'Login data verified :)'
+      if $.isEmptyObject data.response
+        localStorage.removeItem Winbits.env.get 'api-token-name'
+        Winbits.env.get('rpc').deleteApiToken()
       else
-        deferred.resolve {}
-  )(verifyingLoginData)
+        Winbits.env.set 'login-data', data.response
+        Winbits.utils.saveLoginData data.response
+        Winbits.trigger 'loggedin', [data.response]
+    .fail -> console.log ['ERROR', 'Unable to verify login data :(']
+    promises.push verifyingLoginData.promise()
 
-  # Intermediate promises
-  loadRpc = () ->
-    deferred = new $.Deferred()
-    Winbits.env.set 'rpc', new easyXDM.Rpc {
-      remote: Winbits.env.get 'provider-url'
-      onReady: deferred.resolve
-    },
-    remote: rpcApi
+    verifyLoginData = ((deferred) ->
+      (apiToken) ->
+        if apiToken
+          apiUrl = Winbits.env.get('api-url')
+          utms = Winbits.trackingUtils.getUTMParams()
+          Winbits.utils.ajaxRequest  "#{apiUrl}/users/express-login.json",
+            type: 'POST',
+            data: JSON.stringify(apiToken: apiToken, utms: utms)
+          .done deferred.resolve
+          .fail deferred.reject
+        else
+          deferred.resolve {}
+    )(verifyingLoginData)
 
-    timeoutDeferred(deferred).promise()
+    # Intermediate promises
 
-  getData = (->
-    deferred = new $.Deferred()
-    promise: deferred.promise()
-    fn: ->
-      Winbits.env.get('rpc').getData deferred.resolve, deferred.reject
-  )()
+    loadRpc = () ->
+      deferred = new $.Deferred()
+      Winbits.env.set 'rpc', new easyXDM.Rpc {
+        remote: Winbits.env.get 'provider-url'
+        onReady: deferred.resolve
+      },
+      remote: rpcApi
 
-  loadRpc().done ->
-    console.log 'RPC loaded :)'
-    verifyVerticalData()
-    getData.fn()
-  .fail ->
-    console.log ['ERROR', 'Unable to load RPC engine :(']
-    # This really need to happen!
-    verifyingVerticalData.reject()
-    verifyingLoginData.reject()
+      timeoutDeferred(deferred).promise()
 
-  getData.promise.done (data) ->
-    console.log 'RPC data got :)'
-    Winbits.env.set('virtual-cart', data.vcartToken)
-    Winbits.env.set('virtual-campaigns', data.vcampaignsToken)
-    Winbits.trackingUtils.cacheUTMs(data.utms)
-    verifyLoginData(data.apiToken)
-  .fail ->
-    console.log ['ERROR', 'Unable to get RPC data :(']
-    verifyingLoginData.reject() # This really need to happen!
+    getData = (->
+      deferred = new $.Deferred()
+      promise: deferred.promise()
+      fn: ->
+        Winbits.env.get('rpc').getData deferred.resolve
+    )()
+
+    loadRpc().done ->
+      console.log 'RPC loaded :)'
+      verifyVerticalData()
+      getData.fn()
+    .fail ->
+      console.log ['ERROR', 'Unable to load RPC engine :(']
+      # This really need to happen!
+      verifyingVerticalData.reject()
+      verifyingLoginData.reject()
+
+    getData.promise.done (data) ->
+      console.log 'RPC data got :)'
+      Winbits.env.set('virtual-cart', data.vcartToken)
+      Winbits.env.set('virtual-campaigns', data.vcampaignsToken)
+      Winbits.trackingUtils.cacheUTMs(data.utms)
+      verifyLoginData(data.apiToken)
+    .fail ->
+      console.log ['ERROR', 'Unable to get RPC data :(']
+      verifyingLoginData.reject() # This really need to happen!
 
 Winbits.promises = promises
 console.log 'Set up promises :)'

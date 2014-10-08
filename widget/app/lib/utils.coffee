@@ -418,6 +418,7 @@ _(utils).extend Winbits.utils,
     rpc.storeVirtualCart(vcart)
 
   saveVirtualCampaignsInStorage: (cartItemsCampaign,reponseCartDetail)->
+    console.log "SAVE VIRTUAL CART CAMPAIGNS"
     if reponseCartDetail
       campaignItems=[]
       campaignItems=(@toCampaign(x) for x in @findCartItemsInResponse(cartItemsCampaign,reponseCartDetail))
