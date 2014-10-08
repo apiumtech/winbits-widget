@@ -16,6 +16,15 @@ timeoutDeferred = (deferred, timeout = 60000) ->
   ,timeout
   deferred
 
+#checkLocalStorage
+hasLocalStorage= ()->
+  try
+    localStorage.setItem 'test', 'test'
+    return true
+  catch e
+    return false;
+
+
 # Winbits promises
 loadAppScript = () ->
   deferred = new $.Deferred()
@@ -47,7 +56,9 @@ if window.wbSkipRPC
     rpcApi[key] = $.noop
   Winbits.env.set('rpc', rpcApi)
 else
-  unless(Modernizr.localStorage)
+  console.log ["Has localStorage", hasLocalStorage()]
+  if(hasLocalStorage())
+    localStorage.removeItem('test')
     verifyingVerticalData = new $.Deferred().done (data) ->
       console.log 'Vertical data verified :)'
       env = Winbits.env
