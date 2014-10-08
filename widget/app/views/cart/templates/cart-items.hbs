@@ -5,7 +5,7 @@
         <li data-id="{{id}}">
             <a href="#"><img class="wbc-item-image imgItem" src="{{item.thumbnail}}" alt="{{item.name}}"></a>
             <p class="descriptionItem wbc-item-description">{{item.name}}</p>
-            <p class="caracItem wbc-item-attributes">{{joinAttributes mainAttribute attributes}}</p>
+            <p class="caracItem wbc-item-attributes">{{{joinAttributes mainAttribute attributes}}}</p>
         {{/with}}
             <label>Cantidad:</label>
             <select class="select wbc-item-quantity" data-clase="selectRegister">
