@@ -77,7 +77,7 @@ new easyXDM.Rpc({},
       data.vcampaignsToken = vcampaignsToken
       data.utms = getUTMsExpirationAware()
       console.log ["W: The tokens >>>",data]
-      return data
+      data
 
     saveApiToken: (apiToken) ->
       console.log [
