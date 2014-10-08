@@ -101,9 +101,9 @@ Handlebars.registerHelper "getContactName", () ->
   $.trim(this.firstName + ' ' + this.lastName)
 
 Handlebars.registerHelper "joinAttributes", (mainAttribute, attributes) ->
-  attrs = [mainAttribute].concat(attributes)
+  attrs = attributes.concat(mainAttribute)
   attrs = ("#{x.name}: #{x.label}" for x in attrs)
-  attrs.join ', '
+  attrs.join("<br>")
 
 Handlebars.registerHelper "eachOption", (min, max, options) ->
   opts = (options.fn(value: x, text: x) for x in [min..max])
