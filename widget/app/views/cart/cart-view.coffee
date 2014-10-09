@@ -101,7 +101,7 @@ module.exports = class CartView extends View
 #      context: @
       icon: 'iconFont-info'
       onClosed: -> utils.redirectToLoggedInHome()
-    utils.showMessageModal('Los Items seleccionados se encuentran agotados. Te invitamos a no perderte de nuestras ofertas que tenemos publicadas para ti', options)
+    utils.showMessageModal('¡Lo sentimos! El producto se encuentra agotado o llegaste al límite de compra permitido para ese producto.Te invitamos a no perderte las ofertas que tenemos publicada para ti', options)
 
   shouldOpenCart: ->
     not @model.isCartEmpty()
