@@ -17,6 +17,9 @@ module.exports = class OldOrdersHistoryView extends View
   initialize:()->
     super
     @model.fetch data:@params, success: $.proxy(@render, @)
+    @delegate 'click', '#wbi-shipping-order-link', @redirectToShippingOrderHistory
+    @delegate 'click', '#wbi-shipping-order-link-text', @redirectToShippingOrderHistory
+
     $('#wbi-my-account-div').slideUp()
     utils.replaceVerticalContent('.widgetWinbitsMain')
     @subscribeEvent 'shipping-order-history-params-changed', @paramsChanged
@@ -38,6 +41,9 @@ module.exports = class OldOrdersHistoryView extends View
   updateHistory: ->
     @model.fetch {data:@params}
 
+  redirectToShippingOrderHistory: (e)->
+    e.preventDefault()
+    utils.redirectTo(controller: 'shipping-order-history')
 
   render: ()->
     super
