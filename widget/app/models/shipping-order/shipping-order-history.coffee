@@ -29,3 +29,8 @@ module.exports = class ShippingOrderHistory extends Model
       $.extend(defaults, options)
     )
 
+  requestClickoneroOrders:(clickoneroId)->
+    defaults =
+      contentType: "application/json"
+      dataType: "json"
+    utils.ajaxRequest(''+clickoneroId,defaults)
