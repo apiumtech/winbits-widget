@@ -61,7 +61,7 @@ describe 'CartSpec', ->
   it 'should has accessor for computed property cartSaving', ->
     cartSaving = @model.cartSaving()
     expect(@model.accessors).to.contain('cartSaving')
-    expect(cartSaving).to.be.equal(821)
+    expect(cartSaving).to.be.equal((821).toFixed(2))
 
   it 'should has accessor for computed property cartPercentageSaved', ->
     cartPercentageSaved = @model.cartPercentageSaved()
