@@ -60,7 +60,7 @@ module.exports = class Cart extends Model
     else 0
 
   cartSaving: ->
-    @itemsFullTotal() - @cartTotal()
+    (@itemsFullTotal() - @cartTotal()).toFixed(2)
 
   requestToUpdateCart:(formData,itemId, options) ->
     defaults =
