@@ -9,6 +9,7 @@ module.exports = (match) ->
   match 'wb-complete-register', 'complete-register#index'
   match 'wb-bits-history', 'bits-history#index'
   match 'wb-shipping-order-history', 'shipping-order-history#index'
+  match 'wb-old-orders-history', 'old-orders-history#index'
   match 'wb-transfer-cart-error', 'transfer-cart-errors#index'
   match 'wb-checkout-temp', 'checkout-temp#index'
   match 'wb-video', 'video#index'
