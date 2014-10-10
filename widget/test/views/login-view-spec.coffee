@@ -48,7 +48,6 @@ describe 'LoginViewSpec', ->
 
     expect(successStub).to.be.calledOnce
     expect(@view.$ '.error').to.not.be.rendered
-    expect(@view.$ '#wbi-login-in-btn').to.has.prop 'disabled', no
 
   it 'do not makes request if form invalid', ->
     ajaxRequestStub = sinon.stub(utils, 'ajaxRequest')
@@ -69,7 +68,6 @@ describe 'LoginViewSpec', ->
     @view.$('#wbi-login-in-btn').click()
 
     expect(errorStub).to.be.calledOnce
-    expect(@view.$ '#wbi-login-in-btn').to.has.prop 'disabled', no
 
 
   it 'error is shown if request fail', ->
@@ -78,7 +76,6 @@ describe 'LoginViewSpec', ->
     @view.$('#wbi-login-in-btn').click()
 
     expect(errorStub).to.be.calledOnce
-    expect(@view.$ '#wbi-login-in-btn').to.has.prop 'disabled', no
 
   it 'should publish event facebook-button-event', ->
     stub = sinon.stub @view, 'publishEvent'

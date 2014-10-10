@@ -38,12 +38,17 @@ module.exports = class PaymentView extends View
 
   checkForValidMsiMethod: (e) ->
       e.preventDefault()
-      console.log ["Alert checkForValidMsiMethod"]
+      console.log ["Alert checkForValidMsiMethod",Winbits.$(e.target)]
       if not Winbits.$(e.target).valid() 
         #hago notar que aqui no hay complejidad ciclomatica =(  
         customSelectSelector = if Winbits.$("#wbi-credit-card-payment-form-msi").is(":visible") then 'totalMsi' else 'numberOfPayments'
         Winbits.$("##{customSelectSelector}").parent().children('ul').children('li').first().click()
         Winbits.$("##{customSelectSelector}").parent().children('.icon').hide()
+      else
+        customSelectSelector = if Winbits.$("#wbi-credit-card-payment-form-msi").is(":visible") then 'totalMsi' else 'numberOfPayments'
+        Winbits.$("##{customSelectSelector}").parent().children('ul').children('li').first().click()
+        Winbits.$("##{customSelectSelector}").parent().children('.icon').show()
+
 
   payWithCard: (e) ->
     e.preventDefault()
