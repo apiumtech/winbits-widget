@@ -28,4 +28,3 @@ module.exports = class OldOrdersHistory extends Model
       env.get('api-url') + "/users/coupons/#{orderDetailId}.json",
       $.extend(defaults, options)
     )
-

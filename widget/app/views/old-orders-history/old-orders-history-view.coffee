@@ -16,35 +16,28 @@ module.exports = class OldOrdersHistoryView extends View
 
   initialize:()->
     super
-    @model.fetch data:@params, success: $.proxy(@render, @)
+    $('#wbi-my-account-div').slideUp()
     @delegate 'click', '#wbi-shipping-order-link', @redirectToShippingOrderHistory
     @delegate 'click', '#wbi-shipping-order-link-text', @redirectToShippingOrderHistory
-
-    $('#wbi-my-account-div').slideUp()
+    @delegate 'click', '#wbi-old-orders-history-btn-back', @backToVertical
     utils.replaceVerticalContent('.widgetWinbitsMain')
-    @subscribeEvent 'shipping-order-history-params-changed', @paramsChanged
+
+  render: ()->
+    super
+    @subview 'old-orders-history-table', new OldOrdersSubview model:@model
+    console.log ["RENDERIZED, model-->", @model.attributes]
 
   attach: ->
     super
     @$('.select').customSelect()
       .wbpaginator(total: @model.getTotal(), max: @params.max, change: $.proxy(@pageChanged, @))
 
-
-  paramsChanged: (params)->
-    $.extend @params, params
-    @updateHistory()
-
-  pageChanged: (e, ui) ->
-    params = max: ui.max, offset: ui.offset
-    @paramsChanged params
-
-  updateHistory: ->
-    @model.fetch {data:@params}
-
   redirectToShippingOrderHistory: (e)->
     e.preventDefault()
     utils.redirectTo(controller: 'shipping-order-history')
 
-  render: ()->
-    super
-    @subview 'old-orders-history-table', new OldOrdersSubview model:@model
+
+
+  backToVertical:(e)->
+    utils.restoreVerticalContent('.widgetWinbitsMain')
+    utils.redirectToLoggedInHome()
