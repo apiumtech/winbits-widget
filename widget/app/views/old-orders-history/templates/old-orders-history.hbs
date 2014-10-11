@@ -18,7 +18,35 @@
                       <span class="dataTable-old-desc">DESCRIPCIÓN</span>
                   </div>
 
-                 <div id="wbi-old-history-table"></div>
+                {{#if orders}}
+                  {{#each orders}}
+                      <div class="dataTable-fila">
+
+                          <div class="dataTable-old-detail">
+                              <p>Orden:{{orderNumber}}</p>
+                              <p>Fecha de compra:{{paidDate}}</p>
+                              <p>Total: ${{total}}</p>
+                          </div>
+
+                          <div class="dataTable-old-status">
+                              <p>{{shippingStatusMessage}}</p>
+                          </div>
+
+                          <div class="dataTable-old-item">
+                              {{#each skus}}
+                                <img src="" width="80" alt="{{name}}">
+                              {{/each}}
+                          </div>
+
+                          <div class="dataTable-old-desc">
+                            {{#each skus}}
+                                <p>{{shortDescription}}</p>
+                            {{/each}}
+                          </div>
+
+                      </div>
+                  {{/each}}
+                {{/if}}
 
               </div>
           </div>

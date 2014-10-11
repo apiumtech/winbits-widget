@@ -1,7 +1,6 @@
 'use strict'
 
 View = require 'views/base/view'
-OldOrdersSubview = require 'views/old-orders-history/old-orders-history-table-subview'
 utils = require 'lib/utils'
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
@@ -22,21 +21,15 @@ module.exports = class OldOrdersHistoryView extends View
     @delegate 'click', '#wbi-old-orders-history-btn-back', @backToVertical
     utils.replaceVerticalContent('.widgetWinbitsMain')
 
-  render: ()->
-    super
-    @subview 'old-orders-history-table', new OldOrdersSubview model:@model
-    console.log ["RENDERIZED, model-->", @model.attributes]
-
   attach: ->
     super
+    console.log ["MODEL IN OLD ORDERS", @model]
     @$('.select').customSelect()
       .wbpaginator(total: @model.getTotal(), max: @params.max, change: $.proxy(@pageChanged, @))
 
   redirectToShippingOrderHistory: (e)->
     e.preventDefault()
     utils.redirectTo(controller: 'shipping-order-history')
-
-
 
   backToVertical:(e)->
     utils.restoreVerticalContent('.widgetWinbitsMain')
