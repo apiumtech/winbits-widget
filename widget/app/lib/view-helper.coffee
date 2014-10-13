@@ -184,5 +184,5 @@ Handlebars.registerHelper "getAvailableCouponsDate",(coupons) ->
   createdCoupon =_.find coupons, (coupon) -> coupon.status isnt 'AVAILABLE'
   createdCoupon.availableCouponDate
 
-Handlebars.registerHelper "getUrl", (url) ->
-   url+".jpg"
+Handlebars.registerHelper "getUrl", (url, ext) ->
+   url+"." + ext
