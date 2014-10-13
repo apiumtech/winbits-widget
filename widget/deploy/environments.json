@@ -41,11 +41,11 @@
       "name": "staging",
       "desc": "staging environment",
       "config": {
-        "apiUrl": "http://api.winbits.com/v1",
-        "checkoutUrl": "https://checkout.winbits.com",
-        "baseUrl": "http://widget.winbits.com",
-        "facebookClientId": "468430606512928",
-        "providerUrl": "https://api.winbits.com/provider/",
+        "apiUrl": "https://apistaging.winbits.com/v1",
+        "checkoutUrl": "https://checkoutstaging.winbits.com",
+        "baseUrl": "http://widgetstaging.winbits.com",
+        "facebookClientId": "1407560009467593",
+        "providerUrl": "https://apistaging.winbits.com/provider/",
         "debug": "false"
       }
     },
