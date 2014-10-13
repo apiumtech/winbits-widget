@@ -119,7 +119,7 @@ else
 
       timeoutDeferred(deferred).promise()
 
-    getData = (=>
+    getData = (->
       console.log ['has Winbits get data', Winbits]
       deferred = new $.Deferred()
       promise: deferred.promise()
