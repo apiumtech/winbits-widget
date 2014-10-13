@@ -25,6 +25,7 @@ Winbits.utils =
     options = $.extend(defaultOptions, options)
     options.headers = $.extend(defaultHeaders, options.headers)
     if Winbits.isCrapBrowser
+      console.log ["is crap browser"]
       context = options.context
       deferred = new $.Deferred()
         .done(options.success)
