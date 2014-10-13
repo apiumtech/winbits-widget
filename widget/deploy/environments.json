@@ -53,7 +53,7 @@
       "name": "prod",
       "desc": "production environment",
       "config": {
-        "apiUrl": "http://api.winbits.com/v1",
+        "apiUrl": "https://api.winbits.com/v1",
         "checkoutUrl": "https://checkout.winbits.com",
         "baseUrl": "http://widget.winbits.com",
         "facebookClientId": "468430606512928",
