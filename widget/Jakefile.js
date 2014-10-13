@@ -109,7 +109,7 @@ var cpTemplates = function() {
 
 var copyXtraLibs = function(env, execFile){
   console.log('Copying Xtra Libs...')
-  var isDebug = env !== 'staging' && env !== 'production';
+  var isDebug = env !== 'staging' && env !== 'prod';
   var xtraLibsDir = 'vendor/scripts/xtra'
   jake.rmRf(xtraLibsDir);
   jake.mkdirP(xtraLibsDir);
