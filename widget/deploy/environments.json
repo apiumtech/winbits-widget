@@ -55,7 +55,7 @@
       "config": {
         "apiUrl": "http://apistaging.winbits.com/v1",
         "checkoutUrl": "https://checkout.winbits.com",
-        "baseUrl": "http://widget.winbits.com",
+        "baseUrl": "http://widgetstaging.winbits.com",
         "facebookClientId": "468430606512928",
         "providerUrl": "https://apistaging.winbits.com/provider/",
         "debug": "false"
