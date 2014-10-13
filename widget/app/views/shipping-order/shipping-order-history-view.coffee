@@ -19,7 +19,7 @@ module.exports = class ShippingOrderHistoryView extends View
     @model.fetch data:@params, success: $.proxy(@render, @)
     @delegate 'click', '#wbi-shipping-order-history-btn-back', @backToVertical
     @delegate 'click', '.wbc-icon-coupon', @requestCouponsService
-    @delegate 'click', '#wbi-old-orders-history',  -> utils.redirectTo controller: 'old-orders-history'
+    @delegate 'click', '#wbi-old-orders-history', @requestClickoneroService
     $('#wbi-my-account-div').slideUp()
     utils.replaceVerticalContent('.widgetWinbitsMain')
     @subscribeEvent 'shipping-order-history-params-changed', @paramsChanged
@@ -42,9 +42,16 @@ module.exports = class ShippingOrderHistoryView extends View
   updateHistory: ->
     @model.fetch {data:@params}
 
-#  requestClickoneroService:()->
-#    @model.requestClickoneroOrders(12345)
-#      .done((data)->console.log [data.response])
+  requestClickoneroService:()->
+    console.log ["request clickonero service"]
+    @model.requestClickoneroOrders(12345)
+      .done(@requestClickoneroServiceSuccess)
+
+  requestClickoneroServiceSuccess:(data)->
+    console.log [data]
+    mediator.data.set 'old-orders', data.orders
+    utils.redirectTo controller: 'old-orders-history', action:'index'
+
 
   requestCouponsService:(e)->
     utils.showLoaderToCheckout()

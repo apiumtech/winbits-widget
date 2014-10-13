@@ -39,9 +39,13 @@
                           </div>
 
                           <div class="dataTable-old-desc">
-                            {{#each skus}}
-                                <p>{{shortDescription}}</p>
-                            {{/each}}
+                              {{#each skus}}
+                                {{#unless coupons}}
+                                <p>{{{shortDescription}}}</p>
+                                {{else}}
+                                    <a href="#"> Ver cupones </a>
+                                {{/unless}}
+                              {{/each}}
                           </div>
 
                       </div>
