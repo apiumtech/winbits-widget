@@ -12,17 +12,12 @@ module.exports = class OldOrdersHistory extends Model
   parse: (data) ->
     orders: super
 
-  requestCouponsService:(orderDetailId, options)->
-    defaults =
-      contentType: "application/json"
-      dataType: "json"
-      headers:
-        "Accept-Language": "es"
-        "WB-Api-Token": utils.getApiToken()
-    utils.ajaxRequest(
-      env.get('api-url') + "/users/coupons/#{orderDetailId}.json",
-      $.extend(defaults, options)
-    )
+  getTotal: ->
+    if (@meta)
+      @meta.totalCount
+    else
+      0
 
-  getOrderWithCoupon:(numberOrder) ->
-    _.find(@get("orders"),(order) -> numberOrder is order.orderNumber)
+  getOrderWithCoupon:(numberOrder, detailId) ->
+    order = _.find(@get("orders"),(order) -> numberOrder is order.orderNumber)
+    _.find(order.skus,(sku)-> detailId is sku.orderDetailId)

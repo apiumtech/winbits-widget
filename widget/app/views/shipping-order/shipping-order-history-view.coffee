@@ -43,14 +43,25 @@ module.exports = class ShippingOrderHistoryView extends View
     @model.fetch {data:@params}
 
   requestClickoneroService:()->
-    console.log ["request clickonero service"]
+    #todo get clickonero Id
     @model.requestClickoneroOrders(12345)
       .done(@requestClickoneroServiceSuccess)
+      .fail(@requestClickoneroServiceError)
 
   requestClickoneroServiceSuccess:(data)->
-    console.log [data]
     mediator.data.set 'old-orders', data.orders
     utils.redirectTo controller: 'old-orders-history', action:'index'
+
+  requestClickoneroServiceError: (xhr, textStatus)->
+    error = utils.safeParse(xhr.responseText)
+    messageText = "Error al conseguir tus ordenes,#{textStatus}"
+    message = if error then error.meta.message + ',por favor intentalo mas tarde.' else messageText
+    options =
+      icon: 'iconFont-info'
+      value: "Cerrar"
+      title:'Lo sentimos!'
+      onClosed: utils.redirectTo url: '/#wb-shipping-order-history'
+    utils.showMessageModal(message, options)
 
 
   requestCouponsService:(e)->

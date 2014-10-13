@@ -39,7 +39,8 @@ module.exports = class OldOrdersHistoryView extends View
   findAndRedirectCoupon:(e)->
     e.preventDefault()
     orderNumber = $(e.currentTarget).data('ordernumber')
+    detailId = $(e.currentTarget).data('detailid')
     console.log ["Order number", orderNumber]
-    order = @model.getOrderWithCoupon(orderNumber)
+    order = @model.getOrderWithCoupon(orderNumber, detailId)
     console.log ["Order", order]
 

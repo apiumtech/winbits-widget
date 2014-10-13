@@ -48,7 +48,7 @@
                               <p>{{{shortDescription}}}</p>
                               <p>Fecha estimada de entrega: {{toDefaultDateFormat dateDelivery}}</p>
                               {{else}}
-                                <a data-ordernumber="{{../../orderNumber}}" class="wbc-old-orders-coupons" href="#"> Ver cupones </a>
+                                <a data-detailid="{{orderDetailId}}" data-ordernumber="{{../../orderNumber}}" class="wbc-old-orders-coupons" href="#"> Ver cupones </a>
                               {{/unless}}
 
                             {{/each}}
