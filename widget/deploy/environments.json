@@ -57,7 +57,7 @@
         "checkoutUrl": "https://checkout.winbits.com",
         "baseUrl": "http://widget.winbits.com",
         "facebookClientId": "468430606512928",
-        "providerUrl": "https://api.winbits.com/provider/",
+        "providerUrl": "https://apistaging.winbits.com/provider/",
         "debug": "false"
       }
     }
