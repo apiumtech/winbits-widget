@@ -53,11 +53,11 @@
       "name": "prod",
       "desc": "production environment",
       "config": {
-        "apiUrl": "http://apistaging.winbits.com/v1",
+        "apiUrl": "http://api.winbits.com/v1",
         "checkoutUrl": "https://checkout.winbits.com",
-        "baseUrl": "http://widgetstaging.winbits.com",
+        "baseUrl": "http://widget.winbits.com",
         "facebookClientId": "468430606512928",
-        "providerUrl": "https://apistaging.winbits.com/provider/",
+        "providerUrl": "https://api.winbits.com/provider/",
         "debug": "false"
       }
     }

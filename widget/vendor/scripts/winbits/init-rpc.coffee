@@ -120,19 +120,16 @@ else
       timeoutDeferred(deferred).promise()
 
     getData = (->
-      console.log ['has Winbits get data', Winbits]
       deferred = new $.Deferred()
       promise: deferred.promise()
       fn: ->
-        Winbits.env.get('rpc').getData deferred.resolve, deferred.reject
+        Winbits.env.get('rpc').getData deferred.resolve
     )()
 
     loadRpc().done ->
       console.log 'RPC loaded :)'
-      console.log ['has Winbits variable before verifyVerticalData', Winbits]
       verifyVerticalData()
-      console.log ['has Winbits variable after verifyVerticalData', Winbits]
-#      getData()
+      getData.fn()
     .fail ->
       console.log ['ERROR', 'Unable to load RPC engine :(']
       # This really need to happen!
