@@ -3,6 +3,7 @@ utils = require 'lib/utils'
 Model = require "models/base/model"
 env = Winbits.env
 $ = Winbits.$
+_ = Winbits._
 
 module.exports = class OldOrdersHistory extends Model
   url: env.get('api-url') + "/users/orders.json"
@@ -10,12 +11,6 @@ module.exports = class OldOrdersHistory extends Model
 
   parse: (data) ->
     orders: super
-
-  getTotal: ->
-    if (@meta)
-      @meta.totalCount
-    else
-      0
 
   requestCouponsService:(orderDetailId, options)->
     defaults =
@@ -28,3 +23,6 @@ module.exports = class OldOrdersHistory extends Model
       env.get('api-url') + "/users/coupons/#{orderDetailId}.json",
       $.extend(defaults, options)
     )
+
+  getOrderWithCoupon:(numberOrder) ->
+    _.find(@get("orders"),(order) -> numberOrder is order.orderNumber)

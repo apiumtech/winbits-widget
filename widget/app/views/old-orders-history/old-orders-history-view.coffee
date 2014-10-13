@@ -19,11 +19,12 @@ module.exports = class OldOrdersHistoryView extends View
     @delegate 'click', '#wbi-shipping-order-link', @redirectToShippingOrderHistory
     @delegate 'click', '#wbi-shipping-order-link-text', @redirectToShippingOrderHistory
     @delegate 'click', '#wbi-old-orders-history-btn-back', @backToVertical
+    @delegate 'click', '.wbc-old-orders-coupons', @findAndRedirectCoupon
     utils.replaceVerticalContent('.widgetWinbitsMain')
 
   attach: ->
     super
-    console.log ["MODEL IN OLD ORDERS", @model]
+    console.log ["MODEL IN OLD ORDERS", @model.attributes]
     @$('.select').customSelect()
       .wbpaginator(total: @model.getTotal(), max: @params.max, change: $.proxy(@pageChanged, @))
 
@@ -34,3 +35,11 @@ module.exports = class OldOrdersHistoryView extends View
   backToVertical:(e)->
     utils.restoreVerticalContent('.widgetWinbitsMain')
     utils.redirectToLoggedInHome()
+
+  findAndRedirectCoupon:(e)->
+    e.preventDefault()
+    orderNumber = $(e.currentTarget).data('ordernumber')
+    console.log ["Order number", orderNumber]
+    order = @model.getOrderWithCoupon(orderNumber)
+    console.log ["Order", order]
+

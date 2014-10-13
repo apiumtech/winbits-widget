@@ -82,11 +82,9 @@ module.exports = class AddNewShippingAddressView extends View
     else
       return comboSelect.wblocationselect('firstValue')
 
-
   setCityAndStateDefault: (value)->
      @$('[name="county"]').val(value.county)
      @$('[name="state"]').val(value.state)
-
 
   doSaveShippingAddress: ->
     $form =  @$el.find("#wbi-shipping-new-address-form")
@@ -104,7 +102,7 @@ module.exports = class AddNewShippingAddressView extends View
       context: @
       icon: 'iconFont-ok'
       onClosed: -> @publishEvent 'addresses-changed'
-    utils.showMessageModal('La Direccion de envio ha sido agregada correctamente.', options)
+    utils.showMessageModal('La dirección de envío ha sido agregada correctamente.', options)
 
   errorSaveNewShippingAddress:(xhr, textStatus)->
     error = utils.safeParse(xhr.responseText)
