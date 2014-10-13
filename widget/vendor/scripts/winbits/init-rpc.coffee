@@ -123,7 +123,7 @@ else
       deferred = new $.Deferred()
       promise: deferred.promise()
       fn: ->
-        Winbits.env.get('rpc').getData deferred.resolve
+        Winbits.env.get('rpc').getData deferred.resolve, deferred.reject
     )()
 
     loadRpc().done ->
