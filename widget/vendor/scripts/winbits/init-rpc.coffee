@@ -132,7 +132,7 @@ else
       console.log ['has Winbits variable before verifyVerticalData', Winbits]
       verifyVerticalData()
       console.log ['has Winbits variable after verifyVerticalData', Winbits]
-      getData.fn()
+#      getData()
     .fail ->
       console.log ['ERROR', 'Unable to load RPC engine :(']
       # This really need to happen!
