@@ -57,7 +57,7 @@
       "name": "prod",
       "desc": "production environment",
       "config": {
-        "apiUrl": "http://api.winbits.com/v1",
+        "apiUrl": "https://api.winbits.com/v1",
         "checkoutUrl": "https://checkout.winbits.com",
         "clickoneroUrl" : "https://www.clickonero.com.mx/hipstore/",
         "baseUrl": "http://widget.winbits.com",
