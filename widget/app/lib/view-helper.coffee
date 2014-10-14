@@ -196,7 +196,6 @@ Handlebars.registerHelper "getCouponHtmlUrl", (couponId) ->
 Handlebars.registerHelper "getStatusCouponClickonero", (claimEnd) ->
   claimEndDate = moment(new Date(claimEnd)).format('DD/MM/YYYY');
   today =  moment(Date()).format('DD/MM/YYYY')
-  console.log ["FECHA DE EXPIRACION", claimEndDate, "HOY ", today, claimEndDate<today]
   if  claimEndDate < today
     return "Cupón expirado"
   else

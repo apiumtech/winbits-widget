@@ -25,24 +25,21 @@ module.exports = class OldOrdersHistoryView extends View
 
   attach: ->
     super
-    @$('.select').customSelect()
-      .wbpaginator(total: @model.getTotal(), max: @params.max, change: $.proxy(@pageChanged, @))
 
   redirectToShippingOrderHistory: (e)->
     e.preventDefault()
     utils.redirectTo(controller: 'shipping-order-history')
 
-  backToVertical:(e)->
+  backToVertical:()->
     utils.restoreVerticalContent('.widgetWinbitsMain')
     utils.redirectToLoggedInHome()
 
   findAndRedirectCoupon:(e)->
     e.preventDefault()
+    e.stopPropagation()
     orderNumber = $(e.currentTarget).data('ordernumber')
     detailId = $(e.currentTarget).data('detailid')
-    console.log ["Order number", orderNumber]
     order = @model.getOrderWithCoupon(orderNumber, detailId)
-    console.log ["Order", order]
     mediator.data.set 'old-coupon-data', order
     utils.redirectTo url: '/#wb-old-orders-coupon'
 

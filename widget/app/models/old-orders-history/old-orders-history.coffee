@@ -12,12 +12,6 @@ module.exports = class OldOrdersHistory extends Model
   parse: (data) ->
     orders: super
 
-  getTotal: ->
-    if (@meta)
-      @meta.totalCount
-    else
-      0
-
   getOrderWithCoupon:(numberOrder, detailId) ->
     order = _.find(@get("orders"),(order) -> numberOrder is order.orderNumber)
     _.find(order.skus,(sku)-> detailId is sku.orderDetailId)

@@ -17,6 +17,7 @@ module.exports = class ShippingOrderHistoryView extends View
   initialize:()->
     super
     @model.fetch data:@params, success: $.proxy(@render, @)
+    @model.set 'clickoneroId', mediator.data.get('login-data').profile.clickoneroId
     @delegate 'click', '#wbi-shipping-order-history-btn-back', @backToVertical
     @delegate 'click', '.wbc-icon-coupon', @requestCouponsService
     @delegate 'click', '#wbi-old-orders-history', @requestClickoneroService
@@ -42,11 +43,14 @@ module.exports = class ShippingOrderHistoryView extends View
   updateHistory: ->
     @model.fetch {data:@params}
 
-  requestClickoneroService:()->
-    #todo get clickonero Id
-    @model.requestClickoneroOrders(12345)
+  requestClickoneroService:(e)->
+    e.preventDefault()
+    utils.showLoaderToCheckout()
+    $('#wbi-loader-text').text('Cargando ordenes...')
+    @model.requestClickoneroOrders($(e.currentTarget).data('clickoneroid'))
       .done(@requestClickoneroServiceSuccess)
       .fail(@requestClickoneroServiceError)
+      .always(@doHideLoaderAndRevertText)
 
   requestClickoneroServiceSuccess:(data)->
     mediator.data.set 'old-orders', data.orders
