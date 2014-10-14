@@ -183,3 +183,20 @@ Handlebars.registerHelper "availableCoupon", (options) ->
 Handlebars.registerHelper "getAvailableCouponsDate",(coupons) ->
   createdCoupon =_.find coupons, (coupon) -> coupon.status isnt 'AVAILABLE'
   createdCoupon.availableCouponDate
+
+Handlebars.registerHelper "getUrl", (url, ext) ->
+   url+"." + ext
+
+Handlebars.registerHelper "getCouponPdfUrl", (couponId) ->
+  env.get('clickonero-url')+"renderPDF/printVoucher?couponId="+couponId
+
+Handlebars.registerHelper "getCouponHtmlUrl", (couponId) ->
+  env.get('clickonero-url')+"renderPDF/viewVoucher?couponId="+couponId
+
+Handlebars.registerHelper "getStatusCouponClickonero", (claimEnd) ->
+  claimEndDate = moment(new Date(claimEnd)).format('DD/MM/YYYY');
+  today =  moment(Date()).format('DD/MM/YYYY')
+  if  claimEndDate < today
+    return "Cupón expirado"
+  else
+    return "Oferta lograda, tu cupón ha sido enviado a tu email."

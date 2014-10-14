@@ -10,14 +10,14 @@
         <input id="wbi-checkbox-all" type="checkbox" value="All/None" class="checkall">
         <label class="checkboxLabel">Todos / Ninguno</label>
     </div>
-    <div id="wbi-how-to-received" class="column">
+    <div id="wbi-how-to-received" class="column column-radios">
         <h3>¿Cómo te gustaría recibir la información?</h3>
         <input type="radio" value="unified" name="newsletterFormat" {{#compare newsletterFormat 'unified'}}checked="checked"{{/compare}}>
         <label class="checkboxLabel">Todo en un correo</label>
         <input type="radio" value="separated" name="newsletterFormat" {{#compare newsletterFormat 'separated'}}checked="checked"{{/compare}}>
         <label class="checkboxLabel">Correos individuales</label>
     </div>
-    <div id="wbi-how-often-to-received" class="column">
+    <div id="wbi-how-often-to-received" class="column column-radios">
         <h3>¿Con qué frecuencia te gustaría recibir nuestros correos?</h3>
         <input type="radio" value="daily" name="newsletterPeriodicity" {{#compare newsletterPeriodicity 'daily'}}checked="checked"{{/compare}}>
         <label class="checkboxLabel">Todos los días</label>
