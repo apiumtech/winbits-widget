@@ -11,8 +11,7 @@ module.exports = class OldOrdersHistoryView extends View
   container: env.get('vertical-container')
   className: 'widgetWinbitsMain wbc-vertical-content'
   template: require './templates/old-orders-history'
-  params:
-    max:10
+
 
   initialize:()->
     super
