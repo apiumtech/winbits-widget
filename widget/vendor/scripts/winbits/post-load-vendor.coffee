@@ -59,6 +59,7 @@ $.validator.addMethod("wbiLocation", (value, element) ->
 
 $.fn.wbDate = ()->
   $this = Winbits.$(this)
+  $this.find('.error').removeClass('error')
   day = $this.find('#wbi-birthdate-day').val()
   day = '0' + day if day and day.length == 1
   month = $this.find('#wbi-birthdate-month').val()
