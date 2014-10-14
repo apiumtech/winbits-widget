@@ -29,3 +29,7 @@ module.exports = class ShippingOrderHistory extends Model
       $.extend(defaults, options)
     )
 
+  requestClickoneroOrders:(clickoneroId)->
+    #quit this hard code id
+    clickoneroId = 2570990
+    utils.ajaxRequest(env.get('clickonero-url')+'accountApi.js?id='+clickoneroId)

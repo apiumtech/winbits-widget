@@ -70,7 +70,7 @@ new easyXDM.Rpc({},
       data.apiToken = apiToken  if apiToken
       vcartToken = localStorage.getItem CART_TOKEN_KEY
       vcampaignsToken = localStorage.getItem CAMPAIGN_TOKEN_KEY
-      console.log ['THE VCART', vcartToken, window.location.href]
+      console.log ['THE VCART', vcartToken, vcampaignsToken, window.location.href]
       vcartToken = DEFAULT_VIRTUAL_CART unless vcartToken
       localStorage.setItem CART_TOKEN_KEY, vcartToken
       data.vcartToken = vcartToken

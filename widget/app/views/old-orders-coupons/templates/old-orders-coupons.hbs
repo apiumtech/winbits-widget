@@ -1,0 +1,36 @@
+<form id="bodyModal wbi-coupon-modal-view" accept-charset="utf-8" >
+    <a id="wbi-xxx" href="#" target="_blank" style="display:none"></a>
+    <div class="confirmationContent couponsModal">
+        <h2 id="wbi-coupon-title">{{shortDescription}}</h2>
+        <div class="confirmation-icon"><span class="iconFont-ticket"></span></div>
+        <div class="confirmation-content">
+            <h3 id="wbi-coupon-description">{{name}}</h3>
+
+              <table class="confirmationTable">
+                  <tr>
+                      <th># Cupón</th>
+                      <th>Fecha expiración</th>
+                      <th>Estatus</th>
+                      <th class="table-download">Descarga</th>
+                  </tr>
+                {{#each coupons}}
+                    <tr class="wbc-coupon-data">
+                        <td>{{code}}</td>
+                        <td>{{toDefaultDateFormat ../claimEnd}}</td>
+                        <td>
+                            {{#if dateUsed}}
+                                El cupón fue canjeado el:{{toDefaultDateFormat dateUsed}}
+                            {{else}}
+                                {{getStatusCouponClickonero ../../claimEnd}}
+                            {{/if}}
+                        </td>
+                        <td class="table-download">
+                            <a href="{{getCouponPdfUrl id}}" class="iconFont-docPDF wbc-download-pdf-link" title="PDF"></a>
+                            <a href="{{getCouponHtmlUrl id}}" target="_blank" class="iconFont-docWEB wbc-download-html-link" title="Web"></a>
+                        </td>
+                    </tr>
+                {{/each}}
+              </table>
+        </div>
+    </div>
+</form>
