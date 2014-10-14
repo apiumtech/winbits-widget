@@ -6,9 +6,9 @@ $ = Winbits.$
 env = Winbits.env
 
 module.exports = class SwitchUserView extends View
-  container: '#wbi-header-wrapper'
+  container: '#wbi-widget-header-div'
   id: 'wbi-switch-user-div'
-  className: 'switchUser'
+  className: 'switchUser-div'
   template: require './templates/switch-user'
 
   initialize: ->
