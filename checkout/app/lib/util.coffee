@@ -269,7 +269,7 @@ module.exports =
     orderDetails = orderModel.get 'orderDetails'
     orderFullPrice = @calculateOrderFullPrice(orderDetails) + shippingTotal
     totalSaved = orderFullPrice - total + bitsTotal
-    $orderDetailView.find('.wb-order-saving').text(totalSaved)
+    $orderDetailView.find('.wb-order-saving').text(totalSaved.toFixed(2))
 
   renderSliderOnPayment: (value, active) ->
     $slider    = Winbits.$(Winbits.$.find('.slider'))

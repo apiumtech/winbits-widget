@@ -26,7 +26,7 @@ module.exports = class CheckoutTemp extends Model
     priceTotal
 
   orderSaving: ->
-    @itemsFullTotal() - @orderTotal()
+    (@itemsFullTotal() - @orderTotal()).toFixed(2)
 
   deleteOrderDetail:(formData, options) ->
     defaults =
