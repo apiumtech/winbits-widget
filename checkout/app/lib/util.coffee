@@ -281,7 +281,10 @@ module.exports =
       appendCopy.remove() 
     else
       $slider.children().hide()
-      copy = "<div name='wbi-copy-payment' id='wbi-copy-payment' >Estás usando #{amount.html()} para esta orden. Si deseas agregar o quitar bits, <a href='#' >haz click aquí.</a></div>"  
+      if amount.html() 
+        copy = "<div name='wbi-copy-payment' id='wbi-copy-payment' >Estás usando #{amount.html()} para esta orden. Si deseas agregar o quitar bits, <a href='#' >haz click aquí.</a></div>"  
+      else
+        copy = ''
       append = $subTotal.append(copy)
       append.find("a").on "click": (e) ->
         Winbits.$(Winbits.$.find('#wbi-cancel-payment-btn')).click()
