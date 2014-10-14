@@ -49,6 +49,7 @@ module.exports = class CheckoutSiteView extends View
       @$("div.slider").hide()
       @$("span.legendCarrito").hide()
       @$('#wb-checkout-timer').parent().hide()
+      @$("#wbi-copy-payment").hide()
       if bitsPayment
         $bitsAmount = @$("span.bits-payment-data").show().filter('.bits-amount')
         $bitsAmount.html($bitsAmount.html() + '-' + bitsPayment.amount)
