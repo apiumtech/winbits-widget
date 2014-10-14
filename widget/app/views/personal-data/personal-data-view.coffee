@@ -26,9 +26,9 @@ module.exports = class PersonalDataView extends View
       ignore : ''
       errorElement: 'span',
       errorPlacement: ($error, $element) ->
-        if $element.attr("name") in ["wbi-birthdate-day", "wbi-birthdate-month", "wbi-birthdate-year", "zipCodeInfo"]
+        if $element.attr("name") in ["wbi-birthdate-day", "wbi-birthdate-month", "wbi-birthdate-year"]
           $error.appendTo $element.parent()
-        else if $element.attr("name") in ["gender"]
+        else if $element.attr("name") in ["gender", "zipCodeInfo"]
           $error.appendTo $element.parent().parent()
         else
           $error.insertAfter $element
@@ -54,7 +54,7 @@ module.exports = class PersonalDataView extends View
           required: @model.fieldIsRequired('phone')
           wbiPhone: yes
         zipcode:
-          required: @model.fieldIsRequired('zipCode')
+          required: yes
           minlength: 5
           digits:yes
           zipCodeDoesNotExist:yes
