@@ -186,3 +186,12 @@ Handlebars.registerHelper "getAvailableCouponsDate",(coupons) ->
 
 Handlebars.registerHelper "getUrl", (url, ext) ->
    url+"." + ext
+
+Handlebars.registerHelper "getCouponPdfUrl", (couponId) ->
+  env.get('clickonero-url')+"renderPDF/printVoucher?couponId="+couponId
+
+Handlebars.registerHelper "getCouponHtmlUrl", (couponId) ->
+  env.get('clickonero-url')+"renderPDF/viewVoucher?couponId="+couponId
+
+Handlebars.registerHelper "getStatusCouponClickonero", (couponId) ->
+  env.get('clickonero-url')+"renderPDF/viewVoucher?couponId="+couponId

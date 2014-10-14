@@ -1,20 +1,20 @@
 'use strict'
-ShippingOrderController = require 'controllers/shipping-order-history-controller'
-CouponsModalView = require 'views/coupons/coupons-view'
-Coupons = require 'models/coupons/coupons'
+OldOrdersHitoryController = require 'controllers/old-orders-history-controller'
+OldCouponsModalView = require 'views/old-orders-coupons/old-orders-coupons-view'
+OldCoupons = require 'models/old-orders-coupons/old-orders-coupons'
 utils = require 'lib/utils'
 mediator = Winbits.Chaplin.mediator
 
-module.exports = class CouponController extends ShippingOrderController
+module.exports = class OldOrdersCouponsController extends OldOrdersHitoryController
 
   beforeAction: ->
     super
 
   index:->
-    console.log 'coupon#index'
-    couponData = mediator.data.get('coupon-data')
+    console.log 'old-orders-coupon#index'
+    couponData = mediator.data.get('old-coupon-data')
     if couponData
-      @model = new Coupons(couponData)
-      @view = new CouponsModalView model: @model
+      @model = new OldCoupons(couponData)
+      @view = new OldCouponsModalView model: @model
     else
-      utils.redirectTo url: '/#wb-shipping-order-history'
+      utils.redirectTo url: '/#wb-old-orders-history'

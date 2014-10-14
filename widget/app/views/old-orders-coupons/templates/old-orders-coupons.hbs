@@ -1,12 +1,11 @@
 <form id="bodyModal wbi-coupon-modal-view" accept-charset="utf-8" >
     <a id="wbi-xxx" href="#" target="_blank" style="display:none"></a>
     <div class="confirmationContent couponsModal">
-        <h2 id="wbi-coupon-title">{{title}}</h2>
+        <h2 id="wbi-coupon-title">{{shortDescription}}</h2>
         <div class="confirmation-icon"><span class="iconFont-ticket"></span></div>
         <div class="confirmation-content">
-            <h3 id="wbi-coupon-description">{{description}}</h3>
+            <h3 id="wbi-coupon-description">{{name}}</h3>
 
-          {{#availableCoupon}}
               <table class="confirmationTable">
                   <tr>
                       <th># Cupón</th>
@@ -15,23 +14,21 @@
                       <th class="table-download">Descarga</th>
                   </tr>
                 {{#each coupons}}
-                    <tr class="wbc-coupon-data" data-id="{{id}}" data-order="{{orderDetailId}}">
+                    <tr class="wbc-coupon-data">
                         <td>{{code}}</td>
-                        <td>{{expireCouponDate}}</td>
-                        <td>Oferta lograda, tu cupón ha sido enviado a tu email.</td>
+                        <td>{{toDefaultDateFormat ../endDateCampaign}}</td>
+                        <td>
+                            {{#if dateUsed}}
+                                El cupón fue canjeado el:{{toDefaultDateFormat dateUsed}}
+                            {{/if}}
+                        </td>
                         <td class="table-download">
-                            <a class="iconFont-docPDF wbc-download-pdf-link" title="PDF"></a>
-                            <a class="iconFont-docWEB wbc-download-html-link" title="Web"></a>
+                            <a href="{{getCouponPdfUrl id}}" class="iconFont-docPDF wbc-download-pdf-link" title="PDF"></a>
+                            <a href="{{getCouponHtmlUrl id}}" target="_blank" class="iconFont-docWEB wbc-download-html-link" title="Web"></a>
                         </td>
                     </tr>
                 {{/each}}
               </table>
-          {{else}}
-              <div id ="wbi-no-availabe-coupons" class="errorDiv">
-                  <p>Cupónes validos a partir del {{getAvailableCouponsDate coupons}}</p>
-              </div>
-              <div class="center"><input type="submit" id="wbi-coupon-modal-btn" value="Aceptar" class="btn"></div>
-          {{/availableCoupon}}
         </div>
     </div>
 </form>

@@ -5,6 +5,7 @@ utils = require 'lib/utils'
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 env = Winbits.env
+mediator = Winbits.Chaplin.mediator
 
 module.exports = class OldOrdersHistoryView extends View
   container: env.get('vertical-container')
@@ -24,7 +25,6 @@ module.exports = class OldOrdersHistoryView extends View
 
   attach: ->
     super
-    console.log ["MODEL IN OLD ORDERS", @model.attributes]
     @$('.select').customSelect()
       .wbpaginator(total: @model.getTotal(), max: @params.max, change: $.proxy(@pageChanged, @))
 
@@ -43,4 +43,6 @@ module.exports = class OldOrdersHistoryView extends View
     console.log ["Order number", orderNumber]
     order = @model.getOrderWithCoupon(orderNumber, detailId)
     console.log ["Order", order]
+    mediator.data.set 'old-coupon-data', order
+    utils.redirectTo url: '/#wb-old-orders-coupon'
 

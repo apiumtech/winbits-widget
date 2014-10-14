@@ -21,5 +21,5 @@ module.exports = class OldOrdersCouponsView extends View
 
 
   showAsModal: ->
-    $('<a>').wbfancybox(href: '#' + @id, onClosed: -> utils.redirectTo controller: 'home', action: 'index').click()
+    $('<a>').wbfancybox(href: '#wbi-old-orders-history' + @id, onClosed: -> utils.redirectTo controller: 'old-orders-history', action: 'index').click()
 
