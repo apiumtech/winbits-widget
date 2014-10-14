@@ -16,10 +16,12 @@
                 {{#each coupons}}
                     <tr class="wbc-coupon-data">
                         <td>{{code}}</td>
-                        <td>{{toDefaultDateFormat ../endDateCampaign}}</td>
+                        <td>{{toDefaultDateFormat ../claimEnd}}</td>
                         <td>
                             {{#if dateUsed}}
                                 El cupón fue canjeado el:{{toDefaultDateFormat dateUsed}}
+                            {{else}}
+                                {{getStatusCouponClickonero ../../claimEnd}}
                             {{/if}}
                         </td>
                         <td class="table-download">
