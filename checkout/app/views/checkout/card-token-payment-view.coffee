@@ -18,7 +18,7 @@ module.exports = class CardTokenPaymentView extends View
 
   attach: ->
     super
-    vendor.customSelect(@$el.find('.select'))
+    Winbits.$('.select').customSelect()
     @$el.find('form#wbi-card-token-payment-form').validate
       rules:
         msi:
