@@ -32,7 +32,6 @@ describe 'SwitchUserViewSpec', ->
 
   it 'switch user view renderized', ->
     $view = @view.$el
-    expect($view).to.has.class('switchUser')
     expect($view.find('span.wbc-logout')).to.exist
     .and.to.has.classes(['iconFont-close', 'wbc-logout'])
     expect($view.find('em')).to.exist
