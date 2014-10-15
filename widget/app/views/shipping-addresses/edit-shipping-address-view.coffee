@@ -52,7 +52,7 @@ module.exports = class EditShippingAddressView extends View
           minlength: 1
         state:
           required: yes
-        city:
+        county:
           required: yes
         zipCode:
           minlength:5

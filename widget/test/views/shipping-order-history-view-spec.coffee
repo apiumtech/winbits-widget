@@ -31,7 +31,7 @@ describe 'ShippingOrderHistoryViewSpec', ->
     request = @requests[0]
     request.respond(200, { "Content-Type": "application/json" }, "")
     expect(@view.$('.historical .addInfo')).to.exist
-    expect(@view.$('.historical .addInfo span').text()).to.equal ' No tienes compras.'
+    expect(@view.$('.historical .addInfo').text()).to.equal 'No tienes compras.'
 
   it "should request get shipping order history", ->
     request = @requests[0]
