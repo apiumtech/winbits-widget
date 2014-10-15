@@ -67,6 +67,7 @@ module.exports = class CheckoutSiteView extends View
     @startCounter()
     @$el.find('#wbi-ajax-modal').modal({backdrop: 'static', keyboard: false, show: false})
     Winbits.$('#wbi-expire-modal').modal({backdrop: 'static', keyboard: false, show: false})
+    Winbits.$('.winbitsFooter').fixedFooter()
 
   startCounter: () ->
     that = @
