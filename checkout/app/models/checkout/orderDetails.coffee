@@ -32,6 +32,7 @@ module.exports = class OrderDetails extends ChaplinModel
   updateOrderBits: (bits) ->
     updateData = {bitsTotal: bits, orderId: @get('orderId') }
     that=@
+    util.showAjaxIndicator('Actualizando bits a la orden ...')
     util.ajaxRequest( config.apiUrl + "/orders/update-order-bits.json",
       type: "PUT"
       contentType: "application/json"
@@ -49,4 +50,6 @@ module.exports = class OrderDetails extends ChaplinModel
             that.publishEvent('showBitsPayment')
       error: (xhr, textStatus, errorThrown) ->
         util.showAjaxError(xhr.responseText)
+      complete: ->
+        util.hideAjaxIndicator()
     )
