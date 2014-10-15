@@ -102,7 +102,7 @@ module.exports = class AddNewShippingAddressView extends View
       context: @
       icon: 'iconFont-ok'
       onClosed: -> @publishEvent 'addresses-changed'
-    utils.showMessageModal('La dirección de envío ha sido agregada correctamente.', options)
+    utils.showMessageModal('La Dirección de envío ha sido agregada correctamente.', options)
 
   errorSaveNewShippingAddress:(xhr, textStatus)->
     error = utils.safeParse(xhr.responseText)
