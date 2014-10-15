@@ -47,7 +47,7 @@ describe 'PersonalDataViewSpec', ->
     expect(@view.$ '#wbi-personal-data-form').to.exist
 
   it 'should render profile form data with data', ->
-    personalData = name: 'Jorge', lastName:"Moreno", phone:'431256789'
+    personalData = name: 'Jorge', lastName:"Moreno"
     @view.model.set personalData
     _.each personalData, (value, key) ->
       expect(@view.$ "[name=#{key}]").to.has.value value
