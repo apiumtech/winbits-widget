@@ -25,7 +25,7 @@ describe 'BitsHistoryViewSpec', ->
     request = @requests[0]
     request.respond(200, { "Content-Type": "application/json" }, "")
     expect(@view.$('.historical')).to.exist
-    expect(@view.$('.addInfo span').text()).to.equal 'No tienes movimientos de bits.'
+    expect(@view.$('.addInfo').text()).to.equal 'No tienes movimientos de bits.'
 
   it "should request get bits history", ->
     request = @requests[0]
