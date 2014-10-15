@@ -14,4 +14,4 @@ module.exports = class Controller extends Chaplin.Controller
   beforeAction: ->
     super
     @reuse 'header', HeaderView
-    @reuse 'footer', FooterView
+#    @reuse 'footer', FooterView
