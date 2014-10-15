@@ -66,7 +66,6 @@ module.exports = class PersonalDataView extends View
           wbiSelectInfo: yes
 
 
-
   updateProfile : (e) ->
     $form = @$('#wbi-personal-data-form')
     data = utils.serializeProfileForm $form
