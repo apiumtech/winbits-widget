@@ -891,4 +891,65 @@
 			}
 		});
 	};
+
+        jQuery.fn.fixedFooter = function(options){
+            var defaults = $.extend({
+                    clase: 'footer-fixed',
+                    minHeigth: 500
+            }, options),
+
+            addRemoveClass = function(obj){
+
+                if($('html').height() < $(window).height()) {
+                    $(obj).addClass(defaults.clase);
+                } else {
+                    $(obj).removeClass(defaults.clase);
+                }
+            };
+            return this.each(function(){
+                var $this = this;
+                addRemoveClass($this);
+                $(window).resize(function(){
+                    addRemoveClass($this);
+                });
+            });
+        };
+
+
+        /*  @codekit-prepend  "js/scripts/carouselSwiper.js";
+         *      @codekit-prepend  "js/scripts/customCheckbox.js";
+         *          @codekit-prepend  "js/scripts/customRadio.js";
+         *              @codekit-prepend  "js/scripts/customSelect.js";
+         *                  @codekit-prepend  "js/scripts/customSlider3.js";
+         *                      @codekit-prepend  "js/scripts/closeVideoHome.js";
+         *                          @codekit-prepend  "js/scripts/changeBox.js";
+         *                              @codekit-prepend  "js/scripts/dropMainMenu.js";
+         *                                  @codekit-prepend  "js/scripts/imageError.js";
+         *                                      @codekit-prepend  "js/scripts/fancyBox.js";
+         *                                          @codekit-prepend  "js/scripts/fixedFooter.js";
+         *                                              @codekit-prepend  "js/scripts/mailingMenuCheckboxs.js";
+         *                                                  @codekit-prepend  "js/scripts/requiredField.js";
+         *                                                      @codekit-prepend  "js/scripts/scrollpane.js";
+         *                                                          @codekit-prepend  "js/scripts/showHideDiv.js";
+         *                                                              @codekit-prepend  "js/scripts/tabs.js";
+         *                                                                  @codekit-prepend  "js/scripts/toolTip.js"; */
+        jQuery.fn.fixedObj = function(options){
+            var defaults = $.extend({
+                    minScroll: 50,
+                    scrollClass: 'fixedObj'
+            }, options);
+            return this.each(function(){
+                var $this = $(this);
+                $(window).scroll(function() {
+                    var windowsScroll = $(window).scrollTop();
+                    if(defaults.minScroll < windowsScroll){
+                        $this.addClass(defaults.scrollClass);
+                    } else {
+                        $this.removeClass(defaults.scrollClass);
+                    }
+                });
+
+            });
+        };
+
 })(window.jQuery);

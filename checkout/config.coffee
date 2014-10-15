@@ -20,7 +20,7 @@ exports.config =
           'vendor/scripts/jquery.browser.min.js'
         ]
         after: [
-          'test/vendor/scripts/test-helper.js'
+          'test/vendor/scripts/test-helper.js',
           'vendor/scripts/script.js', # Script de Yadira
           'vendor/scripts/winbits/jquery-location-select.coffee'
         ]
