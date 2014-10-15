@@ -169,7 +169,11 @@ Handlebars.registerHelper "withMsiPayments", (options) ->
 
 Handlebars.registerHelper "toDefaultDateFormat", (dateString) ->
   if dateString
-    moment(new Date(dateString)).format('DD/MM/YYYY');
+    moment(new Date(dateString)).format('DD/MM/YYYY')
+
+Handlebars.registerHelper "toDateFormat", (dateString)->
+  if dateString
+    moment(dateString).format('DD/MM/YYYY');
 
 Handlebars.registerHelper "abs", (number) ->
   Math.abs(number)
