@@ -22,7 +22,7 @@ module.exports = class OrderDetailView extends View
           if emValue is bits
             util.updateOrderDetailView(that.model, bits, $slider)
             that.updateOrderBits bits
-      , 1500)
+      , 500)
 
       vendor.customSlider("#wbi-bits-slide-checkout").on('slidechange', (e, ui) ->
         $slider = Winbits.$(@)
