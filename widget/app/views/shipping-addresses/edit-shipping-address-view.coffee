@@ -52,7 +52,7 @@ module.exports = class EditShippingAddressView extends View
           minlength: 1
         state:
           required: yes
-        city:
+        county:
           required: yes
         zipCode:
           minlength:5
@@ -82,7 +82,7 @@ module.exports = class EditShippingAddressView extends View
        value = @selectZipCodeInfo(comboSelect, valSelected)
        @setCityAndStateDefault value
      else
-       @$('[name="city"]').val('')
+       @$('[name="county"]').val('')
        @$('[name="state"]').val('')
 
   selectZipCodeInfo:(comboSelect,value)->
@@ -92,7 +92,7 @@ module.exports = class EditShippingAddressView extends View
       return comboSelect.wblocationselect('firstValue')
 
   setCityAndStateDefault: (value)->
-    @$('[name="city"]').val(value.city)
+    @$('[name="county"]').val(value.county)
     @$('[name="state"]').val(value.state)
 
 
