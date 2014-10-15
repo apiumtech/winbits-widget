@@ -67,7 +67,7 @@ module.exports = class ChangePasswordView extends MyProfileView
     options =
       value: "Cerrar"
       title:'Error'
-      icon: 'iconFont-no'
+      icon: 'iconFont-close'
     utils.showMessageModal(message, options)
 
   doResetPasswordView: ->
