@@ -7703,6 +7703,10 @@ main {
 .mac.safari .carritoDivRight {
   margin-right: -2px;
 }
+.win.safari .widgetWinbitsMain,
+.win.safari main {
+  display: block;
+}
 .msie1 .carritoDivRight {
   margin-right: -2px;
   width: 189px !important;
