@@ -30,6 +30,5 @@ module.exports = class ShippingOrderHistory extends Model
     )
 
   requestClickoneroOrders:(clickoneroId)->
-    #quit this hard code id
-    clickoneroId = 2570990
+    console.log ["clickonero id ", clickoneroId]
     utils.ajaxRequest(env.get('clickonero-url')+'accountApi.js?id='+clickoneroId)
