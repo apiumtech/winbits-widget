@@ -61,6 +61,10 @@ label.error {
   filter: alpha(opacity=80);
 }
 
+.wbc-complete-register-select .selectRegister .select-input {
+  width: 160px !important;
+}
+
 /* .placeholder { color: #aaa; height: 100% !important; }
 ::-webkit-input-placeholder { color: #aaa; }
 input:-moz-placeholder, textarea:-moz-placeholder { color: #aaa; } */

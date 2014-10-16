@@ -18,7 +18,7 @@ module.exports = class CardTokenPaymentView extends View
 
   attach: ->
     super
-    vendor.customSelect(@$el.find('.select'))
+    Winbits.$('.select').customSelect()
     @$el.find('form#wbi-card-token-payment-form').validate
       rules:
         msi:
@@ -42,8 +42,6 @@ module.exports = class CardTokenPaymentView extends View
 
   onCardTokenPaymentFormSubmitted: (e) ->
     e.preventDefault()
-    # Stop timer
-    @publishEvent 'StopIntervalTimer'
     #
     $ = Winbits.$
     $form = $(e.currentTarget)
@@ -96,6 +94,8 @@ module.exports = class CardTokenPaymentView extends View
         headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
         success: (data) ->
           console.log ["data", data]
+          # Stop timer
+          that.publishEvent 'StopIntervalTimer'
           payment = data.response.payments[0]
           bitsPayment = data.response.payments[1]
           if payment.status isnt 'FAILED' and payment.status isnt 'ERROR'

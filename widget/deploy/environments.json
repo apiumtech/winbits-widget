@@ -59,7 +59,7 @@
       "config": {
         "apiUrl": "https://api.winbits.com/v1",
         "checkoutUrl": "https://checkout.winbits.com",
-        "clickoneroUrl" : "https://www.clickonero.com.mx/hipstore/",
+        "clickoneroUrl" : "https://api.winbits.com/v1/hipstore/",
         "baseUrl": "http://widget.winbits.com",
         "facebookClientId": "468430606512928",
         "providerUrl": "https://api.winbits.com/provider/",

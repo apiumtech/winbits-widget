@@ -77,7 +77,7 @@ module.exports = class PaymentView extends View
         
       if not new RegExp("amex\..+").test(identifier)
         formData.deviceFingerPrint = Winbits.checkoutConfig.orderId
-
+      
       postData = paymentInfo : formData
       postData.paymentMethod = paymentMethod
       postData.order = mediator.post_checkout.order
@@ -134,7 +134,6 @@ module.exports = class PaymentView extends View
 
   submitOrder: (e)->
     e.preventDefault()
-    @publishEvent 'StopIntervalTimer'
     that = @
     $currentTarget = @$(e.currentTarget)
     paymentMethod =  $currentTarget.attr("id").split("-")[1]
@@ -151,6 +150,8 @@ module.exports = class PaymentView extends View
       paymentMethod = method.id for method in @model.attributes.methods when method.identifier is paymentMethod
     formData = mediator.post_checkout
     formData.vertical = Winbits.checkoutConfig.verticalId
+    if formData?.paymentInfo?.subscriptionId
+      delete formData.paymentInfo['subscriptionId']
     util.showAjaxIndicator('Procesando tu pago...')
 
     util.ajaxRequest( config.apiUrl + "/orders/payment.json",
@@ -162,6 +163,7 @@ module.exports = class PaymentView extends View
       headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
       success: (data) ->
         console.log ["data", data]
+        that.publishEvent 'StopIntervalTimer'
         payment = data.response.payments[0]
         bitsPayment = data.response.payments[1]
         if payment.status isnt 'FAILED' and payment.status isnt 'ERROR'

@@ -133,20 +133,20 @@ module.exports = class ShippingAddressesView extends View
 
   doDeleteShipping: (e)->
     e.stopPropagation()
-    $itemId = $(e.currentTarget).closest('.block-slide').data("id")
-    message = "¿Estás seguro de eliminar esta dirección de envío? <br><br> En caso de eliminarla las compras relacionadas a esta direccion no se verán afectadas"
+    @itemId = $(e.currentTarget).closest('.block-slide').data("id")
+    message = "¿Estás seguro de eliminar esta dirección de envío? <br><br> En caso de eliminarla las compras relacionadas a esta dirección no se verán afectadas"
     options =
       value: "Aceptar"
       title:'Confirmacion de borrado'
       icon:'iconFont-question'
       context: @
-      acceptAction: () -> @doRequestDeleteShippingAddress($itemId)
+      acceptAction:@doRequestDeleteShippingAddress
     utils.showConfirmationModal(message, options)
 
-  doRequestDeleteShippingAddress:($itemId) ->
+  doRequestDeleteShippingAddress:() ->
     utils.closeMessageModal()
     utils.showAjaxLoading()
-    @model.requestDeleteShippingAddress($itemId, context:@)
+    @model.requestDeleteShippingAddress(@itemId, context:@)
       .done(@doSuccessDeleteShippingAddress)
       .fail(@doErrorDeleteShippingAddress)
 
@@ -154,12 +154,12 @@ module.exports = class ShippingAddressesView extends View
     utils.hideAjaxLoading()
     @model.fetch()
     message = "La dirección se ha eliminado correctamente"
-    options = value: "Continuar", title:'Direccion de envío eliminada', icon:'iconFont-ok', onClosed: utils.redirectTo controller: 'home', action: 'index'
+    options = value: "Continuar", title:'Direccion de envío eliminada', icon:'iconFont-ok'
     utils.showMessageModal(message, options)
 
   doErrorDeleteShippingAddress: () ->
     message = "Hubo un error al intentar eliminar la direccion, intentalo mas tarde"
-    options = value: "Continuar", title:'Error al eliminar', icon:'iconFont-close', onClosed: utils.redirectTo controller: 'home', action: 'index'
+    options = value: "Continuar", title:'Error al eliminar', icon:'iconFont-close'
     utils.showMessageModal(message, options)
 
   doEditShippingAddress: (e) ->

@@ -22,9 +22,11 @@ module.exports = class CompleteRegisterView extends View
     @$('#wbi-complete-register-form').validate
       ignore:''
       errorPlacement: ($error, $element) ->
-        if $element.attr("name") in ["wbi-birthdate-day", "wbi-birthdate-month", "wbi-birthdate-year", "zipCodeInfo"]
+        if $element.attr("name") in ["wbi-birthdate-day", "wbi-birthdate-month", "wbi-birthdate-year"]
           $error.appendTo $element.parent()
         else if $element.attr("name") in ["gender"]
+          $error.appendTo $element.parent().parent()
+        else if $element.attr("name") in ["zipCodeInfo"]
           $error.appendTo $element.parent().parent()
         else
           $error.insertAfter $element

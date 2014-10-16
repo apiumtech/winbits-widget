@@ -35,12 +35,18 @@ describe 'PersonalDataViewSpec', ->
     @model = new MyProfile @loginData
     @view = new PersonalDataView model: @model
     @view.attach()
+
+    @view.$('[name=name]').val 'Jorge'
+    @view.$('[name=lastname]').val 'Moreno'
+
     @view.$('#wbi-birthdate-day').val('11')
     @view.$('#wbi-birthdate-month').val('11')
     @view.$('#wbi-birthdate-year').val('11')
+    @view.$('[name=zipCode]').val '12345'
     @view.$('#wbi-personal-data-zipCode').val('12345')
     @view.$('[name=zipCodeInfo]').wblocationselect('loadZipCode', '12345')
     @view.$('.wbc-gender-male').prev().addClass('radio-selected')
+
     sinon.stub utils, 'redirectTo'
 
   afterEach ->

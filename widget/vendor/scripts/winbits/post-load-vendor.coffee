@@ -59,6 +59,7 @@ $.validator.addMethod("wbiLocation", (value, element) ->
 
 $.fn.wbDate = ()->
   $this = Winbits.$(this)
+  $this.find('.error').removeClass('error')
   day = $this.find('#wbi-birthdate-day').val()
   day = '0' + day if day and day.length == 1
   month = $this.find('#wbi-birthdate-month').val()
@@ -143,7 +144,7 @@ Winbits.$.when.apply(Winbits.$, Winbits.promises).done ->
 .fail ->
   console.log = Winbits.log
   window.Winbits = undefined
-  alert('Unable to load Winbits Widget!')
+  console.log(['Unable to load Winbits Widget!'])
 
 if Winbits.promises.length < 3
   alert "Para disfrutar de todas las funciones de winbits, te recomendamos actualizar tu navegador."
