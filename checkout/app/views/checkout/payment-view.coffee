@@ -134,7 +134,6 @@ module.exports = class PaymentView extends View
 
   submitOrder: (e)->
     e.preventDefault()
-    @publishEvent 'StopIntervalTimer'
     that = @
     $currentTarget = @$(e.currentTarget)
     paymentMethod =  $currentTarget.attr("id").split("-")[1]
@@ -164,6 +163,7 @@ module.exports = class PaymentView extends View
       headers:{ 'Accept-Language': 'es', 'WB-Api-Token': util.retrieveKey(config.apiTokenName) }
       success: (data) ->
         console.log ["data", data]
+        that.publishEvent 'StopIntervalTimer'
         payment = data.response.payments[0]
         bitsPayment = data.response.payments[1]
         if payment.status isnt 'FAILED' and payment.status isnt 'ERROR'
