@@ -15,7 +15,6 @@ exports.config =
           'bower_components/modernizr/modernizr.js'
           'bower_components/jquery/dist/jquery.js'
           'vendor/scripts/jquery.browser.min.js'
-#          'bower_components/jquery.browser/dist/jquery.browser.js'
           'vendor/scripts/winbits/init-env.coffee'
           'bower_components/json2/json2.js'
           'vendor/scripts/xtra/easyXDM-2.4.19.3.js'

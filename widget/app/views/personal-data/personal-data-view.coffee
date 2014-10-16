@@ -50,10 +50,10 @@ module.exports = class PersonalDataView extends View
         'wbi-birthdate-year':
           required: yes
           validateDate: yes
-        phone:
-          required: @model.fieldIsRequired('phone')
-          wbiPhone: yes
-        zipcode:
+#        phone:
+#          required: @model.fieldIsRequired('phone')
+#          wbiPhone: yes
+        zipCode:
           required: yes
           minlength: 5
           digits:yes

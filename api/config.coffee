@@ -8,6 +8,7 @@ exports.config =
       # Files in `vendor` directories are compiled before other files
       # even if they aren't specified in order.before.
         before: [
+          'bower_components/modernizr/modernizr.js'
           'bower_components/console-polyfill/index.js'
           'vendor/scripts/init.coffee'
         ]

@@ -17,8 +17,10 @@ module.exports = class ShippingOrderHistoryView extends View
   initialize:()->
     super
     @model.fetch data:@params, success: $.proxy(@render, @)
+    @model.set 'clickoneroId', mediator.data.get('login-data').profile.clickoneroId
     @delegate 'click', '#wbi-shipping-order-history-btn-back', @backToVertical
     @delegate 'click', '.wbc-icon-coupon', @requestCouponsService
+    @delegate 'click', '#wbi-old-orders-history', @requestClickoneroService
     $('#wbi-my-account-div').slideUp()
     utils.replaceVerticalContent('.widgetWinbitsMain')
     @subscribeEvent 'shipping-order-history-params-changed', @paramsChanged
@@ -26,6 +28,7 @@ module.exports = class ShippingOrderHistoryView extends View
   attach: ->
     super
     @$('.select').customSelect()
+    @$('span.iconFont-question').toolTip()
     @$('#wbi-shipping-order-history-paginator')
      .wbpaginator(total: @model.getTotal(), max: @params.max, change: $.proxy(@pageChanged, @))
 
@@ -39,6 +42,31 @@ module.exports = class ShippingOrderHistoryView extends View
 
   updateHistory: ->
     @model.fetch {data:@params}
+
+  requestClickoneroService:(e)->
+    e.preventDefault()
+    utils.showLoaderToCheckout()
+    $('#wbi-loader-text').text('Cargando ordenes...')
+    @model.requestClickoneroOrders($(e.currentTarget).data('clickoneroid'))
+      .done(@requestClickoneroServiceSuccess)
+      .fail(@requestClickoneroServiceError)
+      .always(@doHideLoaderAndRevertText)
+
+  requestClickoneroServiceSuccess:(data)->
+    mediator.data.set 'old-orders', data.orders
+    utils.redirectTo controller: 'old-orders-history', action:'index'
+
+  requestClickoneroServiceError: (xhr, textStatus)->
+    error = utils.safeParse(xhr.responseText)
+    messageText = "Error al conseguir tus ordenes,#{textStatus}"
+    message = if error then error.meta.message + ',por favor intentalo mas tarde.' else messageText
+    options =
+      icon: 'iconFont-info'
+      value: "Cerrar"
+      title:'Lo sentimos!'
+      onClosed: utils.redirectTo url: '/#wb-shipping-order-history'
+    utils.showMessageModal(message, options)
+
 
   requestCouponsService:(e)->
     utils.showLoaderToCheckout()

@@ -83,6 +83,7 @@ describe 'TransferFromVirtualToAssignedCartViewSpec', ->
     sinon.stub(utils, 'isLoggedIn').returns(yes)
     sinon.stub(utils, 'getVirtualCart').returns(DEFAULT_VIRTUAL_CART_WHIT_ONCE_VALUE)
     sinon.stub(@model, 'fetch').returns()
+    sinon.stub(@model, 'doTransferVirtualCampaigns').returns()
     sinon.stub(@view, 'showModalNoItemsToTransfer')
     @view.restoreCart()
     @server.requests[1].respond(200, {"Content-Type":"aplication/json"},ASSIGNED_CART_RESPONSE_NO_TRANSFER_ITEMS)

@@ -92,6 +92,7 @@ module.exports = class CartView extends View
       else
         mediator.data.set 'transfer-error', data.response
         utils.redirectTo(controller:'transfer-cart-errors', action:'index')
+    @model.doTransferVirtualCampaigns(data.response.cartDetails)
 
   showModalNoItemsToTransfer: ->
     options =

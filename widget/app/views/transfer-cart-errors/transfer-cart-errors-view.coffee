@@ -27,7 +27,7 @@ module.exports = class LoginView extends View
     @$('.productTable.scrollPanel').scrollpane({ parent: '.dataTable'});
 
   showAsModal: ->
-    $('<a>').wbfancybox(href: '#' + @id, onClosed: (-> utils.redirectTo(controller: 'home', action: 'index', params: 'xxxxxx')), height:550).click()
+    $('<a>').wbfancybox(href: '#' + @id, onClosed: (-> utils.redirectTo(controller: 'home', action: 'index')), height:550).click()
 
   doCloseModal: (e)->
     e.preventDefault()

@@ -90,6 +90,16 @@ module.exports = class Cart extends Model
       $.extend(defaults, options)
     )
 
+  toRestoreVirtualCart:(formData,options)->
+    defaults =
+      headers:
+        "Wb-VCart": JSON.stringify(formData)
+    utils.ajaxRequest(
+      utils.getResourceURL("orders/virtual-cart-items.json"),
+      $.extend(defaults, options)
+    )
+
+
   transferVirtualCart:(formData, options) ->
     defaults =
       type: "POST"
@@ -183,3 +193,23 @@ module.exports = class Cart extends Model
     warnings = _.flatten(warnings)
     isValid =  if (response.failedCartDetails or !$.isEmptyObject(warnings) ) then no else yes
     isValid
+
+  doTransferVirtualCampaigns:(cartItems)->
+    campaignsToTransfer = @getOfVirtualCampaignsToTransfer(cartItems)
+    cartUtils.doSaveCampaigns(campaignsToTransfer)
+    @cleanVirtualCampaigns()
+
+  cleanVirtualCampaigns:->
+    mediator.data.set('virtual-campaigns', '{"campaigns":{}}')
+    env.get('rpc').storeVirtualCampaigns('{"campaigns":{}}')
+
+  getOfVirtualCampaignsToTransfer:(cartItems)->
+    campaignsToTransfer = []
+    vCampaigns = JSON.parse(mediator.data.get('virtual-campaigns')).campaigns
+    for item in cartItems
+      if vCampaigns[item.skuProfile.id].campaignId
+        campaignsToTransfer.push
+          skuProfileId: item.skuProfile.id
+          campaign: vCampaigns[item.skuProfile.id].campaignId
+          type: vCampaigns[item.skuProfile.id].campaignType
+    campaignsToTransfer

@@ -24,6 +24,8 @@ module.exports = class CompleteRegisterView extends View
       errorPlacement: ($error, $element) ->
         if $element.attr("name") in ["wbi-birthdate-day", "wbi-birthdate-month", "wbi-birthdate-year"]
           $error.appendTo $element.parent()
+        else if $element.attr("name") in ["gender"]
+          $error.appendTo $element.parent().parent()
         else if $element.attr("name") in ["zipCodeInfo"]
           $error.appendTo $element.parent().parent()
         else
@@ -32,32 +34,33 @@ module.exports = class CompleteRegisterView extends View
         birthDate: ' wbi-birthdate-day wbi-birthdate-month wbi-birthdate-year'
       rules:
         name:
-          required: @model.fieldIsRequired('name')
+          required: yes
           minlength:2
         lastName:
-          required: @model.fieldIsRequired('lastName')
+          required: yes
           minlength: 2
         'wbi-birthdate-day':
-          required: @model.fieldIsRequired('birthdate')
+          required: yes
           validateDate: yes
         'wbi-birthdate-month':
-          required: @model.fieldIsRequired('birthdate')
+          required: yes
           validateDate: yes
         'wbi-birthdate-year':
-          required: @model.fieldIsRequired('birthdate')
+          required: yes
           validateDate: yes
-        phone:
-          required: @model.fieldIsRequired('phone')
-          wbiPhone: yes
-        zipcode:
-          required: @model.fieldIsRequired('zipCode')
+#Se comenta este campo por petición de regla de negocio
+#        phone:
+#          required: yes
+#          wbiPhone: yes
+        zipCode:
+          required: yes
           minlength: 5
           digits:yes
           zipCodeDoesNotExist:yes
         location:
           wbiLocation: yes
         gender:
-          required: @model.fieldIsRequired('gender')
+          required: yes
         zipCodeInfo:
           wbiSelectInfo: yes
 

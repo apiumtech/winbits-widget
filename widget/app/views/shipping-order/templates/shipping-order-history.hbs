@@ -1,10 +1,16 @@
 <div class="wrapper historical">
-  <div>
+  <div class="wrapper positionRelative">
+     {{#if clickoneroId}}
+      <a data-clickoneroid="{{clickoneroId}}" id="wbi-old-orders-history" class="oldHistory-btn btn btnCart">
+        <span title="Hemos mudado nuestra plataforma, pero conservamos para tí el registro de  tus compras y cupones. Da click en el botón para ver tu anterior historial." class="iconFont-question"></span>
+        ¿Dónde estan mis anteriores <strong>Pedidos y Cupones </strong>?
+      </a>
+     {{/if}}
     <h2>Historial de Compras</h2>
     <div class="accordeonContent">
-{{#unless orders}}
-      <div class="addInfo"><span class="iconFont-close"></span>No tienes compras.</div>
-{{else}}
+  {{#unless orders}}
+      <div class="addInfo"><span class="iconFont-close"> No tienes compras.</span></div>
+  {{else}}
     <br><br>
     {{!<div class="accordeonSelectDiv">
      <select class="select" data-clase="selectRegister">

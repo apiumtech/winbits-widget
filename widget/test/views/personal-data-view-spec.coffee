@@ -2,6 +2,7 @@
 
 PersonalDataView = require 'views/personal-data/personal-data-view'
 MyProfile = require 'models/my-profile/my-profile'
+testUtils = require 'test/lib/test-utils'
 utils = require 'lib/utils'
 $ = Winbits.$
 _ = Winbits._
@@ -15,21 +16,37 @@ describe 'PersonalDataViewSpec', ->
   WITHOUT_CASHBACK_UPDATED = {"meta":{"status":200},"response":{"id":109,"email":"you_fhater@hotmail.com","apiToken":"HMfRfZ55FFkK5A7OvdG06oTlbD9GoYSOq77EvskAjNd7DT7VQWYXB27IzIzELMT4","bitsBalance":130,"profile":{"name":"qweqwe","lastName":"qweqwe","birthdate":"1999-11-11","gender":"male","zipCodeInfo":{"id":1,"locationName":"qwqqq","locationCode":"1","locationType":"qwqq","county":"as","city":"mex","state":"qwq","zipCode":"11111"},"zipCode":"11111","location":"qwqqq","phone":"123123123123123","newsletterPeriodicity":"weekly","newsletterFormat":"unified","wishListCount":1,"waitingListCount":0,"pendingOrdersCount":1},"socialAccounts":[{"name":"Facebook","providerId":"facebook","logo":"facebook.png","available":true},{"name":"Twitter","providerId":"twitter","logo":"twitter.png","available":false}],"subscriptions":[{"id":2,"name":"Looq","active":false},{"id":3,"name":"Sportlet","active":false},{"id":4,"name":"clickOnero","active":false},{"id":16,"name":"vertical-23-d9XSuSr","active":false}],"mainShippingAddres":{"id":3,"firstName":"qweqwe","lastName":"qweqwe","betweenStreets":"qweqwe","indications":"qwe","main":true,"zipCodeInfo":{"id":1,"locationName":"qwqqq","locationCode":"1","locationType":"qwqq","county":"as","city":"mex","state":"qwq","zipCode":"11111"},"zipCode":"11111","location":"qwqqq","county":"as","state":"qwq","lastName2":null,"street":"qwe","internalNumber":"qwe","externalNumber":"qwe","phone":"1231231231"},"loginRedirectUrl":"http://localhost/widgets/logout.html","cashbackForComplete":100}}
 
   before ->
+    sinon.stub($, 'ajax').returns(testUtils.promiseResolvedWithData())
     $.validator.setDefaults({ ignore: [] });
+
 
   after ->
     $.validator.setDefaults({ ignore: ':hidden' });
+    $.ajax.restore()
+
 
   beforeEach ->
     @server = sinon.fakeServer.create()
     @loginData =
       apiToken: 'XXX'
-      profile: { name: 'Jorge', lastName:"Moreno", gender:'male', phone:'0431256789', birthdate:'1988-11-11'}
+      profile: { name: 'Jorge', lastName:"Moreno", gender:'male', birthdate:'1988-11-11'}
       email: 'a@aa.aa'
     mediator.data.set 'login-data', @loginData
     @model = new MyProfile @loginData
     @view = new PersonalDataView model: @model
     @view.attach()
+
+    @view.$('[name=name]').val 'Jorge'
+    @view.$('[name=lastname]').val 'Moreno'
+
+    @view.$('#wbi-birthdate-day').val('11')
+    @view.$('#wbi-birthdate-month').val('11')
+    @view.$('#wbi-birthdate-year').val('11')
+    @view.$('[name=zipCode]').val '12345'
+    @view.$('#wbi-personal-data-zipCode').val('12345')
+    @view.$('[name=zipCodeInfo]').wblocationselect('loadZipCode', '12345')
+    @view.$('.wbc-gender-male').prev().addClass('radio-selected')
+
     sinon.stub utils, 'redirectTo'
 
   afterEach ->
@@ -128,43 +145,38 @@ describe 'PersonalDataViewSpec', ->
     expect(successStub).to.be.calledOnce
 
   it 'do request should succed to update and win cashback bits', ->
+    sinon.stub utils, "showMessageModal"
+    updateProfile = sinon.stub utils, "updateProfile"
     sinon.stub utils, 'publishEvent'
       .withArgs('profile-changed', CASHBACK_UPDATED)
       .withArgs('cashback-bits-won', CASHBACK_UPDATED.response.cashback)
       .withArgs('bits-updated')
     @view.$('#wbi-update-profile-btn').click()
-    @server.requests[0].respond(200, { "Content-Type": "application/json" }, RESPONSE_CASHBACK_UPDATED)
-    expect(utils.publishEvent).have.been.calledThrice
+    expect(updateProfile).to.be.calledOnce
 
   it 'do request should succed to update and not win cashback bits', ->
+    updateProfile = sinon.stub utils, "updateProfile"
     sinon.stub utils, 'publishEvent'
       .withArgs('profile-changed', WITHOUT_CASHBACK_UPDATED)
       .withArgs('bits-updated')
     sinon.stub utils, 'showMessageModal'
     @view.$('#wbi-update-profile-btn').click()
-    @server.requests[0].respond(200, { "Content-Type": "application/json" }, RESPONSE_WITHOUT_CASHBACK_UPDATED)
-    expect(utils.publishEvent).have.been.calledTwice
-    expect(utils.showMessageModal).have.been.calledOnce
+    expect(updateProfile).to.be.calledOnce
 
   it 'do request should succed to update, not win cashback bits and bitsBalance is different', ->
+    updateProfile = sinon.stub utils, "updateProfile"
     sinon.stub utils, 'publishEvent'
       .withArgs('profile-changed', WITHOUT_CASHBACK_UPDATED)
       .withArgs('bits-updated')
     sinon.stub utils, 'showMessageModal'
     @view.$('#wbi-update-profile-btn').click()
-    @server.requests[0].respond(200, { "Content-Type": "application/json" }, RESPONSE_WITHOUT_CASHBACK_UPDATED)
-    expect(utils.publishEvent).have.been.calledTwice
-    expect(utils.showMessageModal).have.been.calledOnce
+    expect(updateProfile).to.be.calledOnce
 
   it 'do request should succed to update, not win cashback bits and bitsBalance is equal', ->
     $loginData = mediator.data.get 'login-data'
+    updateProfile = sinon.stub utils, "updateProfile"
     $loginData.bitsBalance = 130
     mediator.data.set 'login-data', $loginData
-    sinon.stub utils, 'publishEvent'
-      .withArgs('profile-changed', WITHOUT_CASHBACK_UPDATED)
-      .withArgs('bits-updated')
     sinon.stub utils, 'showMessageModal'
     @view.$('#wbi-update-profile-btn').click()
-    @server.requests[0].respond(200, { "Content-Type": "application/json" }, RESPONSE_WITHOUT_CASHBACK_UPDATED)
-    expect(utils.publishEvent).have.been.calledOnce
-    expect(utils.showMessageModal).have.been.calledOnce
+    expect(updateProfile).to.be.calledOnce

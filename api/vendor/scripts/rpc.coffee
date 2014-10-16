@@ -19,6 +19,21 @@ getUTMsExpirationAware = ->
       utms = undefined
   utms
 
+getCookie = () ->
+  name = "local="
+  ca = document.cookie.split(";")
+  i = 0
+  while i < ca.length
+    c = ca[i]
+    c = c.substring(1)  while c.charAt(0) is " "
+    return c.substring(name.length, c.length)  unless c.indexOf(name) is -1
+    i++
+  ""
+
+isLocalStorageAvailable = () ->
+  Modernizr.localStorage
+
+
 new easyXDM.Rpc({},
   local:
     request: (url, options, success, error) ->
@@ -55,7 +70,7 @@ new easyXDM.Rpc({},
       data.apiToken = apiToken  if apiToken
       vcartToken = localStorage.getItem CART_TOKEN_KEY
       vcampaignsToken = localStorage.getItem CAMPAIGN_TOKEN_KEY
-      console.log ['THE VCART', vcartToken, window.location.href]
+      console.log ['THE VCART', vcartToken, vcampaignsToken, window.location.href]
       vcartToken = DEFAULT_VIRTUAL_CART unless vcartToken
       localStorage.setItem CART_TOKEN_KEY, vcartToken
       data.vcartToken = vcartToken
