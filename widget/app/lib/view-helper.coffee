@@ -102,8 +102,11 @@ Handlebars.registerHelper "getContactName", () ->
 
 Handlebars.registerHelper "joinAttributes", (mainAttribute, attributes) ->
   attrs = attributes.concat(mainAttribute)
-  attrs = ("#{x.name}: #{x.label}" for x in attrs)
-  attrs.join("<br>")
+  printAttribute = []
+  for x in attrs
+    if x.type isnt 'HIDDEN' or x.type is 'hidden'
+      printAttribute.push("#{x.name}: #{x.label}")
+  printAttribute.join("<br>")
 
 Handlebars.registerHelper "eachOption", (min, max, options) ->
   opts = (options.fn(value: x, text: x) for x in [min..max])
