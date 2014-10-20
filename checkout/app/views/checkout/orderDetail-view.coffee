@@ -12,6 +12,10 @@ module.exports = class OrderDetailView extends View
 
   initialize: ->
     super
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
   attach: ->
     super
     that = @
