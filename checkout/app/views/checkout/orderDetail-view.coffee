@@ -12,8 +12,6 @@ module.exports = class OrderDetailView extends View
 
   initialize: ->
     super
-    console.log ["MODEL IN CHECKOUT ", @model]
-
   attach: ->
     super
     that = @
