@@ -10,7 +10,7 @@
 
             <div class="table-desc">
                 <p>Status de la Orden:</p>
-                <p class="status{{#compare status 'PAID'}}1{{else}}2{{/compare}}">{{#compare status 'PAID'}}PAGADA{{else}}PENDIENTE{{/compare}}</p>
+                <p class="status{{#compare status 'PAID'}}1{{else}}2{{/compare}}">{{#orderStatus status}}{{/orderStatus}}</p>
             </div>
           {{#each ticketPayments}}
               <div class="table-desc">
