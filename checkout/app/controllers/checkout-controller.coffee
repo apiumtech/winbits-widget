@@ -24,6 +24,7 @@ module.exports = class CheckoutController extends ChaplinController
       merchantId: Winbits.checkoutConfig.merchantId
       merchantIdInst: Winbits.checkoutConfig.merchantIdInstallments
       orderId: Winbits.checkoutConfig.orderId
+      verticalUrl: Winbits.checkoutConfig.verticalUrl
 
     @deviceFingerPrint = new DeviceFingerPrint(cybersourceInfo)
     @checkoutSiteView = new CheckoutSiteView(model: @deviceFingerPrint)
