@@ -201,6 +201,9 @@ Handlebars.registerHelper "getCouponPdfUrl", (couponId) ->
 Handlebars.registerHelper "getCouponHtmlUrl", (couponId) ->
   env.get('clickonero-url')+"renderPDF/viewVoucher?couponId="+couponId
 
+Handlebars.registerHelper "getHomeUrl", ()->
+ env.get('home-url')
+
 Handlebars.registerHelper "getStatusCouponClickonero", (claimEnd) ->
   claimEndDate = moment(new Date(claimEnd)).format('DD/MM/YYYY');
   today =  moment(Date()).format('DD/MM/YYYY')
