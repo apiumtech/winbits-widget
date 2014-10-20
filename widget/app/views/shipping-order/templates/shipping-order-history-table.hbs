@@ -29,9 +29,13 @@
               <div class="dataTable-prod">
               <strong>{{name}}</strong>
               <strong>{{brand}}</strong>
-              <strong>{{attributeLabel}}: {{attributeName}}</strong>
+              {{#compare attributeType 'HIDDEN'  operator="!="}}
+                <strong>{{attributeLabel}}: {{attributeName}}</strong>
+              {{/compare}}
               {{#each attributes}}
+                {{#compare type 'HIDDEN'  operator="!="}}
                   <strong>{{name}}:{{label}}</strong>
+                {{/compare}}
               {{/each}}
               {{#compare ../status 'PAID'}}
                 {{#if withCoupon}}

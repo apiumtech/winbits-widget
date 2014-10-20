@@ -21,8 +21,8 @@ _(loginUtils).extend
     Winbits.env.get('rpc').logout ->
       console.log 'Winbits logout success :)'
     , -> console.log 'Winbits logout error D:'
-    Winbits.trigger 'loggedout', [logoutData]
     utils.redirectToNotLoggedInHome()
+    Winbits.trigger 'loggedout', [logoutData]
 
   doLogoutSuccess: (data) ->
     @applyLogout(data.response)
