@@ -211,3 +211,14 @@ Handlebars.registerHelper "getStatusCouponClickonero", (claimEnd) ->
     return "Cupón expirado"
   else
     return "Oferta lograda, tu cupón ha sido enviado a tu email."
+
+
+
+Handlebars.registerHelper "orderStatus", (status) ->
+  statusToView = ''
+  switch status
+    when 'PAID' then statusToView = 'PAGADA'
+    when 'REFUNDED' then statusToView = 'REMBOLSADA'
+    when 'PENDING' then statusToView = 'PENDIENTE'
+    else statusToView = 'PENDIENTE'
+  statusToView
