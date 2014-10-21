@@ -12,11 +12,11 @@
         {{#each transactions}}
             {{#compare @index 0}}
             <tr class="totalBits">
-                <td rowspan="20"><span class="iconFont-bit"></span> {{balance}} Bits</td>
+                <td rowspan="20"><span class="iconFont-bit"></span> {{formatWithComma balance}} Bits</td>
                 {{#compare amount 0 operator=">"}}
                         <td>${{amount}} </td>
                 {{else}}
-                        <td class="minusBits">- ${{abs amount}} </td>
+                        <td class="minusBits"><span class="iconFont-bit"> </span>-${{abs amount}} </td>
                 {{/compare}}
                 <td>{{toDateFormat dateCreated}}</td>
                 <td>{{toDateFormat expirationDate}}</td>
