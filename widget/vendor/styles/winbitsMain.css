@@ -1109,6 +1109,15 @@ input[type="submit"].btn.btn-mini {
     font-weight: normal;
     letter-spacing: 1px;
 }
+.widgetWinbitsMain .dataTable .dataTable-desc .table-desc .status3,
+.miCuenta-tabs .dataTable .dataTable-desc .table-desc .status3 {
+    color: #dd092c;
+    font-size: 15px;
+    font-family: 'OmnesMedium', Arial;
+    font-style: normal;
+    font-weight: normal;
+    letter-spacing: 1px;
+}
 .widgetWinbitsMain .dataTable .dataTable-desc .table-desc .iconFont-doc,
 .miCuenta-tabs .dataTable .dataTable-desc .table-desc .iconFont-doc {
     bottom: 0;
@@ -1241,6 +1250,10 @@ input[type="submit"].btn.btn-mini {
 .widgetWinbitsMain .dataTable.totalBitsTable .minusBits,
 .miCuenta-tabs .dataTable.totalBitsTable .minusBits {
     color: #dd092c;
+}
+.widgetWinbitsMain .dataTable.totalBitsTable .iconFont-bit,
+.miCuenta-tabs .dataTable.totalBitsTable .iconFont-bit {
+    margin: -2px 5px 0 0;
 }
 .widgetWinbitsMain .dataTable.totalBitsTable .totalBits td,
 .miCuenta-tabs .dataTable.totalBitsTable .totalBits td {
@@ -1643,7 +1656,7 @@ input[type="submit"].btn.btn-mini {
 }
 .block-carrusel .block-slide {
     float: left;
-    height: 130px;
+    height: auto;
     width: 210px;
     /*.transition(.3s);*/
     -webkit-box-sizing: content-box;
@@ -1795,6 +1808,11 @@ input[type="submit"].btn.btn-mini {
     -ms-border-radius: 10px;
     -o-border-radius: 10px;
     border-radius: 10px;
+}
+.block-slide {
+    min-height: 130px;
+    height: 130px;
+    height: auto !important;
 }
 .shipCarrusel .iconFont-left,
 .ccCarrusel .iconFont-left,
@@ -3406,6 +3424,7 @@ span.errorInputOK {
 }
 .required-wrapper .iconFont-star {
     color: #dd092c;
+    display: none;
     font-size: 10px;
     position: absolute;
     top: 7px;
@@ -3972,7 +3991,7 @@ main {
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .shippingAdd,
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .creditcardAdd {
-    padding: 20px 50px;
+    padding: 20px 65px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .shippingAdd span,
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .creditcardAdd span {
@@ -4752,6 +4771,13 @@ main {
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .bits .bit18px {
     margin: -4px 0 0 4px;
+}
+.widgetWinbitsHeader .mainHeader .miCuenta .bits a {
+    text-decoration: none;
+}
+.widgetWinbitsHeader .mainHeader .miCuenta .bits a:hover {
+    opacity: 0.5;
+    filter: alpha(opacity=50);
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .btnTopNav {
     margin-left: 10px;
@@ -6751,10 +6777,12 @@ main {
 .carruselSCC-div {
     background: #f7f7f7;
     color: #454545;
+    height: 85px;
+    min-height: 85px;
+    height: auto !important;
     cursor: pointer;
-    height: 116px;
     margin: 3px;
-    padding: 5px 20px;
+    padding: 5px 20px 40px 20px;
     position: relative;
     /*.shippingCarrusel-slide, .creditcardCarrousel-slide {
 		padding: 5px 20px;
@@ -6797,9 +6825,7 @@ main {
 }
 .carruselSCC-div.carruselSCC-selected .iconFont-send,
 .carruselSCC-div.carruselSCC-selected .iconFont-creditcard {
-    bottom: 10px;
     display: block;
-    position: absolute;
 }
 .carruselSCC-div.carruselSCC-selected .note {
     display: none;
@@ -6812,8 +6838,9 @@ main {
 }
 .carruselSCC-div .note {
     display: none;
+    bottom: 15px;
     font-size: 12px;
-    margin: 10px 0;
+    position: absolute;
     font-family: 'OmnesMedium', Arial;
     font-style: normal;
     font-weight: normal;
@@ -6821,8 +6848,10 @@ main {
 .carruselSCC-div .iconFont-send,
 .carruselSCC-div .iconFont-creditcard {
     display: none;
+    bottom: 20px;
     font-size: 40px;
     line-height: 20px;
+    position: absolute;
 }
 .carruselSCC-div .shippingMenu,
 .carruselSCC-div .creditcardMenu {
