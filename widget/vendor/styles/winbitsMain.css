@@ -3780,6 +3780,7 @@ main {
 }
 .widgetWinbitsHeader .mainHeader nav li a:hover {
     background-color: #ffffff;
+    color: #000000;
 }
 .widgetWinbitsHeader .mainHeader .log-in {
     float: right;
@@ -4496,6 +4497,7 @@ main {
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivLeft .carritoContent .select-input {
     font-size: 11px;
     margin: 0;
+    min-width: 14px;
     padding: 1px 10px 1px 1px;
     text-align: center;
     width: auto;
@@ -5684,6 +5686,7 @@ main {
 }
 .widgetWinbitsMain .checkoutWinbits.wrapper {
     overflow: visible;
+    /*margin-top: -50px;*/
 }
 .widgetWinbitsMain .checkoutWinbits .miCuenta-overlay {
     position: fixed;
@@ -7414,4 +7417,7 @@ main {
 }
 .clickoneroVertical .widgetWinbitsHeader .wb-micuenta-profile .divGender label {
     width: 96px;
+}
+.clickoneroVertical .wbc-vertical-content {
+    margin-top: -130px;
 }
