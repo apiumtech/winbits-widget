@@ -20,7 +20,7 @@ module.exports = class PersonalDataView extends View
     super
     @$el.prop 'class', 'column miCuenta-profile'
     @$('.divGender').customRadio()
-    @$('.requiredField').requiredField()
+#    @$('.requiredField').requiredField()
     @$('[name=zipCodeInfo]').wblocationselect()
     @$('#wbi-personal-data-form').validate
       ignore : ''
