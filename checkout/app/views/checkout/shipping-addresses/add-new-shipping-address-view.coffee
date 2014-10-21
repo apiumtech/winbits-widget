@@ -17,7 +17,7 @@ module.exports = class AddNewShippingAddressView extends View
     super
     @delegate 'click', '#wbi-add-shipping-address-submit-btn', @doSaveShippingAddress
     @delegate 'click', '#wbi-add-shipping-address-cancel-btn', @showShippingAddressesView
-    @$('.requiredField').requiredField()
+#    @$('.requiredField').requiredField()
     @$('#wbi-shipping-new-address-form').customCheckbox()
     @$('[name=zipCodeInfo]').wblocationselect().on "change", Winbits.$.proxy @setCityAndState, @
     @$('#wbi-shipping-new-address-form').validate

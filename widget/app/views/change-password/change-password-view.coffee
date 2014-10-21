@@ -20,7 +20,7 @@ module.exports = class ChangePasswordView extends MyProfileView
   attach: ->
     super
     @$el.prop 'class', 'column miCuenta-password'
-    @$('.requiredField[name]').requiredField()
+#    @$('.requiredField[name]').requiredField()
     @applyPlaceholders()
     @$('#wbi-change-password-form').validate
       errorElement: 'span',

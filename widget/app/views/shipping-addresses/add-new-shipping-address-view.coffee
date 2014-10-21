@@ -17,7 +17,7 @@ module.exports = class AddNewShippingAddressView extends View
 
   attach: ->
     super
-    @$('.requiredField').requiredField()
+#    @$('.requiredField').requiredField()
     @$('#wbi-shipping-new-address-form').customCheckbox()
     @$('[name=zipCodeInfo]').wblocationselect().on "change", $.proxy @setCityAndState, @
     @$('#wbi-shipping-new-address-form').validate
