@@ -95,7 +95,8 @@ Handlebars.registerHelper "eachActiveVertical", (options) ->
 
 Handlebars.registerHelper "formatCurrency", (value)->
   value = value() if $.isFunction(value)
-  utils.formatCurrency(value)
+  value = utils.formatCurrency(value)
+  utils.formatNumWithComma(value)
 
 Handlebars.registerHelper "getContactName", () ->
   $.trim(this.firstName + ' ' + this.lastName)
@@ -211,8 +212,6 @@ Handlebars.registerHelper "getStatusCouponClickonero", (claimEnd) ->
     return "Cupón expirado"
   else
     return "Oferta lograda, tu cupón ha sido enviado a tu email."
-
-
 
 Handlebars.registerHelper "orderStatus", (status) ->
   statusToView = ''
