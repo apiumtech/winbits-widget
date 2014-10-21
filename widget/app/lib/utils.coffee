@@ -374,6 +374,9 @@ _(utils).extend Winbits.utils,
       value = value.toString().replace('.00', '')
     "$#{value}"
 
+  formatNumWithComma: (value) ->
+    value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
   formatPercentage: (value) ->
     "#{value}%"
 
