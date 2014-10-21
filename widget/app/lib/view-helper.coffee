@@ -98,6 +98,10 @@ Handlebars.registerHelper "formatCurrency", (value)->
   value = utils.formatCurrency(value)
   utils.formatNumWithComma(value)
 
+Handlebars.registerHelper "formatWithComma", (value)->
+  value = value() if $.isFunction(value)
+  utils.formatNumWithComma(value)
+
 Handlebars.registerHelper "getContactName", () ->
   $.trim(this.firstName + ' ' + this.lastName)
 
