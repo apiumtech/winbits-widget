@@ -37,6 +37,9 @@
                   <strong>{{name}}:{{label}}</strong>
                 {{/compare}}
               {{/each}}
+              {{#if refundedDetail}}
+                <span class="status3">REEMBOLSADO</span>
+              {{/if}}
               {{#compare ../status 'PAID'}}
                 {{#if withCoupon}}
                    <span title="Cupones" class="iconFont-coupons icon-green wbc-icon-coupon"></span>
