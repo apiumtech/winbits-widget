@@ -37,7 +37,6 @@ module.exports = class ShippingAddressesView extends View
   attach: ->
     super
     #script to implement carrusel
-
     @$('.block-carrusel').changeBox({
       activo: '',
       items: '.carruselSCC-div'

@@ -44,4 +44,4 @@ module.exports = class CouponsView extends View
 
   doCloseCouponModal: ->
     utils.closeMessageModal()
-    utils.redirectTo controller:'shipping-order-history',action:'index'
+#    utils.redirectTo controller:'shipping-order-history',action:'index'
