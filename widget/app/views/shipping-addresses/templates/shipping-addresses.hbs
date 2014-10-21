@@ -16,7 +16,7 @@
                          <h3>DIRECCIÓN: {{setIndex @index}}</h3>
                         <address>
                             <span>{{getContactName}}</span>
-                            <span>{{street}} {{externalNumber}}, {{location}},</span>
+                            <span>{{street}} {{externalNumber}}{{#if internalNumber}}-{{internalNumber}}{{/if}}, {{location}},</span>
                             <span>{{county}}, {{zipCode}}</span>
                         </address>
                         <span class="iconFont-send" title="Tu paquete será enviado a esta dirección"></span>
