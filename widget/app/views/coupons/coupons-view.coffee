@@ -1,9 +1,10 @@
 'use strict'
 View = require 'views/base/view'
+ShippingOrdersHistoryView = require 'views/shipping-order/shipping-order-history-view'
 utils = require 'lib/utils'
 $ = Winbits.$
 
-module.exports = class CouponsView extends View
+module.exports = class CouponsView extends ShippingOrdersHistoryView
   container: '#wbi-winbits-modals'
   id: 'wbi-coupons-modal'
   template: require './templates/coupons'
