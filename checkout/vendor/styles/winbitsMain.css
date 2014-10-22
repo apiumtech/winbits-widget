@@ -7732,3 +7732,13 @@ main {
 .msie11 .carritoDivRight {
   width: 199px !important;
 }
+
+.clickoneroVertical .wbc-vertical-content {
+    margin-top: -130px;
+}
+.checkout-container {
+    margin-top: 0;
+}
+.msie1 .checkout-container, .msie10 .checkout-container, .msie11 .checkout-container {
+    margin-top: -80px;
+}
