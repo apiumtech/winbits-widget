@@ -170,7 +170,7 @@ module.exports = class Cart extends Model
       .appendTo($chkForm)
     $('<input type="hidden" name="order_id"/>').val(order.id)
       .appendTo($chkForm)
-    bitsBalance = parseInt($('#wbi-my-bits').text() or '0')
+    bitsBalance = parseInt(mediator.data.get('login-data').bitsBalance or '0')
     $('<input type="hidden" name="bits_balance"/>').val(bitsBalance)
       .appendTo($chkForm)
     currentVertical = env.get('current-vertical')
