@@ -43,4 +43,4 @@ module.exports = class CouponsView extends View
     @popUp.window?.location.href =(data.response.coupon.url)
 
   doCloseCouponModal: ->
-    $.fancybox.close()
+    $('#fancybox-close').click()
