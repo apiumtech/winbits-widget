@@ -21,12 +21,18 @@ module.exports = class LoggedInView extends View
     @subscribeEvent 'cart-changed', @changeBitsValue
     @subscribeEvent 'cashback-bits-won', @cashBackBitsChange
     @delegate 'click', '#wbi-checkout-btn', @triggerCheckout
+    @delegate 'click', '#wbi-bits-link-btn', @redirectBitsHistory
 
   attach: ->
     super
     @$('#wbi-my-account-link').one('click', ->
       mediator.data.set('tabs-swapped', yes)
     )
+
+  redirectBitsHistory:(e)->
+    e.preventDefault()
+    e.stopPropagation()
+    utils.redirectTo(controller: 'bits-history', action: 'index')
 
   triggerCheckout: ->
     @publishEvent('checkout-requested')

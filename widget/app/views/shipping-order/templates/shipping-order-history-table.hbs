@@ -5,12 +5,12 @@
             <div class="table-desc">
                 <p>Orden: {{orderNumber}}</p>
                 <p>Fecha de compra: {{toDefaultDateFormat dateOfPurchase}}</p>
-                <p>Total: ${{total}} </p>
+                <p>Total: {{formatCurrency total}} </p>
             </div>
 
             <div class="table-desc">
-                <p>Status de la Orden:</p>
-                <p class="status{{#compare status 'PAID'}}1{{else}}2{{/compare}}">{{#compare status 'PAID'}}PAGADA{{else}}PENDIENTE{{/compare}}</p>
+                <p>Estatus de la Orden:</p>
+                <p class="status{{#compare status 'PAID'}}1{{else}}2{{/compare}}">{{#orderStatus status}}{{/orderStatus}}</p>
             </div>
           {{#each ticketPayments}}
               <div class="table-desc">
@@ -29,10 +29,17 @@
               <div class="dataTable-prod">
               <strong>{{name}}</strong>
               <strong>{{brand}}</strong>
-              <strong>{{attributeLabel}}: {{attributeName}}</strong>
+              {{#compare attributeType 'HIDDEN'  operator="!="}}
+                <strong>{{attributeLabel}}: {{attributeName}}</strong>
+              {{/compare}}
               {{#each attributes}}
+                {{#compare type 'HIDDEN'  operator="!="}}
                   <strong>{{name}}:{{label}}</strong>
+                {{/compare}}
               {{/each}}
+              {{#if refundedDetail}}
+                <span class="status3">REEMBOLSADO</span>
+              {{/if}}
               {{#compare ../status 'PAID'}}
                 {{#if withCoupon}}
                    <span title="Cupones" class="iconFont-coupons icon-green wbc-icon-coupon"></span>
@@ -43,10 +50,16 @@
           <div class="dataTable-cant">{{quantity}}</div>
           <div class="dataTable-status">
           {{#compare quantity '1'}}
+            {{#if deliveryStatus.0.status}}
               <span>{{deliveryStatus.0.status}}</span>
+            {{else}}
+              <span>En almacén</span>
+            {{/if}}
           {{else}}
             {{#each deliveryStatus}}
               <span>({{quantity}}){{status}}</span>
+            {{else}}
+              <span>({{quantity}})En Almacén</span>
             {{/each}}
           {{/compare}}
           </div>

@@ -95,15 +95,23 @@ Handlebars.registerHelper "eachActiveVertical", (options) ->
 
 Handlebars.registerHelper "formatCurrency", (value)->
   value = value() if $.isFunction(value)
-  utils.formatCurrency(value)
+  value = utils.formatCurrency(value)
+  utils.formatNumWithComma(value)
+
+Handlebars.registerHelper "formatWithComma", (value)->
+  value = value() if $.isFunction(value)
+  utils.formatNumWithComma(value)
 
 Handlebars.registerHelper "getContactName", () ->
   $.trim(this.firstName + ' ' + this.lastName)
 
 Handlebars.registerHelper "joinAttributes", (mainAttribute, attributes) ->
   attrs = attributes.concat(mainAttribute)
-  attrs = ("#{x.name}: #{x.label}" for x in attrs)
-  attrs.join("<br>")
+  printAttribute = []
+  for x in attrs
+    if x.type isnt 'HIDDEN' or x.type is 'hidden'
+      printAttribute.push("#{x.name}: #{x.label}")
+  printAttribute.join("<br>")
 
 Handlebars.registerHelper "eachOption", (min, max, options) ->
   opts = (options.fn(value: x, text: x) for x in [min..max])
@@ -198,6 +206,9 @@ Handlebars.registerHelper "getCouponPdfUrl", (couponId) ->
 Handlebars.registerHelper "getCouponHtmlUrl", (couponId) ->
   env.get('clickonero-url')+"renderPDF/viewVoucher?couponId="+couponId
 
+Handlebars.registerHelper "getHomeUrl", ()->
+ env.get('home-url')
+
 Handlebars.registerHelper "getStatusCouponClickonero", (claimEnd) ->
   claimEndDate = moment(new Date(claimEnd)).format('DD/MM/YYYY');
   today =  moment(Date()).format('DD/MM/YYYY')
@@ -205,3 +216,12 @@ Handlebars.registerHelper "getStatusCouponClickonero", (claimEnd) ->
     return "Cupón expirado"
   else
     return "Oferta lograda, tu cupón ha sido enviado a tu email."
+
+Handlebars.registerHelper "orderStatus", (status) ->
+  statusToView = ''
+  switch status
+    when 'PAID' then statusToView = 'PAGADA'
+    when 'REFUNDED' then statusToView = 'REMBOLSADA'
+    when 'PENDING' then statusToView = 'PENDIENTE'
+    else statusToView = 'PENDIENTE'
+  statusToView

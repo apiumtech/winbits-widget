@@ -27,8 +27,6 @@ describe 'LoggedInViewSpec', ->
     expect(@view.$el).to.has.class('miCuenta')
     expect(@view.$ '#wbi-my-account-link').to.exist
       .and.to.has.classes(['spanDropMenu', 'link'])
-    expect(@view.$ '#wbi-my-bits').to.exist
-      .and.to.has.text('0')
     expect(@view.$ '#wbi-user-cart').to.exist
     expect(@view.$ 'input#wbi-checkout-btn').to.exist
 

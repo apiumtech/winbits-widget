@@ -25,10 +25,10 @@ module.exports = class CartBitsView extends View
 
     debounceSlide = _.debounce( $.proxy((bits) ->
       @delay = no
-      emValue = parseInt($winbitsSlider.find(".slider-amount em").text())
+      emValue = parseInt($winbitsSlider.find(".slider-amount em").text().replace(",", ""))
       if emValue is bits
         @updateBalanceValues($winbitsSlider, bits)
-    , @),1000)
+    , @),500)
 
     $winbitsSlider.on('slide', $.proxy((e, ui={}) ->
       slideValue = obj.data('max-selection')

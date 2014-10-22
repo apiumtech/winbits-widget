@@ -10,6 +10,7 @@
         "clickoneroUrl" : "https://qa.clickonero.com.mx/hipstore/",
         "facebookClientId": "486640894740634",
         "baseUrl": "http://widgetdev.winbits.com",
+        "homeUrl": "http://home.winbits.com",
         "providerUrl": "https://apidev.winbits.com/provider/",
         "debug": "true"
       }
@@ -22,6 +23,7 @@
         "checkoutUrl": "https://checkoutci.winbits.com",
         "clickoneroUrl" : "https://qa.clickonero.com.mx/hipstore/",
         "baseUrl": "http://widgetci.winbits.com",
+        "homeUrl": "http://home.winbits.com",
         "facebookClientId": "486640894740634",
         "providerUrl": "https://apici.winbits.com/provider/",
         "debug": "true"
@@ -35,6 +37,7 @@
         "checkoutUrl": "https://checkoutqa.winbits.com",
         "clickoneroUrl" : "https://qa.clickonero.com.mx/hipstore/",
         "baseUrl": "http://widgetqa.winbits.com",
+        "homeUrl": "http://home.winbits.com",
         "facebookClientId": "494663817271863",
         "providerUrl": "https://apiqa.winbits.com/provider/",
         "debug": "true"
@@ -48,6 +51,7 @@
         "checkoutUrl": "https://checkoutstaging.winbits.com",
         "clickoneroUrl" : "https://qa.clickonero.com.mx/hipstore/",
         "baseUrl": "http://widgetstaging.winbits.com",
+        "homeUrl": "http://staging.winbits.com",
         "facebookClientId": "1407560009467593",
         "providerUrl": "https://apistaging.winbits.com/provider/",
         "debug": "false"
@@ -61,6 +65,7 @@
         "checkoutUrl": "https://checkout.winbits.com",
         "clickoneroUrl" : "https://api.winbits.com/v1/hipstore/",
         "baseUrl": "http://widget.winbits.com",
+        "homeUrl": "http://www.winbits.com",
         "facebookClientId": "468430606512928",
         "providerUrl": "https://api.winbits.com/provider/",
         "debug": "false"

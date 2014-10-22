@@ -206,10 +206,12 @@ Handlebars.registerHelper "cartDetailTotal", (unitPrice, quantity) ->
   unitPrice * quantity
 
 Handlebars.registerHelper "joinAttributes", (mainAttribute, attributes) ->
-  attrLabels = [mainAttribute.label]
-  Winbits.$.each attributes, (index, attribute) ->
-    attrLabels.push attribute.label
-  attrLabels.join ', '
+  attrs = attributes.concat(mainAttribute)
+  printAttribute = []
+  for x in attrs
+    if x.type isnt 'HIDDEN' or x.type is 'hidden'
+      printAttribute.push("#{x.name}: #{x.label}")
+  printAttribute.join("<br>")
 
 Handlebars.registerHelper "defaultThumbnail", (thumbnail) ->
   thumbnail || 'images/assets/jeans-tiny.jpg'

@@ -3,7 +3,7 @@
   <li class="order-detail-{{sku.id}}">
     <a href="#"><img src="{{defaultThumbnail sku.thumbnail}}" width="28" height="36" alt="{{sku.name}}"></a>
     <p>{{sku.name}}
-      <span>({{quantity}}) {{joinAttributes sku.mainAttribute sku.attributes}}</span>
+      <span>({{quantity}}) {{{joinAttributes sku.mainAttribute sku.attributes}}}</span>
       <span style="font-weight: bold">${{amount}}</span>
     </p>
   </li>

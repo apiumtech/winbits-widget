@@ -584,7 +584,7 @@ jQuery.fn.customSelect = function(options){
 			asignaValues(obj);
 			$(obj).wrap('<div class="'+ defaults.wrapper +'"><div class="'+ defaults.holder +'"/>');
 			$(obj).parent().append('<a href="#" class="'+ defaults.handle +'"><div class="'+ defaults.bit +'"><span class="iconBG"/><span class="iconFont-bit"/></div><span class="'+ defaults.amount +'">$<em>'+$(obj).val()+'</em></span></a>');
-			$(obj).parent().parent().append('<span class="'+ defaults.textValue +' '+ defaults.textMin +'">'+$(obj).data('min')+'</span><span class="'+ defaults.textValue +' '+ defaults.textMax +'">'+datamax+'</span>');
+			$(obj).parent().parent().append('<span class="'+ defaults.textValue +' '+ defaults.textMin +'">'+$(obj).data('min')+'</span><span class="'+ defaults.textValue +' '+ defaults.textMax +'">'+datamax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'</span>');
 			initSlider(obj);
 		},
 		asignaValues = function(obj){
@@ -609,7 +609,7 @@ jQuery.fn.customSelect = function(options){
           value = Math.min(maxSelection, ui.value);
           previousValue = $this.val();
           $this.val(value);
-          $this.parent().find(".slider-amount em").text(value);
+          $this.parent().find(".slider-amount em").text(value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
           if (ui.value > maxSelection) {
             if (previousValue !== maxSelection) {
               $(this).slider('value', maxSelection);
@@ -918,20 +918,20 @@ jQuery.fn.mailingMenuCheckboxs = function(options){
 //		Dependencias: toolTip.js
 // +++++++++++++++++++++++++++++++++++++++++
 
-jQuery.fn.requiredField = function (options) {
-  var defaults = $.extend({
-        wrapper: 'required-wrapper',
-        icon: 'iconFont-star'
-      }, options),
-      wrappingInput = function(obj){
-        $(obj).wrap('<div class="'+ defaults.wrapper +'"/>');
-        $(obj).parent().append('<span class="'+ defaults.icon +'" data-tooltip="'+ $(obj).data('requiredfield')+'"/>');
-        $(obj).siblings('.'+defaults.icon).toolTip();
-      };
-  return this.each(function(){
-    wrappingInput(this);
-  });
-};
+//jQuery.fn.requiredField = function (options) {
+//  var defaults = $.extend({
+//        wrapper: 'required-wrapper',
+//        icon: 'iconFont-star'
+//      }, options),
+//      wrappingInput = function(obj){
+//        $(obj).wrap('<div class="'+ defaults.wrapper +'"/>');
+//        $(obj).parent().append('<span class="'+ defaults.icon +'" data-tooltip="'+ $(obj).data('requiredfield')+'"/>');
+//        $(obj).siblings('.'+defaults.icon).toolTip();
+//      };
+//  return this.each(function(){
+//    wrappingInput(this);
+//  });
+//};
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //      SCROLLPANE: Scroll que aparece / desaparece

@@ -41,4 +41,4 @@ describe 'CartTotalsViewSpec', ->
     testUtils.setExampleCartDataInto(@model)
 
     @view.render()
-    expect(@view.$('#wbi-cart-total')).to.has.$text('$1079')
+    expect(@view.$('#wbi-cart-total')).to.has.$text('$1,079')

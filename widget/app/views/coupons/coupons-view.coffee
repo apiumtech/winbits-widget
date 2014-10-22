@@ -42,5 +42,6 @@ module.exports = class CouponsView extends View
   doRequestCouponServiceSuccess:(data)->
     @popUp.window?.location.href =(data.response.coupon.url)
 
-  doCloseCouponModal: ->
-    utils.closeMessageModal()
+  doCloseCouponModal:(e)->
+    e.preventDefault()
+    $('#fancybox-close').click()

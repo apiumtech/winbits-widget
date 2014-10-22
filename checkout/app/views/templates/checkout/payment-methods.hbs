@@ -39,7 +39,7 @@
   {{#compare payment.identifier 'reference.hsbc'}}
   <address>
   {{#with payment.paymentCapture}}
-      <span>Puedes encontrar tu ficha de pago en estos lugares:</span>
+      <span>Para completar tu compra, imprime y paga tu ficha desde cualquiera de estos lugares:</span>
       <span>- Historial de compra</span>
       <span>- A través del mail que te hicimos llegar</span>
       <span>- Descargarla <a target="_blank" href="{{downloadUrl}}">aquí</a></span>
@@ -133,11 +133,11 @@
         <ul>
           <li>
             <span class="cashIcon cashEmail"></span>
-            <p>Da click en el botón de la derecha para obtener tu número de referencia</p>
+            <p>Comprar y recibir mi ficha de pago</p>
           </li>
           <li>
             <span class="cashIcon cashBank"></span>
-            <p>Acude a tu banco o accede a tu banco en linea. Realiza tu pago a la cuenta y número de referencia</p>
+            <p>Acude a tu sucursal HSBC. Realiza tu pago a la cuenta y número de referencia</p>
           </li>
         </ul>
         <a href="#" class="btn submitOrder" id="submit-{{identifier}}">Pedir mi número de referencia</a>
@@ -156,7 +156,7 @@
         <ul>
           <li>
             <span class="cashIcon oxxoPrint"></span>
-            <p>Descarga e imprime tu comprobante</p>
+            <p>Descarga e imprime tu ficha de pago</p>
           </li>
           <li>
             <span class="cashIcon oxxoBarcode"></span>
@@ -167,7 +167,7 @@
             <p>Paga en efectivo</p>
           </li>
         </ul>
-        <a href="#" class="btn submitOrder" id="submit-{{identifier}}">Descargar ficha de pago</a>
+        <a href="#" class="btn submitOrder" id="submit-{{identifier}}">Comprar y recibir mi ficha de pago</a>
         <a href="#" class="linkBack" ><em class="icon backBtn"></em> Regresar</a>
       </div>
   {{/compare}}

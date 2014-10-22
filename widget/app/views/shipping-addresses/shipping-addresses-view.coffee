@@ -32,12 +32,11 @@ module.exports = class ShippingAddressesView extends View
     super
     newShippingAddressContainer = @$el.find('#wbi-shipping-new-address-container')
     @subview 'add-new-shipping-addresses', new AddNewShippingAddress container: newShippingAddressContainer, model: @model
-    @subview 'edit-address-view', new EditShippingAddressView container: '#wbi-edit-shipping-address-container'
+    @subview 'edit-address-view', new EditShippingAddressView
 
   attach: ->
     super
     #script to implement carrusel
-
     @$('.block-carrusel').changeBox({
       activo: '',
       items: '.carruselSCC-div'
@@ -168,7 +167,7 @@ module.exports = class ShippingAddressesView extends View
     itemId = $(e.currentTarget).closest('.block-slide').data("id")
     address = @model.getShippingAddress(itemId)
     editModel = new EditShippingAddressModel(address)
-    @subview 'edit-address-view', new EditShippingAddressView container: '#wbi-edit-shipping-address-container', model: editModel
+    @subview 'edit-address-view', new EditShippingAddressView model: editModel
     @$('#wbi-shipping-addresses-view').slideUp()
     @$('#wbi-edit-shipping-address-container').slideDown()
 
