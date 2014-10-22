@@ -64,11 +64,13 @@ module.exports = class ShippingOrderHistoryView extends View
       icon: 'iconFont-info'
       value: "Cerrar"
       title:'Lo sentimos!'
-      onClosed: utils.redirectTo url: '/#wb-shipping-order-history'
+      onClosed: utils.redirectTo controller: 'shipping-order-history',action:'index'
     utils.showMessageModal(message, options)
 
 
   requestCouponsService:(e)->
+    e.preventDefault()
+    e.stopPropagation()
     utils.showLoaderToCheckout()
     $('#wbi-loader-text').text('Procesando cupones')
     currentTarget = @$(e.currentTarget).closest('.wbc-order-detail')
@@ -100,7 +102,7 @@ module.exports = class ShippingOrderHistoryView extends View
       icon: 'iconFont-info'
       value: "Cerrar"
       title:'Lo sentimos!'
-      onClosed: utils.redirectTo url: '/#wb-shipping-order-history'
+      onClosed: utils.redirectTo controller: 'shipping-order-history',action:'index'
     utils.showMessageModal(message, options)
 
   backToVertical:()->
