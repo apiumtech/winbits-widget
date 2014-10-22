@@ -29,10 +29,10 @@
         <span><strong>No de tarjeta:</strong> XXXX-XXXXXX-X{{cardNumber}}</span>
         <span><strong>Referencia bancaria:</strong> {{receiptNumber}}</span>
       {{/with}}
-      <span><strong>Monto pagado:</strong> ${{payment.amount}}</span>
+      <span><strong>Monto pagado:</strong> {{formatCurrency payment.amount}}</span>
       {{#isMSIPayment payment}}
         <span><strong>Mensualidades sin intereses:</strong> {{numberOfPayments}}</span>
-        <span><strong>Monto mensual a pagar:</strong> ${{monthlyPayment}}</span>
+        <span><strong>Monto mensual a pagar:</strong> ${{formatCurrency monthlyPayment}}</span>
       {{/isMSIPayment}}
     </address>
   {{/compare}}

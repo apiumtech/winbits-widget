@@ -4242,6 +4242,7 @@ main {
 }
 .widgetWinbitsHeader .knowmoreFolder .knowMoreMin {
   margin-left: 510px;
+  min-height: 20px;
   padding: 5px 0 0;
   position: relative;
 }

@@ -7,6 +7,7 @@
 # -----------
 mediator = require 'chaplin/mediator'
 util = require 'lib/util'
+$ = Winbits.$
 
 # Make 'with' behave a little more mustachey.
 Handlebars.registerHelper 'with', (context, options) ->
@@ -477,3 +478,13 @@ Handlebars.registerHelper "showColony", (zipCodeInfo, zipCode) ->
     return "style='display: none;'"
   else
     return ''
+
+Handlebars.registerHelper "formatCurrency", (value)->
+  value = value() if $.isFunction(value)
+  value = util.formatCurrency(value)
+  util.formatNumWithComma(value)
+
+Handlebars.registerHelper "formatWithComma", (value)->
+  value = value() if $.isFunction(value)
+  util.formatNumWithComma(value)
+
