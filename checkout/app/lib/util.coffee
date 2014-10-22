@@ -354,3 +354,11 @@ module.exports =
       JSON.parse(jsonText)
     catch e
       meta: message: message, status: 500
+
+  formatCurrency: (value) ->
+    if value
+      value = value.toString().replace('.00', '')
+    "$#{value}"
+
+  formatNumWithComma: (value) ->
+    value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
