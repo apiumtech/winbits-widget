@@ -8,7 +8,10 @@ module.exports = class ShippingOrderHistoryController extends LoggedInController
 
   beforeAction: ->
     super
+    @reuse 'shipping-orders-history',
+      compose: ->
+        @model = new ShippingOrderHistory
+        @view = new ShippingOrderHistoryView  model: @model
 
   index: ->
-    @model = new ShippingOrderHistory
-    @view = new ShippingOrderHistoryView  model: @model
+    console.log ["shipping-orders-history#index"]
