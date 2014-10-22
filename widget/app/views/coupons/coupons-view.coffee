@@ -43,5 +43,4 @@ module.exports = class CouponsView extends View
     @popUp.window?.location.href =(data.response.coupon.url)
 
   doCloseCouponModal: ->
-    utils.closeMessageModal()
-#    utils.redirectTo controller:'shipping-order-history',action:'index'
+    $.fancybox.close()
