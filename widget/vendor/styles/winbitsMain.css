@@ -3706,7 +3706,7 @@ main {
 }
 .widgetWinbitsHeader .knowmoreFolder .knowMoreMin {
     margin-left: 510px;
-    min-height: 15px;
+    min-height: 20px;
     padding: 5px 0 0;
     position: relative;
 }
@@ -4237,7 +4237,7 @@ main {
     min-width: 133px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .wb-micuenta-creditcard .creditcardNew .inputMedium {
-    width: 100px !important;
+    width: 116px !important;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .wb-micuenta-creditcard .creditcardNew .inputchica {
     width: 34px;
@@ -5530,6 +5530,9 @@ main {
 /*main {
 	margin: 130px auto 0 auto;
 }*/
+.checkout-container {
+    margin-top: 0;
+}
 .winbitsLogoDiv {
     overflow: hidden;
     padding: 15px 0;
@@ -5985,6 +5988,28 @@ main {
     margin: 10px 0;
 }
 .widgetWinbitsMain .checkoutWinbits .checkoutMain .checkoutResumen span {
+    display: block;
+}
+.widgetWinbitsMain .checkoutWinbits .checkoutMain .checkoutResumen1 {
+    color: #000000;
+    font-size: 14px;
+    margin: 10px 20px;
+    display: inline-block;
+    vertical-align: top;
+    width: 400px;
+    *display: inline;
+    /* IE7 inline-block hack */
+    zoom: 1;
+}
+.widgetWinbitsMain .checkoutWinbits .checkoutMain .checkoutResumen1 h3 {
+    color: #000000;
+    font-size: 19px;
+    margin: 5px 0;
+    font-family: 'OmnesLight', Arial;
+    font-style: normal;
+    font-weight: normal;
+}
+.widgetWinbitsMain .checkoutWinbits .checkoutMain .checkoutResumen1 span {
     display: block;
 }
 .widgetWinbitsMain .checkoutWinbits .checkoutMain .checkoutButton {
@@ -7404,6 +7429,11 @@ main {
 .msie10 main,
 .msie11 main {
     display: block;
+}
+.msie1 .checkout-container,
+.msie10 .checkout-container,
+.msie11 .checkout-container {
+    margin-top: -80px;
 }
 .msie1 .switchUser .iconFont-close,
 .msie10 .switchUser .iconFont-close,
