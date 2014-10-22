@@ -171,7 +171,7 @@ module.exports =
         $this = $(this)
         $this.wrap "<div class=\"slider\"><div class=\"slider-holder\"/>"
         $this.parent().append "<a href=\"#\" class=\"ui-slider-handle\"><span class=\"bit\"></span><span class=\"amount\">$<em>" + $this.val() + "</em></span></a>"
-        $this.parent().parent().append "<span class=\"text-value min-val\">" + $this.data("min") + "</span><span class=\"text-value max-val\">" + $this.data("max") + "</span>"
+        $this.parent().parent().append "<span class=\"text-value min-val\">" + $this.data("min") + "</span><span class=\"text-value max-val\">" + $this.data("max").toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "</span>"
         $slider = $this.parent().parent().find(".slider-holder").slider # NO BORRAR - Fix desarrollo
           range: "min"
           value: +$this.val()
@@ -182,7 +182,7 @@ module.exports =
             value = Math.min(maxSelection, ui.value)
             previousValue = $this.val()
             $this.val value
-            $this.parent().find(".amount em").text value
+            $this.parent().find(".amount em").text(value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
 
             if ui.value > maxSelection
               if previousValue != maxSelection

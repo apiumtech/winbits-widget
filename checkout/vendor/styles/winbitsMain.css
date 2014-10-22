@@ -4242,6 +4242,7 @@ main {
 }
 .widgetWinbitsHeader .knowmoreFolder .knowMoreMin {
   margin-left: 510px;
+  min-height: 20px;
   padding: 5px 0 0;
   position: relative;
 }
@@ -7731,4 +7732,14 @@ main {
 .msie10 .carritoDivRight,
 .msie11 .carritoDivRight {
   width: 199px !important;
+}
+
+.clickoneroVertical .wbc-vertical-content {
+    margin-top: -130px;
+}
+.checkout-container {
+    margin-top: 0;
+}
+.msie1 .checkout-container, .msie10 .checkout-container, .msie11 .checkout-container {
+    margin-top: -80px;
 }
