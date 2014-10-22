@@ -34,7 +34,7 @@ module.exports = class CardView extends View
         if name in ['expirationMonth', 'expirationYear', 'accountNumber']
           $error.appendTo $errorPlaceholder
         else if name in ['street1', 'number']
-          $error.insertAfter $errorPlaceholder.find('[name=number]').parent()
+          $error.appendTo $element.parent()
         else if name is 'country'
           $error.appendTo $element.parent()
         else
@@ -56,10 +56,12 @@ module.exports = class CardView extends View
           minlength: 2
           digits: yes
           range: [1, 12]
+          validateCreditCardDate:yes
         expirationYear:
           required: yes
           minlength: 2
           digits: yes
+          validateCreditCardDate:yes
         street1:
           required: yes
         number:
