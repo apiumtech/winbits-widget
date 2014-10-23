@@ -31,15 +31,17 @@ _(cartUtils).extend
     .fail(@showCartErrorMessage)
 
   validateBits:(cartItems)->
-    $bitsBalance = parseInt($('#wbi-my-bits').text().toString().replace(/\,/g,''))
-    $bitsList = ((if cart.bits then cart.bits else 0) for cart in cartItems)
-    $bits = $bitsList.reduce (t, s) -> t + s
-    unless($bitsBalance >= $bits )
-      cartItems = (for cartItem in cartItems
-        delete cartItem.bits
-        cartItem
-      )
-      cartItems[0].bits = $bitsBalance
+    $bitsList = cartItems.filter (x)->x.bits
+    if $bitsList.length > 0
+      $bitsBalance = parseInt($('#wbi-my-bits').text().toString().replace(/\,/g,''))
+      $bits = $bitsList.reduce (t, s) -> t + s
+      unless($bitsBalance >= $bits )
+        cartItems = (for cartItem in cartItems
+          delete cartItem.bits
+          cartItem
+        )
+        if $bitsBalance
+          cartItems[0].bits = $bitsBalance
     cartItems
 
 
