@@ -25,7 +25,7 @@ module.exports = class AddressManagerView extends View
     @editShippingAddressView = new EditShippingAddressView model: new Address, autoRender: no
     @delegate "click" , ".shippingItem", @selectShipping
     @delegate "click" , "#btnContinuar", @addressContinuar
-  
+
   render: ->
     super
   
@@ -36,7 +36,12 @@ module.exports = class AddressManagerView extends View
 
   attach: ->
    super
-   
+   @validateAddNewAddress()
+
+  validateAddNewAddress:()->
+    if @model.get('addresses').length == 0
+      @$('#aNewAddress').click()
+
   showAddNewShipping:(e)->
     e.preventDefault()
     @shippingAddressNew.render()
