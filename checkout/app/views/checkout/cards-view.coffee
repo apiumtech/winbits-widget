@@ -78,10 +78,12 @@ module.exports = class CardsView extends View
           minlength: 2
           digits: true
           range: [1, 12]
+          validateCreditCardDate:true
         expirationYear:
           required: true
           minlength: 2
           digits: true
+          validateCreditCardDate:true
         cvNumber:
           required: true
           digits: true
