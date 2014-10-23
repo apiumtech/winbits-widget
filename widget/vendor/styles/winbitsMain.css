@@ -3039,7 +3039,7 @@ span.errorInputOK {
     line-height: 15px;
     padding: 5px 10px;
     position: absolute;
-    z-index: 999;
+    z-index: 99999 !important;
     -webkit-border-radius: 5px;
     -khtml-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -4596,12 +4596,16 @@ main {
     right: 0;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivLeft .closeButton,
-.widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivLeft .iconFont-close {
+.widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivLeft .iconFont-close,
+.widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivLeft .iconFont-trash {
     bottom: 10px;
     left: inherit !important;
     top: inherit !important;
     position: absolute;
     right: 0;
+}
+.widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivLeft .iconFont-trash {
+    font-size: 18px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivRight {
     background: #e2dfd3;
@@ -4977,6 +4981,7 @@ main {
 }
 .contentModal {
     padding: 40px 10px;
+    position: relative;
 }
 .contentModal fieldset {
     padding: 30px 30px;
@@ -5063,7 +5068,6 @@ main {
     top: 35px;
 }
 .contentModal .asideModal {
-    padding: 60px 0 0 20px;
     display: inline-block;
     vertical-align: top;
     width: 200px;
@@ -5087,6 +5091,46 @@ main {
     font-family: 'OmnesMedium', Arial;
     font-style: normal;
     font-weight: normal;
+}
+.contentModal .am-div {
+    margin: -75px 45px 0 45px;
+    position: absolute;
+    top: 50%;
+    width: 150px;
+}
+.contentModal .am-div .winbit-color {
+    height: 40px;
+    border-bottom: 1px solid #999999;
+}
+.contentModal .am-span {
+    color: #000000;
+    margin: 0;
+    text-transform: uppercase;
+    font-family: 'OmnesRegular', Arial;
+    font-style: normal;
+    font-weight: normal;
+}
+.contentModal .am-span.am-win {
+    font-size: 15px;
+    line-height: 12px;
+    margin-bottom: 10px;
+}
+.contentModal .am-span.am-register {
+    font-size: 11px;
+    line-height: 8px;
+    margin: 10px 0;
+}
+.contentModal .am-span.am-bits {
+    display: inline;
+    font-size: 18px;
+}
+.contentModal .am-span.am-buy {
+    font-size: 18px;
+    margin-top: 5px;
+}
+.contentModal .am-span.am-save {
+    font-size: 16px;
+    margin-top: -5px;
 }
 .contentModal .loginFacebook {
     background: #667cbc;
@@ -7434,7 +7478,7 @@ main {
 .msie1 .checkout-container,
 .msie10 .checkout-container,
 .msie11 .checkout-container {
-    margin-top: -80px;
+    margin-top: -120px;
 }
 .msie1 .switchUser .iconFont-close,
 .msie10 .switchUser .iconFont-close,
