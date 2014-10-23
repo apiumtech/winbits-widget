@@ -65,7 +65,7 @@ $.fn.wbDate = ()->
   month = $this.find('#wbi-birthdate-month').val()
   month = '0' + month if month and month.length == 1
   year = $this.find('#wbi-birthdate-year').val()
-  currentYear = parseInt(moment().format('YYYY').slice(-2))
+  currentYear = parseInt(moment().format('YY'))
   year =  (if year > currentYear then "19" else "20") + year
   "#{year}-#{month}-#{day}"
 
@@ -77,7 +77,24 @@ $.validator.addMethod 'validateDate', (value, element)->
     true
   else
     false
-, "Ingresa una fecha valida"
+, "Escribe una fecha válida."
+
+$.fn.wbCreditCardDate = ()->
+  $this = Winbits.$(this)
+  month = $this.find('#winbitsCreditCardDD').val()
+  month = '0' + month if month and month.length == 1
+  year = $this.find('#winbitsCreditCardAA').val()
+  "#{year}-#{month}"
+
+
+$.validator.addMethod 'validateCreditCardDate', (value, element)->
+  val = Winbits.$(element).parent().wbCreditCardDate()
+  if val >= moment().format('YY-MM')
+    Winbits.$(element).parent().find('.error').removeClass('error')
+    yes
+  else
+    no
+, "Escribe una fecha válida."
 
 $.validator.addMethod("wbZipCode", (value) ->
   if value
