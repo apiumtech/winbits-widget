@@ -48,25 +48,27 @@
           </div>
 
           <div class="dataTable-cant">{{quantity}}</div>
+
           <div class="dataTable-status">
-          {{#compare quantity '1'}}
-            {{#if deliveryStatus.0.status}}
-              <span>{{deliveryStatus.0.status}}</span>
-            {{else}}
-              {{#compare itemGroupType "PRODUCT" operator="!="}}
+          {{#compare itemGroupType "PRODUCT" operator="!="}}
                   <span>-</span>
-              {{else}}
-                  <span>En almacén</span>
-              {{/compare}}
-            {{/if}}
           {{else}}
-            {{#each deliveryStatus}}
-              <span>({{quantity}}){{status}}</span>
+            {{#compare quantity '1'}}
+              {{#if deliveryStatus.0.status}}
+                <span>{{deliveryStatus.0.status}}</span>
+              {{else}}
+                  <span>En Almacén</span>
+              {{/if}}
             {{else}}
-              <span>({{quantity}})En Almacén</span>
-            {{/each}}
+              {{#each deliveryStatus}}
+                <span>({{quantity}}){{status}}</span>
+              {{else}}
+                <span>({{quantity}})En Almacén</span>
+              {{/each}}
+            {{/compare}}
           {{/compare}}
           </div>
+
           <div class="dataTable-num">
            {{#if tracingNumbers}}
             {{#each tracingNumbers}}
