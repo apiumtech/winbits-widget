@@ -21,6 +21,7 @@ _(cartUtils).extend
 
   addToUserCart: (cartItems = {}) ->
     cartItems = @transformCartItems(cartItems)
+    cartItems = @validateBits(cartItems)
     options =
       headers:
         'Wb-Api-Token': utils.getApiToken()
@@ -28,6 +29,20 @@ _(cartUtils).extend
     utils.ajaxRequest(@getCartResourceUrl(), options)
     .done((data)->@publishCartChangedEvent(data,cartItems))
     .fail(@showCartErrorMessage)
+
+  validateBits:(cartItems)->
+    $bitsBalance = parseInt($('#wbi-my-bits').text().toString().replace(/\,/g,''))
+    $bitsList = ((if cart.bits then cart.bits else 0) for cart in cartItems)
+    $bits = $bitsList.reduce (t, s) -> t + s
+    unless($bitsBalance >= $bits )
+      cartItems = (for cartItem in cartItems
+        delete cartItem.bits
+        cartItem
+      )
+      cartItems[0].bits = $bitsBalance
+    cartItems
+
+
 
   publishCartChangedEvent: (data, cartItems)->
     mediator.data.set( 'bits-to-cart',data.response.bitsTotal)
