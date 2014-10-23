@@ -39,7 +39,7 @@ module.exports = class AddressManagerView extends View
    @validateAddNewAddress()
 
   validateAddNewAddress:()->
-    unless @model.addresses
+    if @model.get('addresses').length == 0
       @$('#aNewAddress').click()
 
   showAddNewShipping:(e)->
