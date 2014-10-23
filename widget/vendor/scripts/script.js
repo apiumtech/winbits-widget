@@ -713,10 +713,10 @@ jQuery.fn.changeBox = function(options){
           $(obj).removeClass(defaults.claseActivo);
         };
     return this.each(function(){
-      var objeto = this,
-          wpOb = $(objeto).next(defaults.contenedor).find(defaults.wrapper);
-      claseObj = $(objeto).attr('class').split(' ')[0];
-      $(objeto).on('click', function(e){
+      var objeto = this;
+      var wpOb = $(objeto).next(defaults.contenedor).find(defaults.wrapper);
+        claseObj = $(objeto).attr('class').split(' ')[0];
+        $(objeto).on('click', function(e){
         e.stopPropagation();
         if($(objeto).siblings(defaults.contenedor).css('display') === 'none'){
           closeSiblings('.'+claseObj);
@@ -747,7 +747,6 @@ jQuery.fn.changeBox = function(options){
       });
     });
   };
-
 /* **********************************************
  Begin imageError.js
  ********************************************** */
