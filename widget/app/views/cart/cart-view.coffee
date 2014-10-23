@@ -52,14 +52,14 @@ module.exports = class CartView extends View
     @model.clear()
     @model.set itemsCount:0, {silent:yes}
     @render()
-#
-#  openCart: ->
-#    if @$('#wbi-cart-drop').is(':hidden')
-#      @$('#wbi-cart-info').trigger('click')
-#
-#  closeCart: ->
-#    if @$('#wbi-cart-drop').is(':visible')
-#      @$('#wbi-cart-info').trigger('click')
+
+  openCart: ->
+    if @$('#wbi-cart-drop').is(':hidden')
+      @$('#wbi-cart-info').trigger('click')
+
+  closeCart: ->
+    if @$('#wbi-cart-drop').is(':visible')
+      @$('#wbi-cart-info').trigger('click')
 
   successFetch: (data)->
     @updateCartModel data
