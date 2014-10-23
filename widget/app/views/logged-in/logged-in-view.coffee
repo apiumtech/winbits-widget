@@ -40,7 +40,7 @@ module.exports = class LoggedInView extends View
   changeBitsValue: ->
     bitsTotal = mediator.data.get('bits-to-cart')
     $bitsBalance = mediator.data.get('login-data').bitsBalance - bitsTotal
-    @$('#wbi-my-bits').text $bitsBalance
+    @$('#wbi-my-bits').text utils.formatNumWithComma($bitsBalance)
 
   cashBackBitsChange:(cashback) ->
     if cashback > 0
