@@ -19,6 +19,7 @@ module.exports = class CartItemsView extends View
 
   attach: ->
     super
+    @$('.iconFont-trash').toolTip()
     @$el.scrollpane(parent: '#wbi-cart-drop')
     @$('.wbc-item-quantity').customSelect()
       .on("change", $.proxy(@doUpdateItem, @))
