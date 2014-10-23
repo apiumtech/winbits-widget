@@ -34,8 +34,8 @@ _(cartUtils).extend
     $bitsList = cartItems.filter (x)->x.bits
     if $bitsList.length > 0
       $bitsBalance = parseInt($('#wbi-my-bits').text().toString().replace(/\,/g,''))
-      $bits = $bitsList.reduce (t, s) -> t + s
-
+      $bitsList = ((if cart.bits then cart.bits else 0) for cart in cartItems)
+      $bits = $bitsList.reduce (t, s) -> t.bits + s.bits
       if($bits != 0 && $bitsBalance < $bits )
         cartItems = (for cartItem in cartItems
           delete cartItem.bits
