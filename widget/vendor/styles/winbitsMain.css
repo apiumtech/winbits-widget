@@ -3273,6 +3273,7 @@ span.errorInputOK {
     background: url("../../images/misc/fancybox_overlay.png");
     background: rgba(0, 0, 0, 0.8);
     height: 100%;
+    margin-top: 0 !important;
     position: fixed;
     top: 0;
     width: 100%;
@@ -4239,7 +4240,7 @@ main {
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .wb-micuenta-creditcard .creditcardNew .inputMedium {
     width: 116px !important;
 }
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .wb-micuenta-creditcard .creditcardNew .inputchica {
+.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .wb-micuenta-creditcard .creditcardNew .inputSmall {
     width: 34px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .wb-micuenta-creditcard .creditcardNew .divFechaExpiracion label {
