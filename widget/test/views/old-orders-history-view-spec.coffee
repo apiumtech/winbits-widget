@@ -2,6 +2,7 @@
 OldOrdersHistoryView = require 'views/old-orders-history/old-orders-history-view'
 OldOrdersHistory = require 'models/old-orders-history/old-orders-history'
 utils = require 'lib/utils'
+mediator = Winbits.Chaplin.mediator
 
 describe 'OldOrdersHistoryViewSpec', ->
 
@@ -75,6 +76,12 @@ describe 'OldOrdersHistoryViewSpec', ->
   }
 
   beforeEach ->
+    @loginData =
+      apiToken: 'XXX'
+      profile: { name: 'Jorge', lastName:"Moreno", gender:'male', birthdate:'1988-11-11', pendingOrdersCount:'0'}
+      email: 'a@aa.aa'
+      bitsBalance:100
+    mediator.data.set 'login-data', @loginData
     sinon.stub(utils, "redirectTo")
     @model = new OldOrdersHistory (OLD_ORDERS_HISTORY_RESPONSE)
     @view = new OldOrdersHistoryView model: @model

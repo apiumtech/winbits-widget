@@ -2,6 +2,7 @@
 
 View = require 'views/base/view'
 ShippingOrderSubview = require 'views/shipping-order/shipping-order-history-table-subview'
+HistoryHeaderView = require 'views/account-history/history-header-view'
 utils = require 'lib/utils'
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
@@ -16,8 +17,11 @@ module.exports = class ShippingOrderHistoryView extends View
 
   initialize:()->
     super
+    $loginData = mediator.data.get 'login-data'
     @model.fetch data:@params, success: $.proxy(@render, @)
     @model.set 'clickoneroId', mediator.data.get('login-data').profile.clickoneroId
+    @model.set 'bitsTotal', $loginData.bitsBalance
+    @model.set 'pendingOrderCount', $loginData.profile.pendingOrdersCount
     @delegate 'click', '#wbi-shipping-order-history-btn-back', @backToVertical
     @delegate 'click', '.wbc-icon-coupon', @requestCouponsService
     @delegate 'click', '#wbi-old-orders-history', @requestClickoneroService
@@ -27,6 +31,7 @@ module.exports = class ShippingOrderHistoryView extends View
 
   attach: ->
     super
+    @$('#wbi-account-order-history-link').hide()
     @$('.select').customSelect()
     @$('span.iconFont-question').toolTip()
     @$('#wbi-shipping-order-history-paginator')
@@ -112,3 +117,4 @@ module.exports = class ShippingOrderHistoryView extends View
   render: ()->
     super
     @subview 'shipping-order-history-table', new ShippingOrderSubview model:@model
+    @subview('history-header-view', new HistoryHeaderView model: @model)
