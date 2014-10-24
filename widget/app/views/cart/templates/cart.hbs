@@ -1,4 +1,5 @@
 <span data-cart='true' id="wbi-cart-info" class="spanDropMenu"><span id="wbi-cart-counter">{{itemsCount}}</span> <span id="wbi-cart-icon" class="iconFont-cart"></span></span>
+{{#compare itemsCount '0' operator='!='}}
 <div id="wbi-cart-drop" class="dropMenu miCarritoDiv">
   <span class="icon triangle2"></span>
   <div class="wrapper">
@@ -18,3 +19,11 @@
   </div>
   </div>
 </div>
+{{else}}
+    <div class="dropMenu miCarritoDiv mc-noitems-container">
+        <div class="mc-noitems-arrow"></div>
+        <div class="wrapper">
+            <div class="mc-noitems-div"><span class="mc-noitems-icon">!</span><span class="mc-noitems-content">No tienes productos en tu carrito</span></div>
+        </div>
+    </div>
+{{/compare}}
