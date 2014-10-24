@@ -37,7 +37,7 @@ module.exports = class CartView extends View
 
   attach: ->
     super
-    @$('#wbi-cart-info').dropMainMenu(beforeOpen: $.proxy(@shouldOpenCart, @))
+    @$('#wbi-cart-info').dropMainMenu()#beforeOpen: $.proxy(@shouldOpenCart, @))
 
   onCartChanged: (cartData) ->
     if cartData
