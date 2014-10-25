@@ -1,18 +1,29 @@
-<span id="wbi-cart-info" class="spanDropMenu" data-cart="true"><span id="wbi-cart-counter">{{itemsCount}}</span> <span id="wbi-cart-icon" class="iconFont-cart"></span></span>
+<span data-cart='true' id="wbi-cart-info" class="spanDropMenu"><span id="wbi-cart-counter">{{itemsCount}}</span> <span id="wbi-cart-icon" class="iconFont-cart"></span></span>
+{{#compare itemsCount '0' operator='!='}}
 <div id="wbi-cart-drop" class="dropMenu miCarritoDiv">
   <span class="icon triangle2"></span>
   <div class="wrapper">
-      <div id="wbi-loading-cart" class="loaderDiv loader-hide">
-          <div class="loader-div">
-              <div class="loader"></div>
-              <div class="loader-txt">Cargando...</div>
-          </div>
-      </div>
+
       <div class="carContenido">
           <div id="wbi-cart-left-panel" class="carritoDivLeft">
           </div>
           <div id="wbi-cart-right-panel" class="carritoDivRight">
           </div>
       </div>
+
+      <div id="wbi-loading-cart" class="loaderDiv loader-hide">
+      <div class="loader-div">
+          <div class="loader"></div>
+          <div class="loader-txt">Cargando...</div>
+      </div>
+  </div>
   </div>
 </div>
+{{else}}
+    <div class="dropMenu miCarritoDiv mc-noitems-container">
+        <div class="mc-noitems-arrow"></div>
+        <div class="wrapper">
+            <div class="mc-noitems-div"><span class="mc-noitems-icon">!</span><span class="mc-noitems-content">No tienes productos en tu carrito</span></div>
+        </div>
+    </div>
+{{/compare}}

@@ -1024,7 +1024,7 @@ input[type="submit"].btn.btn-mini {
 .widgetWinbitsMain .dataTable .dataTable-header,
 .miCuenta-tabs .dataTable .dataTable-header {
     background: #ffffff;
-    padding-left: 40px;
+    padding-left: 20px;
     width: 940px;
 }
 .widgetWinbitsMain .dataTable .dataTable-header span,
@@ -1221,7 +1221,7 @@ input[type="submit"].btn.btn-mini {
 .widgetWinbitsMain .dataTable .dataTable-fila .dataTable-desc,
 .miCuenta-tabs .dataTable .dataTable-fila .dataTable-desc {
     margin-bottom: 50px;
-    margin-left: 40px;
+    margin-left: 20px;
 }
 .widgetWinbitsMain .dataTable .dataTable-fila .dataTable-bodyItems,
 .miCuenta-tabs .dataTable .dataTable-fila .dataTable-bodyItems {
@@ -1235,6 +1235,12 @@ input[type="submit"].btn.btn-mini {
 .widgetWinbitsMain .dataTable .dataTable-fila .dataTable-bodyItems .dataTable-item,
 .miCuenta-tabs .dataTable .dataTable-fila .dataTable-bodyItems .dataTable-item {
     margin-bottom: 15px;
+}
+.widgetWinbitsMain .dataTable .dataTable-fila .dataTable-bodyItems .dataTable-item [class^="dataTable-"],
+.miCuenta-tabs .dataTable .dataTable-fila .dataTable-bodyItems .dataTable-item [class^="dataTable-"],
+.widgetWinbitsMain .dataTable .dataTable-fila .dataTable-bodyItems .dataTable-item [class*=" dataTable-"],
+.miCuenta-tabs .dataTable .dataTable-fila .dataTable-bodyItems .dataTable-item [class*=" dataTable-"] {
+    margin-left: -2px;
 }
 .widgetWinbitsMain .dataTable.totalBitsTable,
 .miCuenta-tabs .dataTable.totalBitsTable {
@@ -2838,7 +2844,6 @@ span.errorInputOK {
     position: absolute;
     right: 7px;
     top: 50%;
-    margin-top: -2px;
     cursor: pointer;
 }
 .select-div .iconFont-downmenu:hover {
@@ -3039,7 +3044,7 @@ span.errorInputOK {
     line-height: 15px;
     padding: 5px 10px;
     position: absolute;
-    z-index: 999;
+    z-index: 99999 !important;
     -webkit-border-radius: 5px;
     -khtml-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -3440,6 +3445,187 @@ span.errorInputOK {
 }
 main {
     margin: 130px auto 0 auto;
+}
+.column {
+    min-height: 100px;
+    height: 100px;
+    height: auto !important;
+    margin: 0 20px 0 5px;
+    padding-bottom: 50px;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    width: 190px;
+    *display: inline;
+    /* IE7 inline-block hack */
+    zoom: 1;
+}
+.column.noH3 {
+    margin-top: 36px;
+}
+.column.columnLarge {
+    width: 150px !important;
+}
+.column input[type="text"],
+.column input[type="password"] {
+    font-size: 11px;
+    margin: 2px 0;
+    width: 160px;
+}
+.column .placeholder-span {
+    font-size: 11px;
+}
+.column a {
+    color: #b3b3b3;
+    display: block;
+    text-decoration: none;
+}
+.column a:hover {
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+}
+.column h3 {
+    color: #000000 !important;
+    font-size: 14px !important;
+    margin: 10px 0 !important;
+    font-family: 'OmnesMedium', Arial !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    text-transform: none !important;
+}
+.column label {
+    color: #808080;
+    font-size: 11px;
+    padding-top: 5px;
+    display: inline-block;
+    vertical-align: top;
+    width: 62px;
+    *display: inline;
+    /* IE7 inline-block hack */
+    zoom: 1;
+}
+.column .errorDiv {
+    margin-left: -10px;
+}
+.column .errorDiv p {
+    font-size: 12px;
+}
+.column .required-wrapper .iconFont-required {
+    right: -10px;
+}
+.column .divCheckbox label {
+    font-size: 11px;
+    width: 110px;
+}
+.column .inputMedium {
+    width: 116px !important;
+}
+.column .inputSmall {
+    text-align: center;
+    width: 30px !important;
+}
+.column .selectContainer .selectContent {
+    font-size: 11px;
+    line-height: normal;
+    width: 145px;
+}
+.column .selectContainer .selectOptions {
+    margin-top: -3px;
+}
+.column .selectContainer .selectOptions li {
+    padding: 3px;
+}
+.column .divBirthday {
+    position: relative;
+}
+.column .divBirthday span.errorInputError {
+    background: #ffffff;
+    left: 0;
+    position: absolute;
+    top: 27px;
+}
+.column .divBirthday input.errorInputError {
+    margin-bottom: 20px;
+}
+.column .divBirthday input {
+    text-align: center;
+    vertical-align: top;
+    padding: 2px 5px;
+    width: 20px;
+}
+.column .divBirthday label {
+    padding-right: 8px;
+    padding-top: 10px;
+    width: 66px;
+}
+.column .divGender {
+    font-size: 11px;
+    position: relative;
+}
+.column .divGender label {
+    width: 104px;
+}
+.column .divGender span.errorInputError {
+    position: absolute;
+    top: 25px;
+    left: 0;
+}
+.column .divGender .errorInputError + .radio-span {
+    border-color: #dd092c;
+    margin-bottom: 20px;
+}
+.column .divGender .errorInputError.errorInputOK + .radio-span {
+    border-color: #e6e6e6;
+    margin-bottom: 0 !important;
+}
+.column .divGender .radio-span {
+    margin: 2px 0 !important;
+    padding: 3px 5px !important;
+    vertical-align: top;
+}
+.column .divFechaExpiracion label,
+.column .divNumSecurity label {
+    font-size: 11px;
+    line-height: 11px;
+    margin-top: 6px;
+    padding-left: 15px;
+    display: inline-block;
+    vertical-align: middle;
+    width: 75px;
+    *display: inline;
+    /* IE7 inline-block hack */
+    zoom: 1;
+}
+.column .divFechaExpiracion input[type="text"],
+.column .divNumSecurity input[type="text"] {
+    margin-left: 2px;
+    text-align: center;
+    width: 15px;
+}
+.column .divNumSecurity label {
+    margin-top: 11px;
+    width: 81px;
+}
+.column .divNumSecurity input[type="text"] {
+    width: 50px;
+}
+.column .inputSmall {
+    text-align: center;
+    width: 18px !important;
+}
+.column span.errorInputError {
+    font-size: 11px;
+}
+.column .editBtn {
+    margin: 20px 0 0 0;
+    padding: 5px 40px;
+    position: inherit;
+    width: auto;
+}
+.column .iconFont-facebookCircle,
+.column .iconFont-twitterCircle {
+    font-size: 18px;
+    margin: 5px 5px 10px 0;
 }
 .widgetWinbitsHeader {
     min-width: 980px;
@@ -3923,7 +4109,7 @@ main {
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuentaDiv .triangle {
     left: 50%;
-    margin: -19px 0 0 153px;
+    margin: -19px 0 0 165px;
     position: absolute;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuentaDiv .wrapper {
@@ -4052,185 +4238,6 @@ main {
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .iconFont-close {
     margin: 0 0 0 5px;
 }
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column {
-    min-height: 100px;
-    height: 100px;
-    height: auto !important;
-    margin: 0 20px 0 5px;
-    padding-bottom: 50px;
-    position: relative;
-    display: inline-block;
-    vertical-align: top;
-    width: 190px;
-    *display: inline;
-    /* IE7 inline-block hack */
-    zoom: 1;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column.noH3 {
-    margin-top: 33px;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column.columnLarge {
-    width: 150px !important;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column input[type="text"],
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column input[type="password"] {
-    font-size: 11px;
-    margin: 2px 0;
-    width: 160px;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .placeholder-span {
-    font-size: 11px;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column a {
-    color: #b3b3b3;
-    display: block;
-    text-decoration: none;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column a:hover {
-    opacity: 0.5;
-    filter: alpha(opacity=50);
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column h3 {
-    font-size: 14px;
-    margin: 10px 0;
-    font-family: 'OmnesMedium', Arial;
-    font-style: normal;
-    font-weight: normal;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column label {
-    color: #808080;
-    font-size: 11px;
-    padding-top: 5px;
-    display: inline-block;
-    vertical-align: top;
-    width: 62px;
-    *display: inline;
-    /* IE7 inline-block hack */
-    zoom: 1;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .errorDiv {
-    margin-left: -10px;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .errorDiv p {
-    font-size: 12px;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .required-wrapper .iconFont-required {
-    right: -10px;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .divCheckbox label {
-    font-size: 11px;
-    width: 110px;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .inputMedium {
-    width: 116px !important;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .inputSmall {
-    text-align: center;
-    width: 30px !important;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .selectContainer .selectContent {
-    font-size: 11px;
-    line-height: normal;
-    width: 145px;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .selectContainer .selectOptions {
-    margin-top: -3px;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .selectContainer .selectOptions li {
-    padding: 3px;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .divBirthday {
-    position: relative;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .divBirthday span.errorInputError {
-    background: #ffffff;
-    left: 0;
-    position: absolute;
-    top: 27px;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .divBirthday input.errorInputError {
-    margin-bottom: 20px;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .divBirthday input {
-    text-align: center;
-    vertical-align: top;
-    padding: 2px 5px;
-    width: 20px;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .divBirthday label {
-    padding-right: 8px;
-    padding-top: 10px;
-    width: 66px;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .divGender {
-    font-size: 11px;
-    position: relative;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .divGender label {
-    width: 104px;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .divGender span.errorInputError {
-    position: absolute;
-    top: 25px;
-    left: 0;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .divGender .errorInputError + .radio-span {
-    border-color: #dd092c;
-    margin-bottom: 20px;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .divGender .errorInputError.errorInputOK + .radio-span {
-    border-color: #e6e6e6;
-    margin-bottom: 0 !important;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .divGender .radio-span {
-    margin: 2px 0 !important;
-    padding: 3px 5px !important;
-    vertical-align: top;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .divFechaExpiracion label,
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .divNumSecurity label {
-    font-size: 11px;
-    line-height: 11px;
-    margin-top: 6px;
-    padding-left: 15px;
-    display: inline-block;
-    vertical-align: middle;
-    width: 75px;
-    *display: inline;
-    /* IE7 inline-block hack */
-    zoom: 1;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .divFechaExpiracion input[type="text"],
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .divNumSecurity input[type="text"] {
-    margin-left: 2px;
-    text-align: center;
-    width: 15px;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .divNumSecurity label {
-    margin-top: 11px;
-    width: 81px;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .divNumSecurity input[type="text"] {
-    width: 50px;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .inputSmall {
-    text-align: center;
-    width: 18px !important;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column span.errorInputError {
-    font-size: 11px;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .editBtn {
-    margin: 20px 0 0 0;
-    padding: 5px 40px;
-    position: inherit;
-    width: auto;
-}
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .iconFont-facebookCircle,
-.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .column .iconFont-twitterCircle {
-    font-size: 18px;
-    margin: 5px 5px 10px 0;
-}
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .wb-micuenta-address .shippingNewAddress .select-input {
     min-width: 133px;
 }
@@ -4252,6 +4259,8 @@ main {
     padding: 6px 32px 6px 7px;
     min-width: 135px;
     font-weight: normal;
+    width: 135px;
+    max-width: 135px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .wb-micuenta-profile .select-div .select-ul {
     margin-top: -1px !important;
@@ -4420,7 +4429,7 @@ main {
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .triangle2 {
     left: 50%;
-    margin: -9px 0 0 287px;
+    margin: -9px 0 0 298px;
     position: absolute;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .wrapper {
@@ -4456,10 +4465,10 @@ main {
     filter: alpha(opacity=100);
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivLeft a {
-    display: block;
     float: left;
     margin-left: -60px;
     overflow: hidden;
+    line-height: 67px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivLeft h3 {
     font-size: 11px;
@@ -4538,7 +4547,7 @@ main {
     font-size: 14px;
     display: inline-block;
     vertical-align: top;
-    width: 225px;
+    width: 210px;
     *display: inline;
     /* IE7 inline-block hack */
     zoom: 1;
@@ -4551,9 +4560,6 @@ main {
     position: absolute;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivLeft .imgItem {
-    float: left;
-    margin-right: 7px;
-    height: 67px;
     width: 52px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivLeft .jspVerticalBar {
@@ -4596,12 +4602,18 @@ main {
     right: 0;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivLeft .closeButton,
-.widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivLeft .iconFont-close {
+.widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivLeft .iconFont-close,
+.widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivLeft .iconFont-trash {
     bottom: 10px;
     left: inherit !important;
     top: inherit !important;
     position: absolute;
     right: 0;
+}
+.widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivLeft .iconFont-trash {
+    font-size: 18px;
+    line-height: 20px;
+    text-decoration: none;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivRight {
     background: #e2dfd3;
@@ -4865,6 +4877,62 @@ main {
     opacity: 0.5;
     filter: alpha(opacity=50);
 }
+.mc-noitems-container {
+    display: none;
+    margin: -12px 0 0 17px;
+    text-align: center;
+    width: 130px;
+}
+.mc-noitems-container .wrapper {
+    height: 100% !important;
+    padding-left: 590px !important;
+    width: 130px !important;
+}
+.mc-noitems-container .mc-noitems-arrow {
+    left: 50%;
+    margin: -10px 0 0 288px;
+    position: absolute;
+    display: inline-block;
+    vertical-align: middle;
+    width: auto;
+    *display: inline;
+    /* IE7 inline-block hack */
+    zoom: 1;
+    border-bottom: 10px solid transparent;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 10px solid transparent;
+    height: 0;
+    width: 0;
+    border-bottom-color: #000000;
+    border-bottom-color: rgba(0, 0, 0, 0.5);
+}
+.mc-noitems-container .mc-noitems-div {
+    background: #000000;
+    background: rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+    font-size: 10px;
+    padding: 10px;
+}
+.mc-noitems-container .mc-noitems-icon {
+    color: #fff609;
+    font-size: 23px;
+    display: inline-block;
+    vertical-align: middle;
+    width: 20px;
+    *display: inline;
+    /* IE7 inline-block hack */
+    zoom: 1;
+}
+.mc-noitems-container .mc-noitems-content {
+    text-align: left;
+    display: inline-block;
+    vertical-align: middle;
+    width: 90px;
+    *display: inline;
+    /* IE7 inline-block hack */
+    zoom: 1;
+}
 .widgetWinbitsFooter {
     background: #454545;
     font-size: 14px;
@@ -4977,6 +5045,7 @@ main {
 }
 .contentModal {
     padding: 40px 10px;
+    position: relative;
 }
 .contentModal fieldset {
     padding: 30px 30px;
@@ -5063,7 +5132,6 @@ main {
     top: 35px;
 }
 .contentModal .asideModal {
-    padding: 60px 0 0 20px;
     display: inline-block;
     vertical-align: top;
     width: 200px;
@@ -5087,6 +5155,46 @@ main {
     font-family: 'OmnesMedium', Arial;
     font-style: normal;
     font-weight: normal;
+}
+.contentModal .am-div {
+    margin: -75px 45px 0 45px;
+    position: absolute;
+    top: 50%;
+    width: 150px;
+}
+.contentModal .am-div .winbit-color {
+    height: 40px;
+    border-bottom: 1px solid #999999;
+}
+.contentModal .am-span {
+    color: #000000;
+    margin: 0;
+    text-transform: uppercase;
+    font-family: 'OmnesRegular', Arial;
+    font-style: normal;
+    font-weight: normal;
+}
+.contentModal .am-span.am-win {
+    font-size: 15px;
+    line-height: 12px;
+    margin-bottom: 10px;
+}
+.contentModal .am-span.am-register {
+    font-size: 11px;
+    line-height: 8px;
+    margin: 10px 0;
+}
+.contentModal .am-span.am-bits {
+    display: inline;
+    font-size: 18px;
+}
+.contentModal .am-span.am-buy {
+    font-size: 18px;
+    margin-top: 5px;
+}
+.contentModal .am-span.am-save {
+    font-size: 16px;
+    margin-top: -5px;
 }
 .contentModal .loginFacebook {
     background: #667cbc;
@@ -5562,6 +5670,97 @@ main {
     font-style: normal;
     font-weight: normal;
 }
+.widgetWinbitsMain h2.winbitsH2 small {
+    font-size: 16px;
+    margin: 0 10px;
+    text-transform: none;
+    display: inline-block;
+    vertical-align: middle;
+    width: auto;
+    *display: inline;
+    /* IE7 inline-block hack */
+    zoom: 1;
+    font-family: 'OmnesLight', Arial;
+    font-style: normal;
+    font-weight: normal;
+}
+.widgetWinbitsMain h2.winbitsH2 a {
+    color: #6e99fc;
+    float: right;
+    font-size: 16px;
+    text-decoration: underline;
+    text-transform: none;
+    display: inline-block;
+    vertical-align: middle;
+    width: auto;
+    *display: inline;
+    /* IE7 inline-block hack */
+    zoom: 1;
+    font-family: 'OmnesLight', Arial;
+    font-style: normal;
+    font-weight: normal;
+}
+.widgetWinbitsMain h2.winbitsH2 a:hover {
+    color: #000000;
+}
+.widgetWinbitsMain .miCuenta-tab {
+    padding: 20px 0;
+}
+.widgetWinbitsMain .miCuenta-linktabs {
+    border-bottom: 1px solid #b3b3b3;
+    margin: 0;
+    padding: 5px 10px 20px 10px;
+}
+.widgetWinbitsMain .miCuenta-linktabs ul {
+    margin: 0;
+    padding: 0;
+}
+.widgetWinbitsMain .miCuenta-linktabs li {
+    list-style: none;
+    display: inline-block;
+    vertical-align: middle;
+    width: auto;
+    *display: inline;
+    /* IE7 inline-block hack */
+    zoom: 1;
+    margin: 0;
+    padding: 0;
+}
+.widgetWinbitsMain .miCuenta-linktabs a {
+    color: #000000;
+    font-size: 12px;
+    padding-right: 30px;
+    text-decoration: none;
+    font-family: 'OmnesMedium', Arial;
+    font-style: normal;
+    font-weight: normal;
+}
+.widgetWinbitsMain .miCuenta-linktabs a:hover {
+    color: #074ae7;
+    text-decoration: underline;
+}
+.widgetWinbitsMain .miCuenta-linktabs .tabSelected a {
+    text-decoration: underline !important;
+}
+.widgetWinbitsMain .finalHistory {
+    margin-bottom: 30px;
+}
+.widgetWinbitsMain .miCuenta-history {
+    display: block !important;
+}
+.widgetWinbitsMain .miCuenta-history a {
+    color: #6e99fc;
+    font-size: 12px;
+    line-height: 20px;
+    text-decoration: underline;
+}
+.widgetWinbitsMain .miCuenta-history a:hover {
+    color: #000000;
+}
+.widgetWinbitsMain .miCuenta-history .column {
+    min-height: 50px;
+    padding-bottom: 0;
+}
 .widgetWinbitsMain .fixed {
     background: #ffffff;
     padding: 35px 0 0 0;
@@ -5577,6 +5776,14 @@ main {
 }
 .widgetWinbitsMain .historical-select {
     margin: 20px 0 15px 20px;
+}
+.widgetWinbitsMain .historical-select .select-div {
+    margin: 10px;
+}
+.widgetWinbitsMain .historical-select .select-input {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    min-width: 100px;
 }
 .widgetWinbitsMain .historical {
     /*padding: 115px 0 30px 0;*/
@@ -7211,24 +7418,30 @@ main {
 }
 .oldHistory h3 {
     font-size: 18px !important;
-    margin: 20px 0 !important;
+    margin: 30px 10px !important;
+    font-family: 'OmnesLight', Arial;
+    font-style: normal;
+    font-weight: normal;
 }
 .oldHistory p {
+    margin: 10px;
+}
+.oldHistory .oldHistory-txt {
+    font-size: 15px;
     margin: 10px;
 }
 .oldHistory .dataTable {
     width: 940px;
 }
 .oldHistory .dataTable-fila {
-    padding: 20px 0 20px 30px;
+    padding: 20px 0;
 }
 .oldHistory .dataTable-fila:first-child {
     border-top: none;
 }
 .oldHistory .dataTable-header {
-    border-top: 1px solid #e6e6e6;
     border-bottom: 1px solid #e6e6e6;
-    padding-left: 0;
+    padding-left: 10px !important;
 }
 .oldHistory .dataTable-fila {
     border-top: none !important;
@@ -7434,7 +7647,7 @@ main {
 .msie1 .checkout-container,
 .msie10 .checkout-container,
 .msie11 .checkout-container {
-    margin-top: -80px;
+    margin-top: -120px;
 }
 .msie1 .switchUser .iconFont-close,
 .msie10 .switchUser .iconFont-close,
