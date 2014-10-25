@@ -4465,10 +4465,10 @@ main {
     filter: alpha(opacity=100);
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivLeft a {
-    display: block;
     float: left;
     margin-left: -60px;
     overflow: hidden;
+    line-height: 67px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivLeft h3 {
     font-size: 11px;
@@ -4547,7 +4547,7 @@ main {
     font-size: 14px;
     display: inline-block;
     vertical-align: top;
-    width: 225px;
+    width: 210px;
     *display: inline;
     /* IE7 inline-block hack */
     zoom: 1;
@@ -4560,9 +4560,6 @@ main {
     position: absolute;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivLeft .imgItem {
-    float: left;
-    margin-right: 7px;
-    height: 67px;
     width: 52px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivLeft .jspVerticalBar {
@@ -4615,6 +4612,8 @@ main {
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivLeft .iconFont-trash {
     font-size: 18px;
+    line-height: 20px;
+    text-decoration: none;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivRight {
     background: #e2dfd3;
@@ -4885,6 +4884,7 @@ main {
     width: 130px;
 }
 .mc-noitems-container .wrapper {
+    height: 100% !important;
     padding-left: 590px !important;
     width: 130px !important;
 }
