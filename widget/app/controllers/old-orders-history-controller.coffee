@@ -13,7 +13,10 @@ module.exports = class OldOrdersHistoryController extends LoggedInController
   index: ->
     console.log ["old-orders-view"]
     if mediator.data.get 'old-orders'
+      $loginData = mediator.data.get 'login-data'
       @model=new OldOrdersHistory(orders: mediator.data.get 'old-orders')
+      @model.set 'pendingOrderCount', $loginData.profile.pendingOrdersCount
+      @model.set 'bitsTotal', $loginData.bitsBalance
       @view=new OldOrdersHistoryView  model: @model
     else
       utils.redirectTo controller: 'shipping-order-history', action:'index'
