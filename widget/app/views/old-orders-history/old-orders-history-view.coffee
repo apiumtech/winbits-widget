@@ -17,14 +17,12 @@ module.exports = class OldOrdersHistoryView extends View
   initialize:()->
     super
     $('#wbi-my-account-div').slideUp()
-    $loginData = mediator.data.get 'login-data'
-    @model.set 'bitsTotal', $loginData.bitsBalance
-    @model.set 'pendingOrderCount', $loginData.profile.pendingOrdersCount
     @delegate 'click', '#wbi-shipping-order-link', @redirectToShippingOrderHistory
     @delegate 'click', '#wbi-shipping-order-link-text', @redirectToShippingOrderHistory
     @delegate 'click', '#wbi-old-orders-history-btn-back', @backToVertical
     @delegate 'click', '.wbc-old-orders-coupons', @findAndRedirectCoupon
     utils.replaceVerticalContent('.widgetWinbitsMain')
+    @render()
 
   attach: ->
     super
