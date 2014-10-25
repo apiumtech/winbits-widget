@@ -368,7 +368,7 @@ _(utils).extend Winbits.utils,
     , -> console.log 'Unable to save ApiToken :('
 
   deleteApiToken: ->
-    if( hasLocalStorage() )
+    if( utils.hasLocalStorage() )
       localStorage.removeItem(env.get('api-token-name'))
     else
       utils.deleteCookie(env.get('api-token-name'))
