@@ -356,14 +356,22 @@ _(utils).extend Winbits.utils,
 
   saveApiToken: (apiToken) ->
     mediator.data.get('login-data').apiToken = apiToken
-    localStorage.setItem(env.get('api-token-name'), apiToken)
+    if( utils.hasLocalStorage() )
+      console.log 'Utils: utilizando local storge'
+      localStorage.setItem(env.get('api-token-name'), apiToken)
+    else
+      console.log 'local sotrage no disponible, se utilizaran cookies'
+      utils.setCookie( env.get('api-token-name'), apiToken, 7) 
 
     rpc.saveApiToken apiToken, ->
       console.log 'ApiToken saved :)'
     , -> console.log 'Unable to save ApiToken :('
 
   deleteApiToken: ->
-    localStorage.removeItem(env.get('api-token-name'))
+    if( hasLocalStorage() )
+      localStorage.removeItem(env.get('api-token-name'))
+    else
+      utils.deleteCookie(env.get('api-token-name'))
 
   redirectTo: ->
     [].push.apply(arguments,[{},replace:yes])
