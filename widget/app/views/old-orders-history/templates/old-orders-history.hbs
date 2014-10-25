@@ -3,61 +3,65 @@
     <div class="wb-history-header"></div>
   </div>
 </div>
-<div class="oldHistory">
-  <div class="wrapper positionRelative">
-    <h2 class="winbitsH2">Historial de compras <small>(Antes del 29 de Septiembre de 2014)</small></h2>
-  </div>
-    <div class="wrapper">
-      <p class="oldHistory-txt">Hemos mudado nuestra plataforma, pero conservamos para tí el registro de  tus compras y cupones. En este listado podrás consultarlos tal y como lo hacías en nuestra anterior sitio.</p>
-      <h3>PEDIDOS HASTA EL 29-SEPTIEMBRE-2014</h3>
-        <div class="dataTable">
-          <div class="dataTable-header">
-            <span class="dataTable-old-detail">DETALLE DE LA ORDEN</span>
-            <span class="dataTable-old-status">ESTATUS</span>
-            <span class="dataTable-old-item">ITEM</span>
-            <span class="dataTable-old-desc">DESCRIPCIÓN</span>
-          </div>
+<div class="wrapper">
 
-          {{#if orders}}
-            {{#each orders}}
-                <div class="dataTable-fila">
-
-                    <div class="dataTable-old-detail">
-                        <p>Orden: {{orderNumber}}</p>
-                        <p>Fecha de compra: {{toDefaultDateFormat paidDate}}</p>
-                        <p>Total: {{formatCurrency total}}</p>
-                    </div>
-
-                    <div class="dataTable-old-status">
-                        <p>{{shippingStatusMessage}}</p>
-                    </div>
-
-                    <div class="dataTable-old-item">
-                        {{#each skus}}
-                          <img src="{{getUrl url ext}}" width="80" alt="{{name}}">
-                        {{/each}}
-                    </div>
-
-                    <div class="dataTable-old-desc">
-                      {{#each skus}}
-                        {{#unless coupons}}
-                        <p>{{name}}</p>
-                        {{#each attributes}}
-                          <p>{{attrName}}:{{label}}</p>
-                        {{/each}}
-                        <p>{{{shortDescription}}}</p>
-                        <p>Fecha estimada de entrega: {{toDefaultDateFormat dateDelivery}}</p>
-                        {{else}}
-                          <a data-detailid="{{orderDetailId}}" data-ordernumber="{{../../orderNumber}}" class="wbc-old-orders-coupons" href="#"> Ver cupones </a>
-                        {{/unless}}
-
-                      {{/each}}
-                    </div>
-
-                </div>
-            {{/each}}
-          {{/if}}
-
+      <div class="oldHistory">
+        <div class="wrapper positionRelative">
+          <h2 class="winbitsH2">Historial de compras <small>(Antes del 29 de Septiembre de 2014)</small></h2>
         </div>
-    </div>
+          <div class="wrapper">
+            <p class="oldHistory-txt">Hemos mudado nuestra plataforma, pero conservamos para tí el registro de  tus compras y cupones. En este listado podrás consultarlos tal y como lo hacías en nuestra anterior sitio.</p>
+            <h3>PEDIDOS HASTA EL 29-SEPTIEMBRE-2014</h3>
+              <div class="dataTable">
+                <div class="dataTable-header">
+                  <span class="dataTable-old-detail">DETALLE DE LA ORDEN</span>
+                  <span class="dataTable-old-status">ESTATUS</span>
+                  <span class="dataTable-old-item">ITEM</span>
+                  <span class="dataTable-old-desc">DESCRIPCIÓN</span>
+                </div>
+
+                {{#if orders}}
+                  {{#each orders}}
+                      <div class="dataTable-fila">
+
+                          <div class="dataTable-old-detail">
+                              <p>Orden: {{orderNumber}}</p>
+                              <p>Fecha de compra: {{toDefaultDateFormat paidDate}}</p>
+                              <p>Total: {{formatCurrency total}}</p>
+                          </div>
+
+                          <div class="dataTable-old-status">
+                              <p>{{shippingStatusMessage}}</p>
+                          </div>
+
+                          <div class="dataTable-old-item">
+                              {{#each skus}}
+                                <img src="{{getUrl url ext}}" width="80" alt="{{name}}">
+                              {{/each}}
+                          </div>
+
+                          <div class="dataTable-old-desc">
+                            {{#each skus}}
+                              {{#unless coupons}}
+                              <p>{{name}}</p>
+                              {{#each attributes}}
+                                <p>{{attrName}}:{{label}}</p>
+                              {{/each}}
+                              <p>{{{shortDescription}}}</p>
+                              <p>Fecha estimada de entrega: {{toDefaultDateFormat dateDelivery}}</p>
+                              {{else}}
+                                <a data-detailid="{{orderDetailId}}" data-ordernumber="{{../../orderNumber}}" class="wbc-old-orders-coupons" href="#"> Ver cupones </a>
+                              {{/unless}}
+
+                            {{/each}}
+                          </div>
+
+                      </div>
+                  {{/each}}
+                {{/if}}
+
+              </div>
+          </div>
+      </div>
+      <input id="wbi-old-orders-history-btn-back" type="submit" value="Volver al sitio" class="btn btnBackToSite">
 </div>
