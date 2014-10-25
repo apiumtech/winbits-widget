@@ -300,7 +300,7 @@ _(utils).extend Winbits.utils,
     options.context ?= @
     options.onClosed ?= $.noop
     options.title ?= 'Mensaje'
-    options.icon ?="icontFont-question"
+    options.icon ?="iconFont-question"
     options.acceptAction ?= @closeMessageModal
     options.modal ?= no
     options.acceptAction = $.proxy(options.acceptAction, options.context)

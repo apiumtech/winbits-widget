@@ -3556,7 +3556,7 @@ main {
 .column .divBirthday label {
     padding-right: 8px;
     padding-top: 10px;
-    width: 66px;
+    width: 55px;
 }
 .column .divGender {
     font-size: 11px;
@@ -4265,6 +4265,10 @@ main {
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .wb-micuenta-profile .select-div .select-ul {
     margin-top: -1px !important;
     width: 173px;
+}
+.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .wb-micuenta-profile .editBtn {
+    position: relative;
+    width: auto;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .wb-micuenta-mailing label {
     padding: 3px 0 2px 3px;
