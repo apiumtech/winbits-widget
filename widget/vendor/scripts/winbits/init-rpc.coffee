@@ -16,15 +16,6 @@ timeoutDeferred = (deferred, timeout = 60000) ->
   ,timeout
   deferred
 
-#checkLocalStorage
-hasLocalStorage= ()->
-  try
-    localStorage.setItem 'test', 'test'
-    return true
-  catch e
-    return false;
-
-
 # Winbits promises
 loadAppScript = () ->
   deferred = new $.Deferred()
@@ -56,9 +47,6 @@ if window.wbSkipRPC
     rpcApi[key] = $.noop
   Winbits.env.set('rpc', rpcApi)
 else
-    console.log ["Has localStorage", hasLocalStorage()]
-  #if(hasLocalStorage())
-    #localStorage.removeItem('test')
     verifyingVerticalData = new $.Deferred().done (data) ->
       console.log 'Vertical data verified :)'
       env = Winbits.env
@@ -84,7 +72,6 @@ else
     verifyingLoginData = new $.Deferred().done (data) ->
       console.log 'Login data verified :)'
       if $.isEmptyObject data.response
-        #localStorage.removeItem Winbits.env.get 'api-token-name'
         Winbits.env.get('rpc').deleteApiToken()
       else
         Winbits.env.set 'login-data', data.response
