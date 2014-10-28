@@ -452,11 +452,10 @@ _(utils).extend Winbits.utils,
 
   findCartItemsInResponse:(cartItemsCampaign, responseCartDetail)->
    found=[]
-   responseCartDetail.forEach(
-     (cartDetail)->
-        _.find(cartItemsCampaign,
-          (cartItem)->
-            found.push(cartItem) if cartDetail.skuProfile.id == cartItem.skuProfileId))
+   for cartDetail in responseCartDetail
+     _.find(cartItemsCampaign,
+      (cartItem)->
+        found.push(cartItem) if cartDetail.skuProfile.id == cartItem.skuProfileId)
    found
 
   toCartItem: (cartDetail) ->

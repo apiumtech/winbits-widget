@@ -31,11 +31,17 @@ _(cartUtils).extend
     .fail(@showCartErrorMessage)
 
   validateBits:(cartItems)->
-    $bitsList = cartItems.filter (x)->x.bits
+    $bitsList=[]
+    for cartItem in cartItems
+      if cartItem.bits
+        $bitsList.push(cartItem.bits)
     if $bitsList.length > 0
       $bitsBalance = parseInt($('#wbi-my-bits').text().toString().replace(/\,/g,''))
       $bitsList = ((if cart.bits then cart.bits else 0) for cart in cartItems)
-      $bits = $bitsList.reduce (t, s) -> t.bits + s.bits
+      $bits=0
+      for bits in $bitsList
+        $bits+=bits
+      console.log ["Bits reduce", $bits]
       if($bits != 0 && $bitsBalance < $bits )
         cartItems = (for cartItem in cartItems
           delete cartItem.bits
@@ -44,8 +50,6 @@ _(cartUtils).extend
         if $bitsBalance
           cartItems[0].bits = $bitsBalance
     cartItems
-
-
 
   publishCartChangedEvent: (data, cartItems)->
     mediator.data.set( 'bits-to-cart',data.response.bitsTotal)
@@ -148,7 +152,6 @@ _(cartUtils).extend
       headers:
         'Accept-Language': 'es'
         'Content-Type': 'application/json;charset=utf-8'
-
     requestOptions = $.extend({}, defaults, options)
     requestOptions.headers = $.extend({}, defaults.headers, options.headers)
     requestOptions
@@ -161,9 +164,6 @@ _(cartUtils).extend
 
   deleteCartItemFail: ->
     console.log ['error en la api']
-
-  transferVirtualCampaigns: (cartDetails) ->
-    vCampaigns = JSON.parse mediator.data.get('virtual-campaigns')
 
   applyDeleteCartItemRequestDefaults: (options = {}) ->
     defaults =
