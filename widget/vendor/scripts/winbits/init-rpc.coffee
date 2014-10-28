@@ -72,6 +72,12 @@ else
     verifyingLoginData = new $.Deferred().done (data) ->
       console.log 'Login data verified :)'
       if $.isEmptyObject data.response
+
+        if( Winbits.utils.hasLocalStorage() )
+          localStorage.removeItem Winbits.env.get 'api-token-name'
+        else
+          Winbits.utils.deleteCookie(Winbits.env.get('api-token-name'))
+
         Winbits.env.get('rpc').deleteApiToken()
       else
         Winbits.env.set 'login-data', data.response
