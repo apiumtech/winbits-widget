@@ -2,6 +2,7 @@ View = require 'views/base/view'
 template = require 'views/templates/checkout/checkout-site'
 util = require 'lib/util'
 config = require 'config'
+clock = require 'lib/clock'
 
 # Site view is a top-level view which is bound to body.
 module.exports = class CheckoutSiteView extends View
@@ -23,6 +24,7 @@ module.exports = class CheckoutSiteView extends View
     @delegate 'click', '#wbi-winbits-logo', @onWinbitsLogoClick
     @delegate 'click', '.expire-close-modal', @closeExpireOrderModal
     @delegate 'click', '#expire-close-login', @closeExpireOrderModal
+    @delegate 'click', '#winbitsMainIcon', @leaveWinbits
 
 #    Winbits.$.validator.addMethod "cyberSourceCard", (value, element) ->
 #      @optional(element) or util.getCreditCardType(value) in ['visa', 'mastercard']
@@ -32,6 +34,13 @@ module.exports = class CheckoutSiteView extends View
     event?.preventDefault()
     event?.stopPropagation()
     @$('.modal').modal 'hide'
+
+  leaveWinbits: (e) ->
+    orderId = Winbits.checkoutConfig.orderId
+    console.log "orderId: ", orderId
+    clock.expireOrder orderId
+    util.redirectToVertical(Winbits.checkoutConfig.verticalUrl)
+        
 
   showAddress: (e)->
     e.preventDefault()
