@@ -25,7 +25,7 @@ module.exports = class CartBitsView extends View
 
     debounceSlide = _.debounce( $.proxy((bits) ->
       @delay = no
-      emValue = parseInt($winbitsSlider.find(".slider-amount em").text().replace(",", ""))
+      emValue = parseInt($winbitsSlider.find(".slider-amount em").text().replace(/\,/g,''))
       if emValue is bits
         @updateBalanceValues($winbitsSlider, bits)
     , @),500)

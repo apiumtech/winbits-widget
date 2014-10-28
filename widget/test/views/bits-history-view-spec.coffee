@@ -2,6 +2,7 @@
 YourBitsHistoryView = require 'views/bits-history/bits-history-view'
 YourBitsHistory = require 'models/bits-history/bits-history'
 utils = require 'lib/utils'
+mediator = Winbits.Chaplin.mediator
 
 describe 'BitsHistoryViewSpec', ->
 
@@ -9,6 +10,12 @@ describe 'BitsHistoryViewSpec', ->
   YOUR_BITS_RESPONSE = '{"meta":{"status":200,"totalTransactions":5},"response":{"transactions":[{"amount":-300,"balance":200,"concept":"pago 2","dateCreated":"2014-05-16T13:39:06-05:00"},{"amount":-100,"balance":500,"concept":"pago 1","dateCreated":"2014-05-16T13:38:47-05:00"},{"amount":200,"balance":600,"concept":"test","expirationDate":{"class":"wslite.json.JSONObject$Null"},"dateCreated":"2014-05-16T13:37:35-05:00","activationDate":"2014-05-16T13:37:35-05:00"},{"amount":200,"balance":400,"concept":"test","expirationDate":{"class":"wslite.json.JSONObject$Null"},"dateCreated":"2014-05-16T13:37:28-05:00","activationDate":"2014-05-16T13:37:28-05:00"},{"amount":100,"balance":200,"concept":"Registro Completo","expirationDate":"2014-05-24T00:00:00-05:00","dateCreated":"2014-05-14T17:36:50-05:00","activationDate":"2014-05-14T00:00:00-05:00"}],"balance":200}}'
 
   beforeEach ->
+    @loginData =
+      apiToken: 'XXX'
+      profile: { name: 'Jorge', lastName:"Moreno", gender:'male', birthdate:'1988-11-11', pendingOrdersCount:'0'}
+      email: 'a@aa.aa'
+      bitsBalance:100
+    mediator.data.set 'login-data', @loginData
     @data= sinon.useFakeXMLHttpRequest()
     requests = @requests = []
     @data.onCreate = (data) -> requests.push(data)
@@ -25,7 +32,7 @@ describe 'BitsHistoryViewSpec', ->
     request = @requests[0]
     request.respond(200, { "Content-Type": "application/json" }, "")
     expect(@view.$('.historical')).to.exist
-    expect(@view.$('.addInfo').text()).to.equal 'No tienes movimientos de bits.'
+    expect(@view.$('.addInfo').text()).to.equal 'No tienes movimientos de Winbits.'
 
   it "should request get bits history", ->
     request = @requests[0]

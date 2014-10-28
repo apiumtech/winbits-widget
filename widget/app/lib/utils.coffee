@@ -300,7 +300,7 @@ _(utils).extend Winbits.utils,
     options.context ?= @
     options.onClosed ?= $.noop
     options.title ?= 'Mensaje'
-    options.icon ?="icontFont-question"
+    options.icon ?="iconFont-question"
     options.acceptAction ?= @closeMessageModal
     options.modal ?= no
     options.acceptAction = $.proxy(options.acceptAction, options.context)
@@ -356,14 +356,22 @@ _(utils).extend Winbits.utils,
 
   saveApiToken: (apiToken) ->
     mediator.data.get('login-data').apiToken = apiToken
-    localStorage.setItem(env.get('api-token-name'), apiToken)
+    if( utils.hasLocalStorage() )
+      console.log 'Utils: utilizando local storge'
+      localStorage.setItem(env.get('api-token-name'), apiToken)
+    else
+      console.log 'local sotrage no disponible, se utilizaran cookies'
+      utils.setCookie( env.get('api-token-name'), apiToken, 7) 
 
     rpc.saveApiToken apiToken, ->
       console.log 'ApiToken saved :)'
     , -> console.log 'Unable to save ApiToken :('
 
   deleteApiToken: ->
-    localStorage.removeItem(env.get('api-token-name'))
+    if( utils.hasLocalStorage() )
+      localStorage.removeItem(env.get('api-token-name'))
+    else
+      utils.deleteCookie(env.get('api-token-name'))
 
   redirectTo: ->
     [].push.apply(arguments,[{},replace:yes])
@@ -452,11 +460,10 @@ _(utils).extend Winbits.utils,
 
   findCartItemsInResponse:(cartItemsCampaign, responseCartDetail)->
    found=[]
-   responseCartDetail.forEach(
-     (cartDetail)->
-        _.find(cartItemsCampaign,
-          (cartItem)->
-            found.push(cartItem) if cartDetail.skuProfile.id == cartItem.skuProfileId))
+   for cartDetail in responseCartDetail
+     _.find(cartItemsCampaign,
+      (cartItem)->
+        found.push(cartItem) if cartDetail.skuProfile.id == cartItem.skuProfileId)
    found
 
   toCartItem: (cartDetail) ->

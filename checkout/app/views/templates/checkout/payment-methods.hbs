@@ -29,10 +29,10 @@
         <span><strong>No de tarjeta:</strong> XXXX-XXXXXX-X{{cardNumber}}</span>
         <span><strong>Referencia bancaria:</strong> {{receiptNumber}}</span>
       {{/with}}
-      <span><strong>Monto pagado:</strong> ${{payment.amount}}</span>
+      <span><strong>Monto pagado:</strong> {{formatCurrency payment.amount}}</span>
       {{#isMSIPayment payment}}
         <span><strong>Mensualidades sin intereses:</strong> {{numberOfPayments}}</span>
-        <span><strong>Monto mensual a pagar:</strong> ${{monthlyPayment}}</span>
+        <span><strong>Monto mensual a pagar:</strong> ${{formatCurrency monthlyPayment}}</span>
       {{/isMSIPayment}}
     </address>
   {{/compare}}
@@ -124,7 +124,7 @@
   {{/if}}
 
   </ul>
-  <input type="submit" class="btn btnCheckout" value="Continuar" id="wbi-card-token-payment-continue-btn">
+  <input type="submit" class="btn btnCheckout" value="Pagar" id="wbi-card-token-payment-continue-btn">
 </div>
 
 {{#methods}}
@@ -133,14 +133,14 @@
         <ul>
           <li>
             <span class="cashIcon cashEmail"></span>
-            <p>Comprar y recibir mi ficha de pago</p>
+            <p>Descarga e imprime tu ficha de pago</p>
           </li>
           <li>
             <span class="cashIcon cashBank"></span>
             <p>Acude a tu sucursal HSBC. Realiza tu pago a la cuenta y número de referencia</p>
           </li>
         </ul>
-        <a href="#" class="btn submitOrder" id="submit-{{identifier}}">Pedir mi número de referencia</a>
+        <a href="#" class="btn submitOrder" id="submit-{{identifier}}">Comprar y recibir mi ficha de pago</a>
         <a href="#" class="linkBack"><em class="icon backBtn"></em> Regresar</a>
       </div>
    {{/compare}}
@@ -287,9 +287,9 @@
   {{#compare identifier "user.bits"}}
           <div class="checkoutPaymentBits">
             <h3>Concluye tu compra con bits</h3>
-            <p>Al hacer clic en "CONTINUAR" acepto haber leído y comprendido los <a href="#">Términos y Condiciones</a></p>
+            <p>Al hacer clic en "Pagar" acepto haber leído y comprendido los <a href="#">Términos y Condiciones</a></p>
             <span class="icon bitsMoney"></span>
-            <input type="button" value="Continuar" class="btn submitOrder" id="submit-{{identifier}}">
+            <input type="button" value="Pagar" class="btn submitOrder" id="submit-{{identifier}}">
             <!--<a href="#" class="linkBack"><em class="icon backBtn"></em> Regresar</a>-->
           </div>
   {{/compare}}

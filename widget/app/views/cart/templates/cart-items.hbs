@@ -13,9 +13,9 @@
                 <option value="{{value}}" {{#compare value ../quantity}}selected{{/compare}}>{{text}}</option>
                 {{/eachOption}}
             </select>
-            <p class="priceItem wbc-item-price">${{getItemTotalPrice quantity skuProfile.price}}</p>
+            <p class="priceItem wbc-item-price">{{getItemTotalPrice quantity skuProfile.price}}</p>
             <span class="iconVertical-t vertical{{skuProfile.vertical.id}} wbc-item-vertical-logo" title="{{skuProfile.vertical.name}}"></span>
-            <a href="#" class="iconFont-close wbc-item-delete-link" title="Eliminar"></a>
+            <a href="#" class="iconFont-trash wbc-item-delete-link" title="Eliminar"></a>
         </li>
         {{/each}}
     </ul>

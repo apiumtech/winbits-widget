@@ -73,9 +73,6 @@ describe 'CartPaymentMethodsViewSpec', ->
 
   it 'Render payment methods ', ->
     expect(@view.$('.iconFont-paypal')).to.exist
-    expect(@view.$('.iconFont-amex')).to.exist
-    expect(@view.$('.iconFont-visa')).to.exist
-    expect(@view.$('.iconFont-mastercard')).to.exist
     expect(@view.$('.iconFont-billete')).to.not.exist
 
 
