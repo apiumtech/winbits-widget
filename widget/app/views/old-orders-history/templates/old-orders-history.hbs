@@ -1,22 +1,24 @@
-<div class="wrapper historical">
-      <div class="wrapper positionRelative">
-          <a id="wbi-shipping-order-link" class="oldHistory-btn btn btnCart">Ver el nuevo <strong>Historial de Compras</strong></a>
-          <h2 class="winbitsH2">Historial de Compras Anterior</h2>
-      </div>
+<div class="wrapper">
+  <div class="miCuenta-tabs">
+    <div class="wb-history-header"></div>
+  </div>
+</div>
+<div class="wrapper">
 
       <div class="oldHistory">
+        <div class="wrapper positionRelative">
+          <h2 class="winbitsH2">Historial de compras <small>(Antes del 29 de Septiembre de 2014)</small></h2>
+        </div>
           <div class="wrapper">
-              <p>Hemos mudado nuestra plataforma, pero conservamos para tí el registro de  tus compras y cupones. En este listado podrás consultarlos tal y como lo hacías en nuestra anterior sitio.</p>
-              <p>Los nuevos pedidos los podrás consultar en la página de <a id="wbi-shipping-order-link-text" href="#">Historial de Pedidos</a></p>
-              <h3>MIS PEDIDOS HASTA EL 29/Septiembre/2014</h3>
+            <p class="oldHistory-txt">Hemos mudado nuestra plataforma, pero conservamos para tí el registro de  tus compras y cupones. En este listado podrás consultarlos tal y como lo hacías en nuestra anterior sitio.</p>
+            <h3>PEDIDOS HASTA EL 29-SEPTIEMBRE-2014</h3>
               <div class="dataTable">
-
-                  <div class="dataTable-header">
-                      <span class="dataTable-old-detail">DETALLE DE LA ORDEN</span>
-                      <span class="dataTable-old-status">ESTATUS</span>
-                      <span class="dataTable-old-item">ITEM</span>
-                      <span class="dataTable-old-desc">DESCRIPCIÓN</span>
-                  </div>
+                <div class="dataTable-header">
+                  <span class="dataTable-old-detail">DETALLE DE LA ORDEN</span>
+                  <span class="dataTable-old-status">ESTATUS</span>
+                  <span class="dataTable-old-item">ITEM</span>
+                  <span class="dataTable-old-desc">DESCRIPCIÓN</span>
+                </div>
 
                 {{#if orders}}
                   {{#each orders}}
@@ -61,5 +63,5 @@
               </div>
           </div>
       </div>
-      <input id="wbi-old-orders-history-btn-back" type="submit" value="Back to site" class="btn btnBackToSite">
+      <input id="wbi-old-orders-history-btn-back" type="submit" value="Volver al sitio" class="btn btnBackToSite">
 </div>

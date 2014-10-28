@@ -2,6 +2,7 @@
 
 View = require 'views/base/view'
 utils = require 'lib/utils'
+HistoryHeaderView = require 'views/account-history/history-header-view'
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 env = Winbits.env
@@ -21,6 +22,7 @@ module.exports = class OldOrdersHistoryView extends View
     @delegate 'click', '#wbi-old-orders-history-btn-back', @backToVertical
     @delegate 'click', '.wbc-old-orders-coupons', @findAndRedirectCoupon
     utils.replaceVerticalContent('.widgetWinbitsMain')
+    @render()
 
   attach: ->
     super
@@ -42,3 +44,6 @@ module.exports = class OldOrdersHistoryView extends View
     mediator.data.set 'old-coupon-data', order
     utils.redirectTo url: '/#wb-old-orders-coupon'
 
+  render: ()->
+    super
+    @subview('history-header-view', new HistoryHeaderView model: @model)

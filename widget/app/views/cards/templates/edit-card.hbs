@@ -28,8 +28,10 @@
             <option value="">País</option>
             <option value="MX" selected="">México</option>
         </select>
-        <input type="text" placeholder="Calle" class="inputMedium" name="street1" id="winbitsCreditCardStreet" maxlength="40" value="{{street1}}">
-        <input type="text" placeholder="Ext." class="inputSmall requiredField" name="number" id="winbitsCreditCardNum" data-requiredfield="Calle y Número Requeridos" maxlength="64" value="{{number}}">
+        <div>
+          <input type="text" placeholder="Calle" class="inputMedium" name="street1" id="winbitsCreditCardStreet" maxlength="40" value="{{street1}}">
+          <input type="text" placeholder="Ext." class="inputSmall requiredField" name="number" id="winbitsCreditCardNum" data-requiredfield="Calle y Número Requeridos" maxlength="50" value="{{number}}">
+        </div>
         {{!-- <input type="text" placeholder="Colonia" name="colony" id="winbitsCreditCardCol" class="requiredField" data-requiredfield="Colonia Requerido" maxlength="40" value="{{colony}}"> --}}
         <input type="text" placeholder="Ciudad" name="city" id="winbitsCreditCardCity" class="requiredField" data-requiredfield="Ciudad Requerido" maxlength="40" value="{{city}}">
         <input type="text" placeholder="Estado" name="state" id="winbitsCreditCardState" class="requiredField" data-requiredfield="Estado Requerido" maxlength="40" value="{{state}}">

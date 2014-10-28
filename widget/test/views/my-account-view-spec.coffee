@@ -32,7 +32,7 @@ describe 'MyAccountViewSpec', ->
   it 'my account view renderized', ->
     expect(@view.$el).to.has.classes(['dropMenu','miCuentaDiv'])
     expect(@view.$ 'input#wbi-my-account-logout-btn').to.exist
-    .and.to.has.class('btn').and.to.has.value("Log Out")
+    .and.to.has.class('btn').and.to.has.value("Salir")
     expect(@view.$ '#wbi-ajax-loading-layer').to.exist
 
   it 'do logout when clicked button', ->

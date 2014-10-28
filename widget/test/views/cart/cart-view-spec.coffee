@@ -113,10 +113,10 @@ describe 'CartViewSpec', ->
 
   it 'should not open cart if empty', ->
     @model.isCartEmpty.returns(yes)
-    $cartDrop = @view.$('#wbi-cart-drop').hide()
+    $cartDrop = @view.$('.mc-noitems-container')
 
     @view.$('#wbi-cart-info').click()
-    expect($cartDrop).to.not.be.displayed
+    expect($cartDrop).to.be.displayed
 
   it 'should open cart when items are added', sinon.test ->
     @stub(@view, 'openCart')

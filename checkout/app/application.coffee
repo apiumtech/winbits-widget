@@ -163,3 +163,22 @@ module.exports = class Application
 
       validMsiCard  
     ,"La tarjeta no soporta meses sin intereses.")
+
+
+
+    Winbits.$.fn.wbCreditCardDate = ()->
+      $this = Winbits.$(this)
+      month = $this.find('#expirationMonth').val()
+      month = '0' + month if month and month.length == 1
+      year = $this.find('#expirationYear').val()
+      "#{year}-#{month}"
+
+
+    Winbits.$.validator.addMethod 'validateCreditCardDate', (value, element)->
+      val = Winbits.$(element).parent().wbCreditCardDate()
+      if val >= moment().format('YY-MM')
+        Winbits.$(element).parent().find('.error').removeClass('error')
+        yes
+      else
+        no
+    , "Escribe una fecha válida."

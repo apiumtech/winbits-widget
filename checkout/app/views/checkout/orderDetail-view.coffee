@@ -17,7 +17,7 @@ module.exports = class OrderDetailView extends View
     that = @
     if Winbits.checkoutConfig.bitsBalance > 0
       debounceSlide = _.debounce( ($slider, $amountEm, bits) ->
-          emValue = parseInt($amountEm.text())
+          emValue = parseInt($amountEm.text().replace(/\,/g,''))
           if emValue is bits
             util.updateOrderDetailView(that.model, bits, $slider)
             that.updateOrderBits bits

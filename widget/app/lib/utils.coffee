@@ -300,7 +300,7 @@ _(utils).extend Winbits.utils,
     options.context ?= @
     options.onClosed ?= $.noop
     options.title ?= 'Mensaje'
-    options.icon ?="icontFont-question"
+    options.icon ?="iconFont-question"
     options.acceptAction ?= @closeMessageModal
     options.modal ?= no
     options.acceptAction = $.proxy(options.acceptAction, options.context)
@@ -452,11 +452,10 @@ _(utils).extend Winbits.utils,
 
   findCartItemsInResponse:(cartItemsCampaign, responseCartDetail)->
    found=[]
-   responseCartDetail.forEach(
-     (cartDetail)->
-        _.find(cartItemsCampaign,
-          (cartItem)->
-            found.push(cartItem) if cartDetail.skuProfile.id == cartItem.skuProfileId))
+   for cartDetail in responseCartDetail
+     _.find(cartItemsCampaign,
+      (cartItem)->
+        found.push(cartItem) if cartDetail.skuProfile.id == cartItem.skuProfileId)
    found
 
   toCartItem: (cartDetail) ->

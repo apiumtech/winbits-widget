@@ -2,7 +2,7 @@
         <thead>
         <tr>
             <th>TOTAL</th>
-            <th>BITS</th>
+            <th>WINBITS</th>
             <th>FECHA</th>
             <th>VENCIMIENTO</th>
             <th>CONCEPTO</th>
@@ -12,7 +12,7 @@
         {{#each transactions}}
             {{#compare @index 0}}
             <tr class="totalBits">
-                <td rowspan="20"><span class="iconFont-bit"></span> {{formatWithComma balance}} Bits</td>
+                <td rowspan="20"><span class="iconFont-bit"></span> {{formatWithComma balance}} Winbits</td>
                 {{#compare amount 0 operator=">"}}
                         <td><span class="iconFont-bit"></span> {{amount}} </td>
                 {{else}}
