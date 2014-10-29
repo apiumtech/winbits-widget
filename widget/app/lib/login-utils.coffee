@@ -16,7 +16,10 @@ _(loginUtils).extend
     Winbits.trigger 'loggedin', [_.clone loginData]
 
   applyLogout: (logoutData) ->
-    localStorage.clear()
+    if( utils.hasLocalStorage() )
+      localStorage.clear()
+    else
+      utils.deleteApiToken()
     mediator.data.clear()
     Winbits.env.get('rpc').logout ->
       console.log 'Winbits logout success :)'

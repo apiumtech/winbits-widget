@@ -4,14 +4,49 @@ DEFAULT_API_ERROR_MESSAGE = 'El servidor no está disponible, por favor inténta
 
 module.exports =
   $ : window.Winbits.$
+
+
+  setCookie : setCookie = (c_name, value, exdays) ->
+    exdays = exdays or 7
+    exdate = new Date()
+    exdate.setDate exdate.getDate() + exdays
+    c_value = escape(value) + ((if (exdays is null) then "" else "; path=/; expires=" + exdate.toUTCString()))
+    document.cookie = c_name + "=" + c_value
+
+  getCookieByName : getCookieByName = (c_name) ->
+    c_value = document.cookie
+    c_start = c_value.indexOf(" " + c_name + "=")
+    c_start = c_value.indexOf(c_name + "=")  if c_start is -1
+    if c_start is -1
+      c_value = null
+    else
+      c_start = c_value.indexOf("=", c_start) + 1
+      c_end = c_value.indexOf(";", c_start)
+      c_end = c_value.length  if c_end is -1
+      c_value = unescape(c_value.substring(c_start, c_end))
+    c_value
+
+  deleteCookie : (name) ->
+    document.cookie = name + "=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT"
+
+
   storeKey : (key, value) ->
-    localStorage[key] = value
+    try
+      localStorage[key] = value
+    catch e
+      setCookie(key, value, 7)
 
   retrieveKey : (key) ->
-    localStorage[key]
+    try
+      localStorage[key]
+    catch e
+      getCookieByName(key)
 
   deleteKey : (key) ->
-    localStorage.removeItem(key)
+    try
+      localStorage.removeItem(key)
+    catch e
+      deleteCookie(key)
 
   getUrlParams : ->
     vars = []

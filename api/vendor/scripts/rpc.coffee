@@ -8,14 +8,22 @@ DEFAULT_VIRTUAL_CART = '{"cartItems":[], "bits":0}'
 MILLIS_90_MINUTES = 1000 * 60 * 90
 
 getUTMsExpirationAware = ->
-  utmsParams = localStorage.getItem UTM_PARAMS_KEY
+  utmsParams = undefined
+  try
+    utmsParams = localStorage.getItem UTM_PARAMS_KEY
+  catch e
+    utmsParams = getCookieByName(UTM_PARAMS_KEY)
+
   if utmsParams
     utms = JSON.parse(utmsParams)
     expires = utms.expires ? 0
     delete utms.expires
     now = new Date().getTime()
     if expires < now
-      localStorage.removeItem UTM_PARAMS_KEY
+      try
+        localStorage.removeItem UTM_PARAMS_KEY
+      catch e
+        deleteCookie( UTM_PARAMS_KEY )
       utms = undefined
   utms
 
@@ -30,9 +38,40 @@ getCookie = () ->
     i++
   ""
 
+setCookie : setCookie = (c_name, value, exdays) ->
+  exdays = exdays or 7
+  exdate = new Date()
+  exdate.setDate exdate.getDate() + exdays
+  c_value = escape(value) + ((if (exdays is null) then "" else "; path=/; expires=" + exdate.toUTCString()))
+  document.cookie = c_name + "=" + c_value
+
+getCookieByName : getCookieByName = (c_name) ->
+  c_value = document.cookie
+  c_start = c_value.indexOf(" " + c_name + "=")
+  c_start = c_value.indexOf(c_name + "=")  if c_start is -1
+  if c_start is -1
+    c_value = null
+  else
+    c_start = c_value.indexOf("=", c_start) + 1
+    c_end = c_value.indexOf(";", c_start)
+    c_end = c_value.length  if c_end is -1
+    c_value = unescape(c_value.substring(c_start, c_end))
+  c_value
+
+deleteCookie : (name) ->
+  document.cookie = name + "=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT"
+
 isLocalStorageAvailable = () ->
   Modernizr.localStorage
 
+#checkLocalStorage
+hasLocalStorage= ()->
+  try
+    localStorage.setItem 'test', 'test'
+    localStorage.removeItem('test')
+    return true
+  catch e
+    return false;
 
 new easyXDM.Rpc({},
   local:
@@ -66,17 +105,32 @@ new easyXDM.Rpc({},
 
     getData: ->
       data = {}
-      apiToken = localStorage.getItem API_TOKEN_KEY
-      data.apiToken = apiToken  if apiToken
-      vcartToken = localStorage.getItem CART_TOKEN_KEY
-      vcampaignsToken = localStorage.getItem CAMPAIGN_TOKEN_KEY
-      console.log ['THE VCART', vcartToken, vcampaignsToken, window.location.href]
-      vcartToken = DEFAULT_VIRTUAL_CART unless vcartToken
-      localStorage.setItem CART_TOKEN_KEY, vcartToken
-      data.vcartToken = vcartToken
-      data.vcampaignsToken = vcampaignsToken
-      data.utms = getUTMsExpirationAware()
-      console.log ["W: The tokens >>>",data]
+
+      if( hasLocalStorage() )
+        apiToken = localStorage.getItem API_TOKEN_KEY
+        data.apiToken = apiToken  if apiToken
+        vcartToken = localStorage.getItem CART_TOKEN_KEY
+        vcampaignsToken = localStorage.getItem CAMPAIGN_TOKEN_KEY
+        console.log ['THE VCART', vcartToken, vcampaignsToken, window.location.href]
+        vcartToken = DEFAULT_VIRTUAL_CART unless vcartToken
+        localStorage.setItem CART_TOKEN_KEY, vcartToken
+        data.vcartToken = vcartToken
+        data.vcampaignsToken = vcampaignsToken
+        data.utms = getUTMsExpirationAware()
+        console.log ["W: The tokens >>>",data]
+      else
+        apiToken = getCookieByName(API_TOKEN_KEY)
+        data.apiToken = apiToken if apiToken
+        vcartToken = getCookieByName(CART_TOKEN_KEY)
+        vcampaignsToken = getCookieByName(CAMPAIGN_TOKEN_KEY)
+        console.log ['THE VCART', vcartToken, vcampaignsToken, window.location.href]
+        vcartToken = DEFAULT_VIRTUAL_CART unless vcartToken
+        setCookie( CART_TOKEN_KEY, vcartToken )
+        data.vcartToken = vcartToken
+        data.vcampaignsToken = vcampaignsToken
+        data.utms = getUTMsExpirationAware()
+        console.log ["W: The tokens >>>",data]
+      
       data
 
     saveApiToken: (apiToken) ->
@@ -84,27 +138,46 @@ new easyXDM.Rpc({},
         "API Token from vertical"
         apiToken
       ]
-      localStorage.setItem API_TOKEN_KEY, apiToken
+      if( hasLocalStorage() )
+        console.log 'Local storage Available'
+        localStorage.setItem API_TOKEN_KEY, apiToken
+      else
+        console.log 'Local Storage no disponible se utilizaran cookies'
+        setCookie(API_TOKEN_KEY, apiToken, 7)
+        
       return
 
     deleteApiToken: ->
-      localStorage.removeItem API_TOKEN_KEY
+      if( hasLocalStorage() )
+        localStorage.removeItem API_TOKEN_KEY
+      else
+        deleteCookie(API_TOKEN_KEY)
+	
       return
 
     storeVirtualCart: (vCart) ->
-      localStorage.setItem CART_TOKEN_KEY, vCart
+      if( hasLocalStorage() )
+        localStorage.setItem CART_TOKEN_KEY, vCart
+      else
+        setCookie(CART_TOKEN_KEY, vCart, 7)
       return
 
     storeVirtualCampaigns: (vCampaigns)->
-      localStorage.setItem CAMPAIGN_TOKEN_KEY, vCampaigns
+      if( hasLocalStorage() )
+        localStorage.setItem CAMPAIGN_TOKEN_KEY, vCampaigns
+      else
+        setCookie(CAMPAIGN_TOKEN_KEY, vCampaigns, 7)
       return
 
     logout: (facebookLogout) ->
       console.log "Winbits: Logging out..."
-      localStorage.removeItem API_TOKEN_KEY
-      localStorage.setItem CART_TOKEN_KEY, DEFAULT_VIRTUAL_CART
+      if( hasLocalStorage() )
+        localStorage.removeItem API_TOKEN_KEY
+        localStorage.setItem CART_TOKEN_KEY, DEFAULT_VIRTUAL_CART
+      else
+        deleteCookie(API_TOKEN_KEY)
+	setCookie(CART_TOKEN_KEY, DEFAULT_VIRTUAL_CART, 7)
       console.log "Wee do not log out facebook anymore!"
-      return
 
     facebookStatus: (success) ->
       console.log "About to call FB.getLoginStatus."
@@ -136,7 +209,10 @@ new easyXDM.Rpc({},
         "Storing UTMS"
         utms
       ]
-      localStorage.setItem UTM_PARAMS_KEY, JSON.stringify(utms)
+      if( hasLocalStorage() )
+        localStorage.setItem UTM_PARAMS_KEY, JSON.stringify(utms)
+      else
+        setCookie(UTM_PARAMS_KEY, JSON.stringify(utms), 7)
       successFn()
       return
 
@@ -146,7 +222,10 @@ new easyXDM.Rpc({},
 
     removeUTMs: (successFn, errorFn) ->
       console.log ["Removing UTMS"]
-      localStorage.removeItem UTM_PARAMS_KEY
+      if( hasLocalStorage() )
+        localStorage.removeItem UTM_PARAMS_KEY
+      else
+        deleteCookie(UTM_PARAMS_KEY)
 
   remote:
     request: {}
