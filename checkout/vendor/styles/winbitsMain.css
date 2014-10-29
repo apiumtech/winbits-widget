@@ -3361,145 +3361,148 @@ span.errorInputOK {
 .login .passwordHide {
   margin-left: 5px !important;
 }
+
 .select-div {
-  position: relative;
-  display: inline-block;
-  vertical-align: middle;
-  width: auto;
-  *display: inline;
-  /* IE7 inline-block hack */
-  zoom: 1;
-  margin: 0;
-  padding: 0;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    width: auto;
+    *display: inline;
+    /* IE7 inline-block hack */
+    zoom: 1;
+    margin: 0;
+    padding: 0;
 }
 .select-div.selectQuantity .select-div {
-  position: relative;
-  margin: 0 0 0 10px;
+    position: relative;
+    margin: 0 0 0 10px;
 }
 .select-div.selectQuantity .select-input {
-  font-size: 11px;
-  margin: 0;
-  padding: 1px 10px 1px 1px;
-  text-align: center;
-  width: 20px !important;
+    font-size: 11px;
+    min-width: 2px;
+    margin: 0;
+    padding: 1px 10px 1px 1px;
+    text-align: center;
+    width: auto !important;
 }
 .select-div.selectQuantity .select-trigger,
 .select-div.selectQuantity .iconFont-downmenu {
-  right: 3px;
+    right: 3px;
 }
 .select-div.selectQuantity .placeholder-span {
-  left: 9px;
-  top: 3px;
+    left: 9px;
+    top: 3px;
 }
 .select-div.selectQuantity .select-ul {
-  width: 25px !important;
+    width: 25px !important;
 }
 .select-div.selectQuantity .select-ul li {
-  color: #cccccc;
-  display: block;
-  border: none;
-  padding: 2px;
-  text-align: center;
+    color: #cccccc;
+    display: block;
+    border: none;
+    padding: 2px;
+    text-align: center;
 }
 .select-div input.select-input {
-  color: #1f1f1f;
+    color: #1f1f1f;
 }
 .select-div .select-disabled {
-  cursor: default;
-  opacity: 0.5;
-  filter: alpha(opacity=50);
+    cursor: default;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
 }
 .select-div .select-trigger {
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -o-user-select: none;
-  user-select: none;
-  position: absolute;
-  right: 7px;
-  top: 9px;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    position: absolute;
+    right: 7px;
+    top: 9px;
 }
 .select-div .iconFont-downmenu {
-  font-size: 10px !important;
-  line-height: 5px;
-  position: absolute;
-  right: 7px;
-  top: 50%;
-  margin-top: -2px;
-  cursor: pointer;
+    font-size: 10px !important;
+    line-height: 5px;
+    position: absolute;
+    right: 7px;
+    top: 50%;
+    cursor: pointer;
 }
 .select-div .iconFont-downmenu:hover {
-  opacity: 0.5;
-  filter: alpha(opacity=50);
+    opacity: 0.5;
+    filter: alpha(opacity=50);
 }
 .select-div .select-ul {
-  background: #ffffff;
-  border: 1px solid #e6e6e6;
-  display: none;
-  margin: -3px 0 0 0 !important;
-  position: absolute;
-  width: 169px;
-  z-index: 2;
-  -webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
-  -khtml-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
-  -ms-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
-  -o-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
-  margin: 0;
-  padding: 0;
+    background: #ffffff;
+    border: 1px solid #e6e6e6;
+    display: none;
+    margin: -3px 0 0 0 !important;
+    position: absolute;
+    width: 169px;
+    z-index: 2;
+    -webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
+    -khtml-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
+    -ms-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
+    -o-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
+    margin: 0;
+    padding: 0;
 }
 .select-div .select-ul li {
-  color: #737373;
-  background: #ffffff;
-  cursor: pointer;
-  display: block;
-  margin: 0;
-  padding: 0;
-  padding: 5px !important;
+    color: #737373;
+    background: #ffffff;
+    cursor: pointer;
+    display: block;
+    margin: 0;
+    padding: 0;
+    padding: 5px !important;
 }
 .select-div .select-ul li:hover {
-  background: #4d4d4d;
-  color: #ffffff;
+    background: #4d4d4d;
+    color: #ffffff;
 }
 .select-div .select-hidden {
-  position: absolute;
-  visibility: hidden;
+    position: absolute;
+    visibility: hidden;
 }
 .select-div .select-input {
-  background: #ffffff;
-  border: 1px solid #e6e6e6;
-  color: #a6a6a6;
-  padding: 3px 32px 3px 5px;
-  font-family: 'HelveticaNeueRoman', Arial;
-  font-style: normal;
-  font-weight: normal;
-  -webkit-border-radius: 2px;
-  -khtml-border-radius: 2px;
-  -moz-border-radius: 2px;
-  -ms-border-radius: 2px;
-  -o-border-radius: 2px;
-  border-radius: 2px;
-  -webkit-box-shadow: none;
-  -khtml-box-shadow: none;
-  -moz-box-shadow: none;
-  -ms-box-shadow: none;
-  -o-box-shadow: none;
-  box-shadow: none;
-  display: inline-block !important;
-  vertical-align: middle !important;
-  width: 132px !important;
-  *display: inline !important;
-  /* IE7 inline-block hack */
-  zoom: 1 !important;
+    background: #ffffff;
+    border: 1px solid #e6e6e6;
+    color: #a6a6a6;
+    padding: 3px 32px 3px 5px;
+    font-family: 'HelveticaNeueRoman', Arial;
+    font-style: normal;
+    font-weight: normal;
+    -webkit-border-radius: 2px;
+    -khtml-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+    border-radius: 2px;
+    -webkit-box-shadow: none;
+    -khtml-box-shadow: none;
+    -moz-box-shadow: none;
+    -ms-box-shadow: none;
+    -o-box-shadow: none;
+    box-shadow: none;
+    display: inline-block;
+    vertical-align: middle;
+    width: auto;
+    *display: inline;
+    /* IE7 inline-block hack */
+    zoom: 1;
 }
 .select-div .select-input:hover {
-  border-color: #363636;
+    border-color: #363636;
 }
 .select-div .select-active {
-  color: #1f1f1f;
+    color: #1f1f1f;
 }
+
+
 .shippingNewAddress .select-input,
 .creditcardNew .select-input {
   margin: 2px 0;
