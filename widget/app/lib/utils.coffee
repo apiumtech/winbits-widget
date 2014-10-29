@@ -424,6 +424,17 @@ _(utils).extend Winbits.utils,
     vcart = JSON.stringify vcart
     @saveVirtualCartInStorage(vcart)
 
+  getTotalBitsToVirtualCart:(cartItems, response) ->
+    bitsTotal=@getBitsToVirtualCart()
+    if response
+      for cartDetail in response
+        _.find(cartItems,
+          (cartItem)->
+            bitsTotal+=cartItem.bits if cartDetail.skuProfile.id == cartItem.skuProfileId and cartItem.bits)
+    vCart = JSON.parse(mediator.data.get('virtual-cart'))
+    vCart.bits = bitsTotal
+    mediator.data.set('virtual-cart',JSON.stringify(vCart))
+
   saveVirtualCartInStorage: (vcart = DEFAULT_VIRTUAL_CART)->
     mediator.data.set('virtual-cart', vcart)
     rpc.storeVirtualCart(vcart)

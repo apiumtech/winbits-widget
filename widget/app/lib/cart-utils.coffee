@@ -108,7 +108,10 @@ _(cartUtils).extend
   addToVirtualCartSuccess: (data, cartItems) ->
     utils.saveVirtualCart(data.response)
     utils.saveVirtualCampaignsInStorage(cartItems, data.response.cartDetails)
+    utils.getTotalBitsToVirtualCart(cartItems, data.response.cartDetails)
     @publishCartChangedEvent(data)
+
+
 
   transformCartItems: (cartItems) ->
     (@transformCartItem(x) for x in cartItems)
