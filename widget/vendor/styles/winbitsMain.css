@@ -3803,8 +3803,10 @@ main {
 }
 .widgetWinbitsHeader .knowmoreFolder .knowMoreMax h2 {
     color: #fef500;
-    font-size: 14px;
-    padding: 10px 0;
+    border-bottom: 1px solid #808080;
+    font-size: 19px;
+    margin: 0 20px;
+    padding: 15px 0;
     text-align: center;
     font-family: 'OmnesLight', Arial;
     font-style: normal;
@@ -3874,7 +3876,7 @@ main {
 }
 .widgetWinbitsHeader .knowmoreFolder .knowMoreMax .knowMoreMax-buttons a .iconFont-video {
     font-size: 22px;
-    margin: -3px 8px 3px 0;
+    margin: -3px 0 3px 8px;
 }
 .widgetWinbitsHeader .knowmoreFolder .knowMoreMax .knowMoreMax-buttons a .iconFont-candado {
     font-size: 22px;
@@ -4206,6 +4208,10 @@ main {
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .creditcardNew textarea {
     width: 170px;
 }
+.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .shippingNewAddress .inputNumber,
+.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .creditcardNew .inputNumber {
+    width: 190px;
+}
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .shippingNewAddress .inputNumber input,
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .creditcardNew .inputNumber input {
     font-weight: normal;
@@ -4218,7 +4224,7 @@ main {
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .shippingNewAddress .logoCC,
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .creditcardNew .logoCC {
-    margin-left: 15px;
+    margin-left: 5px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .shippingNewAddress .columnLarge,
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .creditcardNew .columnLarge {
@@ -4239,20 +4245,21 @@ main {
     margin: 0 0 0 5px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .wb-micuenta-address .shippingNewAddress .select-input {
-    min-width: 133px;
+    min-width: 123px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .wb-micuenta-creditcard .creditcardNew .select-input {
-    min-width: 133px;
+    min-width: 123px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .wb-micuenta-creditcard .creditcardNew .inputMedium {
     width: 116px !important;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .wb-micuenta-creditcard .creditcardNew .inputSmall {
+    padding: 5px 3px;
     width: 34px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .wb-micuenta-creditcard .creditcardNew .divFechaExpiracion label {
     padding-left: 10px;
-    width: 90px;
+    width: 78px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .wb-micuenta-profile .select-div .select-input {
     font-size: 11px;
