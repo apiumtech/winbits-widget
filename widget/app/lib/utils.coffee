@@ -430,7 +430,7 @@ _(utils).extend Winbits.utils,
       for cartDetail in response
         _.find(cartItems,
           (cartItem)->
-            bitsTotal+=cartItem.bits if cartDetail.skuProfile.id == cartItem.skuProfileId and cartItem.bits)
+            bitsTotal+=parseInt(cartItem.bits) if cartDetail.skuProfile.id == cartItem.skuProfileId and cartItem.bits)
     vCart = JSON.parse(mediator.data.get('virtual-cart'))
     vCart.bits = bitsTotal
     mediator.data.set('virtual-cart',JSON.stringify(vCart))
@@ -440,7 +440,6 @@ _(utils).extend Winbits.utils,
     rpc.storeVirtualCart(vcart)
 
   saveVirtualCampaignsInStorage: (cartItemsCampaign,reponseCartDetail)->
-    console.log "SAVE VIRTUAL CART CAMPAIGNS"
     if reponseCartDetail
       campaignItems=[]
       campaignItems=(@toCampaign(x) for x in @findCartItemsInResponse(cartItemsCampaign,reponseCartDetail))
