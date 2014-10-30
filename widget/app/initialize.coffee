@@ -67,6 +67,12 @@ Winbits.like = (options) ->
   fn = socialUtils.like
   fn.call(socialUtils, options)
 
+Winbits.sumBits = (bits) ->
+  currentBits = parseInt(Winbits.$('.bits').text().toString().replace(',',''))
+  bitsBalance = currentBits + bits  
+  Winbits.$('.bits').text(parseInt(bitsBalance.toString().replace(/\,/g,'')))
+
+
 Winbits.execute = (queryString) ->
   params = utils.getURLParams(queryString)
   EventBroker.publishEvent params.code, params
