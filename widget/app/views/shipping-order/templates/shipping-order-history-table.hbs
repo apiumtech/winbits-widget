@@ -30,7 +30,7 @@
               <strong>{{name}}</strong>
               <strong>{{brand}}</strong>
               {{#compare attributeType 'HIDDEN'  operator="!="}}
-                <strong>{{attributeLabel}}: {{attributeName}}</strong>
+                <strong>{{attributeName}}: {{attributeLabel}}</strong>
               {{/compare}}
               {{#each attributes}}
                 {{#compare type 'HIDDEN'  operator="!="}}
