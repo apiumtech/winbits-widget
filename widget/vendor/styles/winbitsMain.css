@@ -3829,6 +3829,9 @@ main {
     /* IE7 inline-block hack */
     zoom: 1;
 }
+.widgetWinbitsHeader .knowmoreFolder .knowMoreMax .item2 h2 {
+    margin-top: -20px;
+}
 .widgetWinbitsHeader .knowmoreFolder .knowMoreMax .knowMoreMax-icons {
     height: 80px;
     overflow: hidden;
