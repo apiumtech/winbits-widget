@@ -5,6 +5,7 @@ utils = require 'lib/utils'
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 env = Winbits.env
+i=0
 
 module.exports = class EditShippingAddressView extends View
   container: '#wbi-edit-shipping-address-container'
@@ -18,7 +19,6 @@ module.exports = class EditShippingAddressView extends View
     super
 #    @$('.requiredField').requiredField()
     @$('#wbi-edit-shipping-address-form').customCheckbox()
-
     @$('[name=zipCodeInfo]').wblocationselect().on "change", $.proxy @setCityAndState, @
     @$('#wbi-edit-shipping-address-form').validate
       errorElement: 'span',
@@ -77,7 +77,12 @@ module.exports = class EditShippingAddressView extends View
       $form.valid()
 
   setCityAndState: ->
-     comboSelect = @$('select#wbi-shipping-address-zip-code-info')
+     comboSelect = @$('select#wbi-edit-shipping-address-zip-code-info')
+     comboSelect.attr("value","")
+     if i > 0
+       @$('#wbi-edit-shipping-address-zip-code-info').data('location', "")
+     else
+       i=1
      valSelected = comboSelect.val()
      if valSelected
        value = @selectZipCodeInfo(comboSelect, valSelected)
@@ -111,7 +116,7 @@ module.exports = class EditShippingAddressView extends View
       .always(@completeSaveEditShippingAddress)
 
   checkZipCodeInfo: ->
-    zipCodeInfo =@$('select#wbi-shipping-address-zip-code-info').wblocationselect('value')
+    zipCodeInfo =@$('select#wbi-edit-shipping-address-zip-code-info').wblocationselect('value')
     if zipCodeInfo.locationName
       @$('[name="location"]').val zipCodeInfo.locationName
 

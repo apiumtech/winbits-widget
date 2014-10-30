@@ -16,9 +16,9 @@
         </div>
         <div class="column noH3">
             <input type="text"  placeholder="Codigo Postal" name="zipCode" class="requiredField" data-requiredfield="Codigo Postal Requerido" maxlength="5" value={{zipCode}}>
-            <input type="text" placeholder="Estado" name="state" class="requiredField" data-requiredfield="Requerido" disabled="disabled" readonly="readonly" value={{state}}>
-            <input type="text" placeholder="Delegación o Municipio" name="county" class="requiredField" data-requiredfield="Requerido" disabled="disabled" readonly="readonly" value={{city}}>
-            <select id="wbi-shipping-address-zip-code-info" name="zipCodeInfo" class="select requiredField" data-requiredfield="Requerido" data-clase="selectRegister" value="{{#if zipCodeInfo}}{{zipCodeInfo.id}}{{/if}}"  {{#if location}}data-location="{{location}}"{{/if}}></select>
+            <input type="text" placeholder="Estado" name="state" class="requiredField" data-requiredfield="Requerido" disabled="disabled" readonly="readonly">
+            <input type="text" placeholder="Delegación o Municipio" name="county" class="requiredField" data-requiredfield="Requerido" disabled="disabled" readonly="readonly">
+        <select id="wbi-edit-shipping-address-zip-code-info" name="zipCodeInfo" class="select requiredField" data-requiredfield="Requerido" data-clase="selectRegister" value="{{#if zipCodeInfo}}{{zipCodeInfo.id}}{{/if}}" {{#if location}}data-location="{{location}}"{{/if}}></select>
         <input type="text" placeholder="Teléfono con lada" name="phone" class="requiredField" data-requiredfield="Telefono con LADA Requerido" maxlength="15" value="{{phone}}">
     </div>
         <div class="column columnLarge">
