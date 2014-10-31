@@ -40,8 +40,7 @@ _(cartUtils).extend
       $bitsList = ((if cart.bits then cart.bits else 0) for cart in cartItems)
       $bits=0
       for bits in $bitsList
-        $bits+=bits
-      console.log ["Bits reduce", $bits]
+        $bits+=parseInt(bits)
       if($bits != 0 && $bitsBalance < $bits )
         cartItems = (for cartItem in cartItems
           delete cartItem.bits

@@ -23,14 +23,13 @@
       {{#each details}}
           <div class="dataTable-item wbc-order-detail" data-id="{{orderDetailId}}" data-name="{{name}}" data-description="{{shortDescription}}">
               <div class="dataTable-photo">
-                  <img src="{{thumbnail.url}}" width="62" height="79"
-                       alt="{{name}}">
+                  <img src="{{thumbnail.url}}" width="62" alt="{{name}}">
               </div>
               <div class="dataTable-prod">
               <strong>{{name}}</strong>
               <strong>{{brand}}</strong>
               {{#compare attributeType 'HIDDEN'  operator="!="}}
-                <strong>{{attributeLabel}}: {{attributeName}}</strong>
+                <strong>{{attributeName}}: {{attributeLabel}}</strong>
               {{/compare}}
               {{#each attributes}}
                 {{#compare type 'HIDDEN'  operator="!="}}

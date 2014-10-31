@@ -46,6 +46,6 @@ module.exports = class LoggedInView extends View
   cashBackBitsChange:(cashback) ->
     if cashback > 0
       message = "¡Felicidades! Has ganado $#{cashback} bits por completar tu registro"
-      options = value : "Aceptar", title:"¡Registro completo!", onClosed:utils.redirectToLoggedInHome
+      options = icon:"iconFont-computer", value : "Aceptar", title:"¡Registro completo!", onClosed:utils.redirectToLoggedInHome
       utils.showMessageModal(message, options)
       @changeBitsValue()
