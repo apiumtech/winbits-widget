@@ -5,6 +5,7 @@ NewCardView = require 'views/cards/new-card-view'
 EditCardView = require 'views/cards/edit-card-view'
 Card = require 'models/cards/card'
 utils = require 'lib/utils'
+mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 DEFAULT_CARD_CLASS = 'carruselSCC-selected'
 
@@ -84,10 +85,33 @@ module.exports = class CardsView extends View
     @$el[state]('click', '.wbc-card', @clickOnCardHandler)
 
   showNewCardView: ->
-    newCardView = new NewCardView
+    newCard = @fillCardModelWithMain @model.get('cards')
+    newCardView = new NewCardView model: newCard
     @subview('new-card-view', newCardView)
     @$el.slideUp()
     newCardView.$el.slideDown()
+  
+  fillCardModelWithMain:(cards) ->
+    card = new Card()
+    mainAddress = mediator.data.get 'main-address'
+    if cards?.length == 0  and mainAddress isnt null
+      cardData =
+        firstName: mainAddress.firstName
+        lastName: @obtainFullLastName(mainAddress.lastName, mainAddress.lastName2)
+        street: mainAddress.street    
+        number: mainAddress.externalNumber
+        city: mainAddress.county
+        state: mainAddress.state
+        zipCode: mainAddress.zipCode
+        phone: mainAddress.phone
+      card = new Card cardData      
+    card  
+ 
+  obtainFullLastName:(lastName, lastName2) ->
+    fullLastName = lastName
+    if lastName2
+      fullLastName = lastName + ' ' + lastName2
+    fullLastName
 
   showCardsView: ->
     @$el.slideDown()
