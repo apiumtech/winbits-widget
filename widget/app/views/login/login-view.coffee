@@ -53,12 +53,10 @@ module.exports = class LoginView extends View
     mediator.data.set 'profile-composed', no
     response = data.response
     loginUtils.applyLogin(response)
-    console.log ['entre a logged in']
+    @publishEvent 'logged-in'
     if response.isMigrateUser
-      console.log ['entre a la migracion']
       utils.redirectTo controller:'complete-register', action:'index'
     else
-      console.log ['entre a la migracion']
       @doCheckShowRemainder(data)
 
   doCheckShowRemainder:(data)->

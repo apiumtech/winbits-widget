@@ -19,7 +19,9 @@
                     </div>
                     <div class="knowMoreMax-buttons">
                       <a href="#wb-video" class="wb-hash-link">VE NUESTRO VIDEO<span class="iconFont-video"></span></a>
-                      <a href="#wb-register" class="wb-hash-link">REGISTRATE AHORA<span class="iconFont-candado"></span></a>
+                      {{#isLoggedIn}}
+                         <a href="#wb-register" class="wb-hash-link">REGISTRATE AHORA<span class="iconFont-candado"></span></a>
+                      {{/isLoggedIn}}
                     </div>
 
                       <span class="iconFont-upbanner openClose" data-showdiv=".knowMoreMin" data-hidediv=".knowMoreMax"></span>
