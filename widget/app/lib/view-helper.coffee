@@ -229,3 +229,7 @@ Handlebars.registerHelper "orderStatus", (status) ->
 
 Handlebars.registerHelper "getBitsBalance", ->
   utils.formatNumWithComma(mediator.data.get('login-data').bitsBalance)
+
+Handlebars.registerHelper "isLoggedIn",(options) ->
+  if(not mediator.data.get('login-data'))
+    options.fn(this)
