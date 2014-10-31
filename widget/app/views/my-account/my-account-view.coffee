@@ -35,9 +35,11 @@ module.exports = class MyAccountView extends View
 
   doLogoutSuccess: (data) ->
     loginUtils.doLogoutSuccess(data)
+    @publishEvent 'log-out'
 
   doLogoutError: (xhr)->
     loginUtils.doLogoutError(xhr)
+    @publishEvent 'log-out'
 
   clickClose: ->
     @$el.prev().slideUp()
