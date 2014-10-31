@@ -70,8 +70,8 @@ Winbits.like = (options) ->
 Winbits.sumBits = (bits) ->
   currentBits = parseInt(Winbits.$('.bits').text().toString().replace(',',''))
   bitsBalance = currentBits + bits  
-  Winbits.$('.bits').text(parseInt(bitsBalance.toString().replace(/\,/g,'')))
-
+  bitsBalance = bitsBalance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  Winbits.$('.bits').text(bitsBalance)
 
 Winbits.execute = (queryString) ->
   params = utils.getURLParams(queryString)
