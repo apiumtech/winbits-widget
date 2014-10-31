@@ -26,5 +26,5 @@ module.exports = class HeaderView extends View
   stopPropagationHandler: (e) ->
     e.stopPropagation()
 
-  eventToRender: ->    
+  eventToRender: ->
     @render()
