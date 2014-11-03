@@ -13,6 +13,8 @@ module.exports = class HeaderView extends View
 
   initialize: ->
     super
+    @subscribeEvent 'logged-in', @eventToRender
+    @subscribeEvent 'log-out', @eventToRender
 
   attach: ->
     super
@@ -23,3 +25,6 @@ module.exports = class HeaderView extends View
 
   stopPropagationHandler: (e) ->
     e.stopPropagation()
+
+  eventToRender: ->
+    @render()

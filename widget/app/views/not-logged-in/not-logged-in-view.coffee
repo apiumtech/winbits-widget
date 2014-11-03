@@ -67,6 +67,7 @@ module.exports = class NotLoggedInPageView extends View
     mediator.data.set 'profile-composed', no
     response = data.response
     loginUtils.applyLogin(response)
+    @publishEvent 'logged-in'
     if 201 is data.meta.status
       utils.redirectTo controller:'complete-register', action:'index'
     else

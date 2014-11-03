@@ -53,17 +53,15 @@ module.exports = class LoginView extends View
     mediator.data.set 'profile-composed', no
     response = data.response
     loginUtils.applyLogin(response)
-    console.log ['entre a logged in']
+    @publishEvent 'logged-in'
     if response.isMigrateUser
-      console.log ['entre a la migracion']
       utils.redirectTo controller:'complete-register', action:'index'
     else
-      console.log ['entre a la migracion']
       @doCheckShowRemainder(data)
 
   doCheckShowRemainder:(data)->
     if data.response.showRemainder is yes
-      message = "Recuerda que puedes ganar $#{data.response.cashbackForComplete} en bits al completar tu registro"
+      message = "Recuerda que puedes ganar $#{data.response.cashbackForComplete} en winbits al completar tu registro"
       value = 'Completa registro'
       options =
         value: value
