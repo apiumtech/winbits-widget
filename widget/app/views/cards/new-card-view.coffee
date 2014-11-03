@@ -18,6 +18,7 @@ module.exports = class NewCardView extends CardView
       @fillCardWithMain()
     else
       @cleanCardData()
+
   saveNewCard: ->
     $form = @$('.wbc-card-form')
     if $form.valid()
