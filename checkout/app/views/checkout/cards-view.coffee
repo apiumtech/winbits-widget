@@ -25,6 +25,7 @@ module.exports = class CardsView extends View
   attach: ->
     super
     that = @
+    #console.log 'main card: ', mediator.profile.mainAddress
 
     @$el.find(".wb-card-number-input").on "blur",  (e)->
       that.showCardType(e)
@@ -118,6 +119,7 @@ module.exports = class CardsView extends View
 
   showNewCardForm: (e) ->
     e.preventDefault()
+    console.log 'crea tarjeta', mediator.profile.mainAddress
     $form = @$el.find('form#wbi-new-card-form')
     $form.validate().resetForm()
     @$el.find('#wbi-cards-list-holder').hide()

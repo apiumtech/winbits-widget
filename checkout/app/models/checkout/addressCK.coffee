@@ -35,3 +35,5 @@ module.exports = class AddressCK extends ChaplinModel
   getShippingAddress:(itemId) ->
      _.find(@get("addresses"),(address) -> itemId is address.id )
   
+  getMainShippingAddress:() ->
+     _.find(@get("addresses"),(address) -> address if address.main is yes )
