@@ -168,6 +168,7 @@ module.exports = class CardsView extends View
     $ = Winbits.$
     $form = $(e.currentTarget)
     newCardData = util.serializeForm($form)
+    delete newCardData['copyAddress']
     newCardData.cardPrincipal = newCardData.hasOwnProperty('cardPrincipal')
     $submitTriggers = $form.find('.wb-submit-trigger')
     if $form.valid()
@@ -322,7 +323,7 @@ module.exports = class CardsView extends View
       @$('#wbi-new-card-number').val(fullNumber)
       @$('#wbi-new-card-city').val(mainAddress.county)
       @$('#wbi-new-card-state').val(mainAddress.state)
-      @$('#wbi-new-card-postal-code').val(mainAddress.zipCode)
+      @$('#wbi-new-card-postalCode').val(mainAddress.zipCode)
       @$('#wbi-new-card-phoneNumber').val(mainAddress.phone)
   
   cleanCardData: ->
@@ -332,7 +333,7 @@ module.exports = class CardsView extends View
       @$('#wbi-new-card-number').val('')
       @$('#wbi-new-card-city').val('')
       @$('#wbi-new-card-state').val('')
-      @$('#wbi-new-card-postal-code').val('')
+      @$('#wbi-new-card-postalCode').val('')
       @$('#wbi-new-card-phoneNumber').val('')
  
   obtainFullLastName:(lastName, lastName2) ->
