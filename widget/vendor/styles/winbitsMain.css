@@ -3926,7 +3926,7 @@ main {
 		}*/
 }
 .widgetWinbitsHeader .mainHeader .wrapper {
-    padding-top: 10px;
+    padding-top: 0 !important;
     width: 960px;
 }
 .widgetWinbitsHeader .mainHeader nav {
@@ -5545,6 +5545,7 @@ main {
 .confirmationContent {
     background: #f7f7f7;
     padding: 0 20px 20px 20px;
+    text-align: center;
     width: 400px;
     display: block;
     margin-left: auto;
@@ -5587,12 +5588,7 @@ main {
 }
 .confirmationContent .confirmation-content {
     margin: 20px 10px;
-    display: inline-block;
-    vertical-align: top;
-    width: 285px;
-    *display: inline;
-    /* IE7 inline-block hack */
-    zoom: 1;
+    text-align: center;
 }
 .confirmationContent .confirmation-submit {
     text-align: center;
@@ -5605,14 +5601,9 @@ main {
     font-weight: normal;
 }
 .confirmationContent .confirmation-icon {
+    line-height: 1px;
     font-size: 70px !important;
     margin: 20px 10px;
-    display: inline-block;
-    vertical-align: top;
-    width: 70px;
-    *display: inline;
-    /* IE7 inline-block hack */
-    zoom: 1;
 }
 .confirmationContent .confirmationTable [class^="iconFont-"],
 .confirmationContent .confirmationTable [class*=" iconFont-"] {
@@ -6529,7 +6520,7 @@ main {
     font-weight: normal;
 }
 .widgetWinbitsMain .checkoutWinbits aside .checkoutTotal .checkoutDetail .note {
-    color: #454545;
+    color: #6e99fc;
     display: block;
     font-size: 11px;
     font-family: 'OmnesRegular', Arial;
@@ -6547,6 +6538,11 @@ main {
     *display: inline;
     /* IE7 inline-block hack */
     zoom: 1;
+}
+.widgetWinbitsMain .checkoutWinbits aside .checkoutTotal .checkoutTitle {
+    font-family: 'OmnesMedium', Arial;
+    font-style: normal;
+    font-weight: normal;
 }
 .widgetWinbitsMain .checkoutWinbits aside .legendCarrito {
     color: #000000;
