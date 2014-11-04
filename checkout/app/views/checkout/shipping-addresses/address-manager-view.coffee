@@ -37,6 +37,7 @@ module.exports = class AddressManagerView extends View
   attach: ->
    super
    @validateAddNewAddress()
+   mediator.profile.mainAddress = @model.getMainShippingAddress()
 
   validateAddNewAddress:()->
     if @model.get('addresses').length == 0
