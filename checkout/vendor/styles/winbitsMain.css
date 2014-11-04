@@ -6664,7 +6664,7 @@ main {
   font-weight: normal;
 }
 .widgetWinbitsMain .checkoutWinbits aside .checkoutTotal .checkoutDetail .note {
-  color: #454545;
+  color: #6e99fc;
   display: block;
   font-size: 11px;
   font-family: 'OmnesRegular', Arial;
@@ -6678,10 +6678,15 @@ main {
   text-align: right;
   display: inline-block;
   vertical-align: top;
-  width: 120px;
+  width: 125px;
   *display: inline;
   /* IE7 inline-block hack */
   zoom: 1;
+}
+.widgetWinbitsMain .checkoutWinbits aside .checkoutTotal .checkoutTitle {
+  font-family: 'OmnesMedium', Arial;
+  font-style: normal;
+  font-weight: normal;
 }
 .widgetWinbitsMain .checkoutWinbits aside .legendCarrito {
   color: #000000;
