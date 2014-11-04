@@ -54,6 +54,9 @@ module.exports = class CardsView extends View
 
     @$el.find( ".wb-cancel-card-form-btn").on "click", (e) ->
         that.cancelSaveUpdateCard(e)
+    
+    @$el.find( "#wbi-copy-address").on "click", (e) ->
+      that.doCopyAddress()
 
     @$el.find(".wb-card-form").validate
       groups:
@@ -118,6 +121,7 @@ module.exports = class CardsView extends View
 
   showNewCardForm: (e) ->
     e.preventDefault()
+    console.log 'crea tarjeta', mediator.profile.mainAddress
     $form = @$el.find('form#wbi-new-card-form')
     $form.validate().resetForm()
     @$el.find('#wbi-cards-list-holder').hide()
@@ -164,6 +168,7 @@ module.exports = class CardsView extends View
     $ = Winbits.$
     $form = $(e.currentTarget)
     newCardData = util.serializeForm($form)
+    delete newCardData['copyAddress']
     newCardData.cardPrincipal = newCardData.hasOwnProperty('cardPrincipal')
     $submitTriggers = $form.find('.wb-submit-trigger')
     if $form.valid()
@@ -300,3 +305,45 @@ module.exports = class CardsView extends View
 
   getCardDataAt: (cardIndex) ->
     @model.get('cards')[cardIndex]
+  
+  doCopyAddress:(e) ->
+    if @$('#wbi-copy-address').prop('checked') is yes
+      @fillCardWithMain()
+    else
+      @cleanCardData()
+  
+  fillCardWithMain: ->
+    mainAddress = mediator.profile.mainAddress
+    if mainAddress isnt null
+      @$('#wbi-new-card-firstName').val(mainAddress.firstName)
+      lastName = @obtainFullLastName(mainAddress.lastName, mainAddress.lastName2)
+      @$('#wbi-new-card-lastName').val(lastName) 
+      @$('#wbi-new-card-street').val(mainAddress.street)
+      fullNumber = @obtainFullNumber(mainAddress.externalNumber, mainAddress.internalNumber)
+      @$('#wbi-new-card-number').val(fullNumber)
+      @$('#wbi-new-card-city').val(mainAddress.county)
+      @$('#wbi-new-card-state').val(mainAddress.state)
+      @$('#wbi-new-card-postalCode').val(mainAddress.zipCode)
+      @$('#wbi-new-card-phoneNumber').val(mainAddress.phone)
+  
+  cleanCardData: ->
+      @$('#wbi-new-card-firstName').val('')
+      @$('#wbi-new-card-lastName').val('') 
+      @$('#wbi-new-card-street').val('')
+      @$('#wbi-new-card-number').val('')
+      @$('#wbi-new-card-city').val('')
+      @$('#wbi-new-card-state').val('')
+      @$('#wbi-new-card-postalCode').val('')
+      @$('#wbi-new-card-phoneNumber').val('')
+ 
+  obtainFullLastName:(lastName, lastName2) ->
+    fullLastName = lastName
+    if lastName2
+      fullLastName = lastName + ' ' + lastName2
+    fullLastName
+
+  obtainFullNumber: (intNumber, extNumber) ->    
+    fullNumber = intNumber
+    if extNumber
+      fullNumber = intNumber + ' ' + extNumber    
+    fullNumber  

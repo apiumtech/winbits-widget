@@ -23,8 +23,8 @@
             <option value="MX" selected="">México</option>
         </select>
       <div>
-        <input type="text" placeholder="Calle" class="inputMedium" name="street1" id="winbitsCreditCardStreet" maxlength="40">
-        <input type="text" placeholder="Ext." class="inputSmall requiredField" name="number" id="winbitsCreditCardNum" data-requiredfield="Calle y Número Requeridos" maxlength="50">
+          <input type="text" placeholder="Calle" class="inputMedium" name="street1" id="winbitsCreditCardStreet" maxlength="40">
+          <input type="text" placeholder="Ext." class="inputSmall requiredField" name="number" id="winbitsCreditCardNum" data-requiredfield="Calle y Número Requeridos" maxlength="50">
       </div>
         {{!-- <input type="text" placeholder="Colonia" name="colony" id="winbitsCreditCardCol" class="requiredField" data-requiredfield="Colonia Requerido" maxlength="40"> --}}
         <input type="text" placeholder="Ciudad" name="city" id="winbitsCreditCardCity" class="requiredField" data-requiredfield="Ciudad Requerido" maxlength="40">
@@ -34,9 +34,12 @@
     </div>
     <div class="column columnLarge">
         <h3>OPCIONES</h3>
-        <input type="checkbox" class="checkbox" name="cardPrincipal" value="true">
-        <label class="checkboxLabel">Hacer está, mi tarjeta principal</label>
-        <p class="note">Winbits guardará tus tarjetas de crédito por ti, para que tu próxima compra, sea mucho más rápida.</p>
+        <input type="checkbox" class="checkbox" name="cardPrincipal" id="wbi-card-principal" value="true">
+        <label class="checkboxLabel">Hacer está mi tarjeta principal</label>
+        <br/>
+        <input type="checkbox" class="checkbox" name="copyAddress" id="wbi-copy-address" value="false">
+        <label class="checkboxLabel">Utilizar mi dirección principal de envío</label>
+        <p class="note">Winbits guardará tus tarjetas de crédito por ti, para que tu próxima compra sea mucho más rápida.</p>
         <div class="errorDiv wbc-hide"><p>Email no existe, favor de verificarlo</p></div>
         <div class="submitButton">
             <span class="btn btnCancel openClose wbc-cancel-btn" data-showdiv=".ccCarrusel" data-hidediv=".creditcardNew">Cancelar</span>

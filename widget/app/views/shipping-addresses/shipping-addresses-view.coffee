@@ -18,6 +18,7 @@ module.exports = class ShippingAddressesView extends View
     super
     @listenTo @model,  'change', -> @render()
     @model.fetch()
+    #guardar en mediator dirección principal
     @clickOnShippingHandler = @delegate 'click', '.wbc-shipping', -> @onShippingClick.apply(@, arguments)
     @delegate 'click', '#wbi-add-new-shipping-address' , @showAddNewShipping
     @delegate 'click', '#wbi-add-shipping-address-cancel', @cancelAddNewShipping
@@ -56,6 +57,8 @@ module.exports = class ShippingAddressesView extends View
           initialSlide: '.carruselSCC-selected'
     })
 
+    @saveMainAddressOnMediator @model.getMainShippingAddress()
+
   onShippingClick: (e) ->
     e.stopPropagation()
     $shipping = $(e.currentTarget)
@@ -90,6 +93,9 @@ module.exports = class ShippingAddressesView extends View
       return $.extend(dataChange, data, {main: true, zipCodeInfo: "-1"})
     else
       return $.extend(dataChange, data, main: true)
+
+  saveMainAddressOnMediator: (address)->
+    mediator.data.set 'main-address', address
 
   setDefaultShippingError: ->
     message = "Por el momento no es posible marcar como dirección principal, inténtalo más tarde"
