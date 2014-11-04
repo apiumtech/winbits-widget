@@ -28,6 +28,7 @@
 {{/hasBitsBalanceInCheckout}}
 <div class="checkoutTotal">
   <span class="checkoutTitle">TOTAL</span>
-  <span class="checkoutDetail"><p style="display: inline;" class="wb-order-cash-total">{{formatCurrency cashTotal}}</p>
-    <span class="note">Ahorro de <p style="display: inline;" class="wb-order-saving">{{formatCurrency orderSaving}}</p></span></span>
+  <span class="checkoutDetail">
+    <span class="slideInput-totalPrice">{{formatCurrency cashTotal}}</span>
+    <span class="note">Estas ahorrando <span class="slideInput-save"> {{formatCurrency orderSaving}}</span></span>
 </div>
