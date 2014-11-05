@@ -111,7 +111,7 @@ module.exports = class LoginView extends View
 
   errorWhenIsAFER004: (defaults) ->
     options =
-      message :"Esta cuenta ya esta registrada,es necesario confirmar tu cuenta de correo. Si no encuentras nuestro mail de confirmación, revisa tu bandeja de SPAM"
+      message :"Para poder ingresar a winbits, es necesario confirmar tu cuenta de correo. Si no encuentras nuestro mail de confirmación, revisa tu bandeja de SPAM"
       value : "Reenviar correo de confirmación"
       title : "Mail no confirmado"
       icon : "computerDoc"
