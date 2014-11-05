@@ -47,8 +47,8 @@ module.exports = class ModalResetPasswordView extends View
 
 
   doResetPasswordSuccess: ->
-    message = "Tu contraseña ha sido cambiada correctamente."
-    options = value: "Aceptar", title:'Contraseña reestablecida', onClosed: utils.redirectTo(controller: 'home', action: 'index'), icon: 'iconFont-ok'
+    message = "Tu contraseña se ha actualizado correctamente."
+    options = value: "Aceptar", title:'Actualización de contraseña', onClosed: utils.redirectTo(controller: 'home', action: 'index'), icon: 'iconFont-document'
     utils.showMessageModal(message, options)
 
   doResetPasswordError: (xhr, textStatus)->

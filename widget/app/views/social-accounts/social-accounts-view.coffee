@@ -15,8 +15,8 @@ module.exports = class SocialMediaView extends View
     DAFL : 'Para poder ligar tu cuenta de facebook debes terminar el proceso y aceptar todos los privilegios solicitados.'
     DPFL : 'Para poder ligar tu cuenta de facebook debes terminar el proceso y aceptar todos los privilegios solicitados.'
     DATL : 'Para poder ligar tu cuenta de twitter debes terminar el proceso y aceptar todos los privilegios solicitados.'
-    FHLA : 'Esta cuenta ya se encuentra ligada a otro usuario.'
-    THLA : 'Esta cuenta ya se encuentra ligada a otro usuario.'
+    FHLA : 'No es posible ligar la cuenta debido a que ya se encuentra ligada a otro usuario.'
+    THLA : 'No es posible ligar la cuenta debido a que ya se encuentra ligada a otro usuario.'
 
   initialize: ->
     super
@@ -123,7 +123,7 @@ module.exports = class SocialMediaView extends View
     message = DEFAULT_ERROR_MESSAGE[data.errorCode]
     options =
       value : 'Aceptar'
-      title : 'Cuenta no ligada.'
+      title : 'Error al ligar red social'
       icon  : "iconFont-#{data.accountId}Circle"
       context: @
     utils.showMessageModal(message, options)
