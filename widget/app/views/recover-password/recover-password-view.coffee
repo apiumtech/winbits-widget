@@ -40,8 +40,8 @@ module.exports = class ModalRecoverPasswordView extends View
         .always(-> $submitButton.prop('disabled', no))
 
   doRecoverPasswordSuccess :->
-    message = "Te hemos mandado un mensaje a tu cuenta de correo con las instrucciones para recuperar tu contraseña."
-    options = value: "Aceptar", title:'Correo enviado', onClosed: utils.redirectTo(controller: 'home', action: 'index'), icon: 'iconFont-email2', acceptAction:() -> $.fancybox.close()
+    message = "Hemos enviado un mensaje a tu cuenta de correo con las instrucciones para recuperar tu contraseña."
+    options = value: "Aceptar", title:'Recupera tu contraseña', onClosed: utils.redirectTo(controller: 'home', action: 'index'), icon: 'iconFont-email2', acceptAction:() -> $.fancybox.close()
     utils.showMessageModal(message, options)
 
   doRecoverPasswordError: (xhr, textStatus)->
