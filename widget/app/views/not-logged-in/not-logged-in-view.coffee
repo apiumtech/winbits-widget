@@ -9,7 +9,7 @@ mediator = Winbits.Chaplin.mediator
 
 module.exports = class NotLoggedInPageView extends View
   container: '#wbi-header-wrapper'
-  className: 'miCuenta login'
+  className: 'miCuenta login log-in'
   template: require './templates/not-logged-in'
 
   DEFAULT_ERROR_MESSAGE =

@@ -3898,7 +3898,7 @@ main {
 }
 .widgetWinbitsHeader .knowmoreFolder .knowMoreMin {
     margin-left: 510px;
-    min-height: 20px;
+    min-height: 25px;
     padding: 5px 0 0;
     position: relative;
 }
@@ -3913,7 +3913,18 @@ main {
 .widgetWinbitsHeader .knowmoreFolder .knowMoreMin .language {
     left: -510px;
     position: absolute;
+    top: 5px;
+}
+.widgetWinbitsHeader .knowmoreFolder .knowMoreMin .banner-hf {
+    position: absolute;
+    width: 960px;
     top: 0;
+    left: 0;
+    margin-left: -510px;
+    text-align: center;
+}
+.widgetWinbitsHeader .knowmoreFolder .knowMoreMin p {
+    margin-top: 5px;
 }
 .widgetWinbitsHeader .mainHeader {
     background: #f7f7f7;
@@ -3926,8 +3937,8 @@ main {
 		}*/
 }
 .widgetWinbitsHeader .mainHeader .wrapper {
-    padding-top: 0 !important;
-    width: 960px;
+    padding-top: 10px;
+    width: 980px;
 }
 .widgetWinbitsHeader .mainHeader nav {
     float: left;
@@ -3976,6 +3987,7 @@ main {
 }
 .widgetWinbitsHeader .mainHeader .log-in {
     float: right;
+    text-align: right;
     width: 400px;
 }
 .widgetWinbitsHeader .mainHeader .log-in ul {
@@ -4893,7 +4905,7 @@ main {
 }
 .mc-noitems-container {
     display: none;
-    margin: -12px 0 0 17px;
+    margin: -12px 0 0 54px;
     text-align: center;
     width: 130px;
 }
