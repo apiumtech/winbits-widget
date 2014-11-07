@@ -32,7 +32,7 @@ $.validator.addMethod("zipCodeDoesNotExist", (value, element) ->
   $element = Winbits.$(element)
   data = $element.data('_zip-code-not-found-error')
   data isnt yes
-,"El código postal no existe.")
+,"Este código postal no existe.")
 
 $.validator.addMethod("wbiPhone", (value) ->
   if value
