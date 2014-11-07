@@ -501,7 +501,7 @@ _(utils).extend Winbits.utils,
   hideLoaderToCheckout: ->
     $('#wbi-loader-to-checkout').hide().addClass('loader-hide')
 
-  updateProfile: (data)->
+  updateProfile: (data, optionData = {action:'index', controller:'home'})->
     $loginDataActual = _.clone mediator.data.get 'login-data'
     mediator.data.set 'login-data', data.response
     @publishEvent 'profile-changed', data
@@ -513,7 +513,7 @@ _(utils).extend Winbits.utils,
         icon: 'iconFont-ok'
         title:'Perfil actualizado'
         value:'Aceptar'
-        onClosed: -> @redirectTo(controller:'home', action:'index')
+        onClosed: -> @redirectTo(optionData)
       @showMessageModal(message, options)
     if data.response.bitsBalance != $loginDataActual.bitsBalance
       @publishEvent 'bits-updated'
