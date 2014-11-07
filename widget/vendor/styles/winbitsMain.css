@@ -3698,7 +3698,7 @@ main {
     text-decoration: none;
 }
 .widgetWinbitsHeader .knowmoreFolder .wrapper {
-    width: 960px;
+    width: 980px;
 }
 .widgetWinbitsHeader .knowmoreFolder .iconFont-upbanner,
 .widgetWinbitsHeader .knowmoreFolder .iconFont-downbanner {
@@ -3915,13 +3915,20 @@ main {
     position: absolute;
     top: 5px;
 }
+.widgetWinbitsHeader .knowmoreFolder .knowMoreMin .language a {
+    text-decoration: none;
+}
+.widgetWinbitsHeader .knowmoreFolder .knowMoreMin .language a:hover {
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+}
 .widgetWinbitsHeader .knowmoreFolder .knowMoreMin .banner-hf {
     position: absolute;
-    width: 960px;
     top: 0;
     left: 0;
     margin-left: -510px;
-    text-align: center;
+    text-align: right;
+    width: 980px;
 }
 .widgetWinbitsHeader .knowmoreFolder .knowMoreMin p {
     margin-top: 5px;
@@ -4479,6 +4486,7 @@ main {
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivLeft {
     padding: 20px 20px 20px 40px;
+    text-align: left;
     display: inline-block;
     vertical-align: top;
     width: 338px;
@@ -4672,7 +4680,7 @@ main {
     font-size: 11px;
     margin: 0 auto;
     padding: 5px 0;
-    text-align: left;
+    text-align: center;
     width: 140px;
     font-family: 'OmnesRegularItalic', Arial;
     font-style: normal;
