@@ -80,7 +80,7 @@ module.exports = class PersonalDataView extends View
              submitButton.prop('disabled', no)
 
   doUpdateProfileSuccess: (data) ->
-    utils.updateProfile(data)
+    utils.updateProfile(data, {url:'wb-profile'})
 
   doUpdateProfileError: (xhr, textStatus)->
     error = utils.safeParse(xhr.responseText)
