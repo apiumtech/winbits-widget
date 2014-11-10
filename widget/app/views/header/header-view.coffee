@@ -15,6 +15,7 @@ module.exports = class HeaderView extends View
     super
     @subscribeEvent 'logged-in', @eventToRender
     @subscribeEvent 'log-out', @eventToRender
+    @delegate 'click', '#wbi-drop-down-link', @dropDown
 
   attach: ->
     super
@@ -28,3 +29,7 @@ module.exports = class HeaderView extends View
 
   eventToRender: ->
     @render()
+
+  dropDown : (e)->
+    e.preventDefault()
+    @$('.openClose').click()
