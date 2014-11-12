@@ -4680,7 +4680,7 @@ main {
     font-size: 11px;
     margin: 0 auto;
     padding: 5px 0;
-    text-align: center;
+    text-align: left;
     width: 140px;
     font-family: 'OmnesRegularItalic', Arial;
     font-style: normal;
@@ -5050,6 +5050,16 @@ main {
 }
 .bodyModal .selectRegister .select-ul {
     width: 193px;
+}
+.wbc-complete-register-select .selectRegister .select-input {
+    padding: 5px 3px;
+    width: 190px !important;
+}
+#fancybox-content {
+    overflow: visible !important;
+}
+#fancybox-content > div {
+    overflow: visible !important;
 }
 .widgetWinbitsModal {
     overflow: hidden !important;
