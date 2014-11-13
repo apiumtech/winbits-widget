@@ -43,8 +43,7 @@ module.exports = class LoginView extends View
       formData = verticalId: env.get('current-vertical-id')
       formData = utils.serializeForm($form, formData)
       $.extend(formData, utms: trackingUtils.getUTMs())
-      $submitButton = @$('#wbi-login-in-btn').prop('disabled', yes)
-
+      @$('#wbi-login-in-btn').prop('disabled', yes)
       @model.requestLogin(formData, context: @)
         .done(@doLoginSuccess)
         .fail(@doLoginError)
