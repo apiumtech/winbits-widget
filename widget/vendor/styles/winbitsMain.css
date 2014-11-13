@@ -2285,7 +2285,7 @@ input[type="submit"].btn.btn-mini {
     height: 34px;
     width: 34px;
 }
-/*.bit12px, .shopCarMin, .changePasword, .creditCard, 
+/*.bit12px, .shopCarMin, .changePasword, .creditCard,
 .facebookCircle, .twitterCircle, .changeAdress {
 	.size(20px, 20px);
 }*/
@@ -4680,7 +4680,7 @@ main {
     font-size: 11px;
     margin: 0 auto;
     padding: 5px 0;
-    text-align: left;
+    text-align: center;
     width: 140px;
     font-family: 'OmnesRegularItalic', Arial;
     font-style: normal;
@@ -5051,7 +5051,7 @@ main {
 .bodyModal .selectRegister .select-ul {
     width: 193px;
 }
-.wbc-complete-register-select .selectRegister .select-input {
+.completaRegistro .wbc-complete-register-select .selectRegister .select-input {
     padding: 5px 3px;
     width: 190px !important;
 }
@@ -5266,6 +5266,9 @@ main {
     padding: 15px 15px 12px;
     text-align: left;
 }
+.contentModal .enterCount {
+    color: #6e99fc;
+}
 .inviteFriend {
     padding: 40px 90px;
     width: 395px;
@@ -5415,7 +5418,7 @@ main {
     display: block;
 }
 .login h1 small .winbit-color {
-    margin-left: 5px;
+    margin-top: -10px;
 }
 .login h1 .iconFont-facebook {
     margin: -5px 5px 0 0;
@@ -5584,7 +5587,8 @@ main {
     margin: 0 auto;
 }
 .confirmationContent.couponsModal {
-    width: 600px;
+    padding: 0 5px;
+    width: 500px;
 }
 .confirmationContent.couponsModal a {
     cursor: pointer;
@@ -5592,14 +5596,15 @@ main {
 .confirmationContent.couponsModal .center {
     text-align: center;
 }
-.confirmationContent.couponsModal .confirmation-content {
-    width: 485px;
-}
 .confirmationContent.couponsModal .confirmation-icon {
     vertical-align: middle;
 }
 .confirmationContent.couponsModal .confirmation-content {
     vertical-align: middle;
+}
+.confirmationContent.couponsModal .errorDiv {
+    margin: 0;
+    text-align: center;
 }
 .confirmationContent h2 {
     background: #1a1a1a;
