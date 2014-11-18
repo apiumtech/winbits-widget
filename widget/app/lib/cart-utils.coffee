@@ -50,6 +50,24 @@ _(cartUtils).extend
           cartItems[0].bits = $bitsBalance
     cartItems
 
+  validateReference:(cartItems)->
+    $haveReferences
+    if(cartItems)
+      $haveReferences = _.some((x for x in cartItems), 'references')
+#      $haveReferences = _.some(cartItems, 'references')
+    $haveReferences
+
+#  transformCartItems: (cartItems) ->
+#    (@transformCartItem(x) for x in cartItems)
+#
+#  transformCartItem: (cartItem) ->
+#    skuProfileId: cartItem.id
+#    quantity: cartItem.quantity
+#    bits: cartItem.bits
+#    campaign : cartItem.campaign
+#    type: cartItem.type
+#    references: cartItem.references
+
   publishCartChangedEvent: (data, cartItems)->
     mediator.data.set( 'bits-to-cart',data.response.bitsTotal)
     EventBroker.publishEvent('cart-changed', data)
@@ -121,6 +139,7 @@ _(cartUtils).extend
     bits: cartItem.bits
     campaign : cartItem.campaign
     type: cartItem.type
+    references: cartItem.references
 
 
   showCartErrorMessage: (xhr, textStatus)->

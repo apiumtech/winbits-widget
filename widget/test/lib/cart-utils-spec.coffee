@@ -107,6 +107,13 @@ describe 'CartUtilsSpec', ->
 
     EventBroker.unsubscribeEvent('cart-changed', stub)
 
+  it 'validate references in cart-items',  ->
+    expect(cartUtils.validateReference([{id:1, quantity:2, references:['asdasdas']},{id:1, quantity:2}])).is.equals yes
+    expect(cartUtils.validateReference([{id:1, quantity:2, references:['asdasdas']}])).is.equals yes
+    expect(cartUtils.validateReference([{id:1, quantity:2},{id:1, quantity:2}])).is.equals no
+    expect(cartUtils.validateReference([{id:1, quantity:2}])).is.equals no
+
+
   _.each addToCartErrors, (title, code) ->
     it "should show error message if add to virtual cart fails: #{code}", ->
       cartUtils.addToVirtualCart({ id: 1, quantity: 2 })
