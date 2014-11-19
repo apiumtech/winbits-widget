@@ -61,6 +61,11 @@ module.exports = class CartView extends View
     if @$('#wbi-cart-drop').is(':visible')
       @$('#wbi-cart-info').trigger('click')
 
+  successVirtualFetch: (data)->
+    @updateCartModel data
+    mediator.data.set 'bits-to-cart', @model.get 'bitsTotal'
+    @publishEvent 'change-bits-data'
+
   successFetch: (data)->
     @updateCartModel data
     mediator.data.set 'bits-to-cart', @model.get 'bitsTotal'
@@ -76,7 +81,7 @@ module.exports = class CartView extends View
       else
         @model.fetch(success: $.proxy(@successFetch, @))
     else
-      @model.fetch(success: $.proxy(@successFetch, @))
+      @model.fetch(success: $.proxy(@successVirtualFetch, @))
 
   successTransferVirtualCart: (data) ->
     @successFetch(data)

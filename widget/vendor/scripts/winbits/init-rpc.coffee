@@ -35,6 +35,7 @@ rpcApi =
   deleteApiToken: {}
   storeVirtualCart: {}
   storeVirtualCampaigns:{}
+  storeVirtualReferences:{}
   logout: {}
   facebookStatus: {}
   facebookMe: {}
@@ -134,6 +135,7 @@ else
       console.log 'RPC data got :)'
       Winbits.env.set('virtual-cart', data.vcartToken)
       Winbits.env.set('virtual-campaigns', data.vcampaignsToken)
+      Winbits.env.set('virtual-references', data.vReferenceToken)
       Winbits.trackingUtils.cacheUTMs(data.utms)
       verifyLoginData(data.apiToken)
     .fail ->

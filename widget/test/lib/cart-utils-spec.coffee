@@ -23,6 +23,7 @@ describe 'CartUtilsSpec', ->
   VIRTUAL_CART_URL = utils.getResourceURL('orders/virtual-cart-items.json')
   CART_URL = utils.getResourceURL('orders/cart-items.json')
   ADD_TO_CART_SUCCESS_RESPONSE = '{"meta":{"status":200},"response":{"itemsTotal":10,"itemsCount":1,"shippingTotal":250,"cartDetails":[{"quantity":1,"skuProfile":{"id":1,"price":10,"fullPrice":100,"item":{"attributeLabel":"attributeLabel","name":"ItemGroupProfile","vertical":{"name":"_Test_","logo":"http://www.winbits-test.com"},"thumbnail":null},"attributes":[],"mainAttribute":{"name":"attributeName","label":"attributeLabel","type":"TEXT","value":"attributeValue"},"vertical":{"name":"_Test_","logo":"http://www.winbits-test.com"}},"min":1,"max":100,"warnings":null}],"cashback":0}}'
+  ADD_TO_CART_WITH_REFERENCE_SUCCESS_RESPONSE = '{"meta":{"status":200},"response":{"itemsTotal":10,"itemsCount":1,"shippingTotal":250,"cartDetails":[{"quantity":1,"references":[],"skuProfile":{"id":1,"price":10,"fullPrice":100,"item":{"attributeLabel":"attributeLabel","name":"ItemGroupProfile","vertical":{"name":"_Test_","logo":"http://www.winbits-test.com"},"thumbnail":null},"attributes":[],"mainAttribute":{"name":"attributeName","label":"attributeLabel","type":"TEXT","value":"attributeValue"},"vertical":{"name":"_Test_","logo":"http://www.winbits-test.com"}},"min":1,"max":100,"warnings":null}],"cashback":0}}'
 
   before ->
     sinon.stub(utils, 'getApiToken').returns(undefined)
@@ -64,7 +65,7 @@ describe 'CartUtilsSpec', ->
 
     respondSuccess.call(@)
 
-    expect(utils.saveVirtualCart).to.have.been.calledWith(JSON.parse(ADD_TO_CART_SUCCESS_RESPONSE).response)
+    expect(utils.saveVirtualCart).to.have.been.calledWith(JSON.parse(ADD_TO_CART_WITH_REFERENCE_SUCCESS_RESPONSE).response)
         .and.to.be.calledOnce
 
   it 'should trigger "cart-changed" event when items successfully added to virtual cart', ->
@@ -75,7 +76,7 @@ describe 'CartUtilsSpec', ->
 
     respondSuccess.call(@)
 
-    expect(stub).to.have.been.calledWith(JSON.parse(ADD_TO_CART_SUCCESS_RESPONSE))
+    expect(stub).to.have.been.calledWith(JSON.parse(ADD_TO_CART_WITH_REFERENCE_SUCCESS_RESPONSE))
         .and.to.be.calledOnce
 
     EventBroker.unsubscribeEvent('cart-changed', stub)
@@ -97,7 +98,6 @@ describe 'CartUtilsSpec', ->
     setLoginContext()
     stub = sinon.stub()
     EventBroker.subscribeEvent('cart-changed', stub)
-
     cartUtils.addToUserCart([id: 1, quantity: 2])
 
     respondSuccess.call(@)

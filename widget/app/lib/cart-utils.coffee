@@ -109,20 +109,23 @@ _(cartUtils).extend
     campaignType: cartItem.type
 
   addToVirtualCart: (cartItems = {}) ->
-    cartItems = @transformCartItems(cartItems)
+    cartItemsToRequest = @transformVirtualCartItems(cartItems)
+    cartVirtualItems = @transformCartItems(cartItems)
     options =
       headers:
         'Accept-Language': 'es'
         'Content-Type': 'application/json;charset=utf-8'
         'Wb-VCart': utils.getCartItemsToVirtualCart()
-    options = @applyAddToCartRequestDefaults(cartItems, options)
+    options = @applyAddToCartRequestDefaults(cartItemsToRequest, options)
     utils.ajaxRequest(@getCartResourceUrl(), options)
-    .done((data)-> @addToVirtualCartSuccess(data, cartItems))
+    .done((data)-> @addToVirtualCartSuccess(data, cartVirtualItems))
     .fail(@showCartErrorMessage)
 
   addToVirtualCartSuccess: (data, cartItems) ->
     utils.saveVirtualCart(data.response)
     utils.saveVirtualCampaignsInStorage(cartItems, data.response.cartDetails)
+    data.response.cartDetails = utils.addReferenceToCartDetail(cartItems, data.response.cartDetails)
+    utils.saveVirtualReferencesInStorage(cartItems, data.response.cartDetails)
     utils.getTotalBitsToVirtualCart(cartItems, data.response.cartDetails)
     @publishCartChangedEvent(data)
 
@@ -138,6 +141,16 @@ _(cartUtils).extend
     campaign : cartItem.campaign
     type: cartItem.type
     references: cartItem.references
+
+  transformVirtualCartItems: (cartItems) ->
+    (@transformVirtualCartItem(x) for x in cartItems)
+
+  transformVirtualCartItem: (cartItem) ->
+    skuProfileId: cartItem.id
+    quantity: cartItem.quantity
+    bits: cartItem.bits
+    campaign : cartItem.campaign
+    type: cartItem.type
 
 
   showCartErrorMessage: (xhr, textStatus)->

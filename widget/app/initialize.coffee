@@ -19,6 +19,7 @@ mediator.data = (->
     'login-data': env.get 'login-data'
     'virtual-cart': env.get 'virtual-cart'
     'virtual-campaigns': env.get 'virtual-campaigns'
+    'virtual-references': env.get 'virtual-references'
 
   get: (property)->
     data[property]
