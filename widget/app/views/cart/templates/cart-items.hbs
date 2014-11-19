@@ -2,16 +2,19 @@
     <ul id="wbi-cart-items-list">
         {{#each cartDetails}}
         {{#with skuProfile}}
-        <li data-id="{{id}}">
+          <li data-id="{{id}}">
             <a href="#"><img class="wbc-item-image imgItem" src="{{item.thumbnail}}" alt="{{item.name}}"></a>
             <p class="descriptionItem wbc-item-description">{{item.name}}</p>
             <p class="caracItem wbc-item-attributes">{{{joinAttributes mainAttribute attributes}}}</p>
         {{/with}}
+        {{#each references}}
+          <p class="caracItem wbc-item-attributes">Tarjeta: {{{code}}}</p>
+        {{/each}}
             <label>Cantidad:</label>
             <select class="select wbc-item-quantity" data-clase="selectRegister">
-                {{#eachOption min max}}
-                <option value="{{value}}" {{#compare value ../quantity}}selected{{/compare}}>{{text}}</option>
-                {{/eachOption}}
+               {{#eachOption min max}}
+                 <option value="{{value}}" {{#compare value ../quantity}}selected{{/compare}}>{{text}}</option>
+               {{/eachOption}}
             </select>
             <p class="priceItem wbc-item-price">{{getItemTotalPrice quantity skuProfile.price}}</p>
             <span class="iconVertical-t vertical{{skuProfile.vertical.id}} wbc-item-vertical-logo" title="{{skuProfile.vertical.name}}"></span>
