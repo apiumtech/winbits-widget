@@ -41,7 +41,9 @@ exports.config =
         after: [
           'app/styles/winbits.css',
           'vendor/styles/helpers.css'
+          'vendor/styles/mediaqueri.css'
         ]
+
 
     templates:
       joinTo: 'javascripts/app.js'
