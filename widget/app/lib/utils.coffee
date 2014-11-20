@@ -470,6 +470,23 @@ _(utils).extend Winbits.utils,
     data.set 'cartDetails', @addReferenceToCartDetail(cartDetails)
     data
 
+  updateVirtualReferenceInStorage: (cartDetails)->
+    references = JSON.parse(mediator.data.get('virtual-references'))
+    unless(cartDetails)
+      @doSaveVirtualReference()
+    else
+      referenceKeys = _.keys(references.references)
+      for referenceKey in referenceKeys
+        foundReference = no
+        _.find(cartDetails, (cartDetail)->
+          foundReference = yes if cartDetail.skuProfile.id == parseInt(referenceKey)
+        )
+        unless foundReference
+          delete references.references[referenceKey]
+      @doSaveVirtualReference(JSON.stringify(references))
+
+
+
   addReferenceToCartDetail:(responseCartDetail)->
     vReferences = JSON.parse(mediator.data.get('virtual-references'))
     if vReferences and responseCartDetail

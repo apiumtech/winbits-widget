@@ -121,6 +121,11 @@ _(cartUtils).extend
     .done((data)-> @addToVirtualCartSuccess(data, cartVirtualItems))
     .fail(@showCartErrorMessage)
 
+
+  deleteToVirtualCartSuccess: (data)->
+    utils.updateVirtualReferenceInStorage(data.response.cartDetails)
+    @addToVirtualCartSuccess(data)
+
   addToVirtualCartSuccess: (data, cartItems) ->
     utils.saveVirtualCart(data.response)
     utils.saveVirtualCampaignsInStorage(cartItems, data.response.cartDetails)
