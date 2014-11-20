@@ -2564,24 +2564,7 @@ span.errorInputError {
     border: none !important;
     color: #dd092c;
 }
-.checkbox-wrapper {
-    text-align: left;
-}
-.checkbox-wrapper input {
-    position: absolute;
-    visibility: hidden;
-}
-.checkbox-wrapper label {
-    margin-left: 5px;
-    display: inline-block;
-    vertical-align: middle;
-    width: auto;
-    *display: inline;
-    /* IE7 inline-block hack */
-    zoom: 1;
-}
 .checkbox-wrapper .checkbox-span {
-    cursor: default;
     margin: 0 !important;
     display: inline-block !important;
     vertical-align: middle !important;
@@ -2926,114 +2909,6 @@ span.errorInputOK {
 .creditcardNew .select-ul {
     margin-top: -1px !important;
     width: 179px;
-}
-.slider-wrapper {
-    height: 20px;
-    padding: 10px 0;
-    position: relative;
-    text-align: center;
-    width: 127px;
-}
-.slider-wrapper input {
-    position: absolute;
-    visibility: hidden;
-}
-.slider-wrapper span {
-    font-size: 11px;
-    position: absolute;
-}
-.slider-wrapper .iconFont-slideBG {
-    font-size: 150px;
-    left: -11px;
-    line-height: 10px;
-    text-indent: 0;
-    top: -2px;
-    position: absolute;
-}
-.slider-wrapper .slider-textValue {
-    top: 20px;
-}
-.slider-wrapper .slider-minValue {
-    left: -1px;
-}
-.slider-wrapper .slider-maxValue {
-    right: -5px;
-}
-.slider-wrapper .slider-holder {
-    background: none;
-    border: none;
-    height: 7px;
-    width: 124px;
-    overflow: visible;
-}
-.slider-wrapper .slider-holder .ui-slider-handle {
-    background: none;
-    border: none;
-    display: block;
-    line-height: normal;
-    position: relative;
-    text-align: center;
-    text-indent: 0;
-    top: -4px;
-    height: 20px;
-    width: 20px;
-    -webkit-transition: none;
-    -khtml-transition: none;
-    -moz-transition: none;
-    -ms-transition: none;
-    -o-transition: none;
-    transition: none;
-}
-.slider-wrapper .slider-holder .ui-slider-handle:focus {
-    outline: none;
-}
-.slider-wrapper .slider-holder .ui-slider-handle .iconFont-bit {
-    font-size: 18px;
-}
-.slider-wrapper .slider-holder .ui-slider-handle .slider-bit {
-    margin: 0;
-    display: inline-block;
-    vertical-align: middle;
-    width: auto;
-    *display: inline;
-    /* IE7 inline-block hack */
-    zoom: 1;
-    background-color: transparent;
-    background-image: url("../../images/misc/icons.png");
-    background-repeat: no-repeat;
-    background-position: -103px -124px;
-    line-height: 36px;
-    overflow: hidden;
-    text-indent: 36px;
-    height: 12px;
-    width: 12px;
-    cursor: pointer;
-}
-.slider-wrapper .slider-holder .ui-slider-handle .slider-bit a {
-    display: block;
-}
-.slider-wrapper .slider-holder .ui-slider-handle .iconBit {
-    cursor: pointer;
-    position: relative;
-    top: 0;
-}
-.slider-wrapper .slider-holder .ui-slider-handle .slider-amount {
-    color: #363636;
-    display: block;
-    margin-left: -54px;
-    position: absolute;
-    left: 50%;
-    margin-top: 0;
-    text-align: center;
-    top: -14px;
-    width: 100px;
-}
-.slider-wrapper .slider-holder .ui-slider-handle .slider-amount em {
-    font-style: normal;
-}
-.slider-wrapper .slider-holder .ui-widget-header {
-    background: none;
-    border: none;
 }
 .scrollPanel:focus {
     outline: none;
