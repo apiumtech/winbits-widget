@@ -65,7 +65,7 @@ describe 'CartUtilsSpec', ->
 
     respondSuccess.call(@)
 
-    expect(utils.saveVirtualCart).to.have.been.calledWith(JSON.parse(ADD_TO_CART_WITH_REFERENCE_SUCCESS_RESPONSE).response)
+    expect(utils.saveVirtualCart).to.have.been.calledWith(JSON.parse(ADD_TO_CART_SUCCESS_RESPONSE).response)
         .and.to.be.calledOnce
 
   it 'should trigger "cart-changed" event when items successfully added to virtual cart', ->
@@ -76,7 +76,7 @@ describe 'CartUtilsSpec', ->
 
     respondSuccess.call(@)
 
-    expect(stub).to.have.been.calledWith(JSON.parse(ADD_TO_CART_WITH_REFERENCE_SUCCESS_RESPONSE))
+    expect(stub).to.have.been.calledWith(JSON.parse(ADD_TO_CART_SUCCESS_RESPONSE))
         .and.to.be.calledOnce
 
     EventBroker.unsubscribeEvent('cart-changed', stub)

@@ -465,18 +465,20 @@ _(utils).extend Winbits.utils,
         found.push(cartItem) if cartDetail.skuProfile.id == cartItem.skuProfileId)
    found
 
-  addReferenceToCartDetail:(cartItemsReference,responseCartDetail)->
-    if responseCartDetail
+  updateReferencesVirtualCart:(data)->
+    cartDetails = data.get('cartDetails')
+    data.set 'cartDetails', @addReferenceToCartDetail(cartDetails)
+    data
+
+  addReferenceToCartDetail:(responseCartDetail)->
+    vReferences = JSON.parse(mediator.data.get('virtual-references'))
+    if vReferences and responseCartDetail
       for cartDetail in responseCartDetail
-        _.find(cartItemsReference,
-        (cartItem)->
-          if cartDetail.skuProfile.id == cartItem.skuProfileId
-            references = []
-            if(cartItem.references)
-              for reference in cartItem.references
-                references.push {code:reference}
-            cartDetail.references = references
-         )
+        references = vReferences.references[cartDetail.skuProfile.id]
+        if(references)
+          referencesForResponse = []
+          ((referencesForResponse.push {code:reference}) for reference in references)
+          cartDetail.references = referencesForResponse
     responseCartDetail
 
   saveVirtualReferencesInStorage: (cartItemsReference,reponseCartDetail)->
@@ -491,6 +493,8 @@ _(utils).extend Winbits.utils,
   setReferences:(referencesLocal,referenceItems) ->
     for item in referenceItems
       itemKey = _.keys(item)[0]
+      item[itemKey]=item[itemKey].references
+      console.log ['reference', item]
       if !referencesLocal.references[itemKey]
         referencesLocal.references[itemKey]= item[itemKey]
       else

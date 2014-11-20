@@ -62,9 +62,7 @@ module.exports = class CartView extends View
       @$('#wbi-cart-info').trigger('click')
 
   successVirtualFetch: (data)->
-    @updateCartModel data
-    mediator.data.set 'bits-to-cart', @model.get 'bitsTotal'
-    @publishEvent 'change-bits-data'
+    @successFetch(utils.updateReferencesVirtualCart(data))
 
   successFetch: (data)->
     @updateCartModel data

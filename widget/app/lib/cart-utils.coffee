@@ -124,8 +124,8 @@ _(cartUtils).extend
   addToVirtualCartSuccess: (data, cartItems) ->
     utils.saveVirtualCart(data.response)
     utils.saveVirtualCampaignsInStorage(cartItems, data.response.cartDetails)
-    data.response.cartDetails = utils.addReferenceToCartDetail(cartItems, data.response.cartDetails)
     utils.saveVirtualReferencesInStorage(cartItems, data.response.cartDetails)
+    data.response.cartDetails = utils.addReferenceToCartDetail(data.response.cartDetails)
     utils.getTotalBitsToVirtualCart(cartItems, data.response.cartDetails)
     @publishCartChangedEvent(data)
 
