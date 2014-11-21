@@ -465,13 +465,16 @@ _(utils).extend Winbits.utils,
         found.push(cartItem) if cartDetail.skuProfile.id == cartItem.skuProfileId)
    found
 
+  getReferencesVirtualCart: () ->
+    JSON.parse(mediator.data.get('virtual-references') or DEFAULT_VIRTUAL_REFERENCES)
+
   updateReferencesVirtualCart:(data)->
     cartDetails = data.get('cartDetails')
     data.set 'cartDetails', @addReferenceToCartDetail(cartDetails)
     data
 
   updateVirtualReferenceInStorage: (cartDetails)->
-    references = JSON.parse(mediator.data.get('virtual-references'))
+    references = @getReferencesVirtualCart()
     unless(cartDetails)
       @doSaveVirtualReference()
     else
@@ -488,7 +491,7 @@ _(utils).extend Winbits.utils,
 
 
   addReferenceToCartDetail:(responseCartDetail)->
-    vReferences = JSON.parse(mediator.data.get('virtual-references'))
+    vReferences = @getReferencesVirtualCart()
     if vReferences and responseCartDetail
       for cartDetail in responseCartDetail
         references = vReferences.references[cartDetail.skuProfile.id]
@@ -502,7 +505,7 @@ _(utils).extend Winbits.utils,
     if reponseCartDetail
       referenceItems=[]
       referenceItems=(@toReference(x) for x in @findCartItemsWithReferencesInResponse(cartItemsReference,reponseCartDetail))
-      referencesLocal=@setReferences(JSON.parse(mediator.data.get('virtual-references') or DEFAULT_VIRTUAL_REFERENCES),
+      referencesLocal=@setReferences(@getReferencesVirtualCart(),
           referenceItems)
       @doSaveVirtualReference(JSON.stringify(referencesLocal))
 
@@ -511,7 +514,6 @@ _(utils).extend Winbits.utils,
     for item in referenceItems
       itemKey = _.keys(item)[0]
       item[itemKey]=item[itemKey].references
-      console.log ['reference', item]
       if !referencesLocal.references[itemKey]
         referencesLocal.references[itemKey]= item[itemKey]
       else
