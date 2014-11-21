@@ -20,12 +20,15 @@ _(loginUtils).extend
       localStorage.clear()
     else
       utils.deleteApiToken()
+
+    flagFirstEntry = mediator.data.get('first-entry')
     mediator.data.clear()
     Winbits.env.get('rpc').logout ->
       console.log 'Winbits logout success :)'
     , -> console.log 'Winbits logout error D:'
     utils.redirectToNotLoggedInHome()
     Winbits.trigger 'loggedout', [logoutData]
+    mediator.data.set('first-entry', flagFirstEntry)
 
   doLogoutSuccess: (data) ->
     @applyLogout(data.response)
