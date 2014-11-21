@@ -37,10 +37,11 @@ rpcApi =
   storeVirtualCampaigns:{}
   logout: {}
   facebookStatus: {}
-  facebookMe: {}
-  storeUTMs: {}
-  getUTMs: {}
-  removeUTMs: {}
+  facebookMe:{}
+  storeUTMs:{}
+  getUTMs:{}
+  removeUTMs:{}
+  firstEntry:{}
 
 if window.wbSkipRPC
   for own key of rpcApi
@@ -134,6 +135,7 @@ else
       console.log 'RPC data got :)'
       Winbits.env.set('virtual-cart', data.vcartToken)
       Winbits.env.set('virtual-campaigns', data.vcampaignsToken)
+      Winbits.env.set('firstEntry', data.firstEntry)
       Winbits.trackingUtils.cacheUTMs(data.utms)
       verifyLoginData(data.apiToken)
     .fail ->

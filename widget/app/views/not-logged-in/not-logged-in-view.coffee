@@ -22,9 +22,16 @@ module.exports = class NotLoggedInPageView extends View
     DPFR : 'Inicio de sesión incompleto.'
     EIFR : 'E-mail necesario para inicio de sesión winbits.'
 
+  afterRender: ->
+    unless mediator.data.get('first-entry')
+      env.get('rpc').firstEntry()
+      mediator.data.set('first-entry', yes)
+      utils.redirectTo controller:'video', action:'index'
+
   initialize: ->
     super
     @model = new NotLoggedIn
+    @afterRender()
     @delegate 'click', '#wbi-login-btn', @onLoginButtonClick
     @delegate 'click', '#wbi-register-link', @onRegisterLinkClick
     @subscribeEvent 'facebook-button-event', @doFacebookLogin
@@ -36,7 +43,6 @@ module.exports = class NotLoggedInPageView extends View
 
   attach: ->
     super
-    console.log 'not-logged-in-view#attach'
 
   onLoginButtonClick: ->
     mediator.data.set 'virtual-checkout', no
