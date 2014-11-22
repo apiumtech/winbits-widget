@@ -5,6 +5,7 @@
 DEFAULT_API_ERROR_MESSAGE = 'El servidor no está disponible, por favor inténtalo más tarde.'
 DEFAULT_VIRTUAL_CART = '{"cartItems":[], "bits":0}'
 DEFAULT_VIRTUAL_CAMPAIGNS ='{"campaigns":{}}'
+DEFAULT_VIRTUAL_REFERENCES ='{"references":{}}'
 
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
@@ -21,9 +22,6 @@ ModalTemplates =
 # Delegate to Chaplin’s utils module.
 utils = Winbits.Chaplin.utils.beget Chaplin.utils
 
-# _(utils).extend
-#  someMethod: ->
-# Some functions are defined inside init-utils.coffee
 _(utils).extend Winbits.utils,
   redirectToLoggedInHome: ->
     @redirectTo controller: 'logged-in', action: 'index'
@@ -172,26 +170,17 @@ _(utils).extend Winbits.utils,
     $('#wbi-ajax-loading-layer').hide()
 
   getCreditCardType: (cardNumber) ->
-    #start without knowing the credit card type
     result = "unknown"
-
     if cardNumber and cardNumber.length > 14
       Winbits = window.Winbits or {}
       Winbits.visaRegExp = Winbits.visaRegExp or /^4[0-9]{12}(?:[0-9]{3})?$/
       Winbits.masterCardRegExp = Winbits.masterCardRegExp or /^5[1-5][0-9]{14}$/
       Winbits.amexRegExp = Winbits.amexRegExp or /^3[47][0-9]{13}$/
-
-      #first check for Visa
       if Winbits.visaRegExp.test(cardNumber)
         result = "visa"
-
-      #then check for MasterCard
       else if Winbits.masterCardRegExp.test(cardNumber)
         result = "mastercard"
-
-      #then check for AmEx
       else result = "amex"  if Winbits.amexRegExp.test(cardNumber)
-
       result
 
   padLeft: (str, length, fillChar) ->
@@ -476,6 +465,81 @@ _(utils).extend Winbits.utils,
         found.push(cartItem) if cartDetail.skuProfile.id == cartItem.skuProfileId)
    found
 
+  getReferencesVirtualCart: () ->
+    JSON.parse(mediator.data.get('virtual-references') or DEFAULT_VIRTUAL_REFERENCES)
+
+  updateReferencesVirtualCart:(data)->
+    cartDetails = data.get('cartDetails')
+    data.set 'cartDetails', @addReferenceToCartDetail(cartDetails)
+    data
+
+  updateVirtualReferenceInStorage: (cartDetails)->
+    references = @getReferencesVirtualCart()
+    unless(cartDetails)
+      @doSaveVirtualReference()
+    else
+      referenceKeys = _.keys(references.references)
+      for referenceKey in referenceKeys
+        foundReference = no
+        _.find(cartDetails, (cartDetail)->
+          foundReference = yes if cartDetail.skuProfile.id == parseInt(referenceKey)
+        )
+        unless foundReference
+          delete references.references[referenceKey]
+      @doSaveVirtualReference(JSON.stringify(references))
+
+
+
+  addReferenceToCartDetail:(responseCartDetail)->
+    vReferences = @getReferencesVirtualCart()
+    if vReferences and responseCartDetail
+      for cartDetail in responseCartDetail
+        references = vReferences.references[cartDetail.skuProfile.id]
+        if(references)
+          referencesForResponse = []
+          ((referencesForResponse.push {code:reference}) for reference in references)
+          cartDetail.references = referencesForResponse
+    responseCartDetail
+
+  saveVirtualReferencesInStorage: (cartItemsReference,reponseCartDetail)->
+    if reponseCartDetail
+      referenceItems=[]
+      referenceItems=(@toReference(x) for x in @findCartItemsWithReferencesInResponse(cartItemsReference,reponseCartDetail))
+      referencesLocal=@setReferences(@getReferencesVirtualCart(),
+          referenceItems)
+      @doSaveVirtualReference(JSON.stringify(referencesLocal))
+
+
+  setReferences:(referencesLocal,referenceItems) ->
+    for item in referenceItems
+      itemKey = _.keys(item)[0]
+      item[itemKey]=item[itemKey].references
+      if !referencesLocal.references[itemKey]
+        referencesLocal.references[itemKey]= item[itemKey]
+      else
+        $.extend referencesLocal.references, item
+    referencesLocal
+
+  doSaveVirtualReference:(references = DEFAULT_VIRTUAL_REFERENCES)->
+    mediator.data.set('virtual-references', references)
+    rpc.storeVirtualReferences(references)
+
+  toReference: (reference) ->
+    if reference
+      ref ={}
+      ref[reference.skuProfileId]=
+        references: reference.references
+      return ref
+
+
+  findCartItemsWithReferencesInResponse:(cartItemsReference, responseCartDetail)->
+    found=[]
+    for cartDetail in responseCartDetail
+      _.find(cartItemsReference,
+      (cartItem)->
+        found.push(cartItem) if cartDetail.skuProfile.id == cartItem.skuProfileId)
+    found
+
   toCartItem: (cartDetail) ->
     cartItem = {}
     cartItem[cartDetail.skuProfile.id] = cartDetail.quantity
@@ -521,12 +585,6 @@ _(utils).extend Winbits.utils,
   publishEvent: (event, data = {})->
     EventBroker.publishEvent event, data
 
-  # Following functions are defined inside init-utils.coffee:
-  # ajaxRequest
-  # saveLoginData
-  # getURLParams
-
-# Prevent creating new properties and stuff.
 Object.seal? utils
 
 delete Winbits.utils
