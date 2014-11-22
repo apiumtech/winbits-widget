@@ -2564,24 +2564,7 @@ span.errorInputError {
     border: none !important;
     color: #dd092c;
 }
-.checkbox-wrapper {
-    text-align: left;
-}
-.checkbox-wrapper input {
-    position: absolute;
-    visibility: hidden;
-}
-.checkbox-wrapper label {
-    margin-left: 5px;
-    display: inline-block;
-    vertical-align: middle;
-    width: auto;
-    *display: inline;
-    /* IE7 inline-block hack */
-    zoom: 1;
-}
 .checkbox-wrapper .checkbox-span {
-    cursor: default;
     margin: 0 !important;
     display: inline-block !important;
     vertical-align: middle !important;
@@ -2926,109 +2909,6 @@ span.errorInputOK {
 .creditcardNew .select-ul {
     margin-top: -1px !important;
     width: 179px;
-}
-.slider-wrapper {
-    height: 20px;
-    padding: 10px 0;
-    position: relative;
-    text-align: center;
-    width: 127px;
-}
-.slider-wrapper input {
-    position: absolute;
-    visibility: hidden;
-}
-.slider-wrapper span {
-    font-size: 11px;
-    position: absolute;
-}
-.slider-wrapper .slider-textValue {
-    top: 23px;
-}
-.slider-wrapper .slider-minValue {
-    left: 0;
-}
-.slider-wrapper .slider-maxValue {
-    right: -5px;
-}
-.slider-wrapper .slider-holder {
-    border: none;
-    margin: 0;
-    display: inline-block;
-    vertical-align: middle;
-    width: auto;
-    *display: inline;
-    /* IE7 inline-block hack */
-    zoom: 1;
-    background-color: transparent;
-    background-image: url("../../images/misc/icons.png");
-    background-repeat: no-repeat;
-    background-position: -260px -157px;
-    line-height: 21px;
-    overflow: hidden;
-    text-indent: 372px;
-    height: 7px;
-    width: 124px;
-    overflow: visible;
-}
-.slider-wrapper .slider-holder a {
-    display: block;
-}
-.slider-wrapper .slider-holder .ui-slider-handle {
-    background: none;
-    border: none;
-    line-height: normal;
-    margin-left: -5px;
-    text-indent: 0;
-    top: 15px;
-    -webkit-transition: none;
-    -khtml-transition: none;
-    -moz-transition: none;
-    -ms-transition: none;
-    -o-transition: none;
-    transition: none;
-}
-.slider-wrapper .slider-holder .ui-slider-handle:focus {
-    outline: none;
-}
-.slider-wrapper .slider-holder .ui-slider-handle .slider-bit {
-    margin: 0;
-    display: inline-block;
-    vertical-align: middle;
-    width: auto;
-    *display: inline;
-    /* IE7 inline-block hack */
-    zoom: 1;
-    background-color: transparent;
-    background-image: url("../../images/misc/icons.png");
-    background-repeat: no-repeat;
-    background-position: -103px -124px;
-    line-height: 36px;
-    overflow: hidden;
-    text-indent: 36px;
-    height: 12px;
-    width: 12px;
-    cursor: pointer;
-    position: absolute;
-    top: -19px;
-}
-.slider-wrapper .slider-holder .ui-slider-handle .slider-bit a {
-    display: block;
-}
-.slider-wrapper .slider-holder .ui-slider-handle .iconBit {
-    position: absolute;
-    top: -19px;
-}
-.slider-wrapper .slider-holder .ui-slider-handle .slider-amount {
-    color: #363636;
-    margin: -32px 0 0 -5px;
-}
-.slider-wrapper .slider-holder .ui-slider-handle .slider-amount em {
-    font-style: normal;
-}
-.slider-wrapper .slider-holder .ui-widget-header {
-    background: none;
-    border: none;
 }
 .scrollPanel:focus {
     outline: none;
@@ -3698,7 +3578,7 @@ main {
     text-decoration: none;
 }
 .widgetWinbitsHeader .knowmoreFolder .wrapper {
-    width: 960px;
+    width: 980px;
 }
 .widgetWinbitsHeader .knowmoreFolder .iconFont-upbanner,
 .widgetWinbitsHeader .knowmoreFolder .iconFont-downbanner {
@@ -3803,8 +3683,10 @@ main {
 }
 .widgetWinbitsHeader .knowmoreFolder .knowMoreMax h2 {
     color: #fef500;
-    font-size: 14px;
-    padding: 10px 0;
+    border-bottom: 1px solid #808080;
+    font-size: 19px;
+    margin: 0 20px;
+    padding: 15px 0;
     text-align: center;
     font-family: 'OmnesLight', Arial;
     font-style: normal;
@@ -3826,6 +3708,9 @@ main {
     *display: inline;
     /* IE7 inline-block hack */
     zoom: 1;
+}
+.widgetWinbitsHeader .knowmoreFolder .knowMoreMax .item2 h2 {
+    margin-top: -20px;
 }
 .widgetWinbitsHeader .knowmoreFolder .knowMoreMax .knowMoreMax-icons {
     height: 80px;
@@ -3874,7 +3759,7 @@ main {
 }
 .widgetWinbitsHeader .knowmoreFolder .knowMoreMax .knowMoreMax-buttons a .iconFont-video {
     font-size: 22px;
-    margin: -3px 8px 3px 0;
+    margin: -3px 0 3px 8px;
 }
 .widgetWinbitsHeader .knowmoreFolder .knowMoreMax .knowMoreMax-buttons a .iconFont-candado {
     font-size: 22px;
@@ -3893,7 +3778,7 @@ main {
 }
 .widgetWinbitsHeader .knowmoreFolder .knowMoreMin {
     margin-left: 510px;
-    min-height: 20px;
+    min-height: 25px;
     padding: 5px 0 0;
     position: relative;
 }
@@ -3908,7 +3793,25 @@ main {
 .widgetWinbitsHeader .knowmoreFolder .knowMoreMin .language {
     left: -510px;
     position: absolute;
+    top: 5px;
+}
+.widgetWinbitsHeader .knowmoreFolder .knowMoreMin .language a {
+    text-decoration: none;
+}
+.widgetWinbitsHeader .knowmoreFolder .knowMoreMin .language a:hover {
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+}
+.widgetWinbitsHeader .knowmoreFolder .knowMoreMin .banner-hf {
+    position: absolute;
     top: 0;
+    left: 0;
+    margin-left: -510px;
+    text-align: right;
+    width: 980px;
+}
+.widgetWinbitsHeader .knowmoreFolder .knowMoreMin p {
+    margin-top: 5px;
 }
 .widgetWinbitsHeader .mainHeader {
     background: #f7f7f7;
@@ -3922,7 +3825,7 @@ main {
 }
 .widgetWinbitsHeader .mainHeader .wrapper {
     padding-top: 10px;
-    width: 960px;
+    width: 980px;
 }
 .widgetWinbitsHeader .mainHeader nav {
     float: left;
@@ -3971,6 +3874,7 @@ main {
 }
 .widgetWinbitsHeader .mainHeader .log-in {
     float: right;
+    text-align: right;
     width: 400px;
 }
 .widgetWinbitsHeader .mainHeader .log-in ul {
@@ -4206,6 +4110,10 @@ main {
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .creditcardNew textarea {
     width: 170px;
 }
+.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .shippingNewAddress .inputNumber,
+.widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .creditcardNew .inputNumber {
+    width: 190px;
+}
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .shippingNewAddress .inputNumber input,
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .creditcardNew .inputNumber input {
     font-weight: normal;
@@ -4218,7 +4126,7 @@ main {
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .shippingNewAddress .logoCC,
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .creditcardNew .logoCC {
-    margin-left: 15px;
+    margin-left: 5px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .shippingNewAddress .columnLarge,
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .creditcardNew .columnLarge {
@@ -4239,20 +4147,21 @@ main {
     margin: 0 0 0 5px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .wb-micuenta-address .shippingNewAddress .select-input {
-    min-width: 133px;
+    min-width: 123px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .wb-micuenta-creditcard .creditcardNew .select-input {
-    min-width: 133px;
+    min-width: 123px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .wb-micuenta-creditcard .creditcardNew .inputMedium {
     width: 116px !important;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .wb-micuenta-creditcard .creditcardNew .inputSmall {
+    padding: 5px 3px;
     width: 34px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .wb-micuenta-creditcard .creditcardNew .divFechaExpiracion label {
     padding-left: 10px;
-    width: 90px;
+    width: 78px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .wb-micuenta-profile .select-div .select-input {
     font-size: 11px;
@@ -4457,6 +4366,7 @@ main {
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivLeft {
     padding: 20px 20px 20px 40px;
+    text-align: left;
     display: inline-block;
     vertical-align: top;
     width: 338px;
@@ -4650,7 +4560,7 @@ main {
     font-size: 11px;
     margin: 0 auto;
     padding: 5px 0;
-    text-align: left;
+    text-align: center;
     width: 140px;
     font-family: 'OmnesRegularItalic', Arial;
     font-style: normal;
@@ -4700,8 +4610,11 @@ main {
     font-style: normal;
     font-weight: normal;
 }
+.widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivRight .winSave .iconBit.bit12px {
+    margin: -2px 2px 0 2px;
+}
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivRight .winSave .slider-wrapper {
-    margin: 5px auto;
+    margin: 10px auto 0 auto;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCarritoDiv .carritoDivRight .slider {
     width: 140px;
@@ -4883,7 +4796,7 @@ main {
 }
 .mc-noitems-container {
     display: none;
-    margin: -12px 0 0 17px;
+    margin: -12px 0 0 54px;
     text-align: center;
     width: 130px;
 }
@@ -5020,6 +4933,16 @@ main {
 }
 .bodyModal .selectRegister .select-ul {
     width: 193px;
+}
+.completaRegistro .wbc-complete-register-select .selectRegister .select-input {
+    padding: 5px 3px;
+    width: 190px !important;
+}
+#fancybox-content {
+    overflow: visible !important;
+}
+#fancybox-content > div {
+    overflow: visible !important;
 }
 .widgetWinbitsModal {
     overflow: hidden !important;
@@ -5226,6 +5149,9 @@ main {
     padding: 15px 15px 12px;
     text-align: left;
 }
+.contentModal .enterCount {
+    color: #6e99fc;
+}
 .inviteFriend {
     padding: 40px 90px;
     width: 395px;
@@ -5375,7 +5301,7 @@ main {
     display: block;
 }
 .login h1 small .winbit-color {
-    margin-left: 5px;
+    margin-top: -10px;
 }
 .login h1 .iconFont-facebook {
     margin: -5px 5px 0 0;
@@ -5531,114 +5457,6 @@ main {
 }
 .preCheckout .preCheckout-submit a {
     margin: 0 5px;
-}
-.confirmationContent {
-    background: #f7f7f7;
-    padding: 0 20px 20px 20px;
-    width: 400px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    overflow: hidden;
-    margin: 0 auto;
-}
-.confirmationContent.couponsModal {
-    width: 600px;
-}
-.confirmationContent.couponsModal a {
-    cursor: pointer;
-}
-.confirmationContent.couponsModal .center {
-    text-align: center;
-}
-.confirmationContent.couponsModal .confirmation-content {
-    width: 485px;
-}
-.confirmationContent.couponsModal .confirmation-icon {
-    vertical-align: middle;
-}
-.confirmationContent.couponsModal .confirmation-content {
-    vertical-align: middle;
-}
-.confirmationContent h2 {
-    background: #1a1a1a;
-    color: #ffffff;
-    font-size: 18px;
-    padding: 10px 20px;
-    text-align: center;
-    margin: 0 -20px 20px -20px;
-}
-.confirmationContent h3 {
-    font-size: 15px;
-    margin-bottom: 20px;
-}
-.confirmationContent p {
-    margin: 10px 0;
-}
-.confirmationContent .confirmation-content {
-    margin: 20px 10px;
-    display: inline-block;
-    vertical-align: top;
-    width: 285px;
-    *display: inline;
-    /* IE7 inline-block hack */
-    zoom: 1;
-}
-.confirmationContent .confirmation-submit {
-    text-align: center;
-    margin-top: 20px;
-}
-.confirmationContent .confirmation-submit .btn {
-    margin: 0 5px;
-    font-family: 'OmnesRegular', Arial;
-    font-style: normal;
-    font-weight: normal;
-}
-.confirmationContent .confirmation-icon {
-    font-size: 70px !important;
-    margin: 20px 10px;
-    display: inline-block;
-    vertical-align: top;
-    width: 70px;
-    *display: inline;
-    /* IE7 inline-block hack */
-    zoom: 1;
-}
-.confirmationContent .confirmationTable [class^="iconFont-"],
-.confirmationContent .confirmationTable [class*=" iconFont-"] {
-    font-size: 30px;
-}
-.confirmationContent .confirmationTable [class^="iconFont-"]:hover,
-.confirmationContent .confirmationTable [class*=" iconFont-"]:hover {
-    color: #000000;
-    text-decoration: none;
-}
-.confirmationContent .confirmationTable th {
-    font-size: 12px;
-    font-family: 'OmnesMedium', Arial;
-    font-style: normal;
-    font-weight: normal;
-}
-.confirmationContent .confirmationTable td {
-    background: #dedede;
-    border-left: 2px solid #f7f7f7;
-    padding: 10px;
-}
-.confirmationContent .confirmationTable td:first-child {
-    border: none;
-}
-.confirmationContent .confirmationTable tr:nth-child(even) td {
-    background: #ebebeb;
-}
-.confirmationContent .confirmationTable .iconFont-docPDF {
-    color: #dd092c;
-}
-.confirmationContent .confirmationTable .iconFont-docWEB {
-    color: #6e99fc;
-}
-.confirmationContent .confirmationTable .table-download {
-    text-align: center;
-    width: 100px;
 }
 /*main {
 	margin: 130px auto 0 auto;
@@ -6509,6 +6327,9 @@ main {
     padding: 0;
     width: 10px;
 }
+.widgetWinbitsMain .checkoutWinbits aside .checkoutSubtotal .iconBit.bit10px {
+    margin: -2px 2px 0 0;
+}
 .widgetWinbitsMain .checkoutWinbits aside .checkoutTotal {
     padding: 20px 0;
 }
@@ -6519,7 +6340,7 @@ main {
     font-weight: normal;
 }
 .widgetWinbitsMain .checkoutWinbits aside .checkoutTotal .checkoutDetail .note {
-    color: #454545;
+    color: #6e99fc;
     display: block;
     font-size: 11px;
     font-family: 'OmnesRegular', Arial;
@@ -6537,6 +6358,11 @@ main {
     *display: inline;
     /* IE7 inline-block hack */
     zoom: 1;
+}
+.widgetWinbitsMain .checkoutWinbits aside .checkoutTotal .checkoutTitle {
+    font-family: 'OmnesMedium', Arial;
+    font-style: normal;
+    font-weight: normal;
 }
 .widgetWinbitsMain .checkoutWinbits aside .legendCarrito {
     color: #000000;
@@ -6558,6 +6384,9 @@ main {
 }
 .widgetWinbitsMain .checkoutWinbits aside .slider-wrapper {
     margin: -10px 0 10px 130px;
+}
+.widgetWinbitsMain .checkoutWinbits aside .slider-textValue {
+    top: 25px;
 }
 .widgetWinbitsMain .totalCheckOutTemp .totalCheckOutTemp-leyend {
     border-top: 1px solid #e6e6e6;

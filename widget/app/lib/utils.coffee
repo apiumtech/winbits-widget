@@ -424,12 +424,22 @@ _(utils).extend Winbits.utils,
     vcart = JSON.stringify vcart
     @saveVirtualCartInStorage(vcart)
 
+  getTotalBitsToVirtualCart:(cartItems, response) ->
+    bitsTotal=@getBitsToVirtualCart()
+    if response
+      for cartDetail in response
+        _.find(cartItems,
+          (cartItem)->
+            bitsTotal+=parseInt(cartItem.bits) if cartDetail.skuProfile.id == cartItem.skuProfileId and cartItem.bits)
+    vCart = JSON.parse(mediator.data.get('virtual-cart'))
+    vCart.bits = bitsTotal
+    mediator.data.set('virtual-cart',JSON.stringify(vCart))
+
   saveVirtualCartInStorage: (vcart = DEFAULT_VIRTUAL_CART)->
     mediator.data.set('virtual-cart', vcart)
     rpc.storeVirtualCart(vcart)
 
   saveVirtualCampaignsInStorage: (cartItemsCampaign,reponseCartDetail)->
-    console.log "SAVE VIRTUAL CART CAMPAIGNS"
     if reponseCartDetail
       campaignItems=[]
       campaignItems=(@toCampaign(x) for x in @findCartItemsInResponse(cartItemsCampaign,reponseCartDetail))
@@ -491,7 +501,7 @@ _(utils).extend Winbits.utils,
   hideLoaderToCheckout: ->
     $('#wbi-loader-to-checkout').hide().addClass('loader-hide')
 
-  updateProfile: (data)->
+  updateProfile: (data, optionData = {action:'index', controller:'home'})->
     $loginDataActual = _.clone mediator.data.get 'login-data'
     mediator.data.set 'login-data', data.response
     @publishEvent 'profile-changed', data
@@ -503,7 +513,7 @@ _(utils).extend Winbits.utils,
         icon: 'iconFont-ok'
         title:'Perfil actualizado'
         value:'Aceptar'
-        onClosed: -> @redirectTo(controller:'home', action:'index')
+        onClosed: -> @redirectTo(optionData)
       @showMessageModal(message, options)
     if data.response.bitsBalance != $loginDataActual.bitsBalance
       @publishEvent 'bits-updated'

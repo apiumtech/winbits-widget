@@ -18,16 +18,17 @@
   <span>${{shippingTotal}}</span>
   <span>GANAS</span>
   <span><span class="icon winbits10px"></span>{{cashback}}</span>
-  <span class="bits-payment-data" style="display: none;">PAGO EN BITS</span>
+  <span class="bits-payment-data" style="display: none;">PAGO EN WINBITS</span>
   <span class="bits-payment-data bits-amount" style="display: none;"><span class="icon winbits10px"></span></span>
 </div>
 {{#hasBitsBalanceInCheckout}}
 <input type="text" value="{{bitsTotal}}" data-min="0" data-max="{{total}}" data-step="1" class="slideInput" id="wbi-bits-slide-checkout"
        data-max-selection="{{maxBits}}">
-<span class="legendCarrito">Usa tus bits como dinero en esta compra <a href="#">conoce más</a></span>
+<span class="legendCarrito">Usa tus Winbits como dinero en esta compra</span>
 {{/hasBitsBalanceInCheckout}}
 <div class="checkoutTotal">
   <span class="checkoutTitle">TOTAL</span>
-  <span class="checkoutDetail"><p style="display: inline;" class="wb-order-cash-total">{{formatCurrency cashTotal}}</p>
-    <span class="note">Ahorro de <p style="display: inline;" class="wb-order-saving">{{formatCurrency orderSaving}}</p></span></span>
+  <span class="checkoutDetail">
+    <span class="slideInput-totalPrice">{{formatCurrency cashTotal}}</span>
+    <span class="note">Estas ahorrando <span class="slideInput-save"> {{formatCurrency orderSaving}}</span></span>
 </div>

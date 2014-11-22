@@ -17,12 +17,8 @@ module.exports = class CardView extends View
 
   attach: ->
     super
-#    @$('.requiredField').requiredField()
     @$('.wbc-country-field').customSelect()
-    @$('[name=cardPrincipal]').parent().customCheckbox()
-    required =
-      required: yes
-      minlength: 1
+    @$('.checkbox').customCheckbox()
     @$('.wbc-card-form').validate(
       ignore: ''
       groups:

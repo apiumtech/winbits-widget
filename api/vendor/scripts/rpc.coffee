@@ -4,6 +4,7 @@ API_TOKEN_KEY = '_wb_api_token'
 CART_TOKEN_KEY = '_wb_cart_token'
 CAMPAIGN_TOKEN_KEY = '_wb_campaign_token'
 UTM_PARAMS_KEY = '_wb_utm_params'
+FIRST_ENTRY_KEY = '_wb_firts_entry'
 DEFAULT_VIRTUAL_CART = '{"cartItems":[], "bits":0}'
 MILLIS_90_MINUTES = 1000 * 60 * 90
 
@@ -117,7 +118,8 @@ new easyXDM.Rpc({},
         data.vcartToken = vcartToken
         data.vcampaignsToken = vcampaignsToken
         data.utms = getUTMsExpirationAware()
-        console.log ["W: The tokens >>>",data]
+        data.firstEntry = localStorage.getItem FIRST_ENTRY_KEY
+        console.log ["Winbits: The tokens >>>",data]
       else
         apiToken = getCookieByName(API_TOKEN_KEY)
         data.apiToken = apiToken if apiToken
@@ -128,8 +130,9 @@ new easyXDM.Rpc({},
         setCookie( CART_TOKEN_KEY, vcartToken )
         data.vcartToken = vcartToken
         data.vcampaignsToken = vcampaignsToken
+        data.firstEntry = getCookieByName(FIRST_ENTRY_KEY)
         data.utms = getUTMsExpirationAware()
-        console.log ["W: The tokens >>>",data]
+        console.log ["Winbits: The tokens >>>",data]
       
       data
 
@@ -144,8 +147,16 @@ new easyXDM.Rpc({},
       else
         console.log 'Local Storage no disponible se utilizaran cookies'
         setCookie(API_TOKEN_KEY, apiToken, 7)
-        
       return
+
+    firstEntry: ->
+      console.log ["First entry function"]
+      if( hasLocalStorage() )
+        if not localStorage.getItem(FIRST_ENTRY_KEY)
+          localStorage.setItem(FIRST_ENTRY_KEY, yes)
+      else
+        if not getCookieByName(FIRST_ENTRY_KEY)
+          setCookie(FIRST_ENTRY_KEY, yes, 2)
 
     deleteApiToken: ->
       if( hasLocalStorage() )
@@ -172,8 +183,8 @@ new easyXDM.Rpc({},
     logout: (facebookLogout) ->
       console.log "Winbits: Logging out..."
       if( hasLocalStorage() )
-        localStorage.removeItem API_TOKEN_KEY
-        localStorage.setItem CART_TOKEN_KEY, DEFAULT_VIRTUAL_CART
+        localStorage.removeItem(API_TOKEN_KEY)
+        localStorage.setItem(CART_TOKEN_KEY, DEFAULT_VIRTUAL_CART)
       else
         deleteCookie(API_TOKEN_KEY)
 	setCookie(CART_TOKEN_KEY, DEFAULT_VIRTUAL_CART, 7)
@@ -239,4 +250,5 @@ new easyXDM.Rpc({},
     storeUTMs: {}
     getUTMs: {}
     removeUTMs: {}
+    firstEntry:{}
 )

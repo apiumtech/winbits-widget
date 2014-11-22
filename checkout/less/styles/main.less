@@ -83,6 +83,7 @@
 		address {
 			font-size: 11px;
 			margin: 10px 20px;
+                        margin-top: -10px !important;
 			a {
 				color: @blueLink;
 				text-decoration: underline;
@@ -97,6 +98,9 @@
 				.font('OmnesMedium');
 			}
 		}
+                &.wrapper {
+                  overflow: visible;
+                }
 		.linkMe {
 			cursor: pointer;
 			font-size: 11px;
@@ -494,8 +498,8 @@
 				padding: 20px 0;
 				.checkoutDetail {
 					color: @black;.font('OmnesMedium');
-					span {
-						color: lighten(@black, 27%);
+					.note {
+						color: @blueLink2;
 						display: block;
 						font-size: 11px;
 						.font('OmnesRegular');	
@@ -507,6 +511,10 @@
 					text-align: right;
 					.inline-block(120px, top);
 				}
+                                .checkoutTitle {
+                                        .font('OmnesMedium');
+                                }
+
 			}
 			.legendCarrito {
 				color: @black;

@@ -19,6 +19,7 @@ mediator.data = (->
     'login-data': env.get 'login-data'
     'virtual-cart': env.get 'virtual-cart'
     'virtual-campaigns': env.get 'virtual-campaigns'
+    'first-entry': env.get 'firstEntry'
 
   get: (property)->
     data[property]
@@ -66,6 +67,12 @@ Winbits.tweet = (options) ->
 Winbits.like = (options) ->
   fn = socialUtils.like
   fn.call(socialUtils, options)
+
+Winbits.sumBits = (bits) ->
+  currentBits = parseInt(Winbits.$('.bits').text().toString().replace(',',''))
+  bitsBalance = currentBits + bits  
+  bitsBalance = bitsBalance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  Winbits.$('#wbi-my-bits').text(bitsBalance)
 
 Winbits.execute = (queryString) ->
   params = utils.getURLParams(queryString)

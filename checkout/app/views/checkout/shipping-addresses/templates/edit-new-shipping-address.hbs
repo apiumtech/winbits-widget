@@ -11,15 +11,15 @@
         <h3>DIRECCIÓN</h3>
           <textarea placeholder="Calle" class="required" name="street" maxlength="75">{{street}}</textarea>
         <div class="inputNumber">
-            <input type="text" placeholder="# ext" class="required" name="externalNumber" value="{{externalNumber}}" maxlength="25" style="width: 63px;">
-            <input type="text" placeholder="# int" name="internalNumber" value="{{internalNumber}}" maxlength="25" style="width: 63px;">
+            <input type="text" placeholder="# ext" class="required" name="externalNumber" value="{{externalNumber}}" maxlength="5" style="width: 63px;">
+            <input type="text" placeholder="# int" name="internalNumber" value="{{internalNumber}}" maxlength="5" style="width: 63px;">
         </div>
         <textarea placeholder="¿Entre qué calles?/Referencias para llegar" class="required" name="indications">{{indications}}</textarea>
         <div>
           <input type="text"  placeholder="Codigo Postal" name="zipCode" class="required" data-requiredfield="Codigo Postal Requerido" maxlength="5" value={{zipCode}}>
-          <input type="text" placeholder="Estado" name="state" class="required" data-requiredfield="Requerido" disabled="disabled" readonly="readonly" value={{state}}>
-          <input type="text" placeholder="Delegación o Municipio" name="city" class="required" data-requiredfield="Requerido" disabled="disabled" readonly="readonly" value={{city}}>
-          <select id="wbi-shipping-address-zip-code-info" name="zipCodeInfo" class="select required" data-requiredfield="Requerido" data-clase="selectRegister" data-inputselect="true" value="{{#if zipCodeInfo}}{{zipCodeInfo.id}}{{/if}}"  {{#if location}}data-location="{{location}}"{{/if}}></select>
+          <input type="text" placeholder="Estado" name="state" class="required" data-requiredfield="Requerido"  readonly="readonly" value={{state}}>
+          <input type="text" placeholder="Delegación o Municipio" name="city" class="required" data-requiredfield="Requerido" readonly="readonly" value={{city}}>
+          <select id="wbi-shipping-address-zip-code-info" name="zipCodeInfo" class="select required" data-requiredfield="Requerido" data-clase="selectRegister" value="{{#if zipCodeInfo}}{{zipCodeInfo.id}}{{/if}}"  {{#if location}}data-location="{{location}}"{{/if}}></select>
         </div>
       </div>
       <div class="column columnLarge">

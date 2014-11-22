@@ -226,3 +226,10 @@ Handlebars.registerHelper "orderStatus", (status) ->
     when 'PENDING' then statusToView = 'PENDIENTE'
     else statusToView = 'PENDIENTE'
   statusToView
+
+Handlebars.registerHelper "getBitsBalance", ->
+  utils.formatNumWithComma(mediator.data.get('login-data').bitsBalance)
+
+Handlebars.registerHelper "isLoggedIn",(options) ->
+  if(not mediator.data.get('login-data'))
+    options.fn(this)

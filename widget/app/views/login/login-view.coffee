@@ -43,8 +43,7 @@ module.exports = class LoginView extends View
       formData = verticalId: env.get('current-vertical-id')
       formData = utils.serializeForm($form, formData)
       $.extend(formData, utms: trackingUtils.getUTMs())
-      $submitButton = @$('#wbi-login-in-btn').prop('disabled', yes)
-
+      @$('#wbi-login-in-btn').prop('disabled', yes)
       @model.requestLogin(formData, context: @)
         .done(@doLoginSuccess)
         .fail(@doLoginError)
@@ -53,17 +52,15 @@ module.exports = class LoginView extends View
     mediator.data.set 'profile-composed', no
     response = data.response
     loginUtils.applyLogin(response)
-    console.log ['entre a logged in']
+    @publishEvent 'logged-in'
     if response.isMigrateUser
-      console.log ['entre a la migracion']
       utils.redirectTo controller:'complete-register', action:'index'
     else
-      console.log ['entre a la migracion']
       @doCheckShowRemainder(data)
 
   doCheckShowRemainder:(data)->
     if data.response.showRemainder is yes
-      message = "Recuerda que puedes ganar $#{data.response.cashbackForComplete} en bits al completar tu registro"
+      message = "Recuerda que puedes ganar $#{data.response.cashbackForComplete} en winbits al completar tu registro"
       value = 'Completa registro'
       options =
         value: value
@@ -113,7 +110,7 @@ module.exports = class LoginView extends View
 
   errorWhenIsAFER004: (defaults) ->
     options =
-      message :"Esta cuenta ya esta registrada,es necesario confirmar tu cuenta de correo. Si no encuentras nuestro mail de confirmación, revisa tu bandeja de SPAM"
+      message :"Para poder ingresar a winbits, es necesario confirmar tu cuenta de correo. Si no encuentras nuestro mail de confirmación, revisa tu bandeja de SPAM"
       value : "Reenviar correo de confirmación"
       title : "Mail no confirmado"
       icon : "computerDoc"
@@ -139,10 +136,10 @@ module.exports = class LoginView extends View
     utils.showMessageModal(message, options)
 
   doSuccessRequestResendConfirmationMail: ->
-    message = 'Un mensaje de confirmación ha sido enviado a tu cuenta de correo.'
+    message = 'Hemos enviado un mensaje a tu cuenta de correo con las instrucciones para recuperar tu contraseña.'
     options =
       value: 'Aceptar'
-      title: 'Correo Enviado'
+      title: 'Recupera tu contraseña'
       icon: "iconFont-email2"
       acceptAction: ->
         utils.redirectTo(controller:'home', action:'index')

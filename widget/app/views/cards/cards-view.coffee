@@ -5,6 +5,7 @@ NewCardView = require 'views/cards/new-card-view'
 EditCardView = require 'views/cards/edit-card-view'
 Card = require 'models/cards/card'
 utils = require 'lib/utils'
+mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 DEFAULT_CARD_CLASS = 'carruselSCC-selected'
 
@@ -84,11 +85,11 @@ module.exports = class CardsView extends View
     @$el[state]('click', '.wbc-card', @clickOnCardHandler)
 
   showNewCardView: ->
-    newCardView = new NewCardView
+    newCardView = new NewCardView 
     @subview('new-card-view', newCardView)
     @$el.slideUp()
     newCardView.$el.slideDown()
-
+  
   showCardsView: ->
     @$el.slideDown()
 

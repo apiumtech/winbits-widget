@@ -2,9 +2,13 @@
   <div class="mainModal completaRegistro">
     <div class="contentModal">
       <fieldset class="leftModal wbc-complete-register-select">
-        <span class="icon winbits23px">winbits</span>
-        <h1>COMPLETA TU REGISTRO Y GANA BITS!</h1>
-        <h3>Si completas tu registro con nosotros, obtendrás ${{cashbackForComplete}} bits que podras utilizar desde tu primera compra.</h3>
+          <div class="winbit-color iconWinbits95px">
+              <span class="iconFont-winbits"></span>
+              <span class="iconBG firstI"></span>
+              <span class="iconBG secondI"></span>
+          </div>
+        <h1>COMPLETA TU REGISTRO Y GANA WINBITS!</h1>
+        <h3>Si completas tu registro con nosotros, obtendrás ${{cashbackForComplete}} Winbits que podras utilizar desde tu primera compra.</h3>
         <input type="text" placeholder="Nombre" name="name" value="{{name}}">
         <input type="text" placeholder="Apellido" name="lastName" value="{{lastName}}">
         <div class="fieldsetDiv divBirthday">
@@ -26,7 +30,7 @@
         {{!<input type="text" id="winbitsProfilePhone" name="phone" placeholder="Teléfono" value="{{phone}" maxlength="15">}}
         <div class="errorDiv" style="display: none;"><p></p></div>
         <input type="submit" class="btn btnGuardar" value="Guardar" id="wbi-complete-register-btn">
-        <p>Si así lo deseas, puedes completar tu registro después haciendo click en la sección de MI CUENTA. <br>
+        <p>Si así lo deseas, puedes completar tu registro después haciendo clic en la sección de MI CUENTA. <br>
           <a href="#logged-in" id="wbi-complete-register-after-link" class="wb-hash-link">Llenalo despues.</a></p>
       </fieldset>
       <aside class="asideModal">

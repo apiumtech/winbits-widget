@@ -123,7 +123,7 @@ module.exports = class CheckoutTempView extends View
     options =
       value: 'Aceptar'
       title: 'Eliminar elemento'
-      icon: 'iconFont-question'
+      icon: 'iconFont-cart'
       context: @
       acceptAction: () => if items.length > 0 then @doRequestDeleteOrderDetail($skuId) else @doRequestCancelOrder()
     utils.showConfirmationModal(message, options)

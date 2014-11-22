@@ -567,67 +567,66 @@ jQuery.fn.customSelect = function(options){
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //      CUSTOMSLIDER: Deslizar el rango para cambiar valor de bits
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-	jQuery.fn.customSlider = function(options){
-		var defaults = $.extend({
-			wrapper: 'slider-wrapper',
-			holder: 'slider-holder',
-			handle: 'ui-slider-handle',
-			bit: 'iconBit bit13px',
-			amount: 'slider-amount',
-			textValue: 'slider-textValue',
-			textMin: 'slider-minValue',
-			textMax: 'slider-maxValue'
-		}, options),
-		price, priceItem, datamax, realpriceItem, realprice, percent, percentItem,
-		wrappingInput = function(obj){
-			asignaValues(obj);
-			$(obj).wrap('<div class="'+ defaults.wrapper +'"><div class="'+ defaults.holder +'"/>');
-			$(obj).parent().append('<a href="#" class="'+ defaults.handle +'"><div class="'+ defaults.bit +'"><span class="iconBG"/><span class="iconFont-bit"/></div><span class="'+ defaults.amount +'">$<em>'+$(obj).val()+'</em></span></a>');
-			$(obj).parent().parent().append('<span class="'+ defaults.textValue +' '+ defaults.textMin +'">'+$(obj).data('min')+'</span><span class="'+ defaults.textValue +' '+ defaults.textMax +'">'+datamax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'</span>');
-			initSlider(obj);
-		},
-		asignaValues = function(obj){
-			if($(obj).data('moveprice')){
-				if($(obj).data('max') > price) {
-					datamax = price;
-				} else {
-					datamax = $(obj).data('max');
-				}
-			}
-		},
-		initSlider = function(obj){
-			$(obj).parent().parent().find('.'+defaults.holder).slider({
-				range: 'min',
-				value: +$(obj).val(),
-				min: +$(obj).data('min'),
-				max: +datamax,
-				slide: function(event, ui){
-          $(obj).val(ui.value);
-          var maxSelection, previousValue, value, $this=$(obj);
-          maxSelection = parseInt($this.data('max-selection') || '0');
-          value = Math.min(maxSelection, ui.value);
-          previousValue = $this.val();
-          $this.val(value);
-          $this.parent().find(".slider-amount em").text(value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-          if (ui.value > maxSelection) {
-            if (previousValue !== maxSelection) {
-              $(this).slider('value', maxSelection);
+  jQuery.fn.customSlider = function(options){
+    var defaults = $.extend({
+          wrapper: 'slider-wrapper',
+          holder: 'slider-holder',
+          handle: 'ui-slider-handle',
+          bit: 'iconBit bit18px',
+          amount: 'slider-amount',
+          textValue: 'slider-textValue',
+          textMin: 'slider-minValue',
+          textMax: 'slider-maxValue',
+          sliderBG: 'iconFont-slideBG',
+        }, options),
+        price, priceItem, datamax, realpriceItem, realprice, percent, percentItem,
+        wrappingInput = function(obj){
+          asignaValues(obj);
+          $(obj).wrap('<div class="'+ defaults.wrapper +'"><div class="'+ defaults.holder +'"/>');
+          $(obj).parent().append('<div class="' + defaults.sliderBG + '"></div><a href="#" class="' +  defaults.handle +'"><div class="'+ defaults.bit +'"><span class="iconBG"/><span class="iconFont-bit"/></div><span class="'+ defaults.amount +'">$<em>'+$(obj).val()+'</em></span></a>');
+          $(obj).parent().parent().append('<span class="'+ defaults.textValue +' '+ defaults.textMin +'">'+$(obj).data('min')+'</span><span class="'+ defaults.textValue +' '+ defaults.textMax +'">'+datamax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'</span>');
+          initSlider(obj);
+        },
+        asignaValues = function(obj){
+          if($(obj).data('moveprice')){
+            if($(obj).data('max') > price) {
+              datamax = price;
+            } else {
+              datamax = $(obj).data('max');
             }
-            return false;
           }
-				},
-				step: $(obj).data('step')
-			});
-		};
-		return this.each(function(){
-			wrappingInput(this);
-		});
-	};
-
-/* **********************************************
- Begin closeVideoHome.js
- ********************************************** */
+        },
+        initSlider = function(obj){
+          $(obj).parent().parent().find('.'+defaults.holder).slider({
+            range: 'min',
+            value: +$(obj).val(),
+            min: +$(obj).data('min'),
+            max: +datamax,
+            slide: function(event, ui){
+              $(obj).val(ui.value);
+              var maxSelection, previousValue, value, $this=$(obj);
+              maxSelection = parseInt($this.data('max-selection') || '0');
+              value = Math.min(maxSelection, ui.value);
+              previousValue = $this.val();
+              $this.val(value);
+              $this.parent().find(".slider-amount em").text(value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+              if (ui.value > maxSelection) {
+                if (previousValue !== maxSelection) {
+                  $(this).slider('value', maxSelection);
+                }
+                return false;
+              }
+            },
+            step: $(obj).data('step')
+          });
+        };
+    return this.each(function(){
+      wrappingInput(this);
+    });
+  };
+  /* **********************************************
+   Begin closeVideoHome.js
+   ********************************************** */
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //      CLOSEVIDEOHOME: Abre / Cierra div con el video y lo reinicia
@@ -705,7 +704,13 @@ jQuery.fn.changeBox = function(options){
           if (!$(obj).is(defaults.claseActivo) && defaults.beforeOpen() === false) {
             return;
           }
-          $(obj).siblings(defaults.contenedor).stop(true, true).slideToggle();
+          $(obj).siblings(defaults.contenedor).stop(true, true).slideToggle($.noop,
+          function(){
+            if($('#wbi-cart-no-data').is(':visible')){
+              window.setTimeout(function(){$('#wbi-cart-info').trigger('click');}, 3000);
+            }
+          }
+          );
           $(obj).toggleClass(defaults.claseActivo);
         },
         closeSiblings = function(obj){
@@ -717,11 +722,11 @@ jQuery.fn.changeBox = function(options){
       var wpOb = $(objeto).next(defaults.contenedor).find(defaults.wrapper);
         claseObj = $(objeto).attr('class').split(' ')[0];
         $(objeto).on('click', function(e){
-        e.stopPropagation();
-        if($(objeto).siblings(defaults.contenedor).css('display') === 'none'){
-          closeSiblings('.'+claseObj);
-        }
-        clickingTrigger(objeto);
+          e.stopPropagation();
+          if($(objeto).siblings(defaults.contenedor).css('display') === 'none'){
+            closeSiblings('.'+claseObj);
+          }
+          clickingTrigger(objeto);
       });
       wpOb.on('click', defaults.closeBtn, function(){
         $(objeto).trigger('click');

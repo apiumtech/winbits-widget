@@ -1,7 +1,7 @@
 <div class="creditcards wb-cards-subview" id="wbi-cards-list-holder">
   <ul>
     {{#each cards}}
-    <li class="creditcardItem  wb-card-list-item {{paymentMethodSupportedClass ../methods cardInfo.cardData.cardType}} {{getCardTypeClass cardInfo.cardData.cardType}} {{#if cardInfo.cardPrincipal}}creditcardSelected{{/if}}" data-notelegible="Lo sentimos. Esta compra acepta únicamente pago en efectivo o bits.">
+    <li class="creditcardItem  wb-card-list-item {{paymentMethodSupportedClass ../methods cardInfo.cardData.cardType}} {{getCardTypeClass cardInfo.cardData.cardType}} {{#if cardInfo.cardPrincipal}}creditcardSelected{{/if}}" data-notelegible="Lo sentimos. Esta compra acepta únicamente pago en efectivo o winbits.">
       {{paymentMethodSupportedDiv ../methods cardInfo.cardData.cardType}}
       <div class="creditcardMenu">
         <a class="wb-edit-card-link" href="#">editar</a>
@@ -24,7 +24,7 @@
     {{/each}}
     <li class="creditcardAdd">
       <h3>AGREGAR TARJETA +</h3>
-      <span id="wbi-add-new-card-link">Da click para agregar</span>
+      <span id="wbi-add-new-card-link">Da clic para agregar</span>
     </li>
   </ul>
 </div>
@@ -34,8 +34,8 @@
         <fieldset>
             <div class="column">
                 <h3>NOMBRE</h3>
-                <input type="text" class="required" placeholder="Nombre" maxlength="30" name="firstName">
-                <input type="text" class="required" placeholder="Apellido(s)" maxlength="50" name="lastName">
+                <input type="text" class="required" placeholder="Nombre" maxlength="30" name="firstName" id="wbi-new-card-firstName">
+                <input type="text" class="required" placeholder="Apellido(s)" maxlength="50" name="lastName" id="wbi-new-card-lastName">
                 <div class="wb-card-number-panel">
                     <input type="text" class="required wb-card-number-input" placeholder="Número de Tarjeta" maxlength="16" name="accountNumber">
                     <span class="wb-card-logo icon"></span>
@@ -48,18 +48,21 @@
             </div>
             <div class="column">
                 <h3>DIRECCIÓN</h3>
-                <input type="text" placeholder="Calle" class="required" name="street1">
-                <input type="text" placeholder="Número" class="inputMedium required" maxlength="50" name="number" style="display:block;">
-                <input type="text" placeholder="Teléfono" class="required" name="phoneNumber" maxlength="15">
-                <input type="text" placeholder="Codigo Postal" class="required" name="postalCode" maxlength="5">
-                <input type="text" placeholder="Ciudad" class="required" name="city" maxlength="40">
-                <input type="text" placeholder="Estado" class="required" name="state" maxlength="40">
+                <input type="text" placeholder="Calle" class="required" name="street1" id="wbi-new-card-street">
+                <input type="text" placeholder="Número" class="inputMedium required" maxlength="50" name="number" style="display:block;" id="wbi-new-card-number">
+                <input type="text" placeholder="Teléfono" class="required" name="phoneNumber" maxlength="15" id="wbi-new-card-phoneNumber">
+                <input type="text" placeholder="Codigo Postal" class="required" name="postalCode" maxlength="5" id="wbi-new-card-postalCode">
+                <input type="text" placeholder="Ciudad" class="required" name="city" maxlength="40" id="wbi-new-card-city">
+                <input type="text" placeholder="Estado" class="required" name="state" maxlength="40" id="wbi-new-card-state">
                 <input type="hidden" class="required" name="country" value="MX">
             </div>
             <div class="column columnLarge">
                 <h3>OPCIONES</h3>
                 <input type="checkbox" class="checkbox" name="cardPrincipal" id="cardPrincipalNew">
                 <label for="cardPrincipalNew" class="checkboxLabel">Hacer esta mi tarjeta principal</label>
+                <br/>
+                <input type="checkbox" class="checkbox" name="copyAddress" id="wbi-copy-address" value="false">
+                <label class="checkboxLabel">Utilizar mi dirección principal de envío</label>
                 <p class="note">Winbits puede guardar tus tarjetas de credito por ti, para que tu proxima compra sea mucho más rápida.</p>
                 <!--<div class="errorDiv"><p></p></div>-->
                 <div class="submitButton">

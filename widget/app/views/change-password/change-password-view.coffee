@@ -52,11 +52,11 @@ module.exports = class ChangePasswordView extends MyProfileView
     submitButton.prop('disabled', no)
 
   doChangePasswordSuccess: (data) ->
-    message = "Tu password fue actualizado correctamente."
+    message = "Tu contraseña se ha actualizado correctamente."
     options =
-      value: "Continuar"
-      title:'Cambio de password exitoso'
-      icon:'iconFont-ok'
+      value: "Aceptar"
+      title:'Actualización de contraseña'
+      icon:'iconFont-document'
     utils.showMessageModal(message, options)
     @doResetPasswordView()
 

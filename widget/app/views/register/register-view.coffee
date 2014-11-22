@@ -52,8 +52,8 @@ module.exports = class ModalRegisterView extends View
 
   doRegisterSuccess: (data) ->
     console.log "Request Success!"
-    message = "¡Gracias por registrarte con nosotros! Un mensaje de confirmación ha sido enviado a tu cuenta de correo."
-    options = value: "Continuar", title:'Registro Exitoso', icon:'iconFont-ok', onClosed: utils.redirectTo controller: 'home', action: 'index'
+    message = " Un mensaje de confirmación ha sido enviado a tu cuenta de correo electrónico."
+    options = value: "Continuar", title:'¡Gracias por registrarte con nosotros!', icon:'iconFont-ok', onClosed: utils.redirectTo controller: 'home', action: 'index'
     utils.showMessageModal(message, options)
 
   doRegisterError: (xhr, textStatus) ->
@@ -77,7 +77,7 @@ module.exports = class ModalRegisterView extends View
 
   errorWhenIsAFER206: (defaults) ->
     options =
-      message :"Esta cuenta ya esta registrada,es necesario confirmar tu cuenta de correo. Si no encuentras nuestro mail de confirmación, revisa tu bandeja de SPAM"
+      message :"Para poder ingresar a winbits, es necesario confirmar tu cuenta de correo. Si no encuentras nuestro mail de confirmación, revisa tu bandeja de SPAM."
       value : "Reenviar correo de confirmación"
       title : "Mail no confirmado"
       icon : "computerDoc"

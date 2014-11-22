@@ -250,7 +250,7 @@ describe 'jQueryWbLocationSelectSpec', ->
 
     $error = @$form.find('label.error')
     expect($error).to.exist
-        .and.to.has.text('El código postal no existe.')
+        .and.to.has.text('Este código postal no existe.')
         .and.to.has.property('length', 1)
     expect(@$zipCodeInput).to.has.class('error')
 

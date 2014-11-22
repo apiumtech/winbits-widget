@@ -63,7 +63,7 @@
   {{/compare}}
   {{#compare payment.identifier 'user.bits'}}
   <address>
-    <span>Tu pago se realizó por completo con bits.</span>
+    <span>Tu pago se realizó por completo con winbits.</span>
   </address>
   {{/compare}}
 {{else}}
@@ -137,7 +137,7 @@
           </li>
           <li>
             <span class="cashIcon cashBank"></span>
-            <p>Acude a tu sucursal HSBC. Realiza tu pago a la cuenta y número de referencia</p>
+            <p>Acude a una sucursal HSBC. Realiza tu pago a la cuenta y número de referencia</p>
           </li>
         </ul>
         <a href="#" class="btn submitOrder" id="submit-{{identifier}}">Comprar y recibir mi ficha de pago</a>
@@ -286,7 +286,7 @@
   {{/compare}}
   {{#compare identifier "user.bits"}}
           <div class="checkoutPaymentBits">
-            <h3>Concluye tu compra con bits</h3>
+            <h3>Concluye tu compra con winbits</h3>
             <p>Al hacer clic en "Pagar" acepto haber leído y comprendido los <a href="#">Términos y Condiciones</a></p>
             <span class="icon bitsMoney"></span>
             <input type="button" value="Pagar" class="btn submitOrder" id="submit-{{identifier}}">
