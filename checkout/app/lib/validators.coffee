@@ -49,6 +49,7 @@ module.exports =
     cardNumber:
       required: true
       creditcard: true
+      minlength: 15
 
   wbiAmexCardPaymentMsi:
     numberOfPayments:
