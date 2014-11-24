@@ -4787,6 +4787,9 @@ main {
     line-height: 20px;
     margin: 0 15px 0 0 !important;
 }
+.addInfo a {
+    text-decoration: underline;
+}
 .iconFont-star {
     cursor: pointer;
 }
@@ -4799,6 +4802,9 @@ main {
     margin: -12px 0 0 54px;
     text-align: center;
     width: 130px;
+}
+.mc-noitems-container.mc-noitems-logged {
+    margin-left: 28px;
 }
 .mc-noitems-container .wrapper {
     height: 100% !important;
