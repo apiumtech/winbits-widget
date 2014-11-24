@@ -178,10 +178,6 @@ new easyXDM.Rpc({},
 
     facebookStatus: (success) ->
       FB.getLoginStatus ((response) ->
-        console.log [
-          "FB.getLoginStatus"
-          response
-        ]
         success response
         return
       ), true
