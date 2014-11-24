@@ -79,11 +79,9 @@ new easyXDM.Rpc({},
   local:
     request: (url, options, success, error) ->
       if options and options.context
-        console.log "In RPC mode is not secure to use callbackas with context!"
         delete options.context
       config = type: "GET"
       $.extend config, options
-      console.log "Ajax Request -> " + url
       $.ajax(url, config).done((data, textStatus, jqXHR) ->
         if $.isFunction(success)
           response =
@@ -113,8 +111,7 @@ new easyXDM.Rpc({},
         data.apiToken = apiToken  if apiToken
         vcartToken = localStorage.getItem CART_TOKEN_KEY
         vcampaignsToken = localStorage.getItem CAMPAIGN_TOKEN_KEY
-        vReferenceToken = localStorage.getItem REFERENCE_TOKEN_KEY
-        console.log ['THE VCART', vcartToken, vcampaignsToken, window.location.href]
+        vReferenceToken = localStorage.getItem REFERENCE_TOKEN_KEY        
         vcartToken = DEFAULT_VIRTUAL_CART unless vcartToken
         localStorage.setItem CART_TOKEN_KEY, vcartToken
         data.vcartToken = vcartToken
@@ -122,14 +119,12 @@ new easyXDM.Rpc({},
         data.vcampaignsToken = vcampaignsToken
         data.utms = getUTMsExpirationAware()
         data.firstEntry = localStorage.getItem FIRST_ENTRY_KEY
-        console.log ["Winbits: The tokens >>>",data]
       else
         apiToken = getCookieByName(API_TOKEN_KEY)
         data.apiToken = apiToken if apiToken
         vcartToken = getCookieByName(CART_TOKEN_KEY)
         vcampaignsToken = getCookieByName(CAMPAIGN_TOKEN_KEY)
         vReferenceToken = getCookieByName(REFERENCE_TOKEN_KEY)
-        console.log ['THE VCART', vcartToken, vcampaignsToken, window.location.href]
         vcartToken = DEFAULT_VIRTUAL_CART unless vcartToken
         setCookie( CART_TOKEN_KEY, vcartToken )
         data.vcartToken = vcartToken
@@ -137,25 +132,17 @@ new easyXDM.Rpc({},
         data.vcampaignsToken = vcampaignsToken
         data.firstEntry = getCookieByName(FIRST_ENTRY_KEY)
         data.utms = getUTMsExpirationAware()
-        console.log ["Winbits: The tokens >>>",data]
-      
+
       data
 
     saveApiToken: (apiToken) ->
-      console.log [
-        "API Token from vertical"
-        apiToken
-      ]
       if( hasLocalStorage() )
-        console.log 'Local storage Available'
         localStorage.setItem API_TOKEN_KEY, apiToken
       else
-        console.log 'Local Storage no disponible se utilizaran cookies'
         setCookie(API_TOKEN_KEY, apiToken, 7)
       return
 
     firstEntry: ->
-      console.log ["First entry function"]
       if( hasLocalStorage() )
         if not localStorage.getItem(FIRST_ENTRY_KEY)
           localStorage.setItem(FIRST_ENTRY_KEY, yes)
@@ -193,7 +180,6 @@ new easyXDM.Rpc({},
       return
 
     logout: (facebookLogout) ->
-      console.log "Winbits: Logging out..."
       if( hasLocalStorage() )
         localStorage.removeItem(API_TOKEN_KEY)
         localStorage.setItem(CART_TOKEN_KEY, DEFAULT_VIRTUAL_CART)
@@ -203,12 +189,7 @@ new easyXDM.Rpc({},
       console.log "Wee do not log out facebook anymore!"
 
     facebookStatus: (success) ->
-      console.log "About to call FB.getLoginStatus."
       FB.getLoginStatus ((response) ->
-        console.log [
-          "FB.getLoginStatus"
-          response
-        ]
         success response
         return
       ), true
@@ -217,10 +198,6 @@ new easyXDM.Rpc({},
     facebookMe: (success) ->
       console.log "Winbits: Requesting me profile..."
       FB.api "/me", (response) ->
-        console.log [
-          "Facebook me response"
-          response
-        ]
         success response
         return
 
@@ -228,10 +205,6 @@ new easyXDM.Rpc({},
 
     storeUTMs: (utms, successFn) ->
       utms.expires = new Date().getTime() + MILLIS_90_MINUTES
-      console.log [
-        "Storing UTMS"
-        utms
-      ]
       if( hasLocalStorage() )
         localStorage.setItem UTM_PARAMS_KEY, JSON.stringify(utms)
       else
@@ -240,11 +213,9 @@ new easyXDM.Rpc({},
       return
 
     getUTMs: (successFn, errorFn) ->
-      console.log ["Getting UTMS"]
       getUTMsExpirationAware()
 
     removeUTMs: (successFn, errorFn) ->
-      console.log ["Removing UTMS"]
       if( hasLocalStorage() )
         localStorage.removeItem UTM_PARAMS_KEY
       else
