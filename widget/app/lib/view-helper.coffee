@@ -233,3 +233,5 @@ Handlebars.registerHelper "getBitsBalance", ->
 Handlebars.registerHelper "isLoggedIn",(options) ->
   if(not mediator.data.get('login-data'))
     options.fn(this)
+  else
+    options.inverse(this)
