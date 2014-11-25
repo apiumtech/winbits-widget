@@ -31,7 +31,7 @@ module.exports = class NotLoggedInPageView extends View
   initialize: ->
     super
     @model = new NotLoggedIn
-    @afterRender()
+#    @afterRender()
     @delegate 'click', '#wbi-login-btn', @onLoginButtonClick
     @delegate 'click', '#wbi-register-link', @onRegisterLinkClick
     @subscribeEvent 'facebook-button-event', @doFacebookLogin
