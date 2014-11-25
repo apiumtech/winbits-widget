@@ -37,7 +37,7 @@
                 {{/compare}}
               {{/each}}
               {{#compare ../status 'PAID'}}
-                {{#compare itemGroupType 'SERVICE' operator="!="}}
+                {{#compare itemGroupType 'PRODUCT'}}
                   <strong> Entrega estimada: {{toDefaultDateFormat estimatedDeliveryDate}}</strong>
                 {{/compare}}
               {{/compare}}
