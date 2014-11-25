@@ -36,6 +36,11 @@
                   <strong>{{name}}:{{label}}</strong>
                 {{/compare}}
               {{/each}}
+              {{#compare ../status 'PAID'}}
+                {{#compare itemGroupType 'SERVICE' operator="!="}}
+                  <strong> Entrega estimada: {{toDefaultDateFormat estimatedDeliveryDate}}</strong>
+                {{/compare}}
+              {{/compare}}
               {{#if refundedDetail}}
                 <span class="status3">REEMBOLSADO</span>
               {{/if}}
