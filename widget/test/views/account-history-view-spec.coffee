@@ -25,10 +25,8 @@ describe 'AccountHistoryViewSpec', ->
 
   it 'account history render', ->
     expect(@view.el).exist
-    expect(@view.el).is.render
-    #expect(@view.$('#wbi-account-order-count')).exist
+    expect(@view.el).is.render    
     expect(@view.$('#wbi-account-bits-total')).exist
 
-  it 'account values bits and order rendered', ->
-    #expect(@view.$('#wbi-account-order-count').text()).is.equal '2'
+  it 'account values bits and order rendered', ->    
     expect(@view.$('#wbi-account-bits-total').text()).is.equal '0'
