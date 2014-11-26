@@ -331,6 +331,7 @@ installmentLoans = (methods, cardType) ->
   ac = amexOrCyberSource cardType
 
   msi = ""
+  console.log "methods", methods
   if (methods?)
       msi = (method.identifier.substring(ac?.length, method?.identifier?.length) for method in methods when method.identifier.match ac).unique()
 
@@ -343,6 +344,11 @@ installmentLoansRegular = (methods, cardType) ->
 
 supportMsi = (supportInstallments, methods, msi) ->
   supportInstallments == true and (msi?.length or methods == undefined)
+
+Handlebars.registerHelper "isInstallmentMsi", (supportInstallments, methods, cardType, options) ->  
+  msi = installmentLoans methods, cardType
+  console.log "msi: ",  msi
+  if supportInstallments and msi?.length then options.fn this else options.inverse this
 
 Handlebars.registerHelper "howManyInstallmentLoans", (supportInstallments, methods, cardType) ->
   msi = installmentLoans methods, cardType
