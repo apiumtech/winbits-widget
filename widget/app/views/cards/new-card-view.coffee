@@ -11,10 +11,12 @@ module.exports = class NewCardView extends CardView
   initialize: ->
     super
     @delegate 'click', '.wbc-save-card-btn', @saveNewCard
-    @delegate 'change', '#wbi-copy-address', @doCopyAddress
+    @delegate 'click', '.checkbox-wrapper', @doCopyAddress
   
   doCopyAddress:(e) ->
-    if @$('#wbi-copy-address').prop('checked') is yes
+    e.preventDefault()
+    $copyAddress = @$(e.currentTarget).find('#wbi-copy-address')
+    if $copyAddress.prop('checked') is yes
       @fillCardWithMain()
     else
       @cleanCardData()
