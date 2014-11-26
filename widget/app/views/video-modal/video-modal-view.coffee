@@ -20,6 +20,6 @@ module.exports = class LoginView extends View
     super
     @showAsModal()
 
+
   showAsModal: ->
     $('<a>').wbfancybox(href: '#' + @id, onClosed: (-> utils.redirectTo(controller: 'home', action: 'index')), height:550).click()
-

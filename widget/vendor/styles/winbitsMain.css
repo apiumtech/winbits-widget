@@ -2285,7 +2285,7 @@ input[type="submit"].btn.btn-mini {
     height: 34px;
     width: 34px;
 }
-/*.bit12px, .shopCarMin, .changePasword, .creditCard, 
+/*.bit12px, .shopCarMin, .changePasword, .creditCard,
 .facebookCircle, .twitterCircle, .changeAdress {
 	.size(20px, 20px);
 }*/
@@ -4137,6 +4137,7 @@ main {
     color: #000000;
     font-size: 14px;
     width: auto;
+    max-width: 200px;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .shippingNewAddress .columnLarge .note,
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .creditcardNew .columnLarge .note {
@@ -4787,6 +4788,9 @@ main {
     line-height: 20px;
     margin: 0 15px 0 0 !important;
 }
+.addInfo a {
+    text-decoration: underline;
+}
 .iconFont-star {
     cursor: pointer;
 }
@@ -4799,6 +4803,9 @@ main {
     margin: -12px 0 0 54px;
     text-align: center;
     width: 130px;
+}
+.mc-noitems-container.mc-noitems-logged {
+    margin-left: 28px;
 }
 .mc-noitems-container .wrapper {
     height: 100% !important;

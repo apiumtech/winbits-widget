@@ -118,26 +118,31 @@ module.exports = class CartView extends View
     cartItemsNotReferences=[]
     referencesKeys = _.keys(referencesStorage.references)
     for cartItem in cartItems
-      _.find(referencesKeys, (referenceKey)->
-        if cartItem[referenceKey]
-          cartItemsReferences.push {quantity: cartItem[referenceKey], references:referencesStorage.references[referenceKey], skuProfileId: parseInt(referenceKey)}
-        else
-          cartItemsNotReferences.push cartItem
-      )
+      if $.isEmptyObject referencesKeys
+        cartItemsNotReferences.push cartItem
+      else
+        _.find(referencesKeys, (referenceKey)->
+          if cartItem[referenceKey]
+            cartItemsReferences.push {quantity: cartItem[referenceKey], references:referencesStorage.references[referenceKey], skuProfileId: parseInt(referenceKey)}
+          else
+            cartItemsNotReferences.push cartItem
+        )
     virtualCart.cartItems = cartItemsNotReferences
     {virtualCart:virtualCart, cartReferences:cartItemsReferences}
 
   saveVirtualReferences:($formData)->
     formData = $formData.virtualCart
-    @model.transferVirtualCart(formData, context:@).done((data)->
-      unless $.isEmptyObject $formData.cartReferences
-        @model.requestToTransferVirtualCartReference($formData.cartReferences[0], context:@).done((dataReference)->
-            $.extend dataReference.response.cartDetails, data.response.cartDetails
-            dataReference.response.failedCartDetails= data.response.failedCartDetails
-            @successTransferVirtualCart(dataReference)
-        ).fail(()->
-          @successTransferVirtualCart(data)
-        )
-      else
-        @successTransferVirtualCart(data)
-    )
+    unless $.isEmptyObject formData.cartItems
+      @model.transferVirtualCart(formData, context:@).done((data)->
+        unless $.isEmptyObject $formData.cartReferences
+          @model.requestToTransferVirtualCartReference($formData.cartReferences[0], context:@).done((dataReference)->
+              $.extend dataReference.response.cartDetails, data.response.cartDetails
+              dataReference.response.failedCartDetails= data.response.failedCartDetails
+              @successTransferVirtualCart(dataReference)
+          ).fail(()->
+            @successTransferVirtualCart(data)
+          )
+        else
+          @successTransferVirtualCart(data))
+    else unless $.isEmptyObject $formData.cartReferences
+      @model.requestToTransferVirtualCartReference($formData.cartReferences[0], context:@).done(@successTransferVirtualCart).fail(()=> @model.fetch(success: $.proxy(@successFetch, @)))

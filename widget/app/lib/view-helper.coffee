@@ -213,10 +213,10 @@ Handlebars.registerHelper "getHomeUrl", ()->
 Handlebars.registerHelper "getStatusCouponClickonero", (claimEnd) ->
   claimEndDate = moment(new Date(claimEnd)).format('DD/MM/YYYY');
   today =  moment(Date()).format('DD/MM/YYYY')
-  if  claimEndDate < today
-    return "Cupón expirado"
+  if claimEndDate < today
+    return "Oferta lograda,tu cupón ha sido enviado a tu email."
   else
-    return "Oferta lograda, tu cupón ha sido enviado a tu email."
+    return "Cupón expirado"
 
 Handlebars.registerHelper "orderStatus", (status) ->
   statusToView = ''
@@ -233,3 +233,5 @@ Handlebars.registerHelper "getBitsBalance", ->
 Handlebars.registerHelper "isLoggedIn",(options) ->
   if(not mediator.data.get('login-data'))
     options.fn(this)
+  else
+    options.inverse(this)

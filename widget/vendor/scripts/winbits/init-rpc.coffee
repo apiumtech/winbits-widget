@@ -72,7 +72,6 @@ else
     )(verifyingVerticalData)
 
     verifyingLoginData = new $.Deferred().done (data) ->
-      console.log 'Login data verified :)'
       if $.isEmptyObject data.response
 
         if( Winbits.utils.hasLocalStorage() )
@@ -115,7 +114,6 @@ else
       timeoutDeferred(deferred).promise()
 
     getData = (=>
-      console.log ['has Winbits get data', Winbits]
       deferred = new $.Deferred()
       promise: deferred.promise()
       fn: ->
@@ -123,7 +121,6 @@ else
     )()
 
     loadRpc().done ->
-      console.log 'RPC loaded :)'
       verifyVerticalData()
       getData.fn()
     .fail ->
@@ -133,7 +130,6 @@ else
       verifyingLoginData.reject()
 
     getData.promise.done (data) ->
-      console.log 'RPC data got :)'
       Winbits.env.set('virtual-cart', data.vcartToken)
       Winbits.env.set('virtual-campaigns', data.vcampaignsToken)
       Winbits.env.set('firstEntry', data.firstEntry)
@@ -145,4 +141,3 @@ else
       verifyingLoginData.reject() # This really need to happen!
 
 Winbits.promises = promises
-console.log 'Set up promises :)'
