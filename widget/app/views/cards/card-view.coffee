@@ -18,8 +18,9 @@ module.exports = class CardView extends View
   attach: ->
     super
     @$('.wbc-country-field').customSelect()
-    @$('.checkbox').customCheckbox()
-    @$('.wbc-card-form').validate(
+    $form = @$('.wbc-card-form')
+    $form.customCheckbox()
+    $form.validate(
       ignore: ''
       groups:
         cardExpiration: 'expirationMonth expirationYear'
