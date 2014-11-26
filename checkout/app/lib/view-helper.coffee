@@ -331,7 +331,6 @@ installmentLoans = (methods, cardType) ->
   ac = amexOrCyberSource cardType
 
   msi = ""
-  console.log "methods", methods
   if (methods?)
       msi = (method.identifier.substring(ac?.length, method?.identifier?.length) for method in methods when method.identifier.match ac).unique()
 
@@ -347,7 +346,6 @@ supportMsi = (supportInstallments, methods, msi) ->
 
 Handlebars.registerHelper "isInstallmentMsi", (supportInstallments, methods, cardType, options) ->  
   msi = installmentLoans methods, cardType
-  console.log "msi: ",  msi
   if supportInstallments and msi?.length then options.fn this else options.inverse this
 
 Handlebars.registerHelper "howManyInstallmentLoans", (supportInstallments, methods, cardType) ->
@@ -375,7 +373,6 @@ Handlebars.registerHelper "isMSIPayment", (payment, options) ->
     #monthlyPayment = payment.amount / numberOfPayments
     paymentDividend = Math.round (payment.amount / numberOfPayments * 100) 
     monthlyPayment = paymentDividend / 100
-    console.log 'monthly payment', monthlyPayment
     options.fn ( numberOfPayments: numberOfPayments, monthlyPayment: monthlyPayment )
   else
     options.inverse this
@@ -448,7 +445,6 @@ Handlebars.registerHelper "withMsiPaymentsMethods", (methods, options) ->
 
   allMsiPayments = allMsiPaymentsFunction methods
   msiPayments = msiPaymentsFunction allMsiPayments
-  console.log 'msiPayments', msiPayments
 
   if msiPayments.length > 0 then options.fn(msiPayments: msiPayments, paymentMethods: methods) else options.inverse this
 
