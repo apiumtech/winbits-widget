@@ -16,10 +16,11 @@ module.exports = class NewCardView extends CardView
   doCopyAddress:(e) ->
     e.preventDefault()
     $copyAddress = @$(e.currentTarget).find('#wbi-copy-address')
-    if $copyAddress.prop('checked') is yes
-      @fillCardWithMain()
-    else
-      @cleanCardData()
+    if $copyAddress.length > 0
+      if $copyAddress.prop('checked') is yes
+        @fillCardWithMain()
+      else
+        @cleanCardData()
 
   saveNewCard: ->
     $form = @$('.wbc-card-form')
