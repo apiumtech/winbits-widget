@@ -6,14 +6,14 @@
         <p>Para validar tu tarjeta es necesario que ingreses el número de seguridad de tu tarjeta</p>
         <label for="winbitsPaymentNumber"># de Seguridad</label>
         <input type="text" class="required digits" placeholder="{{cardInfo.securityNumberPlaceholder}}" name="cvNumber" id="winbitsPaymentNumber" minlength="{{cardInfo.maxSecurityNumber}}" maxlength="{{cardInfo.maxSecurityNumber}}">
-        {{#if cardInfo.supportInstallments}}
+        {{#isInstallmentMsi cardInfo.supportInstallments methods cardInfo.cardData.cardType}}
         <h3>MESES SIN INTERESES</h3>
         <p>Esta compra aplica para meses sin intereses. Si así lo deseas seleccione la opción más conveniente</p>
         <select class="select required" data-clase="selectRegister" name="totalMsi" id="totalMsi">
           <option>Meses sin intereses</option>
          {{howManyInstallmentLoans cardInfo.supportInstallments ../methods cardInfo.cardData.cardType}}
         </select>
-        {{/if}}
+        {{/isInstallmentMsi}}
       </div>
       <div class="column columExtralarge">
         <div class="submitButton">
