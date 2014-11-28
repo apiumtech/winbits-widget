@@ -213,7 +213,7 @@ Handlebars.registerHelper "getHomeUrl", ()->
 Handlebars.registerHelper "getStatusCouponClickonero", (claimEnd) ->
   claimEndDate = moment(new Date(claimEnd)).format('DD/MM/YYYY');
   today =  moment(Date()).format('DD/MM/YYYY')
-  if claimEndDate < today
+  if claimEndDate > today
     return "Oferta lograda,tu cupón ha sido enviado a tu email."
   else
     return "Cupón expirado"
