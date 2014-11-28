@@ -17,13 +17,14 @@ module.exports = class ShippingOrderHistory extends Model
     for order in orders
       refundDetails = []
       orderDetails = []
-      for od in order.details
-        if(od.refundedDetail)
-          refundDetails.push od
-        else
-          orderDetails.push od
-      order.details = @refundOrders(orderDetails, refundDetails)
-      ordersToView.push order
+      if order.details
+        for od in order.details
+          if(od.refundedDetail)
+            refundDetails.push od
+          else
+            orderDetails.push od
+        order.details = @refundOrders(orderDetails, refundDetails)
+        ordersToView.push order
     ordersToView
 
   refundOrders:(orderDetails, refundDetails)->
