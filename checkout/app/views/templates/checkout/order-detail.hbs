@@ -4,6 +4,9 @@
     <a href="#"><img src="{{defaultThumbnail sku.thumbnail}}" width="28" height="36" alt="{{sku.name}}"></a>
     <p>{{sku.name}}
       <span>({{quantity}}) {{{joinAttributes sku.mainAttribute sku.attributes}}}</span>
+          {{#each references}}
+            <span>{{{code}}}</span>
+          {{/each}}
       <span style="font-weight: bold">{{formatCurrency amount}}</span>
     </p>
   </li>

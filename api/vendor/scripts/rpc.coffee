@@ -3,6 +3,7 @@
 API_TOKEN_KEY = '_wb_api_token'
 CART_TOKEN_KEY = '_wb_cart_token'
 CAMPAIGN_TOKEN_KEY = '_wb_campaign_token'
+REFERENCE_TOKEN_KEY = '_wb_reference_token'
 UTM_PARAMS_KEY = '_wb_utm_params'
 FIRST_ENTRY_KEY = '_wb_firts_entry'
 DEFAULT_VIRTUAL_CART = '{"cartItems":[], "bits":0}'
@@ -110,9 +111,11 @@ new easyXDM.Rpc({},
         data.apiToken = apiToken  if apiToken
         vcartToken = localStorage.getItem CART_TOKEN_KEY
         vcampaignsToken = localStorage.getItem CAMPAIGN_TOKEN_KEY
+        vReferenceToken = localStorage.getItem REFERENCE_TOKEN_KEY        
         vcartToken = DEFAULT_VIRTUAL_CART unless vcartToken
         localStorage.setItem CART_TOKEN_KEY, vcartToken
         data.vcartToken = vcartToken
+        data.vReferenceToken = vReferenceToken
         data.vcampaignsToken = vcampaignsToken
         data.utms = getUTMsExpirationAware()
         data.firstEntry = localStorage.getItem FIRST_ENTRY_KEY
@@ -121,9 +124,11 @@ new easyXDM.Rpc({},
         data.apiToken = apiToken if apiToken
         vcartToken = getCookieByName(CART_TOKEN_KEY)
         vcampaignsToken = getCookieByName(CAMPAIGN_TOKEN_KEY)
+        vReferenceToken = getCookieByName(REFERENCE_TOKEN_KEY)
         vcartToken = DEFAULT_VIRTUAL_CART unless vcartToken
         setCookie( CART_TOKEN_KEY, vcartToken )
         data.vcartToken = vcartToken
+        data.vReferenceToken = vReferenceToken
         data.vcampaignsToken = vcampaignsToken
         data.firstEntry = getCookieByName(FIRST_ENTRY_KEY)
         data.utms = getUTMsExpirationAware()
@@ -165,6 +170,13 @@ new easyXDM.Rpc({},
         localStorage.setItem CAMPAIGN_TOKEN_KEY, vCampaigns
       else
         setCookie(CAMPAIGN_TOKEN_KEY, vCampaigns, 7)
+      return
+
+    storeVirtualReferences: (vReferences)->
+      if( hasLocalStorage() )
+        localStorage.setItem REFERENCE_TOKEN_KEY, vReferences
+      else
+        setCookie(REFERENCE_TOKEN_KEY, vReferences, 7)
       return
 
     logout: (facebookLogout) ->
@@ -215,6 +227,7 @@ new easyXDM.Rpc({},
     saveApiToken: {}
     storeVirtualCart: {}
     storeVirtualCampaigns:{}
+    storeVirtualReferences:{}
     logout: {}
     facebookStatus: {}
     facebookMe: {}

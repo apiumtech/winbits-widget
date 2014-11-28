@@ -55,10 +55,10 @@ describe 'TransferFromVirtualToAssignedCartViewSpec', ->
     sinon.stub(utils, 'isLoggedIn').returns(yes)
     sinon.stub(utils, 'getVirtualCart').returns DEFAULT_VIRTUAL_CART_WHIT_ONCE_VALUE
     sinon.stub(@model, 'fetch').returns()
-    sinon.stub(@view, 'successTransferVirtualCart')
+    sinon.stub(@view, 'saveVirtualReferences')
     sinon.stub(@model, 'transferVirtualCart').returns TestUtils.promises.resolved
     @view.restoreCart()
-    expect(@view.successTransferVirtualCart).to.has.been.called
+    expect(@view.saveVirtualReferences).to.has.been.called
     expect(@model.fetch).to.not.has.been.calledOnce
 
   it 'transfer virtual cart params', ->

@@ -7,6 +7,7 @@ CartBitsView = require 'views/cart/cart-bits-view'
 CartPaymentMethodsView = require 'views/cart/cart-payment-methods-view'
 Cart = require 'models/cart/cart'
 utils = require 'lib/utils'
+cartUtils = require 'lib/cart-utils'
 $ = Winbits.$
 _ = Winbits._
 mediator = Winbits.Chaplin.mediator
@@ -61,6 +62,9 @@ module.exports = class CartView extends View
     if @$('#wbi-cart-drop').is(':visible')
       @$('#wbi-cart-info').trigger('click')
 
+  successVirtualFetch: (data)->
+    @successFetch(utils.updateReferencesVirtualCart(data))
+
   successFetch: (data)->
     @updateCartModel data
     mediator.data.set 'bits-to-cart', @model.get 'bitsTotal'
@@ -70,13 +74,13 @@ module.exports = class CartView extends View
     virtualCart = JSON.parse(utils.getVirtualCart())
     if(utils.isLoggedIn())
       unless $.isEmptyObject virtualCart.cartItems
-        formData = virtualCart
-        @model.transferVirtualCart(formData, context:@)
-        .done(@successTransferVirtualCart)
+        $forms = @getFormsToTransferVirtualCart()
+        @saveVirtualReferences($forms)
+
       else
         @model.fetch(success: $.proxy(@successFetch, @))
     else
-      @model.fetch(success: $.proxy(@successFetch, @))
+      @model.fetch(success: $.proxy(@successVirtualFetch, @))
 
   successTransferVirtualCart: (data) ->
     @successFetch(data)
@@ -105,3 +109,40 @@ module.exports = class CartView extends View
 
   shouldOpenCart: ->
     not @model.isCartEmpty()
+
+  getFormsToTransferVirtualCart:()->
+    virtualCart = JSON.parse(utils.getVirtualCart())
+    referencesStorage = utils.getReferencesVirtualCart()
+    cartItems = virtualCart.cartItems
+    cartItemsReferences=[]
+    cartItemsNotReferences=[]
+    referencesKeys = _.keys(referencesStorage.references)
+    for cartItem in cartItems
+      if $.isEmptyObject referencesKeys
+        cartItemsNotReferences.push cartItem
+      else
+        _.find(referencesKeys, (referenceKey)->
+          if cartItem[referenceKey]
+            cartItemsReferences.push {quantity: cartItem[referenceKey], references:referencesStorage.references[referenceKey], skuProfileId: parseInt(referenceKey)}
+          else
+            cartItemsNotReferences.push cartItem
+        )
+    virtualCart.cartItems = cartItemsNotReferences
+    {virtualCart:virtualCart, cartReferences:cartItemsReferences}
+
+  saveVirtualReferences:($formData)->
+    formData = $formData.virtualCart
+    unless $.isEmptyObject formData.cartItems
+      @model.transferVirtualCart(formData, context:@).done((data)->
+        unless $.isEmptyObject $formData.cartReferences
+          @model.requestToTransferVirtualCartReference($formData.cartReferences[0], context:@).done((dataReference)->
+              $.extend dataReference.response.cartDetails, data.response.cartDetails
+              dataReference.response.failedCartDetails= data.response.failedCartDetails
+              @successTransferVirtualCart(dataReference)
+          ).fail(()->
+            @successTransferVirtualCart(data)
+          )
+        else
+          @successTransferVirtualCart(data))
+    else unless $.isEmptyObject $formData.cartReferences
+      @model.requestToTransferVirtualCartReference($formData.cartReferences[0], context:@).done(@successTransferVirtualCart).fail(()=> @model.fetch(success: $.proxy(@successFetch, @)))

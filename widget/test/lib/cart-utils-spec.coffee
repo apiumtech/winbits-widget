@@ -23,6 +23,7 @@ describe 'CartUtilsSpec', ->
   VIRTUAL_CART_URL = utils.getResourceURL('orders/virtual-cart-items.json')
   CART_URL = utils.getResourceURL('orders/cart-items.json')
   ADD_TO_CART_SUCCESS_RESPONSE = '{"meta":{"status":200},"response":{"itemsTotal":10,"itemsCount":1,"shippingTotal":250,"cartDetails":[{"quantity":1,"skuProfile":{"id":1,"price":10,"fullPrice":100,"item":{"attributeLabel":"attributeLabel","name":"ItemGroupProfile","vertical":{"name":"_Test_","logo":"http://www.winbits-test.com"},"thumbnail":null},"attributes":[],"mainAttribute":{"name":"attributeName","label":"attributeLabel","type":"TEXT","value":"attributeValue"},"vertical":{"name":"_Test_","logo":"http://www.winbits-test.com"}},"min":1,"max":100,"warnings":null}],"cashback":0}}'
+  ADD_TO_CART_WITH_REFERENCE_SUCCESS_RESPONSE = '{"meta":{"status":200},"response":{"itemsTotal":10,"itemsCount":1,"shippingTotal":250,"cartDetails":[{"quantity":1,"references":[],"skuProfile":{"id":1,"price":10,"fullPrice":100,"item":{"attributeLabel":"attributeLabel","name":"ItemGroupProfile","vertical":{"name":"_Test_","logo":"http://www.winbits-test.com"},"thumbnail":null},"attributes":[],"mainAttribute":{"name":"attributeName","label":"attributeLabel","type":"TEXT","value":"attributeValue"},"vertical":{"name":"_Test_","logo":"http://www.winbits-test.com"}},"min":1,"max":100,"warnings":null}],"cashback":0}}'
 
   before ->
     sinon.stub(utils, 'getApiToken').returns(undefined)
@@ -97,7 +98,6 @@ describe 'CartUtilsSpec', ->
     setLoginContext()
     stub = sinon.stub()
     EventBroker.subscribeEvent('cart-changed', stub)
-
     cartUtils.addToUserCart([id: 1, quantity: 2])
 
     respondSuccess.call(@)
@@ -106,6 +106,13 @@ describe 'CartUtilsSpec', ->
         .and.to.be.calledOnce
 
     EventBroker.unsubscribeEvent('cart-changed', stub)
+
+  it 'validate references in cart-items',  ->
+    expect(cartUtils.validateReferences([{id:1, quantity:2, references:['asdasdas']},{id:1, quantity:2}])).is.equals yes
+    expect(cartUtils.validateReferences([{id:1, quantity:2, references:['asdasdas']}])).is.equals yes
+    expect(cartUtils.validateReferences([{id:1, quantity:2},{id:1, quantity:2}])).is.equals no
+    expect(cartUtils.validateReferences([{id:1, quantity:2}])).is.equals no
+
 
   _.each addToCartErrors, (title, code) ->
     it "should show error message if add to virtual cart fails: #{code}", ->

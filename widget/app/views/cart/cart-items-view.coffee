@@ -38,7 +38,7 @@ module.exports = class CartItemsView extends View
   doUpdateItemRequestSuccess: (data) ->
     #cartUtils.hideCartLoading()
     if not utils.isLoggedIn()
-      cartUtils.addToVirtualCartSuccess(data)
+      cartUtils.deleteToVirtualCartSuccess(data)
     else
       cartUtils.publishCartChangedEvent(data)
 
