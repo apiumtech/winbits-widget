@@ -179,30 +179,6 @@ new easyXDM.Rpc({},
         setCookie(REFERENCE_TOKEN_KEY, vReferences, 7)
       return
 
-    logout: (facebookLogout) ->
-      if( hasLocalStorage() )
-        localStorage.removeItem(API_TOKEN_KEY)
-        localStorage.setItem(CART_TOKEN_KEY, DEFAULT_VIRTUAL_CART)
-      else
-        deleteCookie(API_TOKEN_KEY)
-	setCookie(CART_TOKEN_KEY, DEFAULT_VIRTUAL_CART, 7)
-      console.log "Wee do not log out facebook anymore!"
-
-    facebookStatus: (success) ->
-      FB.getLoginStatus ((response) ->
-        success response
-        return
-      ), true
-      return
-
-    facebookMe: (success) ->
-      console.log "Winbits: Requesting me profile..."
-      FB.api "/me", (response) ->
-        success response
-        return
-
-      return
-
     storeUTMs: (utms, successFn) ->
       utms.expires = new Date().getTime() + MILLIS_90_MINUTES
       if( hasLocalStorage() )
@@ -220,6 +196,30 @@ new easyXDM.Rpc({},
         localStorage.removeItem UTM_PARAMS_KEY
       else
         deleteCookie(UTM_PARAMS_KEY)
+
+    logout: (facebookLogout) ->
+      if( hasLocalStorage() )
+        localStorage.removeItem(API_TOKEN_KEY)
+        localStorage.setItem(CART_TOKEN_KEY, DEFAULT_VIRTUAL_CART)
+      else
+        deleteCookie(API_TOKEN_KEY)
+        setCookie(CART_TOKEN_KEY, DEFAULT_VIRTUAL_CART, 7)
+      console.log "Wee do not log out facebook anymore!"
+
+    facebookStatus: (success) ->
+      FB.getLoginStatus ((response) ->
+        success response
+        return
+      ), true
+      return
+
+    facebookMe: (success) ->
+      console.log "Winbits: Requesting me profile..."
+      FB.api "/me", (response) ->
+        success response
+        return
+
+      return
 
   remote:
     request: {}

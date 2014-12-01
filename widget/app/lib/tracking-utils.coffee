@@ -23,7 +23,7 @@ _(trackingUtils).extend Winbits.trackingUtils,
     rpc.storeUTMs(utms)
 
   getUTMs: ->
-    mediator.data.get(@UTMS_KEY)
+    env.get(@UTMS_KEY)
 
   shouldSaveUTMs: ->
     @URL_CONTAINS_VALID_UTMS and not utils.isLoggedIn()
