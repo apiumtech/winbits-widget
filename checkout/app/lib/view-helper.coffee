@@ -354,12 +354,20 @@ Handlebars.registerHelper "howManyInstallmentLoans", (supportInstallments, metho
       option = ("<option value=#{num}>#{num}</option>" for num in msi)
       return new Handlebars.SafeString(option);
 
-Handlebars.registerHelper "isRegularPayment",(methods, cardType,options)->
-  console.log ["Card Type", cardType]
-  console.log ["Methods", methods]
-  supported =  yes
-  if supported then options.fn this else options.inverse this
+setRegularPayment =(type) ->
+  if type is "amex"
+    type += ".cc"
+  else
+    type +=".token"
+  type
 
+isRegularPaymentAllow = (type, methods)->
+  methods.find((method)-> method.identifier is type)
+
+Handlebars.registerHelper "isRegularPayment",(methods, cardType,options)->
+  type = setRegularPayment(amexOrCyberSourceRegular(cardType).split(".")[0])
+  supported =  isRegularPaymentAllow(type, methods)
+  if supported then options.fn this else options.inverse this
 
 Handlebars.registerHelper "hasMSI", (supportInstallments, methods, cardType) ->
   msi = installmentLoans methods, cardType
