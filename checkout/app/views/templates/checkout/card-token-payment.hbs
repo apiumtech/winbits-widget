@@ -11,6 +11,7 @@
         <p>Esta compra aplica para meses sin intereses. Si así lo deseas seleccione la opción más conveniente</p>
         <select class="select required" data-clase="selectRegister" name="totalMsi" id="totalMsi">
           <option>Meses sin intereses</option>
+          <option value="1">Pago único</option>
          {{howManyInstallmentLoans cardInfo.supportInstallments ../methods cardInfo.cardData.cardType}}
         </select>
         {{/isInstallmentMsi}}
