@@ -12,7 +12,7 @@ _(loginUtils).extend
   applyLogin : (loginData) ->
     mediator.data.set 'login-data', loginData
     utils.saveApiToken loginData.apiToken
-    trackingUtils.deleteUTMs()
+
     Winbits.trigger 'loggedin', [_.clone loginData]
 
   applyLogout: (logoutData) ->
@@ -20,7 +20,7 @@ _(loginUtils).extend
       localStorage.clear()
     else
       utils.deleteApiToken()
-
+    trackingUtils.deleteUTMs()
     flagFirstEntry = mediator.data.get('first-entry')
     mediator.data.clear()
     Winbits.env.get('rpc').logout ->
