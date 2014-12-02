@@ -16,7 +16,6 @@ _(trackingUtils).extend Winbits.trackingUtils,
     utms = @getUTMParams()
     if @shouldSaveUTMs()
       @saveUTMs(utms)
-    env.set?(@UTMS_KEY, undefined)
 
   saveUTMs: (utms) ->
     mediator.data.set(@UTMS_KEY, utms)
