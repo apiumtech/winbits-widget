@@ -361,8 +361,9 @@ setRegularPayment =(type) ->
     type +=".token"
   type
 
-isRegularPaymentAllow = (type, methods)->
-  methods.find((method)-> method.identifier is type)
+isRegularPaymentAllow =(type, methods) ->
+  flag = _.find(methods,(method)-> method.identifier is type)
+  flag
 
 Handlebars.registerHelper "isRegularPayment",(methods, cardType,options)->
   type = setRegularPayment(amexOrCyberSourceRegular(cardType).split(".")[0])
