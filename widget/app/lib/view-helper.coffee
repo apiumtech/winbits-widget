@@ -188,7 +188,7 @@ Handlebars.registerHelper "abs", (number) ->
   Math.abs(number)
 
 checkAvailableCoupons = (coupons) ->
-  _.every coupons, (coupon) -> coupon.status is 'AVAILABLE'
+  _.every coupons, (coupon) -> coupon.status is 'AVAILABLE' or coupon.status is 'REDEEMED'
 
 Handlebars.registerHelper "availableCoupon", (options) ->
   available = checkAvailableCoupons @coupons
