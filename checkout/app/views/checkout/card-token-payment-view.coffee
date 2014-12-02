@@ -40,6 +40,12 @@ module.exports = class CardTokenPaymentView extends View
     util.renderSliderOnPayment(100, true)
     @publishEvent 'paymentFlowCancelled'
 
+
+  checkRegularPayment:(totalMsi)->
+    console.log ["total msi ", totalMsi]
+    parseInt(totalMsi) is 1
+
+
   onCardTokenPaymentFormSubmitted: (e) ->
     e.preventDefault()
     #
@@ -54,8 +60,12 @@ module.exports = class CardTokenPaymentView extends View
         formData.deviceFingerPrint = Winbits.checkoutConfig.orderId
 
       if formData.totalMsi and paymentData.paymentMethod isnt 'amex.cc'
-        paymentData.paymentMethod = 'cybersource.token.msi.' + formData.totalMsi
-        formData.totalMsi = parseInt formData.totalMsi, 10
+        if not @checkRegularPayment(formData.totalMsi)
+          paymentData.paymentMethod = 'cybersource.token.msi.' + formData.totalMsi
+          formData.totalMsi = parseInt formData.totalMsi, 10
+        else
+          paymentData.paymentMethod = 'cybersource.token'
+
       
       if paymentData.paymentMethod is 'amex.cc'
        cardData = @model.get("cardInfo").cardData
@@ -78,10 +88,13 @@ module.exports = class CardTokenPaymentView extends View
        delete formData['cvNumber']
        delete paymentData.paymentInfo['subscriptionId']
 
-       if formData.totalMsi 
+       if formData.totalMsi and not @checkRegularPayment(formData.totalMsi)
          paymentData.paymentMethod = 'amex.msi.' + formData.totalMsi
          formData.numberOfPayments = parseInt formData.totalMsi, 10
-         delete formData['totalMsi'] 
+         delete formData['totalMsi']
+        else
+         delete formData['totalMsi']
+
 
       $.extend paymentData.paymentInfo, formData
       util.showAjaxIndicator('Procesando tu pago...')
@@ -107,7 +120,7 @@ module.exports = class CardTokenPaymentView extends View
           else
             util.showError(payment.paymentCapture.mensaje || payment.paymentCapture.message)
         error: () ->
-          util.showError('El servicio de pagos no se encuentra disponible. Por favor intántalo más tarde')
+          util.showError('Por favor verifica tus datos o comunícate con nosotros para ayudarte a concretar la compra al 4160-0550')
         complete: ->
           util.hideAjaxIndicator()
       )
