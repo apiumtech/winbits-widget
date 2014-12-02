@@ -120,7 +120,7 @@ module.exports = class CardTokenPaymentView extends View
           else
             util.showError(payment.paymentCapture.mensaje || payment.paymentCapture.message)
         error: () ->
-          util.showError('El servicio de pagos no se encuentra disponible. Por favor intántalo más tarde')
+          util.showError('Por favor verifica tus datos o comunícate con nosotros para ayudarte a concretar la compra al 4160-0550')
         complete: ->
           util.hideAjaxIndicator()
       )
