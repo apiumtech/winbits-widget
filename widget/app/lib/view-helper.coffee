@@ -188,7 +188,12 @@ Handlebars.registerHelper "abs", (number) ->
   Math.abs(number)
 
 checkAvailableCoupons = (coupons) ->
-  _.every coupons, (coupon) -> coupon.status is 'AVAILABLE' or coupon.status is 'REDEEMED'
+  _.find coupons, (coupon) -> coupon.status is 'AVAILABLE' or coupon.status is 'REDEEMED'
+
+Handlebars.registerHelper 'isPrintableCoupon', (status,options) ->
+  if status is 'AVAILABLE' or status is 'REDEEMED'
+    options.fn(this)
+
 
 Handlebars.registerHelper "availableCoupon", (options) ->
   available = checkAvailableCoupons @coupons
