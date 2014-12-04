@@ -47,13 +47,13 @@ $.widget 'winbits.wbpaginator',
       if typeof max is 'number' and max >= 1 and max >= @options.total
         Math.ceil(max)
       else
-        @options.max
+        Math.ceil(@options.max)
 
     page: (page) ->
       if typeof page is 'number' and page >= 1 and page >= @_totalPages
         Math.ceil(page)
       else
-        @options.page
+        Math.ceil(@options.page)
 
   _updateTotalPages: ->
     @_totalPages = @_getTotalPages()
