@@ -38,8 +38,8 @@ describe 'CouponModalViewSpec', ->
     @view.render()
     expect(@view.$('#wbi-coupon-title').text()).equal('ItemGroupProfile')
     expect(@view.$('#wbi-coupon-description').text()).equal('shortDescription')
-    expect(@view.$('.confirmationTable')).to.not.exist
-    expect(@view.$('#wbi-no-availabe-coupons')).to.exist
+    expect(@view.$('.confirmationTable')).to.exist
+    expect(@view.$('#wbi-no-availabe-coupons')).to.not.exist
 
   it 'when click in pdf icon call function', ->
     sinon.stub(@view,'doCouponPdfLink')

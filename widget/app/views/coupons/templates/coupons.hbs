@@ -15,15 +15,17 @@
                       <th class="table-download">Descarga</th>
                   </tr>
                   {{#each coupons}}
-                  <tr class="wbc-coupon-data" data-id="{{id}}" data-order="{{orderDetailId}}">
-                      <td>{{code}}</td>
-                      <td>{{expireCouponDate}}</td>
-                        <td>Oferta lograda, tu cupón ha sido enviado a tu email.</td>
-                        <td class="table-download">
-                           <a class="iconFont-docPDF wbc-download-pdf-link" title="PDF"></a>
-                           <a class="iconFont-docWEB wbc-download-html-link" title="Web"></a>
-                        </td>
-                  </tr>
+                   {{#isPrintableCoupon status}}
+                    <tr class="wbc-coupon-data" data-id="{{id}}" data-order="{{orderDetailId}}">
+                        <td>{{code}}</td>
+                        <td>{{expireCouponDate}}</td>
+                          <td>Oferta lograda, tu cupón ha sido enviado a tu email.</td>
+                          <td class="table-download">
+                             <a class="iconFont-docPDF wbc-download-pdf-link" title="PDF"></a>
+                             <a class="iconFont-docWEB wbc-download-html-link" title="Web"></a>
+                          </td>
+                    </tr>
+                  {{/isPrintableCoupon}}
                   {{/each}}
               </table>
             {{else}}

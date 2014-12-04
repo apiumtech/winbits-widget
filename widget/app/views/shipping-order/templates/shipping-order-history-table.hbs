@@ -45,9 +45,11 @@
                 <span class="status3">REEMBOLSADO</span>
               {{/if}}
               {{#compare ../status 'PAID'}}
-                {{#if withCoupon}}
-                   <span title="Cupones" class="iconFont-coupons icon-green wbc-icon-coupon"></span>
-                {{/if}}
+                {{#unless refundedDetail}}
+                  {{#if withCoupon}}
+                     <span title="Cupones" class="iconFont-coupons icon-green wbc-icon-coupon"></span>
+                  {{/if}}
+                {{/unless}}
               {{/compare}}
           </div>
 
