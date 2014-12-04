@@ -32,7 +32,9 @@ _(socialUtils).extend
     if (@validateUseSocialAccount(FACEBOOK_NAME))
       if not options.message  or not options.name
         throw "Argument's 'message' and 'name' are required!"
+      imageUrl = encodeURI(options.imageUrl)
       data = options
+      data.imageUrl = imageUrl
       utils.ajaxRequest(utils.getResourceURL('social/announcement/facebook/promoteProduct'), @applyDefaultSocialAccountPublish(data, context:@))
       .done(@socialUtilsSuccess)
       .fail(@socialUtilsError)
