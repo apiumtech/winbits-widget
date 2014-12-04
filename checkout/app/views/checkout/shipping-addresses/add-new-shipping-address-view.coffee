@@ -73,13 +73,13 @@ module.exports = class AddNewShippingAddressView extends View
        value = comboSelect.wblocationselect('value')
        @setCityAndStateDefault value
      else
-       @$('[name="city"]').val('')
+       @$('[name="county"]').val('')
        @$('[name="state"]').val('')
 
 
   setCityAndStateDefault: (value)->
     if value.id
-     @$('[name="city"]').val(value.city)
+     @$('[name="county"]').val(value.county)
      @$('[name="state"]').val(value.state)
 
 
