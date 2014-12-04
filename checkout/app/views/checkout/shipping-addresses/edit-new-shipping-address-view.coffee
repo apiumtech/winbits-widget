@@ -81,7 +81,7 @@ module.exports = class EditNewShippingAddressView extends View
        value = @selectZipCodeInfo(comboSelect, valSelected)
        @setCityAndStateDefault value
      else
-       @$('[name="city"]').val('')
+       @$('[name="county"]').val('')
        @$('[name="state"]').val('')
 
   selectZipCodeInfo:(comboSelect,value)->
@@ -91,7 +91,7 @@ module.exports = class EditNewShippingAddressView extends View
       return comboSelect.wblocationselect('firstValue')
 
   setCityAndStateDefault: (value)->
-    @$('[name="city"]').val(value.city)
+    @$('[name="county"]').val(value.county)
     @$('[name="state"]').val(value.state)
 
 
