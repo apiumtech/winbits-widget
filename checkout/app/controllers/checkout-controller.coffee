@@ -58,7 +58,9 @@ module.exports = class CheckoutController extends ChaplinController
     @confirmView = new ConfirmView({model: @confirm})
     @addressManagerView = new AddressManagerView({model: @addressCK})
     @paymentView = new PaymentView({model: @payments})
+    Winbits.checkoutConfig.bitsBalance = orderData.bitsBalance
     @orderDetailView = new OrderDetailView({model: @orderDetails})
+
     @order_data = orderData
 
     amexSupported = @isPaymentMethodSupported @order_data.paymentMethods, 'amex.'
