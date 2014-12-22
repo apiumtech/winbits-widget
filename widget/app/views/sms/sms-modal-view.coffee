@@ -16,6 +16,7 @@ module.exports = class SmsModalView extends View
     super
     @showAsModal()
     @$('.wbc-sms-modal-form').validate
+      errorElement: 'p'
       rules:
         cellphone:
           required: yes
