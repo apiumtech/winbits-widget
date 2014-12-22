@@ -18,6 +18,7 @@ describe 'ActivationMobileViewSpec', ->
   afterEach ->
     @view.showAsModal.restore()
     @view.dispose()
+    utils.redirectTo.restore?()
 
   it 'Sms modal will be renderized', ->
     expect(@view.$('.wbc-activation-mobile-form')).to.exist
@@ -41,3 +42,8 @@ describe 'ActivationMobileViewSpec', ->
     sendFunction = sinon.stub(@view,'send')
     @view.$('#wbi-activation-button').click()
     expect(sendFunction).called
+
+  it 'Change activation code click', ->
+    sinon.stub(utils,'redirectTo').returns yes
+    @view.$('#wbi-change-activation-mobile').click()
+    expect(utils.redirectTo).called

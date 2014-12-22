@@ -42,4 +42,5 @@ module.exports = class ActivationMobileView extends View
 
   returnSmsModal:(e) ->
     e.preventDefault()
+    console.log ["click in resend code"]
     utils.redirectTo(controller: 'sms', action: 'index')
