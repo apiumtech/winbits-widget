@@ -2,6 +2,7 @@
 
 utils = require 'lib/utils'
 LoggedInController = require 'controllers/logged-in-controller'
+SmsView = require 'views/sms/sms-modal-view'
 
 module.exports = class SmsController extends LoggedInController
 
@@ -10,6 +11,4 @@ module.exports = class SmsController extends LoggedInController
 
   index:->
     console.log 'sms#index'
-    alert "ENTRY IN SMS CONTROLLER"
-
-
+    @view = new SmsView()

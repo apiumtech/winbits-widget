@@ -1,4 +1,5 @@
 'use strict'
+$ = Winbits.$
 View = require 'views/base/view'
 utils = require 'lib/utils'
 
@@ -15,4 +16,4 @@ module.exports = class SmsModalView extends View
     @showAsModal()
 
   showAsModal: ->
-    $('<a>').wbfancybox(href: '#wbi-register-modal', onClosed: -> utils.redirectTo controller: 'home', action: 'index').click()
+    $('<a>').wbfancybox(href: '#wbi-sms-modal', onClosed: -> utils.redirectTo controller: 'home', action: 'index').click()
