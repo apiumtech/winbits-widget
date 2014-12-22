@@ -10,7 +10,8 @@ module.exports = class ActivationMobileController extends LoggedInController
   beforeAction: ->
     super
 
-  index:->
+  index:()->
     console.log 'sms#index'
-    @model = new Sms()
+    data= Winbits.Chaplin.mediator.data.get('activation-data')
+    @model = new Sms(data)
     @view = new ActivationMobileView(model: @model)

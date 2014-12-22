@@ -2,6 +2,7 @@
 $ = Winbits.$
 View = require 'views/base/view'
 utils = require 'lib/utils'
+mediator = Winbits.Chaplin.mediator
 
 module.exports = class SmsModalView extends View
   container: '#wbi-winbits-modals'
@@ -37,3 +38,9 @@ module.exports = class SmsModalView extends View
   send:(formData) ->
     console.log ["Send function"]
     @model.requestSendMessage(formData, context: @)
+      .done @sendSuccess
+
+
+  sendSuccess:(data)->
+    mediator.data.set('activation-data', data.response)
+    utils.redirect(controller: 'activation-mobile', action: 'index')
