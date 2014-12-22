@@ -11,6 +11,8 @@ module.exports = class ActivationMobileView extends View
   initialize: ->
     super
     @delegate 'click', '#wbi-activation-button', @validateForm
+    @delegate 'click', '#wbi-resend-activation-code', -> console.log ["click resend code"]
+    @delegate 'click', '#wbi-change-activation-mobile', @returnSmsModal
 
   attach: ->
     super
@@ -37,3 +39,7 @@ module.exports = class ActivationMobileView extends View
   send:(formData) ->
     console.log ["Send function"]
     @model.requestSendMessage(formData, context: @)
+
+  returnSmsModal:(e) ->
+    e.preventDefault()
+    utils.redirectTo(controller: 'sms', action: 'index')

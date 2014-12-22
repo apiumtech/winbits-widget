@@ -38,8 +38,6 @@ module.exports = class SmsModalView extends View
   send:(formData) ->
     console.log ["Send function"]
     @model.requestSendMessage(formData, context: @)
-      .done @sendSuccess
-
 
   sendSuccess:(data)->
     mediator.data.set('activation-data', data.response)
