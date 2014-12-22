@@ -29,8 +29,10 @@ module.exports = class SmsModalView extends View
   validateForm:(e)->
     e.preventDefault()
     $form = @$('.wbc-sms-modal-form')
+    formData = utils.serializeForm $form
     if utils.validateForm($form)
-      @send()
+      @send(formData)
 
-  send:() ->
+  send:(formData) ->
     console.log ["Send function"]
+    @model.requestSendMessage(formData, context: @)
