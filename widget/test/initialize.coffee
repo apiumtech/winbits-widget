@@ -1,6 +1,7 @@
 'use strict'
 
 specs = [
+  './views/activation-mobile-view-spec'
   './models/header-spec'
   './views/not-logged-in-view-spec'
   './views/coupon-view-spec'
