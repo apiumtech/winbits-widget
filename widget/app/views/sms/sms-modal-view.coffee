@@ -42,3 +42,10 @@ module.exports = class SmsModalView extends View
   sendSuccess:(data)->
     mediator.data.set('activation-data', data.response)
     utils.redirect(controller: 'activation-mobile', action: 'index')
+
+  sendError: (xhr)->
+    error = utils.safeParse(xhr.responseText)
+    messageText = "Error activando el número de celular"
+    message = if error then error.meta.message else messageText
+    options = value: "Cerrar", title:'Error', onClosed: utils.redirectToLoggedInHome()
+    utils.showMessageModal(message, options)
