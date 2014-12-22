@@ -1,12 +1,11 @@
 'use strict'
-
 View = require 'views/base/view'
 utils = require 'lib/utils'
 
 module.exports = class SmsModalView extends View
   container: '#wbi-winbits-modals'
-  id: 'wbi-sms-activation-modal'
-  template: './templates/sms-activation-modal'
+  id: 'wbi-sms-modal'
+  template: require './templates/sms-modal-view'
 
   initialize: ->
     super
