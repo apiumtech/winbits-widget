@@ -24,7 +24,7 @@ module.exports = class SmsModalView extends View
           minlength: 10
 
   showAsModal: ->
-    $('<a>').wbfancybox(href: '#wbi-sms-modal', onClosed: -> utils.redirectTo controller: 'home', action: 'index').click()
+    $('<a>').wbfancybox(href: '#wbi-sms-modal', onClosed: -> utils.redirectTo controller: 'logged-in', action: 'index').click()
 
 
   validateForm:(e)->

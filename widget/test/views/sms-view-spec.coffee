@@ -20,6 +20,7 @@ describe 'SmsModalViewSpec', ->
     @view.dispose()
 
   it 'Sms modal will be renderized', ->
+    expect(@view.$('.wbc-sms-modal-form')).to.exist
     expect(@view.$('#wbi-sms-input')).to.exist
     expect(@view.$('#wbi-sms-button')).to.exist
 
