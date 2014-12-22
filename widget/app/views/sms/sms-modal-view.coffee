@@ -10,10 +10,27 @@ module.exports = class SmsModalView extends View
 
   initialize: ->
     super
+    @delegate 'click', '#wbi-sms-button', @validateForm
 
   attach: ->
     super
     @showAsModal()
+    @$('.wbc-sms-modal-form').validate
+      rules:
+        cellphone:
+          required: yes
+          number: yes
+          minlength: 10
 
   showAsModal: ->
     $('<a>').wbfancybox(href: '#wbi-sms-modal', onClosed: -> utils.redirectTo controller: 'home', action: 'index').click()
+
+
+  validateForm:(e)->
+    e.preventDefault()
+    $form = @$('.wbc-sms-modal-form')
+    if utils.validateForm($form)
+      @send()
+
+  send:() ->
+    console.log ["Send function"]
