@@ -9,14 +9,11 @@ module.exports = class Sms extends Model
     super
 
   requestSendMessage:(formData, options) ->
-    console.log ["JSON form Data", JSON.stringify(formData), options]
-#Todo check url in api documentation and headers
-#    defaults =
-#      type: "POST"
-#      contentType: "application/json"
-#      dataType: "json"
-#      data: JSON.stringify(formData)
-#      headers:
-#        "Accept-Language": "es"
-#    utils.ajaxRequest(env.get('api-url') + "/users/login.json",
-#                      $.extend(defaults, options))
+    defaults =
+      type: "GET"
+      contentType: "application/json"
+      dataType: "json"
+      headers:
+        "Accept-Language": "es"
+    utils.ajaxRequest(env.get('api-url') + "/users/send-sms/#{formData.cellphone}",
+                      $.extend(defaults, options))
