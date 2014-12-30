@@ -25,6 +25,7 @@ CardsView =  require 'views/cards/cards-view'
 Cards =  require 'models/cards/cards'
 SwitchUserView =  require 'views/switch-user/switch-user-view'
 SwitchUser =  require 'models/switch-user/switch-user'
+VerifyMobileView = require 'views/verify-mobile/verify-mobile-view'
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
 
@@ -53,6 +54,14 @@ module.exports = class LoggedInController extends Controller
           @view = new LoaderToCheckoutView
 
         check: -> mediator.data.get 'loader-to-checkout-composed'
+
+      @reuse 'verify-mobile-view',
+        compose: ->
+          mediator.data.set 'verify-mobile-composed', yes
+         # @model = new VerifyMobile
+          @view = new VerifyMobileView
+
+        check: -> mediator.data.get 'verify-mobile-composed'
 
       @reuse 'change-password-view',
         compose: ->

@@ -3354,7 +3354,15 @@ main {
 }
 .column.micuenta-mobile a {
     color: #6e99fc !important;
-    display: inline;
+    /*display: inline;*/
+    margin: 3px 0;
+}
+.column.micuenta-mobile .asck-cell {
+    border: 1px solid #e6e6e6;
+    font-size: 20px;
+    margin: 10px 0;
+    padding: 10px;
+    text-align: center;
 }
 .column input[type="text"],
 .column input[type="password"] {
