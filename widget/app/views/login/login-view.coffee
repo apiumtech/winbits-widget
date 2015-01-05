@@ -90,9 +90,14 @@ module.exports = class LoginView extends View
       @confirmURL = resendConfirmUrl.substring(resendConfirmUrl.indexOf('users')).replace(/\+/g,'%252b')
       defaultOptionsMessage = @errorWhenIsAFER004 defaultOptionsMessage
       @showMessageErrorModal(defaultOptionsMessage)
+    else if code is 'ERR000'
+      @showErrorMessage("Por el momento no podemos atender tu petición, por favor intenta más tarde.")
     else
-      @$('.errorDiv p').text("Por el momento no podemos atender tu petición, por favor intenta más tarde.").parent().css('display':'block')
-      @$('#wbi-login-in-btn').prop('disabled', no)
+      @showErrorMessage(message)
+
+  showErrorMessage:(message)->
+    @$('.errorDiv p').text(message).parent().css('display':'block')
+    @$('#wbi-login-in-btn').prop('disabled', no)
 
   doFacebookLogin: (e) ->
     e.preventDefault()
