@@ -97,6 +97,7 @@ module.exports = class NotLoggedInPageView extends View
     utils.redirectToLoggedInHome()
 
   doFacebookLoginError: (xhr, textStatus, errorThrown) ->
+    $('#wbi-login-form').find('.errorDiv p').text("Por el momento no podemos atender tu petición, por favor intenta más tarde.").parent().css('display':'block')
     console.log "express-facebook-login.json Error!"
 
   doFacebookLoginErrors: (data)->

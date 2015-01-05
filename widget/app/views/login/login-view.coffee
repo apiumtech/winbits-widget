@@ -91,11 +91,12 @@ module.exports = class LoginView extends View
       defaultOptionsMessage = @errorWhenIsAFER004 defaultOptionsMessage
       @showMessageErrorModal(defaultOptionsMessage)
     else
-      @$('.errorDiv p').text(message).parent().css('display':'block')
+      @$('.errorDiv p').text("Por el momento no podemos atender tu petición, por favor intenta más tarde.").parent().css('display':'block')
       @$('#wbi-login-in-btn').prop('disabled', no)
 
   doFacebookLogin: (e) ->
     e.preventDefault()
+    @$('.errorDiv').css('display':'none')
     @publishEvent 'facebook-button-event', e
 
   showMessageErrorModal: (defaultOptionsMessage)->
