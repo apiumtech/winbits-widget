@@ -12,7 +12,7 @@ _(loginUtils).extend
   applyLogin : (loginData) ->
     mediator.data.set 'login-data', loginData
     utils.saveApiToken loginData.apiToken
-    trackingUtils.deleteUTMs()
+#    trackingUtils.deleteUTMs()
     Winbits.trigger 'loggedin', [_.clone loginData]
 
   applyLogout: (logoutData) ->
