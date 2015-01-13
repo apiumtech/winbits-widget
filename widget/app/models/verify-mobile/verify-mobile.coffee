@@ -11,7 +11,7 @@ module.exports = class verifyMobile extends Model
 
   sendCodeForActivationMobile:(formData, options) ->
     loginData = mediator.data.get('login-data')
-    $.extend(formData, cellphone: loginData.profile.phone)
+    $.extend(formData, mobile: loginData.profile.phone)
     defaults =
       type: "POST"
       contentType: "application/json"
