@@ -38,7 +38,7 @@ module.exports = class ActivationMobileView extends View
 
   send:(formData) ->
     console.log ["Send function"]
-    @model.sendCodeForActivationMobile(formData, context: @)
+    @model.requestActivateMobile(formData, context: @)
     .done(@sendSuccess)
     .fail(@sendError)
 
