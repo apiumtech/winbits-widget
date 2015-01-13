@@ -24,7 +24,6 @@ module.exports = class verifyMobile extends Model
     utils.ajaxRequest(env.get('api-url') + "/users/activate-mobile",
     $.extend(defaults, options))
 
-
   reSendCodeToClient:(options) ->
     loginData = mediator.data.get('login-data')
     defaults =
