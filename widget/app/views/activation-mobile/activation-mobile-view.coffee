@@ -38,9 +38,26 @@ module.exports = class ActivationMobileView extends View
 
   send:(formData) ->
     console.log ["Send function"]
-    @model.requestSendMessage(formData, context: @)
+    @model.sendCodeForActivationMobile(formData, context: @)
+    .done(@sendSuccess)
+    .fail(@sendError)
+
+
+  sendSuccess:()->
+    message = "Tu número ha sido activado."
+    options = value: "Cerrar", title:'¡ Listo !', icon:'iconFont-ok', onClosed: utils.redirectToLoggedInHome()
+    utils.showMessageModal(message, options)
+
+
+  sendError: (xhr)->
+    error = utils.safeParse(xhr.responseText)
+    messageText = "Error activando el número de celular, favor de intentarlo más tarde"
+    message = if error then error.meta.message else messageText
+    options = value: "Cerrar", title:'Error', icon:'iconFont-info', onClosed: utils.redirectToLoggedInHome()
+    utils.showMessageModal(message, options)
 
   returnSmsModal:(e) ->
     e.preventDefault()
     console.log ["click in resend code"]
     utils.redirectTo(controller: 'sms', action: 'index')
+

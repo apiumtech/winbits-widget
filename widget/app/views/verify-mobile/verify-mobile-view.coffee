@@ -32,7 +32,8 @@ module.exports = class verifyMobileView extends View
           maxlength: 5
 
 
-  reSend: ->
+  reSend: (e) ->
+    e.preventDefault()
     message = "Se enviará una vez más el código de activación"
     value = 'Aceptar'
     options =
@@ -64,7 +65,7 @@ module.exports = class verifyMobileView extends View
 
   sendSuccess:()->
     message = "Tu número ha sido activado."
-    options = value: "Cerrar", title:'¡ Listo !', icon: 'iconFont-computer', onClosed: utils.redirectToLoggedInHome()
+    options = value: "Cerrar", title:'¡ Listo !', icon:'iconFont-ok', onClosed: utils.redirectToLoggedInHome()
     utils.showMessageModal(message, options)
 
 
@@ -78,7 +79,7 @@ module.exports = class verifyMobileView extends View
 
   reSendSuccess:()->
     message = "Te hemos enviado el código a tu celular. Valídalo desde la opción VERIFICACIÓN MÓVIL"
-    options = value: "Cerrar", title:'¡ Listo !', icon: 'iconFont-computer', onClosed: utils.redirectToLoggedInHome()
+    options = value: "Cerrar", title:'¡ Listo !', icon:'iconFont-ok', onClosed: utils.redirectToLoggedInHome()
     utils.showMessageModal(message, options)
 
 

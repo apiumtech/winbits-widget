@@ -50,6 +50,9 @@ module.exports = class PersonalDataView extends View
         'wbi-birthdate-year':
           required: yes
           validateDate: yes
+        phone:
+          required: @model.fieldIsRequired('phone')
+          wbiPhone: yes
 #        phone:
 #          required: @model.fieldIsRequired('phone')
 #          wbiPhone: yes
@@ -79,8 +82,13 @@ module.exports = class PersonalDataView extends View
              utils.hideAjaxLoading()
              submitButton.prop('disabled', no)
 
+  #
+  #
+  #
+  #
   doUpdateProfileSuccess: (data) ->
     utils.updateProfile(data, {url:'wb-profile'})
+
 
   doUpdateProfileError: (xhr, textStatus)->
     error = utils.safeParse(xhr.responseText)
