@@ -19,7 +19,7 @@ module.exports = class verifyMobile extends Model
          "Accept-Language": "es",
          "WB-Api-Token": utils.getApiToken()
 
-    utils.ajaxRequest(env.get('api-url') + "/users/activate-mobile/#{formData.cellphone}/#{formData.code}",
+    utils.ajaxRequest(env.get('api-url') + "/users/activate-mobile",
     $.extend(defaults, options))
 
   reSendCodeToClient:(options) ->
