@@ -566,6 +566,7 @@ _(utils).extend Winbits.utils,
     $('#wbi-loader-to-checkout').hide().addClass('loader-hide')
 
   updateProfile: (data, optionData = {action:'index', controller:'home'})->
+    console.log   data.response
     $loginDataActual = _.clone mediator.data.get 'login-data'
     mediator.data.set 'login-data', data.response
     @publishEvent 'profile-changed', data
