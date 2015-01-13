@@ -13,5 +13,8 @@ module.exports = class ActivationMobileController extends LoggedInController
   index:()->
     console.log 'sms#index'
     data= Winbits.Chaplin.mediator.data.get('activation-data')
-    @model = new Sms(data)
-    @view = new ActivationMobileView(model: @model)
+    if data
+      @model = new Sms(data)
+      @view = new ActivationMobileView(model: @model)
+    else
+      utils.redirectTo(controller: 'send-sms', action: 'index')

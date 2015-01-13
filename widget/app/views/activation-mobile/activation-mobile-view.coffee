@@ -38,7 +38,7 @@ module.exports = class ActivationMobileView extends View
 
   send:(formData) ->
     console.log ["Send function"]
-    @model.requestSendMessage(formData, context: @)
+    @model.requestActivateMobile(formData, context: @)
 
   returnSmsModal:(e) ->
     e.preventDefault()
