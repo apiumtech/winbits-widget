@@ -40,15 +40,20 @@ module.exports = class verifyMobile extends Model
     loginData = mediator.data.get('login-data')
     $.extend(formData, cellphone: loginData.profile.phone)
     defaults =
+      type: "POST"
       contentType: "application/json"
       dataType: "json"
-      data: JSON.stringify(formData)
+      data: JSON.stringify(mobile: formData.cellphone, code: formData.code)
       headers:
-         "Accept-Language": "es",
-         "WB-Api-Token": utils.getApiToken()
-
+        "Accept-Language": "es",
+        "WB-Api-Token": utils.getApiToken()
     utils.ajaxRequest(env.get('api-url') + "/users/activate-mobile",
-    $.extend(defaults, options))
+      $.extend(defaults, options))
+
+
+
+
+
 
 ###################################################################################################
   #
