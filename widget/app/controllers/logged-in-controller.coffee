@@ -56,14 +56,15 @@ module.exports = class LoggedInController extends Controller
 
         check: -> mediator.data.get 'loader-to-checkout-composed'
 
-      @reuse 'verify-mobile-view',
-        compose: ->
-          mediator.data.set 'verify-mobile-composed', yes
-          loginData = mediator.data.get('login-data')
-          @model = new VerifyMobileModel(mobile: loginData.profile.phone)
-          @view = new VerifyMobileView model: @model
+      if(loginData.mobileActivationStatus == 'WAIT')
+        @reuse 'verify-mobile-view',
+          compose: ->
+            mediator.data.set 'verify-mobile-composed', yes
+            loginData = mediator.data.get('login-data')
+            @model = new VerifyMobileModel(mobile: loginData.profile.phone)
+            @view = new VerifyMobileView model: @model
 
-        check: -> mediator.data.get 'verify-mobile-composed'
+          check: -> mediator.data.get 'verify-mobile-composed'
 
       @reuse 'change-password-view',
         compose: ->
