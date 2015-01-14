@@ -45,7 +45,10 @@ module.exports = class SmsModalView extends View
 
   sendSuccess:(data)->
     mediator.data.set('activation-data', data.response)
+    loginData= mediator.data.get('login-data')
+    loginData.profile.phone = data.response.mobile
     utils.redirectTo(controller: 'activation-mobile', action: 'index')
+    @publishEvent 'profile-changed', response: loginData
 
   sendError: (xhr)->
     error = utils.safeParse(xhr.responseText)
