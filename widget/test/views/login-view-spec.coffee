@@ -77,7 +77,7 @@ describe 'LoginViewSpec', ->
 
     expect(errorStub).to.be.calledOnce
 
-  it 'should publish event facebook-button-event', ->
+  it.skip 'should publish event facebook-button-event', ->
     stub = sinon.stub @view, 'publishEvent'
     @view.$('#wbi-facebook-link').click()
     expect(stub).to.have.been.calledOnce
