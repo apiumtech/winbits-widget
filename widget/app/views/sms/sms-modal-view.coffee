@@ -23,6 +23,8 @@ module.exports = class SmsModalView extends View
           required: yes
           number: yes
           minlength: 10
+        carrier:
+          required: yes
 
   showAsModal: ->
     $('<a>').wbfancybox(href: '#wbi-sms-modal', onClosed: -> utils.redirectTo controller: 'logged-in', action: 'index').click()
@@ -36,7 +38,7 @@ module.exports = class SmsModalView extends View
       @send(formData)
 
   send:(formData) ->
-    console.log ["Send function"]
+    console.log ["Send function", formData]
     @$('#wbi-sms-button').prop('disabled', yes)
     @model.requestSendMessage(formData, context: @)
       .done(@sendSuccess)

@@ -10,13 +10,14 @@ module.exports = class Sms extends Model
 
   requestSendMessage:(formData, options) ->
     defaults =
-      type: "GET"
+      type: "POST"
       contentType: "application/json"
       dataType: "json"
+      data: JSON.stringify(formData)
       headers:
         "Accept-Language": "es",
         "WB-Api-Token": utils.getApiToken()
-    utils.ajaxRequest(env.get('api-url') + "/users/send-sms/#{formData.cellphone}",
+    utils.ajaxRequest(env.get('api-url') + "/users/send-sms",
                       $.extend(defaults, options))
 
   requestActivateMobile:(formData, options)->
