@@ -15,7 +15,6 @@ module.exports = class verifyMobileView extends View
   className: 'column miCuenta-mobile'
   template: require './templates/verify-mobile-view'
 
-
   initialize: ->
     super
     @delegate 'click', '#wbi-resend-label', @reSend
@@ -24,12 +23,19 @@ module.exports = class verifyMobileView extends View
 
   attach: ->
     super
-    @$('.wbc-activation-mobile-form').validate
-      rules:
-        code:
-          required: yes
-          minlength: 5
-          maxlength: 5
+    form =  @$('.wbc-activation-mobile-form')
+    container = $('#wbi-verify-mobile')
+    if(mediator.data.get('login-data').mobileActivationStatus == 'WAIT')
+      container.show()
+      form.validate
+        rules:
+          code:
+            required: yes
+            minlength: 5
+            maxlength: 5
+    else
+      container.hide()
+
 
 
   reSend: (e) ->
