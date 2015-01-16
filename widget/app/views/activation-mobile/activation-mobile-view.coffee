@@ -68,14 +68,14 @@ module.exports = class ActivationMobileView extends View
     .done(@resendCodeSuccess)
     .fail(@resendCodeError)
 
-  resendCodeSuccess:(target) ->
-    console.log ["resendCodeSuccess function",target,$('.wbc-activation-mobile-form')]
-   # $('.wbc-activation-mobile-form').successlabel.style.display='yes'
+  resendCodeSuccess:() ->
+    console.log ["resendCodeSuccess function",$('#wbi-resend-success-label')]
+    $('#wbi-resend-success-label').show()
 
 
 
   resendCodeError:() ->
     console.log ["resendCodeError function"]
-    @$('#wbi-resend-error-label').style.display='yes'
+    $('#wbi-resend-error-label').show()
 
 
