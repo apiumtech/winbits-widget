@@ -15,11 +15,17 @@ module.exports = class SmsModalView extends View
 
   attach: ->
     super
+    @$('.select').customSelect();
     @showAsModal()
     @$('.wbc-sms-modal-form').validate
       errorElement: 'p'
+      errorPlacement: ($error, $element) ->
+        if $element.attr("name") in ["carrier"]
+          $error.insertAfter $element.parent()
+        else
+          $error.insertAfter $element
       rules:
-        cellphone:
+        mobile:
           required: yes
           number: yes
           minlength: 10

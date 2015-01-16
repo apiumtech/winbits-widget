@@ -3354,7 +3354,7 @@ main {
 }
 .column.micuenta-mobile a {
     color: #6e99fc !important;
-    /*display: inline;*/
+    display: inline;
     margin: 3px 0;
 }
 .column.micuenta-mobile .asck-cell {
@@ -5306,6 +5306,7 @@ main {
     background: #43badb;
 }
 .askcellphone {
+    overflow: visible;
     width: 400px;
 }
 .askcellphone .contentModal {
@@ -5330,6 +5331,20 @@ main {
     display: block;
     font-size: 15px;
     margin: 30px 0 5px 0;
+}
+.askcellphone .selectRegister {
+    margin-top: 5px;
+}
+.askcellphone .selectRegister .select-input {
+    font-size: 11px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 173px !important;
+}
+.askcellphone .selectRegister .select-ul {
+    font-size: 11px;
+    margin-top: -1px !important;
+    width: 209px;
 }
 .asck-cell {
     display: block;
