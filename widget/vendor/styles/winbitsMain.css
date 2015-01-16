@@ -2285,7 +2285,7 @@ input[type="submit"].btn.btn-mini {
     height: 34px;
     width: 34px;
 }
-/*.bit12px, .shopCarMin, .changePasword, .creditCard,
+/*.bit12px, .shopCarMin, .changePasword, .creditCard, 
 .facebookCircle, .twitterCircle, .changeAdress {
 	.size(20px, 20px);
 }*/
@@ -2467,6 +2467,9 @@ input[type="submit"].btn.btn-mini {
 /*. {
 	background-position: -px -px;
 }*/
+.winbit-color .iconFont-winbits {
+    left: 0;
+}
 .placeholder-div {
     position: relative;
     display: inline-block;
@@ -3346,6 +3349,21 @@ main {
 .column.columnLarge {
     width: 150px !important;
 }
+.column.micuenta-mobile p {
+    margin: 10px 0 !important;
+}
+.column.micuenta-mobile a {
+    color: #6e99fc !important;
+    /*display: inline;*/
+    margin: 3px 0;
+}
+.column.micuenta-mobile .asck-cell {
+    border: 1px solid #e6e6e6;
+    font-size: 20px;
+    margin: 10px 0;
+    padding: 10px;
+    text-align: center;
+}
 .column input[type="text"],
 .column input[type="password"] {
     font-size: 11px;
@@ -3383,6 +3401,16 @@ main {
     *display: inline;
     /* IE7 inline-block hack */
     zoom: 1;
+}
+.column .dataGreen {
+    color: #04b418;
+    font-size: 12px;
+    display: block;
+    line-height: normal;
+    margin: 10px 0;
+    font-family: 'OmnesMedium', Arial;
+    font-style: normal;
+    font-weight: normal;
 }
 .column .errorDiv {
     margin-left: -10px;
@@ -4136,8 +4164,8 @@ main {
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .creditcardNew .columnLarge .checkboxLabel {
     color: #000000;
     font-size: 14px;
-    width: auto;
     max-width: 200px;
+    width: auto;
 }
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .shippingNewAddress .columnLarge .note,
 .widgetWinbitsHeader .mainHeader .miCuenta .miCuenta-tabs .miCuenta-tab .creditcardNew .columnLarge .note {
@@ -5277,8 +5305,47 @@ main {
 .inviteFriend .inviteFriend-social .twitterLink {
     background: #43badb;
 }
+.askcellphone {
+    width: 400px;
+}
+.askcellphone .contentModal {
+    padding: 40px 60px;
+    text-align: center;
+}
+.askcellphone .contentModal p {
+    display: block;
+    margin: 15px 0;
+}
+.askcellphone .contentModal .btn {
+    margin-top: 20px;
+}
+.askcellphone .contentModal input[type="text"] {
+    font-size: 11px;
+    margin: 2px 5px;
+    padding: 5px;
+    width: 200px;
+}
+.askcellphone .contentModal label {
+    color: #000000;
+    display: block;
+    font-size: 15px;
+    margin: 30px 0 5px 0;
+}
+.asck-cell {
+    display: block;
+    font-size: 25px;
+    font-family: 'OmnesMedium', Arial;
+    font-style: normal;
+    font-weight: normal;
+}
+.blueNote {
+    color: #6e99fc;
+    display: block;
+    font-size: 10px;
+    text-decoration: underline;
+}
 .gracias .contentModal {
-    padding: 70px 145px;
+    padding: 70px;
     text-align: center;
 }
 .gracias .contentModal p {
