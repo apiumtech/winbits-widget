@@ -11,8 +11,9 @@ module.exports = class ActivationMobileView extends View
   initialize: ->
     super
     @delegate 'click', '#wbi-activation-button', @validateForm
-    @delegate 'click', '#wbi-resend-activation-code', -> console.log ["click resend code"]
+    @delegate 'click', '#wbi-resend-activation-code', @resendCodeToUser
     @delegate 'click', '#wbi-change-activation-mobile', @returnSmsModal
+
 
   attach: ->
     super
@@ -37,7 +38,6 @@ module.exports = class ActivationMobileView extends View
       @send(formData)
 
   send:(formData) ->
-    console.log ["Send function"]
     @model.requestActivateMobile(formData, context: @)
     .done(@sendSuccess)
     .fail(@sendError)
@@ -58,6 +58,24 @@ module.exports = class ActivationMobileView extends View
 
   returnSmsModal:(e) ->
     e.preventDefault()
-    console.log ["click in resend code"]
     utils.redirectTo(controller: 'sms', action: 'index')
+
+  resendCodeToUser:(e) ->
+    e.preventDefault()
+    currentTarget = @$(e.currentTarget)
+    console.log ["resendCodeToUser function"]
+    @model.requestSendMessage(mobile: @model.get('mobile'), context: @)
+    .done(@resendCodeSuccess)
+    .fail(@resendCodeError)
+
+  resendCodeSuccess:(target) ->
+    console.log ["resendCodeSuccess function",target,$('.wbc-activation-mobile-form')]
+   # $('.wbc-activation-mobile-form').successlabel.style.display='yes'
+
+
+
+  resendCodeError:() ->
+    console.log ["resendCodeError function"]
+    @$('#wbi-resend-error-label').style.display='yes'
+
 
