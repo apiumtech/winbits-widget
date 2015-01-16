@@ -578,10 +578,18 @@ _(utils).extend Winbits.utils,
         icon: 'iconFont-ok'
         title:'Perfil actualizado'
         value:'Aceptar'
-        onClosed: -> @redirectTo(optionData)
+        onClosed: ->
+          @redirectTo(optionData)
+        acceptAction: ->
+          if(mediator.data.get('login-data').mobileActivationStatus == null)
+            @redirectTo(controller: 'sms', action:'index')
+          else
+            @closeMessageModal()
+
       @showMessageModal(message, options)
     if data.response.bitsBalance != $loginDataActual.bitsBalance
       @publishEvent 'bits-updated'
+
 
   publishEvent: (event, data = {})->
     EventBroker.publishEvent event, data

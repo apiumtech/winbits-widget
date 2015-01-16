@@ -27,11 +27,12 @@ module.exports = class verifyMobile extends Model
   reSendCodeToClient:(options) ->
     loginData = mediator.data.get('login-data')
     defaults =
+      type: "POST"
       contentType: "application/json"
       dataType: "json"
-      data: ""
+      data: JSON.stringify(mobile: loginData.profile.phone)
       headers:
         "Accept-Language": "es",
         "WB-Api-Token": utils.getApiToken()
-    utils.ajaxRequest(env.get('api-url') + "/users/send-sms/#{loginData.profile.phone}",
+    utils.ajaxRequest(env.get('api-url') + "/users/send-sms",
       $.extend(defaults, options))

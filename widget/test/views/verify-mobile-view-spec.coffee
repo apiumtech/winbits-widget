@@ -22,7 +22,6 @@ describe 'VerifyModalViewSpec', ->
   it 'verify mobile will be renderized', ->
     expect(@view.$('#wbi-ask-cell-input')).to.exist
     expect(@view.$('#wbi-resend-label')).to.exist
-    expect(@view.$('#wbi-resend-label2')).to.exist
     expect(@view.$('#wbi-validate-button')).to.exist
 
   it 'When click on validar button and input is empty, sendCodeForActivationMobile function must not be called', ->
@@ -66,16 +65,4 @@ describe 'VerifyModalViewSpec', ->
     sinon.stub(@model,'reSendCodeToClient').returns TestUtils.promises.rejected
     errorStub = sinon.stub(@view, 'reSendError')
     @view.$('#wbi-resend-label').click()
-    expect(errorStub).to.be.calledOnce
-
-  it.skip 'When click on resend label, reSendSuccess function must be called ',->
-    sinon.stub(@model,'reSendCodeToClient').returns TestUtils.promises.resolved
-    successStub = sinon.stub(@view, 'reSendSuccess')
-    @view.$('#wbi-resend-label2').click()
-    expect(successStub).to.be.calledOnce
-
-  it.skip 'When click on resend label, reSendCodeToClient function must be called ',->
-    sinon.stub(@model,'reSendCodeToClient').returns TestUtils.promises.rejected
-    errorStub = sinon.stub(@view, 'reSendError')
-    @view.$('#wbi-resend-label2').click()
     expect(errorStub).to.be.calledOnce

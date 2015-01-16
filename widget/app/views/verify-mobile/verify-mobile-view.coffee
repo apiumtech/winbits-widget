@@ -18,7 +18,6 @@ module.exports = class verifyMobileView extends View
   initialize: ->
     super
     @delegate 'click', '#wbi-resend-label', @reSend
-    @delegate 'click', '#wbi-resend-label2', @reSend
     @delegate 'click', '#wbi-validate-button', @validateCodebtn
     @subscribeEvent 'profile-changed', @attach
 
@@ -26,7 +25,7 @@ module.exports = class verifyMobileView extends View
     super
     form =  @$('.wbc-activation-mobile-form')
     container = $('#wbi-verify-mobile')
-    if(mediator.data.get('login-data').mobileActivationStatus == 'WAIT' || mediator.data.get('login-data').mobileActivationStatus == null)
+    if(mediator.data.get('login-data').mobileActivationStatus == 'WAIT')
       container.show()
       form.validate
         rules:
