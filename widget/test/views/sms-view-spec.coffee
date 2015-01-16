@@ -44,6 +44,7 @@ describe 'SmsModalViewSpec', ->
 
   it 'When click in button call send function, input has numbers',->
     @view.$('[name=cellphone]').val('1234567890')
+    @view.$('[name=carrier]').val('1')
     sendFunction = sinon.stub(@view,'send')
     @view.$('#wbi-sms-button').click()
     expect(sendFunction).called
