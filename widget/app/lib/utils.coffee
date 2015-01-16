@@ -580,16 +580,16 @@ _(utils).extend Winbits.utils,
         value:'Aceptar'
         onClosed: ->
           @redirectTo(optionData)
-        acceptAction: ->
-          if(mediator.data.get('login-data').mobileActivationStatus == null)
-            @redirectTo(controller: 'sms', action:'index')
-          else
-            @closeMessageModal()
-
+        acceptAction: @updateAcceptAction
       @showMessageModal(message, options)
     if data.response.bitsBalance != $loginDataActual.bitsBalance
       @publishEvent 'bits-updated'
 
+  updateAcceptAction:->
+    if(mediator.data.get('login-data').mobileActivationStatus == null)
+      @redirectTo(controller: 'sms', action:'index')
+    else
+      @closeMessageModal()
 
   publishEvent: (event, data = {})->
     EventBroker.publishEvent event, data
