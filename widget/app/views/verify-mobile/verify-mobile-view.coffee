@@ -72,6 +72,9 @@ module.exports = class verifyMobileView extends View
   sendSuccess:()->
     message = "Tu número ha sido activado."
     options = value: "Cerrar", title:'¡ Listo !', icon:'iconFont-ok', onClosed: utils.redirectToLoggedInHome()
+    loginData = mediator.data.get('login-data')
+    loginData.mobileActivationStatus = "ACTIVE"
+    mediator.data.set('login-data',loginData)
     utils.showMessageModal(message, options)
 
 
