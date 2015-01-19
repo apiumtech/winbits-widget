@@ -1,5 +1,6 @@
 'use strict'
 $ = Winbits.$
+mediator = Winbits.Chaplin.mediator
 View = require 'views/base/view'
 utils = require 'lib/utils'
 mediator = Winbits.Chaplin.mediator
@@ -48,6 +49,9 @@ module.exports = class ActivationMobileView extends View
     loginData.mobileActivationStatus='ACTIVE'
     message = "Tu número ha sido activado."
     options = value: "Cerrar", title:'¡ Listo !', icon:'iconFont-ok', onClosed: utils.redirectToLoggedInHome()
+    loginData = mediator.data.get('login-data')
+    loginData.mobileActivationStatus = "ACTIVE"
+    mediator.data.set('login-data',loginData)
     utils.showMessageModal(message, options)
     @publishEvent 'profile-changed', response: loginData
 
