@@ -2,6 +2,7 @@
 $ = Winbits.$
 View = require 'views/base/view'
 utils = require 'lib/utils'
+mediator = Winbits.Chaplin.mediator
 
 module.exports = class ActivationMobileView extends View
   container: '#wbi-winbits-modals'
@@ -42,12 +43,13 @@ module.exports = class ActivationMobileView extends View
     .done(@sendSuccess)
     .fail(@sendError)
 
-
   sendSuccess:()->
+    loginData= mediator.data.get('login-data')
+    loginData.mobileActivationStatus='ACTIVE'
     message = "Tu número ha sido activado."
     options = value: "Cerrar", title:'¡ Listo !', icon:'iconFont-ok', onClosed: utils.redirectToLoggedInHome()
     utils.showMessageModal(message, options)
-
+    @publishEvent 'profile-changed', response: loginData
 
   sendError: (xhr)->
     error = utils.safeParse(xhr.responseText)
@@ -62,20 +64,14 @@ module.exports = class ActivationMobileView extends View
 
   resendCodeToUser:(e) ->
     e.preventDefault()
-    currentTarget = @$(e.currentTarget)
-    console.log ["resendCodeToUser function"]
     @model.requestSendMessage(mobile: @model.get('mobile'), context: @)
     .done(@resendCodeSuccess)
     .fail(@resendCodeError)
 
   resendCodeSuccess:() ->
-    console.log ["resendCodeSuccess function",$('#wbi-resend-success-label')]
     $('#wbi-resend-success-label').show()
 
-
-
   resendCodeError:() ->
-    console.log ["resendCodeError function"]
     $('#wbi-resend-error-label').show()
 
 

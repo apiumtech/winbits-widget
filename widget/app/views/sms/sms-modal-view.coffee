@@ -44,7 +44,6 @@ module.exports = class SmsModalView extends View
       @send(formData)
 
   send:(formData) ->
-    console.log ["Send function", formData]
     @$('#wbi-sms-button').prop('disabled', yes)
     @model.requestSendMessage(formData, context: @)
       .done(@sendSuccess)
