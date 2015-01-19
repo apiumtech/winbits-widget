@@ -44,7 +44,6 @@ module.exports = class SmsModalView extends View
       @send(formData)
 
   send:(formData) ->
-    console.log ["Send function", formData]
     @$('#wbi-sms-button').prop('disabled', yes)
     @model.requestSendMessage(formData, context: @)
       .done(@sendSuccess)
@@ -55,6 +54,7 @@ module.exports = class SmsModalView extends View
     mediator.data.set('activation-data', data.response)
     loginData= mediator.data.get('login-data')
     loginData.profile.phone = data.response.mobile
+    loginData.mobileActivationStatus='WAIT'
     utils.redirectTo(controller: 'activation-mobile', action: 'index')
     @publishEvent 'profile-changed', response: loginData
 
