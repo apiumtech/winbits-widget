@@ -76,6 +76,7 @@ module.exports = class verifyMobileView extends View
     loginData.mobileActivationStatus = "ACTIVE"
     mediator.data.set('login-data',loginData)
     utils.showMessageModal(message, options)
+    @publishEvent 'profile-changed', response: loginData
 
 
   sendError: (xhr)->
