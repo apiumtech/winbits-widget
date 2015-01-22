@@ -48,7 +48,8 @@ module.exports = class verifyMobileView extends View
       cancelValue: 'Cancelar'
       icon:'iconFont-computer'
       context: @
-      acceptAction: () ->
+      acceptAction: (e) ->
+        Winbits.$(e.currentTarget).prop('disabled', yes)
         @model.reSendCodeToClient(context: @)
           .done(@reSendSuccess)
           .fail(@reSendError)
