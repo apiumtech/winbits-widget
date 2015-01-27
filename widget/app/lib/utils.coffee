@@ -586,10 +586,10 @@ _(utils).extend Winbits.utils,
       @publishEvent 'bits-updated'
 
   updateAcceptAction:->
-    if(mediator.data.get('login-data').mobileActivationStatus == null)
-      @redirectTo(controller: 'sms', action:'index')
-    else
-      @closeMessageModal()
+  #  if(mediator.data.get('login-data').mobileActivationStatus == null)
+  #    @redirectTo(controller: 'sms', action:'index')
+  #  else
+    @closeMessageModal()
 
   publishEvent: (event, data = {})->
     EventBroker.publishEvent event, data
