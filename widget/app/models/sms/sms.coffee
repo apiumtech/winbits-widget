@@ -13,7 +13,7 @@ module.exports = class Sms extends Model
       type: "POST"
       contentType: "application/json"
       dataType: "json"
-      data: JSON.stringify(formData)
+      data: JSON.stringify(mobile: formData.mobile, carrier:formData.carrier)
       headers:
         "Accept-Language": "es",
         "WB-Api-Token": utils.getApiToken()
