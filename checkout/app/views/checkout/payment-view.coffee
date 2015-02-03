@@ -177,10 +177,10 @@ module.exports = class PaymentView extends View
             that.publishEvent "setConfirm", data.response
             that.publishEvent "showStep", ".checkoutSummaryContainer", payment, bitsPayment
         else
-          util.showError('Error al procesar el pago, por favor intentalo más tarde')
+          util.showError('Error al procesar el pago, por favor intentalo más tarde o comunícate al 4160-0550')
           util.hideAjaxIndicator()
       error: () ->
-        util.showError('El servicio de pagos no se encuentra disponible. Por favor intántalo más tarde')
+        util.showError('El servicio de pagos no se encuentra disponible. Por favor intentalo más tarde o comunícate al 4160-0550')
         util.hideAjaxIndicator()
     )
 
