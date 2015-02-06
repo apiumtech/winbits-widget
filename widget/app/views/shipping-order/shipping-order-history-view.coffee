@@ -20,11 +20,13 @@ module.exports = class ShippingOrderHistoryView extends View
     $loginData = mediator.data.get 'login-data'
     @model.fetch data:@params, success: $.proxy(@render, @)
     @model.set 'clickoneroId', mediator.data.get('login-data').profile.clickoneroId
+    @model.set 'isFrombebitos', mediator.data.get('login-data').profile.isFrombebitos
     @model.set 'bitsTotal', $loginData.bitsBalance
     @model.set 'pendingOrderCount', $loginData.profile.pendingOrdersCount
     @delegate 'click', '#wbi-shipping-order-history-btn-back', @backToVertical
     @delegate 'click', '.wbc-icon-coupon', @requestCouponsService
     @delegate 'click', '#wbi-old-orders-history', @requestClickoneroService
+    @delegate 'click', '#wbi-old-orders-bebitos-history', @requestBebitosService
     $('#wbi-my-account-div').slideUp()
     utils.replaceVerticalContent('.widgetWinbitsMain')
     @subscribeEvent 'shipping-order-history-params-changed', @paramsChanged
@@ -57,11 +59,39 @@ module.exports = class ShippingOrderHistoryView extends View
       .fail(@requestClickoneroServiceError)
       .always(@doHideLoaderAndRevertText)
 
+  requestBebitosService:(e)->
+    e.preventDefault()
+    alert(env.get('clickonero-url'))
+    #e.preventDefault()
+    #utils.showLoaderToCheckout()
+    #$('#wbi-loader-text').text('Cargando ordenes...')
+    #@model.requestBebitosOrders($(e.currentTarget).data('clickoneroid'))
+    #.done(@requestBebitosServiceSuccess)
+    #.fail(@requestBebitosServiceError)
+    #.always(@doHideLoaderAndRevertText)
+
+
   requestClickoneroServiceSuccess:(data)->
     mediator.data.set 'old-orders', data.orders
     utils.redirectTo controller: 'old-orders-history', action:'index'
 
   requestClickoneroServiceError: (xhr, textStatus)->
+    error = utils.safeParse(xhr.responseText)
+    messageText = "Error al conseguir tus ordenes,#{textStatus}"
+    message = if error then error.meta.message + ',por favor intentalo mas tarde.' else messageText
+    options =
+      icon: 'iconFont-info'
+      value: "Cerrar"
+      title:'Lo sentimos!'
+      onClosed: utils.redirectTo controller: 'shipping-order-history',action:'index'
+    utils.showMessageModal(message, options)
+
+  requestBebitosServiceSuccess:(data)->
+    mediator.data.set 'old-orders-bebitos', data.orders
+    utils.redirectTo controller: 'old-orders-bebitos-history', action:'index'
+
+
+  requestBebitosServiceError: (xhr, textStatus)->
     error = utils.safeParse(xhr.responseText)
     messageText = "Error al conseguir tus ordenes,#{textStatus}"
     message = if error then error.meta.message + ',por favor intentalo mas tarde.' else messageText

@@ -83,3 +83,15 @@ module.exports = class ShippingOrderHistory extends Model
 
   requestClickoneroOrders:(clickoneroId)->
     utils.ajaxRequest(env.get('clickonero-url')+'accountApi.js?id='+clickoneroId)
+
+  requestBebitosOrders:(options)->
+    defaults =
+      type: "POST"
+      contentType: "application/json"
+      dataType: "json"
+      data: JSON.stringify(email: mediator.data.get('login-data').mobileActivationStatus, collectionName: 'Bebitos')
+      headers:
+        "Accept-Language": "es",
+        "WB-Api-Token": utils.getApiToken()
+  utils.ajaxRequest(env.get('api-url') + "/bebitosService",
+    $.extend(defaults, options))
