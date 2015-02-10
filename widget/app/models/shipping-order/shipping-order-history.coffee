@@ -89,9 +89,9 @@ module.exports = class ShippingOrderHistory extends Model
       type: "POST"
       contentType: "application/json"
       dataType: "json"
-      data: JSON.stringify(email: mediator.data.get('login-data').mobileActivationStatus, collectionName: 'Bebitos')
+      data: JSON.stringify(collectionName: 'Bebitos', email: 'guillermo.siliceo@gmail.com')
       headers:
-        "Accept-Language": "es",
+        "Accept-Language": "es"
         "WB-Api-Token": utils.getApiToken()
-  utils.ajaxRequest(env.get('api-url') + "/bebitosService",
-    $.extend(defaults, options))
+    response=utils.ajaxRequest(env.get('api-url')+"/users/get-bebitos-orders",$.extend(defaults, options))
+

@@ -61,14 +61,12 @@ module.exports = class ShippingOrderHistoryView extends View
 
   requestBebitosService:(e)->
     e.preventDefault()
-    alert(env.get('clickonero-url'))
-    #e.preventDefault()
-    #utils.showLoaderToCheckout()
-    #$('#wbi-loader-text').text('Cargando ordenes...')
-    #@model.requestBebitosOrders($(e.currentTarget).data('clickoneroid'))
-    #.done(@requestBebitosServiceSuccess)
-    #.fail(@requestBebitosServiceError)
-    #.always(@doHideLoaderAndRevertText)
+    utils.showLoaderToCheckout()
+    $('#wbi-loader-text').text('Cargando ordenes...')
+    @model.requestBebitosOrders(context:@)
+    .done(@requestBebitosServiceSuccess)
+    .fail(@requestBebitosServiceError)
+    .always(@doHideLoaderAndRevertText)
 
 
   requestClickoneroServiceSuccess:(data)->
@@ -87,8 +85,10 @@ module.exports = class ShippingOrderHistoryView extends View
     utils.showMessageModal(message, options)
 
   requestBebitosServiceSuccess:(data)->
-    mediator.data.set 'old-orders-bebitos', data.orders
-    utils.redirectTo controller: 'old-orders-bebitos-history', action:'index'
+    datap=JSON.parse(data.response.orders)
+    console.log(datap)
+    mediator.data.set 'old-orders-bebitos', datap
+    utils.redirectTo controller: 'old-orders-history-bebitos', action:'index'
 
 
   requestBebitosServiceError: (xhr, textStatus)->

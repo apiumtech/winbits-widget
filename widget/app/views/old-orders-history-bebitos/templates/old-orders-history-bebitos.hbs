@@ -1,0 +1,67 @@
+<div class="wrapper">
+  <div class="miCuenta-tabs">
+    <div class="wb-history-header"></div>
+  </div>
+</div>
+<div class="wrapper">
+
+      <div class="oldHistory">
+        <div class="wrapper positionRelative">
+          <h2 class="winbitsH2">Historial de compras <small>(Antes del 21 de enero de 2015)</small></h2>
+        </div>
+          <div class="wrapper">
+            <p class="oldHistory-txt">Hemos mudado nuestra plataforma, pero conservamos para tí el registro de  tus compras y cupones. En este listado podrás consultarlos tal y como lo hacías en nuestra anterior sitio.</p>
+            <h3>PEDIDOS HASTA ANTES DEL 21-ENERO-2015</h3>
+              <div class="dataTable">
+                <div class="dataTable-header">
+                  <span class="dataTable-old-detail">DETALLE DE LA ORDEN</span>
+                  <span class="dataTable-old-status">ESTATUS</span>
+                  <span class="dataTable-old-item">ITEM</span>
+                  <span class="dataTable-old-desc">DESCRIPCIÓN</span>
+                </div>
+
+                {{#if orders}}
+                  {{#each orders}}
+                      <div class="dataTable-fila">
+
+                          <div class="dataTable-old-detail">
+                              <p>Orden: {{id}}</p>
+                              <p>Fecha de compra: {{toDefaultDateFormat created_at}}</p>
+                              <p>Total: {{formatCurrency item_total}}</p>
+                          </div>
+
+                          <div class="dataTable-old-status">
+                              <p>{{payment_state}}</p>
+                          </div>
+
+                          <div class="dataTable-old-item">
+                              {{#each line_items}}
+                                <img src="{{getUrl attachment_url mini_url}}" width="80" alt="{{price}}">
+                              {{/each}}
+                          </div>
+
+                          <div class="dataTable-old-desc">
+                            {{#each line_items}}
+                              {{#unless coupons}}
+                              <p>{{id}}</p>
+                              {{#each attributes}}
+                                <p>{{attrName}}:{{label}}</p>
+                              {{/each}}
+                              <p>{{{price}}}</p>
+                              <p>Cantidad: {{quantity}}</p>
+                              {{else}}
+                                <a data-detailid="{{id}}" data-ordernumber="{{../../orderNumber}}" class="wbc-old-orders-coupons" href="#"> Ver cupones </a>
+                              {{/unless}}
+
+                            {{/each}}
+                          </div>
+
+                      </div>
+                  {{/each}}
+                {{/if}}
+
+              </div>
+          </div>
+      </div>
+      <input id="wbi-old-orders-history-btn-back" type="submit" value="Volver al sitio" class="btn btnBackToSite">
+</div>
