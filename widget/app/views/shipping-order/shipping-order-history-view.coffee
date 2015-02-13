@@ -54,7 +54,7 @@ module.exports = class ShippingOrderHistoryView extends View
     e.preventDefault()
     utils.showLoaderToCheckout()
     $('#wbi-loader-text').text('Cargando ordenes...')
-    @model.requestClickoneroOrders($(e.currentTarget).data('clickoneroid'))
+    @model.requestClickoneroOrders($(e.currentTarget ).data('clickoneroid'),context:@)
       .done(@requestClickoneroServiceSuccess)
       .fail(@requestClickoneroServiceError)
       .always(@doHideLoaderAndRevertText)
@@ -63,15 +63,22 @@ module.exports = class ShippingOrderHistoryView extends View
     e.preventDefault()
     utils.showLoaderToCheckout()
     $('#wbi-loader-text').text('Cargando ordenes...')
-    @model.requestBebitosOrders(context:@)
-    .done(@requestBebitosServiceSuccess)
-    .fail(@requestBebitosServiceError)
-    .always(@doHideLoaderAndRevertText)
-
+    console.log('requestBebitosService: ')
+    @model.requestBebitosOrders(context:@,'2564621')
+      .done(@requestBebitosServiceSuccess)
+      .fail(@requestBebitosServiceError)
+      .always(@doHideLoaderAndRevertText)
 
   requestClickoneroServiceSuccess:(data)->
-    mediator.data.set 'old-orders', data.orders
-    utils.redirectTo controller: 'old-orders-history', action:'index'
+    console.log('requestClickoneroServiceSuccess---data: ')
+    console.log(data)
+    ShippingOrderHistoryView.prototype.requestBebitosService(data)
+
+
+
+
+
+
 
   requestClickoneroServiceError: (xhr, textStatus)->
     error = utils.safeParse(xhr.responseText)
@@ -85,10 +92,19 @@ module.exports = class ShippingOrderHistoryView extends View
     utils.showMessageModal(message, options)
 
   requestBebitosServiceSuccess:(data)->
-    datap=JSON.parse(data.response.orders)
-    console.log(datap)
-    mediator.data.set 'old-orders-bebitos', datap
-    utils.redirectTo controller: 'old-orders-history-bebitos', action:'index'
+    datosClickonero=mediator.data.get('old-orders')
+    console.log('requestBebitosServiceSuccess-datosClickonero: ')
+    console.log(datosClickonero)
+    if(datosClickonero)
+      mediator.data.set 'old-orders', $.extend(datosClickonero,data.response.orders)
+    else
+       mediator.data.set 'old-orders', data.response.orders
+    utils.redirectTo controller: 'old-orders-history', action:'index'
+    #console.log(data)
+    #if(data.response.orders)
+    #  $datap = JSON.parse(data.response.orders)
+    #  mediator.data.set 'old-orders-bebitos', $datap
+    #  utils.redirectTo controller: 'old-orders-history-bebitos', action:'index'
 
 
   requestBebitosServiceError: (xhr, textStatus)->
