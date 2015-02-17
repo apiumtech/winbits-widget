@@ -26,8 +26,13 @@
 
                           <div class="dataTable-old-detail">
                               <p>Orden: {{orderNumber}}</p>
-                              <p>Fecha de compra: {{toDefaultDateFormat paidDate}}</p>
+                              <p>Fecha de compra: {{paidDate}}</p>
                               <p>Total: {{formatCurrency total}}</p>
+                              {{#if verticalclass}}
+                                 <a class="{{verticalclass}}"></a>
+                               {{else}}
+                                      <a class="iconVertical-n vertical4 wbc-vertical"></a>
+                              {{/if}}
                           </div>
 
                           <div class="dataTable-old-status">
@@ -43,12 +48,12 @@
                           <div class="dataTable-old-desc">
                             {{#each skus}}
                               {{#unless coupons}}
-                              <p>{{name}}</p>
+                                  <p>{{name}}</p>
                               {{#each attributes}}
                                 <p>{{attrName}}:{{label}}</p>
                               {{/each}}
                               <p>{{{shortDescription}}}</p>
-                              <p>Fecha estimada de entrega: {{toDefaultDateFormat dateDelivery}}</p>
+                              <p>Fecha estimada de entrega: {{dateDelivery}}</p>
                               {{else}}
                                 <a data-detailid="{{orderDetailId}}" data-ordernumber="{{../../orderNumber}}" class="wbc-old-orders-coupons" href="#"> Ver cupones </a>
                               {{/unless}}
