@@ -25,8 +25,7 @@ module.exports = class ShippingOrderHistoryView extends View
     @model.set 'pendingOrderCount', $loginData.profile.pendingOrdersCount
     @delegate 'click', '#wbi-shipping-order-history-btn-back', @backToVertical
     @delegate 'click', '.wbc-icon-coupon', @requestCouponsService
-    @delegate 'click', '#wbi-old-orders-history', @requestClickoneroService
-    @delegate 'click', '#wbi-old-orders-bebitos-history', @requestBebitosService
+    @delegate 'click', '#wbi-old-orders-history', @requestBebitosService
     $('#wbi-my-account-div').slideUp()
     utils.replaceVerticalContent('.widgetWinbitsMain')
     @subscribeEvent 'shipping-order-history-params-changed', @paramsChanged
@@ -64,7 +63,7 @@ module.exports = class ShippingOrderHistoryView extends View
     utils.showLoaderToCheckout()
     $('#wbi-loader-text').text('Cargando ordenes...')
     console.log('requestBebitosService: ')
-    @model.requestBebitosOrders(context:@,'2564621')
+    @model.requestBebitosOrders(context:@,$(e.currentTarget ).data('clickoneroid'))
       .done(@requestBebitosServiceSuccess)
       .fail(@requestBebitosServiceError)
       .always(@doHideLoaderAndRevertText)
@@ -73,12 +72,6 @@ module.exports = class ShippingOrderHistoryView extends View
     console.log('requestClickoneroServiceSuccess---data: ')
     console.log(data)
     ShippingOrderHistoryView.prototype.requestBebitosService(data)
-
-
-
-
-
-
 
   requestClickoneroServiceError: (xhr, textStatus)->
     error = utils.safeParse(xhr.responseText)
@@ -100,11 +93,6 @@ module.exports = class ShippingOrderHistoryView extends View
     else
        mediator.data.set 'old-orders', data.response.orders
     utils.redirectTo controller: 'old-orders-history', action:'index'
-    #console.log(data)
-    #if(data.response.orders)
-    #  $datap = JSON.parse(data.response.orders)
-    #  mediator.data.set 'old-orders-bebitos', $datap
-    #  utils.redirectTo controller: 'old-orders-history-bebitos', action:'index'
 
 
   requestBebitosServiceError: (xhr, textStatus)->
