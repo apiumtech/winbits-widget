@@ -29,9 +29,7 @@
                               <p>Fecha de compra: {{paidDate}}</p>
                               <p>Total: {{formatCurrency total}}</p>
                               {{#if verticalclass}}
-                                 <a class="{{verticalclass}}"></a>
-                               {{else}}
-                                      <a class="iconVertical-n vertical4 wbc-vertical"></a>
+                                 <span class="{{verticalclass}}"></span>
                               {{/if}}
                           </div>
 
@@ -52,8 +50,16 @@
                               {{#each attributes}}
                                 <p>{{attrName}}:{{label}}</p>
                               {{/each}}
-                              <p>{{{shortDescription}}}</p>
-                              <p>Fecha estimada de entrega: {{dateDelivery}}</p>
+                              {{#if shortDescription}}
+                                  <p>{{{shortDescription}}}</p>
+                              {{else}}
+                                  <br/>
+                              {{/if}}
+                                {{#if dateDelivery}}
+                                   <p>Fecha estimada de entrega: {{dateDelivery}}</p>
+                                {{else}}
+                                    <br/>
+                                {{/if}}
                               {{else}}
                                 <a data-detailid="{{orderDetailId}}" data-ordernumber="{{../../orderNumber}}" class="wbc-old-orders-coupons" href="#"> Ver cupones </a>
                               {{/unless}}

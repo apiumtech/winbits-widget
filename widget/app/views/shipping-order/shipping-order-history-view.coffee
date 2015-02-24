@@ -85,13 +85,7 @@ module.exports = class ShippingOrderHistoryView extends View
     utils.showMessageModal(message, options)
 
   requestBebitosServiceSuccess:(data)->
-    datosClickonero=mediator.data.get('old-orders')
-    console.log('requestBebitosServiceSuccess-datosClickonero: ')
-    console.log(datosClickonero)
-    if(datosClickonero)
-      mediator.data.set 'old-orders', $.extend(datosClickonero,data.response.orders)
-    else
-       mediator.data.set 'old-orders', data.response.orders
+    mediator.data.set 'old-orders', data.response.orders
     utils.redirectTo controller: 'old-orders-history', action:'index'
 
 
