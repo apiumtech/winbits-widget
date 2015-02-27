@@ -63,13 +63,13 @@
               {{#if deliveryStatus.0.status}}
                 <span>{{deliveryStatus.0.status}}</span>
               {{else}}
-                  <span>En Almacén</span>
+                  <span>Pre-Almacén</span>
               {{/if}}
             {{else}}
               {{#each deliveryStatus}}
                 <span>({{quantity}}){{status}}</span>
               {{else}}
-                <span>({{quantity}})En Almacén</span>
+                <span>({{quantity}})Pre-Almacén</span>
               {{/each}}
             {{/compare}}
           {{/compare}}

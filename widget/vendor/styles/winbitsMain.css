@@ -3713,6 +3713,7 @@ main {
     color: #fef500;
     border-bottom: 1px solid #808080;
     font-size: 19px;
+    height: 45px;
     margin: 0 20px;
     padding: 15px 0;
     text-align: center;
@@ -3737,9 +3738,6 @@ main {
     /* IE7 inline-block hack */
     zoom: 1;
 }
-.widgetWinbitsHeader .knowmoreFolder .knowMoreMax .item2 h2 {
-    margin-top: -20px;
-}
 .widgetWinbitsHeader .knowmoreFolder .knowMoreMax .knowMoreMax-icons {
     height: 80px;
     overflow: hidden;
@@ -3754,6 +3752,14 @@ main {
 .widgetWinbitsHeader .knowmoreFolder .knowMoreMax .iconFont-cart {
     font-size: 45px;
     margin-top: 14px;
+}
+.widgetWinbitsHeader .knowmoreFolder .knowMoreMax .iconFont-clickOnero {
+    font-size: 120px;
+    margin-top: -20px;
+}
+.widgetWinbitsHeader .knowmoreFolder .knowMoreMax .iconFont-bebitos {
+    font-size: 100px;
+    margin-top: -20px;
 }
 .widgetWinbitsHeader .knowmoreFolder .knowMoreMax .iconFont-equalMoney {
     font-size: 40px;
@@ -5119,14 +5125,50 @@ main {
     font-weight: normal;
 }
 .contentModal .am-div {
-    margin: -75px 45px 0 45px;
+    margin: -115px 35px 0 35px;
     position: absolute;
     top: 50%;
-    width: 150px;
+    width: 170px;
 }
 .contentModal .am-div .winbit-color {
     height: 40px;
     border-bottom: 1px solid #999999;
+}
+.contentModal .am-div .clickOnerodiv {
+    margin: -24px 0 0 -20px;
+}
+.contentModal .am-div .iconFont-bebitos {
+    color: #f16979;
+    font-size: 85px;
+    margin: 0 -20px 0 0;
+    line-height: 1px;
+    display: inline-block;
+    vertical-align: middle;
+    width: auto;
+    *display: inline;
+    /* IE7 inline-block hack */
+    zoom: 1;
+}
+.contentModal .am-div .am-family {
+    font-size: 11px;
+    margin: 15px 0 10px;
+    font-family: 'OmnesMedium', Arial;
+    font-style: normal;
+    font-weight: normal;
+}
+.contentModal .am-div .am-allsites {
+    font-size: 11px;
+    text-transform: none;
+    margin-bottom: 10px;
+}
+.contentModal .am-div .am-ampersand {
+    margin: 0 5px;
+    display: inline-block;
+    vertical-align: middle;
+    width: auto;
+    *display: inline;
+    /* IE7 inline-block hack */
+    zoom: 1;
 }
 .contentModal .am-span {
     color: #000000;
@@ -5371,11 +5413,45 @@ main {
 .gracias .contentModal .btn {
     margin-top: 20px;
 }
+.clickOnerodiv {
+    height: 23px;
+    margin: 0 10px 10px 0;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    width: 90px;
+    *display: inline;
+    /* IE7 inline-block hack */
+    zoom: 1;
+}
+.clickOnerodiv .iconFont-o {
+    font-size: 20px;
+    color: #009bdb;
+    left: 35px;
+    position: absolute;
+    top: 3px;
+    z-index: 0;
+}
+.clickOnerodiv .iconFont-clicknero {
+    font-size: 90px;
+    color: #000000;
+    line-height: 15px;
+    left: 0;
+    position: absolute;
+    top: 5px;
+    z-index: 1;
+}
 .login {
     width: 330px;
 }
 .login fieldset {
     padding-bottom: 10px;
+}
+.login .iconFont-bebitos {
+    color: #f16979;
+    font-size: 85px;
+    margin-top: -5px;
+    line-height: 1px;
 }
 .login h1 {
     font-size: 11px !important;
@@ -5388,6 +5464,7 @@ main {
 .login h1 small {
     font-size: 12px;
     display: block;
+    margin-top: 10px;
 }
 .login h1 small .winbit-color {
     margin-top: -10px;
