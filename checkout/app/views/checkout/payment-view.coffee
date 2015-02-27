@@ -62,6 +62,7 @@ module.exports = class PaymentView extends View
       identifier = method.identifier for method in @model.attributes.methods when method.id is  parseInt(paymentMethod, 10)
 
     if $form.valid()
+      $currentTarget.prop('disabled',yes)
       formData = util.serializeForm($form)
       formData.cardSave = formData.hasOwnProperty('cardSave')
       formData.cardPrincipal = formData.hasOwnProperty('cardPrincipal')
@@ -105,6 +106,7 @@ module.exports = class PaymentView extends View
         error: () ->
           util.showError('El servicio de pagos no se encuentra disponible. Por favor intántalo más tarde')
         complete: ->
+          @$('.wb-card-number-input').prop('disabled',no)
           util.hideAjaxIndicator()
       )
 
@@ -138,7 +140,7 @@ module.exports = class PaymentView extends View
     $currentTarget = @$(e.currentTarget)
     paymentMethod =  $currentTarget.attr("id").split("-")[1]
     mediator.post_checkout.paymentMethod = paymentMethod
-
+    $currentTarget.prop('disabled',yes)
     #hack for MSI
     if formData?.numberOfPayments
       formData.numberOfPayments = parseInt formData.numberOfPayments, 10
@@ -181,6 +183,7 @@ module.exports = class PaymentView extends View
           util.hideAjaxIndicator()
       error: () ->
         util.showError('El servicio de pagos no se encuentra disponible. Por favor intentalo más tarde o comunícate al 4160-0550')
+        Winbits.$('.submitOrder').prop('disabled',no)
         util.hideAjaxIndicator()
     )
 
