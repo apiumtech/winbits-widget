@@ -50,8 +50,10 @@ module.exports = class CardTokenPaymentView extends View
     e.preventDefault()
     #
     $ = Winbits.$
-    $form = $(e.currentTarget)
+    $currentTarget = @$(e.currentTarget)
+    $form = $currentTarget
     if $form.valid()
+      $currentTarget.prop('disabled',yes)
       paymentData = mediator.post_checkout
       paymentData.vertical = Winbits.checkoutConfig.verticalId
       formData = util.serializeForm($form)
@@ -122,5 +124,6 @@ module.exports = class CardTokenPaymentView extends View
         error: () ->
           util.showError('Por favor verifica tus datos o comunícate con nosotros para ayudarte a concretar la compra al 4160-0550')
         complete: ->
+          Winbits.$('.wb-submit-trigger').prop('disabled',no)
           util.hideAjaxIndicator()
       )
