@@ -8,6 +8,7 @@ skuProfileUtils = require 'lib/sku-profile-utils'
 socialUtils = require 'lib/social-utils'
 utils = require 'lib/utils'
 trackingUtils = require 'lib/tracking-utils'
+newslettersUtils = require 'lib/news-letters-utils'
 mediator = Winbits.Chaplin.mediator
 EventBroker = Winbits.Chaplin.EventBroker
 env = Winbits.env
@@ -71,7 +72,7 @@ Winbits.like = (options) ->
 
 Winbits.sumBits = (bits) ->
   currentBits = parseInt(Winbits.$('.bits').text().toString().replace(',',''))
-  bitsBalance = currentBits + bits  
+  bitsBalance = currentBits + bits
   bitsBalance = bitsBalance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   Winbits.$('#wbi-my-bits').text(bitsBalance)
 
@@ -98,3 +99,7 @@ if Winbits.env.get('optimized') and not Winbits.isCrapBrowser
 else
   Winbits.$ ->
     new Application appConfig
+
+Winbits.addBebitos = (options) ->
+  fn = newslettersUtils.addUserToBebitos
+  fn.call(newslettersUtils, options)

@@ -48,7 +48,8 @@ module.exports = class verifyMobileView extends View
       cancelValue: 'Cancelar'
       icon:'iconFont-computer'
       context: @
-      acceptAction: () ->
+      acceptAction: (e) ->
+        Winbits.$(e.currentTarget).prop('disabled', yes)
         @model.reSendCodeToClient(context: @)
           .done(@reSendSuccess)
           .fail(@reSendError)
@@ -76,6 +77,7 @@ module.exports = class verifyMobileView extends View
     loginData.mobileActivationStatus = "ACTIVE"
     mediator.data.set('login-data',loginData)
     utils.showMessageModal(message, options)
+    @publishEvent 'profile-changed', response: loginData
 
 
   sendError: (xhr)->

@@ -1,6 +1,7 @@
 'use strict'
 
 specs = [
+  './views/newsregister-view-spec'
   './views/activation-mobile-view-spec'
   './models/header-spec'
   './views/not-logged-in-view-spec'

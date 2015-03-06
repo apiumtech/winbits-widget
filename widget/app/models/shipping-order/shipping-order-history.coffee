@@ -3,6 +3,7 @@ utils = require 'lib/utils'
 Model = require "models/base/model"
 env = Winbits.env
 $ = Winbits.$
+mediator = Winbits.Chaplin.mediator
 
 module.exports = class ShippingOrderHistory extends Model
   url: env.get('api-url') + "/users/orders.json"
@@ -81,5 +82,22 @@ module.exports = class ShippingOrderHistory extends Model
       $.extend(defaults, options)
     )
 
-  requestClickoneroOrders:(clickoneroId)->
+  requestClickoneroOrders:(clickoneroId,options)->
     utils.ajaxRequest(env.get('clickonero-url')+'accountApi.js?id='+clickoneroId)
+      .done((data)->
+        mediator.data.set 'old-orders', data.orders
+      )
+
+  requestBebitosOrders:(options,clickoneroId)->
+    $loginData = mediator.data.get 'login-data'
+    defaults =
+      type: "POST"
+      contentType: "application/json"
+      dataType: "json"
+      data: JSON.stringify(collectionName: 'Bebitos', email: $loginData.email,clickoneroId:clickoneroId,path:env.get('clickonero-url')+'accountApi.js')
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token": utils.getApiToken()
+    response=utils.ajaxRequest(env.get('api-url')+"/users/get-bebitos-orders",$.extend(defaults, options))
+
+
