@@ -39,6 +39,7 @@ _(newsLettersUtils).extend
      options = value: "Cerrar", title:'Error', icon:'iconFont-info', onClosed: utils.redirectToLoggedInHome()
      utils.showMessageModal(message, options)
 
+
 # Prevent creating new properties and stuff.
 Object.seal? newsLettersUtils
 
