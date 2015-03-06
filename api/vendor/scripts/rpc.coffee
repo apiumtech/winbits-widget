@@ -5,7 +5,7 @@ CART_TOKEN_KEY = '_wb_cart_token'
 CAMPAIGN_TOKEN_KEY = '_wb_campaign_token'
 REFERENCE_TOKEN_KEY = '_wb_reference_token'
 UTM_PARAMS_KEY = '_wb_utm_params'
-FIRST_ENTRY_KEY = '_wb_firts_entry'
+FIRST_ENTRY_KEY = '_wb_firts_entry_bebitos'
 DEFAULT_VIRTUAL_CART = '{"cartItems":[], "bits":0}'
 MILLIS_90_MINUTES = 1000 * 60 * 90
 
