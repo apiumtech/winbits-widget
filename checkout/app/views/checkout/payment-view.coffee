@@ -62,7 +62,7 @@ module.exports = class PaymentView extends View
       identifier = method.identifier for method in @model.attributes.methods when method.id is  parseInt(paymentMethod, 10)
 
     if $form.valid()
-      $currentTarget.prop('disabled',yes)
+      Winbits.$('.wb-submit-card-payment').prop('disabled',yes)
       formData = util.serializeForm($form)
       formData.cardSave = formData.hasOwnProperty('cardSave')
       formData.cardPrincipal = formData.hasOwnProperty('cardPrincipal')
