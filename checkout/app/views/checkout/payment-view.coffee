@@ -106,7 +106,7 @@ module.exports = class PaymentView extends View
         error: () ->
           util.showError('El servicio de pagos no se encuentra disponible. Por favor intántalo más tarde')
         complete: ->
-          @$('.wb-card-number-input').prop('disabled',no)
+          Winbits.$('.wb-submit-card-payment').prop('disabled',no)
           util.hideAjaxIndicator()
       )
 
