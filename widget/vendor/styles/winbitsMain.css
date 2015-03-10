@@ -4975,6 +4975,15 @@ main {
 .bodyModal .selectRegister .select-ul {
     width: 193px;
 }
+.login-ampersand {
+    margin: 0 12px 0 0;
+    display: inline-block;
+    vertical-align: middle;
+    width: auto;
+    *display: inline;
+    /* IE7 inline-block hack */
+    zoom: 1;
+}
 .completaRegistro .wbc-complete-register-select .selectRegister .select-input {
     padding: 5px 3px;
     width: 190px !important;
@@ -7660,9 +7669,6 @@ main {
 }
 .clickoneroVertical .widgetWinbitsHeader .wb-micuenta-profile .divGender label {
     width: 96px;
-}
-.login-ampersand {
-  margin-left: -8px;
 }
 .clickoneroVertical .wbc-vertical-content {
     margin-top: -130px;
