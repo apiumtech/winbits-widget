@@ -28,9 +28,9 @@ _(loginUtils).extend
     utils.redirectToNotLoggedInHome()
     Winbits.trigger 'loggedout', [logoutData]
     mediator.data.set('first-entry', flagFirstEntry)
-    currentVertical = env.get('current-vertical').name
-    if currentVertical is "Promociones" or currentVertical is "promociones"
-      window.location.href = env.get('home-url')
+#    currentVertical = env.get('current-vertical').name
+#    if currentVertical is "Promociones" or currentVertical is "promociones"
+#      window.location.href = env.get('home-url')
 
   doLogoutSuccess: (data) ->
     @applyLogout(data.response)
