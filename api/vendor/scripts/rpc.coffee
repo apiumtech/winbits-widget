@@ -5,7 +5,7 @@ CART_TOKEN_KEY = '_wb_cart_token'
 CAMPAIGN_TOKEN_KEY = '_wb_campaign_token'
 REFERENCE_TOKEN_KEY = '_wb_reference_token'
 UTM_PARAMS_KEY = '_wb_utm_params'
-FIRST_ENTRY_KEY = '_wb_firts_entry_bebitos'
+FIRST_ENTRY_KEY = '_wb_firts_entry_bebitos_25Marzo'
 DEFAULT_VIRTUAL_CART = '{"cartItems":[], "bits":0}'
 MILLIS_90_MINUTES = 1000 * 60 * 90
 
@@ -111,7 +111,7 @@ new easyXDM.Rpc({},
         data.apiToken = apiToken  if apiToken
         vcartToken = localStorage.getItem CART_TOKEN_KEY
         vcampaignsToken = localStorage.getItem CAMPAIGN_TOKEN_KEY
-        vReferenceToken = localStorage.getItem REFERENCE_TOKEN_KEY        
+        vReferenceToken = localStorage.getItem REFERENCE_TOKEN_KEY
         vcartToken = DEFAULT_VIRTUAL_CART unless vcartToken
         localStorage.setItem CART_TOKEN_KEY, vcartToken
         data.vcartToken = vcartToken
@@ -155,7 +155,7 @@ new easyXDM.Rpc({},
         localStorage.removeItem API_TOKEN_KEY
       else
         deleteCookie(API_TOKEN_KEY)
-	
+
       return
 
     storeVirtualCart: (vCart) ->
