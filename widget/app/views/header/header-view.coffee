@@ -1,5 +1,6 @@
 View = require 'views/base/view'
 Header = require 'models/header/header'
+HeaderBannerView = require 'views/header/banner-view'
 env = Winbits.env
 $ = Winbits.$
 
@@ -16,7 +17,6 @@ module.exports = class HeaderView extends View
     @getPromotions()
     @subscribeEvent 'logged-in', @eventToRender
     @subscribeEvent 'log-out', @eventToRender
-    @delegate 'click', '#wbi-drop-down-link', @dropDown
 
   attach: ->
     super
@@ -25,15 +25,12 @@ module.exports = class HeaderView extends View
     for selector in ['#fancybox-overlay', '#fancybox-wrap', '.wbc-propagation-stopper']
       $body.on('click', selector, @stopPropagationHandler)
 
+
   stopPropagationHandler: (e) ->
     e.stopPropagation()
 
   eventToRender: ->
     @render()
-
-  dropDown : (e)->
-    e.preventDefault()
-    @$('.openClose').click()
 
   getPromotions : ->
      @model.getPromo(context: @)
@@ -43,4 +40,8 @@ module.exports = class HeaderView extends View
   successPromo:(data)->
     @model.set('promo', data.response)
     console.log ["model in header", @model]
-    @eventToRender()
+
+
+  render: ()->
+    super
+    @subview('banner-view', new HeaderBannerView model: @model)
