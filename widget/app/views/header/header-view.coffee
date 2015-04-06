@@ -13,6 +13,7 @@ module.exports = class HeaderView extends View
 
   initialize: ->
     super
+    @getPromotions()
     @subscribeEvent 'logged-in', @eventToRender
     @subscribeEvent 'log-out', @eventToRender
     @delegate 'click', '#wbi-drop-down-link', @dropDown
@@ -33,3 +34,13 @@ module.exports = class HeaderView extends View
   dropDown : (e)->
     e.preventDefault()
     @$('.openClose').click()
+
+  getPromotions : ->
+     @model.getPromo(context: @)
+       .done(@successPromo)
+       .fail()
+
+  successPromo:(data)->
+    @model.set('promo', data.response)
+    console.log ["model in header", @model]
+    @eventToRender()
