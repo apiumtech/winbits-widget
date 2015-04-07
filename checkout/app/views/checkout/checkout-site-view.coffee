@@ -40,7 +40,11 @@ module.exports = class CheckoutSiteView extends View
     console.log "orderId: ", orderId
     clock.expireOrder orderId
     util.redirectToVertical(Winbits.checkoutConfig.verticalUrl)
-        
+
+  goBottomPage: =>
+    Winbits.$('html')
+      .animate(
+        scrollTop:Winbits.$(document).height(), 'slow')
 
   showAddress: (e)->
     e.preventDefault()
@@ -52,6 +56,7 @@ module.exports = class CheckoutSiteView extends View
     if selector is ".checkoutPaymentContainer"
       #display edit link
       @$("#showAddress").show()
+      setTimeout(@goBottomPage, 500)
     if payment
       @publishEvent 'orderProcessed', payment: payment
       @$("#showAddress").hide()
