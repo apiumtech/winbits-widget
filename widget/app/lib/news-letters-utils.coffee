@@ -10,7 +10,7 @@ env = Winbits.env
 newsLettersUtils = {}
 _(newsLettersUtils).extend
    addUserToBebitos: (options) ->
-     alert('addUserToBebitos')
+     console.log(['addUserToBebitos'])
      $loginData = mediator.data.get 'login-data'
      defaults =
        type: "POST"
@@ -26,13 +26,11 @@ _(newsLettersUtils).extend
      .fail(@sendError)
 
     sendSuccess:(data)->
-      console.log(data)
       message = "Te has suscrito al boletín de bebitos."
       options = value: "Cerrar", title:'¡ Listo !', icon:'iconFont-ok', onClosed: utils.redirectToLoggedInHome()
       utils.showMessageModal(message, options)
 
    sendError: (xhr)->
-     console.log(xhr)
      error = utils.safeParse(xhr.responseText)
      messageText = "En este momento no es posible suscribirte al boletìn de bebitos, favor de intentarlo más tarde"
      message = if error then error.meta.message else messageText

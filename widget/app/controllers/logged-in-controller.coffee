@@ -88,14 +88,14 @@ module.exports = class LoggedInController extends Controller
 
         check: -> mediator.data.get 'shipping-addresses-composed'
 
-      @reuse 'mailing',
-         compose: ->
-           mediator.data.set 'mailing-composed', yes
-           loginData = loginData = mediator.data.get 'login-data'
-           @model = new MailingModel subscriptions: loginData.subscriptions, newsletterPeriodicity: loginData.profile.newsletterPeriodicity, newsletterFormat: loginData.profile.newsletterFormat
-           @view = new MailingView model:@model
-
-        check: -> mediator.data.get 'mailing-composed'
+      # @reuse 'mailing',
+      #    compose: ->
+      #      mediator.data.set 'mailing-composed', yes
+      #      loginData = loginData = mediator.data.get 'login-data'
+      #      @model = new MailingModel subscriptions: loginData.subscriptions, newsletterPeriodicity: loginData.profile.newsletterPeriodicity, newsletterFormat: loginData.profile.newsletterFormat
+      #      @view = new MailingView model:@model
+      #
+      #   check: -> mediator.data.get 'mailing-composed'
 
       @reuse 'user-cart-view',
         compose: ->
@@ -113,13 +113,13 @@ module.exports = class LoggedInController extends Controller
 
         check: -> mediator.data.get 'cards-composed'
 
-      @reuse 'favorite-view',
-        compose: ->
-          mediator.data.set 'favorite-composed', yes
-          @model = new Favorite
-          @view = new FavoriteView model: @model
-
-        check: -> mediator.data.get 'favorite-composed'
+      # @reuse 'favorite-view',
+      #   compose: ->
+      #     mediator.data.set 'favorite-composed', yes
+      #     @model = new Favorite
+      #     @view = new FavoriteView model: @model
+      #
+      #   check: -> mediator.data.get 'favorite-composed'
 
       @reuse 'account-history-view',
         compose: ->
