@@ -35,11 +35,13 @@ module.exports = class HeaderView extends View
   getPromotions : ->
      @model.getPromo(context: @)
        .done(@successPromo)
-       .fail()
+       .fail(@errorPromo)
 
   successPromo:(data)->
     @model.set('promo', data.response)
-    console.log ["model in header", @model]
+
+  errorPromo: ->
+    @model.set('promo', null)
 
 
   render: ()->
