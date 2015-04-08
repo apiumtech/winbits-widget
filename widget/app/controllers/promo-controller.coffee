@@ -14,6 +14,10 @@ module.exports = class PromoModalController extends BaseController
     super
 
   index: ()->
-    console.log ["Promo-Controller#index"]
-    @model = new PromoModal (modalUrl : mediator.data.get('modalUrl'))
-    @view = new PromoModalView(model: @model)
+
+    modalUrl = mediator.data.get('modalUrl')
+    if(modalUrl)
+      @model = new PromoModal (modalUrl : modalUrl)
+      @view = new PromoModalView(model: @model)
+    else
+      utils.redirectTo controller:'home', action:'index'
