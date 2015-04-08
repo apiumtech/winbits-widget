@@ -1,8 +1,11 @@
 View = require 'views/base/view'
 Header = require 'models/header/header'
 HeaderBannerView = require 'views/header/banner-view'
+mediator = Winbits.Chaplin.mediator
+utils = require 'lib/utils'
 env = Winbits.env
 $ = Winbits.$
+
 
 module.exports = class HeaderView extends View
   container: env.get 'widget-container'
@@ -21,6 +24,7 @@ module.exports = class HeaderView extends View
   attach: ->
     super
     @$('.openClose').showHideDiv()
+    @delegate 'click','#wbi-banner-promo', @redirectPromoModal
     $body = $('body')
     for selector in ['#fancybox-overlay', '#fancybox-wrap', '.wbc-propagation-stopper']
       $body.on('click', selector, @stopPropagationHandler)
@@ -32,6 +36,10 @@ module.exports = class HeaderView extends View
   eventToRender: ->
     @render()
 
+  redirectPromoModal:(e)->
+    e.preventDefault()
+    utils.redirectTo controller:'promo', action:'index'
+
   getPromotions : ->
      @model.getPromo(context: @)
        .done(@successPromo)
@@ -39,9 +47,19 @@ module.exports = class HeaderView extends View
 
   successPromo:(data)->
     @model.set('promo', data.response)
+    if data.response
+      mediator.data.set('modalUrl', data.response.modalUrl)
+      @showModalPromo()
 
   errorPromo: ->
     @model.set('promo', null)
+
+  showModalPromo: ->
+    unless mediator.data.get('first-entry')
+      env.get('rpc').firstEntry()
+      mediator.data.set('first-entry', yes)
+      utils.redirectTo controller:'promo', action:'index'
+
 
 
   render: ()->
