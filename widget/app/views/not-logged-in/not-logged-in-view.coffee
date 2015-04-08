@@ -53,13 +53,22 @@ module.exports = class NotLoggedInPageView extends View
 
   doFacebookLogin : (e)->
     e?.preventDefault()
+    $('.waitingModal').removeClass('waitingModal-hide')
     @$(e?.currentTarget).prop('disabled', true)
     @popupFacebookLogin()
 
   popupFacebookLogin: ->
-    popup = window.open( env.get('api-url') + "/users/facebook-login/connect?verticalId=" + env.get('current-vertical-id'),
+    popup = window.open(env.get('api-url')+"/users/facebook-login/connect?verticalId="+env.get('current-vertical-id'),
         "facebook", "menubar=0,resizable=0,width=980,height=500")
     popup.focus()
+    timer = setInterval(
+      ()->
+        if(popup.closed)
+          clearInterval(timer)
+          $('.waitingModal').addClass('waitingModal-hide')
+    ,4500)
+
+
 
   facebookSuccess: (response)->
       data =
@@ -97,6 +106,7 @@ module.exports = class NotLoggedInPageView extends View
     utils.redirectToLoggedInHome()
 
   doFacebookLoginError: (xhr, textStatus, errorThrown) ->
+    $('.waitingModal').addClass('waitingModal-hide')
     $('#wbi-login-form').find('.errorDiv p').text("Por el momento no podemos atender tu petición, por favor intenta más tarde.").parent().css('display':'block')
     console.log "express-facebook-login.json Error!"
 
