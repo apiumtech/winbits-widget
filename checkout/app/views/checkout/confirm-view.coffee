@@ -7,7 +7,7 @@ mediator = require 'chaplin/mediator'
 # Site view is a top-level view which is bound to body.
 module.exports = class ConfirmView extends View
   container: '.checkoutSummaryContainer'
-  autoRender: yes
+  autoRender:no
   #regions:
   #'#header-container': 'header'
   #'#page-container': 'main'
@@ -21,4 +21,3 @@ module.exports = class ConfirmView extends View
     $form = @$("#paypalForm")
     if $form
       $form.submit()
-
