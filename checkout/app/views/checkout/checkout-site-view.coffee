@@ -42,7 +42,7 @@ module.exports = class CheckoutSiteView extends View
     util.redirectToVertical(Winbits.checkoutConfig.verticalUrl)
 
   goBottomPage: =>
-    Winbits.$('html')
+    Winbits.$('html,body')
       .animate(
         scrollTop:Winbits.$(document).height(), 'slow')
 
