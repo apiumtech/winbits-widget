@@ -14,6 +14,7 @@ module.exports = (match) ->
   match 'wb-transfer-cart-error', 'transfer-cart-errors#index'
   match 'wb-checkout-temp', 'checkout-temp#index'
   match 'wb-video', 'video#index'
+  match 'wb-promo', 'promo#index'
   match 'wb-coupon', 'coupon#index'
   match 'wb-send-sms', 'sms#index'
   match 'wb-activation-mobile', 'activation-mobile#index'

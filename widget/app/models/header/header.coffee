@@ -1,4 +1,7 @@
 Model = require 'models/base/model'
+Utils = require 'lib/utils'
+env = Winbits.env
+$ = Winbits.$
 
 module.exports = class Header extends Model
 
@@ -12,3 +15,14 @@ module.exports = class Header extends Model
   parse: (data) ->
     currentVerticalId: data.meta.currentVerticalId
     activeVerticals: data.response
+
+
+  getPromo: (options) ->
+    defaults =
+      type: "POST"
+      contentType: "application/json"
+      dataType: "json"
+      headers:
+        "Accept-Language": "es"
+    Utils.ajaxRequest(env.get('api-url')+"/users/promotions-widget",$.extend(defaults, options))
+

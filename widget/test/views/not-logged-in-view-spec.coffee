@@ -8,7 +8,6 @@ $ = Winbits.$
 describe 'NotLoggedInViewSpec', ->
 
   beforeEach ->
-    Winbits.Chaplin.mediator.data.set('first-entry', yes)
     currentVertical = id: 1, baseUrl: 'http://www.test-winbits.com', name: 'Winbits Test'
     sinon.stub($.fancybox, "close")
 
@@ -34,7 +33,6 @@ describe 'NotLoggedInViewSpec', ->
     @model.requestExpressFacebookLogin.restore?()
     utils.showMessageModal.restore?()
     $.fancybox.close.restore?()
-    @view.afterRender.restore?()
     @model.dispose()
     @view.dispose()
 
