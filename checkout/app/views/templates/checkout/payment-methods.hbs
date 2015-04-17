@@ -9,7 +9,7 @@
     <address>
       {{#with payment.paymentCapture}}
         <span>{{creditCardHolder}}</span>
-        <span>{{cardType}},</span>
+        <span>{{cardType}},</span>paymentMethodSupportedMethods
         <span><strong>No de tarjeta:</strong> {{maskingCard}}</span>
         <span><strong>Referencia bancaria:</strong> {{authorizationCode}}</span>
         <span><strong>Monto pagado:</strong> ${{amount}}</span>
@@ -91,19 +91,27 @@
           <p>DEPÓSITO EN EFECTIVO</p>
         </li>
     {{/paymentMethodSupportedMethods}}
+
     {{#paymentMethodSupportedMethods methods 'paypal.latam'}}
         <li class="paypalPay li-method" id="li-paypal_latam">
           <span class="paymentIcon paypal"></span>
           <p>PAGO VÍA PAYPAL</p>
         </li>
     {{/paymentMethodSupportedMethods}}
+
+    {{#paymentMethodSupportedMethods methods 'paypal.oneclick'}}
+        <li class="oneclick li-method" id="li-paypal_oneclick">
+          <span class="paymentIcon paypal"></span>
+          <p>ONE CLICK</p>
+        </li>
+    {{/paymentMethodSupportedMethods}}
+
     {{#paymentMethodSupportedMethods methods 'oxxo.bc'}}
         <li class="oxxoPay li-method" id="li-oxxo_bc">
           <span class="paymentIcon oxxo"></span>
           <p>PAGO VÍA OXXO</p>
         </li>
     {{/paymentMethodSupportedMethods}}
-
     {{#withMsiPaymentsMethods methods}}
       {{#each msiPayments}}
         {{#compare identifier 'cybersource.msi+' operator='matches'}}
@@ -120,7 +128,7 @@
         {{/compare}}
       {{/each}}
     {{/withMsiPaymentsMethods}}
-    
+
   {{/if}}
 
   </ul>
@@ -151,6 +159,13 @@
         <a href="#" class="linkBack"><em class="icon backBtn"></em> Regresar</a>
       </div>
   {{/compare}}
+  {{#compare identifier "paypal.oneclick"}}
+     <div class="checkoutPaymentPayPal method-payment" id="method-{{replace identifier searchValue='.' replaceValue='_'}}">
+       <p>Paga de forma rapida y segura con tu cuenta de PayPal</p>
+       <a href="#" class="submitOrder" id="submit-{{identifier}}"><span class="icon paypalLogo">Pay Pal</span></a>
+       <a href="#" class="linkBack"><em class="icon backBtn"></em> Back</a>
+     </div>
+ {{/compare}}
   {{#compare identifier "oxxo.bc"}}
       <div class="checkoutPaymentOxxo method-payment" id="method-{{replace identifier searchValue='.' replaceValue='_'}}">
         <ul>
