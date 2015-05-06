@@ -52,7 +52,7 @@ module.exports = class NotLoggedInPageView extends View
     @popupFacebookLogin()
 
   popupFacebookLogin: ->
-    popup = window.open(env.get('api-url')+"/users/facebook-login/connect?verticalId="+env.get('current-vertical-id'),
+    popup = window.open(env.get('api-url')+"/social/facebook-login/connect?verticalId="+env.get('current-vertical-id'),
         "facebook", "menubar=0,resizable=0,width=980,height=500")
     popup.focus()
     timer = setInterval(
