@@ -39,8 +39,8 @@ module.exports = class PaymentView extends View
   checkForValidMsiMethod: (e) ->
       e.preventDefault()
       console.log ["Alert checkForValidMsiMethod",Winbits.$(e.target)]
-      if not Winbits.$(e.target).valid() 
-        #hago notar que aqui no hay complejidad ciclomatica =(  
+      if not Winbits.$(e.target).valid()
+        #hago notar que aqui no hay complejidad ciclomatica =(
         customSelectSelector = if Winbits.$("#wbi-credit-card-payment-form-msi").is(":visible") then 'totalMsi' else 'numberOfPayments'
         Winbits.$("##{customSelectSelector}").parent().children('ul').children('li').first().click()
         Winbits.$("##{customSelectSelector}").parent().children('.icon').hide()
@@ -75,10 +75,10 @@ module.exports = class PaymentView extends View
         formData.totalMsi = parseInt formData.totalMsi, 10
         paymentMethod = "cybersource.msi." + formData.totalMsi
         paymentMethod = method.id for method in @model.attributes.methods when method.identifier is paymentMethod
-        
+
       if not new RegExp("amex\..+").test(identifier)
         formData.deviceFingerPrint = Winbits.checkoutConfig.orderId
-      
+
       postData = paymentInfo : formData
       postData.paymentMethod = paymentMethod
       postData.order = mediator.post_checkout.order
@@ -168,8 +168,20 @@ module.exports = class PaymentView extends View
         that.publishEvent 'StopIntervalTimer'
         payment = data.response.payments[0]
         bitsPayment = data.response.payments[1]
+        oneclick = off
+
         if payment.status isnt 'FAILED' and payment.status isnt 'ERROR'
-          if payment.identifier is 'paypal.latam'
+
+          if payment.identifier is 'paypal.oneclick'
+            console.log "first if..."
+            if data.response.billingAgreementId? and data.response.billingAgreementId isnt ''
+              #console.log "PayPal there's a billingAgreement #{data.response.billingAgreementId}"
+            else
+              #console.log "There is not a billingAgreement"
+              oneclick = on
+
+
+          if payment.identifier is 'paypal.latam' or oneclick is on
             util.showAjaxIndicator('Redireccionando a PayPal...')
             paymentCapture = payment.paymentCapture
             params = paymentCapture.params
@@ -214,7 +226,7 @@ module.exports = class PaymentView extends View
     Winbits.$("#method-amex_msi .selectContent").hide()
     Winbits.$("#method-amex_msi .selectTrigger").hide()
     Winbits.$("#method-amex_msi .selectPreMessage").show()
-    
+
     @$el.find("#wbi-credit-card-payment-form").validate
       groups:
         cardExpiration: 'expirationMonth expirationYear'
@@ -240,7 +252,7 @@ module.exports = class PaymentView extends View
       messages:
         accountNumber:
           remote:
-            "La tarjeta no cuenta con promoción a MSI"        
+            "La tarjeta no cuenta con promoción a MSI"
 
     @$el.find("#wbi-amex-card-payment-form").validate
       groups:
@@ -267,9 +279,9 @@ module.exports = class PaymentView extends View
       messages:
         cardNumber:
           remote:
-            "La tarjeta no cuenta con promoción a MSI"        
+            "La tarjeta no cuenta con promoción a MSI"
 
-  showBitsPayment: -> 
+  showBitsPayment: ->
     @$(".method-payment").hide()
     @$(".checkoutPaymentCreditcard").hide()
     @$('#method-bits').show()
@@ -291,14 +303,14 @@ module.exports = class PaymentView extends View
     mediator.post_checkout.paymentMethod = 'cybersource.token'
     mediator.post_checkout.paymentInfo = subscriptionId: cardInfo.subscriptionId
 
-    if cardInfo.cardData.cardType is "American Express"  
+    if cardInfo.cardData.cardType is "American Express"
       mediator.post_checkout.paymentMethod = 'amex.cc'
       cardInfo.maxSecurityNumber = 4
       cardInfo.securityNumberPlaceholder = "\#\#\#\#"
     else
       cardInfo.maxSecurityNumber = 3
       cardInfo.securityNumberPlaceholder = "\#\#\#"
-   
+
 
     @cardTokenPaymentView.model.set cardInfo: cardInfo
     @cardTokenPaymentView.model.set methods: @cardsView.model.attributes.methods
