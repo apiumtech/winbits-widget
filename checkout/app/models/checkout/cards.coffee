@@ -39,5 +39,19 @@ module.exports = class Cards extends ChaplinModel
         util.hideAjaxIndicator() if that.loadingIndicator
     )
 
+  getCardsCompleteFromCyberSource: (subscriptionId)->
+    that = @
+    url = config.apiUrl + "/orders/card-complete-subscription?subscriptionId=#{subscriptionId}"
+    util.showAjaxIndicator('Cargando tarjetas guardadas...') if @loadingIndicator
+    util.ajaxRequest( url,
+      type: "GET"
+      async: false
+      contentType: "application/json"
+      dataType: "json"
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
+    )
+
   updateBitsParser: (response) ->
       @set methods:response.paymentMethods

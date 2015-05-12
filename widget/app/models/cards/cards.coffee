@@ -57,3 +57,15 @@ module.exports = class Cards extends Model
       card.cardInfo.subscriptionId isnt cardId
     )
     @set('cards', newCards)
+
+
+  getCardsCompleteFromCyberSource: (subscriptionId)->
+    path = "/orders/card-complete-subscription?subscriptionId=#{subscriptionId}"
+    options =
+      type: "GET"
+      async: false
+      contentType: "application/json"
+      headers:
+        "Accept-Language": "es"
+        "WB-Api-Token": utils.getApiToken()
+    utils.ajaxRequest(utils.getResourceURL(path), options)
