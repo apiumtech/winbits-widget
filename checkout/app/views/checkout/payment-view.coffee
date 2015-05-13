@@ -127,12 +127,13 @@ module.exports = class PaymentView extends View
   selectMethod: (e)->
     e.preventDefault()
     $currentTarget = @$(e.currentTarget)
-    console.log ('Selected method ' + $currentTarget.attr("id").split("-")[1])
     util.renderSliderOnPayment(100, false)
     methodName =  $currentTarget.attr("id").split("-")[1]
     selector = "#method-" + methodName
-    @$(selector).show()
-    @$(".checkoutPaymentCreditcard").hide()
+    if methodName isnt 'paypal_oneclick'
+      @$(selector).show()
+      @$(".checkoutPaymentCreditcard").hide()
+    else
 
   submitOrder: (e)->
     e.preventDefault()

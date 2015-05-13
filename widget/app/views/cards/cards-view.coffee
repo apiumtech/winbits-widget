@@ -4,6 +4,7 @@ View = require 'views/base/view'
 NewCardView = require 'views/cards/new-card-view'
 EditCardView = require 'views/cards/edit-card-view'
 Card = require 'models/cards/card'
+CardComplete = require 'models/cards/cards'
 utils = require 'lib/utils'
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
@@ -14,6 +15,7 @@ module.exports = class CardsView extends View
   template: require './templates/cards'
   id: 'wbi-cards-carousel-view'
   className: 'ccCarrusel'
+  window.completeCardData = []
 
   initialize: ->
     super
@@ -103,12 +105,17 @@ module.exports = class CardsView extends View
     $(e.currentTarget).closest('.wbc-card').data('id')
 
   showEditCardView: (cardId) ->
-    card = @model.getCardById(cardId)
-    card = new Card card.cardInfo
+    @cardComplete = new CardComplete
+    @cardComplete.getCardsCompleteFromCyberSource(cardId)
+    .done @completeCardSuccess
+    card = new Card window.completeCardData
     editCardView = new EditCardView model: card
     @subview('edit-card-view', editCardView)
     @$el.slideUp()
     editCardView.$el.slideDown()
+
+  completeCardSuccess: (data)->
+    window.completeCardData = data.response
 
   deleteCard: (e) ->
     e.stopPropagation()

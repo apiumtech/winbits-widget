@@ -4,6 +4,7 @@ util = require 'lib/util'
 vendor = require 'lib/vendor'
 config = require 'config'
 mediator = require 'chaplin/mediator'
+CardsComplete = require "models/checkout/cards"
 
 # Site view is a top-level view which is bound to body.
 module.exports = class CardsView extends View
@@ -13,6 +14,7 @@ module.exports = class CardsView extends View
   template: template
   amexSupported: yes
   cybersourceSupported: yes
+  window.completeCardData = []
 
   initialize: ->
     super
@@ -144,11 +146,22 @@ module.exports = class CardsView extends View
     $form = @$el.find('form#wbi-edit-card-form')
     cardIndex = @$el.find(e.currentTarget).closest('li').index()
     cardInfo = @model.get('cards')[cardIndex].cardInfo
+
+    @cardsComplete = new CardsComplete
+    @cardsComplete.getCardsCompleteFromCyberSource(cardInfo.subscriptionId)
+      .done @completeCardSuccess
+
     $form.data('current-card-data', cardInfo)
     $form.data('current-card-index', cardIndex)
-    @fillEditCardForm $form, cardInfo
+    @fillEditCardForm $form, window.completeCardData.response
     @$el.find('#wbi-cards-list-holder').hide()
     $form.parent().show()
+
+
+  completeCardSuccess: (data)->
+    window.completeCardData = data
+
+
 
   fillEditCardForm: ($form, cardInfo) ->
     $ = Winbits.$
