@@ -83,4 +83,4 @@ describe 'RegisterViewSpec', ->
   it 'should publish event facebook-button-event', ->
     stub = sinon.stub @view, 'publishEvent'
     @view.$('#wbi-facebook-link').click()
-    expect(stub).to.have.been.calledOnce
+    expect(stub).to.not.have.been.called

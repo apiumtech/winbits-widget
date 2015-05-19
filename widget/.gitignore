@@ -39,3 +39,8 @@ atlassian-ide-plugin.xml
 vendor/scripts/xtra/
 
 bower_components/
+
+__fakeserver.js
+Gruntfile.js
+grunt
+__server
