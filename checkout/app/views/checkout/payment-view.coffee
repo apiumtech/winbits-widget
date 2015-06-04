@@ -153,6 +153,7 @@ module.exports = class PaymentView extends View
       paymentMethod = method.id for method in @model.attributes.methods when method.identifier is paymentMethod
     formData = mediator.post_checkout
     formData.vertical = Winbits.checkoutConfig.verticalId
+    window.completeFormData = formData
     if formData?.paymentInfo?.subscriptionId
       delete formData.paymentInfo['subscriptionId']
     util.showAjaxIndicator('Procesando tu pago...')
