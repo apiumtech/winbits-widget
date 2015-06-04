@@ -61,7 +61,7 @@ describe 'NotLoggedInViewSpec', ->
 
   it 'should success popup facebook api', ->
     @view.publishEvent 'facebook-button-event'
-    expect(@windowsOpenStub).have.been.calledWith('https://apidev.winbits.com/v1/users/facebook-login/connect?verticalId=1',
+    expect(@windowsOpenStub).have.been.calledWith('https://apidev.winbits.com/v1/social/facebook-login/connect?verticalId=1',
         "facebook", "menubar=0,resizable=0,width=980,height=500")
         .and.to.have.been.calledOnce
 

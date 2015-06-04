@@ -64,7 +64,7 @@
         "apiUrl": "https://api.winbits.com/v1",
         "checkoutUrl": "https://checkout.winbits.com",
         "clickoneroUrl" : "https://api.winbits.com/v1/hipstore/",
-        "baseUrl": "http://widget.winbits.com",
+        "baseUrl": "http://wb.widget.winbits.com.s3.amazonaws.com/prod",
         "homeUrl": "http://www.winbits.com",
         "facebookClientId": "468430606512928",
         "providerUrl": "https://api.winbits.com/provider/",
