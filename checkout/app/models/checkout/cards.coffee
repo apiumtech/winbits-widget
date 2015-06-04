@@ -32,6 +32,7 @@ module.exports = class Cards extends ChaplinModel
         "Accept-Language": "es"
         "WB-Api-Token":  util.retrieveKey(config.apiTokenName)
       success: (data) ->
+        console.log "+++++ data -> #{JSON.stringify(data)}"
         that.set cards: data.response, cardItemLegend: that.cardItemLegend
       error: (xhr) ->
         util.showAjaxError(xhr.responseText)
