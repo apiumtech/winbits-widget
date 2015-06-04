@@ -97,18 +97,32 @@ if (!empty($shipping)) {
             </div>
         </div>
     </div>
-
-		<!-- Scripts Google & Facebook -->
-
-		<!-- Google Tag Manager -->
-		<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-NHQG48"
-		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-		'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-		})(window,document,'script','dataLayer','GTM-NHQG48');</script>
-		<!-- End Google Tag Manager -->
+    <script>
+        var dataLayer = dataLayer || [];
+        var orderDetail = window.completeOrderDetails;
+        var formData = window.completeFormData;
+        var products = []
+        for(var i = 0; i< orderDetail.length; i++){
+            products.push ({
+                'name': orderDetail[i].sku.brand.description,
+                'id': orderDetail[i].sku.id,
+                'price': orderDetail[i].sku.price,
+                'brand': orderDetail[i].sku.brand.name,
+                'category': orderDetail[i].sku.brand.description,
+                'variant': orderDetail[i].sku.mainAttribute.label,
+                'quantity': orderDetail[i].quantity
+            })
+        }
+        dataLayer.push({
+            'ecommerce': {
+                'currencyCode': 'MXN',
+                'checkout': {
+                    'actionField': {'step': 2, 'option': formData.paymentMethod},
+                    'products': products
+                }
+            }
+        });
+    </script>
 
 		<!-- Facebook Conversion Code for Checkout -->
 		<script>(function() {

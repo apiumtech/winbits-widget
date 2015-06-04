@@ -50,6 +50,7 @@ module.exports = class CheckoutController extends ChaplinController
 
 
   initCheckout: (orderData)->
+    window.completeOrderDetails = orderData.orderDetails
     that=this
     @addressCK = new AddressCK
     @orderDetails = new OrderDetails
