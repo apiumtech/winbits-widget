@@ -64,6 +64,7 @@ module.exports = class PaymentView extends View
     if $form.valid()
       Winbits.$('.wb-submit-card-payment').prop('disabled',yes)
       formData = util.serializeForm($form)
+      window.completeFormData = formData
       formData.cardSave = formData.hasOwnProperty('cardSave')
       formData.cardPrincipal = formData.hasOwnProperty('cardPrincipal')
       #hack for MSI
@@ -175,7 +176,7 @@ module.exports = class PaymentView extends View
         if payment.status isnt 'FAILED' and payment.status isnt 'ERROR'
 
           if payment.identifier is 'paypal.oneclick'
-            console.log "first if..."
+
             if data.response.billingAgreementId? and data.response.billingAgreementId isnt ''
               #console.log "PayPal there's a billingAgreement #{data.response.billingAgreementId}"
             else

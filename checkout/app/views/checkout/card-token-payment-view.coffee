@@ -97,7 +97,7 @@ module.exports = class CardTokenPaymentView extends View
         else
          delete formData['totalMsi']
 
-
+      window.completeFormData = formData
       $.extend paymentData.paymentInfo, formData
       util.showAjaxIndicator('Procesando tu pago...')
       that=@
