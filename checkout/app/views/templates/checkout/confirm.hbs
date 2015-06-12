@@ -22,47 +22,53 @@
   <input type="submit" class="btn btnCheckout" value="Volver a la tienda" onclick="window.history.back();">
 </div>
 <script>
-    var dataLayer = dataLayer || [];
-    var orderDetail = window.completeOrderDetails;
-    var formData = window.completeFormData;
-    var products = []
-    for(var i = 0; i< orderDetail.length; i++){
-        products.push ({
-            'name': orderDetail[i].sku.brand.description,
-            'id': orderDetail[i].sku.id,
-            'price': orderDetail[i].sku.price,
-            'brand': orderDetail[i].sku.brand.name,
-            'category': orderDetail[i].sku.brand.description,
-            'variant': orderDetail[i].sku.mainAttribute.label,
-            'quantity': orderDetail[i].quantity
-        })
-    }
-//    dataLayer.push({
-//        'ecommerce': {
-//            'currencyCode': 'MXN',
-//            'checkout': {
-//                'actionField': {'step': 2, 'option': formData.paymentMethod},
-//                'products': products
-//            }
-//        }
-//    });
-    dataLayer.push({
-      'ecommerce': {
-        'purchase': {
-          'actionField': {
-            'id': orderDetail.order.id,
-            'affiliation': '',
-            'revenue': orderDetail.order.total,
-            'tax': '',
-            'shipping': orderDetailorder.shippingTotal,
-            'coupon': '',
-          },
+  var dataLayer = dataLayer || [];
+  var orderDetail = window.completeOrderDetails;
+  var formData = window.completeFormData;
+  var products = [];
+  var vertical = "";
+  var totalCash = document.getElementsByClassName("slideInput-totalPrice")[0].innerHTML.replace("$","");
+  switch(formData.vertical) {
+    case "4":
+      vertical = "ClickOnero";
+      break;
+    case "11":
+      vertical = "Bebitos";
+      break;
+    case "12":
+      vertical = "Invita Amigos";
+      break;
+    default:
+      break;
+  }
+  for(var i = 0; i< orderDetail.length; i++){
+    products.push ({
+      'name': orderDetail[i].sku.brand.description,
+      'id': orderDetail[i].sku.id,
+      'price': orderDetail[i].sku.price,
+      'brand': orderDetail[i].sku.brand.name,
+      'category': orderDetail[i].sku.brand.description,
+      'variant': orderDetail[i].sku.mainAttribute.label,
+      'quantity': orderDetail[i].quantity
+    })
+  }
+  dataLayer.push({
+    'ecommerce': {
+      'purchase': {
+        'actionField': {
+          'id': formData.order,
+          'affiliation': vertical,
+          'revenue': totalCash,
+          'tax': '',
+          'shipping': orderDetail[0].shippingAmount,
+          'coupon': '',
+        },
 
-          'products': products
-        }
+        'products': products
       }
-    });
-    //console.log ("dataLayer -> " + JSON.stringify(dataLayer));
+    }
+  });
+  //console.log ("dataLayer -> " + JSON.stringify(dataLayer));
 </script>
 
 <!-- Facebook Conversion Code for Checkout -->
