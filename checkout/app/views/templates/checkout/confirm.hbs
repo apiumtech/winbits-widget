@@ -21,6 +21,7 @@
 <div class="checkoutButton">
   <input type="submit" class="btn btnCheckout" value="Volver a la tienda" onclick="window.history.back();">
 </div>
+
 <script>
   var dataLayer = dataLayer || [];
   var orderDetail = window.completeOrderDetails;
@@ -28,7 +29,7 @@
   var products = [];
   var vertical = "";
   var totalCash = document.getElementsByClassName("slideInput-totalPrice")[0].innerHTML.replace("$","");
-  switch(formData.vertical) {
+  switch(Winbits.checkoutConfig.verticalId) {
     case "4":
       vertical = "ClickOnero";
       break;
@@ -56,11 +57,11 @@
     'ecommerce': {
       'purchase': {
         'actionField': {
-          'id': formData.order,
+          'id': Winbits.checkoutConfig.orderId,
           'affiliation': vertical,
           'revenue': totalCash,
           'tax': '',
-          'shipping': orderDetail[0].shippingAmount,
+          'shipping': document.getElementsByClassName("checkoutSubtotal")[0].childNodes[11].innerHTML.replace("$",""),
           'coupon': '',
         },
 
