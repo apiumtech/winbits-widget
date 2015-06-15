@@ -45,8 +45,8 @@
   for(var i = 0; i< orderDetail.length; i++){
     products.push ({
       'name': orderDetail[i].sku.brand.description,
-      'id': orderDetail[i].sku.id,
-      'price': orderDetail[i].sku.price,
+      'id': '' + orderDetail[i].sku.id + '',
+      'price': '' + orderDetail[i].sku.price + '',
       'brand': orderDetail[i].sku.brand.name,
       'category': orderDetail[i].sku.brand.description,
       'variant': orderDetail[i].sku.mainAttribute.label,
