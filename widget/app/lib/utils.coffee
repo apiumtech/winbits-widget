@@ -594,6 +594,37 @@ _(utils).extend Winbits.utils,
   publishEvent: (event, data = {})->
     EventBroker.publishEvent event, data
 
+  tagManagerConnection: () ->
+    ((w, d, s, l, i) ->
+      w[l] = w[l] or []
+      w[l].push
+        'gtm.start': (new Date).getTime()
+        event: 'gtm.js'
+      f = d.getElementsByTagName(s)[0]
+      j = d.createElement(s)
+      dl = if l != 'dataLayer' then '&l=' + l else ''
+      j.async = true
+      j.src = '//www.googletagmanager.com/gtm.js?id=' + i + dl
+      f.parentNode.insertBefore j, f
+      return
+      ) window, document, 'script', 'dataLayer', 'GTM-KQ7HXQ'
+
+  tagManagerDeleteItem: (data) ->
+    window.dataLayer = []
+    window.dataLayer.push {
+      'event': 'removeFromCart',
+      'ecommerce':{
+        'currencyCode': 'MXN',
+        'remove':{
+          'products':[{
+            'id': data + ""
+          }]
+        }
+      }
+    }
+    @tagManagerConnection()
+    return
+
 Object.seal? utils
 
 delete Winbits.utils

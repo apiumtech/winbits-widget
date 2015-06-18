@@ -54,6 +54,7 @@ module.exports = class CartItemsView extends View
   doDeleteItem: (e)->
     e.preventDefault()
     $itemId = $(e.currentTarget).closest('li').data("id")
+    utils.tagManagerDeleteItem($itemId)
     requestOptions = @cartRequestOptions()
     requestOptions.type = 'DELETE'
     cartUtils.showCartLoading()

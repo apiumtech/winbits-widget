@@ -50,7 +50,7 @@
         "apiUrl": "https://apistaging.winbits.com/v1",
         "checkoutUrl": "https://checkoutstaging.winbits.com",
         "clickoneroUrl" : "https://outlet.clickonero.com.mx/hipstore/",
-        "baseUrl": "http://widgetstaging.winbits.com",
+        "baseUrl": "http://wb.widgetstaging.winbits.com.s3.amazonaws.com",
         "homeUrl": "http://staging.winbits.com",
         "facebookClientId": "1407560009467593",
         "providerUrl": "https://apistaging.winbits.com/provider/",
