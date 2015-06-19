@@ -97,34 +97,7 @@ if (!empty($shipping)) {
             </div>
         </div>
     </div>
-    <script>
-        var dataLayer = dataLayer || [];
-        var orderDetail = window.completeOrderDetails;
-        var formData = window.completeFormData;
-        var products = []
-        for(var i = 0; i< orderDetail.length; i++){
-            products.push ({
-                'name': orderDetail[i].sku.brand.description,
-                'id': orderDetail[i].sku.id,
-                'price': orderDetail[i].sku.price,
-                'brand': orderDetail[i].sku.brand.name,
-                'category': orderDetail[i].sku.brand.description,
-                'variant': orderDetail[i].sku.mainAttribute.label,
-                'quantity': orderDetail[i].quantity
-            })
-        }
-        dataLayer.push({
-            'ecommerce': {
-                'currencyCode': 'MXN',
-                'checkout': {
-                    'actionField': {'step': 2, 'option': formData.paymentMethod},
-                    'products': products
-                }
-            }
-        });
-    </script>
-
-		<!-- Facebook Conversion Code for Checkout -->
+    <!-- Facebook Conversion Code for Checkout -->
 		<script>(function() {
 		var _fbq = window._fbq || (window._fbq = []);
 		if (!_fbq.loaded) {

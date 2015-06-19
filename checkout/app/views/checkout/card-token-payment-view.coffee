@@ -112,6 +112,7 @@ module.exports = class CardTokenPaymentView extends View
           # Stop timer
           that.publishEvent 'StopIntervalTimer'
           payment = data.response.payments[0]
+          window.payment = data.response.payments[0].identifier
           bitsPayment = data.response.payments[1]
           if payment.status isnt 'FAILED' and payment.status isnt 'ERROR'
             that.$el.hide()

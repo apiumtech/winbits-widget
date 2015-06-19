@@ -53,7 +53,25 @@
       'quantity': orderDetail[i].quantity
     })
   }
+  var option = formData.paymentMethod;
+  if(!option){
+      option = window.payment;
+  }
   dataLayer.push({
+      'event': 'checkout',
+      'ecommerce': {
+          'checkout': {
+              'actionField': {
+                  'step':2,
+                  'option': option
+              },
+
+              'products': products
+          }
+      }
+  });
+  dataLayer.push({
+    'event': 'compra',
     'ecommerce': {
       'purchase': {
         'actionField': {
