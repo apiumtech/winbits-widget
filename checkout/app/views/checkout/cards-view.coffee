@@ -284,6 +284,7 @@ module.exports = class CardsView extends View
       $selectedCard.addClass('creditcardSelected')
       cardIndex = $selectedCard.index()
       cardInfo = @model.get('cards')[cardIndex].cardInfo
+      util.tagManagerSteps(2,'cybersource_cc')
       @publishEvent 'cardSelected', { cardIndex: cardIndex, cardInfo: cardInfo }
       if @model.mainOnClick
         @setMainCard cardInfo

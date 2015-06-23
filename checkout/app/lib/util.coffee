@@ -397,3 +397,88 @@ module.exports =
 
   formatNumWithComma: (value) ->
     value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
+  tagManagerConnection: () ->
+    ((w, d, s, l, i) ->
+      w[l] = w[l] or []
+      w[l].push
+        'gtm.start': (new Date).getTime()
+        event: 'gtm.js'
+      f = d.getElementsByTagName(s)[0]
+      j = d.createElement(s)
+      dl = if l != 'dataLayer' then '&l=' + l else ''
+      j.async = true
+      j.src = '//www.googletagmanager.com/gtm.js?id=' + i + dl
+      f.parentNode.insertBefore j, f
+      return
+    ) window, document, 'script', 'dataLayer', 'GTM-KQ7HXQ'
+
+  tagManagerSteps: (step, method) ->
+    window.dataLayer = []
+    $products = []
+    $products = @createDatalayerProducts()
+    window.dataLayer.push {
+      'event': 'checkout',
+      'ecommerce':{
+        'checkout': {
+          'actionField': {
+            'step': step,
+            'option': method
+          },
+          'products': $products
+        }
+      }
+    }
+    @tagManagerConnection()
+    return
+
+  createDatalayerPurchase: () ->
+    window.dataLayer = []
+    $products = []
+    $products = @createDatalayerProducts()
+    window.dataLayer.push {
+      'event': 'compra',
+      'ecommerce': {
+        'purchase': {
+          'actionField': {
+            'id': Winbits.checkoutConfig.orderId,
+            'affiliation': @verticalIdToName(Winbits.checkoutConfig.verticalId),
+            'revenue': document.getElementsByClassName("slideInput-totalPrice")[0].innerHTML.replace '$', '',
+            'tax': '',
+            'shipping': document.getElementsByClassName("checkoutSubtotal")[0].childNodes[11].innerHTML.replace '$', '',
+            'coupon': ''
+          },
+          'products': $products
+        }
+      }
+    }
+    @tagManagerConnection()
+    return
+
+  verticalIdToName:(id) ->
+    vertical = ''
+    switch id
+      when '4'
+        vertical = 'ClickOnero'
+      when '11'
+        vertical = 'Bebitos'
+      when '12'
+        vertical = 'Invita Amigos'
+      else
+        break
+    vertical
+
+  createDatalayerProducts: () ->
+    $orderDetails = window.completeOrderDetails
+    $products = []
+    for detail in $orderDetails
+      $products.push {
+          'name': detail.sku.brand.description,
+          'id': detail.sku.id + "",
+          'price': detail.sku.price + "",
+          'brand': detail.sku.brand.name,
+          'category': detail.sku.brand.description,
+          'variant': detail.sku.mainAttribute.label,
+          'quantity': detail.quantity
+      }
+    return $products

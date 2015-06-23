@@ -57,6 +57,8 @@ module.exports = class CheckoutSiteView extends View
       #display edit link
       @$("#showAddress").show()
       setTimeout(@goBottomPage, 500)
+    else if selector is ".shippingAddressesContainer" and not payment
+      util.tagManagerSteps(1,'')
     if payment
       @publishEvent 'orderProcessed', payment: payment
       @$("#showAddress").hide()
@@ -67,6 +69,7 @@ module.exports = class CheckoutSiteView extends View
       if bitsPayment
         $bitsAmount = @$("span.bits-payment-data").show().filter('.bits-amount')
         $bitsAmount.html($bitsAmount.html() + '-' + bitsPayment.amount)
+      util.createDatalayerPurchase()
     else
       @$(".chk-step").hide()
     @$(selector).show()

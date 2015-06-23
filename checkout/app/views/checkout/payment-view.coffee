@@ -130,6 +130,7 @@ module.exports = class PaymentView extends View
     $currentTarget = @$(e.currentTarget)
     util.renderSliderOnPayment(100, false)
     methodName =  $currentTarget.attr("id").split("-")[1]
+    util.tagManagerSteps(2,methodName)
     selector = "#method-" + methodName
     if methodName isnt 'paypal_oneclick'
       @$(selector).show()
