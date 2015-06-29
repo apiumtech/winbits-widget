@@ -7751,3 +7751,15 @@ main {
 .msie1 .checkout-container, .msie10 .checkout-container, .msie11 .checkout-container {
     margin-top: -120px;
 }
+#wbi-card-token-payment-continue-btn {
+  background: green;
+  font-size: 22px;
+  font-family: 'OmnesLight';
+  margin: 20px 0 0 0;
+  padding: 20px 0 !important;
+  text-transform: uppercase;
+  width: 100%;
+}
+#wbi-card-token-payment-continue-btn:hover {
+  background: #363636;
+}
