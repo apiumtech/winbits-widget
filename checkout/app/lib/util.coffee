@@ -473,7 +473,7 @@ module.exports =
     $products = []
     for detail in $orderDetails
       $products.push {
-          'name': detail.sku.brand.description,
+          'name': detail.sku.name,
           'id': detail.sku.id + "",
           'price': detail.sku.price + "",
           'brand': detail.sku.brand.name,
