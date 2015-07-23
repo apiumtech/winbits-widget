@@ -175,11 +175,13 @@ module.exports = class Cart extends Model
 
   postToCheckoutApp: (order) ->
     checkoutURL = env.get('checkout-url')
+    urlComplete = document.URL
+    cookie = @obtainCookie(urlComplete)
     formAttrs =
       id: 'chk-form'
       method: 'POST'
       style: 'display:none'
-      action: "#{checkoutURL}/checkout.php"
+      action: "#{checkoutURL}/checkout.php"+cookie
     $chkForm = $('<form></form>', formAttrs)
     $('<input type="hidden" name="token"/>').val(utils.getApiToken())
       .appendTo($chkForm)
@@ -197,6 +199,14 @@ module.exports = class Cart extends Model
     $('<input type="hidden" name="timestamp"/>').val(timestamp)
       .appendTo($chkForm)
     $chkForm.appendTo(document.body).submit()
+
+  obtainCookie:(url) ->
+    urlShorten = url.replace('http://', '')
+    urlShorten = urlShorten.replace('www.', '')
+    cookie = urlShorten.split '/'
+    cookie = cookie[1].split '#'
+    cookie = cookie[0]
+    cookie
 
   requestCheckoutFails: (xhr) ->
     utils.hideLoaderToCheckout()
