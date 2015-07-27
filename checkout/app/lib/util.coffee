@@ -489,7 +489,7 @@ module.exports =
       'shipping': document.getElementsByClassName("checkoutSubtotal")[0].childNodes[11].innerHTML.replace '$', '',
       'tax': '0.00'
     }
-    @createPixelFacebookPurchase()
+    @googleAnalyticsConnection()
     return
 
 
