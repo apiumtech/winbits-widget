@@ -413,6 +413,54 @@ module.exports =
       return
     ) window, document, 'script', 'dataLayer', 'GTM-KQ7HXQ'
 
+  googleAnalyticsConnection: () ->
+    ((i, s, o, g, r, a, m) ->
+      i['GoogleAnalyticsObject'] = r
+      i[r] = i[r] or ->
+          (i[r].q = i[r].q or []).push arguments
+
+      i[r].l = 1 * new Date
+      a = s.createElement(o)
+      m = s.getElementsByTagName(o)[0]
+      a.async = 1
+      a.src = g
+      m.parentNode.insertBefore a, m
+      return
+    ) window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga'
+
+  tagPixelFacebookConnection: () ->
+    !((f, b, e, v, n, t, s) ->
+      if f.fbq
+        return
+      n =
+        f.fbq = ->
+          if n.callMethod then n.callMethod.apply(n, arguments) else n.queue.push(arguments)
+
+      if !f._fbq
+        f._fbq = n
+      n.push = n
+      n.loaded = !0
+      n.version = '2.0'
+      n.queue = []
+      t = b.createElement(e)
+      t.async = !0
+      t.src = v
+      s = b.getElementsByTagName(e)[0]
+      s.parentNode.insertBefore t, s
+    )(window, document, 'script', '//connect.facebook.net/en_US/fbevents.js')
+
+
+  createPixelFacebookPurchase: () ->
+    @tagPixelFacebookConnection()
+    fbq 'init', '684475971610225'
+    fbq 'track', 'Purchase',
+      {
+        content_ids: @createContentsIdsFacebook()
+        value: document.getElementsByClassName("slideInput-totalPrice")[0].innerHTML.replace('$', '').replace(',',''),
+        currency: 'MXN'
+      }
+    return
+
   tagManagerSteps: (step, method) ->
     window.dataLayer = []
     $products = []
@@ -431,6 +479,19 @@ module.exports =
     }
     @tagManagerConnection()
     return
+
+  createAnalyticsDataLayerPurchase:() ->
+    window.ga =[]
+    window.ga.push {
+      'id': Winbits.checkoutConfig.orderId,
+      'affiliation': @verticalIdToName(Winbits.checkoutConfig.verticalId),
+      'revenue': document.getElementsByClassName("slideInput-totalPrice")[0].innerHTML.replace('$', '').replace(',',''),
+      'shipping': document.getElementsByClassName("checkoutSubtotal")[0].childNodes[11].innerHTML.replace '$', '',
+      'tax': '0.00'
+    }
+    @createPixelFacebookPurchase()
+    return
+
 
   createDatalayerPurchase: () ->
     window.dataLayer = []
@@ -467,6 +528,14 @@ module.exports =
       else
         break
     vertical
+
+  createContentsIdsFacebook: () ->
+    $orderDetails = window.completeOrderDetails
+    $contents = []
+    for detail in $orderDetails
+      $contents.push detail.sku.id.toString()
+    return $contents
+
 
   createDatalayerProducts: () ->
     $orderDetails = window.completeOrderDetails

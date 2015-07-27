@@ -70,6 +70,8 @@ module.exports = class CheckoutSiteView extends View
         $bitsAmount = @$("span.bits-payment-data").show().filter('.bits-amount')
         $bitsAmount.html($bitsAmount.html() + '-' + bitsPayment.amount)
       util.createDatalayerPurchase()
+      util.createAnalyticsDataLayerPurchase()
+      util.createPixelFacebookPurchase()
     else
       @$(".chk-step").hide()
     @$(selector).show()
