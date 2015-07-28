@@ -33,6 +33,7 @@ module.exports = class OrderDetails extends ChaplinModel
     updateData = {bitsTotal: bits, orderId: @get('orderId') }
     if bits is @get('total')
       util.tagManagerSteps(2,"user.bits")
+      util.adRollSteps()
     that=@
     util.showAjaxIndicator('Actualizando bits a la orden ...')
     util.ajaxRequest( config.apiUrl + "/orders/update-order-bits.json",

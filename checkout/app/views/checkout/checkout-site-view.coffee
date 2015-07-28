@@ -59,6 +59,7 @@ module.exports = class CheckoutSiteView extends View
       setTimeout(@goBottomPage, 500)
     else if selector is ".shippingAddressesContainer" and not payment
       util.tagManagerSteps(1,'')
+      util.adRollSteps()
     if payment
       @publishEvent 'orderProcessed', payment: payment
       @$("#showAddress").hide()
@@ -72,6 +73,7 @@ module.exports = class CheckoutSiteView extends View
       util.createDatalayerPurchase()
       util.createAnalyticsDataLayerPurchase()
       util.createPixelFacebookPurchase()
+      util.adRollPurchase()
     else
       @$(".chk-step").hide()
     @$(selector).show()

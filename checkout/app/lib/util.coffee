@@ -428,6 +428,30 @@ module.exports =
       return
     ) window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga'
 
+  adRollConnection:(segments) ->
+    adroll_segments = segments
+    adroll_adv_id = 'C7RIE3U37FHQJJC46ID7SX'
+    adroll_pix_id = 'BXEYKGTA2BHITNBCIZEFQP'
+    do ->
+      oldonload = window.onload
+      window.onload = ->
+         __adroll_loaded = true
+         scr = document.createElement('script')
+         host = if 'https:' == document.location.protocol then 'https://s.adroll.com' else 'http://a.adroll.com'
+         scr.setAttribute 'async', 'true'
+         scr.type = 'text/javascript'
+         scr.src = host + '/j/roundtrip.js'
+         ((document.getElementsByTagName('head') or [ null ])[0] or document.getElementsByTagName('script')[0].parentNode).appendChild scr
+         if oldonload
+           oldonload()
+    return
+
+  adRollSteps:() ->
+    @adRollConnection('')
+
+  adRollPurchase:() ->
+    @adRollConnection('634fac2a')
+
   tagPixelFacebookConnection: () ->
     !((f, b, e, v, n, t, s) ->
       if f.fbq
@@ -486,7 +510,7 @@ module.exports =
       'id': Winbits.checkoutConfig.orderId,
       'affiliation': @verticalIdToName(Winbits.checkoutConfig.verticalId),
       'revenue': document.getElementsByClassName("slideInput-totalPrice")[0].innerHTML.replace('$', '').replace(',',''),
-      'shipping': document.getElementsByClassName("checkoutSubtotal")[0].childNodes[11].innerHTML.replace '$', '',
+      'shipping': document.getElementsByClassName("checkoutSubtotal")[0].childNodes[11].innerHTML.replace('$', '',),
       'tax': '0.00'
     }
     @googleAnalyticsConnection()
@@ -506,7 +530,7 @@ module.exports =
             'affiliation': @verticalIdToName(Winbits.checkoutConfig.verticalId),
             'revenue': document.getElementsByClassName("slideInput-totalPrice")[0].innerHTML.replace('$', '').replace(',',''),
             'tax': '',
-            'shipping': document.getElementsByClassName("checkoutSubtotal")[0].childNodes[11].innerHTML.replace '$', '',
+            'shipping': document.getElementsByClassName("checkoutSubtotal")[0].childNodes[11].innerHTML.replace('$', ''),
             'coupon': ''
           },
           'products': $products

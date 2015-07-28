@@ -285,6 +285,7 @@ module.exports = class CardsView extends View
       cardIndex = $selectedCard.index()
       cardInfo = @model.get('cards')[cardIndex].cardInfo
       util.tagManagerSteps(2,'cybersource_cc')
+      util.adRollSteps()
       @publishEvent 'cardSelected', { cardIndex: cardIndex, cardInfo: cardInfo }
       if @model.mainOnClick
         @setMainCard cardInfo
