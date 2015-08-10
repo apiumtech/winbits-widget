@@ -609,6 +609,21 @@ _(utils).extend Winbits.utils,
       return
       ) window, document, 'script', 'dataLayer', 'GTM-KQ7HXQ'
 
+  googleAnalyticsConnection: () ->
+    ((i, s, o, g, r, a, m) ->
+      i['GoogleAnalyticsObject'] = r
+      i[r] = i[r] or ->
+          (i[r].q = i[r].q or []).push arguments
+
+      i[r].l = 1 * new Date
+      a = s.createElement(o)
+      m = s.getElementsByTagName(o)[0]
+      a.async = 1
+      a.src = g
+      m.parentNode.insertBefore a, m
+      return
+    ) window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga'
+
   tagManagerDeleteItem: (data) ->
     window.dataLayer = []
     window.dataLayer.push {
@@ -623,6 +638,14 @@ _(utils).extend Winbits.utils,
       }
     }
     @tagManagerConnection()
+    return
+
+  getCookieGoogleAnalytics: () ->
+    @googleAnalyticsConnection()
+    tracker = ''
+    ga (tracker) ->
+      linkerParam = tracker.get('linkerParam')
+      return
     return
 
 Object.seal? utils

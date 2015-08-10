@@ -529,9 +529,8 @@ module.exports =
             'id': Winbits.checkoutConfig.orderId,
             'affiliation': @verticalIdToName(Winbits.checkoutConfig.verticalId),
             'revenue': document.getElementsByClassName("slideInput-totalPrice")[0].innerHTML.replace('$', '').replace(',',''),
-            'tax': '',
-            'shipping': document.getElementsByClassName("checkoutSubtotal")[0].childNodes[11].innerHTML.replace('$', ''),
-            'coupon': ''
+            'tax': '0.00',
+            'shipping': document.getElementsByClassName("checkoutSubtotal")[0].childNodes[11].innerHTML.replace('$', '')
           },
           'products': $products
         }

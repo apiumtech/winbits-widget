@@ -5,7 +5,6 @@ utils = require 'lib/utils'
 LoginUtils = require 'lib/login-utils'
 mediator = Winbits.Chaplin.mediator
 $ = Winbits.$
-$ = Winbits.$
 _ = Winbits._
 env = Winbits.env
 
@@ -20,6 +19,7 @@ module.exports = class PromoModalView extends View
   attach: ->
     super
     @showAsModal()
+    @delegate 'click', '#wbi-promo-modal', @hideModal
 
   showAsModal: ->
     $('<a>').wbfancybox(
@@ -30,4 +30,8 @@ module.exports = class PromoModalView extends View
       transitionIn: 'fadeIn'
       transitionOut: 'fadeOut'
     ).click()
+
+  hideModal:(e) ->
+    e.preventDefault()
+
 

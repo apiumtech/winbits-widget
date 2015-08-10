@@ -176,12 +176,11 @@ module.exports = class Cart extends Model
   postToCheckoutApp: (order) ->
     checkoutURL = env.get('checkout-url')
     urlComplete = document.URL
-    cookie = @obtainCookie(urlComplete)
     formAttrs =
       id: 'chk-form'
       method: 'POST'
       style: 'display:none'
-      action: "#{checkoutURL}/checkout.php?_ga="+cookie
+      action: "#{checkoutURL}/checkout.php"
     $chkForm = $('<form></form>', formAttrs)
     $('<input type="hidden" name="token"/>').val(utils.getApiToken())
       .appendTo($chkForm)
@@ -200,12 +199,6 @@ module.exports = class Cart extends Model
       .appendTo($chkForm)
     $chkForm.appendTo(document.body).submit()
 
-  obtainCookie:(url) ->
-    cookie = url.split '_ga='
-    cookie = cookie[1].split '#'
-    cookie = cookie[0]
-    console.log("cookie -> " + cookie)
-    cookie
 
   requestCheckoutFails: (xhr) ->
     utils.hideLoaderToCheckout()
