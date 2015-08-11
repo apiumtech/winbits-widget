@@ -510,7 +510,7 @@ module.exports =
       'id': Winbits.checkoutConfig.orderId,
       'affiliation': @verticalIdToName(Winbits.checkoutConfig.verticalId),
       'revenue': document.getElementsByClassName("slideInput-totalPrice")[0].innerHTML.replace('$', '').replace(',',''),
-      'shipping': document.getElementsByClassName("checkoutSubtotal")[0].childNodes[11].innerHTML.replace('$', '',),
+      'shipping': document.getElementsByClassName("checkoutSubtotal")[0].childNodes[11].innerHTML.replace('$', ''),
       'tax': '0.00'
     }
     @googleAnalyticsConnection()
