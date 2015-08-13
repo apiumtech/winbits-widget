@@ -479,7 +479,7 @@ module.exports =
     fbq 'init', '684475971610225'
     fbq 'track', 'Purchase',
       {
-        content_ids: @createContentsIdsFacebook()
+        content_ids: @createContentsIdsFacebook(),
         value: document.getElementsByClassName("slideInput-totalPrice")[0].innerHTML.replace('$', '').replace(',',''),
         currency: 'MXN'
       }
