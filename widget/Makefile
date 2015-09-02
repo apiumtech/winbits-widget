@@ -19,7 +19,7 @@ install: packages build
 
 packages:
 	npm install; \
-	$(bower) install;
+	$(bower) install --allow-root;
 
 test:
 	$(mocha-phantomjs) -R spec http://dev.mylooq.com/test/\?grep\=${grep}

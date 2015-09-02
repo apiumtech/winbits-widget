@@ -18,7 +18,7 @@ install: packages build
 
 packages:
 	npm install; \
-	$(bower) install;
+	$(bower) install --allow-root;
 
 test:
 	@echo "No tests for API..."

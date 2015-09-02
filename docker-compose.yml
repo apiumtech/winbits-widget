@@ -1,0 +1,26 @@
+server:
+    image: nginxserver
+    ports:
+        - 127.0.0.1:80:80
+        - 127.0.0.1:443:443
+    links:
+        - widget
+        - checkout
+        - api
+
+widget:
+    image: phpserver
+    command: "8000"
+    volumes: 
+        - ./widget/public:/var/www/html
+checkout:
+     image: phpserver
+     command: "8001"
+     volumes:
+         - ./checkout/public:/var/www/html
+
+api:
+    image: phpserver
+    command: "8002"
+    volumes:
+        - ./api/public:/var/www/html
