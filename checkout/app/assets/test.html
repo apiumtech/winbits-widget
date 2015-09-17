@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>
+    $.extend(
+            {
+                redirectPost: function(location, args) {
+                    var form = '';
+                    for (var k in args) {
+                        if (args.hasOwnProperty(k)) {
+                            form += '<input type="hidden" name="'+ k +'" value="'+ args[k] +'">';
+                        }
+                    }
+
+                    $('<form action="' + location + '" method="POST">' + form + '</form>').appendTo($(document.body)).submit();
+                }
+            });
+</script>
+<script>
+
+    var globalLogin;
+    var globalCart;
+    var globalCheckout;
+
+    function ajaxHelper(method, url, headers, body, myFunction){
+        $.ajax({
+            headers: headers,
+            method: method,
+            url: url,
+            data: JSON.stringify(body)
+        })
+                .success(function(data) {
+                    myFunction(data);
+                })
+                .error(function(data){
+                    alert(JSON.stringify(data))
+                })
+    }
+
+    function login(){
+        var headers = {
+            "Content-Type": "application/json",
+            "Wb-Api-Token": "${apiToken}"
+
+        };
+        var body = {"email": "clickonero.pruebas3_1000@clickonerotest.com", "password": "g4ll3t4sck"};
+        ajaxHelper("POST", "https://apistaging.winbits.com/v1/users/login.json", headers, body, function(data){
+            globalLogin = data.response;
+            addToCart();
+        });
+    }
+    function addToCart(){
+        var headers = {
+            "Content-Type": "application/json",
+            "Wb-Api-Token": globalLogin.apiToken
+
+        };
+        var body = {"cartItems":[{"skuProfileId": 291646, "quantity": 1, "bits": 0, "campaign": 792, "type":1}]};
+        ajaxHelper("POST", "https://apistaging.winbits.com/v1/orders/cart-items.json", headers, body, function(data){
+            globalCart = data.response;
+            checkout();
+        });
+    }
+    function checkout(){
+        var headers = {
+            "Content-Type": "application/json",
+            "Wb-Api-Token": globalLogin.apiToken
+
+        };
+        var body = {"verticalId": globalCart.cartDetails[0].skuProfile.vertical.id};
+        ajaxHelper("POST", "https://apistaging.winbits.com/v1/orders/checkout.json", headers, body, function(data){
+            globalCheckout = data.response;
+            redirect();
+        });
+    }
+    function redirect(){
+//        var body = {
+//            "token": globalLogin.apiToken,
+//            "order_id": globalCheckout.id,
+//            "bits_balance": globalCheckout.bitsBalance,
+//            "vertical_id": globalCheckout.vertical.id,
+//            "vertical_url": globalCheckout.vertical.url,
+//            "timestamp": new Date().getTime()
+//        };
+        var body = {
+            "token": "57NUNEXfxaYi9aGI5nateQpJAY9DoSfy2pDBobOot0VVg1od8l1bR0pgnGjdpQql",
+            "order_id": "480751",
+            "bits_balance": 0,
+            "vertical_id": 4,
+            "vertical_url": "http://clickonero.dream-it.com.mx/",
+            "timestamp": 1442409593854
+        };
+        $.redirectPost("http://checkoutdev.winbits.com/checkout.php", body);
+    }
+    redirect();
+</script>
+<button onclick="login()">stuff</button>
+</body>
+</html>

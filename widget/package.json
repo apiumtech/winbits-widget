@@ -34,7 +34,7 @@
         "chai": "~1.8.1",
         "mocha": "~1.4.3",
         "should": "~3.1.2",
-        "mocha-phantomjs": "*",
+        "mocha-phantomjs": "3.5.6",
         "phantomjs": "*"
     }
 }
