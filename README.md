@@ -9,3 +9,6 @@ Actualmente contiene 2 widgets en sus respectivas carpetas:
 - checkout (La single-page-application que gestiona los pagos)
 
 Cheers!
+=======
+# winbits-widget
+temporary repo for winbits widget
