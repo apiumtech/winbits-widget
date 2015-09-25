@@ -1,3 +1,39 @@
+<style>
+    @media only screen and (max-width: 980px) {
+        .widgetWinbitsHeader{
+            min-width: 100%;
+        }
+        .widgetWinbitsHeader .knowmoreFolder .wrapper{
+            width: 100%;
+        }
+        .widgetWinbitsHeader .knowmoreFolder .knowMoreMin{
+            margin-left: inherit;
+            min-height: inherit;
+            padding: inherit;
+        }
+
+        .widgetWinbitsHeader .knowmoreFolder .knowMoreMin p{
+            margin: 0;
+        }
+
+        .widgetWinbitsHeader .knowmoreFolder .knowMoreMin .language{
+            left: inherit;
+            position: inherit;
+            top: inherit;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .widgetWinbitsHeader .knowmoreFolder .knowMoreMin a{
+            margin-left: inherit;
+        }
+
+        footer {
+            display: none;
+        }
+    }
+</style>
+
 <header>
     <div>
         <script src="https://h.online-metrix.net/fp/check.js?org_id={{orgId}}&amp;session_id={{merchantId}}{{orderId}}" type="text/javascript"></script>
@@ -17,7 +53,7 @@
         <object type="application/x-shockwave-flash" data="https://h.online-metrix.net/fp/fp.swf?org_id={{orgId}}&amp;session_id={{merchantIdInst}}{{orderId}}" width="1" height="1" id="thm_fp">
             <param name="movie" value="https://h.online-metrix.net/fp/fp.swf?org_id={{orgId}}&amp;session_id={{merchantIdInst}}{{orderId}}" />
         </object>
-    </div>    
+    </div>
   <div class="widgetWinbitsHeader">
     <div class="knowmoreFolder">
         <div class="wrapper">
@@ -30,59 +66,60 @@
             </div>
       </div>
       <div class="mainHeader">
-        <div class="wrapper">
-        </div>
+        <div class="wrapper"></div>
       </div>
     </div>
-  </header>
-  <main class="widgetWinbitsMain checkout-container">
-  <div class="wrapper checkoutWinbits" >
-    <div class="checkoutMain">
-      <div class="checkoutShipping">
-          <h2>DIRECCIÓN DE ENVÍO<span class="linkMe" id="showAddress" style="display:none">editar</span><span class="circuledNumber">1</span></h2>
-        <div class="shippingAddressesContainer"></div>
-      </div>
-      <div class="checkoutPayment">
-        <h2>INFORMACIÓN DE PAGO <span class="circuledNumber" id="circuledNumber2">2</span></h2>
-        <div class="checkoutPaymentContainer chk-step" id="wbi-checkout-payment-container"></div>
-      </div>
-      <div class="checkoutSummary">
-        <h2>RESUMEN <span class="circuledNumber" id="circuledNumber3">3</span></h2>
-        <div class="checkoutSummaryContainer chk-step"></div>
-      </div>
+</header>
+
+<main class="widgetWinbitsMain checkout-container">
+    <div class="wrapper checkoutWinbits" >
+        <div class="checkoutMain">
+            <div class="checkoutShipping">
+                <h2>DIRECCIÓN DE ENVÍO<span class="linkMe" id="showAddress" style="display:none">editar</span><span class="circuledNumber">1</span></h2>
+                <div class="shippingAddressesContainer"></div>
+            </div>
+            <div class="checkoutPayment">
+                <h2>INFORMACIÓN DE PAGO <span class="circuledNumber" id="circuledNumber2">2</span></h2>
+                <div class="checkoutPaymentContainer chk-step" id="wbi-checkout-payment-container"></div>
+            </div>
+            <div class="checkoutSummary">
+                <h2>RESUMEN <span class="circuledNumber" id="circuledNumber3">3</span></h2>
+                <div class="checkoutSummaryContainer chk-step"></div>
+            </div>
+        </div>
+        <aside id="order-detail">
+            <h2>TU ORDEN <span class="timeCheckout"><em class="icon timer"></em><span id="wb-checkout-timer"></span></span></h2>
+        </aside>
     </div>
-    <aside id="order-detail">
-      <h2>TU ORDEN <span class="timeCheckout"><em class="icon timer"></em><span id="wb-checkout-timer"></span></span></h2>
-    </aside>
-  </div>
-  <div id='wbi-error-modal' class="modal hide fade">
-      <i class="close-icon"></i>
-      <div class="modal-body gracias reset-modal">
-        <div class="contentModal" style="background-color:white">
-          <p class="error-msg">Error inesperado!</p>
-          <input type="button" class="btn close-modal" value="Cerrar">
-        </div>
-      </div>
-  </div>
-  <div id='wbi-ajax-modal' class="modal hide fade">
-      <div class="modal-body gracias reset-modal">
-        <div class="contentModal" style="background-color:white">
-          <p class="loading-msg">Cargando...</p>
-          <p style="text-align: center;">
-            <img src="https://s3.amazonaws.com/media.hipstore.com/ajax_loader.gif" alt="Cargando...">
-          </p>
-        </div>
-      </div>
-  </div>
-  <div id='wbi-expire-modal' class="modal hide fade">
+    <div id='wbi-error-modal' class="modal hide fade">
+        <i class="close-icon"></i>
         <div class="modal-body gracias reset-modal">
-          <div class="contentModal" style="background-color:white">
-            <p class="error-msg">Tu orden ha expirado!</p>
-            <input type="button" class="btn expire-close-modal" value="Cerrar">
-          </div>
+            <div class="contentModal" style="background-color:white">
+                <p class="error-msg">Error inesperado!</p>
+                <input type="button" class="btn close-modal" value="Cerrar">
+            </div>
         </div>
     </div>
-  </main>
-  <footer class="winbitsFooter">
+    <div id='wbi-ajax-modal' class="modal hide fade">
+        <div class="modal-body gracias reset-modal">
+            <div class="contentModal" style="background-color:white">
+                <p class="loading-msg">Cargando...</p>
+                <p style="text-align: center;">
+                    <img src="https://s3.amazonaws.com/media.hipstore.com/ajax_loader.gif" alt="Cargando...">
+                </p>
+            </div>
+        </div>
+    </div>
+    <div id='wbi-expire-modal' class="modal hide fade">
+        <div class="modal-body gracias reset-modal">
+            <div class="contentModal" style="background-color:white">
+                <p class="error-msg">Tu orden ha expirado!</p>
+                <input type="button" class="btn expire-close-modal" value="Cerrar">
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="winbitsFooter">
     <div class="wrapper">&copy;<span class="iconFont-winbits"></span></div>
-  </footer>
+</footer>
