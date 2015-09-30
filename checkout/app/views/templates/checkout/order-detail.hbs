@@ -1,3 +1,22 @@
+<style>
+    .widgetWinbitsMain .checkoutWinbits aside .checkoutSubtotal span,
+    .widgetWinbitsMain .checkoutWinbits aside .checkoutTotal .checkoutTitle,
+    .widgetWinbitsMain .checkoutWinbits aside .checkoutTotal .checkoutDetail{
+        padding: 1px 10px;
+        width: calc(50% - 25px);
+    }
+    .widgetWinbitsMain .checkoutWinbits aside .checkoutSubtotal span.left,
+    .widgetWinbitsMain .checkoutWinbits aside .checkoutTotal .checkoutTitle.left,
+    .widgetWinbitsMain .checkoutWinbits aside .checkoutTotal .checkoutDetail.left{
+        text-align: left;
+    }
+    .widgetWinbitsMain .checkoutWinbits aside .checkoutSubtotal span.right,
+    .widgetWinbitsMain .checkoutWinbits aside .checkoutTotal .checkoutTitle.right,
+    .widgetWinbitsMain .checkoutWinbits aside .checkoutTotal .checkoutDetail.right{
+        text-align: right;
+    }
+</style>
+
 <ul>
   {{#each orderDetails}}
   <li class="order-detail-{{sku.id}}">
@@ -13,14 +32,14 @@
   {{/each}}
 </ul>
 <div class="checkoutSubtotal">
-  <span>PRECIO ORIGINAL</span>
-  <span>{{formatCurrency orderFullPrice}}</span>
-  <span>SUBTOTAL</span>
-  <span>{{formatCurrency itemsTotal}}</span>
-  <span>ENVIO</span>
-  <span>${{shippingTotal}}</span>
-  <span>GANA HASTA</span>
-  <span><span class="icon winbits10px"></span>{{cashback}}</span>
+  <span class="left">PRECIO ORIGINAL</span>
+  <span class="right">{{formatCurrency orderFullPrice}}</span>
+  <span class="left">SUBTOTAL</span>
+  <span class="right">{{formatCurrency itemsTotal}}</span>
+  <span class="left">ENVIO</span>
+  <span class="right">${{shippingTotal}}</span>
+  <span class="left">GANA HASTA</span>
+  <span class="right"><span class="icon winbits10px"></span>{{cashback}}</span>
   <span class="bits-payment-data" style="display: none;">PAGO EN WINBITS</span>
   <span class="bits-payment-data bits-amount" style="display: none;"><span class="icon winbits10px"></span></span>
 </div>
@@ -30,8 +49,8 @@
 <span class="legendCarrito">Usa tus Winbits como dinero en esta compra</span>
 {{/hasBitsBalanceInCheckout}}
 <div class="checkoutTotal">
-  <span class="checkoutTitle">TOTAL</span>
-  <span class="checkoutDetail">
+  <span class="checkoutTitle left">TOTAL</span>
+  <span class="checkoutDetail right">
     <span class="slideInput-totalPrice">{{formatCurrency cashTotal}}</span>
     <span class="note">Estas ahorrando <span class="slideInput-save"> {{formatCurrency orderSaving}}</span></span>
 </div>

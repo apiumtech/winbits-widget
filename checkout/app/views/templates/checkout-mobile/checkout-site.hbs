@@ -1,3 +1,43 @@
+<style>
+
+    .wrapper{
+        width: inherit;
+    }
+
+
+    .widgetWinbitsMain .checkoutWinbits aside{
+        width: calc(100% - 40px);
+    }
+
+    .widgetWinbitsHeader{
+        min-width: 100%;
+    }
+    .widgetWinbitsHeader .knowmoreFolder .wrapper{
+        width: 100%;
+    }
+    .widgetWinbitsHeader .knowmoreFolder .knowMoreMin{
+        margin-left: inherit;
+        min-height: inherit;
+        padding: inherit;
+    }
+
+    .widgetWinbitsHeader .knowmoreFolder .knowMoreMin p{
+        margin: 0;
+    }
+
+    .widgetWinbitsHeader .knowmoreFolder .knowMoreMin .language{
+        left: inherit;
+        position: inherit;
+        top: inherit;
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    .widgetWinbitsHeader .knowmoreFolder .knowMoreMin a{
+        margin-left: inherit;
+    }
+</style>
+
 <header>
     <div>
         <script src="https://h.online-metrix.net/fp/check.js?org_id={{orgId}}&amp;session_id={{merchantId}}{{orderId}}" type="text/javascript"></script>
@@ -37,22 +77,16 @@
 
 <main class="widgetWinbitsMain checkout-container">
     <div class="wrapper checkoutWinbits" >
-        <div class="checkoutMain">
-            <div class="checkoutShipping">
-                <h2>DIRECCIÓN DE ENVÍO<span class="linkMe" id="showAddress" style="display:none">editar</span><span class="circuledNumber">1</span></h2>
-                <div class="shippingAddressesContainer"></div>
-            </div>
-            <div class="checkoutPayment">
-                <h2>INFORMACIÓN DE PAGO <span class="circuledNumber" id="circuledNumber2">2</span></h2>
-                <div class="checkoutPaymentContainer chk-step" id="wbi-checkout-payment-container"></div>
-            </div>
-            <div class="checkoutSummary">
-                <h2>RESUMEN <span class="circuledNumber" id="circuledNumber3">3</span></h2>
-                <div class="checkoutSummaryContainer chk-step"></div>
-            </div>
-        </div>
         <aside id="order-detail">
-            <h2>TU ORDEN <span class="timeCheckout"><em class="icon timer"></em><span id="wb-checkout-timer"></span></span></h2>
+            <h2>TU ORDEN
+                <span class="timeCheckout"></span>
+            </h2>
+            <div style="text-align: center; margin: 20px 0;">
+                <a href="/">Continua comprando</a>
+            </div>
+            <div style="text-align: center; margin: 20px 0;">
+                <a id="btnContinuar" class="btn btnCheckout" style="width: calc(100% - 120px)">INICIA EL PROCESO DE PAGO</a>
+            </div>
         </aside>
     </div>
     <div id='wbi-error-modal' class="modal hide fade">
@@ -83,7 +117,3 @@
         </div>
     </div>
 </main>
-
-<footer class="winbitsFooter">
-    <div class="wrapper">&copy;<span class="iconFont-winbits"></span></div>
-</footer>
