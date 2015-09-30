@@ -31,6 +31,7 @@ module.exports = class CheckoutSiteView extends View
     @delegate 'click', '.expire-close-modal', @closeExpireOrderModal
     @delegate 'click', '#expire-close-login', @closeExpireOrderModal
     @delegate 'click', '#winbitsMainIcon', @leaveWinbits
+    @delegate "click" , "#btnStartPaymentProcess", @startPaymentProcess
 
 #    Winbits.$.validator.addMethod "cyberSourceCard", (value, element) ->
 #      @optional(element) or util.getCreditCardType(value) in ['visa', 'mastercard']
@@ -154,3 +155,10 @@ module.exports = class CheckoutSiteView extends View
   onWinbitsLogoClick: (e) ->
     e.preventDefault()
     window.history.back()
+
+  startPaymentProcess: (e) ->
+    @$("#checkoutMainContainer").show()
+    @$("#order-detail").hide()
+
+    ###Winbits.$('#orderDetailContainer').modal('hidden')
+    Winbits.$('#checkoutMainContainer').modal('show')###

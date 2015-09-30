@@ -36,6 +36,136 @@
     .widgetWinbitsHeader .knowmoreFolder .knowMoreMin a{
         margin-left: inherit;
     }
+
+    .widgetWinbitsMain h2{
+        background-color: transparent;
+        padding: 0;
+        margin: 0;
+    }
+
+    .widgetWinbitsMain .checkoutWinbits .checkoutMain{
+        width: 100%;
+    }
+    .widgetWinbitsMain .shippingAddresses,
+    .widgetWinbitsMain .creditcards{
+        width: calc(100% - 20px);
+        margin: 5px 10px;
+    }
+
+    .widgetWinbitsMain .shippingAddresses .btnCheckout,
+    .widgetWinbitsMain .creditcards .btnCheckout{
+        margin: inherit;
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .widgetWinbitsMain .shippingAddresses li,
+    .widgetWinbitsMain .creditcards li{
+        width: calc(100% - 40px);
+    }
+
+    .widgetWinbitsMain .checkoutWinbits .checkoutMain .column{
+        width: calc(100% - 20px);
+        margin-right: 10px;
+        margin-top: 20px;
+    }
+    .widgetWinbitsMain .checkoutWinbits .checkoutMain .column:first-child{
+        margin-top: 0;
+    }
+
+    .widgetWinbitsMain .checkoutWinbits .checkoutMain .column input[type="text"]{
+        width: calc(100% - 20px);
+    }
+    .widgetWinbitsMain .shippingNewAddress .column textarea, .widgetWinbitsMain .creditcardNew .column textarea, .widgetWinbitsMain .mesesSinInteresesTab .column textarea{
+        width: calc(100% - 20px);
+        padding: 5px 10px;
+    }
+
+    .widgetWinbitsMain .checkoutWinbits .checkoutMain .column .selectRegister{
+        width: 100%;
+    }
+
+    .widgetWinbitsMain .checkoutWinbits .checkoutMain .column .selectRegister .select-input{
+        width: calc(100% - 20px) !important;
+    }
+
+    .select-div .iconFont-downmenu{
+        margin-top: -10px;
+    }
+
+    .widgetWinbitsMain .checkoutWinbits .checkoutMain .column.columnLarge,
+    .widgetWinbitsMain .checkoutWinbits .checkoutMain .column.columExtralarge{
+        width: calc(100% - 20px);
+    }
+
+
+    .widgetWinbitsMain .shippingNewAddress,
+    .widgetWinbitsMain .creditcardNew,
+    .widgetWinbitsMain .mesesSinInteresesTab{
+       width: 100%;
+    }
+
+    ul.step {
+        padding: inherit;
+        margin: 30px 20px 30px 20px;
+        padding-left:10px;
+        width: calc(100% - 40px);
+    }
+    ul.step li {
+        width: calc(33% - 15px);
+        text-align: center;
+        display: inline-block;
+        color: white;
+        position: relative;
+        padding: inherit;
+        font-weight: bold;
+        margin-right: -5px;
+        margin-left: -5px;
+    }
+    ul.step li .circle {
+        width: 24px;
+        height: 24px;
+        margin-left: calc(50% - 12px);
+        line-height: 24px;
+        border-radius: 50%;
+        border: 2px solid #318e1b;
+        position: relative;
+        float: left;
+        background: #318e1b;
+    }
+    ul.step li span.description {
+        width: 100%;
+        margin-top: 5px;
+        float: left;
+        position: relative;
+        color: #318e1b;
+        font-size: 12px;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+    ul.step li::before {
+        content: '';
+        position: absolute;
+        top: 12px;
+        left: 10px;
+        width: 100%;
+        height: 2px;
+        z-index: -1;
+        background: #318e1b;
+    }
+    ul.step .active .circle {
+        background: #318e1b;
+    }
+    ul.step .active ~ li .circle {
+        color: #318e1b;
+        background: white;
+    }
+    ul.step .active ~ li::before {
+        background: #318e1b;
+    }
+
+
 </style>
 
 <header>
@@ -77,6 +207,33 @@
 
 <main class="widgetWinbitsMain checkout-container">
     <div class="wrapper checkoutWinbits" >
+        <div class="checkoutMain" id="checkoutMainContainer" style="display: none;">
+
+            <ul class="step">
+                <li class="active">
+                    <span class="circle">1</span>
+                    <span class="description">ENVIO</span>
+                </li>
+                <li >
+                    <span class="circle">2</span>
+                    <span class="description">PAGO</span>
+                </li>
+                <li>
+                    <span class="circle">3</span>
+                    <span class="description">RESUMEN</span>
+                </li>
+            </ul>
+
+            <div class="checkoutShipping">
+                <div class="shippingAddressesContainer"></div>
+            </div>
+            <div class="checkoutPayment">
+                <div class="checkoutPaymentContainer chk-step" id="wbi-checkout-payment-container"></div>
+            </div>
+            <div class="checkoutSummary">
+                <div class="checkoutSummaryContainer chk-step"></div>
+            </div>
+        </div>
         <aside id="order-detail">
             <h2>TU ORDEN
                 <span class="timeCheckout"></span>
@@ -85,7 +242,7 @@
                 <a href="/">Continua comprando</a>
             </div>
             <div style="text-align: center; margin: 20px 0;">
-                <a id="btnContinuar" class="btn btnCheckout" style="width: calc(100% - 120px)">INICIA EL PROCESO DE PAGO</a>
+                <a id="btnStartPaymentProcess" class="btn btnCheckout" style="width: calc(100% - 120px)">INICIA EL PROCESO DE PAGO</a>
             </div>
         </aside>
     </div>
