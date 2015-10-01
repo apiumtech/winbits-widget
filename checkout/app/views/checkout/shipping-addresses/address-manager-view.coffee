@@ -89,7 +89,7 @@ module.exports = class AddressManagerView extends View
     Winbits.$('#wbi-edit-shipping-address-container').hide()
     Winbits.$('#wbi-shipping-addresses-view').show()
 
-   addressContinuar: (e)->
+  addressContinuar: (e)->
      $addresSelected = @$(".shippingSelected")
      if $addresSelected.attr("id") != undefined
        id = $addresSelected.attr("id").split("-")[1]
@@ -97,12 +97,14 @@ module.exports = class AddressManagerView extends View
          mediator.post_checkout.shippingAddress = id
          @publishEvent "showStep", ".checkoutPaymentContainer"
          @$("#choosen-address-" + mediator.post_checkout.shippingAddress).show()
+         document.getElementById('stepShipping').classList.remove('active')
+         document.getElementById('stepPay').classList.add('active')
        else
          utils.showError('Selecciona una dirección de envío para continuar')
      else
        utils.showError('Agrega o selecciona una dirección de envío para continuar') 
 
-   selectShipping: (e)->
+  selectShipping: (e)->
      $currentTarget = @$(e.currentTarget)
      id =  $currentTarget.attr("id").split("-")[1]
      @$(".shippingItem").removeClass("shippingSelected")
