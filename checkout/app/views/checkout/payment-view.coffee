@@ -101,6 +101,8 @@ module.exports = class PaymentView extends View
           if payment.status isnt 'FAILED' and payment.status isnt 'ERROR'
             that.publishEvent "setConfirm", data.response
             that.publishEvent "showStep", ".checkoutSummaryContainer", payment, bitsPayment
+            document.getElementById('stepPay').classList.remove('active')
+            document.getElementById('stepSummary').classList.add('active')
           else
             cardErrorMessage = payment.paymentCapture.mensaje or payment.paymentCapture.message
             util.showError(cardErrorMessage or 'Tu tarjeta fue rechazada por el banco emisor. Por favor revisa la información y vuelve a intentarlo')
@@ -195,6 +197,8 @@ module.exports = class PaymentView extends View
             util.hideAjaxIndicator()
             that.publishEvent "setConfirm", data.response
             that.publishEvent "showStep", ".checkoutSummaryContainer", payment, bitsPayment
+            document.getElementById('stepPay').classList.remove('active')
+            document.getElementById('stepSummary').classList.add('active')
         else
           util.showError('Error al procesar el pago, por favor intentalo más tarde o comunícate al 4160-0550')
           util.hideAjaxIndicator()
