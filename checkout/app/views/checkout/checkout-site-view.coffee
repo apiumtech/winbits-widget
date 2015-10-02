@@ -10,9 +10,8 @@ module.exports = class CheckoutSiteView extends View
   #regions:
   #'#header-container': 'header'
   #'#page-container': 'main'
-  @mobileWeb = /Mobile|iP(hone|od|ad)|Android|BlackBerry|IEMobile|Kindle|NetFront|Silk-Accelerated|(hpw|web)OS|Fennec|Minimo|Opera M(obi|ini)|Blazer|Dolfin|Dolphin|Skyfire|Zune/i.test(navigator.userAgent)
 
-  if @mobileWeb
+  if util.isMobile()
     template = require 'views/templates/checkout-mobile/checkout-site'
   else
     template = require 'views/templates/checkout/checkout-site'

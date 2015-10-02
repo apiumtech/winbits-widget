@@ -5,8 +5,14 @@ utils = require 'lib/util'
 
 module.exports = class AddNewShippingAddressView extends View
   container: '#wbi-shipping-new-address-container'
-  template: require 'views/checkout/shipping-addresses/templates/add-new-shipping-address'
-  
+
+  if utils.isMobile()
+    template = require 'views/checkout/shipping-addresses/templates/mobile/add-new-shipping-address'
+  else
+    template = require 'views/checkout/shipping-addresses/templates/add-new-shipping-address'
+
+  template: template
+
   initialize: ->
     super
   

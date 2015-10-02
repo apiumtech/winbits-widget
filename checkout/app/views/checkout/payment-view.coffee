@@ -1,5 +1,4 @@
 View = require 'views/base/view'
-template = require 'views/templates/checkout/payment-methods'
 util = require 'lib/util'
 validators = require 'lib/validators'
 config = require 'config'
@@ -12,6 +11,12 @@ CardTokenPaymentView = require 'views/checkout/card-token-payment-view'
 module.exports = class PaymentView extends View
   container: '.checkoutPaymentContainer'
   autoRender: yes
+
+  if util.isMobile()
+    template = require 'views/templates/checkout-mobile/payment-methods'
+  else
+    template = require 'views/templates/checkout/payment-methods'
+
   template: template
 
   initialize: ->

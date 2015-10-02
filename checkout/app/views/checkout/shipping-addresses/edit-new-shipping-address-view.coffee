@@ -6,8 +6,13 @@ EventBroker = require 'chaplin/lib/event_broker'
 
 module.exports = class EditNewShippingAddressView extends View
   container: '#wbi-edit-shipping-address-container'
-  template: require 'views/checkout/shipping-addresses/templates/edit-new-shipping-address'
 
+  if utils.isMobile()
+    template = require 'views/checkout/shipping-addresses/templates/mobile/edit-new-shipping-address'
+  else
+    template = require 'views/checkout/shipping-addresses/templates/edit-new-shipping-address'
+
+  template: template
   initialize: ->
     super
   

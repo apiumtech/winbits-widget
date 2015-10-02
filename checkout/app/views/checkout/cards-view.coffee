@@ -1,5 +1,4 @@
 View = require 'views/base/view'
-template = require 'views/templates/checkout/cards'
 util = require 'lib/util'
 vendor = require 'lib/vendor'
 config = require 'config'
@@ -15,6 +14,13 @@ module.exports = class CardsView extends View
   amexSupported: yes
   cybersourceSupported: yes
   window.completeCardData = []
+
+  if util.isMobile()
+    template = require 'views/templates/checkout-mobile/cards'
+  else
+    template = require 'views/templates/checkout/cards'
+
+  template: template
 
   initialize: ->
     super

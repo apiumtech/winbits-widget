@@ -1,0 +1,85 @@
+<form id="wbi-shipping-new-address-form">
+    <fieldset>
+        <h3>CONTACTO</h3>
+
+        <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" name="firstName" class="required" data-requiredfield="Nombre Requerido">
+        </div>
+        <div class="form-group">
+            <label>Apellido Paterno</label>
+            <input type="text" name="lastName" class="required" data-requiredfield="Apellido Paterno Requerido">
+        </div>
+        <div class="form-group">
+            <label>Apellido Materno</label>
+            <input type="text" name="lastName2">
+        </div>
+        <div class="form-group">
+            <label>Teléfono con lada</label>
+            <input type="text" name="phone" class="required" data-requiredfield="Telefono con LADA Requerido" maxlength="15">
+        </div>
+
+        <div class="form-group">
+            <h3>DIRECCIÓN</h3>
+        </div>
+
+        <div class="form-group">
+            <label>Calle</label>
+            <textarea name="street" class="required" data-requiredfield="Requerido"></textarea>
+        </div>
+
+        <div class="two-columns">
+            <div class="form-group">
+                <label># ext</label>
+                <input name="externalNumber" maxlength="5" type="text" class="required" data-requiredfield="Numero Externo Requerido" >
+            </div>
+            <div class="form-group">
+                <label># int</label>
+                <input name="internalNumber" maxlength="5" type="text">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>¿Entre qué calles?/Referencias para llegar</label>
+            <textarea name="indications" maxlength="35" class="required" data-requiredfield="Requerido"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Codigo Postal</label>
+            <input type="text" name="zipCode" class="required" data-requiredfield="Codigo Postal Requerido" maxlength="5">
+        </div>
+
+        <div class="form-group">
+            <label>Estado</label>
+            <input type="text" name="state" class="required" data-requiredfield="Requerido" readonly="readonly">
+        </div>
+
+        <div class="form-group">
+            <label>Delegación o Municipio</label>
+            <input type="text" name="county" class="required" data-requiredfield="Requerido" readonly="readonly">
+        </div>
+
+        <div class="form-group">
+            <select id="wbi-shipping-address-zip-code-info" name="zipCodeInfo" class="select required" data-requiredfield="Requerido" data-clase="selectRegister"></select>
+        </div>
+
+        <div class="form-group">
+            <h3>OPCIONES</h3>
+        </div>
+
+        <input type="checkbox" class="checkbox" name="main" id="winbitsShippingPrincipal">
+
+        <label for="winbitsShippingPrincipal" class="checkboxLabel">Hacer esta mi dirección principal</label>
+
+        <p class="note">Winbits guardará tu dirección para que en tu próxima visita tus compras sean más faciles de realizar.</p>
+
+        <div id="wbi-add-shipping-address-error" class="errorDiv" style="display: none">
+            <p></p>
+        </div>
+
+        <div class="submitButton">
+            <span id="wbi-add-shipping-address-cancel-btn" class="btn btnCancel">Cancelar</span>
+            <input id="wbi-add-shipping-address-submit-btn" type="button" value="Continuar" class="btn">
+        </div>
+    </fieldset>
+</form>
