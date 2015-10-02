@@ -1,5 +1,4 @@
 View = require 'views/base/view'
-template = require 'views/templates/checkout/card-token-payment'
 util = require 'lib/util'
 config = require 'config'
 mediator = require 'chaplin/mediator'
@@ -9,6 +8,12 @@ vendor = require 'lib/vendor'
 module.exports = class CardTokenPaymentView extends View
   container: '.checkoutPaymentContainer'
   autoRender: no
+
+  if util.isMobile()
+    template = require 'views/templates/checkout-mobile/card-token-payment'
+  else
+    template = require 'views/templates/checkout/card-token-payment'
+
   template: template
 
   initialize: ->
