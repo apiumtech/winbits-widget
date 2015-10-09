@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM php:5.5.30-cli
 
 RUN mkdir -p /var/www/html
 
